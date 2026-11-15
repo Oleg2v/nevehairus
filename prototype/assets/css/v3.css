@@ -98,7 +98,6 @@
 .v3-spread--iris { background: var(--nh-iris-700); color: var(--nh-white); --nh-focus: var(--nh-citrus-400); --nh-link: var(--nh-white); --nh-text: var(--nh-white); --nh-text-muted: var(--v3-iris-text); --v3-ink: var(--nh-paper); }
 .v3-spread--night { background: var(--nh-night); color: var(--nh-paper); --nh-focus: var(--nh-citrus-400); --nh-link: var(--nh-citrus-400); --nh-text: var(--nh-paper); --nh-text-muted: var(--nh-on-night-2); --v3-ink: var(--nh-paper); }
 .v3-rule { position: relative; block-size: 1px; background: currentColor; margin-block-end: clamp(2rem, 1.2rem + 2vw, 3.5rem); }
-.v3-rule__mark { position: absolute; inset-inline-start: 0; inset-block-end: .45rem; font: 400 1.75rem/1 var(--nh-font-display); }
 .v3-h2 { font: 300 var(--v3-h2)/1 var(--nh-font-display); letter-spacing: 0; margin: 0 0 1.25rem; text-wrap: balance; }
 .v3-lead { font-size: var(--v3-lead); line-height: 1.5; max-inline-size: 38ch; margin: 0 0 1.5rem; color: var(--nh-text-muted, var(--nh-ink-2)); }
 .v3-note { font-size: .9375rem; color: var(--nh-ink-2); margin-block-start: 1rem; }
@@ -240,12 +239,10 @@ main { counter-reset: print; }
 .v3-print figcaption::before { content: counter(print) " · "; content: counter(print) " · " / ""; font-weight: 700; color: var(--nh-text, var(--nh-ink)); }
 .v3-print--small { max-inline-size: 14rem; }
 .v3-print--mid { max-inline-size: 20rem; }
-.v3-plate { aspect-ratio: 4 / 3; max-inline-size: 26rem; background: var(--nh-paper-2); display: grid; place-items: center; }
-.v3-plate span { font: 300 clamp(4rem, 3rem + 4vw, 7rem)/1 var(--nh-font-display); color: var(--nh-iris-700); }
 @media (min-width: 1024px) {
   .v3-moment { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); grid-template-areas: "verb print" "verb text"; }
   .v3-moment__verb { grid-area: verb; align-self: center; }
-  .v3-moment > figure, .v3-moment > .v3-plate { grid-area: print; }
+  .v3-moment > figure { grid-area: print; }
   .v3-moment > p { grid-area: text; }
   .v3-moment--b, .v3-moment--d { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-areas: "print verb" "text verb"; }
   .v3-moment--b .v3-moment__verb, .v3-moment--d .v3-moment__verb { text-align: end; }
@@ -336,7 +333,6 @@ main { counter-reset: print; }
 @keyframes v3-drift { from { translate: 0 4%; } to { translate: 0 -4%; } }
 
 /* ---------- Voices (night) -------------------------------------------------- */
-.v3-voices__h { font: 400 clamp(1.4rem, 1.2rem + .6vw, 1.8rem)/1.2 var(--nh-font-display); color: var(--nh-citrus-400); margin: 0 0 1.5rem; }
 .v3-quote { margin: 0; }
 .v3-quote p { position: relative; font: 300 clamp(1.9rem, 1.2rem + 2.3vw, 3.4rem)/1.2 var(--nh-font-display); letter-spacing: 0; margin: 0; max-inline-size: 24ch; }
 .v3-quote p::before { content: "״"; position: absolute; inset-inline-end: 100%; margin-inline-end: .12em; color: var(--nh-citrus-400); }

@@ -17,3 +17,6 @@ Thumbs.db
 # Scratch outputs (keep the curated storyboard/ only)
 prototype/screenshots-raw/
 lighthouse-*.json
+
+# standalone copies for viewing without a server (scripts/build_standalone.py): large, temporary photos
+prototype/standalone/

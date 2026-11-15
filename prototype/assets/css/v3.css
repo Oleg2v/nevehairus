@@ -517,3 +517,7 @@ html.nh-plainmode .v3-door__form { max-inline-size: 44rem; }
 /* WCAG 1.4.12: with user text-spacing the masthead wraps instead of pushing buttons off screen */
 .v3-mast .nh-header__inner { flex-wrap: wrap; row-gap: .25rem; }
 .v3-mast .nh-header__actions { flex-wrap: wrap; justify-content: flex-end; row-gap: .25rem; }
+
+/* agency credit in the footer (text until the logo is supplied) */
+.v3-dev a { color: var(--nh-paper); font-weight: 700; text-decoration: underline; text-underline-offset: .25em; text-decoration-thickness: 1px; }
+.v3-dev a:hover { color: var(--nh-citrus-400); }

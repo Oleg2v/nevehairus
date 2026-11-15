@@ -1,0 +1,39 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F7F1E7">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/frank-ruhl-libre-core-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/assistant-core-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+<script>
+  /* Runs before first paint.
+     1) apply the saved motion preference;
+     2) hide below-the-fold reveals only when motion is allowed (safety: 3.5s);
+     3) GSAP is decorative, so it is loaded AFTER the page has loaded (keeps LCP/TBT
+        low) and never loaded at all for people who prefer reduced motion. */
+  (function (w, d) {
+    var h = d.documentElement, reduce = false, started = false;
+    h.classList.add("js");
+    try { reduce = localStorage.getItem("nh-motion") === "reduce"; } catch (e) {}
+    if (reduce) h.classList.add("nh-reduce-motion");
+    var osReduce = w.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    w.nhLoadMotion = function () {
+      if (started) return; started = true;
+      var q = ["assets/vendor/gsap/gsap.min.js", "assets/vendor/gsap/ScrollTrigger.min.js", "assets/js/motion.js"];
+      (function next() {
+        if (!q.length) return;
+        var s = d.createElement("script"); s.src = q.shift(); s.onload = next;
+        s.onerror = function () { h.classList.remove("nh-motion-pending"); };
+        d.head.appendChild(s);
+      })();
+    };
+    if (!reduce && !osReduce) {
+      h.classList.add("nh-motion-pending");
+      setTimeout(function () { h.classList.remove("nh-motion-pending"); }, 3500);
+      if (d.readyState === "complete") w.nhLoadMotion();
+      else w.addEventListener("load", function () { setTimeout(w.nhLoadMotion, 0); });
+    }
+  })(window, document);
+</script>
+<script src="assets/js/site.js" defer></script>

@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>מערכת עיצוב — „בית לחיים” | נווה האירוס (אב־טיפוס)</title>
+<meta name="description" content="מערכת העיצוב של אתר נווה האירוס: צבעים עם בדיקת ניגודיות, טיפוגרפיה, מרווחים, תנועה ורכיבים.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F7F1E7">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/frank-ruhl-libre-core-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/assistant-core-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/site.css">
+<script>
+  /* Runs before first paint.
+     1) apply the saved motion preference;
+     2) hide below-the-fold reveals only when motion is allowed (safety: 3.5s);
+     3) GSAP is decorative, so it is loaded AFTER the page has loaded (keeps LCP/TBT
+        low) and never loaded at all for people who prefer reduced motion. */
+  (function (w, d) {
+    var h = d.documentElement, reduce = false, started = false;
+    h.classList.add("js");
+    try { reduce = localStorage.getItem("nh-motion") === "reduce"; } catch (e) {}
+    if (reduce) h.classList.add("nh-reduce-motion");
+    var osReduce = w.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    w.nhLoadMotion = function () {
+      if (started) return; started = true;
+      var q = ["assets/vendor/gsap/gsap.min.js", "assets/vendor/gsap/ScrollTrigger.min.js", "assets/js/motion.js"];
+      (function next() {
+        if (!q.length) return;
+        var s = d.createElement("script"); s.src = q.shift(); s.onload = next;
+        s.onerror = function () { h.classList.remove("nh-motion-pending"); };
+        d.head.appendChild(s);
+      })();
+    };
+    if (!reduce && !osReduce) {
+      h.classList.add("nh-motion-pending");
+      setTimeout(function () { h.classList.remove("nh-motion-pending"); }, 3500);
+      if (d.readyState === "complete") w.nhLoadMotion();
+      else w.addEventListener("load", function () { setTimeout(w.nhLoadMotion, 0); });
+    }
+  })(window, document);
+</script>
+<script src="assets/js/site.js" defer></script>
+
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M10 17h10"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-arrow-fwd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+    <symbol id="i-arrow-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6v12M15 6v12"/></symbol>
+    <symbol id="i-speech" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></symbol>
+    <symbol id="i-clinic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M12 8v8M8 12h8"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.5-.8 1.5-1.5 0-.9-.7-1.2-.7-2.1 0-.8.6-1.4 1.4-1.4H17a4 4 0 0 0 4-4c0-5-4-9-9-9z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7.2" r="1"/><circle cx="14.6" cy="7.4" r="1"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14z"/><path d="M5 19l8-8"/></symbol>
+    <symbol id="i-cup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9h12v4a6 6 0 0 1-12 0z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17M8.5 3.5v2.5M12 3.5v2.5"/></symbol>
+    <symbol id="i-steps" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h5v-4h5v-4h5V6"/><path d="M16 6h3v3"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 6 8-6"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-9-8.6C1.6 8.3 3.7 5 7 5c2 0 3.3 1.1 5 3 1.7-1.9 3-3 5-3 3.3 0 5.4 3.3 4 6.4C19 15.6 12 20 12 20z"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></symbol>
+  </defs>
+</svg>
+
+<a class="nh-skip" href="#main">דילוג לתוכן הראשי</a>
+<section class="nh-cookies" id="nh-cookies" aria-labelledby="nh-cookies-title" hidden>
+  <h2 id="nh-cookies-title" tabindex="-1">עוגיות באתר</h2>
+  <p>אנחנו משתמשים בעוגיות הכרחיות כדי שהאתר יעבוד. עוגיות סטטיסטיקה ותוכן מוטמע (כמו סרטוני YouTube) יופעלו רק בהסכמתכם. אפשר לשנות את הבחירה בכל עת. <a href="#privacy">מדיניות הפרטיות</a></p>
+  <div class="nh-cookies__prefs" id="nh-cookie-prefs" hidden>
+    <label class="nh-check"><input type="checkbox" checked disabled><span><b>הכרחיות</b> — פעילות תקינה של האתר ושמירת הבחירה שלכם. תמיד פעילות.</span></label>
+    <label class="nh-check"><input type="checkbox" id="nh-c-stats"><span><b>סטטיסטיקה</b> — מדידת שימוש אנונימית, כדי לשפר את האתר.</span></label>
+    <label class="nh-check"><input type="checkbox" id="nh-c-media"><span><b>תוכן מוטמע</b> — סרטונים מ־YouTube.</span></label>
+    <div><button class="nh-btn nh-btn--primary" type="button" data-consent="save">שמירת הבחירה</button></div>
+  </div>
+  <div class="nh-btn-row">
+    <button class="nh-btn nh-btn--primary" type="button" data-consent="all">אישור הכול</button>
+    <button class="nh-btn nh-btn--ghost" type="button" data-consent="necessary">רק הכרחיות</button>
+    <button class="nh-btn nh-btn--ghost" type="button" data-consent="settings" aria-expanded="false" aria-controls="nh-cookie-prefs">הגדרות</button>
+  </div>
+</section>
+
+<header class="nh-header">
+  <div class="nh-container nh-header__inner">
+    <a class="nh-logo" href="index.html" aria-label="מעון נווה האירוס — לדף הבית">
+      <img src="assets/img/logo-temp.png" width="159" height="123" alt="">
+    </a>
+    <nav class="nh-nav" aria-label="ראשי">
+      <ul role="list">
+        <li><a href="index.html#about" >מי אנחנו</a></li>
+        <li><a href="index.html#programs" >מסגרות המגורים</a></li>
+        <li><a href="index.html#life" >החיים אצלנו</a></li>
+        <li><a href="index.html#jobs" >דרושים</a></li>
+        <li><a href="index.html#contact" >צור קשר</a></li>
+      </ul>
+    </nav>
+    <div class="nh-header__actions">
+      <a class="nh-phone" href="tel:+97289403047" aria-label="טלפון: 08-9403047">
+        <svg aria-hidden="true" focusable="false"><use href="#i-phone"/></svg>
+        <span class="nh-phone__num nh-ltr">08-9403047</span>
+      </a>
+      <a class="nh-btn nh-btn--primary nh-btn--sm" href="index.html#contact">תיאום ביקור</a>
+      <button class="nh-menu-btn" type="button" data-menu-open aria-haspopup="dialog" aria-expanded="false" aria-controls="nh-menu">
+        <svg aria-hidden="true" focusable="false"><use href="#i-menu"/></svg>
+        <span class="nh-sr-only">תפריט</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<dialog class="nh-menu" id="nh-menu" aria-label="תפריט">
+  <div class="nh-menu__inner">
+    <div class="nh-menu__top">
+      <span class="nh-display" style="font-size:1.5rem">נווה האירוס</span>
+      <button class="nh-menu__close" type="button" data-menu-close>
+        <svg aria-hidden="true" focusable="false"><use href="#i-close"/></svg>
+        <span class="nh-sr-only">סגירת התפריט</span>
+      </button>
+    </div>
+    <nav aria-label="ראשי">
+      <ul role="list">
+        <li><a href="index.html#about">מי אנחנו</a></li>
+        <li><a href="index.html#programs">מסגרות המגורים</a></li>
+        <li><a href="index.html#life">החיים אצלנו</a></li>
+        <li><a href="index.html#jobs">דרושים</a></li>
+        <li><a href="index.html#contact">צור קשר</a></li>
+      </ul>
+    </nav>
+    <div class="nh-menu__meta">
+      <a class="nh-btn nh-btn--light" href="index.html#contact">תיאום ביקור</a>
+      <a href="tel:+97289403047">טלפון: <span class="nh-ltr">08-9403047</span></a>
+      <div><button class="nh-motion-toggle" type="button" data-motion-toggle aria-pressed="false">
+        <svg aria-hidden="true" focusable="false"><use href="#i-pause"/></svg>הפחתת תנועה באתר
+      </button></div>
+    </div>
+  </div>
+</dialog>
+
+
+<main id="main" tabindex="-1">
+  <section class="nh-page-hero" aria-labelledby="ds-title">
+    <div class="nh-container">
+      <p class="nh-eyebrow">מערכת עיצוב · גרסה 0.1 · אב־טיפוס</p>
+      <h1 id="ds-title">„בית לחיים”</h1>
+      <p class="nh-lead">חם, מכובד ומלא חיים. נייר חם, דיו כהה, סגול האירוס מהלוגו, וגוונים מעבודות הפסיפס של הדיירים. כל צירוף צבעים לטקסט נבדק מול WCAG ברמה AA (ת״י 5568).</p>
+    </div>
+  </section>
+
+  <nav class="nh-ds-nav" aria-label="מערכת העיצוב — תוכן העניינים">
+    <div class="nh-container">
+      <ul role="list">
+        <li><a href="#colors">צבעים</a></li>
+        <li><a href="#contrast">ניגודיות</a></li>
+        <li><a href="#type">טיפוגרפיה</a></li>
+        <li><a href="#space">מרווחים וצורות</a></li>
+        <li><a href="#motion">תנועה</a></li>
+        <li><a href="#components">רכיבים</a></li>
+        <li><a href="#form">טופס מועמדות</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- COLORS ================================================================ -->
+  <section class="nh-section" id="colors" aria-labelledby="colors-title">
+    <div class="nh-container nh-stack">
+      <h2 class="nh-h2" id="colors-title">צבעים</h2>
+      <p class="nh-muted">צבעי בסיס לטקסט ולרקע; צבעי מותג לפעולות ולהדגשות; צבעים „דקורטיביים בלבד” אינם משמשים לטקסט.</p>
+      <ul class="nh-ds-swatches" role="list">
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-paper);color:var(--nh-ink)">א</div><div class="nh-ds-swatch__meta"><b>נייר</b><code dir="ltr">--nh-paper #F7F1E7</code><span>רקע העמוד</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-paper-2);color:var(--nh-ink)">א</div><div class="nh-ds-swatch__meta"><b>חול</b><code dir="ltr">--nh-paper-2 #EEE4D4</code><span>מקטעים מתחלפים</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-ink);color:var(--nh-paper)">א</div><div class="nh-ds-swatch__meta"><b>דיו</b><code dir="ltr">--nh-ink #1F2421</code><span>טקסט ראשי</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-ink-2);color:var(--nh-paper)">א</div><div class="nh-ds-swatch__meta"><b>דיו משני</b><code dir="ltr">--nh-ink-2 #4F5550</code><span>טקסט משני</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-iris-700);color:#fff">א</div><div class="nh-ds-swatch__meta"><b>אירוס</b><code dir="ltr">--nh-iris-700 #4A2D84</code><span>מותג, כפתורים, קישורים</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-iris-100);color:var(--nh-iris-700)">א</div><div class="nh-ds-swatch__meta"><b>אירוס בהיר</b><code dir="ltr">--nh-iris-100 #ECE5F6</code><span>רקע לאייקונים ותגיות</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-clay-700);color:#fff">א</div><div class="nh-ds-swatch__meta"><b>חימר</b><code dir="ltr">--nh-clay-700 #9E4325</code><span>שנים, כותרות־על</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-olive-700);color:#fff">א</div><div class="nh-ds-swatch__meta"><b>זית</b><code dir="ltr">--nh-olive-700 #3D5832</code><span>הצלחה, „בשפה פשוטה”</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-citrus-400);color:var(--nh-ink)">א</div><div class="nh-ds-swatch__meta"><b>הדר</b><code dir="ltr">--nh-citrus-400 #F2B33D</code><span>מרקר, פוקוס על כהה</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-sky-200);color:var(--nh-ink)">א</div><div class="nh-ds-swatch__meta"><b>שמיים</b><code dir="ltr">--nh-sky-200 #D3E6F4</code><span>רקע שקט (אוטיזם, חושים)</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-night);color:var(--nh-paper)">א</div><div class="nh-ds-swatch__meta"><b>לילה</b><code dir="ltr">--nh-night #1C1830</code><span>מקטעים כהים, פוטר</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-error);color:#fff">א</div><div class="nh-ds-swatch__meta"><b>שגיאה</b><code dir="ltr">--nh-error #A8261B</code><span>הודעות שגיאה בטפסים</span></div></li>
+      </ul>
+      <p class="nh-small nh-muted">דקורטיביים בלבד (לא לטקסט): <code dir="ltr">--nh-clay-300</code>, <code dir="ltr">--nh-olive-300</code>, <code dir="ltr">--nh-sky-500</code>, <code dir="ltr">--nh-line</code>.</p>
+    </div>
+  </section>
+
+  <!-- CONTRAST (computed live from the CSS tokens) ============================ -->
+  <section class="nh-section nh-section--sand" id="contrast" aria-labelledby="contrast-title">
+    <div class="nh-container nh-stack">
+      <h2 class="nh-h2" id="contrast-title">בדיקת ניגודיות</h2>
+      <p class="nh-muted">היחס מחושב בדפדפן מתוך משתני ה־CSS עצמם (נוסחת WCAG). סף: 4.5:1 לטקסט רגיל, 3:1 לרכיבי ממשק ומסגרות פוקוס (1.4.11).</p>
+      <div style="overflow-x:auto" tabindex="0" role="region" aria-label="טבלת ניגודיות (גלילה אופקית)">
+        <table class="nh-ds-table" id="contrast-table">
+          <caption class="nh-sr-only">צירופי צבעים ויחס הניגודיות שלהם</caption>
+          <thead><tr><th scope="col">דוגמה</th><th scope="col">קדמה / רקע</th><th scope="col">שימוש</th><th scope="col">יחס</th><th scope="col">AA</th></tr></thead>
+          <tbody>
+            <tr data-fg="--nh-ink" data-bg="--nh-paper" data-kind="text" data-use="טקסט ראשי"></tr>
+            <tr data-fg="--nh-ink-2" data-bg="--nh-paper" data-kind="text" data-use="טקסט משני"></tr>
+            <tr data-fg="--nh-ink-2" data-bg="--nh-paper-2" data-kind="text" data-use="טקסט משני על חול"></tr>
+            <tr data-fg="--nh-iris-700" data-bg="--nh-paper" data-kind="text" data-use="קישורים"></tr>
+            <tr data-fg="--nh-white" data-bg="--nh-iris-700" data-kind="text" data-use="כפתור ראשי"></tr>
+            <tr data-fg="--nh-white" data-bg="--nh-iris-600" data-kind="text" data-use="כפתור ראשי, ריחוף"></tr>
+            <tr data-fg="--nh-clay-700" data-bg="--nh-paper" data-kind="text" data-use="שנים וכותרות־על"></tr>
+            <tr data-fg="--nh-olive-700" data-bg="--nh-paper" data-kind="text" data-use="הצלחה"></tr>
+            <tr data-fg="--nh-error" data-bg="--nh-white" data-kind="text" data-use="שגיאות בשדות"></tr>
+            <tr data-fg="--nh-ink" data-bg="--nh-citrus-400" data-kind="text" data-use="תגית „מאז 1957”"></tr>
+            <tr data-fg="--nh-ink" data-bg="--nh-sky-200" data-kind="text" data-use="מקטע שמיים"></tr>
+            <tr data-fg="--nh-paper" data-bg="--nh-night" data-kind="text" data-use="טקסט במקטע כהה"></tr>
+            <tr data-fg="--nh-on-night-2" data-bg="--nh-night" data-kind="text" data-use="טקסט משני במקטע כהה"></tr>
+            <tr data-fg="--nh-citrus-400" data-bg="--nh-night" data-kind="text" data-use="קישורים במקטע כהה"></tr>
+            <tr data-fg="--nh-field" data-bg="--nh-white" data-kind="ui" data-use="מסגרת שדה טופס"></tr>
+            <tr data-fg="--nh-iris-700" data-bg="--nh-paper" data-kind="ui" data-use="טבעת פוקוס"></tr>
+            <tr data-fg="--nh-citrus-400" data-bg="--nh-night" data-kind="ui" data-use="טבעת פוקוס על כהה"></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPE =================================================================== -->
+  <section class="nh-section" id="type" aria-labelledby="type-title">
+    <div class="nh-container nh-stack">
+      <h2 class="nh-h2" id="type-title">טיפוגרפיה</h2>
+      <p class="nh-muted">כותרות: <b>Frank Ruhl Libre</b> (סריף עברי קלאסי, משתנה 300–900). גוף: <b>Assistant</b> (סנס הומניסטי, משתנה 200–800). שניהם ברישיון SIL OFL 1.1, מתארחים מקומית — בלי Google Fonts CDN. אין נטוי בעברית: הדגשה במשקל ובצבע בלבד.</p>
+      <div class="nh-ds-scale">
+        <div><small dir="ltr">--nh-fs-display · clamp(56px → 152px) · Frank Ruhl 500 · lh .9</small><span class="nh-display" style="font-size:var(--nh-fs-display);line-height:.9">בית. לחיים.</span></div>
+        <div><small dir="ltr">--nh-fs-h1 · 44 → 84px · lh 1.04</small><span class="nh-display nh-h1">מעון ראשי — בית לחיים</span></div>
+        <div><small dir="ltr">--nh-fs-h2 · 34 → 62px · lh 1.08</small><span class="nh-display nh-h2">שלוש מסגרות. בית אחד.</span></div>
+        <div><small dir="ltr">--nh-fs-h3 · 24 → 36px · lh 1.18</small><span class="nh-display nh-h3">החיים קורים כאן כל יום</span></div>
+        <div><small dir="ltr">--nh-fs-h4 · 20 → 24px · Frank Ruhl 600</small><span class="nh-display" style="font-size:var(--nh-fs-h4);font-weight:600">חוג טיפול בכלבים</span></div>
+        <div><small dir="ltr">--nh-fs-lead · 20 → 26px · Assistant 400 · lh 1.55</small><span class="nh-lead">בית חם לאנשים עם מוגבלות שכלית התפתחותית — עם יחס אישי, צוות מקצועי, עשייה ופנאי.</span></div>
+        <div><small dir="ltr">--nh-fs-body · 17 → 19px · Assistant 400 · lh 1.68 · max 62ch</small><span>הדרך הטובה ביותר להכיר בית היא לבקר בו. נשמח לארח אתכם למפגש היכרות, לענות על כל שאלה ולהראות לכם את המקום.</span></div>
+        <div><small dir="ltr">--nh-fs-small · 15px · labels, captions (min. size for text)</small><span class="nh-small">תמונה זמנית מתוך האתר הקיים.</span></div>
+        <div><small dir="ltr">eyebrow · Assistant 700 · 16px · clay</small><span class="nh-eyebrow">כותרת־על</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPACE & SHAPE ============================================================ -->
+  <section class="nh-section nh-section--white" id="space" aria-labelledby="space-title">
+    <div class="nh-container nh-stack">
+      <h2 class="nh-h2" id="space-title">מרווחים וצורות</h2>
+      <p class="nh-muted">בסיס 4px. ריווח מקטעים זורם: <code dir="ltr">--nh-section = clamp(72px, …, 160px)</code>. שוליים צדדיים בנייד: 16px.</p>
+      <ul class="nh-ds-space" role="list">
+        <li><i style="--s:4px"></i>1 · 4</li><li><i style="--s:8px"></i>2 · 8</li><li><i style="--s:12px"></i>3 · 12</li><li><i style="--s:16px"></i>4 · 16</li><li><i style="--s:24px"></i>5 · 24</li><li><i style="--s:32px"></i>6 · 32</li><li><i style="--s:48px"></i>7 · 48</li><li><i style="--s:64px"></i>8 · 64</li><li><i style="--s:96px"></i>9 · 96</li><li><i style="--s:128px"></i>10 · 128</li>
+      </ul>
+      <div class="nh-ds-grid nh-ds-grid--2" style="margin-block-start:var(--nh-s-7)">
+        <div class="nh-ds-box nh-stack">
+          <h3 class="nh-h3">הקשת — מוטיב החלון</h3>
+          <p class="nh-muted">תמונות נכנסות למסגרת קשת: חלון, בית, מחסה. <code dir="ltr">.nh-arch</code> (4:5) ו־<code dir="ltr">.nh-arch--34</code> (3:4).</p>
+          <div style="display:flex;gap:1rem;align-items:end">
+            <div class="nh-arch" style="inline-size:8rem"><picture><source type="image/avif" srcset="assets/img/villa-corner-480.avif 480w, assets/img/villa-corner-768.avif 768w, assets/img/villa-corner-1080.avif 1080w" sizes="8rem"><img src="assets/img/villa-corner-768.webp" srcset="assets/img/villa-corner-480.webp 480w, assets/img/villa-corner-768.webp 768w, assets/img/villa-corner-1080.webp 1080w" sizes="8rem" width="1080" height="1440" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="nh-arch nh-arch--34" style="inline-size:7rem"><picture><source type="image/avif" srcset="assets/img/garden-480.avif 480w, assets/img/garden-768.avif 768w, assets/img/garden-1080.avif 1080w" sizes="7rem"><img src="assets/img/garden-768.webp" srcset="assets/img/garden-480.webp 480w, assets/img/garden-768.webp 768w, assets/img/garden-1080.webp 1080w" sizes="7rem" width="1080" height="1440" alt="" loading="lazy" decoding="async"></picture></div>
+            <div class="nh-round" style="inline-size:7rem"><picture><source type="image/avif" srcset="assets/img/mandala-480.avif 480w, assets/img/mandala-768.avif 768w, assets/img/mandala-1080.avif 1080w, assets/img/mandala-1440.avif 1440w" sizes="7rem"><img src="assets/img/mandala-768.webp" srcset="assets/img/mandala-480.webp 480w, assets/img/mandala-768.webp 768w, assets/img/mandala-1080.webp 1080w, assets/img/mandala-1440.webp 1440w" sizes="7rem" width="1440" height="1266" alt="" loading="lazy" decoding="async"></picture></div>
+          </div>
+        </div>
+        <div class="nh-ds-box nh-stack">
+          <h3 class="nh-h3">פסיפס</h3>
+          <p class="nh-muted">אריחים בצבעי היצירות של הדיירים — סימן היכר דקורטיבי בלבד (<code dir="ltr">aria-hidden</code>).</p>
+          <div class="nh-tiles" aria-hidden="true"><span style="--c:var(--nh-olive-700)"></span><span style="--c:var(--nh-iris-100)"></span><span style="--c:var(--nh-iris-700)"></span><span style="--c:var(--nh-clay-700)"></span><span style="--c:var(--nh-olive-300)"></span><span style="--c:var(--nh-olive-700)"></span><span style="--c:var(--nh-clay-700)"></span><span style="--c:var(--nh-night)"></span><span style="--c:var(--nh-clay-700)"></span><span style="--c:var(--nh-iris-100)"></span><span style="--c:var(--nh-clay-700)"></span><span style="--c:var(--nh-iris-100)"></span><span style="--c:var(--nh-iris-100)"></span><span style="--c:var(--nh-sky-500)"></span><span style="--c:var(--nh-olive-700)"></span><span style="--c:var(--nh-clay-700)"></span><span style="--c:var(--nh-olive-300)"></span><span style="--c:var(--nh-iris-700)"></span><span style="--c:var(--nh-citrus-400)"></span><span style="--c:var(--nh-iris-700)"></span><span style="--c:var(--nh-citrus-400)"></span><span style="--c:var(--nh-iris-100)"></span><span style="--c:var(--nh-iris-700)"></span><span style="--c:var(--nh-clay-700)"></span><span style="--c:var(--nh-iris-700)"></span><span style="--c:var(--nh-olive-700)"></span><span style="--c:var(--nh-olive-300)"></span><span style="--c:var(--nh-olive-300)"></span><span style="--c:var(--nh-clay-700)"></span><span style="--c:var(--nh-night)"></span><span style="--c:var(--nh-iris-100)"></span><span style="--c:var(--nh-night)"></span><span style="--c:var(--nh-clay-700)"></span><span style="--c:var(--nh-olive-700)"></span><span style="--c:var(--nh-olive-300)"></span><span style="--c:var(--nh-olive-300)"></span></div>
+          <p class="nh-small nh-muted">רדיוסים: 8 / 16 / 28 / pill. צללים: <code dir="ltr">--nh-shadow-1</code>, <code dir="ltr">--nh-shadow-2</code>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOTION ================================================================ -->
+  <section class="nh-section" id="motion" aria-labelledby="motion-title">
+    <div class="nh-container nh-stack">
+      <h2 class="nh-h2" id="motion-title">תנועה</h2>
+      <p class="nh-muted">תנועה שקטה, לא ממהרת, שלא מפריעה לקריאה ולגלילה. בלי „חטיפת גלילה”, בלי לולאות אינסופיות. לכל אפקט יש גרסה ל־<span dir="ltr">prefers-reduced-motion</span> ולמתג „הפחתת תנועה” באתר. מפרט מלא: <span dir="ltr">prototype/STORYBOARD.md</span>.</p>
+      <div style="overflow-x:auto" tabindex="0" role="region" aria-label="טבלת אסימוני תנועה (גלילה אופקית)">
+        <table class="nh-ds-table">
+          <caption class="nh-sr-only">אסימוני תנועה</caption>
+          <thead><tr><th scope="col">אסימון</th><th scope="col">ערך</th><th scope="col">שימוש</th></tr></thead>
+          <tbody>
+            <tr><td dir="ltr">--nh-dur-1</td><td dir="ltr">160ms</td><td>צבע בריחוף ובפוקוס</td></tr>
+            <tr><td dir="ltr">--nh-dur-2</td><td dir="ltr">320ms</td><td>רכיבי ממשק קטנים, חיצים</td></tr>
+            <tr><td dir="ltr">--nh-dur-3</td><td dir="ltr">800ms</td><td>חשיפת תוכן בגלילה</td></tr>
+            <tr><td dir="ltr">--nh-dur-4</td><td dir="ltr">1200ms</td><td>פתיח, מסכות קשת</td></tr>
+            <tr><td dir="ltr">--nh-ease-out</td><td dir="ltr">cubic-bezier(.22,1,.36,1) ≈ power3.out</td><td>כניסות</td></tr>
+            <tr><td dir="ltr">--nh-ease-in-out</td><td dir="ltr">cubic-bezier(.65,0,.35,1) ≈ power2.inOut</td><td>מסכות, מרקר</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="nh-btn-row"><button class="nh-motion-toggle" type="button" data-motion-toggle aria-pressed="false"><svg aria-hidden="true" focusable="false"><use href="#i-pause"/></svg>הפחתת תנועה באתר</button></div>
+    </div>
+  </section>
+
+  <!-- COMPONENTS ============================================================ -->
+  <section class="nh-section nh-section--sand" id="components" aria-labelledby="components-title">
+    <div class="nh-container nh-stack">
+      <h2 class="nh-h2" id="components-title">רכיבים</h2>
+      <p class="nh-muted">לחצו Tab כדי לראות את מצבי הפוקוס. כל רכיב לחיץ גדול מ־44×44px.</p>
+
+      <div class="nh-ds-grid nh-ds-grid--2">
+        <div class="nh-ds-box nh-stack">
+          <h3 class="nh-h3">כפתורים וקישורים</h3>
+          <div class="nh-btn-row">
+            <a class="nh-btn nh-btn--primary" href="#components">כפתור ראשי<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a>
+            <a class="nh-btn nh-btn--ghost" href="#components">כפתור משני</a>
+            <a class="nh-btn nh-btn--primary nh-btn--sm" href="#components">קטן</a>
+          </div>
+          <p><a class="nh-link-arrow" href="#components"><span>קישור עם חץ</span><svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></p>
+          <p>קישור בתוך <a href="#components">טקסט רץ</a> עם קו תחתון.</p>
+        </div>
+        <div class="nh-ds-box nh-stack nh-on-dark" style="background:var(--nh-night)">
+          <h3 class="nh-h3">על רקע כהה</h3>
+          <div class="nh-btn-row">
+            <a class="nh-btn nh-btn--light" href="#components">כפתור בהיר</a>
+            <a class="nh-btn nh-btn--ghost" href="#components">משני</a>
+          </div>
+          <p>קישור <a href="#components">בצבע הדר</a> על רקע לילה.</p>
+        </div>
+      </div>
+
+      <div class="nh-ds-grid nh-ds-grid--2">
+        <div class="nh-ds-box nh-stack">
+          <h3 class="nh-h3">פירורי לחם</h3>
+          <nav class="nh-crumbs" aria-label="נתיב ניווט — דוגמה"><ol><li><a href="index.html">דף הבית</a></li><li><a href="index.html#programs">מסגרות המגורים</a></li><li><span aria-current="page">מעון ראשי</span></li></ol></nav>
+          <h3 class="nh-h3">התראות</h3>
+          <div class="nh-alert nh-alert--success"><h3>תודה! הפנייה התקבלה.</h3><p>נחזור אליכם בהקדם.</p></div>
+          <div class="nh-alert nh-alert--error"><h3>נמצאה שגיאה אחת בטופס:</h3><ul><li><a href="#components">טלפון — נא להזין מספר טלפון תקין.</a></li></ul></div>
+        </div>
+        <div class="nh-ds-box nh-stack">
+          <h3 class="nh-h3">שאלות נפוצות (אקורדיון)</h3>
+          <div class="nh-accordion">
+            <details><summary>איך מתחילים?</summary><div><p>מתקשרים אלינו או משאירים פרטים בטופס. המחלקה הסוציאלית שלנו תסביר את התהליך ותתאם מפגש היכרות.</p></div></details>
+            <details><summary>אפשר לבקר לפני שמחליטים?</summary><div><p>כן. נשמח לארח אתכם ולהראות את המקום.</p></div></details>
+            <details><summary>איך שומרים על קשר עם המשפחה?</summary><div><p>ביקורים, ועד הורים פעיל וקשר שוטף עם הצוות.</p></div></details>
+          </div>
+        </div>
+      </div>
+
+      <div class="nh-ds-grid nh-ds-grid--2">
+        <div class="nh-ds-box nh-stack">
+          <h3 class="nh-h3">גלריה + לייטבוקס נגיש</h3>
+          <p class="nh-muted nh-small">פתיחה ב־Enter, מעבר בחיצים (בעברית: חץ שמאלה = הבא), Esc לסגירה, החלקה בנייד, הפוקוס חוזר לתמונה.</p>
+          <ul class="nh-gallery" role="list" data-lightbox style="grid-template-columns:repeat(3,1fr)">
+            <li style="grid-column:auto;grid-row:auto"><button type="button" data-full="assets/img/mosaic-pot-1080.webp" data-srcset="assets/img/mosaic-pot-480.webp 480w, assets/img/mosaic-pot-768.webp 768w, assets/img/mosaic-pot-1080.webp 1080w, assets/img/mosaic-pot-1440.webp 1440w" data-caption="כד פסיפס בעבודת יד."><picture><source type="image/avif" srcset="assets/img/mosaic-pot-480.avif 480w, assets/img/mosaic-pot-768.avif 768w, assets/img/mosaic-pot-1080.avif 1080w, assets/img/mosaic-pot-1440.avif 1440w" sizes="10rem"><img src="assets/img/mosaic-pot-768.webp" srcset="assets/img/mosaic-pot-480.webp 480w, assets/img/mosaic-pot-768.webp 768w, assets/img/mosaic-pot-1080.webp 1080w, assets/img/mosaic-pot-1440.webp 1440w" sizes="10rem" width="1440" height="1894" alt="כד פסיפס צבעוני בעבודת יד" loading="lazy" decoding="async"></picture><span class="nh-sr-only">הגדלת התמונה</span></button></li>
+            <li style="grid-column:auto;grid-row:auto"><button type="button" data-full="assets/img/mosaic-pot-2-1080.webp" data-srcset="assets/img/mosaic-pot-2-480.webp 480w, assets/img/mosaic-pot-2-768.webp 768w, assets/img/mosaic-pot-2-1080.webp 1080w, assets/img/mosaic-pot-2-1440.webp 1440w" data-caption="כד פסיפס עם צלחת."><picture><source type="image/avif" srcset="assets/img/mosaic-pot-2-480.avif 480w, assets/img/mosaic-pot-2-768.avif 768w, assets/img/mosaic-pot-2-1080.avif 1080w, assets/img/mosaic-pot-2-1440.avif 1440w" sizes="10rem"><img src="assets/img/mosaic-pot-2-768.webp" srcset="assets/img/mosaic-pot-2-480.webp 480w, assets/img/mosaic-pot-2-768.webp 768w, assets/img/mosaic-pot-2-1080.webp 1080w, assets/img/mosaic-pot-2-1440.webp 1440w" sizes="10rem" width="1440" height="1894" alt="כד פסיפס בגווני כחול וירוק עם צלחת" loading="lazy" decoding="async"></picture><span class="nh-sr-only">הגדלת התמונה</span></button></li>
+            <li style="grid-column:auto;grid-row:auto"><button type="button" data-full="assets/img/crafts-owls-1080.webp" data-srcset="assets/img/crafts-owls-480.webp 480w, assets/img/crafts-owls-768.webp 768w, assets/img/crafts-owls-1080.webp 1080w" data-caption="ינשופים וחמסות מעבודות הדיירים."><picture><source type="image/avif" srcset="assets/img/crafts-owls-480.avif 480w, assets/img/crafts-owls-768.avif 768w, assets/img/crafts-owls-1080.avif 1080w" sizes="10rem"><img src="assets/img/crafts-owls-768.webp" srcset="assets/img/crafts-owls-480.webp 480w, assets/img/crafts-owls-768.webp 768w, assets/img/crafts-owls-1080.webp 1080w" sizes="10rem" width="1080" height="1440" alt="דוכן יצירות: ינשופים צבעוניים, חמסות ותליונים בעבודת יד" loading="lazy" decoding="async"></picture><span class="nh-sr-only">הגדלת התמונה</span></button></li>
+          </ul>
+        </div>
+        <div class="nh-ds-box nh-stack">
+          <h3 class="nh-h3">באנר עוגיות</h3>
+          <p class="nh-muted nh-small">לא חוסם את הדף, לא מכסה פוקוס (scroll-padding), נפתח מחדש מהפוטר. סטטיסטיקה ותוכן מוטמע — רק בהסכמה.</p>
+          <p><button class="nh-btn nh-btn--ghost" type="button" data-cookie-settings>הצגת הבאנר</button></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAREERS FORM ============================================================ -->
+  <section class="nh-section nh-section--white" id="form" aria-labelledby="form-title">
+    <div class="nh-container nh-jobs__grid">
+      <div class="nh-stack">
+        <p class="nh-eyebrow">רכיב: טופס מועמדות</p>
+        <h2 class="nh-h2" id="form-title">הגשת מועמדות</h2>
+        <p class="nh-muted">ב־WordPress: שליחה דרך <span dir="ltr">wp_mail()</span> לכתובת שתוגדר בווידג׳ט, הגנת nonce, honeypot, מלכודת זמן והגבלת קצב. בבדיקות — רק לכתובת של אולג. קורות החיים נשלחים כקובץ מצורף ואינם נשמרים בספריית המדיה.</p>
+      </div>
+      <div>
+        <div class="nh-alert nh-alert--success" data-success tabindex="-1" role="status" hidden>
+          <h3>תודה! המועמדות התקבלה.</h3>
+          <p>נעבור על הפרטים ונחזור אליך. (באב־הטיפוס הטופס אינו נשלח.)</p>
+        </div>
+        <form class="nh-form" data-validate action="#" method="post" enctype="multipart/form-data" aria-labelledby="form-title">
+          <div class="nh-alert nh-alert--error" data-error-summary tabindex="-1" hidden><h3>נמצאו שגיאות בטופס:</h3><ul></ul></div>
+          <p class="nh-form__note">שדות המסומנים ב־<span aria-hidden="true">*</span><span class="nh-sr-only">כוכבית</span> הם שדות חובה.</p>
+          <div class="nh-field">
+            <label class="nh-label" for="j-role">המשרה <span class="nh-req" aria-hidden="true">*</span></label>
+            <select class="nh-select" id="j-role" name="role" required>
+              <option value="">בחירת משרה…</option>
+              <option>רכז/ת דירה — דיור בקהילה, אוטיזם</option>
+              <option>עובד/ת סוציאלי/ת</option>
+              <option>מרפא/ה בעיסוק</option>
+              <option>טבח/ית</option>
+              <option>עובד/ת אחזקה</option>
+              <option>פנייה כללית</option>
+            </select>
+          </div>
+          <div class="nh-form__row nh-form__row--2">
+            <div class="nh-field"><label class="nh-label" for="j-name">שם מלא <span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="j-name" name="name" type="text" autocomplete="name" required></div>
+            <div class="nh-field"><label class="nh-label" for="j-phone">טלפון <span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="j-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" required></div>
+          </div>
+          <div class="nh-field"><label class="nh-label" for="j-email">דוא״ל <span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="j-email" name="email" type="email" autocomplete="email" dir="ltr" required></div>
+          <div class="nh-field">
+            <label class="nh-label" for="j-cv">קורות חיים</label>
+            <input class="nh-input" id="j-cv" name="cv" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-describedby="j-cv-hint">
+            <p class="nh-hint" id="j-cv-hint">PDF, DOC או DOCX, עד 5MB.</p>
+          </div>
+          <div class="nh-field"><label class="nh-label" for="j-msg">כמה מילים עליך</label><textarea class="nh-textarea" id="j-msg" name="message"></textarea></div>
+          <div class="nh-hp" aria-hidden="true"><label for="j-website">אתר</label><input id="j-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <div class="nh-check"><input id="j-consent" name="consent" type="checkbox" required><label for="j-consent">קראתי את <a href="#privacy">מדיניות הפרטיות</a> ואני מסכים/ה לשימוש בפרטים לצורך בדיקת המועמדות למשרה זו. <span class="nh-req" aria-hidden="true">*</span></label></div>
+          <div class="nh-check"><input id="j-keep" name="keep" type="checkbox"><label for="j-keep">אפשר לשמור את הפרטים שלי למשרות נוספות בעתיד (לא חובה).</label></div>
+          <p class="nh-form__note">מסירת הפרטים אינה חובה לפי חוק, אך בלעדיהם לא נוכל לבדוק את המועמדות. הפרטים ישמשו לבדיקת המועמדות בלבד, יישמרו במאגר המידע של נוה האירוס בע״מ, יימחקו בתום הליך הגיוס אם לא סימנת אחרת, ולא יועברו לגורם אחר. ניתן לבקש לעיין במידע ולתקנו. <span class="nh-sr-only">(נוסח טיוטה לבדיקת עורך דין)</span></p>
+          <div><button class="nh-btn nh-btn--primary" type="submit">שליחת המועמדות<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></button></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="nh-footer nh-on-dark">
+  <div class="nh-container">
+    <div class="nh-footer__grid">
+      <div class="nh-footer__brand">
+        <a class="nh-footer__logo" href="index.html" aria-label="מעון נווה האירוס — לדף הבית"><img src="assets/img/logo-temp.png" width="159" height="123" alt=""></a>
+        <p>בית חם לאנשים עם מוגבלות שכלית התפתחותית בנס ציונה, מאז 1957. בפיקוח משרד הרווחה והביטחון החברתי.</p>
+      </div>
+      <div>
+        <h2>ניווט</h2>
+        <ul role="list">
+          <li><a href="index.html#about">מי אנחנו</a></li>
+          <li><a href="index.html#programs">מסגרות המגורים</a></li>
+          <li><a href="index.html#life">החיים אצלנו</a></li>
+          <li><a href="index.html#news">חדשות ועדכונים</a></li>
+          <li><a href="index.html#jobs">דרושים</a></li>
+          <li><a href="index.html#contact">צור קשר</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>יצירת קשר</h2>
+        <ul role="list">
+          <li>טלפון: <a href="tel:+97289403047"><span class="nh-ltr">08-9403047</span></a></li>
+          <li>פקס: <span class="nh-ltr">08-9400805</span></li>
+          <li>מזכירות: <a href="mailto:irus3@nevehairus.com"><span class="nh-ltr">irus3@nevehairus.com</span></a></li>
+          <li>ת״ד 28, נס ציונה</li>
+          <li><a href="https://www.facebook.com/neveirus/" rel="noopener">נווה האירוס בפייסבוק<span class="nh-sr-only"> (נפתח באתר חיצוני)</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>מידע ונגישות</h2>
+        <ul role="list">
+          <li><a href="#accessibility">הצהרת נגישות</a></li>
+          <li><a href="#privacy">מדיניות פרטיות</a></li>
+          <li><button class="nh-linkbtn" type="button" data-cookie-settings>הגדרות עוגיות</button></li>
+          <li><a href="#sitemap">מפת אתר</a></li>
+          <li><a href="https://www.nevehairus.com/wp-content/uploads/2017/08/מפרט-כניסות-נגישות.pdf">מפרט כניסות נגישות (PDF)</a></li>
+          <li><button class="nh-motion-toggle" type="button" data-motion-toggle aria-pressed="false"><svg aria-hidden="true" focusable="false"><use href="#i-pause"/></svg>הפחתת תנועה באתר</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="nh-footer__bottom">
+      <p>© <span data-year>2026</span> מעון נווה האירוס. כל הזכויות שמורות.</p>
+      <p>אב־טיפוס לעיון פנימי · התמונות והלוגו זמניים, מתוך האתר הקיים</p>
+    </div>
+  </div>
+</footer>
+
+<dialog class="nh-lightbox" id="nh-lightbox" aria-label="גלריית תמונות">
+  <div class="nh-lightbox__inner">
+    <div class="nh-lightbox__bar">
+      <p class="nh-lightbox__count">תמונה 1 מתוך 6</p>
+      <button class="nh-lightbox__btn" type="button" data-lb-close>
+        <svg aria-hidden="true" focusable="false"><use href="#i-close"/></svg><span class="nh-sr-only">סגירת הגלריה</span>
+      </button>
+    </div>
+    <div class="nh-lightbox__stage">
+      <img alt="">
+      <button class="nh-lightbox__btn nh-lightbox__nav nh-lightbox__nav--prev" type="button" data-lb-prev>
+        <svg aria-hidden="true" focusable="false"><use href="#i-arrow-back"/></svg><span class="nh-sr-only">התמונה הקודמת</span>
+      </button>
+      <button class="nh-lightbox__btn nh-lightbox__nav nh-lightbox__nav--next" type="button" data-lb-next>
+        <svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg><span class="nh-sr-only">התמונה הבאה</span>
+      </button>
+    </div>
+    <p class="nh-lightbox__caption"></p>
+    <p class="nh-sr-only" aria-live="polite" data-lb-live></p>
+  </div>
+</dialog>
+
+<script>
+  /* Live WCAG contrast check from the CSS tokens themselves */
+  (function () {
+    var root = getComputedStyle(document.documentElement);
+    function hex(v) { return root.getPropertyValue(v).trim(); }
+    function lum(h) {
+      h = h.replace("#", "");
+      var c = [0, 2, 4].map(function (i) { var x = parseInt(h.substr(i, 2), 16) / 255; return x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); });
+      return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+    }
+    function ratio(a, b) { var la = lum(a), lb = lum(b); return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05); }
+    document.querySelectorAll("#contrast-table tbody tr").forEach(function (tr) {
+      var fg = hex(tr.dataset.fg), bg = hex(tr.dataset.bg), r = ratio(fg, bg), need = tr.dataset.kind === "ui" ? 3 : 4.5, ok = r >= need;
+      tr.innerHTML =
+        (tr.dataset.kind === "ui"
+          ? '<td><span class="nh-ds-table__sample" style="color:' + (lum(bg) < 0.3 ? "#F7F1E7" : "#1F2421") + ";background:" + bg + ";box-shadow:inset 0 0 0 3px " + fg + '">מסגרת</span></td>'
+          : '<td><span class="nh-ds-table__sample" style="color:' + fg + ";background:" + bg + '">אבג 123</span></td>') +
+        '<td dir="ltr">' + tr.dataset.fg + " " + fg + " / " + tr.dataset.bg + " " + bg + "</td>" +
+        "<td>" + tr.dataset.use + "</td>" +
+        '<td dir="ltr">' + r.toFixed(2) + ":1</td>" +
+        '<td class="' + (ok ? "nh-ds-pass" : "nh-ds-fail") + '">' + (ok ? "עובר" : "נכשל") + " (סף " + need + ":1)</td>";
+    });
+  })();
+</script>
+</body>
+</html>

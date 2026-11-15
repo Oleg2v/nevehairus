@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>מעון ראשי — בית לחיים | מעון נווה האירוס</title>
+<meta name="description" content="המעון הראשי של נווה האירוס בנס ציונה: בית לחיים לבוגרים ובוגרות עם מוגבלות שכלית התפתחותית, עם צוות קבוע, טיפול מקצועי, תעסוקה ופנאי.">
+<link rel="preload" as="image" type="image/avif" imagesrcset="assets/img/lounge-480.avif 480w, assets/img/lounge-768.avif 768w, assets/img/lounge-1080.avif 1080w, assets/img/lounge-1440.avif 1440w" imagesizes="(min-width: 1024px) 30rem, 92vw" fetchpriority="high">
+{{> head}}
+</head>
+<body>
+{{page current="programs"}}
+{{> sprite}}
+{{> header}}
+
+<main id="main" tabindex="-1">
+
+  <!-- P1 · PAGE HERO ======================================================== -->
+  <section class="nh-page-hero" aria-labelledby="page-title">
+    <div class="nh-container">
+      <nav class="nh-crumbs nh-rise" style="--i:0" aria-label="נתיב ניווט">
+        <ol>
+          <li><a href="index.html">דף הבית</a></li>
+          <li><a href="index.html#programs">מסגרות המגורים</a></li>
+          <li><span aria-current="page">מעון ראשי</span></li>
+        </ol>
+      </nav>
+      <div class="nh-page-hero__grid">
+        <div>
+          <p class="nh-eyebrow nh-rise" style="--i:1">מסגרת מגורים 01</p>
+          <h1 class="nh-rise" id="page-title" style="--i:2">מעון ראשי — <span class="nh-hl">בית לחיים</span></h1>
+          <p class="nh-lead nh-rise" style="--i:3">בית לחיים בנס ציונה לבוגרים ובוגרות עם מוגבלות שכלית התפתחותית, הפרעות נפשיות וקשיי התנהגות — עם צוות קבוע, טיפול מקצועי ושגרה מלאה בעשייה.</p>
+          <div class="nh-btn-row nh-rise" style="--i:4;margin-block-start:var(--nh-s-6)">
+            <a class="nh-btn nh-btn--primary" href="#visit">תיאום ביקור<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a>
+            <a class="nh-btn nh-btn--ghost" href="#plain-page">בשפה פשוטה</a>
+          </div>
+        </div>
+        <div class="nh-arch nh-rise" style="--i:2;max-inline-size:30rem;inline-size:100%;justify-self:center">
+          {{pic name="lounge" sizes="(min-width: 1024px) 30rem, 92vw" loading="eager" priority="high"}}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- P2 · AT A GLANCE ======================================================== -->
+  <section class="nh-section nh-section--white" aria-labelledby="glance-title" style="padding-block:var(--nh-s-9)">
+    <div class="nh-container nh-story__grid">
+      <div>
+        <p class="nh-eyebrow" data-reveal>במבט אחד</p>
+        <h2 class="nh-h2" id="glance-title" data-reveal>בית עם צוות <span class="nh-hl" data-hl>שמכיר אותך</span></h2>
+        <p class="nh-lead nh-muted" data-reveal style="margin-block-start:var(--nh-s-5)">דירות המעון מחולקות לשתי יחידות ניהול („קפסולות”). לכל יחידה צוות נפרד וקבוע — כך כל דייר ודיירת יודעים למי לפנות, והצוות מכיר כל אחד ואחת לעומק.</p>
+      </div>
+      <dl class="nh-glance" data-reveal>
+        <div><dt>למי</dt><dd>בוגרים ובוגרות עם מוגבלות שכלית התפתחותית, כולל אבחנה כפולה וקשיי התנהגות</dd></div>
+        <div><dt>איפה</dt><dd>בתוך המעון בנס ציונה</dd></div>
+        <div><dt>איך מאורגן</dt><dd>שתי יחידות ניהול, לכל אחת צוות נפרד</dd></div>
+        <div><dt>מי בצוות</dt><dd>מנהל יחידה, עובדת סוציאלית, אם בית ורכזות דירה</dd></div>
+        <div><dt>פיקוח</dt><dd>משרד הרווחה והביטחון החברתי</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- P3 · GALLERY + LIGHTBOX ================================================= -->
+  <section class="nh-section" aria-labelledby="inside-title">
+    <div class="nh-container">
+      <div class="nh-section__head nh-section__head--split">
+        <div>
+          <p class="nh-eyebrow" data-reveal>הבית מבפנים</p>
+          <h2 class="nh-h2" id="inside-title" data-reveal>האגף החדש</h2>
+        </div>
+        <p class="nh-lead nh-muted" data-reveal>האגף נחנך בדצמבר 2021. הוא הותאם לצורכי הדיירים על ידי אדריכליות שמתמחות בתחום — בקו עיצובי נעים ורגוע, כולל תאורת „שמיים” בתקרה.</p>
+      </div>
+      <ul class="nh-gallery" role="list" data-lightbox>
+        <li data-reveal><button type="button" data-full="{{src name="sky-corridor" w="1080"}}" data-srcset="{{srcset name="sky-corridor"}}" data-caption="מסדרון האגף החדש, עם תאורת „שמיים”.">{{pic name="sky-corridor" sizes="(min-width: 900px) 34vw, 46vw"}}<span class="nh-gallery__zoom" aria-hidden="true"><svg focusable="false"><use href="#i-expand"/></svg></span><span class="nh-sr-only">הגדלת התמונה</span></button></li>
+        <li data-reveal><button type="button" data-full="{{src name="dining" w="1440"}}" data-srcset="{{srcset name="dining"}}" data-caption="פינת האוכל המשותפת.">{{pic name="dining" sizes="(min-width: 900px) 28vw, 46vw"}}<span class="nh-gallery__zoom" aria-hidden="true"><svg focusable="false"><use href="#i-expand"/></svg></span><span class="nh-sr-only">הגדלת התמונה</span></button></li>
+        <li data-reveal><button type="button" data-full="{{src name="bedroom" w="1440"}}" data-srcset="{{srcset name="bedroom"}}" data-caption="חדר מגורים זוגי.">{{pic name="bedroom" sizes="(min-width: 900px) 22vw, 46vw"}}<span class="nh-gallery__zoom" aria-hidden="true"><svg focusable="false"><use href="#i-expand"/></svg></span><span class="nh-sr-only">הגדלת התמונה</span></button></li>
+        <li data-reveal><button type="button" data-full="{{src name="living" w="1440"}}" data-srcset="{{srcset name="living"}}" data-caption="הסלון המשותף.">{{pic name="living" sizes="(min-width: 900px) 22vw, 46vw"}}<span class="nh-gallery__zoom" aria-hidden="true"><svg focusable="false"><use href="#i-expand"/></svg></span><span class="nh-sr-only">הגדלת התמונה</span></button></li>
+        <li data-reveal><button type="button" data-full="{{src name="sky-ceiling" w="1440"}}" data-srcset="{{srcset name="sky-ceiling"}}" data-caption="תקרת „שמיים” — לוחות תאורה עם עננים.">{{pic name="sky-ceiling" sizes="(min-width: 900px) 28vw, 46vw"}}<span class="nh-gallery__zoom" aria-hidden="true"><svg focusable="false"><use href="#i-expand"/></svg></span><span class="nh-sr-only">הגדלת התמונה</span></button></li>
+        <li data-reveal><button type="button" data-full="{{src name="courtyard" w="768"}}" data-srcset="{{srcset name="courtyard"}}" data-caption="החצר במעון.">{{pic name="courtyard" sizes="(min-width: 900px) 92vw, 92vw"}}<span class="nh-gallery__zoom" aria-hidden="true"><svg focusable="false"><use href="#i-expand"/></svg></span><span class="nh-sr-only">הגדלת התמונה</span></button></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- P4 · FEATURES ========================================================== -->
+  <section class="nh-section nh-section--sand" aria-labelledby="features-title">
+    <div class="nh-container">
+      <div class="nh-section__head">
+        <p class="nh-eyebrow" data-reveal>מה יש במעון</p>
+        <h2 class="nh-h2" id="features-title" data-reveal>כל מה שצריך, קרוב לבית</h2>
+      </div>
+      <ul class="nh-features" role="list">
+        <li class="nh-feature" data-reveal><span class="nh-feature__icon" aria-hidden="true"><svg focusable="false"><use href="#i-sparkle"/></svg></span><h3>חדר סנוזלן</h3><p>סביבה רב־חושית מבוקרת, להרפיה ולוויסות רגשי. הוקם בסיוע המוסד לביטוח לאומי.</p></li>
+        <li class="nh-feature" data-reveal><span class="nh-feature__icon" aria-hidden="true"><svg focusable="false"><use href="#i-clinic"/></svg></span><h3>מרפאה ומרפאת שיניים</h3><p>צוות רפואי במקום, ומרפאת שיניים מתקדמת.</p></li>
+        <li class="nh-feature" data-reveal><span class="nh-feature__icon" aria-hidden="true"><svg focusable="false"><use href="#i-palette"/></svg></span><h3>תעסוקה ופנאי</h3><p>סדנאות, חוגים ופעילויות לאורך השבוע — בתוך המעון ומחוצה לו.</p></li>
+        <li class="nh-feature" data-reveal><span class="nh-feature__icon" aria-hidden="true"><svg focusable="false"><use href="#i-leaf"/></svg></span><h3>חדרי טיפול</h3><p>חדרי טיפול חדשים, מרווחים ומזמינים.</p></li>
+        <li class="nh-feature" data-reveal><span class="nh-feature__icon" aria-hidden="true"><svg focusable="false"><use href="#i-cup"/></svg></span><h3>מועדון</h3><p>מקום מפגש לרווחת הדיירים והדיירות.</p></li>
+        <li class="nh-feature" data-reveal><span class="nh-feature__icon" aria-hidden="true"><svg focusable="false"><use href="#i-steps"/></svg></span><h3>קידום אישי</h3><p>תוכנית אישית לכל דייר ודיירת — ומי שמוכנים לכך יכולים לעבור לדיור בקהילה.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- P5 · STEP BY STEP (dark) ================================================ -->
+  <section class="nh-section nh-section--night" aria-labelledby="steps-title">
+    <div class="nh-container">
+      <div class="nh-section__head nh-section__head--split">
+        <div>
+          <p class="nh-eyebrow" data-reveal>צעד צעד</p>
+          <h2 class="nh-h2" id="steps-title" data-reveal>הצלחות קטנות שהן גדולות</h2>
+        </div>
+        <p class="nh-lead nh-muted" data-reveal>שלושה סיפורים מהשנים האחרונות. הפרטים המזהים הושמטו.</p>
+      </div>
+      <ol class="nh-steps" role="list">
+        <li data-reveal><h3 class="nh-h3">מהמעון לבית בקהילה</h3><p>אחרי עבודה עקבית ומשותפת, דייר עבר מהמעון לווילה בקהילה — שלוחה של נווה האירוס.</p></li>
+        <li data-reveal><h3 class="nh-h3">חזרה לפעילויות</h3><p>דיירת שהגיעה עם קשיים רבים בשגרה היומיומית יוצאת היום לפעילויות, בשיתוף פעולה עם הצוות.</p></li>
+        <li data-reveal><h3 class="nh-h3">מעבר לשער</h3><p>דייר שחשש לצאת משטח המעון שנים רבות יוצא היום לטיולי יום — בזכות רכזת דירה שליוותה אותו בסבלנות.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- P6 · PLAIN LANGUAGE ===================================================== -->
+  <section class="nh-section" id="plain-page" aria-labelledby="plain-page-title" style="padding-block-end:0">
+    <div class="nh-container">
+      <div class="nh-plain" data-reveal>
+        <span class="nh-plain__badge" aria-hidden="true"><svg focusable="false"><use href="#i-speech"/></svg></span>
+        <div>
+          <h2 id="plain-page-title">בשפה פשוטה</h2>
+          <ul role="list">
+            <li>המעון הראשי נמצא בנס ציונה.</li>
+            <li>גרים בו מבוגרים עם מוגבלות שכלית התפתחותית.</li>
+            <li>לכל בית יש צוות קבוע.</li>
+            <li>יש חדר נעים להירגע, מרפאה וחוגים.</li>
+            <li>אפשר לבוא לבקר.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- P7 · RELATED =========================================================== -->
+  <section class="nh-section" aria-labelledby="related-title">
+    <div class="nh-container">
+      <div class="nh-section__head">
+        <p class="nh-eyebrow" data-reveal>עוד במעון הראשי</p>
+        <h2 class="nh-h3" id="related-title" data-reveal>להמשך קריאה</h2>
+      </div>
+      <ul class="nh-related" role="list">
+        <li data-reveal><a href="#related-title"><b>אבחנה כפולה</b><span>מוגבלות שכלית התפתחותית לצד אבחנה נפשית — ואיך אנחנו מלווים.</span></a></li>
+        <li data-reveal><a href="#related-title"><b>גלריית יצירות למכירה</b><span>פסיפס, תכשיטים וקרמיקה מעבודות הדיירים.</span></a></li>
+        <li data-reveal><a href="index.html#programs"><b>דיור בקהילה</b><span>הצעד הבא: בית בלב הקהילה, בליווי צוות.</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- P8 · VISIT FORM ======================================================== -->
+  <section class="nh-section nh-section--white" id="visit" aria-labelledby="visit-title">
+    <div class="nh-container nh-jobs__grid">
+      <div>
+        <p class="nh-eyebrow" data-reveal>תיאום ביקור</p>
+        <h2 class="nh-h2" id="visit-title" data-reveal>בואו לראות בעיניים</h2>
+        <p class="nh-lead nh-muted" data-reveal style="margin-block:var(--nh-s-5)">השאירו פרטים ונחזור אליכם לתיאום מפגש היכרות. מעדיפים לדבר עכשיו? <a href="tel:+97289403047"><span class="nh-ltr">08-9403047</span></a></p>
+      </div>
+      <div>
+        <div class="nh-alert nh-alert--success" data-success tabindex="-1" role="status" hidden>
+          <h3>תודה! הפנייה התקבלה.</h3>
+          <p>נחזור אליכם בהקדם לתיאום הביקור. (באב־הטיפוס הטופס אינו נשלח.)</p>
+        </div>
+        <form class="nh-form" data-validate action="#" method="post" aria-labelledby="visit-title">
+          <div class="nh-alert nh-alert--error" data-error-summary tabindex="-1" hidden>
+            <h3>נמצאו שגיאות בטופס:</h3>
+            <ul></ul>
+          </div>
+          <p class="nh-form__note">שדות המסומנים ב־<span aria-hidden="true">*</span><span class="nh-sr-only">כוכבית</span> הם שדות חובה.</p>
+          <div class="nh-form__row nh-form__row--2">
+            <div class="nh-field">
+              <label class="nh-label" for="v-name">שם מלא <span class="nh-req" aria-hidden="true">*</span></label>
+              <input class="nh-input" id="v-name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div class="nh-field">
+              <label class="nh-label" for="v-phone">טלפון <span class="nh-req" aria-hidden="true">*</span></label>
+              <input class="nh-input" id="v-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" required>
+            </div>
+          </div>
+          <div class="nh-form__row nh-form__row--2">
+            <div class="nh-field">
+              <label class="nh-label" for="v-email">דוא״ל</label>
+              <input class="nh-input" id="v-email" name="email" type="email" autocomplete="email" dir="ltr">
+            </div>
+            <div class="nh-field">
+              <label class="nh-label" for="v-role">הקשר שלכם</label>
+              <select class="nh-select" id="v-role" name="role">
+                <option value="">בחירה…</option>
+                <option>הורה או בן/בת משפחה</option>
+                <option>אפוטרופוס/ית</option>
+                <option>עובד/ת סוציאלי/ת או גורם מפנה</option>
+                <option>אחר</option>
+              </select>
+            </div>
+          </div>
+          <div class="nh-field">
+            <label class="nh-label" for="v-msg">משהו שחשוב לנו לדעת?</label>
+            <textarea class="nh-textarea" id="v-msg" name="message" aria-describedby="v-msg-hint"></textarea>
+            <p class="nh-hint" id="v-msg-hint">אין צורך לפרט כאן מידע רפואי. נדבר על הכול בשיחה.</p>
+          </div>
+          <div class="nh-hp" aria-hidden="true"><label for="v-website">אתר</label><input id="v-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <div class="nh-check">
+            <input id="v-consent" name="consent" type="checkbox" required>
+            <label for="v-consent">קראתי את <a href="#privacy">מדיניות הפרטיות</a> ואני מסכים/ה שתיצרו איתי קשר בנוגע לפנייה. <span class="nh-req" aria-hidden="true">*</span></label>
+          </div>
+          <p class="nh-form__note">מסירת הפרטים אינה חובה לפי חוק, אך בלעדיהם לא נוכל לחזור אליכם. הפרטים ישמשו רק לתיאום הביקור ולמענה לפנייה, יישמרו במאגר המידע של נוה האירוס בע״מ ולא יועברו לגורם אחר. ניתן לבקש לעיין במידע ולתקנו. <span class="nh-sr-only">(נוסח טיוטה לבדיקת עורך דין)</span></p>
+          <div><button class="nh-btn nh-btn--primary" type="submit">שליחת הפנייה<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></button></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+{{> footer}}
+{{> lightbox}}
+</body>
+</html>

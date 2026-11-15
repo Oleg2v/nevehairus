@@ -1,0 +1,57 @@
+<a class="nh-skip" href="#main">דילוג לתוכן הראשי</a>
+{{> cookies}}
+<header class="nh-header">
+  <div class="nh-container nh-header__inner">
+    <a class="nh-logo" href="index.html" aria-label="מעון נווה האירוס — לדף הבית">
+      <img src="assets/img/logo-temp.png" width="159" height="123" alt="">
+    </a>
+    <nav class="nh-nav" aria-label="ראשי">
+      <ul role="list">
+        <li><a href="index.html#about" {{current:about}}>מי אנחנו</a></li>
+        <li><a href="index.html#programs" {{current:programs}}>מסגרות המגורים</a></li>
+        <li><a href="index.html#life" {{current:life}}>החיים אצלנו</a></li>
+        <li><a href="index.html#jobs" {{current:jobs}}>דרושים</a></li>
+        <li><a href="index.html#contact" {{current:contact}}>צור קשר</a></li>
+      </ul>
+    </nav>
+    <div class="nh-header__actions">
+      <a class="nh-phone" href="tel:+97289403047" aria-label="טלפון: 08-9403047">
+        <svg aria-hidden="true" focusable="false"><use href="#i-phone"/></svg>
+        <span class="nh-phone__num nh-ltr">08-9403047</span>
+      </a>
+      <a class="nh-btn nh-btn--primary nh-btn--sm" href="index.html#contact">תיאום ביקור</a>
+      <button class="nh-menu-btn" type="button" data-menu-open aria-haspopup="dialog" aria-expanded="false" aria-controls="nh-menu">
+        <svg aria-hidden="true" focusable="false"><use href="#i-menu"/></svg>
+        <span class="nh-sr-only">תפריט</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<dialog class="nh-menu" id="nh-menu" aria-label="תפריט">
+  <div class="nh-menu__inner">
+    <div class="nh-menu__top">
+      <span class="nh-display" style="font-size:1.5rem">נווה האירוס</span>
+      <button class="nh-menu__close" type="button" data-menu-close>
+        <svg aria-hidden="true" focusable="false"><use href="#i-close"/></svg>
+        <span class="nh-sr-only">סגירת התפריט</span>
+      </button>
+    </div>
+    <nav aria-label="ראשי">
+      <ul role="list">
+        <li><a href="index.html#about">מי אנחנו</a></li>
+        <li><a href="index.html#programs">מסגרות המגורים</a></li>
+        <li><a href="index.html#life">החיים אצלנו</a></li>
+        <li><a href="index.html#jobs">דרושים</a></li>
+        <li><a href="index.html#contact">צור קשר</a></li>
+      </ul>
+    </nav>
+    <div class="nh-menu__meta">
+      <a class="nh-btn nh-btn--light" href="index.html#contact">תיאום ביקור</a>
+      <a href="tel:+97289403047">טלפון: <span class="nh-ltr">08-9403047</span></a>
+      <div><button class="nh-motion-toggle" type="button" data-motion-toggle aria-pressed="false">
+        <svg aria-hidden="true" focusable="false"><use href="#i-pause"/></svg>הפחתת תנועה באתר
+      </button></div>
+    </div>
+  </div>
+</dialog>

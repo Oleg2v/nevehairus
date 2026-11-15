@@ -72,8 +72,17 @@ def build(src):
         tag = re.sub(r' (srcset|sizes)="[^"]*"', "", tag)
         return re.sub(r'src="assets/img/[^"]+"', 'src="' + photo(hit.group(1)) + '"', tag)
     s = re.sub(r"<img [^>]*>", one_photo, s)
-    s = re.sub(r'data-full="assets/img/([\w-]+?)-\d+\.webp"', lambda m: 'data-full="' + photo(m.group(1), 1440) + '"', s)
     s = re.sub(r' data-srcset="[^"]*"', "", s)
+
+    def lightbox(m):
+        # one inlined file for the lightbox; when it is smaller than 1440 px, a srcset entry with its width lets
+        # the lightbox scale it to the screen like the original does (a data: URL has no spaces, so it is a valid
+        # srcset candidate)
+        name = m.group(1)
+        w = max([x for x in manifest[name]["widths"] if x <= 1440] or manifest[name]["widths"][:1])
+        uri = photo(name, 1440)
+        return f'data-full="{uri}"' + (f' data-srcset="{uri} {w}w"' if w < 1440 else "")
+    s = re.sub(r'data-full="assets/img/([\w-]+?)-\d+\.webp"', lightbox, s)
     for a, b in PAGES.items():
         s = s.replace(f'href="{a}', f'href="{b}')
     works = re.search(r'<script type="application/json" id="nh-works">(.*?)</script>', s)

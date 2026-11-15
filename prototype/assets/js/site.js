@@ -72,6 +72,58 @@
     onScroll();
   }
 
+  /* ---------- 2b. Header theme follows the section beneath it ------------- */
+  const themed = d.querySelectorAll("[data-header]");
+  if (header && themed.length) {
+    const probe = () => {
+      const y = header.getBoundingClientRect().bottom - 6;
+      let theme = "light";
+      for (const s of themed) {
+        const b = s.getBoundingClientRect();
+        if (b.top <= y && b.bottom > y) { theme = s.dataset.header; break; }
+      }
+      if (header.dataset.theme !== theme) header.dataset.theme = theme;
+    };
+    let tk = false;
+    window.addEventListener("scroll", () => {
+      if (tk) return; tk = true;
+      requestAnimationFrame(() => { probe(); tk = false; });
+    }, { passive: true });
+    window.addEventListener("resize", probe);
+    probe();
+    window.nhUpdateHeaderTheme = probe;
+  }
+
+  /* ---------- 2c. Colour = life: photos bloom from duotone to colour ------- */
+  const colourEls = d.querySelectorAll("[data-colour]");
+  if (prefersReduced() || !("IntersectionObserver" in window)) {
+    colourEls.forEach((el) => el.classList.add("is-colour"));
+  } else {
+    const cio = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add("is-colour"); cio.unobserve(e.target); }
+    }), { threshold: 0.45 });
+    colourEls.forEach((el) => cio.observe(el));
+  }
+
+  /* ---------- 2d. Mobile visit bar: after the first screen, hidden near the
+     contact form and the footer (never covers the thing you are reading) --- */
+  const bar = d.querySelector("[data-bar]");
+  if (bar) {
+    const own = d.getElementById("visit");
+    const cta = bar.querySelector("[data-bar-cta]");
+    if (own && cta) cta.setAttribute("href", "#visit");
+    const zones = [d.getElementById("contact"), own, d.querySelector(".nh-footer")].filter(Boolean);
+    const inView = (el) => { const b = el.getBoundingClientRect(); return b.top < window.innerHeight && b.bottom > 0; };
+    let bt = false;
+    const upd = () => {
+      const on = window.scrollY > window.innerHeight * 0.9 && !zones.some(inView);
+      bar.classList.toggle("is-on", on);
+      html.classList.toggle("nh-has-bar", on);
+    };
+    window.addEventListener("scroll", () => { if (bt) return; bt = true; requestAnimationFrame(() => { upd(); bt = false; }); }, { passive: true });
+    upd();
+  }
+
   /* ---------- 3. Mobile menu --------------------------------------------- */
   const menu = d.getElementById("nh-menu");
   const menuBtn = d.querySelector("[data-menu-open]");

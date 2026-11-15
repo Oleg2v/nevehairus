@@ -20,7 +20,7 @@
     var osReduce = w.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
     w.nhLoadMotion = function () {
       if (started) return; started = true;
-      var q = ["assets/vendor/gsap/gsap.min.js", "assets/vendor/gsap/ScrollTrigger.min.js", "assets/js/motion.js"];
+      var q = ["assets/vendor/gsap/gsap.min.js", "assets/vendor/gsap/ScrollTrigger.min.js", "assets/vendor/gsap/SplitText.min.js", "assets/js/motion.js"];
       (function next() {
         if (!q.length) return;
         var s = d.createElement("script"); s.src = q.shift(); s.onload = next;

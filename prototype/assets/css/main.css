@@ -140,7 +140,7 @@ strong { font-weight: 700; }
 
 /* ---------- Header -------------------------------------------------------- */
 .nh-header {
-  position: sticky; top: 0; z-index: 50;
+  position: fixed; top: 0; inset-inline: 0; z-index: 50;
   background: rgb(247 241 231 / .9);
   -webkit-backdrop-filter: saturate(1.3) blur(12px); backdrop-filter: saturate(1.3) blur(12px);
   transition: box-shadow var(--nh-dur-2) ease;
@@ -198,7 +198,7 @@ strong { font-weight: 700; }
   font-family: var(--nh-font-display); font-size: clamp(2rem, 8vw, 3rem); line-height: 1.15;
 }
 .nh-menu__meta { margin-block-start: auto; display: grid; gap: var(--nh-s-3); color: var(--nh-on-night-2); }
-.nh-menu__meta a { color: var(--nh-citrus-400); }
+.nh-menu__meta a:not(.nh-btn) { color: var(--nh-citrus-400); }
 
 /* Motion toggle (user preference, in addition to the OS setting) */
 .nh-motion-toggle {
@@ -525,7 +525,7 @@ strong { font-weight: 700; }
 .nh-crumbs [aria-current="page"] { color: var(--nh-ink); }
 
 /* ---------- Inner page ------------------------------------------------------- */
-.nh-page-hero { padding-block: var(--nh-s-6) var(--nh-section); }
+.nh-page-hero { padding-block: calc(4.75rem + var(--nh-s-6)) var(--nh-section); }
 .nh-page-hero__grid { display: grid; gap: var(--nh-s-8); align-items: end; margin-block-start: var(--nh-s-7); }
 @media (min-width: 1024px) { .nh-page-hero__grid { grid-template-columns: 7fr 5fr; } }
 .nh-page-hero h1 { font-size: var(--nh-fs-h1); line-height: 1.02; margin-block: var(--nh-s-4) var(--nh-s-5); }

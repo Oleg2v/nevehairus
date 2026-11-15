@@ -1,0 +1,18 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>body{margin:0;background:#1C1830}.row{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:24px}canvas{width:100%;height:520px;display:block;border-radius:24px}</style></head><body>
+<div class="row"><canvas id="a"></canvas><canvas id="b"></canvas></div>
+<div class="row"><canvas id="c"></canvas><canvas id="d2"></canvas></div>
+<script src="mosaic.js"></script>
+<script>
+(async function(){
+  await document.fonts.load('900 300px "Frank Ruhl Libre"','בית לחיים');
+  const {Mosaic,cellsFromText,cellsFromImage}=NHMosaic;
+  const mk=(id,o)=>{const m=new Mosaic(document.getElementById(id),o);m.size();return m;};
+  const a=mk('a',{seed:3,grout:'#E9E2D6',radius:0.18}); a.set(cellsFromText(a.W,a.H,{text:'בית',family:'"Frank Ruhl Libre"',weight:900,tile:6.5,gap:1.6,fontSize:a.H*1.05,accentShare:0.38}),'static'); a.still();
+  const b=mk('b',{seed:5,grout:'#1C1830',radius:0.18}); b.set(cellsFromText(b.W,b.H,{text:'בית',family:'"Frank Ruhl Libre"',weight:900,tile:5,gap:1.4,fontSize:b.H*1.05,accentShare:0.5}),'static'); b.still();
+  const c=mk('c',{seed:9,grout:'#D9D1C3',radius:0.2}); const img2=new Image(); img2.src='../assets/img/sky-ceiling-768.webp'; await img2.decode();
+  c.set(cellsFromImage(img2,c.W,c.H,{tile:9,gap:2}),'static'); c.still();
+  const e=mk('d2',{seed:2,grout:'#1C1830',radius:0.18}); e.set(cellsFromText(e.W,e.H,{text:'לחיים',family:'"Frank Ruhl Libre"',weight:800,tile:4.5,gap:1.3,fontSize:e.H*0.85,accentShare:0.45}),'static'); e.still();
+})();
+</script></body></html>

@@ -1,0 +1,9 @@
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>body{margin:0;background:#1C1830}.row{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:24px}canvas{width:100%;aspect-ratio:1;display:block;border-radius:50%}</style></head><body>
+<div class="row"><canvas id="a"></canvas><canvas id="b"></canvas></div>
+<script src="mosaic.js"></script>
+<script>
+const {Mosaic,cellsMandala}=NHMosaic;
+const a=new Mosaic(document.getElementById('a'),{seed:3,grout:'#D8D0C2',radius:0.14,rotJitter:6}); a.size(); a.set(cellsMandala(a.W,a.H,{tile:13,gap:2.2}),'static'); a.still();
+const b=new Mosaic(document.getElementById('b'),{seed:5,grout:'#2B2647',radius:0.14,rotJitter:6}); b.size(); b.set(cellsMandala(b.W,b.H,{tile:9,gap:1.8}),'static'); b.spin=0.4; b.still();
+</script></body></html>

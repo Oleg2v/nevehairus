@@ -14,7 +14,7 @@
 <main id="main" tabindex="-1">
   <section class="nh-page-hero" aria-labelledby="ds-title">
     <div class="nh-container">
-      <p class="nh-eyebrow">מערכת עיצוב · גרסה 0.1 · אב־טיפוס</p>
+      <p class="nh-eyebrow">מערכת עיצוב · גרסה 0.2 · אב־טיפוס</p>
       <h1 id="ds-title">„בית לחיים”</h1>
       <p class="nh-lead">חם, מכובד ומלא חיים. נייר חם, דיו כהה, סגול האירוס מהלוגו, וגוונים מעבודות הפסיפס של הדיירים. כל צירוף צבעים לטקסט נבדק מול WCAG ברמה AA (ת״י 5568).</p>
     </div>
@@ -23,6 +23,8 @@
   <nav class="nh-ds-nav" aria-label="מערכת העיצוב — תוכן העניינים">
     <div class="nh-container">
       <ul role="list">
+        <li><a href="#v2">גרסה 2</a></li>
+        <li><a href="#v2-components">רכיבי v2</a></li>
         <li><a href="#colors">צבעים</a></li>
         <li><a href="#contrast">ניגודיות</a></li>
         <li><a href="#type">טיפוגרפיה</a></li>
@@ -33,6 +35,65 @@
       </ul>
     </div>
   </nav>
+
+
+  <!-- V2 ART DIRECTION ===================================================== -->
+  <section class="nh-section nh-section--night" id="v2" data-header="dark" aria-labelledby="v2-title">
+    <div class="nh-container nh-stack">
+      <p class="v2-label">גרסה 2 · כיוון אמנותי</p>
+      <h2 class="v2-h2" id="v2-title">ב׳ — <em>בית.</em></h2>
+      <p class="v2-lead">האות ב׳ נולדה מציור של בית. ארבעה רעיונות מחזיקים את האתר:</p>
+      <ol class="v2-steps" role="list">
+        <li><span class="v2-steps__n" aria-hidden="true">01</span><h3>נכנסים הביתה דרך האות</h3><p>ב׳ ענקית שבתוכה תקרת „השמיים” של האגף החדש. בגלילה נכנסים לתוך האות — אל תוך הבית.</p></li>
+        <li><span class="v2-steps__n" aria-hidden="true">02</span><h3>צבע = חיים</h3><p>התמונות נחות בדו־גוון חם ופורחות לצבע מלא כשהן נכנסות לתמונה.</p></li>
+        <li><span class="v2-steps__n" aria-hidden="true">03</span><h3>הפסיפס של הדיירים</h3><p>המנדלה האמיתית של הדיירים, חתוכה לטבעות שמסתובבות בגלילה ו„ננעלות” למקור.</p></li>
+        <li><span class="v2-steps__n" aria-hidden="true">04</span><h3>יום שלם</h3><p>קטע אחד שבו השמיים עוברים מבוקר לערב, והשמש נעה על קשת — מימין לשמאל, כמו הקריאה.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- V2 COMPONENTS ========================================================== -->
+  <section class="nh-section" id="v2-components" aria-labelledby="v2c-title">
+    <div class="nh-container nh-stack">
+      <h2 class="nh-h2" id="v2c-title">רכיבי גרסה 2</h2>
+      <p class="nh-muted">שלושה רגיסטרים טיפוגרפיים: פוסטר (Frank Ruhl 300, עד 15rem), כותרת עריכה (400, עד 6.25rem), ותווית (Assistant 700, 14px, ריווח 0.08em).</p>
+      <div class="nh-ds-scale">
+        <div><small dir="ltr">--v2-giant · clamp(72px → 240px) · Frank Ruhl 300 · lh .78</small><span class="v2-year__num" style="background-position:0 100%">1957</span></div>
+        <div><small dir="ltr">--v2-h2 · clamp(42px → 100px) · Frank Ruhl 400 · lh .98</small><span class="v2-h2">שלושה בתים. <em>משפחה אחת.</em></span></div>
+        <div><small dir="ltr">.v2-label · Assistant 700 · 14px · tracking .08em</small><span class="v2-label"><span class="v2-num">01</span> מסגרות המגורים</span></div>
+      </div>
+
+      <div class="nh-ds-grid nh-ds-grid--2" style="margin-block-start:2rem">
+        <div class="nh-ds-box nh-stack">
+          <h3 class="nh-h3">בחירת מסגרת (fit check)</h3>
+          <nav class="v2-fit" aria-label="דוגמה — האם זה המקום בשבילנו?"><ul role="list"><li><a href="#v2-components"><span>01</span>בוגרים ובוגרות</a></li><li><a href="#v2-components"><span>03</span>צעירים על הרצף</a></li></ul></nav>
+          <h3 class="nh-h3">מספרים</h3>
+          <ul class="v2-stats" role="list" style="grid-template-columns:repeat(2,1fr)"><li><b>2</b><span>יחידות ניהול</span></li><li><b>1957</b><span>שנת הקמה</span></li></ul>
+        </div>
+        <div class="nh-ds-box nh-stack">
+          <h3 class="nh-h3">צבע = חיים</h3>
+          <p class="nh-muted nh-small">דו־גוון במנוחה (grayscale + sepia + גוון soft-light), צבע מלא בכניסה לתמונה או בריחוף. במצב „הפחתת תנועה” — צבע מלא מיד.</p>
+          <div style="display:flex;gap:1rem">
+            <figure class="v2-year__media v2-duo" style="inline-size:9rem;margin:0">{{pic name="orchard-walk" sizes="9rem" decorative="1"}}</figure>
+            <figure class="v2-year__media v2-duo is-colour" style="inline-size:9rem;margin:0">{{pic name="orchard-walk" sizes="9rem" decorative="1"}}</figure>
+          </div>
+        </div>
+      </div>
+
+      <ul class="v2-bento" role="list" style="margin-block-start:1rem">
+        <li class="v2-tile v2-tile--iris"><svg aria-hidden="true" focusable="false"><use href="#i-sparkle"/></svg><h3>אריח איריס</h3><p>טקסט לבן על אירוס — 10.5:1.</p></li>
+        <li class="v2-tile v2-tile--citrus"><svg aria-hidden="true" focusable="false"><use href="#i-clinic"/></svg><h3>אריח הדר</h3><p>דיו על הדר — 8.47:1.</p></li>
+        <li class="v2-tile v2-tile--sky"><svg aria-hidden="true" focusable="false"><use href="#i-leaf"/></svg><h3>אריח שמיים</h3><p>דיו על שמיים — 12.3:1.</p></li>
+        <li class="v2-tile v2-tile--olive"><svg aria-hidden="true" focusable="false"><use href="#i-palette"/></svg><h3>אריח זית</h3><p>נייר על זית.</p></li>
+        <li class="v2-tile v2-tile--paper"><svg aria-hidden="true" focusable="false"><use href="#i-cup"/></svg><h3>אריח נייר</h3><p>דיו על לבן.</p></li>
+        <li class="v2-tile v2-tile--night"><svg aria-hidden="true" focusable="false"><use href="#i-steps"/></svg><h3>אריח לילה</h3><p>נייר על לילה — 15.3:1.</p></li>
+      </ul>
+
+      <ul class="v2-links" role="list" style="margin-block-start:2rem">
+        <li><a href="#v2-components"><b>שורת קישור גדולה</b><span>ריחוף ופוקוס ממלאים את השורה מימין לשמאל.</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
+      </ul>
+    </div>
+  </section>
 
   <!-- COLORS ================================================================ -->
   <section class="nh-section" id="colors" aria-labelledby="colors-title">
@@ -81,6 +142,14 @@
             <tr data-fg="--nh-paper" data-bg="--nh-night" data-kind="text" data-use="טקסט במקטע כהה"></tr>
             <tr data-fg="--nh-on-night-2" data-bg="--nh-night" data-kind="text" data-use="טקסט משני במקטע כהה"></tr>
             <tr data-fg="--nh-citrus-400" data-bg="--nh-night" data-kind="text" data-use="קישורים במקטע כהה"></tr>
+            <tr data-fg="--nh-paper" data-bg="--nh-olive-700" data-kind="text" data-use="v2: «בשפה פשוטה», כרטיס 02"></tr>
+            <tr data-fg="--nh-citrus-100" data-bg="--nh-olive-700" data-kind="text" data-use="v2: קישור בפס השפה הפשוטה"></tr>
+            <tr data-fg="--nh-clay-700" data-bg="--nh-paper-2" data-kind="text" data-use="v2: כותרות־על על רקע חול"></tr>
+            <tr data-fg="--nh-ink" data-bg="--v2-dawn" data-kind="text" data-use="v2: «יום» — בוקר"></tr>
+            <tr data-fg="--nh-ink" data-bg="--v2-noon" data-kind="text" data-use="v2: «יום» — צהריים"></tr>
+            <tr data-fg="--nh-ink" data-bg="--v2-golden" data-kind="text" data-use="v2: «יום» — אחר הצהריים"></tr>
+            <tr data-fg="--nh-paper" data-bg="--v2-dusk" data-kind="text" data-use="v2: «יום» — ערב"></tr>
+            <tr data-fg="--nh-iris-700" data-bg="--v2-dawn" data-kind="text" data-use="v2: הדגשה בכותרת «יום»"></tr>
             <tr data-fg="--nh-field" data-bg="--nh-white" data-kind="ui" data-use="מסגרת שדה טופס"></tr>
             <tr data-fg="--nh-iris-700" data-bg="--nh-paper" data-kind="ui" data-use="טבעת פוקוס"></tr>
             <tr data-fg="--nh-citrus-400" data-bg="--nh-night" data-kind="ui" data-use="טבעת פוקוס על כהה"></tr>
@@ -101,7 +170,7 @@
         <div><small dir="ltr">--nh-fs-h2 · 34 → 62px · lh 1.08</small><span class="nh-display nh-h2">שלוש מסגרות. בית אחד.</span></div>
         <div><small dir="ltr">--nh-fs-h3 · 24 → 36px · lh 1.18</small><span class="nh-display nh-h3">החיים קורים כאן כל יום</span></div>
         <div><small dir="ltr">--nh-fs-h4 · 20 → 24px · Frank Ruhl 600</small><span class="nh-display" style="font-size:var(--nh-fs-h4);font-weight:600">חוג טיפול בכלבים</span></div>
-        <div><small dir="ltr">--nh-fs-lead · 20 → 26px · Assistant 400 · lh 1.55</small><span class="nh-lead">בית חם לאנשים עם מוגבלות שכלית התפתחותית — עם יחס אישי, צוות מקצועי, עשייה ופנאי.</span></div>
+        <div><small dir="ltr">--nh-fs-lead · 20 → 26px · Assistant 400 · lh 1.55</small><span class="nh-lead">בית לאנשים עם מוגבלות שכלית התפתחותית: צוות קבוע, עשייה, פנאי — ומשפחה שתמיד מוזמנת.</span></div>
         <div><small dir="ltr">--nh-fs-body · 17 → 19px · Assistant 400 · lh 1.68 · max 62ch</small><span>הדרך הטובה ביותר להכיר בית היא לבקר בו. נשמח לארח אתכם למפגש היכרות, לענות על כל שאלה ולהראות לכם את המקום.</span></div>
         <div><small dir="ltr">--nh-fs-small · 15px · labels, captions (min. size for text)</small><span class="nh-small">תמונה זמנית מתוך האתר הקיים.</span></div>
         <div><small dir="ltr">eyebrow · Assistant 700 · 16px · clay</small><span class="nh-eyebrow">כותרת־על</span></div>

@@ -33,6 +33,11 @@ TOKENS = {
     "on-night-2": "#CFC8DE",
     "field-border": "#857A6B",
     "error": "#A8261B",
+    # v2 «ב׳ — בית»: day colour script (top colour of each moment)
+    "v2-dawn": "#F6CFAE",
+    "v2-noon": "#A9CFEA",
+    "v2-golden": "#F0C17E",
+    "v2-dusk": "#2B2647",
 }
 
 # (foreground, background, kind, usage)
@@ -63,6 +68,17 @@ PAIRS = [
     ("iris-700", "paper", "ui", "Кольцо фокуса на светлом (2.4.7/1.4.11)"),
     ("citrus-400", "night", "ui", "Кольцо фокуса в тёмной секции"),
     ("iris-700", "white", "ui", "Кольцо фокуса на белом"),
+    # v2
+    ("paper", "olive-700", "text", "v2: блок «בשפה פשוטה», карточка 02"),
+    ("citrus-100", "olive-700", "text", "v2: ссылка в блоке простого языка"),
+    ("clay-700", "paper-2", "text", "v2: надзаголовки на песочном фоне"),
+    ("ink", "v2-dawn", "text", "v2: «день», утро"),
+    ("ink", "v2-noon", "text", "v2: «день», полдень"),
+    ("ink", "v2-golden", "text", "v2: «день», после обеда"),
+    ("paper", "v2-dusk", "text", "v2: «день», вечер"),
+    ("iris-700", "v2-dawn", "text", "v2: акцент в заголовке «дня»"),
+    ("citrus-400", "iris-700", "text", "v2: надзаголовок и акцент в CTA «בואו להכיר»"),
+    ("ink", "citrus-400", "text", "v2: бегущая лента ценностей, кнопка CTA"),
 ]
 
 

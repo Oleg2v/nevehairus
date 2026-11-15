@@ -2,8 +2,8 @@
 {{> cookies}}
 <header class="nh-header">
   <div class="nh-container nh-header__inner">
-    <a class="nh-logo" href="index.html" aria-label="מעון נווה האירוס — לדף הבית">
-      <img src="assets/img/logo-temp.png" width="159" height="123" alt="">
+    <a class="nh-logo" href="index.html">
+      <span class="nh-wordmark"><small>מעון</small> נווה האירוס</span><span class="nh-sr-only"> — לדף הבית</span>
     </a>
     <nav class="nh-nav" aria-label="ראשי">
       <ul role="list">
@@ -15,6 +15,10 @@
       </ul>
     </nav>
     <div class="nh-header__actions">
+      <button class="nh-motion-toggle nh-motion-toggle--icon" type="button" data-motion-toggle aria-pressed="false" title="הפחתת תנועה באתר">
+        <svg aria-hidden="true" focusable="false"><use href="#i-pause"/></svg>
+        <span class="nh-sr-only">הפחתת תנועה באתר</span>
+      </button>
       <a class="nh-phone" href="tel:+97289403047" aria-label="טלפון: 08-9403047">
         <svg aria-hidden="true" focusable="false"><use href="#i-phone"/></svg>
         <span class="nh-phone__num nh-ltr">08-9403047</span>

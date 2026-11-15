@@ -281,8 +281,8 @@ main { counter-reset: print; }
 .v3-room__work { position: absolute; left: var(--wl); top: var(--wt); width: var(--ww); height: var(--wh); }
 .v3-room__work img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
 .v3-room__work .v3-rings { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; pointer-events: none; }
-.v3-rings circle { fill: none; stroke: var(--nh-citrus-400); stroke-width: .7; opacity: 0; transition: opacity .3s ease; filter: drop-shadow(0 0 .35px var(--nh-night)) drop-shadow(0 0 .35px var(--nh-night)); }
-.v3-glint { position: absolute; left: var(--wcx); top: var(--wcy); inline-size: 27.2%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; overflow: hidden; pointer-events: none; }
+.v3-rings circle { fill: none; stroke: var(--nh-citrus-400); stroke-width: 23; opacity: 0; transition: opacity .3s ease; filter: drop-shadow(0 0 .6px var(--nh-night)) drop-shadow(0 0 .6px var(--nh-night)); }
+.v3-glint { position: absolute; left: var(--wcx); top: var(--wcy); inline-size: 24.5%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; overflow: hidden; pointer-events: none; }
 .v3-glint::before { content: ""; position: absolute; inset: -20% -80%; background: linear-gradient(100deg, transparent 40%, rgb(255 252 240 / .55) 50%, transparent 60%); transform: translateX(80%); opacity: 0; }
 @media (prefers-reduced-motion: no-preference) {
   html:not(.nh-reduce-motion):not(.nh-calm) .is-lit .v3-glint::before { animation: v3-glint 1.7s var(--nh-ease-in-out) 1 both .2s; }
@@ -341,7 +341,8 @@ main { counter-reset: print; }
 .v3-video-fig { margin: 0; }
 .v3-video { aspect-ratio: 1; border-radius: 0; background: var(--nh-night-2); }
 .v3-video picture { position: absolute; inset: 0; display: block; }
-.v3-video img { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; opacity: 1; }
+.v3-video img { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: 8% 50%; opacity: 1; }   /* all three owls and both hamsas stay whole */
+.v3-video .nh-video__consent { place-content: center; place-content: safe center; overflow-y: auto; }
 .v3-video .nh-video__play { background: none; }
 .v3-video .nh-video__icon { inline-size: 4.5rem; block-size: 4.5rem; border-radius: 2px; background: var(--nh-paper); color: var(--nh-ink); box-shadow: 0 0 0 1px rgb(28 24 48 / .3); }
 .v3-video .nh-video__play:hover .nh-video__icon, .v3-video .nh-video__play:focus-visible .nh-video__icon { background: var(--nh-citrus-400); transform: none; }
@@ -605,6 +606,7 @@ html.nh-reduce-motion .v3-roles svg, html.nh-reduce-motion .v3-home__arrow { tra
 @media (max-width: 69.99em) { .v2-bar { display: grid; } }
 .v2-bar.is-on { transform: none; visibility: visible; transition: transform .45s var(--nh-ease-out), visibility 0s; }
 html.nh-has-bar { scroll-padding-block-end: 6rem; }
+html.nh-has-cookies .v2-bar { display: none !important; }   /* while the cookie banner is up it would sit over the bar's buttons */
 @media (min-width: 70em) { html.nh-has-bar { scroll-padding-block-end: 0; } }
 
 /* ---------- Page transitions: the homes-index ב grows into the page cover ב ---------- */

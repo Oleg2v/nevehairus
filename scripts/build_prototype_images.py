@@ -61,11 +61,12 @@ IMAGES_V3 = {
     "v3-crafts":    ("1091", (0.0, 0.46, 1.0, 1.0), "שולחן עמוס עבודות פסיפס וקרמיקה על מפה צהובה ביום מכירה", "נחתך כך שלא יופיעו אנשים"),
     "v3-orchard":   ("519", None, "קבוצה צועדת בטיול בין עצי הדר", "מצולמים מאחור"),
     "v3-courtyard": ("244", None, "החצר במעון: עצים, ספסלים ומדרגות לבניין", ""),
-    # the residents' mandala, whole: a full-height square centred on its glass heart (bead at 3128,1659 in the
-    # 5312x2988 original). The source photo itself cuts the lowest row of tiles; we add no crop of our own.
-    "v3-mandala":   ("629", (1634 / 5312, 0.0, 4622 / 5312, 1.0),
+    # the residents' mandala, whole: full height, centred on its glass heart (bead at 3128,1659 in the 5312x2988
+    # original), wide enough for the whole work (x 1516-4595). The source photo itself lacks the bottom ~2.5 rows
+    # at the bottom centre; we add no crop of our own.
+    "v3-mandala":   ("629", (1473 / 5312, 0.0, 4783 / 5312, 1.0),
                      "מנדלה בפסיפס, עבודת יד של הדיירים: טבעות של אבן לבנה, אפורה ואדומה סביב לב של זכוכית צבעונית",
-                     "עבודת דיירים; מוצגת שלמה, בלי חיתוך שלנו (השורה התחתונה נחתכה כבר בצילום המקורי)"),
+                     "עבודת דיירים; בלי חיתוך שלנו. בצילום המקורי חסרים כ־2.5 שורות במרכז התחתון"),
 }
 
 

@@ -135,12 +135,14 @@ def letter_room(attrs):
         rl, rt = ux + uw * ins_t[3] / 100, uy + uh * ins_t[0] / 100
         rr, rb = ur - uw * ins_t[1] / 100, ub - uh * ins_t[2] / 100
         ecx, ecy, erx, ery = (rl + rr) / 2, (rt + rb) / 2, (rr - rl) / 2, (rb - rt) / 2
-        side = min(erx, ery) * 0.97 / wr
-        left, top = ecx - wcx * side, ecy - wcy * side
+        m = manifest[attrs["photo"]]
+        pw = min(erx, ery) * 0.97 / wr                    # wr, wcx: fractions of the photo's width
+        ph = pw * m["height"] / m["width"]                # wcy: fraction of its height
+        left, top = ecx - wcx * pw, min(ecy - wcy * ph, rt)   # the photo's top stays under the roof of the letter
         cr = 1.07   # the clip reaches a little under the ink, so no paper sliver shows between the photo and the letter
         style += (f'--clip:ellipse({erx * cr / uw * 100:.3f}% {ery * cr / uh * 100:.3f}% at {(ecx - ux) / uw * 100:.3f}% {(ecy - uy) / uh * 100:.3f}%);'
                   f'--wl:{(left - ux) / uw * 100:.3f}%;--wt:{(top - uy) / uh * 100:.3f}%;'
-                  f'--ww:{side / uw * 100:.3f}%;--wh:{side / uh * 100:.3f}%;--wcx:{wcx * 100:.2f}%;--wcy:{wcy * 100:.2f}%;')
+                  f'--ww:{pw / uw * 100:.3f}%;--wh:{ph / uh * 100:.3f}%;--wcx:{wcx * 100:.2f}%;--wcy:{wcy * 100:.2f}%;')
         extra_in = open(os.path.join(SRC, "partials", attrs["extra"] + ".html"), encoding="utf-8").read().strip() if attrs.get("extra") else ""
         inner = picture({"name": attrs["photo"], "sizes": attrs.get("sizes", "50vw"), "loading": "lazy",
                          "class": "v3-room__img", **({"alt": attrs["alt"]} if attrs.get("alt") else {}),

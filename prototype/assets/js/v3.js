@@ -4,9 +4,9 @@
       (reduced motion lives in site.js and is shared via "nh:motionchange")
    2. Display panel (a disclosure): Esc closes it and returns focus
    3. Running head: the masthead names the spread being read
-   4. Cover ב: weight 800 → 300 while the letter is pinned (desktop; 800 → 500 on phones,
-      over the first 40% of a screen), walls get thinner and the room grows. rAF, no layout
-      reads in the loop.
+   4. Cover ב: weight 800 → 300 while the letter is pinned (desktop); 800 → 500 elsewhere,
+      finished while the room is still ~80% on screen. Walls get thinner, the room grows.
+      rAF, no layout reads in the loop.
    5. Once, when seen: a glint across the mandala's glass heart, the door's lintel extends
    6. The palm (כ): choosing a work puts it in the palm
    7. Mobile visit bar steps aside while a form field is being filled in
@@ -139,7 +139,7 @@
       // pinned: t reaches 1 while the whole letter is still on screen; otherwise within 40% of a screen
       if (pinned && !cover.classList.contains("v3-cover--page")) range = Math.max(1, cover.offsetHeight - w.innerHeight);
       else {
-        // not pinned: finish while the room is still at least 70% visible under the masthead
+        // not pinned: finish while the room is still about 80% visible under the masthead
         const r = (room.querySelector(".v3-room__photo") || room).getBoundingClientRect(), mast = (d.querySelector(".nh-header") || { offsetHeight: 0 }).offsetHeight;
         range = Math.max(80, r.top + w.scrollY + r.height * 0.2 - mast);
       }

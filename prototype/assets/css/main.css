@@ -7,7 +7,10 @@
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-block-start: 6rem; }
-html.nh-has-cookies { scroll-padding-block-end: calc(var(--nh-cookie-h, 13rem) + 1rem); } /* 2.4.11 focus not obscured; height set by site.js */
+/* 2.4.11 focus not obscured: the banner's height (set by site.js) beats the visit bar's padding (v3.css html.nh-has-bar),
+   and while the banner shows, the footer gets room so its last links can scroll above it */
+html.nh-has-cookies, html.nh-has-cookies.nh-has-bar { scroll-padding-block-end: calc(var(--nh-cookie-h, 13rem) + 1rem); }
+html.nh-has-cookies .nh-footer { padding-block-end: calc(var(--nh-cookie-h, 13rem) + 2rem); }
 body {
   min-height: 100vh;
   background: var(--nh-bg);
@@ -32,7 +35,7 @@ h1, h2, h3, h4 { text-wrap: balance; overflow-wrap: break-word; }
 @media (prefers-reduced-motion: no-preference) {
   /* smooth only for in-page links (focus is inside the page); a link from another page lands at once */
   html:focus-within { scroll-behavior: smooth; }
-  html.nh-reduce-motion { scroll-behavior: auto; }
+  html.nh-reduce-motion, html.nh-calm { scroll-behavior: auto; }
   @view-transition { navigation: auto; }
 }
 
@@ -65,7 +68,7 @@ h1, h2, h3, .nh-display {
   font-family: var(--nh-font-display);
   font-weight: 500;
   line-height: var(--nh-lh-heading);
-  letter-spacing: -0.012em;
+  letter-spacing: 0;   /* Hebrew display type is not tightened (v3.1) */
 }
 h4 { font-family: var(--nh-font-display); font-weight: 600; font-size: var(--nh-fs-h4); line-height: 1.3; }
 .nh-h1 { font-size: var(--nh-fs-h1); line-height: 1.04; }
@@ -408,7 +411,8 @@ strong { font-weight: 700; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
 }
-html.nh-reduce-motion *, html.nh-reduce-motion *::before, html.nh-reduce-motion *::after {
+html.nh-reduce-motion *, html.nh-reduce-motion *::before, html.nh-reduce-motion *::after,
+html.nh-calm *, html.nh-calm *::before, html.nh-calm *::after {
   animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important;
 }
 

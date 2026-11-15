@@ -12,7 +12,7 @@
         <li><a href="index.html#homes" {{current:programs}}>מסגרות המגורים</a></li>
         <li><a href="index.html#day" {{current:life}}>החיים אצלנו</a></li>
         <li><a href="index.html#jobs" {{current:jobs}}>דרושים</a></li>
-        <li><a href="index.html#door" {{current:contact}}>צור קשר</a></li>
+        <li><a href="index.html#door" {{current:contact}}>יצירת קשר</a></li>
       </ul>
     </nav>
     <div class="nh-header__actions">
@@ -60,7 +60,7 @@
         <li><a href="index.html#homes">מסגרות המגורים</a></li>
         <li><a href="index.html#day">החיים אצלנו</a></li>
         <li><a href="index.html#jobs">דרושים</a></li>
-        <li><a href="index.html#door">צור קשר</a></li>
+        <li><a href="index.html#door">יצירת קשר</a></li>
       </ul>
     </nav>
     <div class="nh-menu__meta">
@@ -71,6 +71,8 @@
         <button type="button" class="v3-toggle" data-motion-toggle aria-pressed="false"><span>הפחתת תנועה</span><i aria-hidden="true"></i></button>
         <button type="button" class="v3-toggle" data-calm-toggle aria-pressed="false"><span>מצב רגוע</span><i aria-hidden="true"></i></button>
       </div>
+      <!-- a modal dialog makes the rest of the page inert, so the menu has its own live region -->
+      <p class="nh-sr-only" role="status" aria-live="polite" data-announce-menu></p>
     </div>
   </div>
 </dialog>

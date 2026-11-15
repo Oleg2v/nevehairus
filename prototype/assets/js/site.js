@@ -115,13 +115,21 @@
     const zones = [d.getElementById("contact"), d.getElementById("door"), own, d.querySelector(".nh-footer")].filter(Boolean);
     const inView = (el) => { const b = el.getBoundingClientRect(); return b.top < window.innerHeight && b.bottom > 0; };
     let bt = false;
+    // the bar appears once the page's own visit button (on the cover) has scrolled away; an observer
+    // tells us when, so nothing reads layout while the page is loading
+    const firstCta = d.querySelector(".v3-cover__cta a");
+    let ctaGone = false;
+    const passed = () => (firstCta && "IntersectionObserver" in window ? ctaGone : window.scrollY > window.innerHeight * 0.9);
     const upd = () => {
-      const on = window.scrollY > window.innerHeight * 0.9 && !zones.some(inView);
+      const on = passed() && !zones.some(inView);
       bar.classList.toggle("is-on", on);
       html.classList.toggle("nh-has-bar", on);
     };
-    window.addEventListener("scroll", () => { if (bt) return; bt = true; requestAnimationFrame(() => { upd(); bt = false; }); }, { passive: true });
-    upd();
+    const later = () => { if (bt) return; bt = true; requestAnimationFrame(() => { upd(); bt = false; }); };
+    window.addEventListener("scroll", later, { passive: true });
+    if (firstCta && "IntersectionObserver" in window) {
+      new IntersectionObserver(([e]) => { ctaGone = !e.isIntersecting && e.boundingClientRect.top < 0; later(); }).observe(firstCta);
+    } else later();
   }
 
   /* ---------- 3. Mobile menu --------------------------------------------- */
@@ -152,11 +160,23 @@
     store.set(CONSENT_KEY, JSON.stringify(rec));
     d.dispatchEvent(new CustomEvent("nh:consent", { detail: rec }));
   };
+  // the page keeps focus clear of the banner: scroll padding follows the banner's real height
+  // (measured by a ResizeObserver after layout, never forced while the page loads)
   const showBanner = () => { if (banner) { banner.hidden = false; html.classList.add("nh-has-cookies"); } };
   const hideBanner = () => { if (banner) { banner.hidden = true; html.classList.remove("nh-has-cookies"); } };
+  if (banner && "ResizeObserver" in window) new ResizeObserver(([e]) => {
+    const h = e.borderBoxSize && e.borderBoxSize[0] ? e.borderBoxSize[0].blockSize : banner.offsetHeight;
+    if (h) html.style.setProperty("--nh-cookie-h", Math.ceil(h) + "px");
+  }).observe(banner);
   if (banner) {
     if (!readConsent()) showBanner();
     const prefs = banner.querySelector(".nh-cookies__prefs");
+    const more = banner.querySelector("[data-cookie-more]");
+    if (more) more.addEventListener("click", () => {
+      const open = !banner.classList.contains("is-more");
+      banner.classList.toggle("is-more", open);
+      more.setAttribute("aria-expanded", String(open));
+    });
     banner.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-consent]");
       if (!btn) return;
@@ -175,8 +195,13 @@
       }
       saveConsent(c);
       hideBanner();
+      // focus goes back to the page (main has tabindex="-1"; if it cannot take focus, the page title can)
       const main = d.getElementById("main");
       if (main) main.focus({ preventScroll: true });
+      if (main && d.activeElement !== main) {
+        const h1 = d.querySelector("h1");
+        if (h1) { h1.setAttribute("tabindex", "-1"); h1.focus({ preventScroll: true }); }
+      }
     });
     d.querySelectorAll("[data-cookie-settings]").forEach((b) =>
       b.addEventListener("click", () => {
@@ -315,14 +340,15 @@
   const ICON_ERR =
     '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v6M12 16.5v.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
   const MSG = {
-    required: "זהו שדה חובה.",
-    email: "נא להזין כתובת דוא״ל תקינה, למשל name@example.com.",
-    tel: "נא להזין מספר טלפון תקין: 9 או 10 ספרות, מתחיל ב־0.",
-    consent: "כדי לשלוח את הטופס יש לאשר את מדיניות הפרטיות.",
+    required: "צריך למלא את השדה הזה.",
+    email: "כתובת הדוא״ל לא תקינה. למשל: name@example.com",
+    tel: "מספר הטלפון לא תקין: צריך 9 או 10 ספרות, ובהתחלה 0.",
+    consent: "צריך לסמן את התיבה כדי לשלוח.",
     fileSize: "הקובץ גדול מדי. הגודל המרבי הוא 5MB.",
     fileType: "ניתן לצרף קובץ PDF, DOC או DOCX בלבד.",
   };
   const labelText = (form, el) => {
+    if (el.dataset.errorLabel) return el.dataset.errorLabel;       // e.g. the consent box, whose label is a whole sentence
     const l = form.querySelector('label[for="' + el.id + '"]');
     return l ? l.textContent.replace("*", "").replace("(שדה חובה)", "").trim() : el.name;
   };

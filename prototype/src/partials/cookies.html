@@ -1,6 +1,16 @@
 <section class="nh-cookies" id="nh-cookies" aria-labelledby="nh-cookies-title" hidden>
   <h2 id="nh-cookies-title" tabindex="-1">עוגיות באתר</h2>
-  <p>אנחנו משתמשים בעוגיות הכרחיות כדי שהאתר יעבוד. עוגיות סטטיסטיקה ותוכן מוטמע (כמו סרטוני YouTube) יופעלו רק בהסכמתכם. אפשר לשנות את הבחירה בכל עת. <a href="#privacy">מדיניות הפרטיות</a></p>
+  <!-- on short or narrow screens the explanation folds behind «מה זה אומר?» so the banner never covers the page -->
+  <button class="nh-linkbtn nh-cookies__more" type="button" aria-expanded="false" aria-controls="nh-cookies-text" data-cookie-more>מה זה אומר?</button>
+  <div class="nh-cookies__text" id="nh-cookies-text">
+    <p class="v3-full">אנחנו משתמשים בעוגיות הכרחיות כדי שהאתר יעבוד. עוגיות סטטיסטיקה ותוכן מוטמע (כמו סרטוני YouTube) יופעלו רק בהסכמתכם. אפשר לשנות את הבחירה בכל עת. <a href="#privacy">מדיניות הפרטיות</a></p>
+    <div class="v3-plain">
+      <p>האתר שומר קבצים קטנים במחשב או בטלפון שלכם.</p>
+      <p>חלק מהקבצים חייבים, כדי שהאתר יעבוד.</p>
+      <p>את שאר הקבצים נשמור רק אם תסכימו.</p>
+      <p>אפשר לשנות את הבחירה מתי שרוצים. <a href="#privacy">מה עושים עם המידע?</a></p>
+    </div>
+  </div>
   <div class="nh-cookies__prefs" id="nh-cookie-prefs" hidden>
     <label class="nh-check"><input type="checkbox" checked disabled><span><b>הכרחיות</b> — פעילות תקינה של האתר ושמירת הבחירה שלכם. תמיד פעילות.</span></label>
     <label class="nh-check"><input type="checkbox" id="nh-c-stats"><span><b>סטטיסטיקה</b> — מדידת שימוש אנונימית, כדי לשפר את האתר.</span></label>

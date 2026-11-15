@@ -4,9 +4,10 @@
       (reduced motion lives in site.js and is shared via "nh:motionchange")
    2. Display panel (a disclosure): Esc closes it and returns focus
    3. Running head: the masthead names the spread being read
-   4. Cover ב: weight 800 → 300 with the scroll (desktop; 800 → 500 on phones),
-      walls get thinner and the room grows. rAF, no layout reads in the loop.
-   5. Once, when seen: a glint over the residents' mandala, the door opens
+   4. Cover ב: weight 800 → 300 while the letter is pinned (desktop; 800 → 500 on phones,
+      over the first 40% of a screen), walls get thinner and the room grows. rAF, no layout
+      reads in the loop.
+   5. Once, when seen: a glint across the mandala's glass heart, the door's lintel extends
    6. The palm (כ): choosing a work puts it in the palm
    7. Mobile visit bar steps aside while a form field is being filled in
    ========================================================================= */
@@ -20,19 +21,27 @@
   const osReduced = () => w.matchMedia && w.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const motionOK = () => !html.classList.contains("nh-reduce-motion") && !html.classList.contains("nh-calm") && !osReduced();
   const live = d.querySelector("[data-announce]");
-  const announce = (msg) => { if (!live) return; live.textContent = ""; setTimeout(() => { live.textContent = msg; }, 80); };
+  // an open modal dialog makes the rest of the page inert: speak from inside it
+  const announce = (msg) => {
+    const el = d.querySelector("dialog[open] [data-announce-menu]") || live;
+    if (!el) return;
+    el.textContent = ""; setTimeout(() => { el.textContent = msg; }, 80);
+  };
 
   /* ---------- 1. Plain language and calm mode ------------------------------ */
   const sync = () => {
     const plain = String(html.classList.contains("nh-plainmode")), calm = String(html.classList.contains("nh-calm"));
-    d.querySelectorAll("[data-plain-toggle]").forEach((b) => b.setAttribute("aria-pressed", plain));
+    // switches keep a constant label and say their state; the action button in the plain box changes its label instead
+    d.querySelectorAll("[data-plain-toggle]:not([data-plain-toggle='action'])").forEach((b) => b.setAttribute("aria-pressed", plain));
     d.querySelectorAll("[data-calm-toggle]").forEach((b) => b.setAttribute("aria-pressed", calm));
   };
-  // nobody loses their place: the spread at the top of the screen stays put
+  // nobody loses their place: the control that was used (or else the spread at the top of the screen) stays put
   const keepPlace = (change) => {
     const top = (d.querySelector(".nh-header") || { offsetHeight: 0 }).offsetHeight;
     let anchor = null, before = 0;
-    for (const s of d.querySelectorAll("main > section, footer")) {
+    const a = d.activeElement;
+    if (a && a !== d.body && a.closest("main, footer")) { anchor = a; before = a.getBoundingClientRect().top; }
+    else for (const s of d.querySelectorAll("main > section, footer")) {
       const r = s.getBoundingClientRect();
       if (r.bottom > top + 8) { anchor = s; before = r.top; break; }
     }
@@ -112,24 +121,28 @@
     };
     // the page cover starts lighter (its own --t, e.g. 0.4 = wght 600) and only gets lighter
     const t0 = parseFloat(getComputedStyle(room).getPropertyValue("--t")) || 0;
-    let last = -1, raf = 0, on = false, maxT = 1, range = 1;
+    let last = -1, raf = 0, on = false, maxT = 1, range = 1, measured = false;
     const measure = () => {
-      maxT = w.matchMedia("(min-width: 1024px)").matches ? 1 : 0.6;   // 800 → 300 / 800 → 500
-      range = Math.max(1, cover.offsetHeight * 0.7);
+      const wide = w.matchMedia("(min-width: 64em)").matches;
+      const pinned = wide && w.matchMedia("(min-height: 43.75em)").matches;   // the 150svh cover with a sticky ב (motion on)
+      maxT = wide ? 1 : 0.6;                                                    // 800 → 300 / 800 → 500
+      // pinned: t reaches 1 while the whole letter is still on screen; otherwise within 40% of a screen
+      range = Math.max(1, pinned && !cover.classList.contains("v3-cover--page") ? cover.offsetHeight - w.innerHeight : w.innerHeight * 0.4);
     };
     const paint = (t) => { ink.setAttribute("d", outline(t)); room.style.setProperty("--t", String(t)); };
     const frame = () => {
       raf = 0;
+      if (!measured) { measure(); measured = true; }                     // first read inside a frame, not at load
       const p = Math.min(1, Math.max(0, w.scrollY / range));
       const t = Math.round((t0 + (Math.max(t0, maxT) - t0) * p) * 200) / 200;
       if (t !== last) { last = t; paint(t); }
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(frame); };
     const start = () => {
-      if (on) return; on = true; measure();
+      if (on) return; on = true; measured = false;
       w.addEventListener("scroll", onScroll, { passive: true });
       w.addEventListener("resize", measure);
-      frame();
+      if (w.scrollY > 0) onScroll();                                     // at the top the letter is already at t0
     };
     const stop = () => {
       if (!on) return; on = false; last = -1;
@@ -154,7 +167,7 @@
     els.forEach((el) => io.observe(el));
   };
   once(".v3-samekh__art", "is-lit");
-  once(".v3-door__letter", "is-open", "0px 0px -15% 0px");
+  once(".v3-door__way", "is-open", "0px 0px -20% 0px");
 
   /* ---------- 6. The palm holds the chosen work ---------------------------------- */
   const worksData = d.getElementById("nh-works");
@@ -178,8 +191,10 @@
         if (img.complete) img.style.opacity = "";
       }, 300);
     };
+    const name = d.querySelector("[data-work-name]");                     // «בכף היד: …»
     d.querySelectorAll("[data-work]").forEach((b) => b.addEventListener("click", () => {
       d.querySelectorAll("[data-work]").forEach((o) => o.setAttribute("aria-pressed", String(o === b)));
+      if (name) name.textContent = b.textContent.trim();
       put(b.dataset.work);
     }));
   }

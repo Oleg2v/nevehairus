@@ -117,7 +117,28 @@ def letter_room(attrs):
     w = attrs.get("w", "800")
     t0 = (800 - float(w)) / 500
     pic = ""
-    if attrs.get("photo"):
+    if attrs.get("fit") == "whole" and attrs.get("photo"):
+        # A resident's work is shown whole, never cropped by us: the (square) photo is placed so the work's
+        # centre sits at the centre of the room at this weight, scaled so the work's outer radius fits the
+        # ellipse inscribed in the room; the room is clipped by that ellipse (the inset rectangle's corners
+        # would show outside a round letter). Rings and the glint render inside the same clip.
+        wcx, wcy, wr = (float(v) for v in attrs.get("work", "0.5 0.5 0.48").split())
+        ins_t = [a + (b - a) * t0 for a, b in zip(i8, i3)]                 # t r b l, % of the union box
+        rl, rt = ux + uw * ins_t[3] / 100, uy + uh * ins_t[0] / 100
+        rr, rb = ur - uw * ins_t[1] / 100, ub - uh * ins_t[2] / 100
+        ecx, ecy, erx, ery = (rl + rr) / 2, (rt + rb) / 2, (rr - rl) / 2, (rb - rt) / 2
+        side = min(erx, ery) * 0.97 / wr
+        left, top = ecx - wcx * side, ecy - wcy * side
+        style += (f'--clip:ellipse({erx / uw * 100:.3f}% {ery / uh * 100:.3f}% at {(ecx - ux) / uw * 100:.3f}% {(ecy - uy) / uh * 100:.3f}%);'
+                  f'--wl:{(left - ux) / uw * 100:.3f}%;--wt:{(top - uy) / uh * 100:.3f}%;'
+                  f'--ww:{side / uw * 100:.3f}%;--wh:{side / uh * 100:.3f}%;--wcx:{wcx * 100:.2f}%;--wcy:{wcy * 100:.2f}%;')
+        extra_in = open(os.path.join(SRC, "partials", attrs["extra"] + ".html"), encoding="utf-8").read().strip() if attrs.get("extra") else ""
+        inner = picture({"name": attrs["photo"], "sizes": attrs.get("sizes", "50vw"), "loading": "lazy",
+                         "class": "v3-room__img", **({"alt": attrs["alt"]} if attrs.get("alt") else {}),
+                         **({"decorative": "1"} if attrs.get("decorative") == "1" else {})})
+        pic = f'<div class="v3-room__photo v3-room__photo--whole"><div class="v3-room__work">{inner}{extra_in}</div></div>'
+        attrs = {**attrs, "extra": ""}
+    elif attrs.get("photo"):
         pic = picture({"name": attrs["photo"], "sizes": attrs.get("sizes", "50vw"),
                        "loading": "eager" if attrs.get("priority") == "high" else "lazy",
                        "priority": attrs.get("priority", ""), "class": "v3-room__photo",
@@ -130,6 +151,22 @@ def letter_room(attrs):
     extra = open(os.path.join(SRC, "partials", attrs["extra"] + ".html"), encoding="utf-8").read().strip() if attrs.get("extra") else ""
     return (f'<div class="v3-room v3-room--{name}{cls}" style="{style}--t:{t0:g};{vt}" data-room="{name}">'
             f'{pic}{letter_svg({"name": name, "w": w, "frame": attrs.get("frame", "800")})}{extra}</div>')
+
+
+def doorway(attrs):
+    """{{doorway}} -> the ד of the door spread, stretched across the spread like the scribes' wide letters:
+    its head (the end of the lintel and the leg) at the start, its flag at the far end, a bar between them
+    that grows once when the door opens, and the leg carried down to the floor of the spread.
+    Numbers are measured from Frank Ruhl Libre at wght 300 (letters.json, box x25 y180 w385 h584):
+    lintel y 216-302 and straight from x 80 to 300; leg x 315-359; flag up to y 180 at the far end."""
+    d = letters["dalet"]["300"]["d"]
+    svg = ('<svg class="v3-door__{cls}" viewBox="{vb}" preserveAspectRatio="none" aria-hidden="true" focusable="false">'
+           f'<path class="v3-letter__ink" d="{d}"/></svg>')
+    return ('<div class="v3-door__frame" aria-hidden="true" data-door>'
+            + svg.format(cls="head", vb="250 180 160 540")
+            + '<span class="v3-door__bar"></span>'
+            + svg.format(cls="cap", vb="25 180 75 122")
+            + '<span class="v3-door__leg"></span></div>')
 
 
 def letter_data(attrs):
@@ -168,6 +205,7 @@ def build_page(fname):
     text = re.sub(r"\{\{letterdata ([^}]*)\}\}", lambda m: letter_data(dict(ATTR.findall(m.group(1)))), text)
     text = re.sub(r"\{\{imgdata ([^}]*)\}\}", lambda m: img_data(dict(ATTR.findall(m.group(1)))), text)
     text = re.sub(r"\{\{letter ([^}]*)\}\}", lambda m: letter_svg(dict(ATTR.findall(m.group(1)))), text)
+    text = re.sub(r"\{\{doorway\}\}", lambda m: doorway({}), text)
     text = re.sub(
         r"\{\{srcset ([^}]*)\}\}",
         lambda m: ", ".join(

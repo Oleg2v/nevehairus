@@ -7,7 +7,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; }
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-block-start: 6rem; }
-html.nh-has-cookies { scroll-padding-block-end: 13rem; } /* 2.4.11 focus not obscured */
+html.nh-has-cookies { scroll-padding-block-end: calc(var(--nh-cookie-h, 13rem) + 1rem); } /* 2.4.11 focus not obscured; height set by site.js */
 body {
   min-height: 100vh;
   background: var(--nh-bg);
@@ -174,7 +174,7 @@ strong { font-weight: 700; }
 }
 .nh-menu-btn svg { inline-size: 1.4rem; block-size: 1.4rem; }
 .nh-header .nh-btn--primary { display: none; }
-@media (min-width: 1120px) {
+@media (min-width: 70em) {
   .nh-nav { display: block; }
   .nh-menu-btn { display: none; }
   .nh-header .nh-btn--primary { display: inline-flex; }
@@ -480,9 +480,18 @@ strong { font-weight: 700; }
   max-inline-size: 34rem; margin-inline-start: auto; /* sits at the inline-end (left) */
   background: var(--nh-white); color: var(--nh-ink); border-radius: var(--nh-r-lg); box-shadow: var(--nh-shadow-2);
   padding: var(--nh-s-5); display: grid; gap: var(--nh-s-4); border: 1px solid var(--nh-line);
+  max-block-size: calc(100dvh - 2rem); overflow-y: auto; overscroll-behavior: contain;
+}
+.nh-cookies__more { display: none; justify-self: start; min-block-size: 2.75rem; align-items: center; font-weight: 700; color: var(--nh-iris-700); text-decoration: underline; text-underline-offset: .2em; }
+/* short or narrow screens: the explanation folds away so the closed banner stays small */
+@media (max-height: 34em), (max-width: 30em) {
+  .nh-cookies { inset-block-end: .5rem; inset-inline: .5rem; padding: var(--nh-s-4); gap: var(--nh-s-3); }
+  .nh-cookies__more { display: inline-flex; }
+  .nh-cookies:not(.is-more) .nh-cookies__text { display: none; }
 }
 .nh-cookies h2 { font-size: 1.25rem; }
 .nh-cookies p { font-size: var(--nh-fs-small); color: var(--nh-ink-2); }
+.nh-cookies__text .v3-plain p { font-size: 1.125rem; color: var(--nh-ink); margin-block-end: .25rem; }
 .nh-cookies__prefs { display: grid; gap: var(--nh-s-3); border-block: 1px solid var(--nh-line); padding-block: var(--nh-s-4); }
 .nh-cookies .nh-btn { min-block-size: 2.75rem; padding: .5em 1.1em; font-size: 1rem; }
 

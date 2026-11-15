@@ -98,6 +98,14 @@ def letter_room(attrs):
     name = attrs["letter"]
     fx, fy, fw, fh = _frame(name, attrs.get("frame", "800"))
     r8, r3 = letters[name]["800"]["room"], letters[name]["300"]["room"]
+    # the photo bleeds 4 font units under the ink on every closed side, so anti-aliasing of the clip edge and
+    # of the glyph edge never leaves a 1-device-px paper seam (ב and כ stay exact on their open, left side)
+    B, open_left = 4, name in ("bet", "kaf")
+
+    def grow(r):
+        return {"x": r["x"] - (0 if open_left else B), "y": r["y"] - B,
+                "w": r["w"] + B * (1 if open_left else 2), "h": r["h"] + 2 * B}
+    r8, r3 = grow(r8), grow(r3)
     ux, uy = min(r8["x"], r3["x"]), min(r8["y"], r3["y"])
     ur, ub = max(r8["x"] + r8["w"], r3["x"] + r3["w"]), max(r8["y"] + r8["h"], r3["y"] + r3["h"])
     uw, uh = ur - ux, ub - uy
@@ -129,7 +137,8 @@ def letter_room(attrs):
         ecx, ecy, erx, ery = (rl + rr) / 2, (rt + rb) / 2, (rr - rl) / 2, (rb - rt) / 2
         side = min(erx, ery) * 0.97 / wr
         left, top = ecx - wcx * side, ecy - wcy * side
-        style += (f'--clip:ellipse({erx / uw * 100:.3f}% {ery / uh * 100:.3f}% at {(ecx - ux) / uw * 100:.3f}% {(ecy - uy) / uh * 100:.3f}%);'
+        cr = 1.07   # the clip reaches a little under the ink, so no paper sliver shows between the photo and the letter
+        style += (f'--clip:ellipse({erx * cr / uw * 100:.3f}% {ery * cr / uh * 100:.3f}% at {(ecx - ux) / uw * 100:.3f}% {(ecy - uy) / uh * 100:.3f}%);'
                   f'--wl:{(left - ux) / uw * 100:.3f}%;--wt:{(top - uy) / uh * 100:.3f}%;'
                   f'--ww:{side / uw * 100:.3f}%;--wh:{side / uh * 100:.3f}%;--wcx:{wcx * 100:.2f}%;--wcy:{wcy * 100:.2f}%;')
         extra_in = open(os.path.join(SRC, "partials", attrs["extra"] + ".html"), encoding="utf-8").read().strip() if attrs.get("extra") else ""
@@ -147,7 +156,7 @@ def letter_room(attrs):
     elif attrs.get("field"):
         pic = f'<span class="v3-room__photo v3-room__field v3-room__field--{attrs["field"]}" aria-hidden="true"></span>'
     cls = (" " + attrs["class"]) if attrs.get("class") else ""
-    vt = f'view-transition-name:{attrs["vt"]};' if attrs.get("vt") else ""
+    vt = ""   # transition names are set by script for the one journey they belong to (see head.html, v3.js)
     extra = open(os.path.join(SRC, "partials", attrs["extra"] + ".html"), encoding="utf-8").read().strip() if attrs.get("extra") else ""
     return (f'<div class="v3-room v3-room--{name}{cls}" style="{style}--t:{t0:g};{vt}" data-room="{name}">'
             f'{pic}{letter_svg({"name": name, "w": w, "frame": attrs.get("frame", "800")})}{extra}</div>')

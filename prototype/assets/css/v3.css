@@ -14,7 +14,7 @@
 }
 .v3 {
   --v3-mast: 4.5rem;
-  --v3-poster: clamp(4.25rem, 1rem + 10.2vw, 9.5rem);
+  --v3-poster: clamp(4.25rem, 1rem + 10.2vw, max(9.5rem, min(14rem, 12vh)));
   --v3-h2: clamp(2.6rem, 1.4rem + 3.8vw, 5.25rem);
   --v3-lead: clamp(1.2rem, 1.06rem + .5vw, 1.5rem);
   background: var(--nh-paper);
@@ -158,7 +158,13 @@
   .v3-cover__plain { margin-block-end: 1.75rem; }
 }
 @media (min-width: 64em) {
-  .v3-cover { --cover-h: min(calc(100svh - var(--v3-mast) - 7rem), 41rem); }
+  .v3-cover { --cover-h: min(calc(100svh - var(--v3-mast) - 7rem), 62rem); }
+}
+@media (min-width: 112.5em) { .v3 { --nh-max: 110rem; } }
+/* tall portrait tablets: the letter takes the wider column, so the first screen is not half empty */
+@media (min-width: 48em) and (max-width: 79.99em) and (orientation: portrait) {
+  .v3-cover__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  .v3-cover { --cover-h: 70svh; }
 }
 /* pinned only when the ב actually moves: not with reduced motion, calm mode or plain language
    (then the cover is one screen and nothing waits for the scroll) */
@@ -172,17 +178,18 @@
    in reading direction, the photo settles. Text is painted final on frame one. */
 @media (prefers-reduced-motion: no-preference) {
   html:not(.nh-reduce-motion):not(.nh-calm) .v3-rule--draw { transform-origin: right; animation: v3-draw .6s var(--nh-ease-out) both .05s; }
-  html:not(.nh-reduce-motion):not(.nh-calm) .v3-cover .v3-room__photo img { animation: v3-settle 1.8s var(--nh-ease-out) both .2s; }
+  html:not(.nh-reduce-motion):not(.nh-calm):not(.nh-vt-in) .v3-cover .v3-room__photo img { animation: v3-settle 1.8s var(--nh-ease-out) both .2s; }
 }
 @media (prefers-reduced-motion: no-preference) and (min-width: 1024px) {
-  html:not(.nh-reduce-motion):not(.nh-calm) .v3-cover__letter::after {
+  html:not(.nh-reduce-motion):not(.nh-calm):not(.nh-vt-in) .v3-cover__letter::after {
     content: ""; position: absolute; inset: -2px -4px; background: var(--nh-paper); transform-origin: left; z-index: 2;
-    animation: v3-unveil 1s var(--nh-ease-in-out) both .25s;
+    transform: scaleX(0);                                   /* at rest the paper is gone: if animations never run, the ב shows */
+    animation: v3-unveil 1s var(--nh-ease-in-out) backwards .25s;
   }
 }
 @keyframes v3-draw { from { transform: scaleX(0); } }
 @keyframes v3-settle { from { transform: scale(1.06); } }
-@keyframes v3-unveil { to { transform: scaleX(0); } }
+@keyframes v3-unveil { from { transform: none; } }
 
 /* ---------- Homes index ---------------------------------------------------- */
 .v3-fit { display: flex; flex-wrap: wrap; align-items: baseline; gap: .75rem 1.75rem; margin-block-end: clamp(2.5rem, 2rem + 2vw, 4rem); }
@@ -424,8 +431,8 @@ main { counter-reset: print; }
 /* the door opens: once, when it is reached, the lintel extends toward the far end */
 @property --open { syntax: "<number>"; inherits: true; initial-value: 1; }
 @media (prefers-reduced-motion: no-preference) {
-  html.js:not(.nh-reduce-motion):not(.nh-calm) .v3-door__way { --open: .6; transition: --open .9s var(--nh-ease-in-out); }
-  html.js:not(.nh-reduce-motion):not(.nh-calm) .v3-door__way.is-open { --open: 1; }
+  html.v3-ready:not(.nh-reduce-motion):not(.nh-calm) .v3-door__way { --open: .6; transition: --open .9s var(--nh-ease-in-out); }
+  html.v3-ready:not(.nh-reduce-motion):not(.nh-calm) .v3-door__way.is-open { --open: 1; }
 }
 
 /* ---------- Colophon footer ------------------------------------------------- */
@@ -509,6 +516,11 @@ html.nh-reduce-motion .v3-roles svg, html.nh-reduce-motion .v3-home__arrow { tra
 .v3-facts dd { margin: 0; }
 .v3-gallery { margin-block-start: 2rem; }
 .v3-gallery button { border-radius: 0; background: none; padding: 0; box-shadow: 0 0 0 1px var(--v3-ink); }   /* square-cut prints, no polaroid frame */
+@media (min-width: 900px) {
+  .nh-gallery.v3-gallery li:nth-child(4) { grid-column: span 2; }
+  .nh-gallery.v3-gallery li:nth-child(5) { grid-column: span 3; }
+  .nh-gallery.v3-gallery li:nth-child(6) { grid-column: span 2; }
+}
 .v3-gallery button > picture { overflow: hidden; }
 .v3-gallery img { border-radius: 0 !important; }
 .v3-feature-list { list-style: none; margin: clamp(2rem, 1.5rem + 2vw, 3rem) 0 0; padding: 0; display: grid; column-gap: 3rem; border-block-start: 1.5px solid var(--nh-ink); }
@@ -629,3 +641,6 @@ html.nh-plainmode .v3-lamed__text { grid-column: auto; grid-row: auto; }
 /* no fixed full-screen layers (research/06): the v1 paper-grain overlay is off in v3 — the photos carry
    their own grain from the darkroom grade */
 body.v3::after { content: none; display: none; }
+
+/* the cookie banner keeps its place above a page transition */
+.nh-cookies { view-transition-name: nh-cookies; }

@@ -14,6 +14,7 @@
 (() => {
   "use strict";
   const d = document, w = window, html = d.documentElement;
+  html.classList.add("v3-ready");                                         // states that need this script to undo them
   const store = {
     get(k) { try { return w.localStorage.getItem(k); } catch (e) { return null; } },
     set(k, v) { try { w.localStorage.setItem(k, v); } catch (e) { /* private mode */ } },
@@ -41,12 +42,21 @@
     let anchor = null, before = 0;
     const a = d.activeElement;
     if (a && a !== d.body && a.closest("main, footer")) { anchor = a; before = a.getBoundingClientRect().top; }
-    else for (const s of d.querySelectorAll("main > section, footer")) {
-      const r = s.getBoundingClientRect();
-      if (r.bottom > top + 8) { anchor = s; before = r.top; break; }
+    else {
+      // the first line on screen that exists in both modes (not inside a full-only or plain-only block)
+      for (const el of d.querySelectorAll("[data-running] :is(h1, h2, h3, li, p, figure)")) {
+        if (el.closest(".v3-full, .v3-plain")) continue;
+        const r = el.getBoundingClientRect();
+        if (r.height && r.top >= top + 8) { anchor = el; before = r.top; break; }
+      }
     }
     change();
-    if (anchor) w.scrollBy({ top: anchor.getBoundingClientRect().top - before, behavior: "instant" });
+    if (anchor) {
+      let dy = anchor.getBoundingClientRect().top - before;
+      const after = anchor.getBoundingClientRect().top - dy;
+      if (after < top + 8) dy -= top + 16 - after;                       // never under the masthead
+      w.scrollBy({ top: dy, behavior: "instant" });
+    }
   };
   const changed = () => d.dispatchEvent(new CustomEvent("nh:displaychange"));
   d.querySelectorAll("[data-plain-toggle]").forEach((b) => b.addEventListener("click", () => {
@@ -95,7 +105,7 @@
 
   /* ---------- 3. Running head --------------------------------------------------- */
   const running = d.querySelector(".v3-mast__running");
-  const spreads = d.querySelectorAll("main > section[data-running], footer[data-running]");
+  const spreads = d.querySelectorAll("[data-running]");                  // by attribute, so page-builder wrappers do not matter
   if (running && spreads.length && "IntersectionObserver" in w) {
     const io = new IntersectionObserver((entries) => entries.forEach((e) => {
       if (e.isIntersecting) running.textContent = e.target.dataset.running;
@@ -127,7 +137,12 @@
       const pinned = wide && w.matchMedia("(min-height: 43.75em)").matches;   // the 150svh cover with a sticky ב (motion on)
       maxT = wide ? 1 : 0.6;                                                    // 800 → 300 / 800 → 500
       // pinned: t reaches 1 while the whole letter is still on screen; otherwise within 40% of a screen
-      range = Math.max(1, pinned && !cover.classList.contains("v3-cover--page") ? cover.offsetHeight - w.innerHeight : w.innerHeight * 0.4);
+      if (pinned && !cover.classList.contains("v3-cover--page")) range = Math.max(1, cover.offsetHeight - w.innerHeight);
+      else {
+        // not pinned: finish while the room is still at least 70% visible under the masthead
+        const r = (room.querySelector(".v3-room__photo") || room).getBoundingClientRect(), mast = (d.querySelector(".nh-header") || { offsetHeight: 0 }).offsetHeight;
+        range = Math.max(80, r.top + w.scrollY + r.height * 0.2 - mast);
+      }
     };
     const paint = (t) => { ink.setAttribute("d", outline(t)); room.style.setProperty("--t", String(t)); };
     const frame = () => {
@@ -138,16 +153,17 @@
       if (t !== last) { last = t; paint(t); }
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(frame); };
+    const onResize = () => { measured = false; onScroll(); };
     const start = () => {
       if (on) return; on = true; measured = false;
       w.addEventListener("scroll", onScroll, { passive: true });
-      w.addEventListener("resize", measure);
+      w.addEventListener("resize", onResize);
       if (w.scrollY > 0) onScroll();                                     // at the top the letter is already at t0
     };
     const stop = () => {
       if (!on) return; on = false; last = -1;
       w.removeEventListener("scroll", onScroll);
-      w.removeEventListener("resize", measure);
+      w.removeEventListener("resize", onResize);
       paint(t0);
     };
     const decide = () => (motionOK() && !html.classList.contains("nh-plainmode") ? start() : stop());
@@ -198,6 +214,15 @@
       put(b.dataset.work);
     }));
   }
+
+  /* ---------- 6b. Page transition: the homes-index ב becomes the page cover ב ------ */
+  d.querySelectorAll(".v3-home__link[href$='.html']").forEach((a) => a.addEventListener("click", () => {
+    const r = a.querySelector(".v3-room");
+    if (!r || !motionOK()) return;
+    r.style.viewTransitionName = "home-bet-1";
+    try { sessionStorage.setItem("nh-vt", "home-bet-1"); } catch (e) { /* private mode: plain cross-fade */ }
+  }));
+  w.addEventListener("pageshow", () => d.querySelectorAll(".v3-home__link .v3-room").forEach((r) => { r.style.viewTransitionName = ""; }));
 
   /* ---------- 7. The visit bar steps aside while typing --------------------------- */
   const bar = d.querySelector("[data-bar]");

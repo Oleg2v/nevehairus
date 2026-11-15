@@ -2,248 +2,282 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<title>מעון נווה האירוס — בית לחיים | נס ציונה</title>
-<meta name="description" content="מעון נווה האירוס בנס ציונה: בית חם לאנשים עם מוגבלות שכלית התפתחותית, מאז 1957, בפיקוח משרד הרווחה והביטחון החברתי. מעון ראשי, דיור בקהילה ודיור לצעירים על הרצף האוטיסטי.">
-<link rel="preload" as="image" href="assets/img/sky-ceiling-1440.webp" media="(min-width: 1024px)" fetchpriority="high">
-<link rel="preload" as="image" href="assets/img/sky-ceiling-768.webp" media="(max-width: 1023px)" fetchpriority="high">
 {{> head}}
-<script src="assets/js/home.js" defer></script>
+<title>מעון נווה האירוס — בית. לחיים. | נס ציונה</title>
+<meta name="description" content="מעון נווה האירוס בנס ציונה: בית לאנשים עם מוגבלות שכלית התפתחותית, גם כשיש התנהגות מאתגרת או אבחנה כפולה. מאז 1957, בפיקוח משרד הרווחה והביטחון החברתי. מעון ראשי, דיור בקהילה ודיור לצעירים על הרצף האוטיסטי.">
+<link rel="preload" as="image" type="image/avif" href="assets/img/v3-walk-768.avif" imagesrcset="assets/img/v3-walk-480.avif 480w, assets/img/v3-walk-768.avif 768w, assets/img/v3-walk-1080.avif 1080w" imagesizes="(min-width: 1024px) 26rem, 64vw" fetchpriority="high">
 </head>
-<body>
+<body class="v3">
 {{page current="home"}}
 {{> sprite}}
 {{> header}}
 
-<main id="main" tabindex="-1">
+<main id="main">
 
-  <!-- S1 · HERO — the letter ב began as the drawing of a house ================ -->
-  <section class="v2-hero" data-header="dark" aria-labelledby="hero-title">
-    <div class="v2-hero__pin">
-      <div class="nh-container v2-hero__grid">
-        <div class="v2-hero__copy">
-          <p class="v2-label nh-rise" style="--i:0">מעון נווה האירוס · נס ציונה · מאז 1957</p>
-          <h1 class="v2-hero__title" id="hero-title">
-            <span class="nh-line"><span style="--i:0">בית.</span></span>
-            <span class="nh-line"><span class="v2-accent" style="--i:1">לחיים.</span></span>
-          </h1>
-          <p class="v2-hero__lead nh-rise" style="--i:3">בית לאנשים עם מוגבלות שכלית התפתחותית, גם כשיש התנהגות מאתגרת או אבחנה כפולה. צוות קבוע, עשייה, פנאי — ומשפחה שתמיד מוזמנת.</p>
-          <div class="nh-btn-row nh-rise" style="--i:4">
-            <a class="nh-btn nh-btn--primary" href="#contact">בואו להכיר — תיאום ביקור<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a>
-            <a class="nh-btn nh-btn--ghost" href="tel:+97289403047" aria-label="התקשרו: 08-9403047"><svg class="nh-btn__icon" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg><span class="nh-ltr">08-9403047</span></a>
-          </div>
-        </div>
-        <div class="v2-hero__bet" aria-hidden="true"><span class="v2-bet">ב</span></div>
+  <!-- ב׳ · COVER — a house that makes room ============================================= -->
+  <section class="v3-cover v3-spread" id="cover" data-header="light" data-running="ב׳ · בית" aria-labelledby="cover-title">
+    <div class="nh-container v3-cover__grid">
+      <div class="v3-rule v3-rule--draw" aria-hidden="true"></div>
+      <div class="v3-cover__letter">
+        {{letterroom letter="bet" photo="v3-walk" sizes="(min-width: 1024px) 26rem, 64vw" priority="high" pos="46% 38%" class="v3-cover__bet" vt="home-bet"}}
       </div>
-      <nav class="v2-hero__meta" aria-label="שלושה בתים">
-        <span class="v2-hero__homes nh-rise" style="--i:5">שלושה בתים:</span>
-        <ul role="list" class="nh-rise" style="--i:6">
-          <li><a href="program-main-home.html">מעון ראשי — בית לחיים</a></li>
-          <li><a href="#prog-2">דיור בקהילה</a></li>
-          <li><a href="#prog-3">צעירים על הרצף האוטיסטי</a></li>
+      <div class="v3-cover__text">
+        <h1 class="v3-cover__title" id="cover-title"><span>בית<span class="v3-dot">.</span></span> <span>לחיים<span class="v3-dot v3-dot--clay">.</span></span></h1>
+        <div class="v3-full">
+          <p class="v3-cover__lead">בית בנס ציונה לאנשים עם מוגבלות שכלית התפתחותית, גם כשיש התנהגות מאתגרת או אבחנה כפולה.</p>
+        </div>
+        <div class="v3-plain">
+          <p>נווה האירוס הוא בית.</p>
+          <p>גרים כאן אנשים עם מוגבלות שכלית התפתחותית.</p>
+          <p>הבית נמצא בעיר נס ציונה.</p>
+          <p>אפשר לבוא לבקר.</p>
+        </div>
+        <p class="v3-cover__cta"><a class="nh-btn nh-btn--primary" href="#door">בואו להכיר — תיאום ביקור<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOMES — an index, not cards ======================================================== -->
+  <section class="v3-homes v3-spread" id="homes" data-header="light" data-running="שלושה בתים" aria-labelledby="homes-title">
+    <div class="nh-container">
+      <nav class="v3-fit" aria-labelledby="fit-title">
+        <p class="v3-fit__q" id="fit-title">האם זה המקום בשבילנו?</p>
+        <ul role="list">
+          <li><a href="#home-1">מוגבלות שכלית התפתחותית</a></li>
+          <li><a href="#home-1">התנהגות מאתגרת או אבחנה כפולה</a></li>
+          <li><a href="#home-2">בית בתוך הקהילה</a></li>
+          <li><a href="#home-3">צעירים על הרצף האוטיסטי</a></li>
         </ul>
       </nav>
-      <div class="v2-hero__sky" aria-hidden="true"></div>
-    </div>
-  </section>
-
-  <!-- S2 · inside: under the sky ceiling ======================================== -->
-  <section class="v2-sky" id="about" data-header="dark" aria-labelledby="sky-title">
-    <div class="v2-sky__bg" aria-hidden="true"></div>
-    <div class="nh-container">
-      <h2 class="v2-label" id="sky-title">מה מנחה אותנו</h2>
-      <p class="v2-sky__text" data-lines>אנחנו מאמינים שלכל אדם מגיע <span class="nh-nowrap"><b>בית</b>:</span> מקום של כבוד, של קשר ושל בחירה, שבו מתקדמים יחד <span class="nh-nowrap"><b>צעד צעד</b>.</span></p>
-      <p class="v2-sky__sign" data-reveal><span>מאז 1957</span><span>3 מסגרות מגורים</span><span>בפיקוח משרד הרווחה והביטחון החברתי</span></p>
-    </div>
-  </section>
-
-  <!-- S3 · three homes ============================================================ -->
-  <section class="v2-programs" id="programs" data-header="light" aria-labelledby="programs-title">
-    <div class="nh-container v2-programs__head">
-      <div>
-        <p class="v2-label"><span class="v2-num">01</span> מסגרות המגורים</p>
-        <h2 class="v2-h2" id="programs-title" data-lines style="margin-block-start:1rem">שלושה בתים. <em>משפחה אחת.</em></h2>
+      <div class="v3-rule" aria-hidden="true"></div>
+      <h2 class="v3-h2" id="homes-title">שלושה בתים<span class="v3-dot">.</span></h2>
+      <div class="v3-plain">
+        <p>יש לנו שלושה בתים.</p>
+        <p>כל בית מתאים לאנשים אחרים.</p>
+        <p>לחצו על בית כדי לקרוא עליו.</p>
       </div>
-      <div>
-        <p class="v2-lead">כל דייר ודיירת מקבלים מסגרת שמתאימה להם — בתוך המעון בנס ציונה או בבית בלב הקהילה.</p>
-        <nav class="v2-fit" aria-labelledby="fit-title">
-          <h3 id="fit-title">האם זה המקום בשבילנו?</h3>
-          <ul role="list">
-            <li><a href="#prog-1"><span>01</span>בוגרים ובוגרות עם מוגבלות שכלית התפתחותית</a></li>
-            <li><a href="#prog-1"><span>01</span>גם כשיש התנהגות מאתגרת או אבחנה כפולה</a></li>
-            <li><a href="#prog-2"><span>02</span>רוצים לגור בבית בקהילה</a></li>
-            <li><a href="#prog-3"><span>03</span>צעירים על הרצף האוטיסטי</a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-    <div class="nh-container">
-      <ol class="v2-stack" role="list">
-        <li class="v2-card v2-card--iris" id="prog-1" style="--k:0">
-          <div class="v2-card__inner">
-            <div class="v2-card__text">
-              <span class="v2-card__num" aria-hidden="true">01</span>
-              <h3><a class="v2-card__link" href="program-main-home.html">מעון ראשי — בית לחיים</a></h3>
-              <p>מגורים בתוך המעון, בשתי יחידות עם צוות קבוע: מנהל, עובדת סוציאלית, אם בית ורכזות דירה.</p>
-              <ul role="list"><li class="v2-chip">בוגרים ובוגרות</li><li class="v2-chip">אבחנה כפולה</li><li class="v2-chip">חדר סנוזלן</li></ul>
-              <p class="v2-card__cta"><span class="nh-btn nh-btn--light" aria-hidden="true">למעון הראשי<svg class="nh-btn__icon nh-btn__icon--fwd" focusable="false"><use href="#i-arrow-fwd"/></svg></span></p>
-            </div>
-            <div class="v2-card__media v2-duo" data-colour>{{pic name="sky-corridor" sizes="(min-width: 900px) 40vw, 90vw" decorative="1"}}</div>
-          </div>
+      <ol class="v3-homes__list" role="list">
+        <li class="v3-home v3-home--paper" id="home-1">
+          <a class="v3-home__link" href="program-main-home.html">
+            {{letterroom letter="bet" photo="v3-sky-room" sizes="9rem" w="560" pos="60% 40%" class="v3-home__bet" decorative="1" vt="home-bet-1"}}
+            <span class="v3-home__body">
+              <span class="v3-home__title">מעון ראשי — בית לחיים</span>
+              <span class="v3-home__who v3-full">בוגרים ובוגרות עם מוגבלות שכלית התפתחותית, גם עם התנהגות מאתגרת או אבחנה כפולה.</span>
+              <span class="v3-home__who v3-plain">בית גדול בנס ציונה. יש בו צוות שעוזר כל היום.</span>
+              <span class="v3-home__facts v3-full">שתי יחידות · צוות קבוע · חדר סנוזלן ומרפאת שיניים</span>
+            </span>
+            <svg class="v3-home__arrow" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg>
+          </a>
         </li>
-        <li class="v2-card v2-card--olive" id="prog-2" style="--k:1">
-          <div class="v2-card__inner">
-            <div class="v2-card__text">
-              <span class="v2-card__num" aria-hidden="true">02</span>
-              <h3><a class="v2-card__link" href="#programs">דיור בקהילה</a></h3>
-              <p>בית בלב הקהילה לאנשים עם מוגבלות שכלית התפתחותית — שגרה, עצמאות ושילוב, בליווי צוות מקצועי.</p>
-              <ul role="list"><li class="v2-chip">עצמאות</li><li class="v2-chip">שילוב בקהילה</li><li class="v2-chip">ליווי צמוד</li></ul>
-              <p class="v2-card__cta"><span class="nh-btn nh-btn--light" aria-hidden="true">לדיור בקהילה<svg class="nh-btn__icon nh-btn__icon--fwd" focusable="false"><use href="#i-arrow-fwd"/></svg></span></p>
-            </div>
-            <div class="v2-card__media v2-duo" data-colour>{{pic name="villa-living" sizes="(min-width: 900px) 40vw, 90vw" decorative="1"}}</div>
-          </div>
+        <li class="v3-home v3-home--sand" id="home-2">
+          <a class="v3-home__link" href="#homes">
+            {{letterroom letter="bet" photo="v3-villa" sizes="9rem" w="560" pos="50% 45%" class="v3-home__bet" decorative="1"}}
+            <span class="v3-home__body">
+              <span class="v3-home__title">דיור בקהילה</span>
+              <span class="v3-home__who v3-full">בית בלב הקהילה: שגרה, עצמאות ושילוב, בליווי צוות מקצועי.</span>
+              <span class="v3-home__who v3-plain">דירות ובתים בתוך העיר. גרים בהם עם ליווי של צוות.</span>
+              <span class="v3-home__facts v3-full">עצמאות · שילוב בקהילה · ליווי צמוד</span>
+            </span>
+            <svg class="v3-home__arrow" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg>
+          </a>
         </li>
-        <li class="v2-card v2-card--sky" id="prog-3" style="--k:2">
-          <div class="v2-card__inner">
-            <div class="v2-card__text">
-              <span class="v2-card__num" aria-hidden="true">03</span>
-              <h3><a class="v2-card__link" href="#programs">דיור לצעירים על הרצף האוטיסטי</a></h3>
-              <p>סביבה מכילה וליווי אישי בשגרת היומיום, לצעירים על הרצף האוטיסטי.</p>
-              <ul role="list"><li class="v2-chip">סביבה רגועה</li><li class="v2-chip">שגרה ברורה</li><li class="v2-chip">ליווי אישי</li></ul>
-              <p class="v2-card__cta"><span class="nh-btn nh-btn--light" aria-hidden="true">לדיור לצעירים על הרצף<svg class="nh-btn__icon nh-btn__icon--fwd" focusable="false"><use href="#i-arrow-fwd"/></svg></span></p>
-            </div>
-            <div class="v2-card__media v2-duo" data-colour>{{pic name="garden" sizes="(min-width: 900px) 40vw, 90vw" decorative="1"}}</div>
-          </div>
+        <li class="v3-home v3-home--sky" id="home-3">
+          <a class="v3-home__link" href="#homes">
+            {{letterroom letter="bet" field="sky" w="560" class="v3-home__bet"}}
+            <span class="v3-home__body">
+              <span class="v3-home__title">דיור לצעירים על הרצף האוטיסטי</span>
+              <span class="v3-home__who v3-full">סביבה מכילה וליווי אישי בשגרת היומיום, לצעירים על הרצף האוטיסטי.</span>
+              <span class="v3-home__who v3-plain">בית לצעירים ולצעירות על הרצף האוטיסטי. סביבה שקטה ושגרה ברורה.</span>
+              <span class="v3-home__facts v3-full">סביבה רגועה · שגרה ברורה · ליווי אישי</span>
+            </span>
+            <svg class="v3-home__arrow" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg>
+          </a>
         </li>
       </ol>
+      <p class="v3-note">לבית השלישי עוד אין צילומים, ולכן במקום תמונה יש בו שמיים שקטים.</p>
     </div>
   </section>
 
-  <!-- S4 · plain language ============================================================ -->
-  <section id="plain" data-header="light" aria-labelledby="plain-title" style="padding-block: 0 clamp(4rem, 2rem + 4vw, 7rem)">
+  <!-- PLAIN — the box that switches the whole page ======================================== -->
+  <section class="v3-plainbox-wrap" id="plain" data-header="light" data-running="בשפה פשוטה" aria-labelledby="plain-title">
     <div class="nh-container">
-      <div class="v2-plain" data-reveal>
-        <span class="v2-plain__badge" aria-hidden="true"><svg focusable="false"><use href="#i-speech"/></svg></span>
+      <div class="v3-plainbox">
+        <svg class="v3-plainbox__icon" aria-hidden="true" focusable="false"><use href="#i-speech"/></svg>
         <div>
           <h2 id="plain-title">בשפה פשוטה</h2>
-          <ul role="list">
+          <ul role="list" class="v3-full">
             <li>נווה האירוס הוא בית.</li>
             <li>גרים בו אנשים עם מוגבלות שכלית התפתחותית.</li>
             <li>יש כאן צוות שעוזר בכל יום.</li>
             <li>יש חדרים, אוכל, עבודה, חוגים וטיולים.</li>
             <li>משפחות וחברים יכולים לבוא לבקר.</li>
-            <li>רוצים לדבר איתנו? התקשרו: <a href="tel:+97289403047"><span class="nh-ltr">08-9403047</span></a></li>
           </ul>
+          <p class="v3-plain">כל הדף כתוב עכשיו בשפה פשוטה.</p>
+          <button class="nh-btn nh-btn--primary v3-plainbox__btn" type="button" data-plain-toggle aria-pressed="false">
+            <span class="v3-full">לקרוא את כל הדף בשפה פשוטה</span><span class="v3-plain">לחזור לקריאה רגילה</span>
+          </button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- S5 · a whole day (pinned colour script on desktop) ============================= -->
-  <section class="v2-day v2-day--static" id="life" data-header="light" aria-labelledby="day-title">
-    <div class="v2-day__pin">
-      <div class="nh-container v2-day__head">
-        <p class="v2-label"><span class="v2-num">02</span> יום בנווה האירוס</p>
-        <h2 class="v2-h2" id="day-title" style="margin-block-start:1rem">החיים קורים <em>כאן</em>.</h2>
-      </div>
-      <svg class="v2-day__arc" viewBox="0 0 1000 500" aria-hidden="true" focusable="false"><path d="M20 500A480 480 0 0 1 980 500"/><circle class="v2-day__sun" cx="980" cy="500" r="26"/></svg>
-      <p class="v2-day__clock" aria-hidden="true">בוקר</p>
-      <ol class="v2-day__moments" role="list">
-        <li class="v2-moment" style="--mt:#F6CFAE;--mb:#F7EBDC;--mfg:#1F2421" data-top="#F6CFAE" data-bottom="#F7EBDC" data-fg="#1F2421" data-when="בוקר">
-          <figure>{{pic name="hero-walk" sizes="(min-width: 900px) 22rem, 90vw"}}</figure>
-          <div><p class="v2-moment__when">בוקר</p><h3>פותחים את היום יחד</h3><p>כל אחד ואחת בקצב שלהם, צעד צעד.</p></div>
-        </li>
-        <li class="v2-moment" style="--mt:#CFE3F2;--mb:#F3EEE4;--mfg:#1F2421" data-top="#CFE3F2" data-bottom="#F3EEE4" data-fg="#1F2421" data-when="לפני הצהריים">
-          <figure>{{pic name="crafts-table" sizes="(min-width: 900px) 22rem, 90vw"}}</figure>
-          <div><p class="v2-moment__when">לפני הצהריים</p><h3>יוצרים</h3><p>סדנאות פסיפס, תכשיטים, ציור על משי, מוזיקה ותנועה — וגם תעסוקה מחוץ למעון.</p></div>
-        </li>
-        <li class="v2-moment" style="--mt:#A9CFEA;--mb:#EAF3F8;--mfg:#1F2421" data-top="#A9CFEA" data-bottom="#EAF3F8" data-fg="#1F2421" data-when="צהריים">
-          <figure>{{pic name="pool" sizes="(min-width: 900px) 22rem, 90vw"}}</figure>
-          <div><p class="v2-moment__when">צהריים</p><h3>שוחים ומתעמלים</h3><p>בריכה, חדר כושר וחדר סנוזלן רב־חושי — וגם מרפאת שיניים בתוך המעון.</p></div>
-        </li>
-        <li class="v2-moment" style="--mt:#F0C17E;--mb:#F7E6CC;--mfg:#1F2421" data-top="#F0C17E" data-bottom="#F7E6CC" data-fg="#1F2421" data-when="אחר הצהריים">
-          <figure>{{pic name="riding" sizes="(min-width: 900px) 22rem, 90vw"}}</figure>
-          <div><p class="v2-moment__when">אחר הצהריים</p><h3>רוכבים ומטיילים</h3><p>רכיבה טיפולית, טיולים, בתי קפה וסרטים — החיים קורים גם מחוץ לשער.</p></div>
-        </li>
-        <li class="v2-moment" style="--mt:#2B2647;--mb:#4A2D84;--mfg:#F7F1E7" data-top="#2B2647" data-bottom="#4A2D84" data-fg="#F7F1E7" data-when="ערב">
-          <figure>{{pic name="villa-corner" sizes="(min-width: 900px) 22rem, 90vw"}}</figure>
-          <div><p class="v2-moment__when">ערב</p><h3>מארחים</h3><p>ביקורי משפחה, ועד הורים פעיל וקשר פתוח עם הצוות.</p></div>
-        </li>
-      </ol>
-      <ol class="v2-day__progress" aria-hidden="true"><li><i></i></li><li><i></i></li><li><i></i></li><li><i></i></li><li><i></i></li></ol>
-    </div>
-  </section>
-
-  <!-- S6 · the story in giant years ===================================================== -->
-  <section class="v2-years" id="story" data-header="light" aria-labelledby="story-title">
+  <!-- DAY — residents are the subjects ======================================================= -->
+  <section class="v3-day v3-spread" id="day" data-header="light" data-running="החיים אצלנו" aria-labelledby="day-title">
     <div class="nh-container">
-      <p class="v2-label"><span class="v2-num">03</span> הסיפור שלנו</p>
-      <h2 class="v2-h2" id="story-title" data-lines style="margin-block-start:1rem">כמעט 70 שנה <em>של בית.</em></h2>
-      <ol class="v2-years__list" role="list">
-        <li class="v2-year">
-          <div>
-            <span class="v2-year__num" aria-hidden="true">1957</span>
-            <h3><span class="nh-sr-only">1957 — </span>סנטוריום נס ציונה</h3>
-            <p>המשפחות שטיינהרט, רשו וקוגן מניחות את אבן הפינה למקום שיהפוך לנווה האירוס.</p>
-          </div>
-          <figure class="v2-year__media v2-duo" data-colour>{{pic name="courtyard" sizes="(min-width: 1024px) 26rem, 80vw" decorative="1"}}</figure>
+      <div class="v3-rule" aria-hidden="true"></div>
+      <h2 class="v3-h2" id="day-title">החיים קורים כאן<span class="v3-dot">.</span></h2>
+      <p class="v3-lead v3-full">יום רגיל בנווה האירוס, בארבע מילים. מה עושים — כל אחד ואחת בקצב שלהם.</p>
+      <p class="v3-lead v3-plain">מה עושים ביום?</p>
+      <ol class="v3-day__list" role="list">
+        <li class="v3-moment v3-moment--a">
+          <h3 class="v3-moment__verb">יוצרים</h3>
+          <figure class="v3-print">{{pic name="v3-crafts" sizes="(min-width: 1024px) 34rem, 92vw"}}<figcaption>עבודות פסיפס וקרמיקה ביום מכירה.</figcaption></figure>
+          <p class="v3-full">סדנאות פסיפס, תכשיטים, ציור על משי, מוזיקה ותנועה — וגם תעסוקה מחוץ למעון.</p>
+          <p class="v3-plain">עובדים בסדנאות: פסיפס, תכשיטים וציור.</p>
         </li>
-        <li class="v2-year">
-          <div>
-            <span class="v2-year__num" aria-hidden="true">2021</span>
-            <h3><span class="nh-sr-only">2021 — </span>אגף חדש נפתח</h3>
-            <p>חדרים חדשים, מרחבים משותפים ותאורת „שמיים” בתקרה — אגף שתוכנן במיוחד לצורכי הדיירים.</p>
-          </div>
-          <figure class="v2-year__media v2-duo" data-colour>{{pic name="sky-ceiling" sizes="(min-width: 1024px) 26rem, 80vw" decorative="1"}}</figure>
+        <li class="v3-moment v3-moment--b">
+          <h3 class="v3-moment__verb">רוכבים</h3>
+          <figure class="v3-print v3-print--small">{{pic name="v3-riding" sizes="(min-width: 1024px) 14rem, 60vw"}}<figcaption>סוס ליד הגדר, ביום של רכיבה טיפולית.</figcaption></figure>
+          <p class="v3-full">רכיבה טיפולית בחווה, ועוד חוגים שיוצאים מהשער החוצה.</p>
+          <p class="v3-plain">רוכבים על סוסים בחווה.</p>
         </li>
-        <li class="v2-year">
-          <div>
-            <span class="v2-year__num" aria-hidden="true">היום</span>
-            <h3><span class="nh-sr-only">היום — </span>שלושה בתים</h3>
-            <p>במעון, בבתים בקהילה ובמסגרת לצעירים על הרצף האוטיסטי — יותר מ־100 דיירים ודיירות.</p>
-          </div>
-          <figure class="v2-year__media v2-duo" data-colour>{{pic name="orchard-walk" sizes="(min-width: 1024px) 26rem, 80vw" decorative="1"}}</figure>
+        <li class="v3-moment v3-moment--c">
+          <h3 class="v3-moment__verb">מטיילים</h3>
+          <figure class="v3-print">{{pic name="v3-orchard" sizes="(min-width: 1024px) 26rem, 92vw"}}<figcaption>טיול בין עצי ההדר.</figcaption></figure>
+          <p class="v3-full">טיולים, בתי קפה וסרטים — החיים קורים גם מחוץ לשער.</p>
+          <p class="v3-plain">יוצאים לטיולים, לבית קפה ולסרט.</p>
+        </li>
+        <li class="v3-moment v3-moment--d">
+          <h3 class="v3-moment__verb">מארחים</h3>
+          <div class="v3-plate" aria-hidden="true"><span>בית</span></div>
+          <p class="v3-full">ביקורי משפחה, ועד הורים פעיל וקשר פתוח עם הצוות.</p>
+          <p class="v3-plain">המשפחות והחברים באים לבקר.</p>
         </li>
       </ol>
     </div>
   </section>
 
-  <!-- S7 · the residents' mandala ============================================================ -->
-  <section class="v2-made" data-header="light" aria-labelledby="made-title">
-    <div class="nh-container v2-made__grid">
-      <div class="v2-made__art">
-        <div class="v2-lock" role="img" aria-label="מנדלה בפסיפס, עבודת יד של הדיירים: טבעות של אבן לבנה, אפורה ואדומה סביב לב של זכוכית צבעונית" data-lock>
-          <img src="{{src name="mandala-ring" w="1080"}}" srcset="{{srcset name="mandala-ring"}}" sizes="(min-width: 1024px) 44rem, 90vw" width="1440" height="1440" alt="" loading="lazy" decoding="async" style="--r0:0%;--r1:34%">
-          <img src="{{src name="mandala-ring" w="1080"}}" srcset="{{srcset name="mandala-ring"}}" sizes="(min-width: 1024px) 44rem, 90vw" width="1440" height="1440" alt="" loading="lazy" decoding="async" style="--r0:34%;--r1:46%">
-          <img src="{{src name="mandala-ring" w="1080"}}" srcset="{{srcset name="mandala-ring"}}" sizes="(min-width: 1024px) 44rem, 90vw" width="1440" height="1440" alt="" loading="lazy" decoding="async" style="--r0:46%;--r1:56%">
-          <img src="{{src name="mandala-ring" w="1080"}}" srcset="{{srcset name="mandala-ring"}}" sizes="(min-width: 1024px) 44rem, 90vw" width="1440" height="1440" alt="" loading="lazy" decoding="async" style="--r0:56%;--r1:76%">
-          <img src="{{src name="mandala-ring" w="1080"}}" srcset="{{srcset name="mandala-ring"}}" sizes="(min-width: 1024px) 44rem, 90vw" width="1440" height="1440" alt="" loading="lazy" decoding="async" style="--r0:76%;--r1:86%">
-          <img src="{{src name="mandala-ring" w="1080"}}" srcset="{{srcset name="mandala-ring"}}" sizes="(min-width: 1024px) 44rem, 90vw" width="1440" height="1440" alt="" loading="lazy" decoding="async" style="--r0:86%;--r1:101%">
-        </div>
-        <p class="v2-lock__credit">מנדלה — עבודת יד של דיירי נווה האירוס.<span class="v2-motion-only"> גללו, והטבעות מסתדרות.</span></p>
+  <!-- כ׳ · KAF — the palm that holds the work ================================================= -->
+  <section class="v3-kaf v3-spread v3-spread--citrus" id="made" data-header="light" data-running="כ׳ · ידיים שיוצרות" aria-labelledby="made-title">
+    <div class="nh-container v3-kaf__grid">
+      <div class="v3-rule" aria-hidden="true"><span class="v3-rule__mark">כ׳</span></div>
+      <div class="v3-kaf__letter" data-works>
+        {{letterroom letter="kaf" photo="v3-pot-b" sizes="(min-width: 1024px) 22rem, 60vw" w="800" pos="50% 40%" class="v3-kaf__palm" decorative="1"}}
       </div>
-      <div class="v2-made__text">
-        <p class="v2-label"><span class="v2-num">04</span> עשוי בנווה האירוס</p>
-        <h2 class="v2-h2" id="made-title" data-lines style="margin-block-start:1rem">ידיים <em>שיוצרות.</em></h2>
-        <p class="v2-lead">פסיפס, תכשיטים, קרמיקה וציור — עבודות שיוצרים הדיירים והדיירות בסדנאות התעסוקה. חלק מהיצירות מוצעות למכירה, וכל אחת מהן מספרת סיפור.</p>
-        <p data-reveal><a class="nh-btn nh-btn--ghost" href="#made-title">לגלריית היצירות<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></p>
+      <div class="v3-kaf__text">
+        <h2 class="v3-h2" id="made-title">ידיים שיוצרות<span class="v3-dot v3-dot--ink">.</span></h2>
+        <p class="v3-lead v3-full">פסיפס, תכשיטים, קרמיקה וציור: עבודות שיוצרים הדיירים והדיירות בסדנאות. חלק מהיצירות מוצעות למכירה.</p>
+        <div class="v3-plain">
+          <p>הדיירים והדיירות עושים עבודות יד.</p>
+          <p>כדים, מנדלות, ינשופים ותכשיטים.</p>
+          <p>אפשר לקנות חלק מהעבודות.</p>
+        </div>
+        <ol class="v3-works" role="list" aria-label="עבודות מהסדנאות">
+          <li><button type="button" class="v3-work is-on" aria-pressed="true" data-work="v3-pot-b"><span class="v3-work__n" aria-hidden="true">01</span>כד פסיפס כחול־ירוק</button>
+            <ul class="v3-swatches" role="list" aria-label="צבעים מהכד">
+              <li><i style="--c:#213546"></i>כחול עמוק — שפת הכד</li>
+              <li><i style="--c:#49627F"></i>כחול אבן</li>
+              <li><i style="--c:#7B8DAC"></i>תכלת זכוכית</li>
+            </ul></li>
+          <li><button type="button" class="v3-work" aria-pressed="false" data-work="v3-pot-a"><span class="v3-work__n" aria-hidden="true">02</span>כד פסיפס בגוני זהב</button>
+            <ul class="v3-swatches" role="list" aria-label="צבעים מהכד">
+              <li><i style="--c:#49331B"></i>חום כהה — הפס התחתון</li>
+              <li><i style="--c:#6D5B44"></i>חום חם</li>
+              <li><i style="--c:#796D53"></i>זהב עמום</li>
+            </ul></li>
+          <li><button type="button" class="v3-work" aria-pressed="false" data-work="v3-pot-c"><span class="v3-work__n" aria-hidden="true">03</span>כד פסיפס לבן עם פרח</button>
+            <ul class="v3-swatches" role="list" aria-label="צבעים מהכד">
+              <li><i style="--c:#413C32"></i>חום־אפור — שפת הכד</li>
+              <li><i style="--c:#9C9772"></i>זית בהיר</li>
+              <li><i style="--c:#9DA0A3"></i>אפור אבן</li>
+            </ul></li>
+          <li><button type="button" class="v3-work" aria-pressed="false" data-work="v3-owls"><span class="v3-work__n" aria-hidden="true">04</span>ינשופים, חמסות ותליונים</button>
+            <ul class="v3-swatches" role="list" aria-label="צבעים מהינשופים">
+              <li><i style="--c:#E0B592"></i>אפרסק</li>
+              <li><i style="--c:#7EA49A"></i>ירוק ים</li>
+              <li><i style="--c:#7D5C57"></i>חום אדמה</li>
+            </ul></li>
+        </ol>
+        <p class="v3-credit">כל העבודות: עבודת יד של דיירות ודיירי נווה האירוס.</p>
+        <p><a class="nh-btn nh-btn--ink" href="#made">לגלריית היצירות<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></p>
       </div>
     </div>
   </section>
 
-  <!-- S8 · voices ============================================================================= -->
-  <section class="v2-voice" data-header="dark" aria-labelledby="voice-title">
-    <div class="nh-container v2-voice__grid">
-      <div>
-        <h2 class="v2-label" id="voice-title"><span class="v2-num">05</span> מה אומרות המשפחות</h2>
-        <blockquote class="v2-quote" style="margin-block-start:2rem">
-          <span class="v2-quote__mark" aria-hidden="true">”</span>
-          <p data-lines>הצוות הרפואי והמטפל נגישים <b>בכל שעה ולכל שאלה</b> […] ישנה הקשבה מלאה והתייחסות כנה ואמיתית לצרכים.</p>
-          <footer data-reveal>— <cite>ליליה, אמא של דייר בנווה האירוס</cite></footer>
-        </blockquote>
-        <p data-reveal style="margin-block-start:2rem"><a class="nh-link-arrow" href="#voice-title"><span>למכתב המלא ולהמלצות נוספות</span><svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></p>
+  <!-- ס׳ · SAMEKH — someone to lean on ======================================================= -->
+  <section class="v3-samekh v3-spread" id="support" data-header="light" data-running="ס׳ · יש על מי לסמוך" aria-labelledby="support-title">
+    <div class="nh-container v3-samekh__grid">
+      <div class="v3-rule" aria-hidden="true"><span class="v3-rule__mark">ס׳</span></div>
+      <figure class="v3-samekh__art" data-rings>
+        {{letterroom letter="samekh" photo="mandala-ring" sizes="(min-width: 1024px) 24rem, 72vw" w="380" pos="50% 50%" class="v3-samekh__letter" extra="rings" alt="מנדלה בפסיפס, עבודת יד של הדיירים: טבעות של אבן לבנה, אפורה ואדומה סביב לב של זכוכית צבעונית"}}
+        <figcaption>מנדלה בפסיפס — עבודת יד של דיירות ודיירי נווה האירוס.</figcaption>
+      </figure>
+      <div class="v3-samekh__text">
+        <h2 class="v3-h2" id="support-title">יש על מי לסמוך<span class="v3-dot">.</span></h2>
+        <p class="v3-lead v3-full">סביב כל דייר ודיירת יש מעגלים של אנשים — כמו הטבעות בפסיפס שיצרו הדיירים.</p>
+        <p class="v3-lead v3-plain">יש הרבה אנשים שעוזרים:</p>
+        <ol class="v3-circles" role="list">
+          <li><b>הדייר או הדיירת</b><span class="v3-full">ובחירות משלהם בכל יום.</span></li>
+          <li data-ring="2"><a href="#voices"><b>משפחה וחברים</b><span class="v3-full">ועד הורים פעיל, ביקורים וקשר שוטף.</span></a></li>
+          <li data-ring="3"><a href="program-main-home.html"><b>צוות הבית</b><span class="v3-full">אם בית ורכזות דירה, צוות קבוע.</span></a></li>
+          <li data-ring="4"><a href="program-main-home.html"><b>אנשי ונשות מקצוע</b><span class="v3-full">עבודה סוציאלית, ריפוי בעיסוק, מרפאה ומרפאת שיניים.</span></a></li>
+          <li data-ring="5"><a href="#home-2"><b>הקהילה בנס ציונה</b><span class="v3-full">תעסוקה, פנאי ודיור בקהילה.</span></a></li>
+          <li data-ring="6"><b>פיקוח משרד הרווחה והביטחון החברתי</b></li>
+        </ol>
       </div>
-      <div class="nh-video" data-video="JiaXto-WmJo" data-title="הורה של דייר מספר על נווה האירוס" data-reveal>
-        {{pic name="villa-corner" sizes="(min-width: 1024px) 26rem, 90vw" decorative="1"}}
+    </div>
+  </section>
+
+  <!-- YEARS — almost 70 years of home ======================================================== -->
+  <section class="v3-years v3-spread v3-spread--sand" id="story" data-header="light" data-running="כמעט 70 שנה" aria-labelledby="story-title">
+    <div class="nh-container">
+      <div class="v3-rule" aria-hidden="true"></div>
+      <h2 class="v3-h2" id="story-title">כמעט 70 שנה של בית<span class="v3-dot">.</span></h2>
+      <div class="v3-plain">
+        <p>נווה האירוס נפתח בשנת 1957.</p>
+        <p>בשנת 2021 נבנה אגף חדש.</p>
+        <p>היום יש לנו שלושה בתים.</p>
+      </div>
+      <ol class="v3-years__list v3-full" role="list">
+        <li class="v3-year">
+          <p class="v3-year__num" aria-hidden="true">1957</p>
+          <h3><span class="nh-sr-only">1957 — </span>סנטוריום נס ציונה</h3>
+          <p>אבן הפינה מונחת במקום שיהפוך לנווה האירוס.</p>
+          <figure class="v3-print v3-print--small">{{pic name="v3-courtyard" sizes="(min-width: 1024px) 15rem, 70vw"}}</figure>
+        </li>
+        <li class="v3-year v3-year--sky">
+          <p class="v3-year__num" aria-hidden="true">2021</p>
+          <h3><span class="nh-sr-only">2021 — </span>אגף חדש, ובו שמיים</h3>
+          <p>חדרים חדשים, מרחבים משותפים ותאורת „שמיים” בתקרה — אגף שתוכנן במיוחד לצורכי הדיירים.</p>
+          <div class="v3-shamayim" aria-hidden="true"><span>שמיי</span>{{letterroom letter="mem_final" photo="v3-sky-room" sizes="(min-width: 1024px) 8rem, 24vw" w="300" frame="300" pos="72% 30%" class="v3-shamayim__mem" decorative="1"}}</div>
+        </li>
+        <li class="v3-year">
+          <p class="v3-year__num" aria-hidden="true">היום</p>
+          <h3><span class="nh-sr-only">היום — </span>שלושה בתים</h3>
+          <p>במעון, בבתים בקהילה ובמסגרת לצעירים על הרצף האוטיסטי — יותר מ־100 דיירים ודיירות. יותר מ־25,000 בקרים מאז 1957.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- VOICES — night ============================================================================ -->
+  <section class="v3-voices v3-spread v3-spread--night" id="voices" data-header="dark" data-running="מה אומרות המשפחות" aria-labelledby="voices-title">
+    <div class="nh-container v3-voices__grid">
+      <div class="v3-rule" aria-hidden="true"></div>
+      <div>
+        <h2 class="v3-voices__h" id="voices-title">מה אומרות המשפחות</h2>
+        <blockquote class="v3-quote">
+          <p>הצוות הרפואי והמטפל נגישים בכל שעה ולכל שאלה […] ישנה הקשבה מלאה והתייחסות כנה ואמיתית לצרכים.</p>
+          <footer>— <cite>ליליה, אמא של דייר בנווה האירוס</cite></footer>
+        </blockquote>
+        <div class="v3-plain">
+          <p>אמא של דייר כתבה לנו:</p>
+          <p>הצוות זמין לכל שאלה.</p>
+          <p>מקשיבים לנו באמת.</p>
+        </div>
+      </div>
+      <div class="nh-video v3-video" data-video="JiaXto-WmJo" data-title="הורה של דייר מספר על נווה האירוס">
+        {{pic name="v3-owls" sizes="(min-width: 1024px) 28rem, 92vw" decorative="1"}}
         <button class="nh-video__play" type="button">
           <span class="nh-video__icon" aria-hidden="true"><svg focusable="false"><use href="#i-play"/></svg></span>
           <span>צפו: הורה של דייר מספר על נווה האירוס</span>
@@ -259,84 +293,56 @@
     </div>
   </section>
 
-  <!-- S9a · word band (moves only with the scroll) ==================================== -->
-  <div class="v2-band" aria-hidden="true">
-    <div class="v2-band__row" data-band><span>בית</span><span>משפחה</span><span>כבוד</span><span>שמחה</span><span>ביחד</span><span>צעד צעד</span><span>בית</span><span>משפחה</span><span>כבוד</span><span>שמחה</span><span>ביחד</span><span>צעד צעד</span></div>
-  </div>
-
-  <!-- S9 · jobs ====================================================================== -->
-  <section class="v2-jobs" id="jobs" data-header="light" aria-labelledby="jobs-title">
-    <div class="nh-container v2-jobs__grid">
-      <div>
-        <p class="v2-label"><span class="v2-num">06</span> דרושים</p>
-        <h2 class="v2-h2" id="jobs-title" data-lines style="margin-block:1rem 1.5rem">עבודה עם <em>משמעות אמיתית.</em></h2>
-        <p class="v2-lead" style="margin-block-end:2rem">מחפשים אנשים שרוצים להשפיע ולהיות חלק מבית: צוות חם ומשפחתי, עם אפשרויות להתפתחות מקצועית.</p>
-        <p data-reveal><a class="nh-btn nh-btn--primary" href="design-system.html#form">לכל המשרות ולהגשת מועמדות<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></p>
-      </div>
-      <ul class="v2-roles" role="list">
-        <li data-reveal><a href="design-system.html#form"><b>רכז/ת דירה — דיור בקהילה, אוטיזם</b><span>משרה מלאה, משמרות</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
-        <li data-reveal><a href="design-system.html#form"><b>עובד/ת סוציאלי/ת</b><span>50%–70%</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
-        <li data-reveal><a href="design-system.html#form"><b>מרפא/ה בעיסוק</b><span>6 שעות שבועיות</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
-        <li data-reveal><a href="design-system.html#form"><b>טבח/ית</b><span>משרה מלאה</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
-        <li data-reveal><a href="design-system.html#form"><b>עובד/ת אחזקה</b><span>משרה מלאה</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- S10 · news ===================================================================== -->
-  <section class="v2-news" id="news" data-header="light" aria-labelledby="news-title">
+  <!-- STEPS — צעד צעד ============================================================================ -->
+  <section class="v3-steps v3-spread" id="start" data-header="light" data-running="צעד צעד" aria-labelledby="start-title">
     <div class="nh-container">
-      <div class="v2-programs__head">
-        <div>
-          <p class="v2-label"><span class="v2-num">07</span> חדשות ועדכונים</p>
-          <h2 class="v2-h2" id="news-title" style="margin-block-start:1rem" data-lines>מה חדש <em>אצלנו.</em></h2>
-        </div>
-        <p data-reveal><a class="nh-link-arrow" href="#news"><span>לכל העדכונים</span><svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></p>
-      </div>
-      <ul class="v2-news__list" role="list">
-        <li class="v2-news__item" data-reveal><time datetime="2026-08">אוגוסט 2026</time><h3><a href="#news">מופע של ליאור סושארד לדיירי הבתים בקהילה</a></h3><p>דיירי הווילות בדיור בקהילה נהנו ממופע אישי במסגרת נופש בבית מלון.</p></li>
-        <li class="v2-news__item" data-reveal><time datetime="2026-03">מרץ 2026</time><h3><a href="#news">חוג טיפול בכלבים</a></h3><p>חוג חדש בתוכנית הפנאי של המעון.</p></li>
-        <li class="v2-news__item" data-reveal><time datetime="2026-03">מרץ 2026</time><h3><a href="#news">שיפוץ ביתן פיסטוק</a></h3><p>כל הביתן עבר שיפוץ יסודי.</p></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- S10b · how to start (every step sourced from the client's own pages) ====== -->
-  <section class="v2-start" id="start" data-header="light" aria-labelledby="start-title">
-    <div class="nh-container">
-      <div class="v2-programs__head">
-        <div>
-          <p class="v2-label"><span class="v2-num">08</span> איך מתחילים</p>
-          <h2 class="v2-h2" id="start-title" data-lines style="margin-block-start:1rem">ארבעה צעדים <em>הביתה.</em></h2>
-        </div>
-        <p class="v2-lead">המחלקה הסוציאלית שלנו מלווה אתכם לאורך כל הדרך.</p>
-      </div>
-      <ol class="v2-start__list" role="list">
-        <li data-reveal><h3>שיחה ראשונה</h3><p>מתקשרים או משאירים פרטים. נסביר את התהליך ונענה על כל שאלה.</p></li>
-        <li data-reveal><h3>ביקור והיכרות</h3><p>מגיעים לראות את המקום, להכיר את הצוות ולשאול הכול.</p></li>
-        <li data-reveal><h3>תיאום עם גורמי הרווחה</h3><p>הצוות שלנו עומד בקשר עם רשויות הרווחה שמלוות את המועמד או המועמדת.</p></li>
-        <li data-reveal><h3>תקופת הסתגלות</h3><p>בתחילת הדרך מלווים באופן צמוד — עד שהבית החדש מרגיש בית.</p></li>
+      <div class="v3-rule" aria-hidden="true"></div>
+      <h2 class="v3-h2" id="start-title">צעד צעד: ארבעה צעדים הביתה<span class="v3-dot">.</span></h2>
+      <p class="v3-lead v3-full">המחלקה הסוציאלית שלנו מלווה אתכם לאורך כל הדרך.</p>
+      <p class="v3-lead v3-plain">איך מגיעים לגור אצלנו?</p>
+      <ol class="v3-steps__list" role="list">
+        <li><span class="v3-steps__word" aria-hidden="true">צעד</span><h3><span class="v3-steps__n">1</span> שיחה ראשונה</h3><p class="v3-full">מתקשרים או משאירים פרטים. נסביר את התהליך ונענה על כל שאלה.</p><p class="v3-plain">מדברים איתנו בטלפון.</p></li>
+        <li><span class="v3-steps__word" aria-hidden="true">צעד</span><h3><span class="v3-steps__n">2</span> ביקור והיכרות</h3><p class="v3-full">מגיעים לראות את המקום, להכיר את הצוות ולשאול הכול.</p><p class="v3-plain">באים לבקר ולהכיר.</p></li>
+        <li><span class="v3-steps__word" aria-hidden="true">צעד</span><h3><span class="v3-steps__n">3</span> תיאום עם גורמי הרווחה</h3><p class="v3-full">הצוות שלנו עומד בקשר עם רשויות הרווחה שמלוות את המועמד או המועמדת.</p><p class="v3-plain">מדברים עם הרווחה.</p></li>
+        <li><span class="v3-steps__word" aria-hidden="true">צעד</span><h3><span class="v3-steps__n">4</span> תקופת הסתגלות</h3><p class="v3-full">בתחילת הדרך מלווים באופן צמוד — עד שהבית החדש מרגיש בית.</p><p class="v3-plain">מתחילים לגור אצלנו, לאט לאט.</p></li>
       </ol>
+      <div class="v3-steps__home" aria-hidden="true">{{letter name="bet" w="560"}}</div>
     </div>
   </section>
 
-  <!-- S11 · contact ==================================================================== -->
-  <section class="v2-cta" id="contact" data-header="dark" aria-labelledby="contact-title">
-    <div class="nh-container">
-      <p class="v2-label"><span class="v2-num">09</span> צור קשר</p>
-      <h2 class="v2-cta__title" id="contact-title" data-lines>בואו <em>להכיר.</em></h2>
-      <div class="v2-cta__grid">
-        <div>
-          <p data-reveal>הדרך הטובה ביותר להכיר בית היא לבקר בו. נשמח לארח אתכם למפגש היכרות, לענות על כל שאלה ולהראות לכם את המקום.</p>
-          <div class="nh-btn-row" data-reveal style="margin-block-start:2rem">
-            <a class="nh-btn nh-btn--ghost" href="tel:+97289403047" aria-label="התקשרו: 08-9403047"><svg class="nh-btn__icon" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg><span class="nh-ltr">08-9403047</span></a>
-          </div>
-          <div class="v2-cta__details" data-reveal>
-            <span>ת״ד 28, נס ציונה</span>
-            <a href="mailto:irus3@nevehairus.com"><span class="nh-ltr">irus3@nevehairus.com</span></a>
-          </div>
-        </div>
-        <div class="v2-cta__form" data-reveal>
+  <!-- ל׳ · LAMED — work with meaning, room to grow ============================================== -->
+  <section class="v3-lamed v3-spread" id="jobs" data-header="light" data-running="ל׳ · דרושים" aria-labelledby="jobs-title">
+    <div class="nh-container v3-lamed__grid">
+      <div class="v3-rule" aria-hidden="true"><span class="v3-rule__mark">ל׳</span></div>
+      <div class="v3-lamed__letter" aria-hidden="true">{{letter name="lamed" w="800"}}</div>
+      <div class="v3-lamed__text">
+        <h2 class="v3-h2" id="jobs-title">עבודה עם משמעות, ומקום לגדול<span class="v3-dot">.</span></h2>
+        <p class="v3-lead v3-full">מחפשים אנשים שרוצים להשפיע ולהיות חלק מבית: צוות חם ומשפחתי, עם אפשרויות להתפתחות מקצועית.</p>
+        <div class="v3-plain"><p>מחפשים עובדים ועובדות.</p><p>יש עבודה בבית ובקהילה.</p></div>
+        <ul class="v3-roles" role="list">
+          <li><a href="design-system.html#form"><b>רכז/ת דירה — דיור בקהילה, אוטיזם</b><span>משרה מלאה, משמרות</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
+          <li><a href="design-system.html#form"><b>עובד/ת סוציאלי/ת</b><span>50%–70%</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
+          <li><a href="design-system.html#form"><b>מרפא/ה בעיסוק</b><span>6 שעות שבועיות</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
+          <li><a href="design-system.html#form"><b>טבח/ית</b><span>משרה מלאה</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
+          <li><a href="design-system.html#form"><b>עובד/ת אחזקה</b><span>משרה מלאה</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
+        </ul>
+        <p><a class="nh-btn nh-btn--primary" href="design-system.html#form">לכל המשרות ולהגשת מועמדות<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ד׳ · DALET — the door is open ============================================================ -->
+  <section class="v3-door v3-spread v3-spread--iris" id="door" data-header="dark" data-running="ד׳ · בואו להכיר" aria-labelledby="door-title">
+    <div class="nh-container v3-door__grid">
+      <div class="v3-rule" aria-hidden="true"><span class="v3-rule__mark">ד׳</span></div>
+      <div class="v3-door__letter" aria-hidden="true" data-door>{{letter name="dalet" w="800"}}</div>
+      <div class="v3-door__in">
+        <h2 class="v3-h2" id="door-title">הדלת פתוחה. בואו להכיר<span class="v3-dot v3-dot--citrus">.</span></h2>
+        <p class="v3-lead v3-full">הדרך הטובה ביותר להכיר בית היא לבקר בו. נשמח לארח אתכם למפגש היכרות.</p>
+        <div class="v3-plain"><p>רוצים לבוא לבקר?</p><p>מתקשרים, או ממלאים את הטופס.</p></div>
+        <p class="v3-door__phone"><a href="tel:+97289403047" aria-label="התקשרו: 08-9403047"><span class="nh-ltr">08-9403047</span></a></p>
+        <p class="v3-door__addr">ת״ד 28, נס ציונה · <a href="mailto:irus3@nevehairus.com"><span class="nh-ltr">irus3@nevehairus.com</span></a></p>
+        <div class="v3-door__form">
           <h3>בקשה לביקור</h3>
           <div class="nh-alert nh-alert--success" data-success tabindex="-1" role="status" hidden><h3>תודה! הבקשה התקבלה.</h3><p>נחזור אליכם לתיאום. (באב־הטיפוס הטופס אינו נשלח.)</p></div>
           <form class="nh-form" data-validate action="#" method="post" aria-label="בקשה לביקור">
@@ -345,7 +351,7 @@
               <div class="nh-field"><label class="nh-label" for="c-name">שם מלא <span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="c-name" name="name" type="text" autocomplete="name" required></div>
               <div class="nh-field"><label class="nh-label" for="c-phone">טלפון <span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="c-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" required></div>
             </div>
-            <div class="nh-field"><label class="nh-label" for="c-prog">איזו מסגרת מעניינת אתכם?</label>
+            <div class="nh-field"><label class="nh-label" for="c-prog">איזה בית מעניין אתכם?</label>
               <select class="nh-select" id="c-prog" name="program"><option value="">עוד לא יודעים</option><option>מעון ראשי — בית לחיים</option><option>דיור בקהילה</option><option>דיור לצעירים על הרצף האוטיסטי</option></select></div>
             <div class="nh-hp" aria-hidden="true"><label for="c-website">אתר</label><input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
             <div class="nh-check"><input id="c-consent" name="consent" type="checkbox" required><label for="c-consent">קראתי את <a href="#privacy">מדיניות הפרטיות</a> ואני מסכים/ה שתיצרו איתי קשר. <span class="nh-req" aria-hidden="true">*</span></label></div>
@@ -360,5 +366,7 @@
 </main>
 
 {{> footer}}
+{{letterdata names="bet"}}
+{{imgdata id="nh-works" names="v3-pot-b v3-pot-a v3-pot-c v3-owls"}}
 </body>
 </html>

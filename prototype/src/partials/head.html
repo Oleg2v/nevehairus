@@ -1,3 +1,4 @@
+<!-- keep the viewport meta first: Chrome's preload scanner sizes responsive images with it -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <meta name="color-scheme" content="light">
@@ -7,33 +8,17 @@
 <link rel="preload" href="assets/fonts/assistant-core-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css">
 <script>
-  /* Runs before first paint.
-     1) apply the saved motion preference;
-     2) hide below-the-fold reveals only when motion is allowed (safety: 3.5s);
-     3) GSAP is decorative, so it is loaded AFTER the page has loaded (keeps LCP/TBT
-        low) and never loaded at all for people who prefer reduced motion. */
+  /* Runs before first paint: apply the visitor's saved display choices so the page
+     never flashes in the wrong mode. v3 needs no animation library: the letters
+     move with a few lines of our own code (assets/js/v3.js), loaded with defer. */
   (function (w, d) {
-    var h = d.documentElement, reduce = false, started = false;
+    var h = d.documentElement, get = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };
     h.classList.add("js");
-    try { reduce = localStorage.getItem("nh-motion") === "reduce"; } catch (e) {}
-    if (reduce) h.classList.add("nh-reduce-motion");
-    var osReduce = w.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    w.nhLoadMotion = function () {
-      if (started) return; started = true;
-      var q = ["assets/vendor/gsap/gsap.min.js", "assets/vendor/gsap/ScrollTrigger.min.js", "assets/vendor/gsap/SplitText.min.js", "assets/js/motion.js"];
-      (function next() {
-        if (!q.length) return;
-        var s = d.createElement("script"); s.src = q.shift(); s.onload = next;
-        s.onerror = function () { h.classList.remove("nh-motion-pending"); };
-        d.head.appendChild(s);
-      })();
-    };
-    if (!reduce && !osReduce) {
-      h.classList.add("nh-motion-pending");
-      setTimeout(function () { h.classList.remove("nh-motion-pending"); }, 3500);
-      if (d.readyState === "complete") w.nhLoadMotion();
-      else w.addEventListener("load", function () { setTimeout(w.nhLoadMotion, 0); });
-    }
+    if (get("nh-motion") === "reduce") h.classList.add("nh-reduce-motion");
+    if (get("nh-calm") === "on") h.classList.add("nh-calm");
+    var q = /[?&]plain=([01])/.exec(w.location.search);
+    if (q ? q[1] === "1" : get("nh-plain") === "on") h.classList.add("nh-plainmode");
   })(window, document);
 </script>
 <script src="assets/js/site.js" defer></script>
+<script src="assets/js/v3.js" defer></script>

@@ -112,7 +112,7 @@
     const own = d.getElementById("visit");
     const cta = bar.querySelector("[data-bar-cta]");
     if (own && cta) cta.setAttribute("href", "#visit");
-    const zones = [d.getElementById("contact"), own, d.querySelector(".nh-footer")].filter(Boolean);
+    const zones = [d.getElementById("contact"), d.getElementById("door"), own, d.querySelector(".nh-footer")].filter(Boolean);
     const inView = (el) => { const b = el.getBoundingClientRect(); return b.top < window.innerHeight && b.bottom > 0; };
     let bt = false;
     const upd = () => {

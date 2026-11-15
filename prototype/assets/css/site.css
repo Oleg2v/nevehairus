@@ -1207,4 +1207,29 @@ html.nh-reduce-motion .v3-roles svg, html.nh-reduce-motion .v3-home__arrow { tra
 .nh-wordmark small { font: 700 .75rem/1 var(--nh-font-body); letter-spacing: .08em; }
 .nh-header .nh-logo { color: var(--nh-ink); }
 .nh-header[data-theme="dark"] .nh-logo { color: var(--nh-paper); }
-.nh-header[data-theme="dark"] .nh-wordmark::before{background: var(--nh-citrus-400)}.nh-footer__logo{background: none !important;padding: 0 !important;color: var(--nh-paper);text-decoration: none}.nh-footer__logo .nh-wordmark{font-size: 2rem}.nh-footer__logo .nh-wordmark::before{background: var(--nh-citrus-400)}.v2-bar{position: fixed;z-index: 45;inset-inline: .75rem;inset-block-end: calc(.75rem + env(safe-area-inset-bottom,0px));display: none;grid-template-columns: 1fr auto;gap: .5rem;padding: .5rem;border-radius: 4px;background: var(--nh-night);box-shadow: 0 10px 30px rgb(0 0 0 / .25);transform: translateY(160%);visibility: hidden;transition: transform .45s var(--nh-ease-out),visibility 0s linear .45s;--nh-focus: var(--nh-citrus-400)}.v2-bar .nh-btn{min-block-size: 3rem;padding-block: .5em}.v2-bar .nh-btn--primary{--_bg: var(--nh-citrus-400);--_fg: var(--nh-ink)}.v2-bar .nh-btn--ghost{color: var(--nh-paper)}@media (max-width: 1119px){.v2-bar{display: grid}}.v2-bar.is-on{transform: none;visibility: visible;transition: transform .45s var(--nh-ease-out),visibility 0s}html.nh-has-bar{scroll-padding-block-end: 6rem}@media (min-width: 1120px){html.nh-has-bar{scroll-padding-block-end: 0}}::view-transition-group(home-bet-1){animation-duration: .6s;animation-timing-function: cubic-bezier(.22,1,.36,1)}html.nh-reduce-motion::view-transition-group(*),html.nh-reduce-motion::view-transition-old(*),html.nh-reduce-motion::view-transition-new(*),html.nh-calm::view-transition-group(*),html.nh-calm::view-transition-old(*),html.nh-calm::view-transition-new(*){animation: none !important}
+.nh-header[data-theme="dark"] .nh-wordmark::before { background: var(--nh-citrus-400); }
+.nh-footer__logo { background: none !important; padding: 0 !important; color: var(--nh-paper); text-decoration: none; }
+.nh-footer__logo .nh-wordmark { font-size: 2rem; }
+.nh-footer__logo .nh-wordmark::before { background: var(--nh-citrus-400); }
+
+/* ---------- Mobile visit bar (moved from v2; square, solid, no blur) ---------------- */
+.v2-bar { position: fixed; z-index: 45; inset-inline: .75rem; inset-block-end: calc(.75rem + env(safe-area-inset-bottom, 0px));
+  display: none; grid-template-columns: 1fr auto; gap: .5rem; padding: .5rem; border-radius: 4px; background: var(--nh-night);
+  box-shadow: 0 10px 30px rgb(0 0 0 / .25);
+  transform: translateY(160%); visibility: hidden; transition: transform .45s var(--nh-ease-out), visibility 0s linear .45s; --nh-focus: var(--nh-citrus-400); }
+.v2-bar .nh-btn { min-block-size: 3rem; padding-block: .5em; }
+.v2-bar .nh-btn--primary { --_bg: var(--nh-citrus-400); --_fg: var(--nh-ink); }
+.v2-bar .nh-btn--ghost { color: var(--nh-paper); }
+@media (max-width: 1119px) { .v2-bar { display: grid; } }
+.v2-bar.is-on { transform: none; visibility: visible; transition: transform .45s var(--nh-ease-out), visibility 0s; }
+html.nh-has-bar { scroll-padding-block-end: 6rem; }
+@media (min-width: 1120px) { html.nh-has-bar { scroll-padding-block-end: 0; } }
+
+/* ---------- Page transitions: the homes-index ב grows into the page cover ב ---------- */
+::view-transition-group(home-bet-1) { animation-duration: .6s; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
+html.nh-reduce-motion::view-transition-group(*), html.nh-reduce-motion::view-transition-old(*), html.nh-reduce-motion::view-transition-new(*),
+html.nh-calm::view-transition-group(*), html.nh-calm::view-transition-old(*), html.nh-calm::view-transition-new(*) { animation: none !important; }
+
+/* a moment without a photo (no consented pictures of family visits yet): words only */
+@media (min-width: 1024px) {
+  .v3-moment--words { grid-template-areas: "text verb";align-items: center}.v3-moment--words>p{font-size: clamp(1.25rem,1.1rem + .5vw,1.6rem);max-inline-size: 26ch}}html.nh-plainmode .v3-lamed__grid,html.nh-plainmode .v3-door__grid{grid-template-columns: minmax(0,1fr)}html.nh-plainmode .v3-door__form{max-inline-size: 44rem}.v3-mast .nh-header__inner{flex-wrap: wrap;row-gap: .25rem}.v3-mast .nh-header__actions{flex-wrap: wrap;justify-content: flex-end;row-gap: .25rem}

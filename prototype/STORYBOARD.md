@@ -4,7 +4,7 @@
 >
 > **v3** Направление выбрали три независимых судьи: среднее 7.71 по шкале Awwwards против 7.33 и 7.06 у двух других концепций ([research/06](../research/06-jury-v2-to-v3.md)). Предыдущие версии сохранены: v2 — [`storyboard/v2/`](storyboard/v2/) и живая копия [`v2/`](v2/), v1 — [`storyboard/v1/`](storyboard/v1/).
 >
-> Кадры сняты Playwright с живого прототипа: десктоп 1440×900, iPhone 13 (390×844). Обзорные листы: [`_overview-home-desktop.jpg`](storyboard/_overview-home-desktop.jpg), [`_overview-home-mobile.jpg`](storyboard/_overview-home-mobile.jpg), [`_overview-inner.jpg`](storyboard/_overview-inner.jpg).
+> Кадры сняты Playwright с живого прототипа: десктоп 1440×900, iPhone 13 (кадры — 390×664, видимая область Safari; видео — весь экран 390×844). **Видео прокрутки** главной (≈ 1 мин, с переключением простого языка в конце): [десктоп](storyboard/video/nevehairus-v3.1-desktop.mp4), [телефон](storyboard/video/nevehairus-v3.1-mobile.mp4). Обзорные листы: [`_overview-home-desktop.jpg`](storyboard/_overview-home-desktop.jpg), [`_overview-home-mobile.jpg`](storyboard/_overview-home-mobile.jpg), [`_overview-inner.jpg`](storyboard/_overview-inner.jpg).
 >
 > Фото **временные**, взяты с текущего сайта (без узнаваемых лиц). Все прошли одну цветокоррекцию и кадрирование «под комнату» ([`scripts/build_prototype_images.py`](../scripts/build_prototype_images.py), `--v3`). Тексты на иврите опираются только на подтверждённые факты ([content/README.md](../content/README.md#сверка-фактов-из-брифа)). Тексты «בשפה פשוטה» — черновик для специалиста по פישוט לשוני.
 

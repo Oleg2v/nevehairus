@@ -109,7 +109,7 @@
   if (running && spreads.length && "IntersectionObserver" in w) {
     const io = new IntersectionObserver((entries) => entries.forEach((e) => {
       if (e.isIntersecting) running.textContent = e.target.dataset.running;
-    }), { rootMargin: "-15% 0px -80% 0px" });
+    }), { rootMargin: "-10% 0px -85% 0px" });                             // the band just under the masthead
     spreads.forEach((s) => io.observe(s));
   }
 
@@ -200,12 +200,20 @@
         img.src = `assets/img/${name}-${m.widths.includes(768) ? 768 : m.widths[m.widths.length - 1]}.webp`;
       };
       if (!motionOK()) { swap(); return; }
-      img.style.opacity = "0";
-      setTimeout(() => {
-        img.addEventListener("load", () => { img.style.opacity = ""; }, { once: true });
+      // crossfade: the work in the palm stays as a backdrop while the chosen one fades in over it (never an empty letter)
+      const box = img.closest(".v3-room__photo");
+      if (box && img.currentSrc) {
+        box.style.backgroundImage = `url("${img.currentSrc}")`;
+        box.style.backgroundSize = "cover";
+        box.style.backgroundPosition = getComputedStyle(img).objectPosition;
+      }
+      img.style.transition = "none"; img.style.opacity = "0";
+      requestAnimationFrame(() => {
+        const show = () => { img.style.transition = ""; img.style.opacity = ""; };
+        img.addEventListener("load", show, { once: true });
         swap();
-        if (img.complete) img.style.opacity = "";
-      }, 300);
+        if (img.complete) show();
+      });
     };
     const name = d.querySelector("[data-work-name]");                     // «בכף היד: …»
     d.querySelectorAll("[data-work]").forEach((b) => b.addEventListener("click", () => {

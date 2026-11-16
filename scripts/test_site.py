@@ -6,6 +6,7 @@
     python3 -I scripts/test_site.py deploy [ZIP] [--go]    install or update the nevehairus-site plugin
     python3 -I scripts/test_site.py rekey [--go]           new key for the safe switch (rewrites only that file)
     python3 -I scripts/test_site.py safe-off               emergency: deactivate the plugin without loading it
+    python3 -I scripts/test_site.py cleanup                delete one-time snippets a failed run left behind
 
 Safety rules built in:
   * every request, including redirects, must stay on https://HOST; anything else stops the script;
@@ -111,6 +112,8 @@ def api(route, method="GET", body=None, query=None, headers=None, timeout=120):
         data = bytes(body)
     elif body is not None:
         data, h["Content-Type"] = json.dumps(body).encode(), "application/json"
+    if method == "DELETE":                 # nginx on uPress answers 405 to DELETE; WordPress reads _method
+        method, query = "POST", {**(query or {}), "_method": "DELETE"}
     st, hdr, raw = http(url_for(route, query), method, data, h, timeout)
     try:
         payload = json.loads(raw or b"null")
@@ -160,7 +163,9 @@ def record(entry):
 # --- read-only ----------------------------------------------------------------------------------------------
 def whoami(caps_needed=()):
     st, me, _ = api("/wp/v2/users/me", query={"context": "edit"})
-    need(st == 200, f"the API key does not work ({st} {err(me)}): WordPress needs an application password")
+    if st in (401, 403):
+        raise SystemExit(f"STOP: the API key does not work ({st} {err(me)}): WordPress needs an application password")
+    need(st == 200, f"the site answered {st} ({err(me)}); if the plugin broke it, run safe-off")
     caps = me.get("capabilities") or {}
     missing = [c for c in caps_needed if not caps.get(c)]
     need(not missing, f"this account lacks {', '.join(missing)}")
@@ -254,6 +259,7 @@ add_action( 'wp_loaded', static function () {
 	$att = isset( $_GET['nh_att'] ) ? array_map( 'absint', explode( ',', (string) $_GET['nh_att'] ) ) : array();
 	try {
 __NH_BODY__
+		$log['done'] = true;
 	} catch ( Throwable $e ) {
 		$log['exception'] = get_class( $e ) . ': ' . $e->getMessage() . ' @ ' . basename( $e->getFile() ) . ':' . $e->getLine();
 	}
@@ -262,8 +268,8 @@ __NH_BODY__
 			wp_delete_attachment( $id, true );
 		}
 	}
-	while ( ob_get_level() ) {
-		ob_end_clean();
+	for ( $i = ob_get_level(); $i > 0; $i-- ) {
+		@ob_end_clean();
 	}
 	wp_send_json( $log );
 }, 1 );
@@ -307,13 +313,14 @@ class Helper:
 def _delete_snippet(sid):
     """Code Snippets 4.1.0: the first DELETE moves to the trash, the second deletes; confirm with a GET."""
     api(f"/code-snippets/v1/snippets/{sid}/deactivate", "POST")
+    st1 = st2 = st3 = None
     for _ in range(3):
-        st1, _, _ = api(f"/code-snippets/v1/snippets/{sid}", "DELETE")
-        st2, _, _ = api(f"/code-snippets/v1/snippets/{sid}", "DELETE")
-        st3, _, _ = api(f"/code-snippets/v1/snippets/{sid}")
+        st3, snip, _ = api(f"/code-snippets/v1/snippets/{sid}")
         if st3 == 404:
             return True
-        time.sleep(2)
+        st1, _, _ = api(f"/code-snippets/v1/snippets/{sid}", "DELETE")     # trash (200), or delete if trashed (204)
+        st2, _, _ = api(f"/code-snippets/v1/snippets/{sid}", "DELETE")     # delete from the trash (204)
+        time.sleep(1)
     print(f"!! snippet #{sid} is not confirmed deleted (last answers {st1}/{st2}/{st3}); it expires by itself, "
           "but delete it in Snippets → Trash")
     return False
@@ -348,6 +355,8 @@ def run_php(label, body, uploads=(), extra_headers=None):
     need(st == 200 and isinstance(log, dict) and log.get("nh_task") == token,
          f"the one-time step did not run or did not answer ({st} {err(log) if isinstance(log, dict) else log})")
     log.pop("nh_task", None)
+    if not log.pop("done", False):
+        print("!! the one-time step stopped early:", json.dumps(log, ensure_ascii=False)[:600])
     return log
 
 
@@ -355,7 +364,7 @@ def run_php(label, body, uploads=(), extra_headers=None):
 SAFE_SWITCH = r"""<?php
 /**
  * Plugin Name: nevehairus-site safe switch (test site)
- * Description: A request with the developer's key in the X-NH-Safe-Key header loads the site without the nevehairus-site plugin; with ?nh_safe_off=1 it also deactivates the plugin. Installed by scripts/test_site.py on the test site; delete this file to remove it.
+ * Description: A request with the developer's key in the X-NH-Safe-Key header loads the site without the nevehairus-site plugin; with ?nh_safe_off=1 it also deactivates the plugin, with ?nh_safe_theme=1 it uses Twenty Twenty-Five for that request. Installed by scripts/test_site.py on the test site; delete this file to remove it.
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	return;
@@ -372,6 +381,10 @@ if ( isset( $_SERVER['HTTP_X_NH_SAFE_KEY'] ) && is_string( $_SERVER['HTTP_X_NH_S
 	add_filter( 'option_active_plugins', static function ( $plugins ) use ( $nh_safe_file ) {
 		return array_values( array_diff( (array) $plugins, array( $nh_safe_file ) ) );
 	} );
+	if ( isset( $_GET['nh_safe_theme'] ) ) {   // load a stock theme for this request, if the child or Hello breaks
+		add_filter( 'pre_option_template', static function () { return 'twentytwentyfive'; } );
+		add_filter( 'pre_option_stylesheet', static function () { return 'twentytwentyfive'; } );
+	}
 	if ( ! headers_sent() ) {
 		header( 'X-NH-Safe: on' );
 	}
@@ -440,6 +453,23 @@ def cmd_rekey(args):
     with Helper():
         install_switch(secrets.token_hex(24))
     step(f"safe switch works with the new key ({KEY_FILE})")
+
+
+def cmd_cleanup(_args):
+    """Delete for good any one-time snippet this script left behind (names start with 'nevehairus:')."""
+    whoami(("manage_options",))
+    with Helper():
+        found = []
+        for q in ({}, {"status": "trashed"}):
+            st, items, _ = api("/code-snippets/v1/snippets", query={"per_page": "100", **q})
+            if st == 200 and isinstance(items, list):
+                found += [i for i in items if str(i.get("name", "")).startswith("nevehairus:") and i["id"] not in [f["id"] for f in found]]
+        for snip in found:
+            ok = _delete_snippet(int(snip["id"]))
+            step(f"snippet #{snip['id']} ({snip.get('name')}): {'deleted' if ok else 'NOT deleted'}")
+        if not found:
+            step("no leftover snippets")
+        record({"change": "cleanup: deleted leftover one-time snippets", "ids": [f["id"] for f in found]})
 
 
 def cmd_safe_off(_args=None):
@@ -622,6 +652,10 @@ DEPLOY_PHP = r"""
 		$log['install']  = is_wp_error( $result ) ? $result->get_error_message() : $result;
 		$log['errors']   = $skin->get_error_messages();
 		wp_clean_plugins_cache();
+		if ( true !== $result && $log['was_active'] && file_exists( WP_PLUGIN_DIR . '/' . $file ) ) {
+			$back                 = activate_plugin( $file );
+			$log['old_reactivated'] = is_wp_error( $back ) ? $back->get_error_message() : 'ok';
+		}
 		if ( true === $result && file_exists( WP_PLUGIN_DIR . '/' . $file ) ) {
 			$active          = activate_plugin( $file );   // loads the new code: a fatal error stops here, inactive
 			$log['activate'] = is_wp_error( $active ) ? $active->get_error_code() . ': ' . $active->get_error_message() : 'ok';
@@ -719,6 +753,7 @@ def main():
     p.add_argument("--go", action="store_true", help="apply (without it: print the plan only)")
     p.set_defaults(fn=cmd_deploy)
     sub.add_parser("safe-off").set_defaults(fn=cmd_safe_off)
+    sub.add_parser("cleanup").set_defaults(fn=cmd_cleanup)
     args = ap.parse_args()
     args.fn(args)
 

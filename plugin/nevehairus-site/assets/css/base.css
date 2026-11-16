@@ -160,8 +160,25 @@
 .nh-cookies__title { margin: 0; font: 500 var(--v3-fs-h3, 1.375rem)/1.25 var(--nh-font-display); }
 .nh-cookies p { margin: 0; font-size: var(--v3-fs-body, 1.125rem); line-height: 1.6; color: var(--nh-text); }
 .nh-cookies__prefs { display: grid; gap: .75rem; }
-.nh-cookies .nh-check { display: flex; gap: .75rem; align-items: flex-start; font-size: var(--v3-fs-body, 1.125rem); line-height: 1.5; }   /* plugin: + the layout of main.css L346 */
-.nh-cookies .nh-check input { flex: none; inline-size: 2rem; block-size: 2rem; margin: 0; accent-color: var(--nh-citrus-400); }   /* plugin: + flex and margin of main.css L347 */
+.nh-cookies .nh-check { display: flex; gap: .75rem; align-items: flex-start; font-size: var(--v3-fs-body, 1.125rem); line-height: 1.5; }   /* plugin: + the layout of main.css «Forms» (.nh-check) */
+.nh-cookies .nh-check > span { flex: 1 1 0; }
+/* the boxes on night (the forms' box: a 32px box drawn like the fields): a paper frame, citrus on hover; checked:
+   citrus with an ink tick; «הכרחיות» is always on (disabled). plugin: + the forms' box of main.css «Forms» (.nh-check
+   input), as forms.css is loaded only with a form */
+.nh-cookies .nh-check input {
+  appearance: none; -webkit-appearance: none; flex: none; inline-size: 2rem; block-size: 2rem; margin: 0; cursor: pointer;
+  margin-block-start: calc((1lh - 2rem) / 2);      /* the middle of the text's first line */
+  border: 2px solid var(--nh-paper); border-radius: 2px; background: transparent center / 1.375rem no-repeat;
+  transition: border-color .15s ease;
+}
+.nh-cookies .nh-check input:hover { border-color: var(--nh-citrus-400); }
+.nh-cookies .nh-check input:checked {
+  border-color: var(--nh-citrus-400); background-color: var(--nh-citrus-400);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231F2421' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+}
+.nh-cookies .nh-check input:disabled { cursor: default; opacity: .6; }
+/* a link inside the panel's text: a 2px ring on the words' own box (main.css «Forms») */
+.nh-cookies p a:focus-visible { outline-width: 2px; outline-offset: 0; }
 
 /* ---- main.css L427–435 — plugin: both rules scoped to our parts; the system-wide rule is the theme's ---- */
 /* ---------- Reduced motion: the OS setting, «מצב רגוע», or nh-reduce-motion (the v3.1 switch, still read
@@ -181,6 +198,7 @@ html:is(.nh-reduce-motion, .nh-calm) :where([class*="elementor-widget-nh-"], .nh
 /* ---------- Forced colours (Windows high contrast) ----------------------------- */
 @media (forced-colors: active) {
   .nh-btn { border: 2px solid ButtonText; }
+  .nh-cookies .nh-check input { appearance: auto; -webkit-appearance: auto; background-image: none; }   /* main.css «Forms» */
 }
 
 /* ---- main.css L445–449 — plugin: .nh-cookies and the dark grounds only (.nh-header, .nh-menu → masthead.css,
@@ -236,9 +254,11 @@ html:is(.nh-reduce-motion, .nh-calm) :where([class*="elementor-widget-nh-"], .nh
    itself is aria-pressed) · a 44×24 track with an 18px square thumb. Nothing moves: the thumb jumps. */
 .v3-toggle {
   display: flex; align-items: center; gap: .75rem; inline-size: 100%;
-  min-block-size: 2.75rem; padding-inline: .25rem; font: 600 var(--v3-fs-ui, 1.125rem)/1.2 var(--nh-font-body); color: inherit; text-align: start;
+  min-block-size: 2.75rem; padding-inline: 0; font: 600 var(--v3-fs-ui, 1.125rem)/1.2 var(--nh-font-body); color: inherit; text-align: start;
 }
+/* the label starts on the column's edge, as the links above it (16.11: a .25rem inset); hover underlines it at once */
 .v3-toggle__label { flex: 1; }
+.v3-toggle:hover .v3-toggle__label { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
 .v3-toggle__state { flex: none; font: 700 var(--v3-fs-small, 1rem)/1.2 var(--nh-font-body); }
 .v3-toggle__state::before { content: attr(data-off); }
 .v3-toggle[aria-pressed="true"] .v3-toggle__state::before { content: attr(data-on); }
@@ -281,6 +301,8 @@ html:is(.nh-reduce-motion, .nh-calm) :where([class*="elementor-widget-nh-"], .nh
    ink frame and a numbered caption («1 ·»: the number is silent). The file is already 4:3: cover trims only
    fractions of a pixel. Never full width, never behind text. */
 .v3-print { margin: 0; inline-size: 100%; max-inline-size: 21rem; counter-increment: print; }
+/* phones up to 27em: the print fills the column (16.11: 336px in a 347px column read as a misalignment) */
+@media (max-width: 26.99em) { .v3-print { max-inline-size: none; } }
 .v3-print picture { display: block; aspect-ratio: 4 / 3; box-shadow: 0 0 0 1px var(--v3-ink); }
 .v3-print img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
 .v3-print figcaption { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-text-muted, var(--nh-ink-2)); margin-block-start: .65rem; }
@@ -304,8 +326,12 @@ html:is(.nh-reduce-motion, .nh-calm) :where([class*="elementor-widget-nh-"], .nh
 .v3-roles a:focus-visible { outline-offset: -3px; }                    /* a row link: the ring stays inside the row */
 .v3-roles b { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); }
 .v3-roles__meta { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-ink-2); white-space: nowrap; }
-.v3-roles svg { inline-size: 1.25rem; block-size: 1.25rem; align-self: center; }
+.v3-roles svg { inline-size: 1.25rem; block-size: 1.25rem; align-self: center; grid-column: -2 / -1; }   /* always the last column (the meta is hidden in plain language) */
 .v3-roles a:is(:hover, :focus-visible) b { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 2px; }
+/* beside the meta (from 40em) the arrow stands on the row's first line — the meta's line, also when the title wraps —
+   with its middle on the middle of the meta's letters (16.11: it sat in the middle of the row, 13.5px below the meta
+   of a two-line title, and 3–4.5px above it otherwise). On phones it stays in the middle of the title and the meta. */
+@media (min-width: 40.01em) { .v3-roles svg { align-self: baseline; position: relative; inset-block-start: .35rem; } }
 
 /* ---- v3.css L425–432 — plugin: without L426 (.v3-related → related.css) ---- */
 /* rows with a long description wrap; on phones the description goes under the title */
@@ -329,6 +355,7 @@ html.nh-plainmode .nh-cookies .v3-plain p { font-size: var(--v3-fs-plain); line-
 html.nh-plainmode :is(h1, h2, h3, b, label) > .v3-plain { display: inline; }
 html.nh-plainmode .nh-btn > .v3-plain { display: inline; }
 html.nh-plainmode .v3-plain--after { margin-block-start: 1.5rem; }
+html.nh-plainmode .v3-note.v3-plain { margin-block-start: 1rem; }   /* off the rule above it, as in full mode (16.11: 0) */
 
 /* ---- v3.css L370–373 — plugin: the photos of our widgets, not the masthead's emblem (the prototype reaches
    `main img`: the logo is never recoloured, research/07 §6) ---- */

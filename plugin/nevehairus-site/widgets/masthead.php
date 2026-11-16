@@ -514,7 +514,7 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 	}
 
 	/**
-	 * `<span class="nh-logo__name"><span>מעון נווה</span> <span>האירוס</span></span>`, by the five states of
+	 * `<span class="nh-logo__name"><span>מעון</span> <span>נווה האירוס</span></span>`, by the five states of
 	 * a pair (SPEC §3.5): one element when both modes read the same, else the full and the plain name with
 	 * their mode classes.
 	 *
@@ -539,14 +539,15 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 	}
 
 	/**
-	 * The name in two spans split at its last space (one span when it is one word).
+	 * The name in two spans split at its first space (one span when it is one word): on phones the two spans are two
+	 * lines, and the proper name after the first word keeps together («מעון / נווה האירוס»; 16.11: «מעון נווה / האירוס»).
 	 *
 	 * @param string $name  Plain text.
 	 * @param string $mode  Mode class ('' = none).
 	 * @return string
 	 */
 	private static function name_lines( string $name, string $mode ): string {
-		$cut   = strrpos( $name, ' ' );
+		$cut   = strpos( $name, ' ' );
 		$inner = ( false === $cut )
 			? '<span>' . esc_html( $name ) . '</span>'
 			: '<span>' . esc_html( substr( $name, 0, $cut ) ) . '</span> <span>' . esc_html( substr( $name, $cut + 1 ) ) . '</span>';

@@ -21,10 +21,10 @@
   ],
   "extra": null,
   "plugin": {
-   "version": "0.2.2",
-   "php_sha256": "72e6297e1e8a6375c1858439940c78d293c2a354dfd38762fab5ad03b3c14b82"
+   "version": "0.2.3",
+   "php_sha256": "c70f25e88334db6ddc07ec64c5f0da00add143410e454457c5dd4c58a2bcec1a"
   },
-  "inputs_sha256": "b3345f9da9c4a4de1aa3d19a6d58a1e66322b28a64f6b91709b1a8fae57b3fec"
+  "inputs_sha256": "ab5bc5a031f0dca17568be9b5d4622b79195f08f8c1775407205aa7b481e9e54"
  },
  "elementor_data": [
   {
@@ -392,7 +392,7 @@
          "id": "1908c36",
          "elType": "widget",
          "settings": {
-          "editor": "<ul class=\"nh-footer-links\"><li><a href=\"#accessibility\">הצהרת נגישות</a></li><li><a href=\"#privacy\">מדיניות פרטיות</a></li><li><a href=\"#nh-cookies\">הגדרות עוגיות</a></li><li><a href=\"#sitemap\">מפת אתר</a></li><li><a href=\"#entrances\">מפרט כניסות נגישות (PDF)</a></li></ul>",
+          "editor": "<ul class=\"nh-footer-links\"><li><a href=\"#accessibility\">הצהרת נגישות</a></li><li><a href=\"#privacy\">מדיניות פרטיות</a></li><li><a href=\"#nh-cookies\">הגדרות עוגיות</a></li><li><a href=\"#sitemap\">מפת אתר</a></li><li><a href=\"#entrances\">מפרט כניסות נגישות (PDF)</a></li></ul>",
           "text_color": "#CFC8DE",
           "link_color": "#F7F1E7",
           "typography_typography": "custom",
@@ -438,7 +438,7 @@
      "id": "f66e765",
      "elType": "widget",
      "settings": {
-      "editor": "<p><b>קולופון.</b> גופנים: <span lang=\"en\" dir=\"ltr\">Frank Ruhl Libre</span> (יאנק יונטף) ו־<span lang=\"en\" dir=\"ltr\">Assistant</span> (בן נתן ו־<span lang=\"en\" dir=\"ltr\">Adobe</span>), ברישיון <span lang=\"en\" dir=\"ltr\">SIL OFL</span>. חמש אותיות שהשמות שלהן מילים של בית — ב׳, כ׳, ס׳, ל׳ ו־ד׳ — משמשות כאן כאדריכלות. הכדים, המנדלה והינשופים — עבודות יד של דיירות ודיירי נווה האירוס. הצילומים זמניים, ללא פנים מזוהות.</p>",
+      "editor": "<p><b>קולופון.</b> גופנים: <span lang=\"en\" dir=\"ltr\">Frank Ruhl Libre</span> (יאנק יונטף) ו־⁠<span lang=\"en\" dir=\"ltr\">Assistant</span> (בן נתן ו־⁠<span lang=\"en\" dir=\"ltr\">Adobe</span>), ברישיון <span lang=\"en\" dir=\"ltr\">SIL OFL</span>. חמש אותיות שהשמות שלהן מילים של בית — ב׳, כ׳, ס׳, ל׳ ו־⁠ד׳ — משמשות כאן כאדריכלות. הכדים, המנדלה והינשופים — עבודות יד של דיירות ודיירי נווה האירוס. הצילומים זמניים, ללא פנים מזוהות.</p>",
       "text_color": "#CFC8DE",
       "link_color": "#F7F1E7",
       "typography_typography": "custom",

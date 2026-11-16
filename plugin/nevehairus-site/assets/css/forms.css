@@ -7,7 +7,7 @@
    16px step; the submit button full width under 40em; errors only after sending.
    ========================================================================= */
 
-/* ---- main.css L324–358 ---- */
+/* ---- main.css «Forms» (v3.2 + the detail fixes of 16.11) ---- */
 /* ---------- Forms (v3.2, research/07 §7.5): 56px fields, a 2px #4F5550 frame (6.80:1), only the border
    colour changes (150ms); errors appear only after sending ---------------------------------------- */
 .nh-form { display: grid; gap: var(--nh-s-5); }
@@ -41,10 +41,32 @@
 .nh-input[type="file"] { padding: .6rem; }
 .nh-error { color: var(--nh-error); font-weight: 600; font-size: var(--v3-fs-small, 1rem); display: flex; gap: .4rem; align-items: center; }
 .nh-error svg { inline-size: 1.05rem; block-size: 1.05rem; flex: none; }
-/* the whole label is the target (<label for>); the box itself is 32px */
-.nh-check { display: flex; gap: .75rem; align-items: flex-start; }
-.nh-check input { inline-size: 2rem; block-size: 2rem; flex: none; margin: 0; accent-color: var(--nh-iris-700); }
-.nh-check label { padding-block-start: .2rem; }
+/* the whole label is the target (<label for>); the box itself is 32px and drawn like the fields (16.11: the native
+   box was a thin grey hairline beside the 2px frames): a 2px #4F5550 frame on white, ink on hover, red when invalid,
+   iris with a white tick when checked; only the frame's colour changes, in 150ms. Its middle sits on the middle of
+   the label's first line. An error goes on its own line under the label (it wraps), aligned with the label's text.
+   Forced colours get the native box back. */
+.nh-check { display: flex; flex-wrap: wrap; gap: .75rem; align-items: flex-start; }
+.nh-check input {
+  appearance: none; -webkit-appearance: none; flex: none; inline-size: 2rem; block-size: 2rem; margin: 0; cursor: pointer;
+  margin-block-start: calc((1lh - 2rem) / 2);      /* the middle of the label's first line (the input inherits its line height) */
+  border: 2px solid var(--nh-field); border-radius: 2px; background: var(--nh-white) center / 1.375rem no-repeat;
+  transition: border-color .15s ease;
+}
+.nh-check input:hover { border-color: var(--nh-ink); }
+.nh-check input:checked {
+  border-color: var(--nh-iris-700); background-color: var(--nh-iris-700);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+}
+.nh-check input[aria-invalid="true"] { border-color: var(--nh-error); }
+.nh-check input:disabled { cursor: default; opacity: .6; }
+/* the text takes the rest of the first line (a zero basis: it never wraps under the box), the error the next line */
+.nh-check > :is(label, span) { flex: 1 1 0; }
+.nh-check .nh-req { color: var(--nh-error); font-weight: 700; margin-inline-start: .15rem; }
+.nh-check > .nh-error { flex-basis: 100%; margin-inline-start: 2.75rem; }
+@media (forced-colors: active) {
+  .nh-check input { appearance: auto; -webkit-appearance: auto; background-image: none; }
+}
 .nh-hp { position: absolute !important; inset-inline-start: -10000px; inline-size: 1px; block-size: 1px; overflow: hidden; }
 .nh-alert { border-radius: 2px; padding: var(--nh-s-4) var(--nh-s-5); border: 2px solid; }
 .nh-alert--error { border-color: var(--nh-error); background: #FBEDEB; color: var(--nh-ink); }
@@ -54,8 +76,14 @@
 .nh-alert--success { border-color: var(--nh-olive-700); background: #EEF3E8; }
 .nh-alert--success h3 { color: var(--nh-olive-700); font-family: var(--nh-font-body); font-size: 1.125rem; font-weight: 700; }
 .nh-form__note { font-size: var(--v3-fs-small, 1rem); color: var(--nh-ink-2); }
+/* the asterisk of the legend («שדות המסומנים ב־*») looks like the asterisks it explains */
+.nh-form__note .nh-req { color: var(--nh-error); font-weight: 700; }
+/* a link inside running text (a label, a note): a 2px ring on the words' own box, so it never covers the next word or
+   the full stop (16.11: the 3px ring 3px out reached over a word space). The cookie panel's text: base.css */
+.nh-form :is(p, label) a:focus-visible { outline-width: 2px; outline-offset: 0; }
 @media (max-width: 39.99em) { .nh-form [type="submit"] { inline-size: 100%; } }
 
-/* ---- v3.css L352, L363 — (plain-language form notes and hints) ---- */
+/* ---- v3.css plain-language block — (plain-language form notes, hints and the consent sentence) ---- */
 html.nh-plainmode .nh-form__note.v3-plain, html.nh-plainmode .nh-form__note.v3-plain p { font-size: var(--v3-fs-plain); line-height: 1.55; color: var(--nh-ink); max-inline-size: 40ch; }
 html.nh-plainmode .nh-hint > .v3-plain { display: inline; }
+html.nh-plainmode .nh-form .nh-check { font-size: var(--v3-fs-plain); line-height: 1.5; }   /* the label is a plain sentence (16.11: 18px among 22px); the box keeps to its first line */

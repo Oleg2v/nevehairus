@@ -49,7 +49,9 @@ final class NH_Widget_Samekh extends NH_Widget_Base {
 		NH_Controls::heading(
 			$this,
 			[
-				'default' => 'יש על מי לסמוך.',
+				// «על מי לסמוך» keeps together (no-break spaces): the heading breaks «יש / על מי לסמוך.», never «יש על / מי
+				// לסמוך.» (16.11)
+				'default' => "יש על\u{00A0}מי\u{00A0}לסמוך.",
 				'plain'   => 'יש מי שעוזר',
 				'dot'     => '',
 			]

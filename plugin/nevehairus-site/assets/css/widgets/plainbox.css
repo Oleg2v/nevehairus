@@ -13,9 +13,13 @@
 .v3-plainbox-wrap { padding-block: 0 clamp(4rem, 2.5rem + 4vw, 7rem); }
 .v3-plainbox { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.25rem 1.5rem; padding: clamp(1.5rem, 1rem + 2vw, 3rem); background: var(--nh-paper-2); border-inline-end: 6px solid var(--nh-olive-700); }
 .v3-plainbox__icon { inline-size: 2.5rem; block-size: 2.5rem; color: var(--nh-olive-700); }
+/* beside the heading, the icon's middle is the middle of the heading's letters (D-S, line height 1.12: .584em from the
+   line's top), so its ink runs from the letters' top to the baseline (16.11: it hung 4px high) */
+@media (min-width: 480px) { .v3-plainbox__icon { margin-block-start: calc(var(--v3-fs-ds) * .584 - 1.25rem); } }
 .v3-plainbox h2 { font: 400 var(--v3-fs-ds)/1.12 var(--nh-font-display); margin: 0 0 1rem; }
 .v3-plainbox ul { list-style: none; margin: 0 0 1.5rem; padding: 0; display: grid; gap: .35rem; }
 .v3-plainbox li, .v3-plainbox p { font-size: var(--v3-fs-plain); line-height: 1.6; }
+html.nh-plainmode .v3-plainbox p.v3-plain { margin-block-end: 1.5rem; }   /* the list's distance to the button (16.11: .3rem) */
 .v3-plainbox__btn { --_bg: var(--nh-olive-700); --_fg: var(--nh-paper); }
 .v3-plainbox__btn:hover { --_bg: var(--nh-ink); }
 

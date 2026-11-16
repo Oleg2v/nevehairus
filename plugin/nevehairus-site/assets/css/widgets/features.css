@@ -18,3 +18,10 @@
 .v3-feature-list h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 .4rem; }
 .v3-feature-list p { margin: 0; font-size: var(--v3-fs-body); color: var(--nh-ink-2); line-height: 1.65; max-inline-size: 38ch; }
 @media (min-width: 56.25em) { .v3-feature-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* with the quote after it, the list's last row has no hairline: the quote's 1.5px rule closes the list (16.11: a
+   hairline and the rule 40px apart) */
+.v3-feature-list:has(+ .v3-quote--page) > li:last-child { border-block-end: 0; }
+@media (min-width: 56.25em) {
+  .v3-feature-list:has(+ .v3-quote--page) > li:nth-child(3n+1):nth-last-child(-n+3),
+  .v3-feature-list:has(+ .v3-quote--page) > li:nth-child(3n+1):nth-last-child(-n+3) ~ li { border-block-end: 0; }
+}

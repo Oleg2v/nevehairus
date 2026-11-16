@@ -9,4 +9,10 @@
 .v3-steps__list h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 .5rem; }
 .v3-steps__n { display: block; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); color: var(--nh-clay-700); letter-spacing: -.03em; font-variant-numeric: lining-nums; margin-block-end: .5rem; }
 .v3-steps__list p { font-size: var(--v3-fs-body); line-height: 1.65; color: var(--nh-ink-2); margin: 0; max-inline-size: 30ch; }
-@media (min-width: 56.25em) { .v3-steps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 56.25em) {
+  .v3-steps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  /* the four steps share their rows (subgrid): a title of two lines moves the four texts down together */
+  .v3-steps__list > li { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; }
+  .v3-steps__list > li > h3 { grid-row: 1; }
+  .v3-steps__list > li > p { grid-row: 2; }
+}

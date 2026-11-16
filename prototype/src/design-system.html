@@ -317,9 +317,9 @@
         </div>
         <form class="nh-form" data-validate action="#" method="post" enctype="multipart/form-data" aria-labelledby="form-title">
           <div class="nh-alert nh-alert--error" data-error-summary tabindex="-1" hidden><h3>נמצאו שגיאות בטופס:</h3><ul></ul></div>
-          <p class="nh-form__note">שדות המסומנים ב־<span aria-hidden="true">*</span><span class="nh-sr-only">כוכבית</span> הם שדות חובה.</p>
+          <p class="nh-form__note">שדות המסומנים ב־<span class="nh-req" aria-hidden="true">*</span><span class="nh-sr-only">כוכבית</span> הם שדות חובה.</p>
           <div class="nh-field">
-            <label class="nh-label" for="j-role">המשרה <span class="nh-req" aria-hidden="true">*</span></label>
+            <label class="nh-label" for="j-role">המשרה&nbsp;<span class="nh-req" aria-hidden="true">*</span></label>
             <select class="nh-select" id="j-role" name="role" required>
               <option value="">בחירת משרה…</option>
               <option>רכז/ת דירה — דיור בקהילה, אוטיזם</option>
@@ -331,10 +331,10 @@
             </select>
           </div>
           <div class="nh-form__row nh-form__row--2">
-            <div class="nh-field"><label class="nh-label" for="j-name">שם מלא <span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="j-name" name="name" type="text" autocomplete="name" required></div>
-            <div class="nh-field"><label class="nh-label" for="j-phone">טלפון <span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="j-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" required></div>
+            <div class="nh-field"><label class="nh-label" for="j-name">שם מלא&nbsp;<span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="j-name" name="name" type="text" autocomplete="name" required></div>
+            <div class="nh-field"><label class="nh-label" for="j-phone">טלפון&nbsp;<span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="j-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" required></div>
           </div>
-          <div class="nh-field"><label class="nh-label" for="j-email">דוא״ל <span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="j-email" name="email" type="email" autocomplete="email" dir="ltr" required></div>
+          <div class="nh-field"><label class="nh-label" for="j-email">דוא״ל&nbsp;<span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="j-email" name="email" type="email" autocomplete="email" dir="ltr" required></div>
           <div class="nh-field">
             <label class="nh-label" for="j-cv">קורות חיים</label>
             <input class="nh-input" id="j-cv" name="cv" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" aria-describedby="j-cv-hint">
@@ -342,7 +342,7 @@
           </div>
           <div class="nh-field"><label class="nh-label" for="j-msg">כמה מילים עליך</label><textarea class="nh-textarea" id="j-msg" name="message"></textarea></div>
           <div class="nh-hp" aria-hidden="true"><label for="j-website">אתר</label><input id="j-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-          <div class="nh-check"><input id="j-consent" name="consent" type="checkbox" required><label for="j-consent">קראתי את <a href="#privacy">מדיניות הפרטיות</a> ואני מסכים/ה לשימוש בפרטים לצורך בדיקת המועמדות למשרה זו. <span class="nh-req" aria-hidden="true">*</span></label></div>
+          <div class="nh-check"><input id="j-consent" name="consent" type="checkbox" required><label for="j-consent">קראתי את <a href="#privacy">מדיניות הפרטיות</a> ואני מסכים/ה לשימוש בפרטים לצורך בדיקת המועמדות למשרה זו.&nbsp;<span class="nh-req" aria-hidden="true">*</span></label></div>
           <div class="nh-check"><input id="j-keep" name="keep" type="checkbox"><label for="j-keep">אפשר לשמור את הפרטים שלי למשרות נוספות בעתיד (לא חובה).</label></div>
           <p class="nh-form__note">מסירת הפרטים אינה חובה לפי חוק, אך בלעדיהם לא נוכל לבדוק את המועמדות. הפרטים ישמשו לבדיקת המועמדות בלבד, יישמרו במאגר המידע של נוה האירוס בע״מ, יימחקו בתום הליך הגיוס אם לא סימנת אחרת, ולא יועברו לגורם אחר. ניתן לבקש לעיין במידע ולתקנו. <span class="nh-sr-only">(נוסח טיוטה לבדיקת עורך דין)</span></p>
           <div><button class="nh-btn nh-btn--primary" type="submit">שליחת המועמדות<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></button></div>

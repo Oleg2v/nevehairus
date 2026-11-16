@@ -117,8 +117,8 @@ final class NH_Widget_Door extends NH_Widget_Base {
 			[
 				'label'   => __( 'הסבר על שדות החובה', 'nevehairus-site' ),
 				'type'    => 'textarea',
-				'default' => 'שדות המסומנים ב־<span aria-hidden="true">*</span><span class="nh-sr-only">כוכבית</span> הם שדות חובה.',
-				'plain'   => 'צריך למלא את השדות עם כוכבית <span aria-hidden="true">*</span>.',
+				'default' => 'שדות המסומנים ב־<span class="nh-req" aria-hidden="true">*</span><span class="nh-sr-only">כוכבית</span> הם שדות חובה.',
+				'plain'   => 'צריך למלא את השדות עם כוכבית <span class="nh-req" aria-hidden="true">*</span>.',
 			]
 		);
 		NH_Controls::pair(

@@ -48,8 +48,12 @@
 .v3-video__cap { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-on-night-2); margin-block-start: .85rem; max-inline-size: 44ch; }
 @media (min-width: 64em) { .v3-voices__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; } }
 
-/* porting change: was style="justify-content:center" on the consent buttons' row */
-.v3-video .nh-btn-row { justify-content: center; }
+/* porting change: was style="justify-content:center" on the consent buttons' row. 16.11 (v3.css): both buttons of one
+   width, side by side when they fit, else one under the other (two stacked buttons of 201 and 124px) */
+.v3-video .nh-btn-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); inline-size: min(100%, 28rem); margin-inline: auto; }
+/* the play button covers the poster, whose box clips: its ring goes round the paper button (16.11: it was cut off) */
+.v3-video .nh-video__play:focus-visible { outline: none; }
+.v3-video .nh-video__play:focus-visible .nh-video__btn { outline: 3px solid var(--nh-focus); outline-offset: 3px; }
 
 /* ---------- Forced colours: the paper button keeps a frame ------------------------ */
 @media (forced-colors: active) {

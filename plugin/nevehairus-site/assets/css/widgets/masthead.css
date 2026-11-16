@@ -86,14 +86,16 @@
   .nh-header__inner { gap: .5rem; }
   .nh-logo .nh-logo__mark { block-size: 2rem; }
   .nh-logo__name { font-size: var(--v3-fs-small, 1rem); line-height: 1.15; }
-  .nh-logo__name > span { display: block; white-space: nowrap; }      /* «מעון נווה / האירוס»: lines set by the markup */
+  .nh-logo__name > span { display: block; white-space: nowrap; }      /* «מעון / נווה האירוס»: lines set by the markup */
   .v3-plainbtn, .nh-menu-btn { padding-inline: .5rem; }
+  .nh-menu__close { padding-inline: calc(.5rem - 2px); }
   .v3-plainbtn svg { display: none; }
   .nh-phone { display: none; }                                        /* in the menu and on the cover */
 }
 @media (max-width: 22.49em) {
   .nh-logo .nh-logo__mark { display: none; }
   .v3-plainbtn, .nh-menu-btn { padding-inline: 6px; }
+  .nh-menu__close { padding-inline: 4px; }
 }
 
 /* ---- main.css L215–252 ---- */
@@ -108,13 +110,15 @@
 .nh-menu__inner { display: flex; flex-direction: column; min-block-size: 100%; }
 .nh-menu__top {
   display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex: none;
-  min-block-size: var(--v3-mast, 3.75rem); padding-inline: var(--nh-gutter); border-block-end: 1px solid var(--nh-ink);
-}
+  min-block-size: calc(var(--v3-mast, 3.75rem) + 1px); padding-inline: var(--nh-gutter); border-block-end: 1px solid var(--nh-ink);
+}   /* + its 1px line: as tall as the masthead (60 + 1), so «סגירה» stands where «תפריט» stood */
 .nh-menu__title { margin: 0; font: 500 var(--v3-fs-h3, 1.375rem)/1.25 var(--nh-font-display); }
+/* «סגירה» takes the place of «תפריט» with its footprint: 44px high, the same type and padding (its 2px frame inside
+   the padding), so nothing jumps when the menu opens (16.11: 4px taller, 14px wider) */
 .nh-menu__close {
-  display: inline-flex; align-items: center; gap: .45rem; min-block-size: 3rem; padding-inline: .75rem;
+  display: inline-flex; align-items: center; gap: .45rem; min-block-size: 2.75rem; padding-inline: calc(.75rem - 2px);
   border: 2px solid var(--nh-ink); border-radius: 2px; background-color: transparent; color: var(--nh-ink);
-  font: 700 var(--v3-fs-ui, 1.125rem)/1.1 var(--nh-font-body);
+  font: 700 var(--v3-fs-small, 1rem)/1.1 var(--nh-font-body); white-space: nowrap;
   transition: background-color .15s ease, color .15s ease;
 }
 .nh-menu__close svg { inline-size: 1.25rem; block-size: 1.25rem; flex: none; }
@@ -132,12 +136,14 @@
 .nh-menu nav a[aria-current] { font-weight: 500; border-inline-start: 4px solid var(--nh-iris-700); padding-inline-start: calc(1rem - 4px); }
 .nh-menu__meta { display: grid; gap: 1.25rem; margin-block-start: auto; }
 .nh-menu__cta { inline-size: 100%; }
-.nh-menu__call { margin: 0; font: 700 var(--v3-fs-plain, 1.375rem)/1.3 var(--nh-font-body); }
+/* the phone line and the switches start where the links' words start (the links keep 1rem for the bar of the section
+   you are in; the button and the rules span the column; 16.11: three different edges) */
+.nh-menu__call { margin: 0; padding-inline-start: 1rem; font: 700 var(--v3-fs-plain, 1.375rem)/1.3 var(--nh-font-body); }
 .nh-menu__call a { color: var(--nh-link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
 .nh-menu__call a:hover { text-decoration-thickness: 2px; }
 /* ---- v3.css L55 — plugin: only the menu's group (the display widget has the same rule in display.css) ---- */
 /* the two switches of the menu */
-.nh-menu .v3-switches { display: grid; gap: .25rem; max-inline-size: 20rem; }
+.nh-menu .v3-switches { display: grid; gap: .25rem; max-inline-size: 20rem; padding-inline-start: 1rem; }   /* + the edge of the links' words (main.css) */
 
 /* ---- main.css L439–440, v3.css L385–386 — the masthead's selectors of the forced-colours groups ---- */
 /* ---------- Forced colours ---------- */
@@ -166,19 +172,30 @@
   .v3-mast { position: absolute; }
 }
 
-/* ---- main.css L9–10, v3.css L467 — plugin: on pages that have the masthead (html:has(.v3-mast)), not on
-   every page (research/07 §12.4); keeps a focused element or an anchor target clear of the fixed masthead ---- */
-html:has(.v3-mast) { scroll-padding-block-start: 6rem; }
-@media (max-height: 30em) { html:has(.v3-mast) { scroll-padding-block: 1rem; } }
+/* ---- main.css L9–10, v3.css («Spreads», short screens) — plugin: on pages that have the masthead (html:has(.v3-mast)),
+   not on every page (research/07 §12.4); keeps a focused element or an anchor target clear of the fixed masthead, and
+   a focused element at the bottom keeps its ring on screen (16.11). A spread reached by an anchor starts right under
+   the masthead: its own top padding is the air (16.11: a band of the spread before it showed) ---- */
+html:has(.v3-mast) { scroll-padding-block: 6rem 1.5rem; }
+html:has(.v3-mast) .v3-spread[id] { scroll-margin-block-start: calc(var(--v3-mast, 3.75rem) + 1px - 6rem); }
+@media (max-height: 30em) {
+  html:has(.v3-mast) { scroll-padding-block: 1rem; }
+  html:has(.v3-mast) .v3-spread[id] { scroll-margin-block-start: -1rem; }
+}
 
 /* plugin (no prototype source; WordPress only): for signed-in users the admin bar sits at the top of the
    viewport, so the fixed masthead starts under it. Visitors never get .admin-bar. */
 body.admin-bar .nh-header { top: var(--wp-admin--admin-bar--height, 32px); }
+/* the anchors and the focus stop under both bars (the spreads' margin above is relative to this padding) */
+html:has(body.admin-bar .v3-mast) { scroll-padding-block-start: calc(6rem + var(--wp-admin--admin-bar--height, 32px)); }
 /* WordPress at 600px and below: the admin bar is position: absolute and scrolls away with the page, so a fixed
    masthead under it left a gap above it while scrolling (seen on a phone, 16.11). There, for signed-in users
-   only, the masthead scrolls away together with the admin bar. Visitors keep the fixed masthead. */
+   only, the masthead scrolls away together with the admin bar, and anchors stop at the top, as on short screens.
+   Visitors keep the fixed masthead. */
 @media screen and (max-width: 600px) {
   body.admin-bar .nh-header { position: absolute; }
+  html:has(body.admin-bar .v3-mast) { scroll-padding-block-start: 1rem; }
+  html:has(body.admin-bar .v3-mast) .v3-spread[id] { scroll-margin-block-start: -1rem; }
 }
 
 /* plugin (no prototype source; WordPress only): the masthead is in the header of every page, but only our covers

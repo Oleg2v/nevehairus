@@ -165,7 +165,7 @@ final class NH_Widget_Voices extends NH_Widget_Base {
 			[
 				'label'   => __( 'כפתור: לטעון את הסרטון', 'nevehairus-site' ),
 				'default' => 'כן, לטעון את הסרטון',
-				'plain'   => '',
+				'plain'   => 'כן, לפתוח את הסרטון',   // the plain question asks «לפתוח את הסרטון?» (16.11)
 			]
 		);
 

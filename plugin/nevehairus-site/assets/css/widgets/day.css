@@ -13,5 +13,13 @@
 @media (min-width: 40em) { .v3-day__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 64em) { .v3-day__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .v3-moment { display: flex; flex-direction: column; gap: 1rem; }
+/* side by side, the cells share their rows (subgrid): a caption or a verb of two lines moves the whole row's texts
+   down together, so verbs, prints and texts stand on common lines (16.11: at 1024px two texts were 24px lower) */
+@media (min-width: 40em) {
+  .v3-day__list > .v3-moment { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 1rem; }
+  .v3-moment > .v3-moment__verb { grid-row: 1; }
+  .v3-moment > .v3-print { grid-row: 2; }
+  .v3-moment > p { grid-row: 3; }
+}
 .v3-moment__verb { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: 0; margin: 0; }
 .v3-moment p { font-size: var(--v3-fs-body); line-height: 1.65; max-inline-size: 34ch; margin: 0; }

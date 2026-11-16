@@ -38,6 +38,9 @@ final class NH_Forms {
 	];
 
 	/** The error icon (the same markup as setError() in nh-forms.js). */
+	/** The required mark after a label, joined with a no-break space: it never wraps alone onto a line (16.11). */
+	private const REQ = '&nbsp;<span class="nh-req" aria-hidden="true">*</span>';
+
 	private const ICON_ERR = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v6M12 16.5v.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
 
 	/** A token older than this is expired (seconds). */
@@ -283,7 +286,7 @@ final class NH_Forms {
 		}
 
 		return '<div class="nh-field">'
-			. '<label class="nh-label" for="' . esc_attr( $id ) . '">' . self::pair_html( $o['label'] ?? '' ) . ( $req ? ' <span class="nh-req" aria-hidden="true">*</span>' : '' ) . '</label>'
+			. '<label class="nh-label" for="' . esc_attr( $id ) . '">' . self::pair_html( $o['label'] ?? '' ) . ( $req ? self::REQ : '' ) . '</label>'
 			. $control
 			. ( '' !== $hint ? '<p class="nh-hint" id="' . esc_attr( $id . '-hint' ) . '">' . $hint . '</p>' : '' )
 			. self::error_html( $id, $error )
@@ -318,7 +321,7 @@ final class NH_Forms {
 			'aria-describedby' => '' !== $error ? $id . '-err' : null,
 		];
 		return '<div class="nh-check"><input' . NH_Html::attrs( $attrs ) . '>'
-			. '<label for="' . esc_attr( $id ) . '">' . self::pair_html( $o['label'] ?? '' ) . ( $req ? ' <span class="nh-req" aria-hidden="true">*</span>' : '' ) . '</label>'
+			. '<label for="' . esc_attr( $id ) . '">' . self::pair_html( $o['label'] ?? '' ) . ( $req ? self::REQ : '' ) . '</label>'
 			. self::error_html( $id, $error )
 			. '</div>';
 	}

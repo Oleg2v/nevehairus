@@ -381,11 +381,11 @@ return [
 	'field(), check(): the prototype\'s markup (index L354–364, page L211–219, ds L324–328)' => static function () {
 		$none = NH_Forms::state( '' );
 		nh_assert_same(
-			'<div class="nh-field"><label class="nh-label" for="door-name">שם מלא <span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="door-name" name="name" type="text" autocomplete="name" required></div>',
+			'<div class="nh-field"><label class="nh-label" for="door-name">שם מלא&nbsp;<span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="door-name" name="name" type="text" autocomplete="name" required></div>',
 			NH_Forms::field( 'visit', 'name', [ 'id' => 'door-name', 'label' => [ 'שם מלא', '' ] ], $none )
 		);
 		nh_assert_same(
-			'<div class="nh-field"><label class="nh-label" for="door-phone">טלפון <span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="door-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" required></div>',
+			'<div class="nh-field"><label class="nh-label" for="door-phone">טלפון&nbsp;<span class="nh-req" aria-hidden="true">*</span></label><input class="nh-input" id="door-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" required></div>',
 			NH_Forms::field( 'visit', 'phone', [ 'id' => 'door-phone', 'label' => [ 'טלפון', '' ] ], $none )
 		);
 		nh_assert_same(
@@ -401,7 +401,7 @@ return [
 			NH_Forms::field( 'jobs', 'cv', [ 'id' => 'form-cv', 'label' => [ 'קורות חיים', '' ], 'hint' => [ 'PDF, DOC או DOCX, עד 5MB.', '' ] ], $none )
 		);
 		nh_assert_same(
-			'<div class="nh-check"><input id="door-consent" name="consent" type="checkbox" required data-error-label="אישור מדיניות הפרטיות"><label for="door-consent"><span class="v3-full">קראתי את <a href="#privacy">מדיניות הפרטיות</a> ואני מסכים/ה.</span><span class="v3-plain">אני מסכים. <a href="#privacy">מה עושים עם הפרטים שלי?</a></span> <span class="nh-req" aria-hidden="true">*</span></label></div>',
+			'<div class="nh-check"><input id="door-consent" name="consent" type="checkbox" required data-error-label="אישור מדיניות הפרטיות"><label for="door-consent"><span class="v3-full">קראתי את <a href="#privacy">מדיניות הפרטיות</a> ואני מסכים/ה.</span><span class="v3-plain">אני מסכים. <a href="#privacy">מה עושים עם הפרטים שלי?</a></span>&nbsp;<span class="nh-req" aria-hidden="true">*</span></label></div>',
 			NH_Forms::check( 'visit', 'consent', [ 'id' => 'door-consent', 'label' => [ 'קראתי את <a href="#privacy">מדיניות הפרטיות</a> ואני מסכים/ה.', 'אני מסכים. <a href="#privacy">מה עושים עם הפרטים שלי?</a>' ], 'error_label' => 'אישור מדיניות הפרטיות' ], $none )
 		);
 		nh_assert_same(

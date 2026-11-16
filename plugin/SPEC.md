@@ -280,7 +280,7 @@ final class NH_Text {
 	public static function unresolved_tokens( string $html ): array;           // [ '#accessibility', … ] still unresolved (for nh_admin_note)
 }
 ```
-`esc( $text, 'inline' )` joins the non-empty lines with `<br>` (empty lines are dropped, every line is trimmed).
+`esc( $text, 'inline' )` joins the non-empty lines with `<br>` (empty lines are dropped, every line is trimmed). *(0.2.3: both modes first bind a spaced dash to the word before it — the space before « — » or « – » becomes a no-break space, `NH_Text::dashes()` — so a line never starts with a dash; the prototype's build does the same.)*
 
 **The five states** (normative for `pair()` and `block()`; `F` = full text, `P` = plain twin, both trimmed):
 

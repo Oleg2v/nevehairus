@@ -80,248 +80,11 @@
 /* ---------- Reset ------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; }
-/* 2.4.11 focus not obscured: anchors and focused elements stop below the fixed masthead (v3.2: the only fixed layer) */
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-block-start: 6rem; }
-body {
-  min-height: 100vh;
-  background: var(--nh-bg);
-  color: var(--nh-text);
-  font-family: var(--nh-font-body);
-  font-size: var(--nh-fs-body);
-  line-height: var(--nh-lh-body);
-  font-weight: 400;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
-}
-img, picture, svg, video, iframe { display: block; max-width: 100%; }
-img { height: auto; }
-input, button, textarea, select { font: inherit; color: inherit; }
-button { cursor: pointer; background: none; border: 0; padding: 0; }
-p, li, dd, figcaption, blockquote { text-wrap: pretty; overflow-wrap: break-word; }
-h1, h2, h3, h4 { text-wrap: balance; overflow-wrap: break-word; }
-:where(ul[role="list"], ol[role="list"]) { list-style: none; padding: 0; } /* zero specificity: components may add padding */
-[hidden] { display: none !important; }
-
-/* v3.2: no smooth scrolling and no page transitions. An anchor is reached at once, and the script puts focus
-   on the heading of the target (site.js «In-page anchors», research/07 §5.5). */
-
-/* ---------- Accessibility helpers --------------------------------------- */
-.nh-sr-only {
-  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
-}
-.nh-skip {
-  position: absolute; z-index: 200; inset-inline-start: var(--nh-s-4); top: -10rem;
-  background: var(--nh-ink); color: var(--nh-paper); padding: .85rem 1.25rem;
-  border-radius: var(--nh-r-sm); font-weight: 700; text-decoration: none;
-}
-.nh-skip:focus { top: var(--nh-s-4); }
-:focus-visible { outline: 3px solid var(--nh-focus); outline-offset: 3px; }
-:focus:not(:focus-visible) { outline: none; }
-/* inline (not inline-block), so the underline of a link runs on under a phone number or an e-mail address */
-.nh-ltr { direction: ltr; unicode-bidi: isolate; display: inline; white-space: nowrap; }
-
-/* ---------- Typography --------------------------------------------------- */
-h1, h2, h3, .nh-display {
-  font-family: var(--nh-font-display);
-  font-weight: 500;
-  line-height: var(--nh-lh-heading);
-  letter-spacing: 0;   /* Hebrew display type is not tightened (v3.1) */
-}
-h4 { font-family: var(--nh-font-display); font-weight: 600; font-size: var(--nh-fs-h4); line-height: 1.3; }
-.nh-h1 { font-size: var(--nh-fs-h1); line-height: 1.04; }
-.nh-h2 { font-size: var(--nh-fs-h2); line-height: 1.08; }
-.nh-h3 { font-size: var(--nh-fs-h3); line-height: 1.18; }
-.nh-lead { font-size: var(--nh-fs-lead); line-height: 1.55; color: var(--nh-text); max-width: 38ch; }
-.nh-muted { color: var(--nh-text-muted); }
-.nh-small { font-size: var(--nh-fs-small); }
-.nh-eyebrow {
-  display: inline-flex; align-items: center; gap: .75rem;
-  font-family: var(--nh-font-body); font-weight: 700; font-size: 1rem; letter-spacing: 0;
-  color: var(--nh-accent);
-}
-.nh-eyebrow::before { content: ""; inline-size: 2rem; block-size: 2px; background: currentColor; }
-.nh-prose > * + * { margin-block-start: 1em; }
-.nh-prose { max-width: 62ch; }
-a { color: var(--nh-link); text-decoration-thickness: 1px; text-underline-offset: .2em; }
-a:hover { text-decoration-thickness: 2px; }
-strong { font-weight: 700; }
-
-/* Highlighter mark (animates its background-size from the inline-start) */
-.nh-hl {
-  background-image: linear-gradient(transparent 56%, var(--nh-citrus-100) 56%, var(--nh-citrus-100) 94%, transparent 94%);
-  background-repeat: no-repeat; background-position: right bottom; background-size: 100% 100%;
-  padding-inline: .06em; box-decoration-break: clone; -webkit-box-decoration-break: clone;
-}
-
-/* ---------- Layout ------------------------------------------------------- */
-.nh-container { width: min(100% - 2 * var(--nh-gutter), var(--nh-max)); margin-inline: auto; }
-.nh-section { padding-block: var(--nh-section); position: relative; }
-.nh-section--sand { background: var(--nh-paper-2); }
-.nh-section--white { background: var(--nh-white); }
-.nh-section--sky { background: var(--nh-sky-200); }
-.nh-section--night, .nh-on-dark {
-  background: var(--nh-night); color: var(--nh-paper);
-  --nh-text: var(--nh-paper); --nh-text-muted: var(--nh-on-night-2);
-  --nh-link: var(--nh-citrus-400); --nh-focus: var(--nh-citrus-400); --nh-accent: var(--nh-citrus-400);
-}
-.nh-section__head { display: grid; gap: var(--nh-s-5); margin-block-end: clamp(2.5rem, 1.5rem + 3vw, 4.5rem); }
-@media (min-width: 1024px) {
-  .nh-section__head--split { grid-template-columns: 7fr 5fr; align-items: end; column-gap: var(--nh-s-8); }
-}
-.nh-stack > * + * { margin-block-start: var(--nh-s-5); }
-
-/* ---------- Buttons & links (v3.2, research/07 §7.2) ----------------------
-   One radius (2px). A frame is a 2px border, never a box-shadow (Elementor resets box-shadow on links);
-   min-block-size includes it. Only colours change on hover, in 150ms; the arrow never moves. The transparent
-   border of the filled buttons keeps every button the same size and shows as a frame in forced colours. */
-.nh-btn {
-  --_bg: transparent; --_fg: var(--nh-text); --_bd: transparent;
-  display: inline-flex; align-items: center; justify-content: center; gap: .65em;
-  min-block-size: 3.5rem; padding: .5rem 1.75rem; border: 2px solid var(--_bd); border-radius: 2px;
-  background-color: var(--_bg); color: var(--_fg);
-  font: 700 var(--v3-fs-ui, 1.125rem)/1.2 var(--nh-font-body);
-  text-decoration: none; white-space: nowrap;
-  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
-}
-.nh-btn:hover { text-decoration: none; }
-.nh-btn--primary { --_bg: var(--nh-iris-700); --_fg: var(--nh-white); }
-.nh-btn--primary:hover { --_bg: var(--nh-iris-600); }
-/* secondary: one rule for both names used in the markup */
-.nh-btn--ghost, .nh-btn--ink { --_bd: currentColor; }
-.nh-btn--ghost:hover, .nh-btn--ink:hover { --_bg: var(--nh-ink); --_fg: var(--nh-paper); --_bd: var(--nh-ink); }
-:is(.nh-on-dark, .nh-section--night, .v3-spread--night, .v3-spread--iris) :is(.nh-btn--ghost, .nh-btn--ink):hover { --_bg: var(--nh-paper); --_fg: var(--nh-night); --_bd: var(--nh-paper); }
-.nh-btn--light { --_bg: var(--nh-white); --_fg: var(--nh-iris-700); }
-.nh-btn--light:hover { --_bg: var(--nh-citrus-100); --_fg: var(--nh-ink); }
-.nh-btn--sm { min-block-size: 2.75rem; padding-inline: 1.25rem; }
-.nh-btn__icon { inline-size: 1.15em; block-size: 1.15em; flex: none; }
-.nh-link-arrow {
-  display: inline-flex; align-items: center; gap: .5em; font-weight: 700; text-decoration: none;
-  color: var(--nh-link); min-block-size: 2.75rem;
-}
-.nh-link-arrow span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .25em; }
-.nh-link-arrow:hover span { text-decoration-thickness: 2px; }
-.nh-btn-row { display: flex; flex-wrap: wrap; gap: var(--nh-s-3); align-items: center; }
-
-/* ---------- v3.2 masthead (research/07 §5.2, §6, §10.1) -------------------------
-   Fixed and always the same: paper, a 1px ink line, no shadow, no blur, no running head, no progress line,
-   nothing changes while the page scrolls (the one fixed layer; on short screens it scrolls away, v3.css).
-   Composition (start → end): mark · 5 links · «בשפה פשוטה» · phone · «תיאום ביקור» (from 80em) or «תפריט».
-   Breakpoints are in em, so a larger browser font switches to the compact masthead by itself. */
-.nh-header {
-  position: fixed; inset-block-start: 0; inset-inline: 0; z-index: 50;
-  background: var(--nh-paper); border-block-end: 1px solid var(--nh-ink);
-}
-.nh-header__inner { display: flex; align-items: center; gap: 1rem; min-block-size: var(--v3-mast, 3.75rem); }
-.nh-header__actions { display: flex; align-items: center; gap: .5rem; margin-inline-start: auto; }
-
-/* the mark: the emblem of the logo + the name as live text (one line from 40em, two lines below) */
-.nh-logo { display: inline-flex; align-items: center; gap: .625rem; flex: none; min-block-size: 2.75rem; min-inline-size: 2.75rem; color: var(--nh-ink); text-decoration: none; }
-.nh-logo__mark { display: block; block-size: 2.25rem; inline-size: auto; flex: none; }
-.nh-logo__name { font: 500 var(--v3-fs-lead, 1.25rem)/1.15 var(--nh-font-display); white-space: nowrap; }
-
-/* the five links: UI 18/600; the section you are in: 700 and a still 3px iris bar (no transform) */
-.nh-nav { display: none; flex: 1; }
-.nh-nav ul { display: flex; justify-content: center; gap: clamp(1rem, 1.5vw, 2rem); }
-.nh-nav a {
-  position: relative; display: inline-flex; align-items: center; min-block-size: 2.75rem; padding-inline: .25rem;
-  color: var(--nh-ink); font: 600 var(--v3-fs-ui, 1.125rem)/1.2 var(--nh-font-body); text-decoration: none; white-space: nowrap;
-  transition: color .15s ease;
-}
-.nh-nav a:hover { color: var(--nh-iris-700); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .35em; }
-.nh-nav a[aria-current] { font-weight: 700; }
-.nh-nav a[aria-current]::after { content: ""; position: absolute; inset-inline: .25rem; inset-block-end: .35rem; block-size: 3px; background: var(--nh-iris-700); }
-
-/* «בשפה פשוטה»: an olive frame (the colour of the plain-language box), olive fill when it is on */
-.v3-plainbtn {
-  display: inline-flex; align-items: center; gap: .45rem; flex: none; min-block-size: 2.75rem; padding-inline: .75rem;
-  border: 2px solid var(--nh-olive-700); border-radius: 2px; background-color: transparent; color: var(--nh-ink);
-  font: 700 var(--v3-fs-small, 1rem)/1.1 var(--nh-font-body); white-space: nowrap;
-  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
-}
-.v3-plainbtn svg { inline-size: 1.25rem; block-size: 1.25rem; flex: none; color: var(--nh-olive-700); }
-.v3-plainbtn:hover { background-color: var(--nh-paper-2); }
-.v3-plainbtn[aria-pressed="true"] { background-color: var(--nh-olive-700); color: var(--nh-paper); }
-.v3-plainbtn[aria-pressed="true"] svg { color: currentColor; }
-
-/* the phone: a 44px icon; the number beside it only from 90em */
-.nh-phone {
-  display: inline-flex; align-items: center; justify-content: center; gap: .5rem; flex: none;
-  min-inline-size: 2.75rem; min-block-size: 2.75rem; padding-inline: .5rem;
-  color: var(--nh-ink); font-weight: 700; text-decoration: none; transition: color .15s ease;
-}
-.nh-phone svg { inline-size: 1.25rem; block-size: 1.25rem; flex: none; color: var(--nh-iris-700); }
-.nh-phone:hover { color: var(--nh-iris-700); }
-.nh-phone__num { display: none; }
-
-/* «תפריט»: ink fill, icon and the word */
-.nh-menu-btn {
-  display: inline-flex; align-items: center; gap: .45rem; flex: none; min-block-size: 2.75rem; padding-inline: .75rem;
-  border-radius: 2px; background-color: var(--nh-ink); color: var(--nh-paper);   /* forced colours add a frame */
-  font: 700 var(--v3-fs-small, 1rem)/1.1 var(--nh-font-body); white-space: nowrap;
-  transition: background-color .15s ease;
-}
-.nh-menu-btn svg { inline-size: 1.25rem; block-size: 1.25rem; flex: none; }
-.nh-menu-btn:hover { background-color: var(--nh-iris-700); }
-.v3-mast__cta { display: none; flex: none; }
-
-@media (min-width: 80em) {
-  .nh-nav { display: block; }
-  .v3-mast__cta { display: inline-flex; }
-  .nh-menu-btn { display: none; }
-}
-@media (min-width: 90em) { .nh-phone__num { display: inline; } }
-@media (max-width: 39.99em) {
-  .nh-header__inner { gap: .5rem; }
-  .nh-logo__mark { block-size: 2rem; }
-  .nh-logo__name { font-size: var(--v3-fs-small, 1rem); line-height: 1.15; }
-  .nh-logo__name > span { display: block; white-space: nowrap; }      /* «מעון נווה / האירוס»: lines set by the markup */
-  .v3-plainbtn, .nh-menu-btn { padding-inline: .5rem; }
-  .v3-plainbtn svg { display: none; }
-  .nh-phone { display: none; }                                        /* in the menu and on the cover */
-}
-@media (max-width: 22.49em) {
-  .nh-logo__mark { display: none; }
-  .v3-plainbtn, .nh-menu-btn { padding-inline: 6px; }
-}
-
-/* ---------- Phone menu (native <dialog>, opened only by «תפריט»; research/07 §5.4) ----------
-   Paper, ink text, iris focus; opens and closes at once. Its head is as tall as the masthead. */
-.nh-menu {
-  inline-size: 100%; max-inline-size: 100%; block-size: 100dvh; max-block-size: 100dvh;
-  margin: 0; padding: 0; border: 0; background: var(--nh-paper); color: var(--nh-ink);
-  --nh-focus: var(--nh-iris-700); --nh-text: var(--nh-ink);
-}
-.nh-menu::backdrop { background: rgb(28 24 48 / .4); }
-.nh-menu__inner { display: flex; flex-direction: column; min-block-size: 100%; }
-.nh-menu__top {
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex: none;
-  min-block-size: var(--v3-mast, 3.75rem); padding-inline: var(--nh-gutter); border-block-end: 1px solid var(--nh-ink);
-}
-.nh-menu__title { margin: 0; font: 500 var(--v3-fs-h3, 1.375rem)/1.25 var(--nh-font-display); }
-.nh-menu__close {
-  display: inline-flex; align-items: center; gap: .45rem; min-block-size: 3rem; padding-inline: .75rem;
-  border: 2px solid var(--nh-ink); border-radius: 2px; background-color: transparent; color: var(--nh-ink);
-  font: 700 var(--v3-fs-ui, 1.125rem)/1.1 var(--nh-font-body);
-  transition: background-color .15s ease, color .15s ease;
-}
-.nh-menu__close svg { inline-size: 1.25rem; block-size: 1.25rem; flex: none; }
-.nh-menu__close:hover { background-color: var(--nh-ink); color: var(--nh-paper); }
-.nh-menu__body { display: flex; flex-direction: column; gap: 2rem; flex: 1; padding: 1.5rem var(--nh-gutter) 2.5rem; }
-.nh-menu nav ul { border-block-start: 1.5px solid var(--nh-ink); }
-.nh-menu nav li + li { border-block-start: 1px solid var(--v3-hair, rgb(31 36 33 / .4)); }
-.nh-menu nav a {
-  display: flex; align-items: center; min-block-size: 3.5rem; padding-block: .5rem; padding-inline-start: 1rem;
-  color: var(--nh-ink); font: 400 var(--v3-fs-ds, 1.75rem)/1.12 var(--nh-font-display); text-decoration: none;
-  transition: color .15s ease;
-}
-.nh-menu nav a:hover { color: var(--nh-iris-700); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
-/* the section you are in: weight 500 and a 4px bar at the start of the row (the text does not shift) */
-.nh-menu nav a[aria-current] { font-weight: 500; border-inline-start: 4px solid var(--nh-iris-700); padding-inline-start: calc(1rem - 4px); }
-.nh-menu__meta { display: grid; gap: 1.25rem; margin-block-start: auto; }
-.nh-menu__cta { inline-size: 100%; }
-.nh-menu__call { margin: 0; font: 700 var(--v3-fs-plain, 1.375rem)/1.3 var(--nh-font-body); }
+/* 2.4.11 focus not obscured: anchors and focused elements stop below the fixed masthead (v3.2: the only fixed layer),
+   and a focused element at the bottom keeps its ring on screen (16.11: Tab to the consent box cut the ring's lower edge) */ html{-webkit-text-size-adjust: 100%;text-size-adjust: 100%;scroll-padding-block: 6rem 1.5rem}body{min-height: 100vh;background: var(--nh-bg);color: var(--nh-text);font-family: var(--nh-font-body);font-size: var(--nh-fs-body);line-height: var(--nh-lh-body);font-weight: 400;text-rendering: optimizeLegibility;-webkit-font-smoothing: antialiased;overflow-x: clip}img,picture,svg,video,iframe{display: block;max-width: 100%}img{height: auto}input,button,textarea,select{font: inherit;color: inherit}button{cursor: pointer;background: none;border: 0;padding: 0}p,li,dd,figcaption,blockquote{text-wrap: pretty;overflow-wrap: break-word}h1,h2,h3,h4{text-wrap: balance;overflow-wrap: break-word}:where(ul[role="list"],ol[role="list"]){list-style: none;padding: 0}[hidden]{display: none !important}.nh-sr-only{position: absolute !important;width: 1px;height: 1px;padding: 0;margin: -1px;overflow: hidden;clip: rect(0 0 0 0);clip-path: inset(50%);white-space: nowrap;border: 0}.nh-skip{position: absolute;z-index: 200;inset-inline-start: var(--nh-s-4);top: -10rem;background: var(--nh-ink);color: var(--nh-paper);padding: .85rem 1.25rem;border-radius: var(--nh-r-sm);font-weight: 700;text-decoration: none}.nh-skip:focus{top: var(--nh-s-4)}:focus-visible{outline: 3px solid var(--nh-focus);outline-offset: 3px}:focus:not(:focus-visible){outline: none}.nh-ltr{direction: ltr;unicode-bidi: isolate;display: inline;white-space: nowrap}h1,h2,h3,.nh-display{font-family: var(--nh-font-display);font-weight: 500;line-height: var(--nh-lh-heading);letter-spacing: 0}h4{font-family: var(--nh-font-display);font-weight: 600;font-size: var(--nh-fs-h4);line-height: 1.3}.nh-h1{font-size: var(--nh-fs-h1);line-height: 1.04}.nh-h2{font-size: var(--nh-fs-h2);line-height: 1.08}.nh-h3{font-size: var(--nh-fs-h3);line-height: 1.18}.nh-lead{font-size: var(--nh-fs-lead);line-height: 1.55;color: var(--nh-text);max-width: 38ch}.nh-muted{color: var(--nh-text-muted)}.nh-small{font-size: var(--nh-fs-small)}.nh-eyebrow{display: inline-flex;align-items: center;gap: .75rem;font-family: var(--nh-font-body);font-weight: 700;font-size: 1rem;letter-spacing: 0;color: var(--nh-accent)}.nh-eyebrow::before{content: "";inline-size: 2rem;block-size: 2px;background: currentColor}.nh-prose>* + *{margin-block-start: 1em}.nh-prose{max-width: 62ch}a{color: var(--nh-link);text-decoration-thickness: 1px;text-underline-offset: .2em}a:hover{text-decoration-thickness: 2px}strong{font-weight: 700}.nh-hl{background-image: linear-gradient(transparent 56%,var(--nh-citrus-100) 56%,var(--nh-citrus-100) 94%,transparent 94%);background-repeat: no-repeat;background-position: right bottom;background-size: 100% 100%;padding-inline: .06em;box-decoration-break: clone;-webkit-box-decoration-break: clone}.nh-container{width: min(100% - 2 * var(--nh-gutter),var(--nh-max));margin-inline: auto}.nh-section{padding-block: var(--nh-section);position: relative}.nh-section--sand{background: var(--nh-paper-2)}.nh-section--white{background: var(--nh-white)}.nh-section--sky{background: var(--nh-sky-200)}.nh-section--night,.nh-on-dark{background: var(--nh-night);color: var(--nh-paper);--nh-text: var(--nh-paper);--nh-text-muted: var(--nh-on-night-2);--nh-link: var(--nh-citrus-400);--nh-focus: var(--nh-citrus-400);--nh-accent: var(--nh-citrus-400)}.nh-section__head{display: grid;gap: var(--nh-s-5);margin-block-end: clamp(2.5rem,1.5rem + 3vw,4.5rem)}@media (min-width: 1024px){.nh-section__head--split{grid-template-columns: 7fr 5fr;align-items: end;column-gap: var(--nh-s-8)}}.nh-stack>* + *{margin-block-start: var(--nh-s-5)}.nh-btn{--_bg: transparent;--_fg: var(--nh-text);--_bd: transparent;display: inline-flex;align-items: center;justify-content: center;gap: .65em;min-block-size: 3.5rem;padding: .5rem 1.75rem;border: 2px solid var(--_bd);border-radius: 2px;background-color: var(--_bg);color: var(--_fg);font: 700 var(--v3-fs-ui,1.125rem)/1.2 var(--nh-font-body);text-decoration: none;white-space: nowrap;transition: background-color .15s ease,color .15s ease,border-color .15s ease}.nh-btn:hover{text-decoration: none}.nh-btn--primary{--_bg: var(--nh-iris-700);--_fg: var(--nh-white)}.nh-btn--primary:hover{--_bg: var(--nh-iris-600)}.nh-btn--ghost,.nh-btn--ink{--_bd: currentColor}.nh-btn--ghost:hover,.nh-btn--ink:hover{--_bg: var(--nh-ink);--_fg: var(--nh-paper);--_bd: var(--nh-ink)}:is(.nh-on-dark,.nh-section--night,.v3-spread--night,.v3-spread--iris) :is(.nh-btn--ghost,.nh-btn--ink):hover{--_bg: var(--nh-paper);--_fg: var(--nh-night);--_bd: var(--nh-paper)}.nh-btn--light{--_bg: var(--nh-white);--_fg: var(--nh-iris-700)}.nh-btn--light:hover{--_bg: var(--nh-citrus-100);--_fg: var(--nh-ink)}.nh-btn--sm{min-block-size: 2.75rem;padding-inline: 1.25rem}.nh-btn__icon{inline-size: 1.15em;block-size: 1.15em;flex: none}.nh-link-arrow{display: inline-flex;align-items: center;gap: .5em;font-weight: 700;text-decoration: none;color: var(--nh-link);min-block-size: 2.75rem}.nh-link-arrow span{text-decoration: underline;text-decoration-thickness: 1px;text-underline-offset: .25em}.nh-link-arrow:hover span{text-decoration-thickness: 2px}.nh-btn-row{display: flex;flex-wrap: wrap;gap: var(--nh-s-3);align-items: center}.nh-header{position: fixed;inset-block-start: 0;inset-inline: 0;z-index: 50;background: var(--nh-paper);border-block-end: 1px solid var(--nh-ink)}.nh-header__inner{display: flex;align-items: center;gap: 1rem;min-block-size: var(--v3-mast,3.75rem)}.nh-header__actions{display: flex;align-items: center;gap: .5rem;margin-inline-start: auto}.nh-logo{display: inline-flex;align-items: center;gap: .625rem;flex: none;min-block-size: 2.75rem;min-inline-size: 2.75rem;color: var(--nh-ink);text-decoration: none}.nh-logo__mark{display: block;block-size: 2.25rem;inline-size: auto;flex: none}.nh-logo__name{font: 500 var(--v3-fs-lead,1.25rem)/1.15 var(--nh-font-display);white-space: nowrap}.nh-nav{display: none;flex: 1}.nh-nav ul{display: flex;justify-content: center;gap: clamp(1rem,1.5vw,2rem)}.nh-nav a{position: relative;display: inline-flex;align-items: center;min-block-size: 2.75rem;padding-inline: .25rem;color: var(--nh-ink);font: 600 var(--v3-fs-ui,1.125rem)/1.2 var(--nh-font-body);text-decoration: none;white-space: nowrap;transition: color .15s ease}.nh-nav a:hover{color: var(--nh-iris-700);text-decoration: underline;text-decoration-thickness: 2px;text-underline-offset: .35em}.nh-nav a[aria-current]{font-weight: 700}.nh-nav a[aria-current]::after{content: "";position: absolute;inset-inline: .25rem;inset-block-end: .35rem;block-size: 3px;background: var(--nh-iris-700)}.v3-plainbtn{display: inline-flex;align-items: center;gap: .45rem;flex: none;min-block-size: 2.75rem;padding-inline: .75rem;border: 2px solid var(--nh-olive-700);border-radius: 2px;background-color: transparent;color: var(--nh-ink);font: 700 var(--v3-fs-small,1rem)/1.1 var(--nh-font-body);white-space: nowrap;transition: background-color .15s ease,color .15s ease,border-color .15s ease}.v3-plainbtn svg{inline-size: 1.25rem;block-size: 1.25rem;flex: none;color: var(--nh-olive-700)}.v3-plainbtn:hover{background-color: var(--nh-paper-2)}.v3-plainbtn[aria-pressed="true"]{background-color: var(--nh-olive-700);color: var(--nh-paper)}.v3-plainbtn[aria-pressed="true"] svg{color: currentColor}.nh-phone{display: inline-flex;align-items: center;justify-content: center;gap: .5rem;flex: none;min-inline-size: 2.75rem;min-block-size: 2.75rem;padding-inline: .5rem;color: var(--nh-ink);font-weight: 700;text-decoration: none;transition: color .15s ease}.nh-phone svg{inline-size: 1.25rem;block-size: 1.25rem;flex: none;color: var(--nh-iris-700)}.nh-phone:hover{color: var(--nh-iris-700)}.nh-phone__num{display: none}.nh-menu-btn{display: inline-flex;align-items: center;gap: .45rem;flex: none;min-block-size: 2.75rem;padding-inline: .75rem;border-radius: 2px;background-color: var(--nh-ink);color: var(--nh-paper);font: 700 var(--v3-fs-small,1rem)/1.1 var(--nh-font-body);white-space: nowrap;transition: background-color .15s ease}.nh-menu-btn svg{inline-size: 1.25rem;block-size: 1.25rem;flex: none}.nh-menu-btn:hover{background-color: var(--nh-iris-700)}.v3-mast__cta{display: none;flex: none}@media (min-width: 80em){.nh-nav{display: block}.v3-mast__cta{display: inline-flex}.nh-menu-btn{display: none}}@media (min-width: 90em){.nh-phone__num{display: inline}}@media (max-width: 39.99em){.nh-header__inner{gap: .5rem}.nh-logo__mark{block-size: 2rem}.nh-logo__name{font-size: var(--v3-fs-small,1rem);line-height: 1.15}.nh-logo__name>span{display: block;white-space: nowrap}.v3-plainbtn,.nh-menu-btn{padding-inline: .5rem}.nh-menu__close{padding-inline: calc(.5rem - 2px)}.v3-plainbtn svg{display: none}.nh-phone{display: none}}@media (max-width: 22.49em){.nh-logo__mark{display: none}.v3-plainbtn,.nh-menu-btn{padding-inline: 6px}.nh-menu__close{padding-inline: 4px}}.nh-menu{inline-size: 100%;max-inline-size: 100%;block-size: 100dvh;max-block-size: 100dvh;margin: 0;padding: 0;border: 0;background: var(--nh-paper);color: var(--nh-ink);--nh-focus: var(--nh-iris-700);--nh-text: var(--nh-ink)}.nh-menu::backdrop{background: rgb(28 24 48 / .4)}.nh-menu__inner{display: flex;flex-direction: column;min-block-size: 100%}.nh-menu__top{display: flex;align-items: center;justify-content: space-between;gap: 1rem;flex: none;min-block-size: calc(var(--v3-mast,3.75rem) + 1px);padding-inline: var(--nh-gutter);border-block-end: 1px solid var(--nh-ink)}.nh-menu__title{margin: 0;font: 500 var(--v3-fs-h3,1.375rem)/1.25 var(--nh-font-display)}.nh-menu__close{display: inline-flex;align-items: center;gap: .45rem;min-block-size: 2.75rem;padding-inline: calc(.75rem - 2px);border: 2px solid var(--nh-ink);border-radius: 2px;background-color: transparent;color: var(--nh-ink);font: 700 var(--v3-fs-small,1rem)/1.1 var(--nh-font-body);white-space: nowrap;transition: background-color .15s ease,color .15s ease}.nh-menu__close svg{inline-size: 1.25rem;block-size: 1.25rem;flex: none}.nh-menu__close:hover{background-color: var(--nh-ink);color: var(--nh-paper)}.nh-menu__body{display: flex;flex-direction: column;gap: 2rem;flex: 1;padding: 1.5rem var(--nh-gutter) 2.5rem}.nh-menu nav ul{border-block-start: 1.5px solid var(--nh-ink)}.nh-menu nav li + li{border-block-start: 1px solid var(--v3-hair,rgb(31 36 33 / .4))}.nh-menu nav a{display: flex;align-items: center;min-block-size: 3.5rem;padding-block: .5rem;padding-inline-start: 1rem;color: var(--nh-ink);font: 400 var(--v3-fs-ds,1.75rem)/1.12 var(--nh-font-display);text-decoration: none;transition: color .15s ease}.nh-menu nav a:hover{color: var(--nh-iris-700);text-decoration: underline;text-decoration-thickness: 2px;text-underline-offset: .2em}.nh-menu nav a[aria-current]{font-weight: 500;border-inline-start: 4px solid var(--nh-iris-700);padding-inline-start: calc(1rem - 4px)}.nh-menu__meta{display: grid;gap: 1.25rem;margin-block-start: auto}.nh-menu__cta{inline-size: 100%}/* the phone line and the switches start where the links' words start (the links keep 1rem for the bar of the section
+   you are in; the button and the rules span the column; 16.11: three different edges) */
+.nh-menu__call { margin: 0; padding-inline-start: 1rem; font: 700 var(--v3-fs-plain, 1.375rem)/1.3 var(--nh-font-body); }
+.nh-menu .v3-switches { padding-inline-start: 1rem; }
 .nh-menu__call a { color: var(--nh-link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
 .nh-menu__call a:hover { text-decoration-thickness: 2px; }
 
@@ -369,6 +132,9 @@ strong { font-weight: 700; }
 .nh-footer li > a { display: inline-flex; align-items: center; min-block-size: 2.75rem; }
 .nh-footer__brand > p { max-inline-size: 34ch; margin-block: .75rem; color: var(--nh-on-night-2); }
 .nh-footer__contacts { color: var(--nh-on-night-2); }
+/* a contact line without a link is as tall as one with a link (44px), so the lines keep one rhythm whatever the
+   order (16.11: without the e-mail line the fax and the address made a tight pair) */
+.nh-footer__contacts > li:not(:has(> a)) { padding-block: .625rem; }
 /* the mark on night: the emblem straight on the dark ground (no plate), the name in paper */
 .nh-footer a.nh-footer__logo { display: inline-flex; align-items: center; gap: .625rem; min-block-size: 2.75rem; color: var(--nh-paper); text-decoration: none; }
 .nh-footer__logo img { display: block; block-size: 2.25rem; inline-size: auto; flex: none; }
@@ -381,171 +147,314 @@ strong { font-weight: 700; }
 }
 @media (max-width: 39.99em) {
   .nh-footer__links { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1rem; }
+  .nh-footer__links > li:last-child:nth-child(odd) { grid-column: 1 / -1; }   /* a last link alone in its row takes the row */
 }
 
 /* ---------- Cookie settings: a panel in the flow after the footer (v3.2, research/07 §9) ----------
    It never opens by itself; «הגדרות עוגיות» opens it. Not over the content, no shadow, no animation. */
 .nh-cookies { padding-block: 3rem; border-block-start: 1px solid rgb(247 241 231 / .3); }
 .nh-cookies[hidden] { display: none; }
-/* the container's start edge (it is .nh-container too),at most 48rem wide */ .nh-cookies__inner{display: grid;gap: 1.25rem;max-inline-size: 48rem;margin-inline: max(var(--nh-gutter),(100% - var(--nh-max)) / 2) auto}.nh-cookies__title{margin: 0;font: 500 var(--v3-fs-h3,1.375rem)/1.25 var(--nh-font-display)}.nh-cookies p{margin: 0;font-size: var(--v3-fs-body,1.125rem);line-height: 1.6;color: var(--nh-text)}.nh-cookies__prefs{display: grid;gap: .75rem}.nh-cookies .nh-check{font-size: var(--v3-fs-body,1.125rem);line-height: 1.5}.nh-cookies .nh-check input{inline-size: 2rem;block-size: 2rem;margin-block-start: 0;accent-color: var(--nh-citrus-400)}.nh-form{display: grid;gap: var(--nh-s-5)}.nh-form__row{display: grid;gap: var(--nh-s-5)}@media (min-width: 720px){.nh-form__row--2{grid-template-columns: 1fr 1fr}}.nh-field{display: grid;gap: .45rem}.nh-label{font: 700 var(--v3-fs-ui,1.125rem)/1.3 var(--nh-font-body)}.nh-label .nh-req{color: var(--nh-error);margin-inline-start: .15rem}.nh-hint{font-size: var(--v3-fs-small,1rem);color: var(--nh-ink-2)}.nh-input,.nh-select,.nh-textarea{inline-size: 100%;min-block-size: 3.5rem;padding: .75rem 1rem;border: 2px solid var(--nh-field);border-radius: 2px;background: var(--nh-white);color: var(--nh-ink);font-size: var(--v3-fs-body,1.125rem);line-height: 1.4;transition: border-color .15s ease}.nh-textarea{min-block-size: 8rem;resize: vertical}/* select: our own chevron with room around it (the native arrow sat on the field's edge, 16.11); the arrow is
-   at the inline end (left in Hebrew). Forced colours get the native control back. */
-.nh-select {
-  appearance: none; -webkit-appearance: none;
-  padding-inline-end: 3rem;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231F2421' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-size: 1.25rem 1.25rem; background-position: left 1rem center;
+/* the container's start edge (it is .nh-container too),at most 48rem wide */ .nh-cookies__inner{display: grid;gap: 1.25rem;max-inline-size: 48rem;margin-inline: max(var(--nh-gutter),(100% - var(--nh-max)) / 2) auto}.nh-cookies__title{margin: 0;font: 500 var(--v3-fs-h3,1.375rem)/1.25 var(--nh-font-display)}.nh-cookies p{margin: 0;font-size: var(--v3-fs-body,1.125rem);line-height: 1.6;color: var(--nh-text)}.nh-cookies__prefs{display: grid;gap: .75rem}.nh-cookies .nh-check{font-size: var(--v3-fs-body,1.125rem);line-height: 1.5}/* the boxes on night (the forms' box, below): a paper frame, citrus on hover; checked: citrus with an ink tick;
+   «הכרחיות» is always on (disabled) */
+.nh-cookies .nh-check input { border-color: var(--nh-paper); background-color: transparent; }
+.nh-cookies .nh-check input:hover { border-color: var(--nh-citrus-400); }
+.nh-cookies .nh-check input:checked {
+  border-color: var(--nh-citrus-400); background-color: var(--nh-citrus-400);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231F2421' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
 }
-.nh-select:dir(ltr) { background-position: right 1rem center; }
+
+/* ---------- Forms (v3.2, research/07 §7.5): 56px fields, a 2px #4F5550 frame (6.80:1), only the border
+   colour changes (150ms); errors appear only after sending ---------------------------------------- */
+.nh-form { display: grid; gap: var(--nh-s-5); }
+.nh-form__row { display: grid; gap: var(--nh-s-5); }
+@media (min-width: 720px) { .nh-form__row--2 { grid-template-columns: 1fr 1fr; } }
+.nh-field { display: grid; gap: .45rem; }
+.nh-label { font: 700 var(--v3-fs-ui, 1.125rem)/1.3 var(--nh-font-body); }
+.nh-label .nh-req { color: var(--nh-error); margin-inline-start: .15rem; }
+.nh-hint { font-size: var(--v3-fs-small, 1rem); color: var(--nh-ink-2); }
+.nh-input, .nh-select, .nh-textarea {
+  inline-size: 100%; min-block-size: 3.5rem; padding: .75rem 1rem; border: 2px solid var(--nh-field);
+  border-radius: 2px; background: var(--nh-white); color: var(--nh-ink); font-size: var(--v3-fs-body, 1.125rem); line-height: 1.4;
+  transition: border-color .15s ease;
+}
+.nh-textarea { min-block-size: 8rem; resize: vertical; }
+/* select: our own chevron with room around it (the native arrow sat on the field's edge,16.11);the arrow is at the inline end (left in Hebrew). Forced colours get the native control back. */ .nh-select{appearance: none;-webkit-appearance: none;padding-inline-end: 3rem;background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231F2421' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat: no-repeat;background-size: 1.25rem 1.25rem;background-position: left 1rem center}.nh-select:dir(ltr){background-position: right 1rem center}@media (forced-colors: active){.nh-select{appearance: auto;-webkit-appearance: auto;background-image: none;padding-inline-end: 1rem}}.nh-input:hover,.nh-select:hover,.nh-textarea:hover{border-color: var(--nh-ink)}.nh-input:focus-visible,.nh-select:focus-visible,.nh-textarea:focus-visible{outline: 3px solid var(--nh-iris-700);outline-offset: 3px;border-color: var(--nh-iris-700)}.nh-input[aria-invalid="true"],.nh-select[aria-invalid="true"],.nh-textarea[aria-invalid="true"]{border-color: var(--nh-error)}.nh-input[type="file"]{padding: .6rem}.nh-error{color: var(--nh-error);font-weight: 600;font-size: var(--v3-fs-small,1rem);display: flex;gap: .4rem;align-items: center}.nh-error svg{inline-size: 1.05rem;block-size: 1.05rem;flex: none}/* the whole label is the target (<label for>);the box itself is 32px and drawn like the fields (16.11: the native box was a thin grey hairline beside the 2px frames): a 2px #4F5550 frame on white,ink on hover,red when invalid,iris with a white tick when checked;only the frame's colour changes, in 150ms. Its middle sits on the middle of
+   the label's first line. An error goes on its own line under the label (it wraps),aligned with the label's text.
+   Forced colours get the native box back. */
+.nh-check { display: flex; flex-wrap: wrap; gap: .75rem; align-items: flex-start; }
+.nh-check input {
+  appearance: none; -webkit-appearance: none; flex: none; inline-size: 2rem; block-size: 2rem; margin: 0; cursor: pointer;
+  margin-block-start: calc((1lh - 2rem) / 2);      /* the middle of the label's first line (the input inherits its line height) */ border: 2px solid var(--nh-field);border-radius: 2px;background: var(--nh-white) center / 1.375rem no-repeat;transition: border-color .15s ease}.nh-check input:hover{border-color: var(--nh-ink)}.nh-check input:checked{border-color: var(--nh-iris-700);background-color: var(--nh-iris-700);background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E")}.nh-check input[aria-invalid="true"]{border-color: var(--nh-error)}.nh-check input:disabled{cursor: default;opacity: .6}.nh-check>:is(label,span){flex: 1 1 0}.nh-check .nh-req{color: var(--nh-error);font-weight: 700;margin-inline-start: .15rem}.nh-check>.nh-error{flex-basis: 100%;margin-inline-start: 2.75rem}@media (forced-colors: active){.nh-check input{appearance: auto;-webkit-appearance: auto;background-image: none}}.nh-hp{position: absolute !important;inset-inline-start: -10000px;inline-size: 1px;block-size: 1px;overflow: hidden}.nh-alert{border-radius: 2px;padding: var(--nh-s-4) var(--nh-s-5);border: 2px solid}.nh-alert--error{border-color: var(--nh-error);background: #FBEDEB;color: var(--nh-ink)}.nh-alert--error h3{color: var(--nh-error);font-family: var(--nh-font-body);font-size: 1.125rem;font-weight: 700}.nh-alert--error ul{margin-block-start: .5rem;padding-inline-start: 1.25rem}.nh-alert--error a{color: var(--nh-error);font-weight: 600}.nh-alert--success{border-color: var(--nh-olive-700);background: #EEF3E8}.nh-alert--success h3{color: var(--nh-olive-700);font-family: var(--nh-font-body);font-size: 1.125rem;font-weight: 700}.nh-form__note{font-size: var(--v3-fs-small,1rem);color: var(--nh-ink-2)}.nh-form__note .nh-req{color: var(--nh-error);font-weight: 700}/* a link inside running text (a label,a note,the cookie panel's text): a 2px ring on the words' own box,so it never covers the next word or the full stop (16.11: the 3px ring 3px out reached over a word space) */ .nh-form :is(p,label) a:focus-visible,.nh-cookies p a:focus-visible{outline-width: 2px;outline-offset: 0}@media (max-width: 39.99em){.nh-form [type="submit"]{inline-size: 100%}}.nh-jobs__grid{display: grid;gap: var(--nh-s-8)}@media (min-width: 1024px){.nh-jobs__grid{grid-template-columns: 5fr 7fr}}.nh-crumbs ol{list-style: none;margin: 0;padding: 0;display: flex;flex-wrap: wrap;align-items: center;font: 600 var(--v3-fs-small,1rem)/1.3 var(--nh-font-body);color: var(--nh-ink-2)}.nh-crumbs li{display: inline-flex;align-items: center}.nh-crumbs li + li::before{content: "‹";content: "‹" / "";margin-inline: .5rem;color: var(--nh-ink-2);direction: ltr}.nh-crumbs a{display: inline-flex;align-items: center;min-block-size: 2.75rem;color: var(--nh-ink-2);text-decoration: underline;text-decoration-thickness: 1px;text-underline-offset: .2em}.nh-crumbs a:hover{color: var(--nh-ink);text-decoration-thickness: 2px}.nh-crumbs [aria-current="page"]{color: var(--nh-ink)}.nh-page-hero{padding-block: calc(4.75rem + var(--nh-s-6)) var(--nh-section)}.nh-page-hero__grid{display: grid;gap: var(--nh-s-8);align-items: end;margin-block-start: var(--nh-s-7)}@media (min-width: 1024px){.nh-page-hero__grid{grid-template-columns: 7fr 5fr}}.nh-page-hero h1{font-size: var(--nh-fs-h1);line-height: 1.02;margin-block: var(--nh-s-4) var(--nh-s-5)}.nh-glance{display: grid;gap: 0;margin: 0;border-block-start: 1.5px solid var(--nh-ink)}.nh-glance div{display: grid;gap: .25rem;padding-block: var(--nh-s-4);border-block-end: 1px solid var(--nh-line)}@media (min-width: 600px){.nh-glance div{grid-template-columns: 9rem 1fr;gap: var(--nh-s-5)}}.nh-glance dt{font-weight: 700;color: var(--nh-accent)}.nh-glance dd{margin: 0}.nh-features{list-style: none;padding: 0;display: grid;gap: var(--nh-s-5)}@media (min-width: 640px){.nh-features{grid-template-columns: repeat(2,1fr)}}@media (min-width: 1024px){.nh-features{grid-template-columns: repeat(3,1fr)}}.nh-feature{background: var(--nh-white);border-radius: var(--nh-r-lg);padding: var(--nh-s-6);display: grid;gap: var(--nh-s-3);align-content: start;box-shadow: var(--nh-shadow-1)}.nh-feature__icon{inline-size: 3.25rem;block-size: 3.25rem;border-radius: 1rem;display: grid;place-items: center;background: var(--nh-iris-100);color: var(--nh-iris-700)}.nh-feature__icon svg{inline-size: 1.7rem;block-size: 1.7rem}.nh-feature h3{font-size: 1.5rem}.nh-feature p{color: var(--nh-ink-2)}.nh-steps{list-style: none;padding: 0;display: grid;gap: var(--nh-s-5);counter-reset: step}@media (min-width: 900px){.nh-steps{grid-template-columns: repeat(3,1fr)}}.nh-steps li{counter-increment: step;padding: var(--nh-s-6);border-radius: var(--nh-r-lg);background: var(--nh-night-2);color: var(--nh-paper);display: grid;gap: var(--nh-s-3);align-content: start}.nh-steps li::before{content: counter(step,decimal-leading-zero);font-family: var(--nh-font-display);font-size: 2.75rem;color: var(--nh-citrus-400);line-height: 1}.nh-steps p{color: var(--nh-on-night-2)}.nh-ds-swatches{display: grid;gap: var(--nh-s-4);grid-template-columns: repeat(auto-fill,minmax(12rem,1fr));list-style: none;padding: 0}.nh-ds-swatch{border-radius: var(--nh-r-md);overflow: hidden;background: var(--nh-white);box-shadow: 0 0 0 1px var(--nh-line)}.nh-ds-swatch__chip{block-size: 6rem;display: grid;place-items: center;font-family: var(--nh-font-display);font-size: 2rem}.nh-ds-swatch__meta{padding: var(--nh-s-3) var(--nh-s-4);font-size: var(--nh-fs-small);display: grid;gap: .15rem}.nh-ds-swatch__meta code{font-size: 1rem}.nh-ds-table{inline-size: 100%;border-collapse: collapse;font-size: var(--nh-fs-small);background: var(--nh-white);border-radius: var(--nh-r-md);overflow: hidden}.nh-ds-table th,.nh-ds-table td{text-align: start;padding: .65rem .85rem;border-block-end: 1px solid var(--nh-line);vertical-align: middle}.nh-ds-table th{background: var(--nh-paper-2)}.nh-ds-table__sample{display: inline-block;padding: .3rem .7rem;border-radius: 2px;font-weight: 700}.nh-ds-pass{color: var(--nh-olive-700);font-weight: 700}.nh-ds-fail{color: var(--nh-error);font-weight: 700}.nh-ds-scale{display: grid;gap: var(--nh-s-5)}.nh-ds-scale>div{display: grid;gap: .25rem;border-block-end: 1px solid var(--nh-line);padding-block-end: var(--nh-s-4)}.nh-ds-scale small{color: var(--nh-ink-2);font-family: var(--nh-font-body);font-size: 1rem}.nh-ds-space{display: flex;flex-wrap: wrap;gap: var(--nh-s-4);align-items: end;list-style: none;padding: 0}.nh-ds-space li{display: grid;gap: .35rem;justify-items: center;font-size: 1rem;color: var(--nh-ink-2)}.nh-ds-space i{display: block;background: var(--nh-clay-300);inline-size: var(--s);block-size: var(--s);border-radius: 2px}.nh-ds-grid{display: grid;gap: var(--nh-s-6)}@media (min-width: 900px){.nh-ds-grid--2{grid-template-columns: 1fr 1fr}}.nh-ds-box{background: var(--nh-white);border-radius: var(--nh-r-lg);padding: var(--nh-s-6);box-shadow: 0 0 0 1px var(--nh-line)}.nh-ds-nav{background: var(--nh-paper);padding-block: var(--nh-s-3);border-block-end: 1px solid var(--nh-line)}.nh-ds-nav ul{list-style: none;padding: 0;display: flex;flex-wrap: wrap;gap: .25rem 1rem;font-weight: 600}.nh-accordion{border-block-start: 1.5px solid var(--nh-ink)}.nh-accordion details{border-block-end: 1px solid var(--nh-line)}.nh-accordion summary{list-style: none;cursor: pointer;display: flex;justify-content: space-between;align-items: center;gap: 1rem;padding-block: var(--nh-s-4);font-family: var(--nh-font-display);font-size: 1.375rem;min-block-size: 3rem}.nh-accordion summary::-webkit-details-marker{display: none}.nh-accordion summary::after{content: "+";font-family: var(--nh-font-body);font-size: 1.75rem;line-height: 1;transition: transform .2s var(--nh-ease-out)}.nh-accordion details[open] summary::after{transform: rotate(45deg)}.nh-accordion details>div{padding-block-end: var(--nh-s-5);color: var(--nh-ink-2);max-width: 62ch}/* ---------- Reduced motion: the OS setting,«מצב רגוע»,or nh-reduce-motion (the v3.1 switch,still read from the visitor's storage by head.html; the switch itself is gone in v3.2) ------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+}
+html.nh-reduce-motion *, html.nh-reduce-motion *::before, html.nh-reduce-motion *::after,
+html.nh-calm *, html.nh-calm *::before, html.nh-calm *::after {
+  animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important;
+}
+
+/* ---------- Forced colours (Windows high contrast) ----------------------------- */
 @media (forced-colors: active) {
-  .nh-select { appearance: auto; -webkit-appearance: auto; background-image: none; padding-inline-end: 1rem; }
+  .nh-btn, .nh-round-btn, .nh-menu-btn { border: 2px solid ButtonText; }
+  .nh-nav a[aria-current]::after { background: CanvasText; }       /* the section you are in keeps its bar */
+  .nh-arch, .nh-frame { border: 1px solid CanvasText; }
+  .nh-hl { background: none; text-decoration: underline; }
 }
-.nh-input:hover, .nh-select:hover, .nh-textarea:hover { border-color: var(--nh-ink); }
-.nh-input:focus-visible, .nh-select:focus-visible, .nh-textarea:focus-visible { outline: 3px solid var(--nh-iris-700); outline-offset: 3px; border-color: var(--nh-iris-700); }
-.nh-input[aria-invalid="true"], .nh-select[aria-invalid="true"], .nh-textarea[aria-invalid="true"] { border-color: var(--nh-error); }
-.nh-input[type="file"] { padding: .6rem; }
-.nh-error { color: var(--nh-error); font-weight: 600; font-size: var(--v3-fs-small, 1rem); display: flex; gap: .4rem; align-items: center; }
-.nh-error svg { inline-size: 1.05rem; block-size: 1.05rem; flex: none; }
-/* the whole label is the target (<label for>); the box itself is 32px */
-.nh-check { display: flex; gap: .75rem; align-items: flex-start; }
-.nh-check input { inline-size: 2rem; block-size: 2rem; flex: none; margin: 0; accent-color: var(--nh-iris-700); }
-.nh-check label { padding-block-start: .2rem; }
-.nh-hp { position: absolute !important; inset-inline-start: -10000px; inline-size: 1px; block-size: 1px; overflow: hidden; }
-.nh-alert { border-radius: 2px; padding: var(--nh-s-4) var(--nh-s-5); border: 2px solid; }
-.nh-alert--error { border-color: var(--nh-error); background: #FBEDEB; color: var(--nh-ink); }
-.nh-alert--error h3 { color: var(--nh-error); font-family: var(--nh-font-body); font-size: 1.125rem; font-weight: 700; }
-.nh-alert--error ul { margin-block-start: .5rem; padding-inline-start: 1.25rem; }
-.nh-alert--error a { color: var(--nh-error); font-weight: 600; }
-.nh-alert--success { border-color: var(--nh-olive-700); background: #EEF3E8; }
-.nh-alert--success h3 { color: var(--nh-olive-700); font-family: var(--nh-font-body); font-size: 1.125rem; font-weight: 700; }
-.nh-form__note { font-size: var(--v3-fs-small, 1rem); color: var(--nh-ink-2); }
-@media (max-width: 39.99em) { .nh-form [type="submit"] { inline-size: 100%; } }
 
-/* two columns: text beside the jobs application form (design-system page) */
-.nh-jobs__grid { display: grid; gap: var(--nh-s-8); }
-@media (min-width: 1024px) { .nh-jobs__grid { grid-template-columns: 5fr 7fr; } }
+/* ---------- Print ----------------------------------------------------------- */
+@media print {
+  .nh-header, .nh-cookies, .nh-menu, .nh-video { display: none !important; }
+  .nh-section--night, .nh-on-dark, .nh-cta { background: none !important; color: #000 !important; }
+}
 
-/* ---------- Breadcrumbs ------------------------------------------------------ */
-/* «where am I»: 16px, links in ink-2 and underlined, 44px targets; the separator «‹» is silent */
-.nh-crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; font: 600 var(--v3-fs-small, 1rem)/1.3 var(--nh-font-body); color: var(--nh-ink-2); }
-.nh-crumbs li { display: inline-flex; align-items: center; }
-.nh-crumbs li + li::before { content: "‹"; content: "‹" / ""; margin-inline: .5rem; color: var(--nh-ink-2); }
-.nh-crumbs a { display: inline-flex; align-items: center; min-block-size: 2.75rem; color: var(--nh-ink-2); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
-.nh-crumbs a:hover { color: var(--nh-ink); text-decoration-thickness: 2px; }
-.nh-crumbs [aria-current="page"] { color: var(--nh-ink); }
+/* =========================================================================
+   v3 «אותיות שגרים בהן» — letters you can live in
+   Paper; a ruling line (שרטוט) that every spread hangs from; five Hebrew letters
+   whose names are words of home (ב בית, כ כף, ס סמך, ל למד, ד דלת) used as
+   architecture: their counters are rooms where life is shown.
+   Rules (research/06): text never moves; no JS pinning; photos live only inside the rooms or as
+   4:3 prints; no arches, chips, stickers or eyebrow labels.
+   v3.2 «calm» (research/07): nothing moves by itself. Allowed: colour on hover/focus (150ms), the one soft
+   appearance of the print photos, accordions. One fixed layer (the masthead), one radius (2px), a nine-step
+   type scale, nothing under 16px.
+   ========================================================================= */
 
-/* ---------- Inner page ------------------------------------------------------- */
-.nh-page-hero { padding-block: calc(4.75rem + var(--nh-s-6)) var(--nh-section); }
-.nh-page-hero__grid { display: grid; gap: var(--nh-s-8); align-items: end; margin-block-start: var(--nh-s-7); }
-@media (min-width: 1024px) { .nh-page-hero__grid { grid-template-columns: 7fr 5fr; } }
-.nh-page-hero h1 { font-size: var(--nh-fs-h1); line-height: 1.02; margin-block: var(--nh-s-4) var(--nh-s-5); }
-.nh-glance { display: grid; gap: 0; margin: 0; border-block-start: 1.5px solid var(--nh-ink); }
-.nh-glance div { display: grid; gap: .25rem; padding-block: var(--nh-s-4); border-block-end: 1px solid var(--nh-line); }
-@media (min-width: 600px) { .nh-glance div { grid-template-columns: 9rem 1fr; gap: var(--nh-s-5); } }
-.nh-glance dt { font-weight: 700; color: var(--nh-accent); }
-.nh-glance dd { margin: 0; }
-.nh-features { list-style: none; padding: 0; display: grid; gap: var(--nh-s-5); }
-@media (min-width: 640px) { .nh-features { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px) { .nh-features { grid-template-columns: repeat(3, 1fr); } }
-.nh-feature { background: var(--nh-white); border-radius: var(--nh-r-lg); padding: var(--nh-s-6); display: grid; gap: var(--nh-s-3); align-content: start; box-shadow: var(--nh-shadow-1); }
-.nh-feature__icon { inline-size: 3.25rem; block-size: 3.25rem; border-radius: 1rem; display: grid; place-items: center; background: var(--nh-iris-100); color: var(--nh-iris-700); }
-.nh-feature__icon svg { inline-size: 1.7rem; block-size: 1.7rem; }
-.nh-feature h3 { font-size: 1.5rem; }
-.nh-feature p { color: var(--nh-ink-2); }
-.nh-steps { list-style: none; padding: 0; display: grid; gap: var(--nh-s-5); counter-reset: step; }
-@media (min-width: 900px) { .nh-steps { grid-template-columns: repeat(3, 1fr); } }
-.nh-steps li { counter-increment: step; padding: var(--nh-s-6); border-radius: var(--nh-r-lg); background: var(--nh-night-2); color: var(--nh-paper); display: grid; gap: var(--nh-s-3); align-content: start; }
-.nh-steps li::before { content: counter(step, decimal-leading-zero); font-family: var(--nh-font-display); font-size: 2.75rem; color: var(--nh-citrus-400); line-height: 1; }
-.nh-steps p { color: var(--nh-on-night-2); }
-/* ---------- Design-system page helpers --------------------------------------- */
-.nh-ds-swatches { display: grid; gap: var(--nh-s-4); grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); list-style: none; padding: 0; }
-.nh-ds-swatch { border-radius: var(--nh-r-md); overflow: hidden; background: var(--nh-white); box-shadow: 0 0 0 1px var(--nh-line); }
-.nh-ds-swatch__chip { block-size: 6rem; display: grid; place-items: center; font-family: var(--nh-font-display); font-size: 2rem; }
-.nh-ds-swatch__meta { padding: var(--nh-s-3) var(--nh-s-4); font-size: var(--nh-fs-small); display: grid; gap: .15rem; }
-.nh-ds-swatch__meta code { font-size: 1rem; }
-.nh-ds-table { inline-size: 100%; border-collapse: collapse; font-size: var(--nh-fs-small); background: var(--nh-white); border-radius: var(--nh-r-md); overflow: hidden; }
-.nh-ds-table th, .nh-ds-table td { text-align: start; padding: .65rem .85rem; border-block-end: 1px solid var(--nh-line); vertical-align: middle; }
-.nh-ds-table th { background: var(--nh-paper-2); }
-.nh-ds-table__sample { display: inline-block; padding: .3rem .7rem; border-radius: 2px; font-weight: 700; }
-.nh-ds-pass { color: var(--nh-olive-700); font-weight: 700; }
-.nh-ds-fail { color: var(--nh-error); font-weight: 700; }
-.nh-ds-scale { display: grid; gap: var(--nh-s-5); }
-.nh-ds-scale > div { display: grid; gap: .25rem; border-block-end: 1px solid var(--nh-line); padding-block-end: var(--nh-s-4); }
-.nh-ds-scale small { color: var(--nh-ink-2); font-family: var(--nh-font-body); font-size: 1rem; }
-.nh-ds-space { display: flex; flex-wrap: wrap; gap: var(--nh-s-4); align-items: end; list-style: none; padding: 0; }
-.nh-ds-space li { display: grid; gap: .35rem; justify-items: center; font-size: 1rem; color: var(--nh-ink-2); }
-.nh-ds-space i { display: block; background: var(--nh-clay-300); inline-size: var(--s); block-size: var(--s); border-radius: 2px; }
-.nh-ds-grid { display: grid; gap: var(--nh-s-6); }
-@media (min-width: 900px) { .nh-ds-grid--2 { grid-template-columns: 1fr 1fr; } }
-.nh-ds-box { background: var(--nh-white); border-radius: var(--nh-r-lg); padding: var(--nh-s-6); box-shadow: 0 0 0 1px var(--nh-line); }
-.nh-ds-nav { background: var(--nh-paper); padding-block: var(--nh-s-3); border-block-end: 1px solid var(--nh-line); }
-.nh-ds-nav ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem 1rem; font-weight: 600; }
-.nh-accordion { border-block-start: 1.5px solid var(--nh-ink); }
-.nh-accordion details { border-block-end: 1px solid var(--nh-line); }
-.nh-accordion summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-block: var(--nh-s-4); font-family: var(--nh-font-display); font-size: 1.375rem; min-block-size: 3rem; }
-.nh-accordion summary::-webkit-details-marker { display: none; }
-.nh-accordion summary::after { content: "+"; font-family: var(--nh-font-body); font-size: 1.75rem; line-height: 1; transition: transform .2s var(--nh-ease-out); }
-.nh-accordion details[open] summary::after { transform: rotate(45deg); }
-.nh-accordion details > div { padding-block-end: var(--nh-s-5); color: var(--nh-ink-2); max-width: 62ch; }
+:root {
+  --v3-ink: #1C1830;                       /* the letters */
+  --v3-iris-text: #E2DAF0;                 /* secondary text on iris (7.76:1) */
+  --v3-toggle-dark: #8F84A6;               /* toggle track on night (4.92:1) */
+}
+/* v3.2 type scale: nine steps (research/07 §7.1); every font-size of the spreads refers to them. 390 → 1440px.
+   Frank Ruhl only at 300, 400, 500: 300 only for D-L from 48em (where it is 68px or more). Minimum 16px. */
+.v3 {
+  --v3-mast: 4.5rem;
+  --v3-fs-dl:    clamp(2.75rem, 1.171rem + 6.476vw, 7rem);     /* 44 → 112  Frank Ruhl var(--v3-fw-dl), lh .92 */
+  --v3-fw-dl:    300;                                          /* 400 below 48em, where D-L is under ~68px */
+  --v3-fs-dm:    clamp(2.375rem, 1.771rem + 2.476vw, 4rem);    /* 38 → 64   Frank Ruhl 400, lh 1   */
+  --v3-fs-ds:    clamp(1.75rem, 1.379rem + 1.524vw, 2.75rem);  /* 28 → 44   Frank Ruhl 400, lh 1.12 */
+  --v3-fs-h3:    clamp(1.375rem, 1.236rem + .571vw, 1.75rem);  /* 22 → 28   Frank Ruhl 500, lh 1.25 */
+  --v3-fs-lead:  clamp(1.25rem, 1.157rem + .381vw, 1.5rem);    /* 20 → 24   Assistant 400, lh 1.5, ink, ≤ 36ch */
+  --v3-fs-body:  clamp(1.125rem, 1.079rem + .19vw, 1.25rem);   /* 18 → 20   Assistant 400, lh 1.65, ≤ 60ch */
+  --v3-fs-ui:    1.125rem;                                     /* 18        Assistant 600/700, lh 1.2 */
+  --v3-fs-small: 1rem;                                         /* 16        Assistant 400/600/700, lh 1.5 — the minimum */
+  --v3-fs-plain: clamp(1.375rem, 1.329rem + .19vw, 1.5rem);    /* 22 → 24   Assistant 400, lh 1.6, ≤ 36ch */
+  --v3-pad:      clamp(4rem, 2.7rem + 5.333vw, 7.5rem);        /* 64 → 120  spread padding */
+  --v3-hair:     rgb(31 36 33 / .4);                           /* hairline between rows, #A19F98 on paper */
+  background: var(--nh-paper);
+  counter-reset: print;                                        /* the numbered captions of the prints («1 ·») */
+}
+@media (max-width: 79.99em) { .v3 { --v3-mast: 3.75rem; } }
+@media (max-width: 47.99em) { .v3 { --v3-fw-dl: 400; } }
 
-/* ---------- Reduced motion: the OS setting, «מצב רגוע», or nh-reduce-motion (the v3.1 switch, still read
-   from the visitor's storage by head.html;the switch itself is gone in v3.2) ------------------------- */ @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration: 1ms !important;animation-delay: 0ms !important;animation-iteration-count: 1 !important;transition-duration: 1ms !important}}html.nh-reduce-motion *,html.nh-reduce-motion *::before,html.nh-reduce-motion *::after,html.nh-calm *,html.nh-calm *::before,html.nh-calm *::after{animation-duration: 1ms !important;animation-delay: 0ms !important;animation-iteration-count: 1 !important;transition-duration: 1ms !important}@media (forced-colors: active){.nh-btn,.nh-round-btn,.nh-menu-btn{border: 2px solid ButtonText}.nh-nav a[aria-current]::after{background: CanvasText}.nh-arch,.nh-frame{border: 1px solid CanvasText}.nh-hl{background: none;text-decoration: underline}}@media print{.nh-header,.nh-cookies,.nh-menu,.nh-video{display: none !important}.nh-section--night,.nh-on-dark,.nh-cta{background: none !important;color: #000 !important}}:root{--v3-ink: #1C1830;--v3-iris-text: #E2DAF0;--v3-toggle-dark: #8F84A6}.v3{--v3-mast: 4.5rem;--v3-fs-dl: clamp(2.75rem,1.171rem + 6.476vw,7rem);--v3-fw-dl: 300;--v3-fs-dm: clamp(2.375rem,1.771rem + 2.476vw,4rem);--v3-fs-ds: clamp(1.75rem,1.379rem + 1.524vw,2.75rem);--v3-fs-h3: clamp(1.375rem,1.236rem + .571vw,1.75rem);--v3-fs-lead: clamp(1.25rem,1.157rem + .381vw,1.5rem);--v3-fs-body: clamp(1.125rem,1.079rem + .19vw,1.25rem);--v3-fs-ui: 1.125rem;--v3-fs-small: 1rem;--v3-fs-plain: clamp(1.375rem,1.329rem + .19vw,1.5rem);--v3-pad: clamp(4rem,2.7rem + 5.333vw,7.5rem);--v3-hair: rgb(31 36 33 / .4);background: var(--nh-paper);counter-reset: print}@media (max-width: 79.99em){.v3{--v3-mast: 3.75rem}}@media (max-width: 47.99em){.v3{--v3-fw-dl: 400}}/* ---------- Display switches (v3.2,research/07 §7.3) ----------------------------------------- <button class="v3-toggle" aria-pressed>: label · the state in words («פועל» / «כבוי»,aria-hidden: the state itself is aria-pressed) · a 44×24 track with an 18px square thumb. Nothing moves: the thumb jumps. */ .v3-toggle{display: flex;align-items: center;gap: .75rem;inline-size: 100%;min-block-size: 2.75rem;padding-inline: .25rem;font: 600 var(--v3-fs-ui)/1.2 var(--nh-font-body);color: inherit;text-align: start}.v3-toggle__label{flex: 1}.v3-toggle__state{flex: none;font: 700 var(--v3-fs-small)/1.2 var(--nh-font-body)}.v3-toggle__state::before{content: attr(data-off)}.v3-toggle[aria-pressed="true"] .v3-toggle__state::before{content: attr(data-on)}.v3-toggle i{position: relative;flex: none;inline-size: 2.75rem;block-size: 1.5rem;border-radius: 2px;background: var(--nh-field)}.v3-toggle i::after{content: "";position: absolute;inset-block-start: 3px;inset-inline-start: 3px;inline-size: 1.125rem;block-size: 1.125rem;border-radius: 2px;background: var(--nh-white)}.v3-toggle[aria-pressed="true"] i{background: var(--nh-olive-700)}.v3-toggle[aria-pressed="true"] i::after{inset-inline-start: auto;inset-inline-end: 3px}.v3-switches,.v3-menu-toggles{display: grid;gap: .25rem;max-inline-size: 20rem}.nh-on-dark .v3-toggle i{background: var(--v3-toggle-dark)}.nh-on-dark .v3-toggle[aria-pressed="true"] i{background: var(--nh-citrus-400)}.nh-on-dark .v3-toggle[aria-pressed="true"] i::after{background: var(--nh-ink)}.v3-spread{position: relative;padding-block: var(--v3-pad);background-color: var(--nh-paper)}.v3-spread--sand{background: var(--nh-paper-2)}.v3-spread--citrus{background: var(--nh-citrus-100);color: var(--nh-ink);--nh-focus: var(--nh-iris-700);--nh-link: var(--nh-iris-700);--nh-text-muted: var(--nh-ink-2);--v3-ink: var(--nh-ink)}.v3-spread--iris{background: var(--nh-iris-700);color: var(--nh-white);--nh-focus: var(--nh-citrus-400);--nh-link: var(--nh-white);--nh-text: var(--nh-white);--nh-text-muted: var(--v3-iris-text);--v3-ink: var(--nh-paper)}.v3-spread--night{background: var(--nh-night);color: var(--nh-paper);--nh-focus: var(--nh-citrus-400);--nh-link: var(--nh-citrus-400);--nh-text: var(--nh-paper);--nh-text-muted: var(--nh-on-night-2);--v3-ink: var(--nh-paper)}.v3-rule{position: relative;block-size: 1px;background: currentColor;margin-block-end: 2.5rem}.v3-h2{font: 400 var(--v3-fs-dm)/1 var(--nh-font-display);letter-spacing: 0;margin: 0 0 1.25rem;text-wrap: balance}.v3-lead{font-size: var(--v3-fs-lead);line-height: 1.5;max-inline-size: 36ch;margin: 0 0 3rem;color: var(--nh-text)}.v3-note{font-size: var(--v3-fs-small);color: var(--nh-ink-2);margin-block-start: 1rem}.v3-dot{position: relative;color: transparent}.v3-dot::before{content: "";position: absolute;left: .065em;bottom: .334em;inline-size: .12em;block-size: .12em;background: var(--nh-iris-700);transform: rotate(-4deg);border-radius: .015em;box-shadow: inset .018em .018em 0 rgb(255 255 255 / .28),inset -.02em -.02em 0 rgb(0 0 0 / .18)}.v3-dot--clay::before{background: var(--nh-clay-700);transform: rotate(5deg)}.v3-dot--ink::before{background: var(--nh-ink)}.v3-dot--citrus::before{background: var(--nh-citrus-400)}.v3-room{position: relative;inline-size: 100%;aspect-ratio: var(--asp)}.v3-room__photo{position: absolute;left: var(--fx);top: var(--fy);width: var(--fw);height: var(--fh);overflow: hidden;display: block;margin: 0;clip-path: inset( calc(var(--at) + (var(--bt) - var(--at)) * var(--t)) calc(var(--ar) + (var(--br) - var(--ar)) * var(--t)) calc(var(--ab) + (var(--bb) - var(--ab)) * var(--t)) calc(var(--al) + (var(--bl) - var(--al)) * var(--t)))}.v3-room__photo img{display: block;inline-size: 100%;block-size: 100%;object-fit: cover;object-position: var(--pos)}.v3-room__field--sky,.v3-room.is-sky .v3-room__photo{background: linear-gradient(180deg,#8FC0E6 0%,#BFDDF2 45%,#E3F0F8 100%)}.v3-room.is-sky img{opacity: 0}.v3-letter{position: absolute;inset: 0;inline-size: 100%;block-size: 100%;overflow: visible;pointer-events: none}.v3-letter__ink{fill: var(--v3-ink)}.v3-cover{padding-block: calc(var(--v3-mast) + clamp(1.5rem,1rem + 2vw,3rem)) clamp(2.5rem,2rem + 2vw,4rem)}.v3-cover__grid{display: grid;grid-template-columns: auto minmax(0,1fr);grid-template-areas: "letter title" "lead lead" "plain plain" "cta cta" "call call";gap: 1.25rem 1rem;align-items: end}.v3-cover--page .v3-cover__grid{grid-template-columns: minmax(0,1fr);grid-template-areas: "crumbs" "letter" "title" "lead" "plain" "cta" "call"}.v3-cover__grid>.v3-crumbs{grid-area: crumbs}.v3-cover__letter{grid-area: letter;position: relative;inline-size: min(44vw,13rem)}.v3-cover--page .v3-cover__letter{inline-size: min(52vw,10rem)}.v3-cover__text{display: contents}.v3-cover__title{grid-area: title;font: var(--v3-fw-dl) var(--v3-fs-dl)/.92 var(--nh-font-display);letter-spacing: 0;margin: 0}.v3-cover__title>.v3-full{display: block}.v3-cover__title .v3-full>span{display: block}.v3-cover__lead{grid-area: lead;font-size: var(--v3-fs-lead);line-height: 1.5;max-inline-size: 36ch;margin: 0;color: var(--nh-ink)}.v3-cover__plain{grid-area: plain}.v3-cover__cta{grid-area: cta;margin: 0}.v3-cover__call{grid-area: call;margin: 0;font: 600 var(--v3-fs-ui)/1.2 var(--nh-font-body)}.v3-cover__call a{display: inline-flex;align-items: center;min-block-size: 2.75rem}@media (min-width: 48em){.v3-cover{--cover-h: min(calc(100svh - var(--v3-mast) - 13rem),44rem)}.v3-cover__grid,.v3-cover--page .v3-cover__grid{grid-template-columns: minmax(0,5fr) minmax(0,6fr);grid-template-areas: none;column-gap: clamp(2rem,1rem + 4vw,6rem);row-gap: 0;align-items: center}.v3-cover__grid>.v3-crumbs{grid-area: auto;grid-column: 1 / -1;margin-block-end: 1.5rem}.v3-cover__letter,.v3-cover--page .v3-cover__letter{grid-area: auto;inline-size: min(100%,calc(var(--cover-h) * 432.4 / 597))}.v3-cover__text{display: block}.v3-cover__title{margin: 0 0 1.25rem}.v3-cover__lead{margin: 0 0 1.75rem}.v3-cover__plain{margin-block-end: 1.75rem}.v3-cover__call{margin-block-start: .75rem}}/* a home's page: a smaller letter, so its cover stays one screen with the crumbs above it (as in v3.1) */
-@media (min-width: 64em) { .v3-cover--page { --cover-h: min(calc(100svh - var(--v3-mast) - 11rem), 34rem); } }
+/* ---------- Display switches (v3.2, research/07 §7.3) -----------------------------------------
+   <button class="v3-toggle" aria-pressed>: label · the state in words («פועל» / «כבוי», aria-hidden: the state
+   itself is aria-pressed) · a 44×24 track with an 18px square thumb. Nothing moves: the thumb jumps. */
+.v3-toggle {
+  display: flex; align-items: center; gap: .75rem; inline-size: 100%;
+  min-block-size: 2.75rem; padding-inline: 0; font: 600 var(--v3-fs-ui)/1.2 var(--nh-font-body); color: inherit; text-align: start;
+}
+/* the label starts on the column's edge,as the links above it (16.11: a .25rem inset);hover underlines it at once */ .v3-toggle__label{flex: 1}.v3-toggle:hover .v3-toggle__label{text-decoration: underline;text-decoration-thickness: 2px;text-underline-offset: .2em}.v3-toggle__state{flex: none;font: 700 var(--v3-fs-small)/1.2 var(--nh-font-body)}.v3-toggle__state::before{content: attr(data-off)}.v3-toggle[aria-pressed="true"] .v3-toggle__state::before{content: attr(data-on)}.v3-toggle i{position: relative;flex: none;inline-size: 2.75rem;block-size: 1.5rem;border-radius: 2px;background: var(--nh-field)}.v3-toggle i::after{content: "";position: absolute;inset-block-start: 3px;inset-inline-start: 3px;inline-size: 1.125rem;block-size: 1.125rem;border-radius: 2px;background: var(--nh-white)}.v3-toggle[aria-pressed="true"] i{background: var(--nh-olive-700)}.v3-toggle[aria-pressed="true"] i::after{inset-inline-start: auto;inset-inline-end: 3px}.v3-switches,.v3-menu-toggles{display: grid;gap: .25rem;max-inline-size: 20rem}.nh-on-dark .v3-toggle i{background: var(--v3-toggle-dark)}.nh-on-dark .v3-toggle[aria-pressed="true"] i{background: var(--nh-citrus-400)}.nh-on-dark .v3-toggle[aria-pressed="true"] i::after{background: var(--nh-ink)}.v3-spread{position: relative;padding-block: var(--v3-pad);background-color: var(--nh-paper)}.v3-spread--sand{background: var(--nh-paper-2)}.v3-spread--citrus{background: var(--nh-citrus-100);color: var(--nh-ink);--nh-focus: var(--nh-iris-700);--nh-link: var(--nh-iris-700);--nh-text-muted: var(--nh-ink-2);--v3-ink: var(--nh-ink)}.v3-spread--iris{background: var(--nh-iris-700);color: var(--nh-white);--nh-focus: var(--nh-citrus-400);--nh-link: var(--nh-white);--nh-text: var(--nh-white);--nh-text-muted: var(--v3-iris-text);--v3-ink: var(--nh-paper)}.v3-spread--night{background: var(--nh-night);color: var(--nh-paper);--nh-focus: var(--nh-citrus-400);--nh-link: var(--nh-citrus-400);--nh-text: var(--nh-paper);--nh-text-muted: var(--nh-on-night-2);--v3-ink: var(--nh-paper)}.v3-rule{position: relative;block-size: 1px;background: currentColor;margin-block-end: 2.5rem}/* a spread reached by an anchor starts right under the masthead (its own top padding is the air;16.11: a band of the spread before it showed);headings and fields keep the page's 6rem */
+.v3-spread[id] { scroll-margin-block-start: calc(var(--v3-mast) + 1px - 6rem); }
+.v3-h2 { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: 0; margin: 0 0 1.25rem; text-wrap: balance; }
+.v3-lead { font-size: var(--v3-fs-lead); line-height: 1.5; max-inline-size: 36ch; margin: 0 0 3rem; color: var(--nh-text); }
+.v3-note { font-size: var(--v3-fs-small); color: var(--nh-ink-2); margin-block-start: 1rem; }
 
-/* ---------- Homes index (v3.2, §10.2 p. 2) -------------------------------------------------------------------
-   Three rows, each with its small ב (600). Only a row whose home has a page is a link (an <a>, with the still
-   arrow): hover and focus show the row's own backdrop at once (opacity,150ms) and underline the name 2px. The other rows are a <div>without an arrow and say «דף מפורט בקרוב». */ .v3-homes__list{list-style: none;margin: 2rem 0 0;padding: 0;border-block-start: 1.5px solid var(--nh-ink)}.v3-home{border-block-end: 1px solid var(--v3-hair)}.v3-home--paper{--field: var(--nh-paper-2)}.v3-home--sand{--field: var(--nh-citrus-100)}.v3-home--sky{--field: var(--nh-sky-200)}.v3-home__link,.v3-home__row{position: relative;isolation: isolate;display: grid;grid-template-columns: 5.5rem minmax(0,1fr) 2rem;gap: 1.25rem;align-items: center;padding-block: 1.5rem;color: var(--nh-ink);text-decoration: none}.v3-home__link::before{content: "";position: absolute;inset: 0 calc(-1 * var(--nh-gutter));z-index: -1;background: var(--field);opacity: 0;transition: opacity .15s ease}.v3-home__link:is(:hover,:focus-visible)::before{opacity: 1}.v3-home__link:is(:hover,:focus-visible) .v3-home__title{text-decoration: underline 2px;text-underline-offset: .2em}.v3-home__link:focus-visible{outline-offset: -3px}.v3-home__bet{inline-size: 100%}.v3-home__title{display: block;font: 400 var(--v3-fs-ds)/1.12 var(--nh-font-display);letter-spacing: 0}.v3-home__who{display: block;font-size: var(--v3-fs-body);line-height: 1.5;color: var(--nh-ink);margin-block-start: .5rem;max-inline-size: 54ch}.v3-home__facts{display: block;font-size: var(--v3-fs-small);font-weight: 700;line-height: 1.5;color: var(--nh-ink-2);margin-block-start: .6rem}.v3-home__arrow{display: block;inline-size: 2rem;block-size: 2rem}@media (min-width: 56.25em){.v3-home__link,.v3-home__row{grid-template-columns: 9.5rem minmax(0,1fr) 2.25rem;gap: 2.5rem;padding-block: 2rem}.v3-home__arrow{inline-size: 2.25rem;block-size: 2.25rem}}.v3-plainbox-wrap{padding-block: 0 clamp(4rem,2.5rem + 4vw,7rem)}.v3-plainbox{display: grid;grid-template-columns: auto minmax(0,1fr);gap: 1.25rem 1.5rem;padding: clamp(1.5rem,1rem + 2vw,3rem);background: var(--nh-paper-2);border-inline-end: 6px solid var(--nh-olive-700)}.v3-plainbox__icon{inline-size: 2.5rem;block-size: 2.5rem;color: var(--nh-olive-700)}.v3-plainbox h2{font: 400 var(--v3-fs-ds)/1.12 var(--nh-font-display);margin: 0 0 1rem}.v3-plainbox ul{list-style: none;margin: 0 0 1.5rem;padding: 0;display: grid;gap: .35rem}.v3-plainbox li,.v3-plainbox p{font-size: var(--v3-fs-plain);line-height: 1.6}.v3-plainbox__btn{--_bg: var(--nh-olive-700);--_fg: var(--nh-paper)}.v3-plainbox__btn:hover{--_bg: var(--nh-ink)}.v3-day__list{list-style: none;margin: 2rem 0 0;padding: 0;display: grid;gap: 3rem 2rem;grid-template-columns: minmax(0,1fr)}@media (min-width: 40em){.v3-day__list{grid-template-columns: repeat(2,minmax(0,1fr))}}@media (min-width: 64em){.v3-day__list{grid-template-columns: repeat(4,minmax(0,1fr))}}.v3-moment{display: flex;flex-direction: column;gap: 1rem}.v3-moment__verb{font: 400 var(--v3-fs-dm)/1 var(--nh-font-display);letter-spacing: 0;margin: 0}.v3-moment p{font-size: var(--v3-fs-body);line-height: 1.65;max-inline-size: 34ch;margin: 0}.v3-print{margin: 0;inline-size: 100%;max-inline-size: 21rem;counter-increment: print}.v3-print picture{display: block;aspect-ratio: 4 / 3;box-shadow: 0 0 0 1px var(--v3-ink)}.v3-print img{display: block;inline-size: 100%;block-size: 100%;object-fit: cover}.v3-print figcaption{font-size: var(--v3-fs-small);line-height: 1.5;color: var(--nh-text-muted,var(--nh-ink-2));margin-block-start: .65rem}.v3-print figcaption::before{content: counter(print) " · ";content: counter(print) " · " / "";font-weight: 700;color: var(--nh-text,var(--nh-ink))}.v3-kaf__grid,.v3-samekh__grid,.v3-lamed__grid,.v3-door__grid,.v3-voices__grid{display: grid;grid-template-columns: minmax(0,1fr);gap: 2rem clamp(2rem,1rem + 4vw,6rem)}.v3-kaf__grid>.v3-rule,.v3-samekh__grid>.v3-rule,.v3-lamed__grid>.v3-rule,.v3-door__grid>.v3-rule,.v3-voices__grid>.v3-rule{grid-column: 1 / -1;margin-block-end: 0}.v3-kaf__letter{inline-size: min(78vw,26rem)}.v3-kaf__cap{font-size: var(--v3-fs-body);line-height: 1.65;max-inline-size: 40ch;margin: 0 0 2rem}html.nh-plainmode .v3-kaf__cap{margin-block-start: 1.5rem}@media (min-width: 64em){.v3-kaf{padding-block-end: 0;overflow: clip}.v3-kaf__grid{grid-template-columns: minmax(0,5fr) minmax(0,6fr);align-items: end}.v3-kaf__letter{inline-size: 100%;max-inline-size: 31rem;margin-block-end: -3.25rem}.v3-kaf__text{align-self: center;padding-block-end: var(--v3-pad)}}/* ---------- ס׳ · Circles of support (v3.2,§10.2 p. 6) ------------------------------------------------------------- The letter stands still in the middle (380) with the residents' mandala whole inside it (fit="whole" in the
-   build: a square photo in an ellipse clip that hugs the counter). No rings, no glint; the six circles are a
-   plain list, not links. Three columns on desktop. */
-.v3-samekh__intro { max-inline-size: 34rem; }
-.v3-samekh__art { position: relative; margin: 0 auto; inline-size: min(84vw, 28rem); }
-.v3-samekh__art figcaption { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-ink-2); margin-block-start: 1rem; text-align: center; }
-.v3-room__photo--whole { clip-path: var(--clip); background: #C9C9C5; }          /* the work table's own grey */ .v3-room__work{position: absolute;left: var(--wl);top: var(--wt);width: var(--ww);height: var(--wh)}.v3-room__work img{display: block;inline-size: 100%;block-size: 100%;object-fit: cover}.v3-circles{list-style: none;margin: 0;padding: 0;border-block-start: 1.5px solid var(--nh-ink)}.v3-circles>li{padding-block: .85rem;border-block-end: 1px solid var(--v3-hair)}.v3-circles b{display: block;font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display)}.v3-circles span{display: block;font-size: var(--v3-fs-body);line-height: 1.5;color: var(--nh-ink);margin-block-start: .2rem}@media (min-width: 64em){.v3-samekh__grid{grid-template-columns: minmax(0,1fr) minmax(0,26rem) minmax(0,1fr);align-items: center;column-gap: clamp(2rem,1rem + 2.5vw,4.5rem)}.v3-samekh__art{inline-size: 100%}}@media (min-width: 64em) and (max-width: 79.99em){.v3-samekh__grid{grid-template-columns: minmax(0,1fr) minmax(0,22rem) minmax(0,1fr)}}.v3-years__list{list-style: none;margin: clamp(2rem,1.5rem + 2vw,3.5rem) 0 0;padding: 0;display: grid;gap: 3rem}.v3-year{border-block-start: 1.5px solid var(--nh-ink);padding-block-start: 1rem}.v3-year__num{font: 400 var(--v3-fs-dm)/1 var(--nh-font-display);letter-spacing: -.03em;font-variant-numeric: lining-nums;margin: 0 0 1rem}.v3-year__num--word{letter-spacing: 0}.v3-year:first-child .v3-year__num{font-size: var(--v3-fs-dl);font-weight: var(--v3-fw-dl);line-height: .92}.v3-year h3{font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display);margin: 0 0 .5rem}.v3-year p:not(.v3-year__num):not(.v3-shamayim){font-size: var(--v3-fs-body);line-height: 1.65;color: var(--nh-ink-2);max-inline-size: 38ch;margin: 0}.v3-year .v3-print{margin-block-start: 1.25rem}.v3-shamayim{display: flex;align-items: baseline;margin: 1.25rem 0 0;font: 400 var(--v3-fs-dm)/1 var(--nh-font-display);color: var(--v3-ink)}.v3-shamayim__mem{flex: none;inline-size: calc(var(--em-w) * 1em);margin-inline-start: .03em}@media (min-width: 64em){.v3-years__list{grid-template-columns: repeat(3,minmax(0,1fr));column-gap: clamp(2rem,1rem + 3vw,4rem)}.v3-year__num{display: flex;align-items: flex-end;block-size: calc(var(--v3-fs-dl) * .92)}}/* ---------- Voices (night;v3.2,§10.2 p. 8) --------------------------------------------------------------------------- The rule and a visible heading,the quote (D-S 400) with a hanging citrus mark,the film 16:9 (at most 37.5rem) behind a facade: a paper button with the word «צפו בסרטון»;only its background changes on hover and focus. The consent question opens in place. It is in the flow,so on a phone,where a 16:9 box is too low for the question and its two buttons,the box grows to hold it (overflow: clip keeps the box's own minimum height). */
-.v3-quote { margin: 0; }
-.v3-quote p { position: relative; font: 400 var(--v3-fs-ds)/1.3 var(--nh-font-display); letter-spacing: 0; margin: 0; max-inline-size: 26ch; }
-.v3-quote p::before { content: "״"; position: absolute; inset-inline-end: 100%; margin-inline-end: .12em; color: var(--nh-citrus-400); }
-.v3-quote footer { margin-block-start: 1.25rem; font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-on-night-2); }
-.v3-quote cite { font-style: normal; }
-.v3-video-fig { margin: 0; }
-.v3-video { display: grid; aspect-ratio: 16 / 9; max-inline-size: 37.5rem; border-radius: 0; overflow: clip; background: var(--nh-night-2); }
-.v3-video picture { position: absolute; inset: 0; display: block; }
-.v3-video img { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; opacity: 1; }
-.v3-video .nh-video__play { place-content: end start; justify-items: start; padding: 1rem; background: none; }
-.v3-video .nh-video__consent { position: relative; inset: auto; place-content: center; }
-.v3-video .nh-btn-row { justify-content: center; }   /* §10.2 item 8: the consent buttons under the centred question */
-.v3-video__cap { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-on-night-2); margin-block-start: .85rem; max-inline-size: 44ch; }
-@media (min-width: 64em) { .v3-voices__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; } }
-.v3-quote--page { margin-block-start: clamp(2.5rem, 2rem + 2vw, 4rem); padding-block-start: 1.5rem; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-quote--page p { max-inline-size: 34ch; }
-.v3-quote--page p::before { color: var(--nh-iris-700); }
-.v3-quote--page footer { color: var(--nh-ink-2); }
+/* the full stop of the headlines is drawn as one square glazed tessera */
+.v3-dot { position: relative; color: transparent; }
+.v3-dot::before {
+  /* Frank Ruhl Libre: descent .334em, the period sits at x .085–.177em of its advance */
+  content: ""; position: absolute; left: .065em; bottom: .334em; inline-size: .12em; block-size: .12em;
+  background: var(--nh-iris-700); transform: rotate(-4deg); border-radius: .015em;
+  box-shadow: inset .018em .018em 0 rgb(255 255 255 / .28), inset -.02em -.02em 0 rgb(0 0 0 / .18);
+}
+.v3-dot--clay::before { background: var(--nh-clay-700); transform: rotate(5deg); }
+.v3-dot--ink::before { background: var(--nh-ink); }
+.v3-dot--citrus::before { background: var(--nh-citrus-400); }
 
-/* ---------- Steps: צעד צעד (v3.2, §10.2 p. 9) ---------------------------------------------------------------------------
-   A numbered list on one line (4 columns from 56.25em); the number is D-M in clay inside the H3. */
-.v3-steps__list { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 2.5rem 2rem; }
-.v3-steps__list h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 .5rem; }
-.v3-steps__n { display: block; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); color: var(--nh-clay-700); letter-spacing: -.03em; font-variant-numeric: lining-nums; margin-block-end: .5rem; }
-.v3-steps__list p { font-size: var(--v3-fs-body); line-height: 1.65; color: var(--nh-ink-2); margin: 0; max-inline-size: 30ch; }
-@media (min-width: 56.25em) { .v3-steps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* ---------- A letter with a room ------------------------------------------ */
+.v3-room { position: relative; inline-size: 100%; aspect-ratio: var(--asp); }
+/* the clip: the room's inset at the letter's weight, or the room's own --clip (ב,כ: a polygon that keeps the photo's
+   bleed under the base from showing left of the base's top corner;a resident's work: an ellipse) */
+.v3-room__photo {
+  position: absolute; left: var(--fx); top: var(--fy); width: var(--fw); height: var(--fh); overflow: hidden; display: block; margin: 0;
+  clip-path: var(--clip, inset(
+    calc(var(--at) + (var(--bt) - var(--at)) * var(--t)) calc(var(--ar) + (var(--br) - var(--ar)) * var(--t))
+    calc(var(--ab) + (var(--bb) - var(--ab)) * var(--t)) calc(var(--al) + (var(--bl) - var(--al)) * var(--t))));
+}
+.v3-room__photo img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: var(--pos); }
+/* the quiet sky: a room without a photo, and any room whose photo cannot be shown (images off: v3.js 3) */
+.v3-room__field--sky, .v3-room.is-sky .v3-room__photo { background: linear-gradient(180deg, #8FC0E6 0%, #BFDDF2 45%, #E3F0F8 100%); }
+.v3-room.is-sky img { opacity: 0; }                                  /* not the broken-image box; its alt stays in the tree */
+.v3-letter { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; pointer-events: none; }
+.v3-letter__ink { fill: var(--v3-ink); }
 
-/* ---------- ל׳ · Jobs (v3.2, §10.2 p. 10) --------------------------------------------------------------------------------
-   The ל stands still (600), at most 16rem tall, at the far end. It rises above its own rule, but only inside its
-   own top padding (-4rem, the smallest --v3-pad), never into the spread before it. Not shown under 64em. The
-   rows are links with still arrows: hover and focus underline the title 2px. */
-.v3-lamed__letter { display: none; }
-.v3-roles { list-style: none; margin: 2rem 0; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-roles li { border-block-end: 1px solid var(--v3-hair); }
-.v3-roles a { display: grid; grid-template-columns: minmax(0, 1fr) auto 1.5rem; gap: 1rem; align-items: baseline; min-block-size: 4rem; padding-block: 1.1rem; color: var(--nh-ink); text-decoration: none; }
-.v3-roles a:focus-visible { outline-offset: -3px; }                    /* a row link: the ring stays inside the row */
-.v3-roles b { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); }
-.v3-roles__meta { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-ink-2); white-space: nowrap; }
-.v3-roles svg { inline-size: 1.25rem; block-size: 1.25rem; align-self: center; }
-.v3-roles a:is(:hover, :focus-visible) b { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 2px; }
+/* ---------- ב׳ · Cover (v3.2, research/07 §10.2 p. 1, §10.3 p. 1) ------------------------------------------
+   One screen. The ב stands still at weight 600; no rule, no pinning, nothing plays on load (the photo is the
+   LCP and is painted final). Phones: the ב beside the title, then the lead, the button and «או בטלפון»; the
+   page cover stacks (crumbs · letter · title …). From 48em: two columns 5fr 6fr, the letter as tall as the
+   screen allows (--cover-h), so at 1440×900 the cover is about 800px and the next spread shows below it. */
+.v3-cover { padding-block: calc(var(--v3-mast) + clamp(1.5rem, 1rem + 2vw, 3rem)) clamp(2.5rem, 2rem + 2vw, 4rem); }
+.v3-cover__grid { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "letter title" "lead lead" "plain plain" "cta cta" "call call"; gap: 1.25rem 1rem; align-items: end; }
+.v3-cover--page .v3-cover__grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "crumbs" "letter" "title" "lead" "plain" "cta" "call"; }
+.v3-cover__grid > .v3-crumbs { grid-area: crumbs; }
+.v3-cover__letter { grid-area: letter; position: relative; inline-size: min(44vw, 13rem); }
+.v3-cover--page .v3-cover__letter { inline-size: min(52vw, 10rem); }
+.v3-cover__text { display: contents; }
+.v3-cover__title { grid-area: title; font: var(--v3-fw-dl) var(--v3-fs-dl)/.92 var(--nh-font-display); letter-spacing: 0; margin: 0; }
+.v3-cover__title > .v3-full { display: block; }
+.v3-cover__title .v3-full > span { display: block; }
+.v3-cover__lead { grid-area: lead; font-size: var(--v3-fs-lead); line-height: 1.5; max-inline-size: 36ch; margin: 0; color: var(--nh-ink); }
+.v3-cover__plain { grid-area: plain; }
+.v3-cover__cta { grid-area: cta; margin: 0; }
+/* «או בטלפון»: families often call from a phone (§3 p. 24); UI 18/600, the number is an underlined link */
+.v3-cover__call { grid-area: call; margin: 0; font: 600 var(--v3-fs-ui)/1.2 var(--nh-font-body); }
+.v3-cover__call a { display: inline-flex; align-items: center; min-block-size: 2.75rem; }
+@media (min-width: 48em) {
+  .v3-cover { --cover-h: min(calc(100svh - var(--v3-mast) - 13rem), 44rem); }
+  .v3-cover__grid, .v3-cover--page .v3-cover__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-areas: none; column-gap: clamp(2rem, 1rem + 4vw, 6rem); row-gap: 0; align-items: center; }
+  .v3-cover__grid > .v3-crumbs { grid-area: auto; grid-column: 1 / -1; margin-block-end: 1.5rem; }
+  .v3-cover__letter, .v3-cover--page .v3-cover__letter { grid-area: auto; inline-size: min(100%, calc(var(--cover-h) * 432.4 / 597)); }
+  .v3-cover__text { display: block; }
+  .v3-cover__title { margin: 0 0 1.25rem; }
+  .v3-cover__lead { margin: 0 0 1.75rem; }
+  .v3-cover__plain { margin-block-end: 1.75rem; }
+  .v3-cover__call { margin-block-start: .75rem; }
+}
+/* a home's page: a smaller letter,so its cover stays one screen with the crumbs above it (as in v3.1) */ @media (min-width: 64em){.v3-cover--page{--cover-h: min(calc(100svh - var(--v3-mast) - 11rem),34rem)}}/* ---------- Homes index (v3.2,§10.2 p. 2) ------------------------------------------------------------------- Three rows,each with its small ב (600). Only a row whose home has a page is a link (an <a>,with the still arrow): hover and focus show the row's own backdrop at once (opacity, 150ms) and underline the name 2px. The
+   other rows are a <div> without an arrow and say «דף מפורט בקרוב». */
+.v3-homes__list { list-style: none; margin: 2rem 0 0; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
+.v3-home { border-block-end: 1px solid var(--v3-hair); }
+.v3-home--paper { --field: var(--nh-paper-2); }
+.v3-home--sand { --field: var(--nh-citrus-100); }
+.v3-home--sky { --field: var(--nh-sky-200); }
+.v3-home__link, .v3-home__row { position: relative; isolation: isolate; display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) 2rem; gap: 1.25rem; align-items: center; padding-block: 1.5rem; color: var(--nh-ink); text-decoration: none; }
+.v3-home__link::before { content: ""; position: absolute; inset: 0 calc(-1 * var(--nh-gutter)); z-index: -1; background: var(--field); opacity: 0; transition: opacity .15s ease; }
+.v3-home__link:is(:hover, :focus-visible)::before { opacity: 1; }
+.v3-home__link:is(:hover, :focus-visible) .v3-home__title { text-decoration: underline 2px; text-underline-offset: .2em; }
+.v3-home__link:focus-visible { outline-offset: -3px; }                 /* a row link: the ring stays inside the row */
+.v3-home__bet { inline-size: 100%; }
+.v3-home__title { display: block; font: 400 var(--v3-fs-ds)/1.12 var(--nh-font-display); letter-spacing: 0; text-wrap: balance; }   /* a title of two lines breaks evenly («דיור לצעירים / על הרצף האוטיסטי») */
+.v3-home__who { display: block; font-size: var(--v3-fs-body); line-height: 1.5; color: var(--nh-ink); margin-block-start: .5rem; max-inline-size: 54ch; }
+.v3-home__facts { display: block; font-size: var(--v3-fs-small); font-weight: 700; line-height: 1.5; color: var(--nh-ink-2); margin-block-start: .6rem; }
+/* the facts are short items: a line breaks only between two of them (an item breaks only when it alone is wider than
+   the line), and the «·» between them never ends or starts a line (16.11: «חדר / סנוזלן», «שגרה ברורה ·»). Every item
+   but the first carries its «·» before it (the first has an empty place for it); the one that starts a line falls
+   into the 1em pulled out at the start and is clipped */
+.v3-home__facts, html.nh-plainmode .v3-home__facts.v3-plain { display: flex; flex-wrap: wrap; margin-inline-start: -1em; clip-path: inset(0 1em 0 0); }
+.v3-home__facts:dir(ltr) { clip-path: inset(0 0 0 1em); }
+.v3-home__fact:first-child { padding-inline-start: 1em; }
+.v3-home__sep { display: inline-block; inline-size: 1em; text-align: center; }
+.v3-home__arrow { display: block; inline-size: 2rem; block-size: 2rem; }   /* always shown, never moves */
+.v3-home__row { grid-template-columns: 5.5rem minmax(0, 1fr); }      /* no arrow: no empty arrow column either */
+@media (max-width: 24.99em) {                                       /* narrow phones: a smaller ב, more room for the words */
+  .v3-home__link { grid-template-columns: 4.5rem minmax(0, 1fr) 2rem; gap: 1rem; }
+  .v3-home__row { grid-template-columns: 4.5rem minmax(0, 1fr); gap: 1rem; }
+}
+@media (min-width: 56.25em) {
+  .v3-home__link, .v3-home__row { grid-template-columns: 9.5rem minmax(0, 1fr) 2.25rem; gap: 2.5rem; padding-block: 2rem; }
+  .v3-home__row { grid-template-columns: 9.5rem minmax(0, 1fr); }
+  .v3-home__arrow { inline-size: 2.25rem; block-size: 2.25rem; }
+}
+
+/* ---------- Plain-language box (§10.2 p. 3) ------------------------------------------------------------------
+   The olive bar is a border (v3.1 drew it with an inset box-shadow; v3.2 allows no shadows but 0 0 0 1px). */
+.v3-plainbox-wrap { padding-block: 0 clamp(4rem, 2.5rem + 4vw, 7rem); }
+.v3-plainbox { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.25rem 1.5rem; padding: clamp(1.5rem, 1rem + 2vw, 3rem); background: var(--nh-paper-2); border-inline-end: 6px solid var(--nh-olive-700); }
+.v3-plainbox__icon { inline-size: 2.5rem; block-size: 2.5rem; color: var(--nh-olive-700); }
+/* beside the heading, the icon's middle is the middle of the heading's letters (D-S, line height 1.12: .584em from the
+   line's top),so its ink runs from the letters' top to the baseline (16.11: it hung 4px high) */
+@media (min-width: 480px) { .v3-plainbox__icon { margin-block-start: calc(var(--v3-fs-ds) * .584 - 1.25rem); } }
+.v3-plainbox h2 { font: 400 var(--v3-fs-ds)/1.12 var(--nh-font-display); margin: 0 0 1rem; }
+.v3-plainbox ul { list-style: none; margin: 0 0 1.5rem; padding: 0; display: grid; gap: .35rem; }
+.v3-plainbox li, .v3-plainbox p { font-size: var(--v3-fs-plain); line-height: 1.6; }
+html.nh-plainmode .v3-plainbox p.v3-plain { margin-block-end: 1.5rem; }   /* the list's distance to the button (16.11: .3rem) */ .v3-plainbox__btn{--_bg: var(--nh-olive-700);--_fg: var(--nh-paper)}.v3-plainbox__btn:hover{--_bg: var(--nh-ink)}.v3-day__list{list-style: none;margin: 2rem 0 0;padding: 0;display: grid;gap: 3rem 2rem;grid-template-columns: minmax(0,1fr)}@media (min-width: 40em){.v3-day__list{grid-template-columns: repeat(2,minmax(0,1fr))}}@media (min-width: 64em){.v3-day__list{grid-template-columns: repeat(4,minmax(0,1fr))}}.v3-moment{display: flex;flex-direction: column;gap: 1rem}/* side by side,the cells share their rows (subgrid): a caption or a verb of two lines moves the whole row's texts
+   down together, so verbs, prints and texts stand on common lines (16.11: at 1024px two texts were 24px lower) */
+@media (min-width: 40em) {
+  .v3-day__list > .v3-moment { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 1rem; }
+  .v3-moment > .v3-moment__verb { grid-row: 1; }
+  .v3-moment > .v3-print { grid-row: 2; }
+  .v3-moment > p { grid-row: 3; }
+}
+.v3-moment__verb { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: 0; margin: 0; }
+.v3-moment p { font-size: var(--v3-fs-body); line-height: 1.65; max-inline-size: 34ch; margin: 0; }
+
+/* ---------- The print (§8.1, §10.2 p. 4): every single photo is a 4:3 print, one size in a row, with a thin
+   ink frame and a numbered caption («1 ·»: the number is silent). The file is already 4:3: cover trims only
+   fractions of a pixel. Never full width, never behind text. */
+.v3-print { margin: 0; inline-size: 100%; max-inline-size: 21rem; counter-increment: print; }
+/* phones up to 27em: the print fills the column (16.11: 336px in a 347px column read as a misalignment) */
+@media (max-width: 26.99em) { .v3-print { max-inline-size: none; } }
+.v3-print picture { display: block; aspect-ratio: 4 / 3; box-shadow: 0 0 0 1px var(--v3-ink); }
+.v3-print img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
+.v3-print figcaption { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-text-muted, var(--nh-ink-2)); margin-block-start: .65rem; }
+.v3-print figcaption::before { content: counter(print) " · "; content: counter(print) " · " / ""; font-weight: 700; color: var(--nh-text, var(--nh-ink)); }
+
+/* ---------- כ׳ · The palm holds one work (honey; v3.2, §10.2 p. 5) ------------------------------------------------
+   Still: the blue-green jar in the palm and a visible caption; no list of works, no colour swatches. On desktop
+   the base of the letter is cut by the edge of the spread, so the bottom padding moves to the text column. */
+.v3-kaf__grid, .v3-samekh__grid, .v3-lamed__grid, .v3-door__grid, .v3-voices__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem clamp(2rem, 1rem + 4vw, 6rem); }
+.v3-kaf__grid > .v3-rule, .v3-samekh__grid > .v3-rule, .v3-lamed__grid > .v3-rule, .v3-door__grid > .v3-rule, .v3-voices__grid > .v3-rule { grid-column: 1 / -1; margin-block-end: 0; }
+.v3-kaf__letter { inline-size: min(78vw, 26rem); }
+.v3-kaf__cap { font-size: var(--v3-fs-body); line-height: 1.65; max-inline-size: 40ch; margin: 0 0 2rem; }
+html.nh-plainmode .v3-kaf__cap { margin-block-start: 1.5rem; }
+@media (min-width: 64em) {
+  .v3-kaf { padding-block-end: 0; overflow: clip; }
+  .v3-kaf__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: end; }
+  .v3-kaf__letter { inline-size: 100%; max-inline-size: 31rem; margin-block-end: -3.25rem; }   /* the base runs off the spread */
+  .v3-kaf__text { align-self: center; padding-block-end: var(--v3-pad); }
+}
+
+/* ---------- ס׳ · Circles of support (v3.2, §10.2 p. 6) -------------------------------------------------------------
+   The letter stands still in the middle (380) with the residents' mandala whole inside it (fit="whole" in the build: a square photo in an ellipse clip that hugs the counter). No rings,no glint;the six circles are a plain list,not links. Three columns on desktop. */ .v3-samekh__intro{max-inline-size: 34rem}.v3-samekh__art{position: relative;margin: 0 auto;inline-size: min(84vw,28rem)}.v3-samekh__art figcaption{font-size: var(--v3-fs-small);line-height: 1.5;color: var(--nh-ink-2);margin-block-start: 1rem;text-align: center}.v3-room__photo--whole{clip-path: var(--clip);background: #C9C9C5}/* the work table's own grey */
+.v3-room__work { position: absolute; left: var(--wl); top: var(--wt); width: var(--ww); height: var(--wh); }
+.v3-room__work img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
+.v3-circles { list-style: none; margin: 0; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
+.v3-circles > li { padding-block: .85rem; border-block-end: 1px solid var(--v3-hair); }
+.v3-circles b { display: block; font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); }
+.v3-circles span { display: block; font-size: var(--v3-fs-body); line-height: 1.5; color: var(--nh-ink); margin-block-start: .2rem; }
+@media (min-width: 64em) {
+  .v3-samekh__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 26rem) minmax(0, 1fr); align-items: center; column-gap: clamp(2rem, 1rem + 2.5vw, 4.5rem); }
+  .v3-samekh__art { inline-size: 100%; }
+}
+@media (min-width: 64em) and (max-width: 79.99em) {
+  .v3-samekh__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 22rem) minmax(0, 1fr); }
+}
+
+/* ---------- Years (v3.2, §10.2 p. 7) ------------------------------------------------------------------------------
+   Three equal columns: 1957 · 2021 · היום. 1957 is the one big number (D-L), the others D-M. From 64em all three
+   numbers stand in a row of the same height on one bottom line, so the H3 under them line up. The courtyard is a
+   4:3 print under 1957; the ם window in «שמיים» is still. */
+.v3-years__list { list-style: none; margin: clamp(2rem, 1.5rem + 2vw, 3.5rem) 0 0; padding: 0; display: grid; gap: 3rem; }
+.v3-year { border-block-start: 1.5px solid var(--nh-ink); padding-block-start: 1rem; }
+.v3-year__num { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: -.03em; font-variant-numeric: lining-nums; margin: 0 0 1rem; }
+.v3-year__num--word { letter-spacing: 0; }
+.v3-year:first-child .v3-year__num { font-size: var(--v3-fs-dl); font-weight: var(--v3-fw-dl); line-height: .92; }
+.v3-year h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 .5rem; }
+.v3-year p:not(.v3-year__num):not(.v3-shamayim) { font-size: var(--v3-fs-body); line-height: 1.65; color: var(--nh-ink-2); max-inline-size: 38ch; margin: 0; }
+.v3-year .v3-print { margin-block-start: 1.25rem; }
+.v3-shamayim { display: flex; align-items: baseline; margin: 1.25rem 0 0; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); color: var(--v3-ink); }
+.v3-shamayim__mem { flex: none; inline-size: calc(var(--em-w) * 1em); margin-inline-start: .03em; }
+@media (min-width: 64em) {
+  .v3-years__list { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(2rem, 1rem + 3vw, 4rem); }
+  .v3-year__num { display: flex; align-items: flex-end; block-size: calc(var(--v3-fs-dl) * .92); }
+}
+
+/* ---------- Voices (night; v3.2, §10.2 p. 8) ---------------------------------------------------------------------------
+   The rule and a visible heading, the quote (D-S 400) with a hanging citrus mark, the film 16:9 (at most 37.5rem)
+   behind a facade: a paper button with the word «צפו בסרטון»; only its background changes on hover and focus.
+   The consent question opens in place. It is in the flow, so on a phone, where a 16:9 box is too low for the
+   question and its two buttons, the box grows to hold it (overflow: clip keeps the box's own minimum height). */ .v3-quote{margin: 0}.v3-quote p{position: relative;font: 400 var(--v3-fs-ds)/1.3 var(--nh-font-display);letter-spacing: 0;margin: 0;max-inline-size: 26ch}.v3-quote p::before{content: "״";position: absolute;inset-inline-end: 100%;margin-inline-end: .12em;color: var(--nh-citrus-400)}.v3-quote footer{margin-block-start: 1.25rem;font-size: var(--v3-fs-small);line-height: 1.5;color: var(--nh-on-night-2)}.v3-quote cite{font-style: normal}.v3-video-fig{margin: 0}.v3-video{display: grid;aspect-ratio: 16 / 9;max-inline-size: 37.5rem;border-radius: 0;overflow: clip;background: var(--nh-night-2)}.v3-video picture{position: absolute;inset: 0;display: block}.v3-video img{position: absolute;inset: 0;inline-size: 100%;block-size: 100%;object-fit: cover;opacity: 1}.v3-video .nh-video__play{place-content: end start;justify-items: start;padding: 1rem;background: none}.v3-video .nh-video__consent{position: relative;inset: auto;place-content: center}.v3-video .nh-btn-row{display: grid;grid-template-columns: repeat(auto-fit,minmax(min(100%,13rem),1fr));inline-size: min(100%,28rem);margin-inline: auto}.v3-video .nh-video__play:focus-visible{outline: none}.v3-video .nh-video__play:focus-visible .nh-video__btn{outline: 3px solid var(--nh-focus);outline-offset: 3px}.v3-video__cap{font-size: var(--v3-fs-small);line-height: 1.5;color: var(--nh-on-night-2);margin-block-start: .85rem;max-inline-size: 44ch}@media (min-width: 64em){.v3-voices__grid{grid-template-columns: minmax(0,7fr) minmax(0,5fr);align-items: center}}.v3-quote--page{margin-block-start: clamp(2.5rem,2rem + 2vw,4rem);padding-block-start: 1.5rem;border-block-start: 1.5px solid var(--nh-ink)}.v3-quote--page p{max-inline-size: 34ch}.v3-quote--page p::before{color: var(--nh-iris-700)}.v3-quote--page footer{color: var(--nh-ink-2)}.v3-steps__list{list-style: none;margin: 2rem 0 0;padding: 0;display: grid;gap: 2.5rem 2rem}.v3-steps__list h3{font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display);margin: 0 0 .5rem}.v3-steps__n{display: block;font: 400 var(--v3-fs-dm)/1 var(--nh-font-display);color: var(--nh-clay-700);letter-spacing: -.03em;font-variant-numeric: lining-nums;margin-block-end: .5rem}.v3-steps__list p{font-size: var(--v3-fs-body);line-height: 1.65;color: var(--nh-ink-2);margin: 0;max-inline-size: 30ch}@media (min-width: 56.25em){.v3-steps__list{grid-template-columns: repeat(4,minmax(0,1fr))}.v3-steps__list>li{display: grid;grid-row: span 2;grid-template-rows: subgrid;row-gap: 0}.v3-steps__list>li>h3{grid-row: 1}.v3-steps__list>li>p{grid-row: 2}}.v3-lamed__letter{display: none}.v3-roles{list-style: none;margin: 2rem 0;padding: 0;border-block-start: 1.5px solid var(--nh-ink)}.v3-roles li{border-block-end: 1px solid var(--v3-hair)}.v3-roles a{display: grid;grid-template-columns: minmax(0,1fr) auto 1.5rem;gap: 1rem;align-items: baseline;min-block-size: 4rem;padding-block: 1.1rem;color: var(--nh-ink);text-decoration: none}.v3-roles a:focus-visible{outline-offset: -3px}.v3-roles b{font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display)}.v3-roles__meta{font-size: var(--v3-fs-small);line-height: 1.5;color: var(--nh-ink-2);white-space: nowrap}.v3-roles svg{inline-size: 1.25rem;block-size: 1.25rem;align-self: center;grid-column: -2 / -1}.v3-roles a:is(:hover,:focus-visible) b{text-decoration: underline;text-underline-offset: .2em;text-decoration-thickness: 2px}/* beside the meta (from 40em) the arrow stands on the row's first line — the meta's line,also when the title wraps — with its middle on the middle of the meta's letters (16.11: it sat in the middle of the row, 13.5px below the meta
+   of a two-line title, and 3–4.5px above it otherwise). On phones it stays in the middle of the title and the meta. */
+@media (min-width: 40.01em) { .v3-roles svg { align-self: baseline; position: relative; inset-block-start: .35rem; } }
 @media (min-width: 64em) {
   .v3-lamed__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); }
   .v3-lamed__grid > .v3-rule { grid-row: 1; }                     /* the ל stands on it, at the far end */
   .v3-lamed__text { grid-column: 1; grid-row: 2; }
-  .v3-lamed__letter { display: block; grid-column: 2; grid-row: 1 / span 2; justify-self: end; block-size: 16rem; margin-block-start: -4rem; }
+  /* the letter stands in front of its rule (16.11: the positioned rule was drawn across the stem), and the rule
+     ends inside the stem instead of running on past it to the edge */
+  .v3-lamed__letter { display: block; grid-column: 2; grid-row: 1 / span 2; justify-self: end; block-size: 16rem; margin-block-start: -4rem; position: relative; z-index: 1; }
   .v3-lamed__letter .v3-letter { position: static; block-size: 100%; inline-size: auto; }
+  html:not(.nh-plainmode) .v3-lamed__grid > .v3-rule { margin-inline-end: 1.3rem; }   /* the stem crosses the rule 1–1.6rem from the edge */
 }
 
 /* ---------- ד׳ · The door (iris; v3.2, §10.2 p. 11) ---------------------------------------------------------------------
@@ -556,25 +465,9 @@ strong { font-weight: 700; }
 .v3-door__top { max-inline-size: 46rem; }
 .v3-door__letter { display: none; }
 .v3-door__in { display: grid; gap: 2rem; }
-.v3-door__form { background: var(--nh-paper); color: var(--nh-ink); padding: clamp(1.5rem, 1rem + 2vw, 2.75rem); max-inline-size: 42rem;
-  --nh-focus: var(--nh-iris-700); --nh-link: var(--nh-iris-700); --nh-text: var(--nh-ink); --nh-text-muted: var(--nh-ink-2); }
-.v3-door__form h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 1.25rem; }
-.v3-door__form .nh-btn--primary { --_bg: var(--nh-iris-700); --_fg: var(--nh-white); }
-.v3-door__label { font-weight: 700; margin: 0; color: var(--v3-iris-text); }
-.v3-door__phone { margin: .25rem 0 .5rem; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); }
-/* a link looks like one (§2 p. 5): underlined, 2px; only the colour changes on hover */
-.v3-door__phone a { color: var(--nh-white); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .12em; transition: color .15s ease; }
-.v3-door__phone a:hover { color: var(--nh-citrus-400); }
-.v3-door__addr { font-size: var(--v3-fs-body); line-height: 1.65; margin: 0; color: var(--v3-iris-text); }
-.v3-door__addr a { color: var(--nh-white); }
-@media (min-width: 64em) {
-  .v3-door__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); }
-  .v3-door__grid > .v3-rule { grid-row: 1; }
-  .v3-door__top { grid-column: 1; grid-row: 2; }
-  .v3-door__letter { display: block; grid-column: 2; grid-row: 1 / span 2; justify-self: end; block-size: 16rem; margin-block-start: -4rem; }
-  .v3-door__letter .v3-letter { position: static; block-size: 100%; inline-size: auto; }
-  .v3-door__way { grid-column: 1 / -1; }
-  .v3-door__in { grid-template-columns: minmax(0, 42rem) minmax(0, 1fr); align-items: start; column-gap: clamp(2rem, 1rem + 3vw, 5rem); }
+/* one column: the paper box spans the column, as the rule above it (16.11: at 42rem it stopped 31px short of the
+   rule's end on a tablet);beside the contact (64em) it is at most 42rem */ .v3-door__form{background: var(--nh-paper);color: var(--nh-ink);padding: clamp(1.5rem,1rem + 2vw,2.75rem);--nh-focus: var(--nh-iris-700);--nh-link: var(--nh-iris-700);--nh-text: var(--nh-ink);--nh-text-muted: var(--nh-ink-2)}/* the box's own title only: the alerts' titles inside it keep their own type (Assistant 18/700,forms) */ .v3-door__form>h3{font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display);margin: 0 0 1.25rem}.v3-door__label{font-weight: 700;margin: 0;color: var(--v3-iris-text)}.v3-door__phone{margin: .5rem 0 .75rem;font: 400 var(--v3-fs-dm)/1 var(--nh-font-display)}.v3-door__phone a{color: var(--nh-white);text-decoration: underline;text-decoration-thickness: 2px;text-underline-offset: .12em;transition: color .15s ease}.v3-door__phone a{display: inline-block}.v3-door__phone a:hover{color: var(--nh-citrus-400)}.v3-door__addr{font-size: var(--v3-fs-body);line-height: 1.65;margin: 0;color: var(--v3-iris-text)}.v3-door__addr a{color: var(--nh-white)}@media (min-width: 64em){.v3-door__grid{grid-template-columns: minmax(0,7fr) minmax(0,4fr)}.v3-door__grid>.v3-rule{grid-row: 1}.v3-door__top{grid-column: 1;grid-row: 2}.v3-door__letter{display: block;grid-column: 2;grid-row: 1 / span 2;justify-self: end;block-size: 16rem;margin-block-start: -4rem;position: relative;z-index: 1}html:not(.nh-plainmode) .v3-door__grid>.v3-rule{margin-inline-end: 1.3rem}.v3-door__letter .v3-letter{position: static;block-size: 100%;inline-size: auto}.v3-door__way{grid-column: 1 / -1}/* the contact column is never narrower than the phone number (D-M,one unbreakable run): at 64–69em the form gives way (16.11: at 1024px the number was 57px wider than its column and cut by the screen's edge) */
+  .v3-door__in { grid-template-columns: minmax(0, 42rem) minmax(min-content, 1fr); align-items: start; column-gap: clamp(2rem, 1rem + 3vw, 5rem); }
   .v3-door__contact { padding-block-start: 1rem; }
 }
 
@@ -592,8 +485,10 @@ html.nh-plainmode .nh-cookies .v3-plain p { font-size: var(--v3-fs-plain); line-
 html.nh-plainmode :is(h1, h2, h3, b, label) > .v3-plain { display: inline; }
 html.nh-plainmode .nh-btn > .v3-plain, html.nh-plainmode .v3-cover__call > .v3-plain { display: inline; }
 html.nh-plainmode .v3-home__who.v3-plain > span { display: block; }
+html.nh-plainmode .v3-home__who.v3-plain > span + span { margin-block-start: .3rem; }   /* as between plain paragraphs */
 html.nh-plainmode .nh-form__note.v3-plain, html.nh-plainmode .nh-form__note.v3-plain p { font-size: var(--v3-fs-plain); line-height: 1.55; color: var(--nh-ink); max-inline-size: 40ch; }
 html.nh-plainmode .v3-plain--after { margin-block-start: 1.5rem; }
+html.nh-plainmode .v3-note.v3-plain { margin-block-start: 1rem; }   /* off the rule above it, as in full mode (16.11: 0) */
 /* the cover: the ב folds into a chapter mark beside the words, the button under them */
 html.nh-plainmode .v3-cover__title { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); }
 html.nh-plainmode main .v3-cover__plain p { font-size: var(--v3-fs-plain); }
@@ -604,6 +499,7 @@ html.nh-plainmode main .v3-cover__plain p { font-size: var(--v3-fs-plain); }
 }
 html.nh-plainmode .v3-lamed__letter, html.nh-plainmode .v3-door__letter, html.nh-plainmode .v3-shamayim { display: none !important; }
 html.nh-plainmode .nh-hint > .v3-plain { display: inline; }
+html.nh-plainmode .nh-form .nh-check { font-size: var(--v3-fs-plain); line-height: 1.5; }   /* the label is a plain sentence (16.11: 18px among 22px); the box keeps to its first line */
 html.nh-plainmode .v3-kaf__letter { max-inline-size: 18rem; }
 /* plain mode: where the big letter is folded away, its spread becomes one column */
 html.nh-plainmode .v3-lamed__grid { grid-template-columns: minmax(0, 1fr); }
@@ -632,4 +528,4 @@ html.nh-calm main img { filter: saturate(.7); }
   .nh-video__btn { border: 2px solid ButtonText; }
 }
 
-/* ---------- A home's page: numbers,gallery,features,stories (v3.2,§10.3) --------------------------------------- */ .v3-crumbs{grid-column: 1 / -1;margin-block-end: .25rem}.v3-crumbs ol{margin: 0}.v3-stats{list-style: none;margin: 2rem 0;padding: 0;display: grid;grid-template-columns: repeat(2,minmax(0,1fr));border-block-start: 1.5px solid var(--nh-ink)}.v3-stats li{padding-block: 1.25rem;padding-inline-end: 1rem;border-block-end: 1px solid var(--v3-hair)}.v3-stats b{display: block;font: 400 var(--v3-fs-dm)/1 var(--nh-font-display);letter-spacing: -.03em;font-variant-numeric: lining-nums tabular-nums}.v3-stats li>span{display: block;font-size: var(--v3-fs-small);line-height: 1.5;color: var(--nh-ink-2);max-inline-size: 26ch;margin-block-start: .5rem}@media (min-width: 64em){.v3-stats{grid-template-columns: repeat(4,minmax(0,1fr))}.v3-stats li{border-block-end: 0;padding-inline: 0 1.5rem}.v3-stats li + li{border-inline-start: 1px solid var(--v3-hair);padding-inline-start: 1.5rem}}.v3-facts{margin: 0;border-block-start: 1px solid var(--v3-hair)}.v3-facts div{display: grid;grid-template-columns: 6rem minmax(0,1fr);gap: 1rem;padding-block: .85rem;border-block-end: 1px solid var(--v3-hair)}.v3-facts dt{font-weight: 700}.v3-facts dd{margin: 0;font-size: var(--v3-fs-body)}.v3-gallery{list-style: none;margin: 2rem 0 0;padding: 0;display: grid;gap: 2rem;grid-template-columns: minmax(0,1fr)}@media (min-width: 40em){.v3-gallery{grid-template-columns: repeat(2,minmax(0,1fr))}}@media (min-width: 64em){.v3-gallery{grid-template-columns: repeat(3,minmax(0,1fr))}}.v3-gallery .v3-print{max-inline-size: none}.v3-feature-list{list-style: none;margin: clamp(2rem,1.5rem + 2vw,3rem) 0 0;padding: 0;display: grid;column-gap: 3rem;border-block-start: 1.5px solid var(--nh-ink)}.v3-feature-list li{padding-block: 1.25rem;border-block-end: 1px solid var(--v3-hair)}.v3-feature-list h3{font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display);margin: 0 0 .4rem}.v3-feature-list p{margin: 0;font-size: var(--v3-fs-body);color: var(--nh-ink-2);line-height: 1.65;max-inline-size: 38ch}@media (min-width: 56.25em){.v3-feature-list{grid-template-columns: repeat(3,minmax(0,1fr))}}.v3-stories__list{list-style: none;margin: 2rem 0 0;padding: 0;display: grid;gap: 2rem 3rem}.v3-stories__list li{border-block-start: 1px solid rgb(247 241 231 / .3);padding-block-start: 1rem}.v3-stories__n{display: block;font: 400 var(--v3-fs-dm)/1 var(--nh-font-display);color: var(--nh-citrus-400);letter-spacing: -.03em;font-variant-numeric: lining-nums}.v3-stories__list h3{font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display);margin: .75rem 0 .4rem}.v3-stories__list p{margin: 0;font-size: var(--v3-fs-body);color: var(--nh-on-night-2);line-height: 1.65;max-inline-size: 36ch}@media (min-width: 56.25em){.v3-stories__list{grid-template-columns: repeat(3,minmax(0,1fr))}}.v3-plainbox-wrap--page{padding-block: clamp(4rem,2.5rem + 4vw,7rem)}.v3-related .v3-roles__meta{white-space: normal}@media (max-width: 40em){.v3-roles a{grid-template-columns: minmax(0,1fr) 1.5rem;row-gap: .25rem}.v3-roles b{grid-column: 1;grid-row: 1}.v3-roles__meta{grid-column: 1;grid-row: 2;white-space: normal}.v3-roles svg{grid-column: 2;grid-row: 1 / span 2}}.v3-ds-letters{list-style: none;padding: 0;margin: 2rem 0;display: grid;gap: 2rem 3rem;grid-template-columns: repeat(auto-fill,minmax(15rem,1fr))}.v3-ds-pair{display: flex;gap: 1.25rem;align-items: flex-end;block-size: 9rem}.v3-ds-pair .v3-letter{position: static;inline-size: auto;block-size: 100%}.v3-ds-letters p{margin: .75rem 0 0;color: var(--nh-ink-2)}.v3-ds-rooms{display: flex;flex-wrap: wrap;gap: 2rem}.v3-ds-rooms figure{margin: 0;inline-size: 10rem}.v3-ds-rooms figcaption{font-size: var(--v3-fs-small);color: var(--nh-ink-2);margin-block-start: .5rem}@media (max-width: 479px){.v3 .nh-btn{white-space: normal;text-align: center;line-height: 1.25}.v3-plainbox{grid-template-columns: minmax(0,1fr)}}.nh-wordmark{display: inline-flex;align-items: baseline;gap: .45rem;font: 500 1.6rem/1 var(--nh-font-display);letter-spacing: 0;color: currentColor;white-space: nowrap}.nh-wordmark::before{content: "";inline-size: .62rem;block-size: .62rem;background: var(--nh-iris-700);transform: rotate(45deg) translateY(-.12em);border-radius: 2px;box-shadow: .5rem .5rem 0 -.08rem #BBA957;margin-inline-end: .35rem}.nh-wordmark small{font: 700 .75rem/1 var(--nh-font-body);letter-spacing: .08em}.v3-mast .nh-header__inner{flex-wrap: wrap;row-gap: .25rem}.v3-mast .nh-header__actions{flex-wrap: wrap;justify-content: flex-end;row-gap: .25rem}.v3-dev a{color: var(--nh-paper);font-weight: 700;text-decoration: underline;text-underline-offset: .25em;text-decoration-thickness: 1px}.v3-dev a:hover{color: var(--nh-citrus-400)}@media (max-height: 30em){.v3-mast{position: absolute}html{scroll-padding-block: 1rem}}[data-reveal].is-waiting>picture{opacity: 0;transform: translateY(8px)}[data-reveal].is-shown>picture{transition: opacity .32s var(--nh-ease-out),transform .32s var(--nh-ease-out)}@media (prefers-reduced-motion: reduce){[data-reveal].is-waiting>picture{opacity: 1;transform: none}[data-reveal].is-shown>picture{transition: none}}html:is(.nh-calm,.nh-reduce-motion) [data-reveal].is-waiting>picture{opacity: 1;transform: none}html:is(.nh-calm,.nh-reduce-motion) [data-reveal].is-shown>picture{transition: none}@media print{[data-reveal].is-waiting>picture{opacity: 1 !important;transform: none !important}}
+/* ---------- A home's page: numbers,gallery,features,stories (v3.2,§10.3) --------------------------------------- */ .v3-crumbs{grid-column: 1 / -1;margin-block-end: .25rem}.v3-crumbs ol{margin: 0}.v3-stats{list-style: none;margin: 2rem 0;padding: 0;display: grid;grid-template-columns: repeat(2,minmax(0,1fr));border-block-start: 1.5px solid var(--nh-ink)}.v3-stats li{padding-block: 1.25rem;padding-inline-end: 1rem;border-block-end: 1px solid var(--v3-hair)}.v3-stats b{display: block;font: 400 var(--v3-fs-dm)/1 var(--nh-font-display);letter-spacing: -.03em;font-variant-numeric: lining-nums tabular-nums}.v3-stats li>span{display: block;font-size: var(--v3-fs-small);line-height: 1.5;color: var(--nh-ink-2);max-inline-size: 26ch;margin-block-start: .5rem}@media (min-width: 64em){.v3-stats{grid-template-columns: repeat(4,minmax(0,1fr))}.v3-stats li{border-block-end: 0;padding-inline: 0 1.5rem}.v3-stats li + li{border-inline-start: 1px solid var(--v3-hair);padding-inline-start: 1.5rem}}@media (max-width: 63.99em){.v3-stats:has(+ .v3-facts)>li:nth-child(2n+1):nth-last-child(-n+2),.v3-stats:has(+ .v3-facts)>li:nth-child(2n+1):nth-last-child(-n+2) ~ li{border-block-end: 0}}.v3-facts{margin: 0;border-block-start: 1px solid var(--v3-hair)}.v3-facts div{display: grid;grid-template-columns: 6rem minmax(0,1fr);gap: 1rem;padding-block: .85rem;border-block-end: 1px solid var(--v3-hair)}.v3-facts dt{font-weight: 700}.v3-facts dd{margin: 0;font-size: var(--v3-fs-body)}.v3-gallery{list-style: none;margin: 2rem 0 0;padding: 0;display: grid;gap: 2rem;grid-template-columns: minmax(0,1fr)}@media (min-width: 40em){.v3-gallery{grid-template-columns: repeat(2,minmax(0,1fr))}}@media (min-width: 64em){.v3-gallery{grid-template-columns: repeat(3,minmax(0,1fr))}}.v3-gallery .v3-print{max-inline-size: none}.v3-feature-list{list-style: none;margin: clamp(2rem,1.5rem + 2vw,3rem) 0 0;padding: 0;display: grid;column-gap: 3rem;border-block-start: 1.5px solid var(--nh-ink)}.v3-feature-list li{padding-block: 1.25rem;border-block-end: 1px solid var(--v3-hair)}.v3-feature-list h3{font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display);margin: 0 0 .4rem}.v3-feature-list p{margin: 0;font-size: var(--v3-fs-body);color: var(--nh-ink-2);line-height: 1.65;max-inline-size: 38ch}@media (min-width: 56.25em){.v3-feature-list{grid-template-columns: repeat(3,minmax(0,1fr))}}/* with the quote after it,the list's last row has no hairline: the quote's 1.5px rule closes the list (16.11: a hairline and the rule 40px apart) */ .v3-feature-list:has(+ .v3-quote--page)>li:last-child{border-block-end: 0}@media (min-width: 56.25em){.v3-feature-list:has(+ .v3-quote--page)>li:nth-child(3n+1):nth-last-child(-n+3),.v3-feature-list:has(+ .v3-quote--page)>li:nth-child(3n+1):nth-last-child(-n+3) ~ li{border-block-end: 0}}.v3-stories__list{list-style: none;margin: 2rem 0 0;padding: 0;display: grid;gap: 2rem 3rem}.v3-stories__list li{border-block-start: 1px solid rgb(247 241 231 / .3);padding-block-start: 1rem}.v3-stories__n{display: block;font: 400 var(--v3-fs-dm)/1 var(--nh-font-display);color: var(--nh-citrus-400);letter-spacing: -.03em;font-variant-numeric: lining-nums}.v3-stories__list h3{font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display);margin: .75rem 0 .4rem}.v3-stories__list p{margin: 0;font-size: var(--v3-fs-body);color: var(--nh-on-night-2);line-height: 1.65;max-inline-size: 36ch}@media (min-width: 56.25em){.v3-stories__list{grid-template-columns: repeat(3,minmax(0,1fr))}}.v3-plainbox-wrap--page{padding-block: clamp(4rem,2.5rem + 4vw,7rem)}.v3-related .v3-roles__meta{white-space: normal}@media (max-width: 40em){.v3-roles a{grid-template-columns: minmax(0,1fr) 1.5rem;row-gap: .25rem}.v3-roles b{grid-column: 1;grid-row: 1}.v3-roles__meta{grid-column: 1;grid-row: 2;white-space: normal}.v3-roles svg{grid-column: 2;grid-row: 1 / span 2}}.v3-ds-letters{list-style: none;padding: 0;margin: 2rem 0;display: grid;gap: 2rem 3rem;grid-template-columns: repeat(auto-fill,minmax(15rem,1fr))}.v3-ds-pair{display: flex;gap: 1.25rem;align-items: flex-end;block-size: 9rem}.v3-ds-pair .v3-letter{position: static;inline-size: auto;block-size: 100%}.v3-ds-letters p{margin: .75rem 0 0;color: var(--nh-ink-2)}.v3-ds-rooms{display: flex;flex-wrap: wrap;gap: 2rem}.v3-ds-rooms figure{margin: 0;inline-size: 10rem}.v3-ds-rooms figcaption{font-size: var(--v3-fs-small);color: var(--nh-ink-2);margin-block-start: .5rem}@media (max-width: 479px){.v3 .nh-btn{white-space: normal;text-align: center;line-height: 1.25}.v3-plainbox{grid-template-columns: minmax(0,1fr)}}.nh-wordmark{display: inline-flex;align-items: baseline;gap: .45rem;font: 500 1.6rem/1 var(--nh-font-display);letter-spacing: 0;color: currentColor;white-space: nowrap}.nh-wordmark::before{content: "";inline-size: .62rem;block-size: .62rem;background: var(--nh-iris-700);transform: rotate(45deg) translateY(-.12em);border-radius: 2px;box-shadow: .5rem .5rem 0 -.08rem #BBA957;margin-inline-end: .35rem}.nh-wordmark small{font: 700 .75rem/1 var(--nh-font-body);letter-spacing: .08em}.v3-mast .nh-header__inner{flex-wrap: wrap;row-gap: .25rem}.v3-mast .nh-header__actions{flex-wrap: wrap;justify-content: flex-end;row-gap: .25rem}.v3-dev a{color: var(--nh-paper);font-weight: 700;text-decoration: underline;text-underline-offset: .25em;text-decoration-thickness: 1px}.v3-dev a:hover{color: var(--nh-citrus-400)}@media (max-height: 30em){.v3-mast{position: absolute}html{scroll-padding-block: 1rem}.v3-spread[id]{scroll-margin-block-start: -1rem}}[data-reveal].is-waiting>picture{opacity: 0;transform: translateY(8px)}[data-reveal].is-shown>picture{transition: opacity .32s var(--nh-ease-out),transform .32s var(--nh-ease-out)}@media (prefers-reduced-motion: reduce){[data-reveal].is-waiting>picture{opacity: 1;transform: none}[data-reveal].is-shown>picture{transition: none}}html:is(.nh-calm,.nh-reduce-motion) [data-reveal].is-waiting>picture{opacity: 1;transform: none}html:is(.nh-calm,.nh-reduce-motion) [data-reveal].is-shown>picture{transition: none}@media print{[data-reveal].is-waiting>picture{opacity: 1 !important;transform: none !important}}

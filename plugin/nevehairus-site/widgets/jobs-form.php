@@ -86,7 +86,7 @@ final class NH_Widget_Jobs_Form extends NH_Widget_Base {
 			'required_note',
 			[
 				'label'   => __( 'הסבר על שדות החובה', 'nevehairus-site' ),
-				'default' => 'שדות המסומנים ב־<span aria-hidden="true">*</span><span class="nh-sr-only">כוכבית</span> הם שדות חובה.',
+				'default' => 'שדות המסומנים ב־<span class="nh-req" aria-hidden="true">*</span><span class="nh-sr-only">כוכבית</span> הם שדות חובה.',
 			]
 		);
 		NH_Controls::pair(

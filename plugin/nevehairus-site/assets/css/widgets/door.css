@@ -17,14 +17,21 @@
 /* v3.2 (16.11): no stretched ד; a plain one beside the heading on wide screens, none on phones (prototype v3.css). */
 .v3-door__letter { display: none; }
 .v3-door__in { display: grid; gap: 2rem; }
-.v3-door__form { background: var(--nh-paper); color: var(--nh-ink); padding: clamp(1.5rem, 1rem + 2vw, 2.75rem); max-inline-size: 42rem;
+/* one column: the paper box spans the column, as the rule above it (16.11: at 42rem it stopped 31px short of the
+   rule's end on a tablet); beside the contact (64em) it is at most 42rem */
+.v3-door__form { background: var(--nh-paper); color: var(--nh-ink); padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
   --nh-focus: var(--nh-iris-700); --nh-link: var(--nh-iris-700); --nh-text: var(--nh-ink); --nh-text-muted: var(--nh-ink-2); }
-.v3-door__form h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 1.25rem; }
-.v3-door__form .nh-btn--primary { --_bg: var(--nh-iris-700); --_fg: var(--nh-white); }
+/* the box's own title only: the alerts' titles inside it keep their own type (Assistant 18/700, forms.css); the
+   primary button keeps base.css's colours and its hover (16.11: a rule here pinned iris-700 on hover too) */
+.v3-door__form > h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 1.25rem; }
 .v3-door__label { font-weight: 700; margin: 0; color: var(--v3-iris-text); }
-.v3-door__phone { margin: .25rem 0 .5rem; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); }
+/* the number is one block with room around it: its focus ring (3px + 3px) clears «או בטלפון» and the address */
+.v3-door__phone { margin: .5rem 0 .75rem; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); }
 /* a link looks like one (§2 p. 5): underlined, 2px; only the colour changes on hover */
 .v3-door__phone a { color: var(--nh-white); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .12em; transition: color .15s ease; }
+/* one block as tall as the line (1em): its focus ring is drawn round that box, not round the taller box of the
+   inline text (16.11: the ring ran into «או בטלפון» and touched the address) */
+.v3-door__phone a { display: inline-block; }
 .v3-door__phone a:hover { color: var(--nh-citrus-400); }
 /* plugin: the phone link has no class, and the child theme's `.site-main a:where(:not([class]))` (0,1,1, printed
    after this file) sets the offset of every plain link to .2em: keep the prototype's .12em under the D-M digits */
@@ -35,10 +42,15 @@
   .v3-door__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); }
   .v3-door__grid > .v3-rule { grid-row: 1; }
   .v3-door__top { grid-column: 1; grid-row: 2; }
-  .v3-door__letter { display: block; grid-column: 2; grid-row: 1 / span 2; justify-self: end; block-size: 16rem; margin-block-start: -4rem; }
+  /* in front of its rule, which ends under the lintel instead of 2.5px past its rounded end (16.11: the rule was drawn
+     across the lintel) */
+  .v3-door__letter { display: block; grid-column: 2; grid-row: 1 / span 2; justify-self: end; block-size: 16rem; margin-block-start: -4rem; position: relative; z-index: 1; }
+  html:not(.nh-plainmode) .v3-door__grid > .v3-rule { margin-inline-end: 1.3rem; }
   .v3-door__letter .v3-letter { position: static; block-size: 100%; inline-size: auto; }
   .v3-door__way { grid-column: 1 / -1; }
-  .v3-door__in { grid-template-columns: minmax(0, 42rem) minmax(0, 1fr); align-items: start; column-gap: clamp(2rem, 1rem + 3vw, 5rem); }
+  /* the contact column is never narrower than the phone number (D-M, one unbreakable run): at 64–69em the form
+     gives way (16.11: at 1024px the number was 57px wider than its column and cut by the screen's edge) */
+  .v3-door__in { grid-template-columns: minmax(0, 42rem) minmax(min-content, 1fr); align-items: start; column-gap: clamp(2rem, 1rem + 3vw, 5rem); }
   .v3-door__contact { padding-block-start: 1rem; }
 }
 

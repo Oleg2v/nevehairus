@@ -21,6 +21,9 @@ At the end the build checks site.css (research/07 §11.3 p. 5): no @keyframes, a
 view-transition, @property, smooth scrolling or position: sticky — v3.2 allows only colour on hover and
 focus, the one soft appearance of the print photos and the accordion's "+".
 
+Every spaced dash («word — word») is bound to the word before it with a no-break space, so a line never starts with a
+dash (as the plugin's NH_Text::dashes()).
+
 Usage: python3 -I scripts/build_prototype_html.py
 """
 import html
@@ -164,19 +167,51 @@ def letter_room(attrs):
                          **({"max": attrs["max"]} if attrs.get("max") else {})})
         pic = f'<div class="v3-room__photo v3-room__photo--whole"><div class="v3-room__work">{inner}{extra_in}</div></div>'
         attrs = {**attrs, "extra": ""}
-    elif attrs.get("photo"):
-        pic = picture({"name": attrs["photo"], "sizes": attrs.get("sizes", "50vw"),
-                       "loading": "eager" if attrs.get("priority") == "high" else "lazy",
-                       "priority": attrs.get("priority", ""), "class": "v3-room__photo",
-                       **({"decorative": "1"} if attrs.get("decorative") == "1" else {}),
-                       **({"alt": attrs["alt"]} if attrs.get("alt") else {}),
-                       **({"max": attrs["max"]} if attrs.get("max") else {})})
-    elif attrs.get("field"):
-        pic = f'<span class="v3-room__photo v3-room__field v3-room__field--{attrs["field"]}" aria-hidden="true"></span>'
+    else:
+        if open_left:
+            # ב, כ: the room is open on the left, and the base starts further in than the photo's left edge (the
+            # letter's foot), so the photo's bleed under the base showed as a step left of the base's top corner
+            # (16.11: 3.7px at 1440). The photo is clipped with a polygon instead of inset(): the inset rectangle at
+            # this weight, whose bottom, left of the base's top-left corner, is the base's top line itself.
+            style += open_room_clip(name, t0, i8, i3, ux, uy, uw, uh)
+        if attrs.get("photo"):
+            pic = picture({"name": attrs["photo"], "sizes": attrs.get("sizes", "50vw"),
+                           "loading": "eager" if attrs.get("priority") == "high" else "lazy",
+                           "priority": attrs.get("priority", ""), "class": "v3-room__photo",
+                           **({"decorative": "1"} if attrs.get("decorative") == "1" else {}),
+                           **({"alt": attrs["alt"]} if attrs.get("alt") else {}),
+                           **({"max": attrs["max"]} if attrs.get("max") else {})})
+        elif attrs.get("field"):
+            pic = f'<span class="v3-room__photo v3-room__field v3-room__field--{attrs["field"]}" aria-hidden="true"></span>'
     cls = (" " + attrs["class"]) if attrs.get("class") else ""
     extra = open(os.path.join(SRC, "partials", attrs["extra"] + ".html"), encoding="utf-8").read().strip() if attrs.get("extra") else ""
     return (f'<div class="v3-room v3-room--{name}{cls}" style="{style}--t:{t0:g};" data-room="{name}">'
             f'{pic}{letter_svg({"name": name, "w": w, "frame": attrs.get("frame", "800")})}{extra}</div>')
+
+
+def open_room_clip(name, t0, i8, i3, ux, uy, uw, uh):
+    """--clip of an open-left room (ב, כ) at a static weight: the inset rectangle as a polygon whose bottom-left corner
+    steps up to the base's top line from the base's top-left corner (the outline's end point on the base's top at
+    this weight) to the photo's left edge. '' when the outline has no such point."""
+    e = letters[name]
+    nums = [a + (b - a) * t0 for a, b in zip(e["a"], e["b"])]
+    arity = {"M": 2, "L": 2, "Q": 4, "C": 6, "Z": 0}
+    ends, i = [], 0
+    for c in e["cmds"]:
+        n = arity[c]
+        if n:
+            ends.append((nums[i + n - 2], nums[i + n - 1]))
+        i += n
+    r8, r3 = e["800"]["room"], e["300"]["room"]
+    yb = (r8["y"] + r8["h"]) + ((r3["y"] + r3["h"]) - (r8["y"] + r8["h"])) * t0      # the room's bottom = the base's top
+    corner = [p for p in ends if abs(p[1] - yb) < 1]
+    if not corner:
+        return ""
+    cx, cy = min(corner)
+    it, ir, ib, il = (a + (b - a) * t0 for a, b in zip(i8, i3))
+    cxp, cyp = (cx - ux) / uw * 100, (cy - uy) / uh * 100
+    pts = ((il, it), (100 - ir, it), (100 - ir, 100 - ib), (cxp, 100 - ib), (cxp, cyp), (il, cyp))
+    return "--clip:polygon(" + ",".join(f"{x:.3f}% {y:.3f}%" for x, y in pts) + ");"
 
 
 def letter_data(attrs):
@@ -246,6 +281,9 @@ def build_page(fname):
         return "".join(out)
 
     text = re.sub(r"\{\{tiles ([^}]*)\}\}", tiles, text)
+    # a spaced dash never starts a line: the space before it is a no-break space, so the dash stays with the word
+    # before it (16.11: «לאורך השבוע / — בתוך המעון»); the plugin does the same in NH_Text::dashes()
+    text = re.sub(r" ([—–])(?=\s)", "&nbsp;\\1", text)
     left = re.findall(r"\{\{[^}]*\}\}", text)
     if left:
         raise SystemExit(f"{fname}: unresolved directives {left[:3]}")

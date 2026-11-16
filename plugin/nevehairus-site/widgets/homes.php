@@ -341,15 +341,7 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 			]
 		);
 		if ( '' !== $href ) {
-			$facts = NH_Text::pair(
-				self::str( $item, 'facts' ),
-				$hide ? '' : self::str( $item, 'facts_plain' ),
-				[
-					'tag'   => 'span',
-					'class' => 'v3-home__facts',
-					'bare'  => false,
-				]
-			);
+			$facts = self::facts_pair( self::str( $item, 'facts' ), $hide ? '' : self::str( $item, 'facts_plain' ) );
 		} else {
 			$facts = self::facts_soon( self::str( $item, 'facts' ), $hide ? '' : self::str( $item, 'facts_plain' ), $soon, $hide );
 		}
@@ -389,22 +381,68 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 	 * @param bool     $one   Only one mode (the whole row is full-only): no mode classes.
 	 */
 	private static function facts_soon( string $facts, string $plain, array $soon, bool $one ): string {
-		$line       = static function ( string $text, string $word ): string {
-			$text = '' !== $text ? NH_Text::esc( $text ) : '';
-			$word = '' !== $word ? '<span class="v3-home__soon">' . NH_Text::esc( $word ) . '</span>' : '';
-			return $text . ( '' !== $text && '' !== $word ? ' · ' : '' ) . $word;
-		};
 		$full_word  = (string) ( $soon[0] ?? '' );
 		$plain_word = (string) ( $soon[1] ?? '' );
-		$full       = $line( $facts, $full_word );
+		$full       = self::fact_items( $facts, $full_word );
 		if ( $one || ( '' === $plain && '' === $plain_word ) ) {
 			return '' !== $full ? '<span class="v3-home__facts">' . $full . '</span>' : '';
 		}
 		$text = NH_Text::HIDE === $plain ? '' : ( '' !== $plain ? $plain : $facts );
 		$word = NH_Text::HIDE === $plain_word ? '' : ( '' !== $plain_word ? $plain_word : $full_word );
-		$twin = $line( $text, $word );
+		$twin = self::fact_items( $text, $word );
 		$out  = '' !== $full ? '<span class="v3-home__facts v3-full">' . $full . '</span>' : '';
 		$out .= '' !== $twin ? '<span class="v3-home__facts v3-plain">' . $twin . '</span>' : '';
+		return $out;
+	}
+
+	/**
+	 * The facts of a row with a page, by the five states of a pair (SPEC §3.5): one line without mode class when both
+	 * modes read the same, else the full and the plain line with their mode classes.
+	 *
+	 * @param string $full  The facts.
+	 * @param string $plain Their plain twin.
+	 */
+	private static function facts_pair( string $full, string $plain ): string {
+		$line = static function ( string $text, string $mode ): string {
+			$items = self::fact_items( $text );
+			return '' !== $items ? '<span class="v3-home__facts' . ( '' !== $mode ? ' ' . $mode : '' ) . '">' . $items . '</span>' : '';
+		};
+		switch ( NH_Text::state( $full, $plain ) ) {
+			case 1:
+				return $line( $full, '' );
+			case 2:
+				return $line( $full, 'v3-full' ) . $line( $plain, 'v3-plain' );
+			case 3:
+				return $line( $full, 'v3-full' );
+			case 4:
+				return $line( $plain, 'v3-plain' );
+		}
+		return '';
+	}
+
+	/**
+	 * The facts as items, one `span.v3-home__fact` per «·»-separated part, and the «soon» words as a last item of their
+	 * own (16.11): a line breaks only between two items, and the «·» that starts a line is clipped by the CSS
+	 * (homes.css). Every item but the first carries its «·» as text, so a screen reader reads the line as before.
+	 *
+	 * @param string $text The facts (inline HTML allowed), «·» between them.
+	 * @param string $word The «soon» words ('' = none).
+	 */
+	private static function fact_items( string $text, string $word = '' ): string {
+		$items = [];
+		foreach ( explode( '·', $text ) as $part ) {
+			$part = trim( $part );
+			if ( '' !== $part ) {
+				$items[] = [ 'v3-home__fact', NH_Text::esc( $part ) ];
+			}
+		}
+		if ( '' !== trim( $word ) ) {
+			$items[] = [ 'v3-home__fact v3-home__soon', NH_Text::esc( trim( $word ) ) ];
+		}
+		$out = '';
+		foreach ( $items as $i => $item ) {
+			$out .= '<span class="' . $item[0] . '">' . ( $i > 0 ? '<span class="v3-home__sep">· </span>' : '' ) . $item[1] . '</span>';
+		}
 		return $out;
 	}
 

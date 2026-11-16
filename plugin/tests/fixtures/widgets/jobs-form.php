@@ -82,7 +82,7 @@ return [
 				'anchor'              => 'form-twins',
 				'title_plain'         => 'רוצים לעבוד אצלנו?',
 				'success_title_plain' => 'קיבלנו את הפרטים.',
-				'required_note_plain' => 'צריך למלא את השדות עם כוכבית <span aria-hidden="true">*</span>.',
+				'required_note_plain' => 'צריך למלא את השדות עם כוכבית <span class="nh-req" aria-hidden="true">*</span>.',
 				'label_role_plain'    => 'איזו עבודה?',
 				'label_cv_plain'      => 'קובץ עם קורות החיים',
 				'hint_cv_plain'       => '-',

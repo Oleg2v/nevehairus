@@ -227,9 +227,73 @@ final class NH_Letters {
 			$v['--wh']   = self::f( $ph / $uh * 100, 3 ) . '%';
 			$v['--wcx']  = self::f( $wcx * 100, 2 ) . '%';
 			$v['--wcy']  = self::f( $wcy * 100, 2 ) . '%';
+		} elseif ( $open ) {
+			// ב, כ: the photo's bleed under the base must not show left of the base's top corner (open_clip())
+			$clip = self::open_clip( $e, $t0, $i8, $i3, $ux, $uy, $uw, $uh );
+			if ( '' !== $clip ) {
+				$v['--clip'] = $clip;
+			}
 		}
 		$v['--t'] = self::num( $t0 );
 		return $v;
+	}
+
+	/**
+	 * The clip of an open-left room (ב, כ) at a static weight (open_room_clip() of the build script). The room is open
+	 * on the left, and the base starts further in than the photo's left edge (the letter's foot), so the photo's bleed
+	 * under the base showed as a step left of the base's top corner (16.11: 3.7px at 1440). The photo is clipped with a
+	 * polygon instead of inset(): the inset rectangle at this weight, whose bottom, left of the base's top-left corner
+	 * (the outline's end point on the base's top), is the base's top line itself. '' when there is no such point.
+	 *
+	 * @param array $e  The letter's entry.
+	 * @param float $t  The weight as 0 (800) … 1 (300).
+	 * @param array $i8 Insets at 800 (t r b l, % of the union box).
+	 * @param array $i3 Insets at 300.
+	 * @param float $ux Union box x (font units).
+	 * @param float $uy Union box y.
+	 * @param float $uw Union box width.
+	 * @param float $uh Union box height.
+	 */
+	private static function open_clip( array $e, float $t, array $i8, array $i3, $ux, $uy, $uw, $uh ): string {
+		$cmds = is_array( $e['cmds'] ) ? implode( '', $e['cmds'] ) : (string) $e['cmds'];
+		$a    = (array) $e['a'];
+		$b    = (array) $e['b'];
+		$ends = [];
+		$i    = 0;
+		foreach ( str_split( $cmds ) as $c ) {
+			$n = self::ARITY[ $c ] ?? 0;
+			if ( $n > 0 ) {
+				$ends[] = [
+					$a[ $i + $n - 2 ] + ( $b[ $i + $n - 2 ] - $a[ $i + $n - 2 ] ) * $t,
+					$a[ $i + $n - 1 ] + ( $b[ $i + $n - 1 ] - $a[ $i + $n - 1 ] ) * $t,
+				];
+			}
+			$i += $n;
+		}
+		$r8     = (array) $e['800']['room'];
+		$r3     = (array) $e['300']['room'];
+		$yb     = ( $r8['y'] + $r8['h'] ) + ( ( $r3['y'] + $r3['h'] ) - ( $r8['y'] + $r8['h'] ) ) * $t; // the base's top
+		$corner = null;
+		foreach ( $ends as $p ) {
+			if ( abs( $p[1] - $yb ) < 1 && ( null === $corner || $p < $corner ) ) {
+				$corner = $p;
+			}
+		}
+		if ( null === $corner ) {
+			return '';
+		}
+		$ins = [];
+		foreach ( $i8 as $k => $v ) {
+			$ins[ $k ] = $v + ( $i3[ $k ] - $v ) * $t;
+		}
+		[ $it, $ir, $ib, $il ] = $ins;
+		$cxp                   = ( $corner[0] - $ux ) / $uw * 100;
+		$cyp                   = ( $corner[1] - $uy ) / $uh * 100;
+		$out                   = [];
+		foreach ( [ [ $il, $it ], [ 100 - $ir, $it ], [ 100 - $ir, 100 - $ib ], [ $cxp, 100 - $ib ], [ $cxp, $cyp ], [ $il, $cyp ] ] as $p ) {
+			$out[] = self::f( $p[0], 3 ) . '% ' . self::f( $p[1], 3 ) . '%';
+		}
+		return 'polygon(' . implode( ',', $out ) . ')';
 	}
 
 	/**

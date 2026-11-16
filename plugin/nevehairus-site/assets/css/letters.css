@@ -10,11 +10,13 @@
 /* ---- v3.css L84–97 ---- */
 /* ---------- A letter with a room ------------------------------------------ */
 .v3-room { position: relative; inline-size: 100%; aspect-ratio: var(--asp); }
+/* the clip: the room's inset at the letter's weight, or the room's own --clip (ב, כ: a polygon that keeps the photo's
+   bleed under the base from showing left of the base's top corner; a resident's work: an ellipse) */
 .v3-room__photo {
   position: absolute; left: var(--fx); top: var(--fy); width: var(--fw); height: var(--fh); overflow: hidden; display: block; margin: 0;
-  clip-path: inset(
+  clip-path: var(--clip, inset(
     calc(var(--at) + (var(--bt) - var(--at)) * var(--t)) calc(var(--ar) + (var(--br) - var(--ar)) * var(--t))
-    calc(var(--ab) + (var(--bb) - var(--ab)) * var(--t)) calc(var(--al) + (var(--bl) - var(--al)) * var(--t)));
+    calc(var(--ab) + (var(--bb) - var(--ab)) * var(--t)) calc(var(--al) + (var(--bl) - var(--al)) * var(--t))));
 }
 .v3-room__photo img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: var(--pos); }
 /* the quiet sky: a room without a photo, and any room whose photo cannot be shown (images off: nh-core.js) */

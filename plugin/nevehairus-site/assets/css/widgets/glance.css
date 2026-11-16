@@ -15,6 +15,12 @@
   .v3-stats li { border-block-end: 0; padding-inline: 0 1.5rem; }
   .v3-stats li + li { border-inline-start: 1px solid var(--v3-hair); padding-inline-start: 1.5rem; }
 }
+/* two to a row (under 64em): the last row has no hairline of its own when the facts follow — their top hairline is
+   the line under it (16.11: two parallel hairlines 32px apart) */
+@media (max-width: 63.99em) {
+  .v3-stats:has(+ .v3-facts) > li:nth-child(2n+1):nth-last-child(-n+2),
+  .v3-stats:has(+ .v3-facts) > li:nth-child(2n+1):nth-last-child(-n+2) ~ li { border-block-end: 0; }
+}
 .v3-facts { margin: 0; border-block-start: 1px solid var(--v3-hair); }
 .v3-facts div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 1rem; padding-block: .85rem; border-block-end: 1px solid var(--v3-hair); }
 .v3-facts dt { font-weight: 700; }

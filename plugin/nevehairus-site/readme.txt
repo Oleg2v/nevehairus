@@ -4,7 +4,7 @@ Tags: elementor, hebrew, rtl, accessibility
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.2.2
+Stable tag: 0.2.3
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,27 @@ No external services, no CDN, no tracking. Fonts are served from the plugin.
 * The letter outlines in assets/letters.json are drawn from Frank Ruhl Libre (same licence).
 
 == Changelog ==
+
+= 0.2.3 =
+* Detail fixes after the review of 16.11 (the same in the prototype): the door's phone number fits its column at
+  1024–1100px and its focus ring clears the lines around it; the consent box is drawn like the fields (frame, hover,
+  error, tick) and sits on the middle of its label's first line; its error goes under the label; its asterisk is red
+  and never alone on a line; the form's button lightens on hover; the alerts keep their own title type; links in
+  running text get a tight ring; the form box spans the column on tablets.
+* The ב and כ photos end on the base's top line (no step at the open side); the ד and the ל stand in front of their
+  rules; the job rows' arrows stand on the meta's line, and keep the last column in plain language.
+* The homes' facts break only between two facts, with no «·» at a line's start or end; rows without a page have no
+  empty arrow column; on narrow phones the ב is smaller; titles of two lines break evenly.
+* Day and steps cells share their rows; the stats and the feature list lose the hairline that doubled the next
+  rule; prints fill the column on phones up to 27em; a spaced dash never starts a line.
+* Plain language: the box's sentence keeps its distance to the button, the homes' note its distance to the rule, the
+  homes' sentences the gap between plain paragraphs; the consent sentence is at the plain step; «כן, לפתוח את
+  הסרטון» on the video's button.
+* The video's focus ring goes round the paper button; the consent buttons are of one width; the menu's «סגירה» has
+  the footprint of «תפריט» and its texts one edge; the switches' labels start on the column's edge and underline on
+  hover; the breadcrumbs' «‹» points along an RTL trail; a spread reached by an anchor starts right under the
+  masthead (also for signed-in users); a focused element at the bottom keeps its ring on screen; the site's name
+  breaks «מעון / נווה האירוס» on phones; «יש / על מי לסמוך.».
 
 = 0.2.2 =
 * Our photos keep valid markup on the site: no attribute twice after the content filters of WordPress and

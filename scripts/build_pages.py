@@ -176,12 +176,14 @@ FOOTER_TEXT = {
              '<li><a href="#privacy">מדיניות פרטיות</a></li>'
              '<li><a href="#nh-cookies">הגדרות עוגיות</a></li>'
              '<li><a href="#sitemap">מפת אתר</a></li>'
-             '<li><a href="#entrances">מפרט כניסות נגישות (PDF)</a></li></ul>'),
-    # the short colophon (research/07 §10.1 item 3, ⊕): Latin names isolated as in the prototype
+             '<li><a href="#entrances">מפרט כניסות נגישות\u00a0(PDF)</a></li></ul>'),   # «(PDF)» never alone on a line
+    # the short colophon (research/07 §10.1 item 3, ⊕): Latin names isolated as in the prototype. As the prototype's
+    # build: a word joiner (U+2060) after the one-letter «ו־», so the line never breaks after it, and a no-break space
+    # before a spaced dash, so a line never starts with it (16.11: «ל׳ ו־ / ד׳»)
     "colophon": ('<p><b>קולופון.</b> גופנים: <span lang="en" dir="ltr">Frank Ruhl Libre</span> (יאנק יונטף) '
-                 'ו־<span lang="en" dir="ltr">Assistant</span> (בן נתן ו־<span lang="en" dir="ltr">Adobe</span>), '
-                 'ברישיון <span lang="en" dir="ltr">SIL OFL</span>. חמש אותיות שהשמות שלהן מילים של בית — ב׳, כ׳, ס׳, '
-                 'ל׳ ו־ד׳ — משמשות כאן כאדריכלות. הכדים, המנדלה והינשופים — עבודות יד של דיירות ודיירי נווה האירוס. '
+                 'ו־\u2060<span lang="en" dir="ltr">Assistant</span> (בן נתן ו־\u2060<span lang="en" dir="ltr">Adobe</span>), '
+                 'ברישיון <span lang="en" dir="ltr">SIL OFL</span>. חמש אותיות שהשמות שלהן מילים של בית\u00a0— ב׳, כ׳, ס׳, '
+                 'ל׳ ו־\u2060ד׳\u00a0— משמשות כאן כאדריכלות. הכדים, המנדלה והינשופים\u00a0— עבודות יד של דיירות ודיירי נווה האירוס. '
                  'הצילומים זמניים, ללא פנים מזוהות.</p>'),
     "copyright": "<p>© מעון נווה האירוס. כל הזכויות שמורות.</p>",   # the static fallback of the dynamic year
     # the agency's credit: bold, underlined in the link's own colour, citrus on hover (the class: the child theme's

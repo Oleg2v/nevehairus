@@ -144,8 +144,14 @@ return [
 
 	'geometry() has the properties of room() in order, --t last' => static function () {
 		$g = NH_Letters::geometry( 'bet', [ 'weight' => 600, 'pos' => '55% 45%' ] );
-		nh_assert_same( [ '--fx', '--fy', '--fw', '--fh', '--at', '--ar', '--ab', '--al', '--bt', '--br', '--bb', '--bl', '--pos', '--asp', '--cx', '--cy', '--sqw', '--em-w', '--t' ], array_keys( $g ) );
+		nh_assert_same( [ '--fx', '--fy', '--fw', '--fh', '--at', '--ar', '--ab', '--al', '--bt', '--br', '--bb', '--bl', '--pos', '--asp', '--cx', '--cy', '--sqw', '--em-w', '--clip', '--t' ], array_keys( $g ) );
 		nh_assert_same( '0.4', $g['--t'] );
+		// 16.11: an open room (ב, כ) is clipped by a polygon whose bottom steps up to the base's top line left of the
+		// base's top-left corner (no bleed showing under the base there); a closed room keeps the inset()
+		nh_assert( 1 === preg_match( '/^polygon\((-?[\d.]+% -?[\d.]+%,){5}-?[\d.]+% -?[\d.]+%\)$/', $g['--clip'] ), 'bet: a six-point polygon' );
+		$pts = array_map( static fn( $p ) => array_map( 'floatval', explode( '% ', rtrim( $p, '%' ) ) ), explode( ',', substr( $g['--clip'], 8, -1 ) ) );
+		nh_assert( $pts[3][0] === $pts[4][0] && $pts[4][1] === $pts[5][1] && $pts[4][1] < $pts[3][1], 'bet: the step at the base corner goes up' );
+		nh_assert( ! isset( NH_Letters::geometry( 'samekh', [ 'weight' => 380 ] )['--clip'] ), 'samekh (closed, not whole): no --clip' );
 		nh_assert_same( '55% 45%', $g['--pos'] );
 		nh_assert_same( '432.4/597', $g['--asp'] );
 		$whole = NH_Letters::geometry(

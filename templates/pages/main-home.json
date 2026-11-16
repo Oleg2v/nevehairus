@@ -22,10 +22,10 @@
    "door/page"
   ],
   "plugin": {
-   "version": "0.2.2",
-   "php_sha256": "72e6297e1e8a6375c1858439940c78d293c2a354dfd38762fab5ad03b3c14b82"
+   "version": "0.2.3",
+   "php_sha256": "c70f25e88334db6ddc07ec64c5f0da00add143410e454457c5dd4c58a2bcec1a"
   },
-  "inputs_sha256": "b3345f9da9c4a4de1aa3d19a6d58a1e66322b28a64f6b91709b1a8fae57b3fec"
+  "inputs_sha256": "ab5bc5a031f0dca17568be9b5d4622b79195f08f8c1775407205aa7b481e9e54"
  },
  "elementor_data": [
   {

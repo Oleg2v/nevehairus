@@ -419,6 +419,9 @@ async function behaviour() {
     const sum = await p.evaluate(() => { const s = document.querySelector("#door [data-error-summary]"); return { shown: !s.hidden, n: s.querySelectorAll("li").length, focus: document.activeElement === s }; });
     ok(sum.shown && sum.focus && sum.n === 3, "empty submit: the error summary, focused, three errors");
     ok(await p.evaluate(() => document.getElementById("door-name").getAttribute("aria-invalid") === "true"), "fields marked aria-invalid");
+    // the token comes back asynchronously (fetch → json → the fields): wait for it to land (up to 2 s) instead of
+    // reading the field at once — that race made this check fail now and then (16.11)
+    await p.waitForFunction(() => document.querySelector("#door input[name='_nh_nonce']").value === "fresh-nonce", null, { timeout: 2000 }).catch(() => {});
     ok(tokens === 1 && await p.evaluate(() => document.querySelector("#door input[name='_nh_nonce']").value === "fresh-nonce"), "a fresh token on the first focus, once");
     await p.fill("#door-name", "דנה");
     ok(await p.evaluate(() => !document.getElementById("door-name").hasAttribute("aria-invalid")), "an error clears on input once valid");

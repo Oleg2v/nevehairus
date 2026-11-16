@@ -42,9 +42,11 @@
    itself is aria-pressed) · a 44×24 track with an 18px square thumb. Nothing moves: the thumb jumps. */
 .v3-toggle {
   display: flex; align-items: center; gap: .75rem; inline-size: 100%;
-  min-block-size: 2.75rem; padding-inline: .25rem; font: 600 var(--v3-fs-ui)/1.2 var(--nh-font-body); color: inherit; text-align: start;
+  min-block-size: 2.75rem; padding-inline: 0; font: 600 var(--v3-fs-ui)/1.2 var(--nh-font-body); color: inherit; text-align: start;
 }
+/* the label starts on the column's edge, as the links above it (16.11: a .25rem inset); hover underlines it at once */
 .v3-toggle__label { flex: 1; }
+.v3-toggle:hover .v3-toggle__label { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
 .v3-toggle__state { flex: none; font: 700 var(--v3-fs-small)/1.2 var(--nh-font-body); }
 .v3-toggle__state::before { content: attr(data-off); }
 .v3-toggle[aria-pressed="true"] .v3-toggle__state::before { content: attr(data-on); }
@@ -65,6 +67,9 @@
 .v3-spread--iris { background: var(--nh-iris-700); color: var(--nh-white); --nh-focus: var(--nh-citrus-400); --nh-link: var(--nh-white); --nh-text: var(--nh-white); --nh-text-muted: var(--v3-iris-text); --v3-ink: var(--nh-paper); }
 .v3-spread--night { background: var(--nh-night); color: var(--nh-paper); --nh-focus: var(--nh-citrus-400); --nh-link: var(--nh-citrus-400); --nh-text: var(--nh-paper); --nh-text-muted: var(--nh-on-night-2); --v3-ink: var(--nh-paper); }
 .v3-rule { position: relative; block-size: 1px; background: currentColor; margin-block-end: 2.5rem; }
+/* a spread reached by an anchor starts right under the masthead (its own top padding is the air; 16.11: a band of
+   the spread before it showed); headings and fields keep the page's 6rem */
+.v3-spread[id] { scroll-margin-block-start: calc(var(--v3-mast) + 1px - 6rem); }
 .v3-h2 { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: 0; margin: 0 0 1.25rem; text-wrap: balance; }
 .v3-lead { font-size: var(--v3-fs-lead); line-height: 1.5; max-inline-size: 36ch; margin: 0 0 3rem; color: var(--nh-text); }
 .v3-note { font-size: var(--v3-fs-small); color: var(--nh-ink-2); margin-block-start: 1rem; }
@@ -83,11 +88,13 @@
 
 /* ---------- A letter with a room ------------------------------------------ */
 .v3-room { position: relative; inline-size: 100%; aspect-ratio: var(--asp); }
+/* the clip: the room's inset at the letter's weight, or the room's own --clip (ב, כ: a polygon that keeps the photo's
+   bleed under the base from showing left of the base's top corner; a resident's work: an ellipse) */
 .v3-room__photo {
   position: absolute; left: var(--fx); top: var(--fy); width: var(--fw); height: var(--fh); overflow: hidden; display: block; margin: 0;
-  clip-path: inset(
+  clip-path: var(--clip, inset(
     calc(var(--at) + (var(--bt) - var(--at)) * var(--t)) calc(var(--ar) + (var(--br) - var(--ar)) * var(--t))
-    calc(var(--ab) + (var(--bb) - var(--ab)) * var(--t)) calc(var(--al) + (var(--bl) - var(--al)) * var(--t)));
+    calc(var(--ab) + (var(--bb) - var(--ab)) * var(--t)) calc(var(--al) + (var(--bl) - var(--al)) * var(--t))));
 }
 .v3-room__photo img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: var(--pos); }
 /* the quiet sky: a room without a photo, and any room whose photo cannot be shown (images off: v3.js 3) */
@@ -146,12 +153,26 @@
 .v3-home__link:is(:hover, :focus-visible) .v3-home__title { text-decoration: underline 2px; text-underline-offset: .2em; }
 .v3-home__link:focus-visible { outline-offset: -3px; }                 /* a row link: the ring stays inside the row */
 .v3-home__bet { inline-size: 100%; }
-.v3-home__title { display: block; font: 400 var(--v3-fs-ds)/1.12 var(--nh-font-display); letter-spacing: 0; }
+.v3-home__title { display: block; font: 400 var(--v3-fs-ds)/1.12 var(--nh-font-display); letter-spacing: 0; text-wrap: balance; }   /* a title of two lines breaks evenly («דיור לצעירים / על הרצף האוטיסטי») */
 .v3-home__who { display: block; font-size: var(--v3-fs-body); line-height: 1.5; color: var(--nh-ink); margin-block-start: .5rem; max-inline-size: 54ch; }
 .v3-home__facts { display: block; font-size: var(--v3-fs-small); font-weight: 700; line-height: 1.5; color: var(--nh-ink-2); margin-block-start: .6rem; }
+/* the facts are short items: a line breaks only between two of them (an item breaks only when it alone is wider than
+   the line), and the «·» between them never ends or starts a line (16.11: «חדר / סנוזלן», «שגרה ברורה ·»). Every item
+   but the first carries its «·» before it (the first has an empty place for it); the one that starts a line falls
+   into the 1em pulled out at the start and is clipped */
+.v3-home__facts, html.nh-plainmode .v3-home__facts.v3-plain { display: flex; flex-wrap: wrap; margin-inline-start: -1em; clip-path: inset(0 1em 0 0); }
+.v3-home__facts:dir(ltr) { clip-path: inset(0 0 0 1em); }
+.v3-home__fact:first-child { padding-inline-start: 1em; }
+.v3-home__sep { display: inline-block; inline-size: 1em; text-align: center; }
 .v3-home__arrow { display: block; inline-size: 2rem; block-size: 2rem; }   /* always shown, never moves */
+.v3-home__row { grid-template-columns: 5.5rem minmax(0, 1fr); }      /* no arrow: no empty arrow column either */
+@media (max-width: 24.99em) {                                       /* narrow phones: a smaller ב, more room for the words */
+  .v3-home__link { grid-template-columns: 4.5rem minmax(0, 1fr) 2rem; gap: 1rem; }
+  .v3-home__row { grid-template-columns: 4.5rem minmax(0, 1fr); gap: 1rem; }
+}
 @media (min-width: 56.25em) {
   .v3-home__link, .v3-home__row { grid-template-columns: 9.5rem minmax(0, 1fr) 2.25rem; gap: 2.5rem; padding-block: 2rem; }
+  .v3-home__row { grid-template-columns: 9.5rem minmax(0, 1fr); }
   .v3-home__arrow { inline-size: 2.25rem; block-size: 2.25rem; }
 }
 
@@ -160,9 +181,13 @@
 .v3-plainbox-wrap { padding-block: 0 clamp(4rem, 2.5rem + 4vw, 7rem); }
 .v3-plainbox { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.25rem 1.5rem; padding: clamp(1.5rem, 1rem + 2vw, 3rem); background: var(--nh-paper-2); border-inline-end: 6px solid var(--nh-olive-700); }
 .v3-plainbox__icon { inline-size: 2.5rem; block-size: 2.5rem; color: var(--nh-olive-700); }
+/* beside the heading, the icon's middle is the middle of the heading's letters (D-S, line height 1.12: .584em from the
+   line's top), so its ink runs from the letters' top to the baseline (16.11: it hung 4px high) */
+@media (min-width: 480px) { .v3-plainbox__icon { margin-block-start: calc(var(--v3-fs-ds) * .584 - 1.25rem); } }
 .v3-plainbox h2 { font: 400 var(--v3-fs-ds)/1.12 var(--nh-font-display); margin: 0 0 1rem; }
 .v3-plainbox ul { list-style: none; margin: 0 0 1.5rem; padding: 0; display: grid; gap: .35rem; }
 .v3-plainbox li, .v3-plainbox p { font-size: var(--v3-fs-plain); line-height: 1.6; }
+html.nh-plainmode .v3-plainbox p.v3-plain { margin-block-end: 1.5rem; }   /* the list's distance to the button (16.11: .3rem) */
 .v3-plainbox__btn { --_bg: var(--nh-olive-700); --_fg: var(--nh-paper); }
 .v3-plainbox__btn:hover { --_bg: var(--nh-ink); }
 
@@ -173,6 +198,14 @@
 @media (min-width: 40em) { .v3-day__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 64em) { .v3-day__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .v3-moment { display: flex; flex-direction: column; gap: 1rem; }
+/* side by side, the cells share their rows (subgrid): a caption or a verb of two lines moves the whole row's texts
+   down together, so verbs, prints and texts stand on common lines (16.11: at 1024px two texts were 24px lower) */
+@media (min-width: 40em) {
+  .v3-day__list > .v3-moment { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 1rem; }
+  .v3-moment > .v3-moment__verb { grid-row: 1; }
+  .v3-moment > .v3-print { grid-row: 2; }
+  .v3-moment > p { grid-row: 3; }
+}
 .v3-moment__verb { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: 0; margin: 0; }
 .v3-moment p { font-size: var(--v3-fs-body); line-height: 1.65; max-inline-size: 34ch; margin: 0; }
 
@@ -180,6 +213,8 @@
    ink frame and a numbered caption («1 ·»: the number is silent). The file is already 4:3: cover trims only
    fractions of a pixel. Never full width, never behind text. */
 .v3-print { margin: 0; inline-size: 100%; max-inline-size: 21rem; counter-increment: print; }
+/* phones up to 27em: the print fills the column (16.11: 336px in a 347px column read as a misalignment) */
+@media (max-width: 26.99em) { .v3-print { max-inline-size: none; } }
 .v3-print picture { display: block; aspect-ratio: 4 / 3; box-shadow: 0 0 0 1px var(--v3-ink); }
 .v3-print img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
 .v3-print figcaption { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-text-muted, var(--nh-ink-2)); margin-block-start: .65rem; }
@@ -257,7 +292,12 @@ html.nh-plainmode .v3-kaf__cap { margin-block-start: 1.5rem; }
 .v3-video img { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; opacity: 1; }
 .v3-video .nh-video__play { place-content: end start; justify-items: start; padding: 1rem; background: none; }
 .v3-video .nh-video__consent { position: relative; inset: auto; place-content: center; }
-.v3-video .nh-btn-row { justify-content: center; }   /* §10.2 item 8: the consent buttons under the centred question */
+/* §10.2 item 8: the consent buttons under the centred question, both of one width: side by side when they fit, else
+   one under the other (16.11: two stacked buttons of 201 and 124px) */
+.v3-video .nh-btn-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); inline-size: min(100%, 28rem); margin-inline: auto; }
+/* the play button covers the poster, whose box clips: its ring goes round the paper button (16.11: it was cut off) */
+.v3-video .nh-video__play:focus-visible { outline: none; }
+.v3-video .nh-video__play:focus-visible .nh-video__btn { outline: 3px solid var(--nh-focus); outline-offset: 3px; }
 .v3-video__cap { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-on-night-2); margin-block-start: .85rem; max-inline-size: 44ch; }
 @media (min-width: 64em) { .v3-voices__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; } }
 .v3-quote--page { margin-block-start: clamp(2.5rem, 2rem + 2vw, 4rem); padding-block-start: 1.5rem; border-block-start: 1.5px solid var(--nh-ink); }
@@ -271,7 +311,13 @@ html.nh-plainmode .v3-kaf__cap { margin-block-start: 1.5rem; }
 .v3-steps__list h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 .5rem; }
 .v3-steps__n { display: block; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); color: var(--nh-clay-700); letter-spacing: -.03em; font-variant-numeric: lining-nums; margin-block-end: .5rem; }
 .v3-steps__list p { font-size: var(--v3-fs-body); line-height: 1.65; color: var(--nh-ink-2); margin: 0; max-inline-size: 30ch; }
-@media (min-width: 56.25em) { .v3-steps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 56.25em) {
+  .v3-steps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  /* the four steps share their rows (subgrid): a title of two lines moves the four texts down together */
+  .v3-steps__list > li { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; }
+  .v3-steps__list > li > h3 { grid-row: 1; }
+  .v3-steps__list > li > p { grid-row: 2; }
+}
 
 /* ---------- ל׳ · Jobs (v3.2, §10.2 p. 10) --------------------------------------------------------------------------------
    The ל stands still (600), at most 16rem tall, at the far end. It rises above its own rule, but only inside its
@@ -284,14 +330,21 @@ html.nh-plainmode .v3-kaf__cap { margin-block-start: 1.5rem; }
 .v3-roles a:focus-visible { outline-offset: -3px; }                    /* a row link: the ring stays inside the row */
 .v3-roles b { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); }
 .v3-roles__meta { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-ink-2); white-space: nowrap; }
-.v3-roles svg { inline-size: 1.25rem; block-size: 1.25rem; align-self: center; }
+.v3-roles svg { inline-size: 1.25rem; block-size: 1.25rem; align-self: center; grid-column: -2 / -1; }   /* always the last column (the meta is hidden in plain language) */
 .v3-roles a:is(:hover, :focus-visible) b { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 2px; }
+/* beside the meta (from 40em) the arrow stands on the row's first line — the meta's line, also when the title wraps —
+   with its middle on the middle of the meta's letters (16.11: it sat in the middle of the row, 13.5px below the meta
+   of a two-line title, and 3–4.5px above it otherwise). On phones it stays in the middle of the title and the meta. */
+@media (min-width: 40.01em) { .v3-roles svg { align-self: baseline; position: relative; inset-block-start: .35rem; } }
 @media (min-width: 64em) {
   .v3-lamed__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); }
   .v3-lamed__grid > .v3-rule { grid-row: 1; }                     /* the ל stands on it, at the far end */
   .v3-lamed__text { grid-column: 1; grid-row: 2; }
-  .v3-lamed__letter { display: block; grid-column: 2; grid-row: 1 / span 2; justify-self: end; block-size: 16rem; margin-block-start: -4rem; }
+  /* the letter stands in front of its rule (16.11: the positioned rule was drawn across the stem), and the rule
+     ends inside the stem instead of running on past it to the edge */
+  .v3-lamed__letter { display: block; grid-column: 2; grid-row: 1 / span 2; justify-self: end; block-size: 16rem; margin-block-start: -4rem; position: relative; z-index: 1; }
   .v3-lamed__letter .v3-letter { position: static; block-size: 100%; inline-size: auto; }
+  html:not(.nh-plainmode) .v3-lamed__grid > .v3-rule { margin-inline-end: 1.3rem; }   /* the stem crosses the rule 1–1.6rem from the edge */
 }
 
 /* ---------- ד׳ · The door (iris; v3.2, §10.2 p. 11) ---------------------------------------------------------------------
@@ -302,14 +355,20 @@ html.nh-plainmode .v3-kaf__cap { margin-block-start: 1.5rem; }
 .v3-door__top { max-inline-size: 46rem; }
 .v3-door__letter { display: none; }
 .v3-door__in { display: grid; gap: 2rem; }
-.v3-door__form { background: var(--nh-paper); color: var(--nh-ink); padding: clamp(1.5rem, 1rem + 2vw, 2.75rem); max-inline-size: 42rem;
+/* one column: the paper box spans the column, as the rule above it (16.11: at 42rem it stopped 31px short of the
+   rule's end on a tablet); beside the contact (64em) it is at most 42rem */
+.v3-door__form { background: var(--nh-paper); color: var(--nh-ink); padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
   --nh-focus: var(--nh-iris-700); --nh-link: var(--nh-iris-700); --nh-text: var(--nh-ink); --nh-text-muted: var(--nh-ink-2); }
-.v3-door__form h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 1.25rem; }
-.v3-door__form .nh-btn--primary { --_bg: var(--nh-iris-700); --_fg: var(--nh-white); }
+/* the box's own title only: the alerts' titles inside it keep their own type (Assistant 18/700, forms) */
+.v3-door__form > h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 1.25rem; }
 .v3-door__label { font-weight: 700; margin: 0; color: var(--v3-iris-text); }
-.v3-door__phone { margin: .25rem 0 .5rem; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); }
+/* the number is one block with room around it: its focus ring (3px + 3px) clears «או בטלפון» and the address */
+.v3-door__phone { margin: .5rem 0 .75rem; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); }
 /* a link looks like one (§2 p. 5): underlined, 2px; only the colour changes on hover */
 .v3-door__phone a { color: var(--nh-white); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .12em; transition: color .15s ease; }
+/* one block as tall as the line (1em): its focus ring is drawn round that box, not round the taller box of the
+   inline text (16.11: the ring ran into «או בטלפון» and touched the address) */
+.v3-door__phone a { display: inline-block; }
 .v3-door__phone a:hover { color: var(--nh-citrus-400); }
 .v3-door__addr { font-size: var(--v3-fs-body); line-height: 1.65; margin: 0; color: var(--v3-iris-text); }
 .v3-door__addr a { color: var(--nh-white); }
@@ -317,10 +376,15 @@ html.nh-plainmode .v3-kaf__cap { margin-block-start: 1.5rem; }
   .v3-door__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); }
   .v3-door__grid > .v3-rule { grid-row: 1; }
   .v3-door__top { grid-column: 1; grid-row: 2; }
-  .v3-door__letter { display: block; grid-column: 2; grid-row: 1 / span 2; justify-self: end; block-size: 16rem; margin-block-start: -4rem; }
+  /* in front of its rule, which ends under the lintel instead of 2.5px past its rounded end (16.11: the rule was drawn
+     across the lintel) */
+  .v3-door__letter { display: block; grid-column: 2; grid-row: 1 / span 2; justify-self: end; block-size: 16rem; margin-block-start: -4rem; position: relative; z-index: 1; }
+  html:not(.nh-plainmode) .v3-door__grid > .v3-rule { margin-inline-end: 1.3rem; }
   .v3-door__letter .v3-letter { position: static; block-size: 100%; inline-size: auto; }
   .v3-door__way { grid-column: 1 / -1; }
-  .v3-door__in { grid-template-columns: minmax(0, 42rem) minmax(0, 1fr); align-items: start; column-gap: clamp(2rem, 1rem + 3vw, 5rem); }
+  /* the contact column is never narrower than the phone number (D-M, one unbreakable run): at 64–69em the form
+     gives way (16.11: at 1024px the number was 57px wider than its column and cut by the screen's edge) */
+  .v3-door__in { grid-template-columns: minmax(0, 42rem) minmax(min-content, 1fr); align-items: start; column-gap: clamp(2rem, 1rem + 3vw, 5rem); }
   .v3-door__contact { padding-block-start: 1rem; }
 }
 
@@ -338,8 +402,10 @@ html.nh-plainmode .nh-cookies .v3-plain p { font-size: var(--v3-fs-plain); line-
 html.nh-plainmode :is(h1, h2, h3, b, label) > .v3-plain { display: inline; }
 html.nh-plainmode .nh-btn > .v3-plain, html.nh-plainmode .v3-cover__call > .v3-plain { display: inline; }
 html.nh-plainmode .v3-home__who.v3-plain > span { display: block; }
+html.nh-plainmode .v3-home__who.v3-plain > span + span { margin-block-start: .3rem; }   /* as between plain paragraphs */
 html.nh-plainmode .nh-form__note.v3-plain, html.nh-plainmode .nh-form__note.v3-plain p { font-size: var(--v3-fs-plain); line-height: 1.55; color: var(--nh-ink); max-inline-size: 40ch; }
 html.nh-plainmode .v3-plain--after { margin-block-start: 1.5rem; }
+html.nh-plainmode .v3-note.v3-plain { margin-block-start: 1rem; }   /* off the rule above it, as in full mode (16.11: 0) */
 /* the cover: the ב folds into a chapter mark beside the words, the button under them */
 html.nh-plainmode .v3-cover__title { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); }
 html.nh-plainmode main .v3-cover__plain p { font-size: var(--v3-fs-plain); }
@@ -350,6 +416,7 @@ html.nh-plainmode main .v3-cover__plain p { font-size: var(--v3-fs-plain); }
 }
 html.nh-plainmode .v3-lamed__letter, html.nh-plainmode .v3-door__letter, html.nh-plainmode .v3-shamayim { display: none !important; }
 html.nh-plainmode .nh-hint > .v3-plain { display: inline; }
+html.nh-plainmode .nh-form .nh-check { font-size: var(--v3-fs-plain); line-height: 1.5; }   /* the label is a plain sentence (16.11: 18px among 22px); the box keeps to its first line */
 html.nh-plainmode .v3-kaf__letter { max-inline-size: 18rem; }
 /* plain mode: where the big letter is folded away, its spread becomes one column */
 html.nh-plainmode .v3-lamed__grid { grid-template-columns: minmax(0, 1fr); }
@@ -390,6 +457,12 @@ html.nh-calm main img { filter: saturate(.7); }
   .v3-stats li { border-block-end: 0; padding-inline: 0 1.5rem; }
   .v3-stats li + li { border-inline-start: 1px solid var(--v3-hair); padding-inline-start: 1.5rem; }
 }
+/* two to a row (under 64em): the last row has no hairline of its own when the facts follow — their top hairline is
+   the line under it (16.11: two parallel hairlines 32px apart) */
+@media (max-width: 63.99em) {
+  .v3-stats:has(+ .v3-facts) > li:nth-child(2n+1):nth-last-child(-n+2),
+  .v3-stats:has(+ .v3-facts) > li:nth-child(2n+1):nth-last-child(-n+2) ~ li { border-block-end: 0; }
+}
 .v3-facts { margin: 0; border-block-start: 1px solid var(--v3-hair); }
 .v3-facts div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 1rem; padding-block: .85rem; border-block-end: 1px solid var(--v3-hair); }
 .v3-facts dt { font-weight: 700; }
@@ -404,6 +477,13 @@ html.nh-calm main img { filter: saturate(.7); }
 .v3-feature-list h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 .4rem; }
 .v3-feature-list p { margin: 0; font-size: var(--v3-fs-body); color: var(--nh-ink-2); line-height: 1.65; max-inline-size: 38ch; }
 @media (min-width: 56.25em) { .v3-feature-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* with the quote after it, the list's last row has no hairline: the quote's 1.5px rule closes the list (16.11: a
+   hairline and the rule 40px apart) */
+.v3-feature-list:has(+ .v3-quote--page) > li:last-child { border-block-end: 0; }
+@media (min-width: 56.25em) {
+  .v3-feature-list:has(+ .v3-quote--page) > li:nth-child(3n+1):nth-last-child(-n+3),
+  .v3-feature-list:has(+ .v3-quote--page) > li:nth-child(3n+1):nth-last-child(-n+3) ~ li { border-block-end: 0; }
+}
 .v3-stories__list { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 2rem 3rem; }
 .v3-stories__list li { border-block-start: 1px solid rgb(247 241 231 / .3); padding-block-start: 1rem; }
 .v3-stories__n { display: block; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); color: var(--nh-citrus-400); letter-spacing: -.03em; font-variant-numeric: lining-nums; }
@@ -455,6 +535,7 @@ html.nh-calm main img { filter: saturate(.7); }
 @media (max-height: 30em) {
   .v3-mast { position: absolute; }
   html { scroll-padding-block: 1rem; }
+  .v3-spread[id] { scroll-margin-block-start: -1rem; }
 }
 
 /* v3.2: the one allowed reveal — a print photo appears once, softly, when it is on screen and loaded.

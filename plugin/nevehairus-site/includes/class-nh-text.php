@@ -165,12 +165,21 @@ final class NH_Text {
 	 * newlines → <br>. 'text': esc_html().
 	 */
 	public static function esc( string $text, string $mode = 'inline' ): string {
-		$text = str_replace( [ "\r\n", "\r" ], "\n", $text );
+		$text = self::dashes( str_replace( [ "\r\n", "\r" ], "\n", $text ) );
 		if ( 'text' === $mode ) {
 			return esc_html( $text );
 		}
 		$html = self::link_tokens( wp_kses( $text, self::kses_inline() ) );
 		return implode( '<br>', self::lines( $html ) );
+	}
+
+	/**
+	 * A spaced dash (— or –) never starts a line: the space before it becomes a no-break space, so the dash stays
+	 * with the word before it and the line breaks after it (16.11: «לאורך השבוע / — בתוך המעון»). The prototype's
+	 * build does the same (scripts/build_prototype_html.py).
+	 */
+	public static function dashes( string $text ): string {
+		return (string) preg_replace( '/ ([\x{2014}\x{2013}])(?= |$)/um', "\u{00A0}$1", $text );
 	}
 
 	/**

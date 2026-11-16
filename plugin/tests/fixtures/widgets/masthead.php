@@ -14,8 +14,9 @@ defined( 'ABSPATH' ) || exit;
 return [
 	'variants' => [
 
-		// What an editor sees after dropping the widget: the root is a <div> (D3: Elementor Pro
-		// wraps the header template in its own landmark). Everything else as index.html.
+		// What an editor sees after dropping the widget: the root is a <div> (D3: the default, for a
+		// header template that keeps Pro's own <header> wrapper; the site's template sets that wrapper
+		// to div and this control to header, as the `prototype` variant). Everything else as index.html.
 		'default'   => [
 			'settings'    => [],
 			'compare'     => [

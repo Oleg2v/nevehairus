@@ -16,7 +16,9 @@ return [
 	'variants' => [
 
 		// What an editor sees after dropping the widget, with the default settings: the root is a
-		// <div> (D3), the public e-mail is not set, the link tokens are not connected yet.
+		// <div> (D3: the default, for a footer template that keeps Pro's own <footer> wrapper; the
+		// site's template sets that wrapper to div and this control to footer, as the `prototype`
+		// variant), the public e-mail is not set, the link tokens are not connected yet.
 		'default'   => [
 			'settings'    => [],
 			'compare'     => [

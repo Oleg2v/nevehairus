@@ -20,7 +20,12 @@
    "plainbox/page",
    "related/default",
    "door/page"
-  ]
+  ],
+  "plugin": {
+   "version": "0.1.0",
+   "php_sha256": "0b23f9b82fe650266660e2d5a40d4dfde808b792bd3e9f7ba19e7cb155088c07"
+  },
+  "inputs_sha256": "773a5ac5199bf5c35a55a62de80e2aa3bb3eff006c31296a70c525c25e233269"
  },
  "elementor_data": [
   {

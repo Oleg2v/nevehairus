@@ -8,8 +8,13 @@
 Writes templates/pages/home.json, main-home.json, header.json and footer.json. Each file:
   key, title, slug, front_page, post_type, document_type (_elementor_template_type), template
   (_wp_page_template, '' = none), conditions (Theme Builder display conditions), page_settings
-  (_elementor_page_settings), built_from (where the widgets come from) and elementor_data (the value of
-  _elementor_data, as Elementor 4.4.0 stores it: one container holding the widgets).
+  (_elementor_page_settings), built_from (where the widgets come from, plus what the data was computed from:
+  `plugin` = the plugin's version and the sha256 of its PHP files, `inputs_sha256` = those files with the
+  harness, the fixtures, the photo manifest and this script) and elementor_data (the value of _elementor_data,
+  as Elementor 4.4.0 stores it: one container holding the widgets). `scripts/test_site.py pages` refuses files
+  whose inputs_sha256 is not this tree's, and its PHP step refuses a site whose plugin PHP is not the hashed one:
+  Elementor ignores keys it does not know, and a repeater stored whole keeps the rows of the plugin it was built
+  with, so data built against other widget code would deploy silently wrong.
 
 The composition is the stub harness's: plugin/tests/fixtures/pages.php lists the widgets of each page and the
 fixture variant that reproduces the prototype; plugin/tests/elementor_data.php (on the harness bootstrap) turns
@@ -44,6 +49,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "templates", "pages")
 TOOL = os.path.join(ROOT, "plugin", "tests", "elementor_data.php")
 MANIFEST = os.path.join(ROOT, "prototype", "assets", "img", "manifest.json")
+PLUGIN_DIR = os.path.join(ROOT, "plugin", "nevehairus-site")
+
+# What the data is computed from (path, only files ending in ext or None = all): the widgets' controls and the
+# core that registers them, the stub harness that merges settings, the fixtures, the photo manifest, this script.
+INPUTS = (("plugin/nevehairus-site", ".php"), ("plugin/tests/bootstrap.php", None), ("plugin/tests/stubs", ".php"),
+          ("plugin/tests/fixtures", ".php"), ("plugin/tests/elementor_data.php", None),
+          ("prototype/assets/img/manifest.json", None), ("scripts/build_pages.py", None))
 
 STUB_HOME = "https://nh.test"                 # home_url() of the harness (plugin/tests/stubs/wordpress.php)
 PROTOTYPE_PAGES = {"index.html": "home", "program-main-home.html": "main-home"}   # prototype file -> page key
@@ -121,6 +133,35 @@ def element_id(seed):
     return hashlib.md5(seed.encode()).hexdigest()[:7]
 
 
+def tree_files(path, ext=None):
+    """The file path, or the files under the folder path (hidden files and folders skipped), ending in ext."""
+    if os.path.isfile(path):
+        return [path]
+    out = []
+    for base, dirs, files in os.walk(path):
+        dirs[:] = [d for d in dirs if not d.startswith(".") and d != "__pycache__"]
+        out += [os.path.join(base, f) for f in files if not f.startswith(".") and (ext is None or f.endswith(ext))]
+    return out
+
+
+def files_sha256(base, paths):
+    """sha256 of the lines "<path relative to base, with />\\t<sha256 of the file>\\n", sorted by path. The PHP step
+    of scripts/test_site.py pages computes the same over the plugin's *.php on the site (PAGES_PHP)."""
+    rows = sorted((os.path.relpath(p, base).replace(os.sep, "/"), hashlib.sha256(open(p, "rb").read()).hexdigest())
+                  for p in paths)
+    return hashlib.sha256("".join(f"{rel}\t{digest}\n" for rel, digest in rows).encode()).hexdigest()
+
+
+def source_info():
+    """What templates/pages/*.json are built from: the plugin (version, sha256 of its PHP) and every input."""
+    with open(os.path.join(PLUGIN_DIR, "nevehairus-site.php"), encoding="utf-8") as fh:
+        m = re.search(r"^\s*\*\s*Version:\s*(\S+)", fh.read(), re.M)
+    inputs = [f for rel, ext in INPUTS for f in tree_files(os.path.join(ROOT, rel), ext)]
+    return {"plugin": {"version": m.group(1) if m else "",
+                       "php_sha256": files_sha256(PLUGIN_DIR, tree_files(PLUGIN_DIR, ".php"))},
+            "inputs_sha256": files_sha256(ROOT, inputs)}
+
+
 def link_token(url, where):
     """A fixture link → a token: prototype pages → @page:, the harness's home_url() → @home:."""
     if url == STUB_HOME or url.startswith(STUB_HOME + "/"):
@@ -166,6 +207,7 @@ def build():
     if res.returncode != 0:
         die("plugin/tests/elementor_data.php dump failed:\n" + (res.stdout + res.stderr).strip()[-3000:])
     dump = json.loads(res.stdout)
+    source = source_info()
     docs = {}
     for key, p in PAGES.items():
         src = dump["pages"].get(p["fixture"])
@@ -177,7 +219,7 @@ def build():
             "post_type": "page", "document_type": "wp-page", "template": "elementor_header_footer",
             "conditions": [], "page_settings": {},
             "built_from": {"pages.php": p["fixture"], "prototype": src["prototype"],
-                           "widgets": [f"{w['widget']}/{w['variant']}" for w in src["widgets"]]},
+                           "widgets": [f"{w['widget']}/{w['variant']}" for w in src["widgets"]], **source},
             "elementor_data": container(key, widgets),
         }
     for key, c in CHROME.items():
@@ -187,7 +229,7 @@ def build():
             "post_type": "elementor_library", "document_type": c["document_type"], "template": "",
             "conditions": ["include/general"], "page_settings": {"content_wrapper_html_tag": "div"},
             "built_from": {"widgets": [f"{w['widget']}/{w['variant']}"],
-                           "extra": c["extra"] or None},
+                           "extra": c["extra"] or None, **source},
             "elementor_data": container(key, [widget_element(w, f"{key}/{w['widget']}")]),
         }
     return docs

@@ -1,12 +1,16 @@
 /* =========================================================================
    נווה האירוס — nh-core.js (plugin nevehairus-site, core). No libraries.
    window.nh: the helpers every widget script uses, the display modes (plain
-   language, calm mode), the one allowed reveal of print photos, the
-   cookie-settings panel, the visit button and focus after an in-page link,
-   the widget hook for Elementor (SPEC §3.12, §5.5; research/07 §12.3).
-   Ported from prototype/assets/js/site.js and v3.js (v3.1) and changed for
-   v3.2 (research/07 §4.2, §5.5, §9, §10.1 item 4): no scroll listener, no
-   ResizeObserver, nothing opens by itself. Switches, cookie-settings links and
+   language, calm mode), the one allowed reveal of print photos, photos that
+   cannot be shown, the cookie-settings panel, the visit button and focus after
+   an in-page link, the widget hook for Elementor (SPEC §3.12, §5.5; research/07
+   §12.3). Ported from the v3.2 prototype: site.js 2 (the visit button and
+   in-page anchors), 3 (cookie settings), 6 (the year) and v3.js 1 (plain
+   language, calm mode, keepPlace), 2 (the one reveal), 3 (a photo that cannot
+   be shown); the menu is masthead.js's, the video voices.js's, the forms
+   nh-forms.js's. Nothing moves by itself (research/07 §4): no scroll listener,
+   no ResizeObserver, no animation loop, nothing opens by itself; one
+   IntersectionObserver (the reveal). Switches, cookie-settings links and
    in-page links are delegated, so widgets added later (Elementor editor) work too.
    ========================================================================= */
 (() => {
@@ -58,6 +62,22 @@
     }), { threshold: 0.15 });
     els.forEach((el) => io.observe(el));
   };
+
+  /* ---------- a photo that cannot be shown (images switched off, a missing file) — research/07 §8.3 item 4 -------
+     The design holds without photos: a letter's room shows its quiet sky (.is-sky, letters.css), a print is not
+     shown at all (in the gallery its cell goes too, so the grid closes up without a hole), the masthead's emblem
+     goes and its name stays. Instant, no motion. Our images only (the footer's logo is Elementor's own widget). */
+  const lost = (img) => {
+    const room = img.closest(".v3-room");
+    if (room) { room.classList.add("is-sky"); return; }
+    const print = img.closest(".v3-print");
+    if (print) { (print.closest(".v3-gallery > li") || print).hidden = true; return; }
+    img.hidden = true;                                                      // the emblem: the name stays
+  };
+  const watchPhotos = () => d.querySelectorAll(".v3-room img, .v3-print img, img.nh-logo__mark").forEach((img) => {
+    if (img.complete && img.getAttribute("src") && !img.naturalWidth) lost(img);   // failed before this script ran
+    else img.addEventListener("error", () => lost(img), { once: true });
+  });
 
   /* ---------- display switches -------------------------------------------------- */
   // switches keep a constant label and say their state; the action button in the plain box changes its label instead
@@ -272,6 +292,7 @@
   initPanel();
   visitButtons();
   reveal();
+  watchPhotos();
   // arrived from another page with #…: after `load`, because the browser's own scroll to the fragment at
   // load runs its focusing steps and would drop a focus set earlier; never over a focus the visitor moved
   const landed = byHash(w.location.hash);

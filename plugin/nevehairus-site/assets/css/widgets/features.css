@@ -1,13 +1,20 @@
-/* nevehairus-site — widget `features` (מה יש בבית + ציטוט).
-   Verbatim from prototype v3.1: v3.css L351–354 (the quote on the house page; .v3-quote itself is in base.css),
-   L524–528 (the list). */
+/* =========================================================================
+   nevehairus-site — widget `features` (מה יש בבית + ציטוט).
+   v3.2 (research/07 §10.3 item 5): copied verbatim from prototype/assets/css/v3.css (v3.2) in source
+   order: L262–265 (the quote on the house page: iris mark, ink-2 signature, 34ch; the quote itself —
+   D-S 400 with its hanging mark — is .v3-quote in base.css), then L411–415 (the list: H3 names, body
+   text in ink-2, three columns from 56.25em; hairlines in --v3-hair).
+   ========================================================================= */
 
+/* ---- v3.css L262–265 ---- */
 .v3-quote--page { margin-block-start: clamp(2.5rem, 2rem + 2vw, 4rem); padding-block-start: 1.5rem; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-quote--page p { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.3rem); max-inline-size: 34ch; }
+.v3-quote--page p { max-inline-size: 34ch; }
 .v3-quote--page p::before { color: var(--nh-iris-700); }
 .v3-quote--page footer { color: var(--nh-ink-2); }
+
+/* ---- v3.css L411–415 ---- */
 .v3-feature-list { list-style: none; margin: clamp(2rem, 1.5rem + 2vw, 3rem) 0 0; padding: 0; display: grid; column-gap: 3rem; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-feature-list li { padding-block: 1.25rem; border-block-end: 1px solid rgb(31 36 33 / .4); }
-.v3-feature-list h3 { font: 500 clamp(1.3rem, 1.15rem + .5vw, 1.6rem)/1.2 var(--nh-font-display); margin: 0 0 .4rem; }
-.v3-feature-list p { margin: 0; color: var(--nh-ink-2); line-height: 1.55; max-inline-size: 38ch; }
-@media (min-width: 900px) { .v3-feature-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.v3-feature-list li { padding-block: 1.25rem; border-block-end: 1px solid var(--v3-hair); }
+.v3-feature-list h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 .4rem; }
+.v3-feature-list p { margin: 0; font-size: var(--v3-fs-body); color: var(--nh-ink-2); line-height: 1.65; max-inline-size: 38ch; }
+@media (min-width: 56.25em) { .v3-feature-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

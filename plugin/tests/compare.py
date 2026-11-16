@@ -8,9 +8,6 @@ Structural diff of a widget render against the built prototype (plugin/SPEC.md Â
     python3 -I plugin/tests/compare.py --prototype-letters      JSON of every letter directive of
                                           prototype/src/*.html with the build script's own output
                                           (used by plugin/tests/core/letters.test.php)
-    python3 -I plugin/tests/compare.py --prototype-letter-data [NAMES]   the build script's
-                                          letter_data() for NAMES (default "bet"): the morph data
-                                          v3.1 printed as #nh-letters (no page uses it since v3.2)
 
 Reads out/<id>--<variant>.html and out/<id>--<variant>.json (both written by run.php), selects the
 target elements in both pages (simple selectors tag#id.class, or descendant selectors of them; in the
@@ -328,23 +325,12 @@ def prototype_letters():
     return 0
 
 
-def prototype_letter_data(names):
-    """The build script's letter_data() (the {{letterdata}} directive, no longer on any page since v3.2)."""
-    spec = importlib.util.spec_from_file_location("nh_proto_build", os.path.join(ROOT, "scripts", "build_prototype_html.py"))
-    build = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(build)
-    sys.stdout.write(build.letter_data({"names": names}))
-    return 0
-
-
 def main(argv):
     if not argv:
         print(__doc__)
         return 2
     if argv[0] == "--prototype-letters":
         return prototype_letters()
-    if argv[0] == "--prototype-letter-data":
-        return prototype_letter_data(argv[1] if len(argv) > 1 else "bet")
     if argv[0] == "--tree":
         root = parse(argv[1])
         node = select(root, argv[2], loose=True) if len(argv) > 2 else root

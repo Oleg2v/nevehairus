@@ -1,60 +1,58 @@
 /* =========================================================================
    נווה האירוס — widget cover (ב׳ · שער דף הבית) (plugin nevehairus-site, core package).
-   Copied verbatim from prototype/assets/css/v3.css (v3.1, commit 4173d31) in the
-   order of plugin/SPEC.md §4.1. Every block names its source lines; porting changes
-   are marked "plugin:". RTL-first: logical properties only (inline-start = right).
-   v3.2 (research/07 §4.4 items 11–12, §10.2 item 1): the ב stands still and the cover has no ruling
-   line — the pinning, the drawn rule, the paper «curtain» and the settling photo are gone, and the
-   grid has no row for a rule. The v3.2 layout and type scale are ported with the markup (§15 B4).
+   v3.2 (research/07 §10.2 item 1, §10.3 item 1): copied verbatim from prototype/assets/css/v3.css
+   (v3.2) in source order. One screen; the ב stands still at weight 600; no ruling line, no pinning,
+   nothing plays on load (the photo is the LCP and is painted final). The page cover (widget
+   page-cover) loads this file too (decision D5): its `.v3-cover--page` rules are part of the same
+   prototype block; its breadcrumbs are in page-cover.css. Porting changes are marked "plugin:".
+   RTL-first: logical properties only (inline-start = right).
    ========================================================================= */
 
-/* ---- v3.css L132–161 — (L162 → base.css) ---- */
-/* ---------- ב׳ · Cover -----------------------------------------------------
-   Phones: the ב beside the words, lead and button under both (the button is on the first screen).
-   Tablets and up: two columns. */
-.v3-cover { padding-block: calc(var(--v3-mast) + clamp(1.25rem, .75rem + 2vw, 3.5rem)) clamp(3rem, 2rem + 4vw, 6rem); }
+/* ---- v3.css L99–132 ---- */
+/* ---------- ב׳ · Cover (v3.2, research/07 §10.2 p. 1, §10.3 p. 1) ------------------------------------------
+   One screen. The ב stands still at weight 600; no rule, no pinning, nothing plays on load (the photo is the
+   LCP and is painted final). Phones: the ב beside the title, then the lead, the button and «או בטלפון»; the
+   page cover stacks (crumbs · letter · title …). From 48em: two columns 5fr 6fr, the letter as tall as the
+   screen allows (--cover-h), so at 1440×900 the cover is about 800px and the next spread shows below it. */
+.v3-cover { padding-block: calc(var(--v3-mast) + clamp(1.5rem, 1rem + 2vw, 3rem)) clamp(2.5rem, 2rem + 2vw, 4rem); }
 .v3-cover__grid { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "letter title" "lead lead" "plain plain" "cta cta" "call call"; gap: 1.25rem 1rem; align-items: end; }
-.v3-cover--page .v3-cover__grid { grid-template-areas: "crumbs crumbs" "letter title" "lead lead" "plain plain" "cta cta" "call call"; }
+.v3-cover--page .v3-cover__grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "crumbs" "letter" "title" "lead" "plain" "cta" "call"; }
 .v3-cover__grid > .v3-crumbs { grid-area: crumbs; }
 .v3-cover__letter { grid-area: letter; position: relative; inline-size: min(44vw, 13rem); }
+.v3-cover--page .v3-cover__letter { inline-size: min(52vw, 10rem); }
 .v3-cover__text { display: contents; }
-.v3-cover__title { grid-area: title; font: 300 clamp(2.5rem, 1.1rem + 6.8vw, 4.25rem)/.88 var(--nh-font-display); letter-spacing: 0; margin: 0; padding-block-end: .12em; }
+.v3-cover__title { grid-area: title; font: var(--v3-fw-dl) var(--v3-fs-dl)/.92 var(--nh-font-display); letter-spacing: 0; margin: 0; }
 .v3-cover__title > .v3-full { display: block; }
 .v3-cover__title .v3-full > span { display: block; }
-.v3-cover__lead { grid-area: lead; font-size: var(--v3-lead); line-height: 1.45; max-inline-size: 30ch; margin: 0; color: var(--nh-ink-2); }
+.v3-cover__lead { grid-area: lead; font-size: var(--v3-fs-lead); line-height: 1.5; max-inline-size: 36ch; margin: 0; color: var(--nh-ink); }
 .v3-cover__plain { grid-area: plain; }
 .v3-cover__cta { grid-area: cta; margin: 0; }
-.v3-cover__call { grid-area: call; margin: 0; }   /* plugin (v3.2): «או בטלפון» under the button */
+/* «או בטלפון»: families often call from a phone (§3 p. 24); UI 18/600, the number is an underlined link */
+.v3-cover__call { grid-area: call; margin: 0; font: 600 var(--v3-fs-ui)/1.2 var(--nh-font-body); }
+.v3-cover__call a { display: inline-flex; align-items: center; min-block-size: 2.75rem; }
 @media (min-width: 48em) {
-  .v3-cover { --cover-h: 58svh; }
-  .v3-cover__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-areas: none; column-gap: clamp(2rem, 1rem + 4vw, 6rem); row-gap: 0; align-items: start; }
-  .v3-cover__grid > .v3-crumbs { grid-area: auto; grid-column: 1 / -1; }
-  .v3-cover__letter { grid-area: auto; inline-size: min(100%, calc(var(--cover-h) * 432.4 / 597)); margin-block-start: 1.5rem; }
-  .v3-cover__text { display: block; padding-block-start: clamp(1.5rem, 1rem + 2vw, 3rem); }
-  .v3-cover__title { font-size: var(--v3-poster); line-height: .86; margin: 0 0 1.25rem; padding: 0; }
+  .v3-cover { --cover-h: min(calc(100svh - var(--v3-mast) - 13rem), 44rem); }
+  .v3-cover__grid, .v3-cover--page .v3-cover__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-areas: none; column-gap: clamp(2rem, 1rem + 4vw, 6rem); row-gap: 0; align-items: center; }
+  .v3-cover__grid > .v3-crumbs { grid-area: auto; grid-column: 1 / -1; margin-block-end: 1.5rem; }
+  .v3-cover__letter, .v3-cover--page .v3-cover__letter { grid-area: auto; inline-size: min(100%, calc(var(--cover-h) * 432.4 / 597)); }
+  .v3-cover__text { display: block; }
+  .v3-cover__title { margin: 0 0 1.25rem; }
   .v3-cover__lead { margin: 0 0 1.75rem; }
-  .v3-cover__call { margin-block-start: 1rem; }
   .v3-cover__plain { margin-block-end: 1.75rem; }
+  .v3-cover__call { margin-block-start: .75rem; }
 }
-@media (min-width: 64em) {
-  .v3-cover { --cover-h: min(calc(100svh - var(--v3-mast) - 7rem), 62rem); }
-}
+/* a home's page: a smaller letter, so its cover stays one screen with the crumbs above it (as in v3.1) */
+@media (min-width: 64em) { .v3-cover--page { --cover-h: min(calc(100svh - var(--v3-mast) - 11rem), 34rem); } }
 
-/* ---- v3.css L163–191 ---- */
-/* tall portrait tablets: the letter takes the wider column, so the first screen is not half empty */
-@media (min-width: 48em) and (max-width: 79.99em) and (orientation: portrait) {
-  .v3-cover__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
-  .v3-cover { --cover-h: 70svh; }
-}
+/* ---- v3.css L350 (its second selector; the first, .nh-btn > .v3-plain, is base.css's) ---- */
+html.nh-plainmode .v3-cover__call > .v3-plain { display: inline; }
 
-/* ---- v3.css L452–458 — (plain mode) ---- */
+/* ---- v3.css L354–361 — plugin: L356 without `main` (no reliance on the theme's DOM, SPEC §10.2 rule 4) ---- */
 /* the cover: the ב folds into a chapter mark beside the words, the button under them */
-html.nh-plainmode .v3-cover__title { font-size: clamp(2.25rem, 1.5rem + 2.5vw, 3.75rem); line-height: 1.1; }
-html.nh-plainmode main .v3-cover__plain p { font-size: 1.5rem; }
+html.nh-plainmode .v3-cover__title { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); }
+html.nh-plainmode .v3-cover__plain p { font-size: var(--v3-fs-plain); }
 @media (min-width: 48em) {
   html.nh-plainmode .v3-cover__grid { grid-template-columns: auto minmax(0, 1fr); min-block-size: 0; align-items: start; }
   html.nh-plainmode .v3-cover__letter { position: relative; inline-size: calc(min(48svh, 22rem) * 432.4 / 597); }
+  html.nh-plainmode .v3-cover__text { padding-block-start: 1rem; }
 }
-
-/* ---- v3.css L463 ---- */
-html.nh-plainmode .v3-cover__text { padding-block-start: 1rem; }

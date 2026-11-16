@@ -1,16 +1,21 @@
-/* nevehairus-site — widget `glance` (במבט אחד · מספרים ועובדות).
-   Verbatim from prototype v3.1: v3.css L502–514. */
+/* =========================================================================
+   nevehairus-site — widget `glance` (במבט אחד · מספרים ועובדות).
+   v3.2 (research/07 §10.3 item 3): copied verbatim from prototype/assets/css/v3.css (v3.2) L393–405:
+   the numbers D-M 400 (lining, tabular, −0.03em) on the ruling line, their labels at the small step,
+   the facts' answers at the body step; hairlines in --v3-hair.
+   ========================================================================= */
 
-.v3-stats { list-style: none; margin: clamp(2rem, 1.5rem + 2vw, 3.5rem) 0 2rem; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-block-start: 1.5px solid var(--nh-ink); }
-.v3-stats li { padding-block: 1.25rem; padding-inline-end: 1rem; border-block-end: 1px solid rgb(31 36 33 / .4); }
-.v3-stats b { display: block; font: 300 clamp(3.5rem, 2rem + 4vw, 6.5rem)/1 var(--nh-font-display); letter-spacing: -.03em; }
-.v3-stats li > span { display: block; font-size: 1rem; line-height: 1.45; color: var(--nh-ink-2); max-inline-size: 26ch; margin-block-start: .5rem; }
-@media (min-width: 1024px) {
+/* ---- v3.css L393–405 ---- */
+.v3-stats { list-style: none; margin: 2rem 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-block-start: 1.5px solid var(--nh-ink); }
+.v3-stats li { padding-block: 1.25rem; padding-inline-end: 1rem; border-block-end: 1px solid var(--v3-hair); }
+.v3-stats b { display: block; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: -.03em; font-variant-numeric: lining-nums tabular-nums; }
+.v3-stats li > span { display: block; font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-ink-2); max-inline-size: 26ch; margin-block-start: .5rem; }
+@media (min-width: 64em) {
   .v3-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .v3-stats li { border-block-end: 0; padding-inline: 0 1.5rem; }
-  .v3-stats li + li { border-inline-start: 1px solid rgb(31 36 33 / .4); padding-inline-start: 1.5rem; }
+  .v3-stats li + li { border-inline-start: 1px solid var(--v3-hair); padding-inline-start: 1.5rem; }
 }
-.v3-facts { margin: 0; border-block-start: 1px solid rgb(31 36 33 / .4); }
-.v3-facts div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 1rem; padding-block: .85rem; border-block-end: 1px solid rgb(31 36 33 / .4); }
+.v3-facts { margin: 0; border-block-start: 1px solid var(--v3-hair); }
+.v3-facts div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 1rem; padding-block: .85rem; border-block-end: 1px solid var(--v3-hair); }
 .v3-facts dt { font-weight: 700; }
-.v3-facts dd { margin: 0; }
+.v3-facts dd { margin: 0; font-size: var(--v3-fs-body); }

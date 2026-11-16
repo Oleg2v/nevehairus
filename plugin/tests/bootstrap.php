@@ -95,10 +95,7 @@ function nh_test_reset_request( array $options = [], array $get = [] ): void {
 	$_SERVER['REMOTE_ADDR']    = '192.0.2.10';
 
 	foreach ( [
-		[ 'NH_Letters', 'script_done', false ],
 		[ 'NH_Site', 'opened', false ],
-		[ 'NH_Site', 'footed', false ],
-		[ 'NH_Site', 'queue', [] ],
 		[ 'NH_Site', 'uses', null ],
 	] as [ $class, $prop, $value ] ) {
 		if ( class_exists( $class ) ) {

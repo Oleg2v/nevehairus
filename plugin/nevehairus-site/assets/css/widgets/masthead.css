@@ -1,14 +1,16 @@
 /* =========================================================================
    nevehairus-site · widget «masthead» (SPEC §4.18) — style handle nh-w-masthead
-   v3.2 (research/07 §5.2, §5.4, §6, §7.2, §10.1 items 1–2): copied from the prototype's
-   «v3.2 masthead» and «Phone menu» blocks (assets/css/main.css), then from v3.css the text-spacing
-   rule (1.4.12) and the short-screen rule, and the masthead's selectors of the forced-colours and
-   print groups. Fixed and always the same: paper, a 1px ink line, no shadow, no blur, no running
-   head, no progress line, no display panel, nothing changes while the page scrolls; the phone menu
-   opens and closes at once. Porting changes are marked "plugin:".
+   v3.2 (research/07 §5.2, §5.4, §6, §7.2, §10.1 items 1–2): copied verbatim from the prototype (v3.2) in
+   source order: main.css L133–213 («v3.2 masthead») and L215–252 («Phone menu»), the group of the menu's
+   switches (v3.css L55), the masthead's selectors of the forced-colours and print groups (main.css
+   L439–440, L447; v3.css L384–385), then v3.css L454–456 (the text-spacing rule, 1.4.12) and L462–467
+   (short screens), and the scroll padding of main.css L9–10. Fixed and always the same: paper, a 1px ink
+   line, no shadow, no blur, no running head, no progress line, no display panel, nothing changes while the
+   page scrolls; the phone menu opens and closes at once. Porting changes are marked "plugin:".
    Shared parts (.nh-btn, .v3-toggle, the type scale on .v3) live in base.css.
    ========================================================================= */
 
+/* ---- main.css L133–213 — plugin: the emblem's selector (0,2,0) ---- */
 /* ---------- v3.2 masthead (research/07 §5.2, §6, §10.1) -------------------------
    Composition (start → end): mark · 5 links · «בשפה פשוטה» · phone · «תיאום ביקור» (from 80em) or «תפריט».
    Breakpoints are in em, so a larger browser font switches to the compact masthead by itself. */
@@ -90,6 +92,7 @@
   .v3-plainbtn, .nh-menu-btn { padding-inline: 6px; }
 }
 
+/* ---- main.css L215–252 ---- */
 /* ---------- Phone menu (native <dialog>, opened only by «תפריט»; research/07 §5.4) ----------
    Paper, ink text, iris focus; opens and closes at once. Its head is as tall as the masthead. */
 .nh-menu {
@@ -128,10 +131,12 @@
 .nh-menu__call { margin: 0; font: 700 var(--v3-fs-plain, 1.375rem)/1.3 var(--nh-font-body); }
 .nh-menu__call a { color: var(--nh-link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
 .nh-menu__call a:hover { text-decoration-thickness: 2px; }
-/* the two switches of the menu (v3.css: .v3-switches; the display widget has the same rule in display.css) */
+/* ---- v3.css L55 — plugin: only the menu's group (the display widget has the same rule in display.css) ---- */
+/* the two switches of the menu */
 .nh-menu .v3-switches { display: grid; gap: .25rem; max-inline-size: 20rem; }
 
-/* ---------- Forced colours (main.css, v3.css: the masthead's selectors) ---------- */
+/* ---- main.css L439–440, v3.css L384–385 — the masthead's selectors of the forced-colours groups ---- */
+/* ---------- Forced colours ---------- */
 @media (forced-colors: active) {
   .nh-menu-btn { border: 2px solid ButtonText; }
   .nh-nav a[aria-current]::after { background: CanvasText; }       /* the section you are in keeps its bar */
@@ -139,22 +144,26 @@
   .v3-plainbtn[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText !important; border-color: Highlight; }
 }
 
-/* ---------- Print (main.css: the .nh-header and .nh-menu selectors) ---------- */
+/* ---- main.css L447 — the .nh-header and .nh-menu selectors of the print group ---- */
+/* ---------- Print ---------- */
 @media print {
   .nh-header, .nh-menu { display: none !important; }
 }
 
-/* WCAG 1.4.12 (v3.css): with user text-spacing the masthead wraps instead of pushing buttons off screen */
+/* ---- v3.css L454–456 ---- */
+/* WCAG 1.4.12: with user text-spacing the masthead wraps instead of pushing buttons off screen */
 .v3-mast .nh-header__inner { flex-wrap: wrap; row-gap: .25rem; }
 .v3-mast .nh-header__actions { flex-wrap: wrap; justify-content: flex-end; row-gap: .25rem; }
 
-/* short screens (landscape phones, 400% zoom; v3.css): the masthead scrolls away with the page */
+/* ---- v3.css L462–465 — (L466, the scroll padding, is below) ---- */
+/* short screens (landscape phones, 400% zoom): the masthead scrolls away with the page; the visit button
+   is on the cover, in the menu and in the door */
 @media (max-height: 30em) {
   .v3-mast { position: absolute; }
 }
 
-/* v3.2 (research/07 §12.4): the scroll padding that keeps a focused element or an anchor target clear of
-   the fixed masthead moved here from base.css (main.css L8, v3.css L637), on pages that have the masthead */
+/* ---- main.css L9–10, v3.css L466 — plugin: on pages that have the masthead (html:has(.v3-mast)), not on
+   every page (research/07 §12.4); keeps a focused element or an anchor target clear of the fixed masthead ---- */
 html:has(.v3-mast) { scroll-padding-block-start: 6rem; }
 @media (max-height: 30em) { html:has(.v3-mast) { scroll-padding-block: 1rem; } }
 

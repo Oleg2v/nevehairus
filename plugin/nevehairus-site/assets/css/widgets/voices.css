@@ -1,14 +1,17 @@
 /* =========================================================================
    nevehairus-site · widget `voices` (handle nh-w-voices)
-   Source: prototype/assets/css/main.css L216–228 (video facade), the `.nh-video` selector of
-   the print rule at main.css L428, then v3.css L341–350 (v3.1), changed for v3.2 by
-   research/07 §10.2 item 8 and §4.4 item 21: the play button is a paper button with the icon
-   and a visible word («צפו בסרטון»), only its background changes on hover and focus (no circle,
-   no scale, no shift); the icon has an explicit size (an svg without one grows to 300×150);
-   the poster is a 16:9 frame of at most 37.5rem.
-   `.v3-quote` and `.v3-voices__grid` are in base.css.
-   Porting change (SPEC §4.9): the prototype's inline style="justify-content:center" on the
-   consent buttons' `.nh-btn-row` is the last rule of this file.
+   Source (verbatim, v3.2): prototype/assets/css/main.css «Video facade» (`.nh-video…`, with the
+   paper play button `.nh-video__btn` and the explicitly sized `.nh-video__icon` — an svg without a
+   size grows to 300×150, research/07 §10.2 item 8, §18 item 6) and the `.nh-video` selector of its
+   print rule; then v3.css «Voices»: the film 16:9 of at most 37.5rem, the button at the bottom
+   start, the consent question in the flow (the box grows to hold it on a phone: `display: grid`,
+   `overflow: clip` keeps the minimum height of the aspect ratio), the caption 16px, the two columns
+   from 64em; and from the forced-colours block the frame of the paper button. Only the button's
+   background changes on hover and focus (150ms); nothing moves.
+   `.v3-quote` and `.v3-voices__grid` (one column) are in base.css.
+   Porting changes (SPEC §4.9): the prototype's inline style="justify-content:center" on the
+   consent buttons' `.nh-btn-row` is a rule here; the quote's signature gets the line height of the
+   prototype's `.v3-quote footer` (1.5), which base.css does not set (scoped to this widget).
    ========================================================================= */
 
 /* ---------- Video facade (privacy: no YouTube request before consent) --------- */
@@ -19,39 +22,44 @@
   color: var(--nh-paper); text-align: center; padding: var(--nh-s-5); font-weight: 700; font-size: 1.125rem;
   background: linear-gradient(180deg, rgb(28 24 48 / 0) 30%, rgb(28 24 48 / .78) 100%);
 }
-.nh-video__consent { position: absolute; inset: 0; display: grid; place-content: center; gap: var(--nh-s-4); padding: var(--nh-s-6); background: var(--nh-night-2); text-align: center; }
-.nh-video iframe { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; border: 0; }
-
-/* v3.2: the button on the poster — the icon and the word, on paper (research/07 §10.2 item 8) */
+/* the play button (v3.2): a paper button with an icon and the word «צפו בסרטון»; only its background changes.
+   The icon has its own size: an SVG without one would stretch to 300×150 */
 .nh-video__btn {
   display: inline-flex; align-items: center; gap: .6rem; min-block-size: 3.5rem; padding-inline: 1rem 1.25rem;
-  background-color: var(--nh-paper); color: var(--nh-ink); border-radius: 2px;
-  font: 700 var(--v3-fs-ui, 1.125rem)/1 var(--nh-font-body);
+  background-color: var(--nh-paper); color: var(--nh-ink); border-radius: 2px; font: 700 var(--v3-fs-ui, 1.125rem)/1 var(--nh-font-body);
   transition: background-color .15s ease;
 }
 .nh-video__play:is(:hover, :focus-visible) .nh-video__btn { background-color: var(--nh-citrus-100); }
-.nh-video__icon { display: inline-grid; inline-size: 1.25rem; block-size: 1.25rem; flex: none; }
+.nh-video__icon { display: inline-grid; inline-size: 1.25rem; block-size: 1.25rem; }
 .nh-video__icon svg { inline-size: 100%; block-size: 100%; }
+.nh-video__consent { position: absolute; inset: 0; display: grid; place-content: center; gap: var(--nh-s-4); padding: var(--nh-s-6); background: var(--nh-night-2); text-align: center; }
+.nh-video iframe { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; border: 0; }
 
-/* ---------- Print ----------------------------------------------------------- */
-@media print {
-  .nh-video { display: none !important; }
-}
-
-/* ---------- Voices (night): the video print, 16:9 ---------------------------------- */
+/* ---------- Voices (night; v3.2, research/07 §10.2 item 8) -------------------------
+   The film 16:9 (at most 37.5rem) behind a facade: a paper button with the word «צפו בסרטון». The consent
+   question opens in place, in the flow: on a phone, where a 16:9 box is too low for the question and its two
+   buttons, the box grows to hold it (overflow: clip keeps the box's own minimum height). */
 .v3-video-fig { margin: 0; }
-.v3-video { aspect-ratio: 16 / 9; max-inline-size: 37.5rem; border-radius: 0; background: var(--nh-night-2); }
+.v3-video { display: grid; aspect-ratio: 16 / 9; max-inline-size: 37.5rem; border-radius: 0; overflow: clip; background: var(--nh-night-2); }
 .v3-video picture { position: absolute; inset: 0; display: block; }
 .v3-video img { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; opacity: 1; }
-.v3-video .nh-video__consent { place-content: center; place-content: safe center; overflow-y: auto; }
-.v3-video .nh-video__play { background: none; place-content: end start; padding: 1rem; }
-.v3-video__cap { font-size: var(--v3-fs-small, 1rem); line-height: 1.5; color: var(--nh-on-night-2); margin-block-start: .85rem; max-inline-size: 44ch; }
+.v3-video .nh-video__play { place-content: end start; justify-items: start; padding: 1rem; background: none; }
+.v3-video .nh-video__consent { position: relative; inset: auto; place-content: center; }
+.v3-video__cap { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-on-night-2); margin-block-start: .85rem; max-inline-size: 44ch; }
 @media (min-width: 64em) { .v3-voices__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; } }
 
-/* forced colours: the paper button keeps a frame */
+/* porting change: the prototype's `.v3-quote footer` has line-height 1.5 (base.css sets only its size) */
+.v3-voices .v3-quote footer { line-height: 1.5; }
+
+/* porting change: was style="justify-content:center" on the consent buttons' row */
+.v3-video .nh-btn-row { justify-content: center; }
+
+/* ---------- Forced colours: the paper button keeps a frame ------------------------ */
 @media (forced-colors: active) {
   .nh-video__btn { border: 2px solid ButtonText; }
 }
 
-/* porting change: was style="justify-content:center" on the consent buttons' row */
-.v3-video .nh-btn-row { justify-content: center; }
+/* ---------- Print --------------------------------------------------------------- */
+@media print {
+  .nh-video { display: none !important; }
+}

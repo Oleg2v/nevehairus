@@ -1,9 +1,9 @@
 <?php
 /**
  * Core tests 5 — NH_Site (SPEC §11.5 item 5, §5; research/07 §12.2–12.3): head order and the pre-paint
- * script, body open (the sprite only), footer (cookie-settings panel + live region + queued parts), the
- * preview, the cover preload, and parity of the printed parts with the prototype partials (the live region
- * of header.html, cookies.html, sprite.html reduced to nine symbols). Every part needs a page that uses our
+ * script, body open (the sprite only), footer (cookie-settings panel + live region), the preview, the cover
+ * preload, and parity of the printed parts with the prototype partials (the live region of header.html,
+ * cookies.html, sprite.html reduced to the six symbols of the pages). Every part needs a page that uses our
  * widgets: the tests write one into the queried post (10); core/scope.test.php covers the pages without.
  *
  * @package nevehairus-site
@@ -127,7 +127,7 @@ return [
 		nh_test_use_widgets();
 		$out = nh_test_capture( [ 'NH_Site', 'body_open' ] );
 		nh_assert( 0 === strpos( $out, '<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">' ) );
-		nh_assert_same( 9, substr_count( $out, '<symbol ' ) );
+		nh_assert_same( count( NH_Html::ICONS ), substr_count( $out, '<symbol ' ) );
 		nh_assert_not_contains( 'nh-skip', $out, 'the skip link is the child theme\'s (§12.5)' );
 		nh_assert_not_contains( 'nh-cookies', $out, 'the cookie panel is in the footer (§9)' );
 		nh_assert_same( '', nh_test_capture( [ 'NH_Site', 'body_open' ] ), 'printed once' );
@@ -146,22 +146,17 @@ return [
 		nh_assert( NH_Site::is_preview() );
 	},
 
-	'footer(): cookie panel, live region, queued parts in order (once); the sprite when wp_body_open never ran' => static function () {
+	'footer(): cookie panel and live region; the sprite when wp_body_open never ran' => static function () {
 		nh_test_use_widgets();
-		NH_Site::footer_once( 'a', static fn() => '<p id="part-a"></p>' );
-		NH_Site::footer_once( 'b', static fn() => '<p id="part-b"></p>' );
-		NH_Site::footer_once( 'a', static fn() => '<p id="part-a-again"></p>' );
 		$f = nh_test_capture( [ 'NH_Site', 'footer' ] );
 		nh_assert_contains( '<symbol id="i-phone"', $f, 'wp_body_open never ran: the sprite falls back here' );
 		nh_assert_not_contains( 'nh-skip', $f );
 		nh_assert_not_contains( 'data-bar', $f, 'no visit bar (§3 item 4)' );
-		$order = [ strpos( $f, '<svg' ), strpos( $f, 'id="nh-cookies"' ), strpos( $f, 'data-announce' ), strpos( $f, 'part-a' ), strpos( $f, 'part-b' ) ];
+		$order = [ strpos( $f, '<svg' ), strpos( $f, 'id="nh-cookies"' ), strpos( $f, 'data-announce' ) ];
 		nh_assert( ! in_array( false, $order, true ), 'all parts' );
 		$sorted = $order;
 		sort( $sorted );
-		nh_assert_same( $sorted, $order, 'sprite, panel, live region, queue order' );
-		nh_assert_not_contains( 'part-a-again', $f );
-		nh_assert_same( '<p id="late"></p>', nh_test_capture( static fn() => NH_Site::footer_once( 'late', static fn() => '<p id="late"></p>' ) ), 'after the footer: printed at once' );
+		nh_assert_same( $sorted, $order, 'sprite, panel, live region' );
 		nh_test_reset_request();
 		nh_test_use_widgets();
 		nh_test_capture( [ 'NH_Site', 'body_open' ] );
@@ -170,10 +165,9 @@ return [
 		nh_assert_same( 1, substr_count( $f, 'id="nh-cookies"' ) );
 	},
 
-	'footer(): a part queued by a widget is printed even where uses_widgets() found nothing' => static function () {
+	'footer(): nothing on a page that does not use our widgets' => static function () {
 		nh_assert( ! NH_Site::uses_widgets(), 'post 10 holds no widget of ours' );
-		NH_Site::footer_once( 'x', static fn() => '<p id="part-x"></p>' );
-		nh_assert_same( '<p id="part-x"></p>' . "\n", nh_test_capture( [ 'NH_Site', 'footer' ] ) );
+		nh_assert_same( '', nh_test_capture( [ 'NH_Site', 'footer' ] ) );
 	},
 
 	'parity: live region = the one in header.html' => static function () {
@@ -212,7 +206,7 @@ return [
 	},
 
 	'removed from the plugin: the skip link, main, the template memory, the visit bar, the banner' => static function () {
-		foreach ( [ 'skip_link', 'main_open', 'main_close', 'remember_template', 'is_full_width_template', 'visit_bar', 'cookie_banner' ] as $m ) {
+		foreach ( [ 'skip_link', 'main_open', 'main_close', 'remember_template', 'is_full_width_template', 'visit_bar', 'cookie_banner', 'footer_once' ] as $m ) {
 			nh_assert( ! method_exists( 'NH_Site', $m ), "NH_Site::$m() is gone (§12.3)" );
 		}
 		foreach ( [ 'elementor/page_templates/header-footer/before_content', 'elementor/page_templates/header-footer/after_content', 'template_include' ] as $hook ) {
@@ -220,7 +214,7 @@ return [
 		}
 	},
 
-	'parity: sprite = sprite.html reduced to the nine symbols of v3' => static function () {
+	'parity: sprite = sprite.html reduced to the six symbols the v3.2 pages use' => static function () {
 		$proto = nh_test_partial( 'sprite' );
 		$proto = (string) preg_replace_callback(
 			'~\s*<symbol id="i-([a-z-]+)".*?</symbol>~s',

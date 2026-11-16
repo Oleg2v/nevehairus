@@ -1,5 +1,10 @@
 /* nevehairus-site · widget "related" (style handle nh-w-related) — להמשך קריאה.
-   Copied verbatim from prototype/assets/css/v3.css L550–551. (.v3-roles itself lives in base.css.) */
+   Copied verbatim from prototype/assets/css/v3.css (v3.2) L424–425. (.v3-roles itself — the rows, the still arrows,
+   the title underlined 2px on hover and focus, the phone layout of L426–431 — lives in base.css, shared with "lamed".) */
 
 /* rows with a long description wrap; on phones the description goes under the title */
 .v3-related .v3-roles__meta { white-space: normal; }
+
+/* plugin: a row link has no class, and the child theme's `.site-main a:where(:not([class]))` (0,1,1, printed after
+   base.css) would underline the whole row over base.css's `.v3-roles a { text-decoration: none }` (v3.css L282) */
+.v3-related .v3-roles a { text-decoration: none; }

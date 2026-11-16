@@ -23,9 +23,12 @@ $only    = isset( $opts['widget'] ) ? (string) $opts['widget'] : null;
 $verbose = isset( $opts['verbose'] );
 $core_only = isset( $opts['core-only'] ) || isset( $opts['suite'] );
 
-/** Ids that may be referenced from outside a widget (the theme's main, the masthead's menu, the site module's
- * cookie panel; SPEC §2.5). v3.2: no display panel, no lightbox. */
-const NH_TEST_GLOBAL_IDS = [ 'main', 'content', 'nh-menu', 'nh-menu-title', 'nh-cookies', 'nh-cookies-title', 'nh-c-stats', 'nh-c-media' ];
+/** Ids printed on every page that uses our widgets but outside any widget, so a widget may refer to them (SPEC
+ * §2.5): the child theme's `main#content` and the site module's cookie panel (research/07 §9, §12.5). v3.2: no
+ * `main#main` (the theme's main is #content), no display panel, no lightbox; the masthead's `nh-menu` and
+ * `nh-menu-title` are inside its own render, so they are not global (a masthead whose button points at a menu it
+ * did not print fails). */
+const NH_TEST_GLOBAL_IDS = [ 'content', 'nh-cookies', 'nh-cookies-title', 'nh-c-stats', 'nh-c-media' ];
 
 $failures = [];
 $warnings = [];

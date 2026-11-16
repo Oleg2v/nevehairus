@@ -3,9 +3,10 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * The letters: outlines from `assets/letters.json` (Frank Ruhl Libre at wght 800 and 300, compatible
- * points), rooms (the counters where photos live), the wide ד of the door and the morph data of the
- * cover (SPEC §3.7). A faithful port of scripts/build_prototype_html.py: letter_svg(), lerp_d(),
- * letter_room() (incl. fit="whole"), doorway(), letter_data() — same markup, same numbers and formats.
+ * points), rooms (the counters where photos live) and the wide ד of the door (SPEC §3.7). A faithful port of
+ * scripts/build_prototype_html.py: letter_svg(), lerp_d(), letter_room() (incl. fit="whole"), doorway() —
+ * same markup, same numbers and formats. v3.2: every letter stands still at one weight (the widgets' WEIGHT
+ * constants), so the cover's morph data (letter_data(), data_script()) is gone.
  *
  * @package nevehairus-site
  */
@@ -28,9 +29,6 @@ final class NH_Letters {
 
 	/** @var array|null letters.json, decoded once. */
 	private static $data = null;
-
-	/** @var bool data_script() printed in this request. */
-	private static $script_done = false;
 
 	/**
 	 * letters.json: `upm`, `top`, `source` and per letter `{ "800": {d, box, adv, room}, "300": {…}, lerp, cmds, a, b }`.
@@ -255,40 +253,6 @@ final class NH_Letters {
 	}
 
 	/**
-	 * The interpolation data of the cover morph (letter_data()):
-	 * `<script type="application/json" id="nh-letters">{"bet":{"c":…,"a":[…],"b":[…]}}</script>`.
-	 * Once per request; later calls return ''.
-	 *
-	 * @param string[] $names Letters.
-	 */
-	public static function data_script( array $names = [ 'bet' ] ): string {
-		if ( self::$script_done ) {
-			return '';
-		}
-		$out = [];
-		foreach ( $names as $n ) {
-			$e = self::entry( (string) $n );
-			if ( null !== $e ) {
-				$out[ (string) $n ] = [
-					'c' => $e['cmds'],
-					'a' => $e['a'],
-					'b' => $e['b'],
-				];
-			}
-		}
-		if ( ! $out ) {
-			return '';
-		}
-		self::$script_done = true;
-		// Shortest round-trip floats, as Python's json.dumps (some hosts still set serialize_precision = 17).
-		$precision = ini_get( 'serialize_precision' );
-		ini_set( 'serialize_precision', '-1' ); // phpcs:ignore WordPress.PHP.IniSet.Risky -- restored right below
-		$json = wp_json_encode( $out, JSON_UNESCAPED_SLASHES | JSON_PRESERVE_ZERO_FRACTION );
-		ini_set( 'serialize_precision', false === $precision ? '-1' : $precision ); // phpcs:ignore WordPress.PHP.IniSet.Risky
-		return '<script type="application/json" id="nh-letters">' . $json . '</script>';
-	}
-
-	/**
 	 * A number as Python's "{:g}" (six significant digits, no trailing zeros).
 	 */
 	public static function num( float $v ): string {
@@ -410,7 +374,7 @@ final class NH_Letters {
 	}
 
 	/**
-	 * A weight clamped to 300–800 and rounded to a whole unit (the morph works in steps of 1).
+	 * A weight clamped to 300–800 and rounded to a whole unit (as the build script's weights).
 	 */
 	private static function weight( float $w ): float {
 		return (float) round( max( 300.0, min( 800.0, $w ) ) );

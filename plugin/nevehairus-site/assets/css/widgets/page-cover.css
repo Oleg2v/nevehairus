@@ -1,21 +1,22 @@
-/* nevehairus-site — widget `page-cover` (ב׳ · שער עמוד).
-   Verbatim from prototype v3.1: main.css L301–305 (breadcrumbs), v3.css L493–501 (inner-page cover).
-   Loaded after nh-w-cover (the cover's CSS), whose rules it refines. */
+/* =========================================================================
+   nevehairus-site — widget `page-cover` (ב׳ · שער עמוד).
+   v3.2 (research/07 §5.3 item 2, §10.3 items 1–2): copied verbatim from the prototype (v3.2):
+   main.css L364–371 (the breadcrumbs: 16px, links in ink-2 and underlined, 44px targets, the silent
+   separator «‹»), then v3.css L391–392 (the crumbs inside the cover's grid). The page cover's layout
+   (stacked on phones, a smaller letter from 64em) is part of the cover's block in cover.css, which
+   this widget loads first (STYLE_DEPS nh-w-cover, decision D5). No page transition (D11 is gone).
+   ========================================================================= */
 
+/* ---- main.css L364–371 ---- */
 /* ---------- Breadcrumbs ------------------------------------------------------ */
-.nh-crumbs ol { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; font-size: var(--nh-fs-small); font-weight: 600; color: var(--nh-ink-2); }
-.nh-crumbs li + li::before { content: "/"; margin-inline-end: .5rem; color: var(--nh-ink-2); }
-.nh-crumbs a { color: var(--nh-ink-2); }
+/* «where am I»: 16px, links in ink-2 and underlined, 44px targets; the separator «‹» is silent */
+.nh-crumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; font: 600 var(--v3-fs-small, 1rem)/1.3 var(--nh-font-body); color: var(--nh-ink-2); }
+.nh-crumbs li { display: inline-flex; align-items: center; }
+.nh-crumbs li + li::before { content: "‹"; content: "‹" / ""; margin-inline: .5rem; color: var(--nh-ink-2); }
+.nh-crumbs a { display: inline-flex; align-items: center; min-block-size: 2.75rem; color: var(--nh-ink-2); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.nh-crumbs a:hover { color: var(--nh-ink); text-decoration-thickness: 2px; }
 .nh-crumbs [aria-current="page"] { color: var(--nh-ink); }
 
-/* ---------- Inner page (programme): the same letters ------------------------------- */
+/* ---- v3.css L391–392 ---- */
 .v3-crumbs { grid-column: 1 / -1; margin-block-end: .25rem; }
 .v3-crumbs ol { margin: 0; }
-.v3-cover__title--page { font-size: clamp(3rem, 1.4rem + 5.4vw, 7.25rem); line-height: .96; letter-spacing: 0; }
-@media (max-width: 47.99em) { .v3-cover__title--page { font-size: clamp(1.9rem, 1rem + 4vw, 3rem); } }   /* beside the ב on phones: two lines, not four */
-@media (min-width: 1024px) {
-  .v3-cover--page { min-block-size: auto; }
-  .v3-cover--page { --cover-h: min(calc(100svh - var(--v3-mast) - 11rem), 34rem); }
-}
-
-/* v3.2 (research/07 §4.4 item 2): no page transition — the view-transition class of D11 is gone */

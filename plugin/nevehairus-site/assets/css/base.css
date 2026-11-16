@@ -1,26 +1,25 @@
 /* =========================================================================
    נווה האירוס — base styles of the widgets (plugin nevehairus-site, core package).
-   Ported from prototype/assets/css/main.css and v3.css (v3.1, commit 4173d31) in the
-   order of plugin/SPEC.md §9.1, and brought to v3.2 (research/07 §12.4): nothing global.
-   Every rule that would reach an element without a class of ours is scoped with
-   :where([class*="elementor-widget-nh-"], .nh-cookies) — zero specificity, so the
-   cascade between our own rules is unchanged. What applies to the whole site (html,
-   body, the skip link, the layout of pages that are not ours, the system
-   reduced-motion rule) lives in the child theme (§12.5). This file is loaded only
-   with our widgets (NH_Widget_Base::get_style_depends(), NH_Assets).
-   Every block names its source lines; porting changes are marked "plugin:" and
-   v3.2 changes "v3.2:". RTL-first: logical properties only (inline-start = right).
+   Ported from prototype/assets/css/main.css and v3.css as rebuilt for v3.2 (research/07), in the
+   order of plugin/SPEC.md §9.1: nothing global. Every rule that would reach an element without a
+   class of ours is scoped with :where([class*="elementor-widget-nh-"], .nh-cookies) — zero
+   specificity, so the cascade between our own rules is unchanged. What applies to the whole site
+   (html, body, the skip link, the layout of pages that are not ours, the system reduced-motion rule)
+   lives in the child theme (research/07 §12.5). This file is loaded only with our widgets
+   (NH_Widget_Base::get_style_depends(), NH_Assets).
+   Every block names its source lines in the v3.2 prototype; porting changes are marked "plugin:".
+   RTL-first: logical properties only (inline-start = right).
    ========================================================================= */
 
-/* ---- main.css L6–33 — v3.2: scoped to our widgets and the cookie panel; html and body → the theme ---- */
+/* ---- main.css L6–30 — plugin: scoped to our widgets and the cookie panel; html and body are the theme's ---- */
 /* ---------- Reset ------------------------------------------------------- */
 :where([class*="elementor-widget-nh-"], .nh-cookies) *,
 :where([class*="elementor-widget-nh-"], .nh-cookies) *::before,
 :where([class*="elementor-widget-nh-"], .nh-cookies) *::after { box-sizing: border-box; }
 :where([class*="elementor-widget-nh-"], .nh-cookies) * { margin: 0; }
-/* what body gave our parts in the prototype */
+/* plugin: what body gives the page in the prototype (main.css L11–22), given to our parts only */
 :where([class*="elementor-widget-nh-"], .nh-cookies) {
-  font-family: var(--nh-font-body); font-size: var(--nh-fs-body); line-height: 1.65; color: var(--nh-text);
+  font-family: var(--nh-font-body); font-size: var(--nh-fs-body); line-height: var(--nh-lh-body); font-weight: 400; color: var(--nh-text);
 }
 :where([class*="elementor-widget-nh-"], .nh-cookies) :is(img, picture, svg, video, iframe) { display: block; max-width: 100%; }
 :where([class*="elementor-widget-nh-"], .nh-cookies) img { height: auto; }
@@ -30,12 +29,11 @@
 :where([class*="elementor-widget-nh-"], .nh-cookies) :is(h1, h2, h3, h4) { text-wrap: balance; overflow-wrap: break-word; }
 :where([class*="elementor-widget-nh-"], .nh-cookies) :where(ul[role="list"], ol[role="list"]) { list-style: none; padding: 0; } /* zero specificity: components may add padding */
 :where([class*="elementor-widget-nh-"], .nh-cookies) [hidden], .nh-cookies[hidden] { display: none !important; }
-/* v3.2: the masthead's scroll padding moved to masthead.css (html:has(.v3-mast)); the banner's
-   html.nh-has-cookies rules are gone with the banner (§9) */
+/* the masthead's scroll padding (main.css L9–10) is masthead.css's (html:has(.v3-mast)) */
 
-/* ---- main.css L35–40 — v3.2: removed (no smooth scroll to anchors, no page transitions; §4.4 items 1–2) ---- */
+/* ---- main.css L32–33 — v3.2: no smooth scrolling and no page transitions (nothing to port) ---- */
 
-/* ---- main.css L51–64 — v3.2: .nh-skip → the child theme; the focus rings scoped; .nh-ltr inline (§7.5) ---- */
+/* ---- main.css L35–49 — plugin: .nh-skip is the child theme's; the focus rings scoped ---- */
 /* ---------- Accessibility helpers --------------------------------------- */
 .nh-sr-only {
   position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
@@ -43,10 +41,10 @@
 }
 :where([class*="elementor-widget-nh-"], .nh-cookies) :focus-visible { outline: 3px solid var(--nh-focus); outline-offset: 3px; }
 :where([class*="elementor-widget-nh-"], .nh-cookies) :focus:not(:focus-visible) { outline: none; }
-/* inline, so a link's underline runs on under a phone number or an e-mail address */
+/* inline (not inline-block), so the underline of a link runs on under a phone number or an e-mail address */
 .nh-ltr { direction: ltr; unicode-bidi: isolate; display: inline; white-space: nowrap; }
 
-/* ---- main.css L66–90 — v3.2: element rules scoped ---- */
+/* ---- main.css L51–75 — plugin: element rules scoped (L77–82, .nh-hl, is not ported) ---- */
 /* ---------- Typography --------------------------------------------------- */
 :where([class*="elementor-widget-nh-"], .nh-cookies) :is(h1, h2, h3), .nh-display {
   font-family: var(--nh-font-display);
@@ -63,13 +61,13 @@
 .nh-small { font-size: var(--nh-fs-small); }
 .nh-eyebrow {
   display: inline-flex; align-items: center; gap: .75rem;
-  font-family: var(--nh-font-body); font-weight: 700; font-size: 1rem; letter-spacing: .02em;
+  font-family: var(--nh-font-body); font-weight: 700; font-size: 1rem; letter-spacing: 0;
   color: var(--nh-accent);
 }
 .nh-eyebrow::before { content: ""; inline-size: 2rem; block-size: 2px; background: currentColor; }
 .nh-prose > * + * { margin-block-start: 1em; }
 .nh-prose { max-width: 62ch; }
-/* the underline thickens at once on hover (no transition, §4.1) */
+/* the underline thickens at once on hover (no transition, research/07 §4.1) */
 :where([class*="elementor-widget-nh-"], .nh-cookies) a { color: var(--nh-link); text-decoration-thickness: 1px; text-underline-offset: .2em; }
 :where([class*="elementor-widget-nh-"], .nh-cookies) a:hover { text-decoration-thickness: 2px; }
 :where([class*="elementor-widget-nh-"], .nh-cookies) strong { font-weight: 700; }
@@ -77,7 +75,7 @@
 /* ---- plugin (new): Elementor compatibility and editor-only notes (SPEC §9.1 row 32, §10.1) ----
    Placed right after the typography on purpose: the link rule has the specificity of Elementor's own
    (`.elementor a` = 0,1,1) and wins over it by load order, but every component rule below with the same
-   specificity (e.g. `.v3-roles a { text-decoration: none }`) must still win over it. v3.2: only inside our
+   specificity (e.g. `.v3-roles a { text-decoration: none }`) must still win over it. Only inside our
    widgets; the site-wide underline of plain links and the layout of pages that are not ours (Hello's
    templates, the block editor) are the child theme's (research/07 §12.5). */
 /* a note only editors see: a missing setting, an unresolved link (NH_Html::admin_note) */
@@ -92,11 +90,11 @@
 /* no widget spacing between spreads (frontend.css: .elementor-widget:not(:last-child) { margin-block-end: var(--kit-widget-spacing, 20px) }) */
 .elementor-widget[class*="elementor-widget-nh-"]:not(:last-child) { margin-block-end: 0; }
 /* frontend.css: `.elementor a { text-decoration: none; box-shadow: none }` (0,1,1) — keep underlines on plain links (1.4.1).
-   v3.2: longhands, so the 1px line and its 2px hover (§7.2) survive Elementor's shorthand */
+   Longhands, so the 1px line and its 2px hover (research/07 §7.2) survive Elementor's shorthand */
 [class*="elementor-widget-nh-"] a:where(:not([class])) { text-decoration-line: underline; text-decoration-thickness: 1px; }
 [class*="elementor-widget-nh-"] a:where(:not([class])):hover { text-decoration-thickness: 2px; }
 
-/* ---- main.css L99–114 ---- */
+/* ---- main.css L84–99 ---- */
 /* ---------- Layout ------------------------------------------------------- */
 .nh-container { width: min(100% - 2 * var(--nh-gutter), var(--nh-max)); margin-inline: auto; }
 .nh-section { padding-block: var(--nh-section); position: relative; }
@@ -114,29 +112,30 @@
 }
 .nh-stack > * + * { margin-block-start: var(--nh-s-5); }
 
-/* ---- main.css L116–143 + v3.css L24–28 — v3.2 buttons (§7.2): radius 2px; the outline is a border, never
-   a box-shadow (`.elementor a { box-shadow: none }`); only colours change on hover, 150 ms; the arrow stays ---- */
-/* ---------- Buttons & links ---------------------------------------------- */
+/* ---- main.css L101–131 ---- */
+/* ---------- Buttons & links (v3.2, research/07 §7.2) ----------------------
+   One radius (2px). A frame is a 2px border, never a box-shadow (Elementor resets box-shadow on links);
+   min-block-size includes it. Only colours change on hover, in 150ms; the arrow never moves. The transparent
+   border of the filled buttons keeps every button the same size and shows as a frame in forced colours. */
 .nh-btn {
-  --_bg: transparent; --_fg: var(--nh-text);
+  --_bg: transparent; --_fg: var(--nh-text); --_bd: transparent;
   display: inline-flex; align-items: center; justify-content: center; gap: .65em;
-  min-block-size: 3.5rem; padding: .5rem 1.75rem; border: 2px solid transparent; border-radius: 2px;
-  background: var(--_bg); color: var(--_fg);
-  font-family: var(--nh-font-body); font-weight: 700; font-size: var(--v3-fs-ui, 1.125rem); line-height: 1.2;
+  min-block-size: 3.5rem; padding: .5rem 1.75rem; border: 2px solid var(--_bd); border-radius: 2px;
+  background-color: var(--_bg); color: var(--_fg);
+  font: 700 var(--v3-fs-ui, 1.125rem)/1.2 var(--nh-font-body);
   text-decoration: none; white-space: nowrap;
   transition: background-color .15s ease, color .15s ease, border-color .15s ease;
 }
 .nh-btn:hover { text-decoration: none; }
 .nh-btn--primary { --_bg: var(--nh-iris-700); --_fg: var(--nh-white); }
 .nh-btn--primary:hover { --_bg: var(--nh-iris-600); }
-/* the secondary button: one rule for --ghost and --ink (both names stay in the markup) */
-.nh-btn--ghost, .nh-btn--ink { border-color: currentColor; }
-.nh-btn--ghost:hover, .nh-btn--ink:hover { --_bg: var(--nh-ink); --_fg: var(--nh-paper); border-color: var(--nh-ink); }
-/* on a dark ground: filled with paper, night text */
-:is(.nh-on-dark, .nh-section--night, .v3-spread--night, .v3-spread--iris) :is(.nh-btn--ghost, .nh-btn--ink):hover { --_bg: var(--nh-paper); --_fg: var(--nh-night); border-color: var(--nh-paper); }
+/* secondary: one rule for both names used in the markup */
+.nh-btn--ghost, .nh-btn--ink { --_bd: currentColor; }
+.nh-btn--ghost:hover, .nh-btn--ink:hover { --_bg: var(--nh-ink); --_fg: var(--nh-paper); --_bd: var(--nh-ink); }
+:is(.nh-on-dark, .nh-section--night, .v3-spread--night, .v3-spread--iris) :is(.nh-btn--ghost, .nh-btn--ink):hover { --_bg: var(--nh-paper); --_fg: var(--nh-night); --_bd: var(--nh-paper); }
 .nh-btn--light { --_bg: var(--nh-white); --_fg: var(--nh-iris-700); }
 .nh-btn--light:hover { --_bg: var(--nh-citrus-100); --_fg: var(--nh-ink); }
-.nh-btn--sm { min-block-size: 2.75rem; padding-inline: 1.25rem; }   /* the masthead's: 44px, UI 18/700 as every button (§7.2) */
+.nh-btn--sm { min-block-size: 2.75rem; padding-inline: 1.25rem; }
 .nh-btn__icon { inline-size: 1.15em; block-size: 1.15em; flex: none; }
 .nh-link-arrow {
   display: inline-flex; align-items: center; gap: .5em; font-weight: 700; text-decoration: none;
@@ -146,21 +145,23 @@
 .nh-link-arrow:hover span { text-decoration-thickness: 2px; }
 .nh-btn-row { display: flex; flex-wrap: wrap; gap: var(--nh-s-3); align-items: center; }
 
-/* ---- main.css L244–263 — v3.2: the cookie-settings panel (§9): in the flow right after the footer (wp_footer),
-   opened only from «הגדרות עוגיות»; no position, shadow or animation ---- */
-/* ---------- Cookie settings --------------------------------------------------- */
+/* ---- main.css L312–322 — plugin: printed by NH_Site::cookie_panel() in wp_footer; the check rows lay
+   themselves out (forms.css, which has .nh-check, is loaded only with a form) ---- */
+/* ---------- Cookie settings: a panel in the flow after the footer (v3.2, research/07 §9) ----------
+   It never opens by itself; «הגדרות עוגיות» opens it. Not over the content, no shadow, no animation. */
 .nh-cookies { padding-block: 3rem; border-block-start: 1px solid rgb(247 241 231 / .3); }
-.nh-cookies__inner { display: grid; gap: 1.25rem; max-inline-size: 48rem; }
-.nh-cookies__title { font: 500 var(--v3-fs-h3, 1.375rem)/1.25 var(--nh-font-display); }
-.nh-cookies p { font-size: var(--v3-fs-body, 1.125rem); line-height: 1.65; color: var(--nh-text); max-inline-size: 60ch; }
-html.nh-plainmode .nh-cookies .v3-plain p { font-size: var(--v3-fs-plain, 1.375rem); line-height: 1.6; }
+/* (main.css L315, .nh-cookies[hidden], is with the reset above) */
+/* the container's start edge (it is .nh-container too), at most 48rem wide */
+.nh-cookies__inner { display: grid; gap: 1.25rem; max-inline-size: 48rem; margin-inline: max(var(--nh-gutter), (100% - var(--nh-max)) / 2) auto; }
+.nh-cookies__title { margin: 0; font: 500 var(--v3-fs-h3, 1.375rem)/1.25 var(--nh-font-display); }
+.nh-cookies p { margin: 0; font-size: var(--v3-fs-body, 1.125rem); line-height: 1.6; color: var(--nh-text); }
 .nh-cookies__prefs { display: grid; gap: .75rem; }
-/* forms.css (nh-check) is not loaded on pages without a form: the panel's own check rows */
-.nh-cookies .nh-check { display: flex; gap: .75rem; align-items: flex-start; font-size: var(--v3-fs-body, 1.125rem); line-height: 1.5; color: var(--nh-text); }
-.nh-cookies .nh-check input { flex: none; inline-size: 2rem; block-size: 2rem; margin: 0; accent-color: var(--nh-citrus-400); }
+.nh-cookies .nh-check { display: flex; gap: .75rem; align-items: flex-start; font-size: var(--v3-fs-body, 1.125rem); line-height: 1.5; }   /* plugin: + the layout of main.css L346 */
+.nh-cookies .nh-check input { flex: none; inline-size: 2rem; block-size: 2rem; margin: 0; accent-color: var(--nh-citrus-400); }   /* plugin: + flex and margin of main.css L347 */
 
-/* ---- main.css L410–417 — v3.2: both rules scoped; the system-wide rule is the theme's ---- */
-/* ---------- Reduced motion: the OS setting, calm mode, the old on-site choice ------------- */
+/* ---- main.css L427–435 — plugin: both rules scoped to our parts; the system-wide rule is the theme's ---- */
+/* ---------- Reduced motion: the OS setting, «מצב רגוע», or nh-reduce-motion (the v3.1 switch, still read
+   from the visitor's storage by the pre-paint script; the switch itself is gone in v3.2) ------------------- */
 @media (prefers-reduced-motion: reduce) {
   :where([class*="elementor-widget-nh-"], .nh-cookies) *,
   :where([class*="elementor-widget-nh-"], .nh-cookies) *::before,
@@ -172,35 +173,39 @@ html:is(.nh-reduce-motion, .nh-calm) :where([class*="elementor-widget-nh-"], .nh
   animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important;
 }
 
-/* ---- main.css L419–424 — plugin: only .nh-btn (.nh-menu-btn → masthead; v3.2: no lightbox; v1 parts not ported) ---- */
+/* ---- main.css L437–443 — plugin: only .nh-btn (.nh-menu-btn and the nav bar → masthead.css; the v1 parts are not ported) ---- */
 /* ---------- Forced colours (Windows high contrast) ----------------------------- */
 @media (forced-colors: active) {
   .nh-btn { border: 2px solid ButtonText; }
 }
 
-/* ---- main.css L426–430 — plugin: .nh-cookies and the dark sections only (.nh-header, .nh-menu → masthead; .nh-video → voices) ---- */
+/* ---- main.css L445–449 — plugin: .nh-cookies and the dark grounds only (.nh-header, .nh-menu → masthead.css,
+   .nh-video → voices.css; .nh-cta is not ported) ---- */
 /* ---------- Print ----------------------------------------------------------- */
 @media print {
   .nh-cookies { display: none !important; }
   .nh-section--night, .nh-on-dark { background: none !important; color: #000 !important; }
 }
 
-/* ---- v3.css L1–8 — (the v3 header) ---- */
+/* ---- v3.css L1–11 — (the v3 header) ---- */
 /* =========================================================================
    v3 «אותיות שגרים בהן» — letters you can live in
    Paper; a ruling line (שרטוט) that every spread hangs from; five Hebrew letters
    whose names are words of home (ב בית, כ כף, ס סמך, ל למד, ד דלת) used as
    architecture: their counters are rooms where life is shown.
-   v3.2 (research/07): the letters stand still too; the only motion is one soft
-   appearance of print photos (§4.2), colour changes on hover and focus, and accordions.
+   v3.2 «calm» (research/07): nothing moves by itself. Allowed: colour on hover/focus (150ms), the one soft
+   appearance of the print photos, accordions. One fixed layer (the masthead), one radius (2px), a nine-step
+   type scale, nothing under 16px.
    ========================================================================= */
 
-/* ---- v3.css L10–22 — v3.2: the nine-step type scale (§7.1); no background on .v3 (the theme paints the page) ---- */
+/* ---- v3.css L13–38 — plugin: no background on .v3 (the theme paints the page, research/07 §12.4) ---- */
 :root {
   --v3-ink: #1C1830;                       /* the letters */
   --v3-iris-text: #E2DAF0;                 /* secondary text on iris (7.76:1) */
   --v3-toggle-dark: #8F84A6;               /* toggle track on night (4.92:1) */
 }
+/* v3.2 type scale: nine steps (research/07 §7.1); every font-size of the spreads refers to them. 390 → 1440px.
+   Frank Ruhl only at 300, 400, 500: 300 only for D-L from 48em (where it is 68px or more). Minimum 16px. */
 .v3 {
   --v3-mast: 4.5rem;
   --v3-fs-dl:    clamp(2.75rem, 1.171rem + 6.476vw, 7rem);     /* 44 → 112  Frank Ruhl var(--v3-fw-dl), lh .92 */
@@ -215,38 +220,37 @@ html:is(.nh-reduce-motion, .nh-calm) :where([class*="elementor-widget-nh-"], .nh
   --v3-fs-plain: clamp(1.375rem, 1.329rem + .19vw, 1.5rem);    /* 22 → 24   Assistant 400, lh 1.6, ≤ 36ch */
   --v3-pad:      clamp(4rem, 2.7rem + 5.333vw, 7.5rem);        /* 64 → 120  spread padding */
   --v3-hair:     rgb(31 36 33 / .4);                           /* hairline between rows, #A19F98 on paper */
-  /* plugin: transitional names for the widget CSS not yet ported to v3.2 (cover.css); they go when it is (§15 B4) */
-  --v3-poster:   var(--v3-fs-dl);
-  --v3-lead:     var(--v3-fs-lead);
+  counter-reset: print;                                        /* the numbered captions of the prints («1 ·») */
 }
 @media (max-width: 79.99em) { .v3 { --v3-mast: 3.75rem; } }
 @media (max-width: 47.99em) { .v3 { --v3-fw-dl: 400; } }
 
-/* ---- v3.css L24–28 — v3.2: folded into the buttons above (§7.2) ---- */
-
-/* ---- v3.css L80–92 — v3.2 switches (§7.3): a square track and knob, the state said in words, no transition ---- */
+/* ---- v3.css L40–58 — plugin: the groups (.v3-switches, L55) are masthead.css's and display.css's; the
+   sizes keep a fallback, as the switches sit in the masthead and the footer ---- */
+/* ---------- Display switches (v3.2, research/07 §7.3) -----------------------------------------
+   <button class="v3-toggle" aria-pressed>: label · the state in words («פועל» / «כבוי», aria-hidden: the state
+   itself is aria-pressed) · a 44×24 track with an 18px square thumb. Nothing moves: the thumb jumps. */
 .v3-toggle {
   display: flex; align-items: center; gap: .75rem; inline-size: 100%;
   min-block-size: 2.75rem; padding-inline: .25rem; font: 600 var(--v3-fs-ui, 1.125rem)/1.2 var(--nh-font-body); color: inherit; text-align: start;
 }
-.v3-toggle__label { flex: 1 1 auto; }
-.v3-toggle__state { flex: none; font: 700 var(--v3-fs-small, 1rem)/1.5 var(--nh-font-body); }
+.v3-toggle__label { flex: 1; }
+.v3-toggle__state { flex: none; font: 700 var(--v3-fs-small, 1rem)/1.2 var(--nh-font-body); }
 .v3-toggle__state::before { content: attr(data-off); }
 .v3-toggle[aria-pressed="true"] .v3-toggle__state::before { content: attr(data-on); }
 .v3-toggle i { position: relative; flex: none; inline-size: 2.75rem; block-size: 1.5rem; border-radius: 2px; background: var(--nh-field); }
-.v3-toggle i::after { content: ""; position: absolute; inset-block-start: .1875rem; inset-inline-start: .1875rem; inline-size: 1.125rem; block-size: 1.125rem; border-radius: 2px; background: var(--nh-white); }
+.v3-toggle i::after { content: ""; position: absolute; inset-block-start: 3px; inset-inline-start: 3px; inline-size: 1.125rem; block-size: 1.125rem; border-radius: 2px; background: var(--nh-white); }
 .v3-toggle[aria-pressed="true"] i { background: var(--nh-olive-700); }
-.v3-toggle[aria-pressed="true"] i::after { inset-inline-start: auto; inset-inline-end: .1875rem; }
-/* v3.2: the groups of switches are .v3-switches (masthead.css for the menu, display.css for the display widget) */
+.v3-toggle[aria-pressed="true"] i::after { inset-inline-start: auto; inset-inline-end: 3px; }
 .nh-on-dark .v3-toggle i { background: var(--v3-toggle-dark); }
 .nh-on-dark .v3-toggle[aria-pressed="true"] i { background: var(--nh-citrus-400); }
-.nh-on-dark .v3-toggle i::after { background: var(--nh-ink); }
+.nh-on-dark .v3-toggle[aria-pressed="true"] i::after { background: var(--nh-ink); }
 
-/* ---- v3.css L94–104 — v3.2: spread padding var(--v3-pad), an explicit paper ground, «honey» for citrus (§7.4),
-   the rhythm ruling line → 40px → H2 → 20px → lead → 48px (§7.5), D-M headings, the small step for notes ---- */
+/* ---- v3.css L60–70 ---- */
 /* ---------- Spreads and the ruling line ---------------------------------- */
 .v3-spread { position: relative; padding-block: var(--v3-pad); background-color: var(--nh-paper); }
 .v3-spread--sand { background: var(--nh-paper-2); }
+/* כ: «honey» (citrus-100), not the saturated citrus of v3.1: ink 12.82, ink-2 6.22, iris 8.54 (§7.4) */
 .v3-spread--citrus { background: var(--nh-citrus-100); color: var(--nh-ink); --nh-focus: var(--nh-iris-700); --nh-link: var(--nh-iris-700); --nh-text-muted: var(--nh-ink-2); --v3-ink: var(--nh-ink); }
 .v3-spread--iris { background: var(--nh-iris-700); color: var(--nh-white); --nh-focus: var(--nh-citrus-400); --nh-link: var(--nh-white); --nh-text: var(--nh-white); --nh-text-muted: var(--v3-iris-text); --v3-ink: var(--nh-paper); }
 .v3-spread--night { background: var(--nh-night); color: var(--nh-paper); --nh-focus: var(--nh-citrus-400); --nh-link: var(--nh-citrus-400); --nh-text: var(--nh-paper); --nh-text-muted: var(--nh-on-night-2); --v3-ink: var(--nh-paper); }
@@ -254,9 +258,8 @@ html:is(.nh-reduce-motion, .nh-calm) :where([class*="elementor-widget-nh-"], .nh
 .v3-h2 { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: 0; margin: 0 0 1.25rem; text-wrap: balance; }
 .v3-lead { font-size: var(--v3-fs-lead); line-height: 1.5; max-inline-size: 36ch; margin: 0 0 3rem; color: var(--nh-text); }
 .v3-note { font-size: var(--v3-fs-small); color: var(--nh-ink-2); margin-block-start: 1rem; }
-.v3-credit { font-size: var(--v3-fs-small); font-weight: 600; }
 
-/* ---- v3.css L106–116 ---- */
+/* ---- v3.css L72–82 ---- */
 /* the full stop of the headlines is drawn as one square glazed tessera */
 .v3-dot { position: relative; color: transparent; }
 .v3-dot::before {
@@ -269,21 +272,92 @@ html:is(.nh-reduce-motion, .nh-calm) :where([class*="elementor-widget-nh-"], .nh
 .v3-dot--ink::before { background: var(--nh-ink); }
 .v3-dot--citrus::before { background: var(--nh-citrus-400); }
 
-/* ---- v3.css L162 — v3.2: removed (the container is 90rem at every width, §7.5) ---- */
-
-/* ---- v3.css L234–241 — v3.2: one print, 4:3, at most 21rem (§8.1, §10.2 item 4); the numbering counter
-   on .v3 (our class), not on the global main ---- */
-.v3 { counter-reset: print; }
+/* ---- v3.css L179–186 (the counter is reset on .v3, above) ---- */
+/* ---------- The print (§8.1, §10.2 p. 4): every single photo is a 4:3 print, one size in a row, with a thin
+   ink frame and a numbered caption («1 ·»: the number is silent). The file is already 4:3: cover trims only
+   fractions of a pixel. Never full width, never behind text. */
 .v3-print { margin: 0; inline-size: 100%; max-inline-size: 21rem; counter-increment: print; }
 .v3-print picture { display: block; aspect-ratio: 4 / 3; box-shadow: 0 0 0 1px var(--v3-ink); }
 .v3-print img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
 .v3-print figcaption { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-text-muted, var(--nh-ink-2)); margin-block-start: .65rem; }
 .v3-print figcaption::before { content: counter(print) " · "; content: counter(print) " · " / ""; font-weight: 700; color: var(--nh-text, var(--nh-ink)); }
 
-/* v3.2: the one allowed reveal (§4.2) — a print photo appears once, softly, when it is on screen and loaded.
-   Hidden only by script (nh-core.js reveal()), only below the first screen, only when motion is allowed.
-   Only the photo frame moves; the caption (text) never does. plugin: on .v3-print only, so no other
-   element that happens to carry data-reveal is ever touched. */
+/* ---- v3.css L191–192 — the shared two-column grids (kaf, samekh, lamed, door, voices) ---- */
+.v3-kaf__grid, .v3-samekh__grid, .v3-lamed__grid, .v3-door__grid, .v3-voices__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem clamp(2rem, 1rem + 4vw, 6rem); }
+.v3-kaf__grid > .v3-rule, .v3-samekh__grid > .v3-rule, .v3-lamed__grid > .v3-rule, .v3-door__grid > .v3-rule, .v3-voices__grid > .v3-rule { grid-column: 1 / -1; margin-block-end: 0; }
+
+/* ---- v3.css L249–253 — the quote (voices; features adds .v3-quote--page) ---- */
+.v3-quote { margin: 0; }
+.v3-quote p { position: relative; font: 400 var(--v3-fs-ds)/1.3 var(--nh-font-display); letter-spacing: 0; margin: 0; max-inline-size: 26ch; }
+.v3-quote p::before { content: "״"; position: absolute; inset-inline-end: 100%; margin-inline-end: .12em; color: var(--nh-citrus-400); }
+.v3-quote footer { margin-block-start: 1.25rem; font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-on-night-2); }
+.v3-quote cite { font-style: normal; }
+
+/* ---- v3.css L280–287 — the row links (lamed, related): the arrow stands still ---- */
+.v3-roles { list-style: none; margin: 2rem 0; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
+.v3-roles li { border-block-end: 1px solid var(--v3-hair); }
+.v3-roles a { display: grid; grid-template-columns: minmax(0, 1fr) auto 1.5rem; gap: 1rem; align-items: baseline; min-block-size: 4rem; padding-block: 1.1rem; color: var(--nh-ink); text-decoration: none; }
+.v3-roles a:focus-visible { outline-offset: -3px; }                    /* a row link: the ring stays inside the row */
+.v3-roles b { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); }
+.v3-roles__meta { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-ink-2); white-space: nowrap; }
+.v3-roles svg { inline-size: 1.25rem; block-size: 1.25rem; align-self: center; }
+.v3-roles a:is(:hover, :focus-visible) b { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 2px; }
+
+/* ---- v3.css L424–431 — plugin: without L425 (.v3-related → related.css) ---- */
+/* rows with a long description wrap; on phones the description goes under the title */
+@media (max-width: 40em) {
+  .v3-roles a { grid-template-columns: minmax(0, 1fr) 1.5rem; row-gap: .25rem; }
+  .v3-roles b { grid-column: 1; grid-row: 1; }
+  .v3-roles__meta { grid-column: 1; grid-row: 2; white-space: normal; }
+  .v3-roles svg { grid-column: 2; grid-row: 1 / span 2; }
+}
+
+/* ---- v3.css L342–353 — plugin: the general rules; `main` → our widgets (the masthead and the footer's switches
+   hold no plain paragraph); the selectors of one widget are its CSS's (.v3-home__who → homes, .nh-form__note →
+   forms, .v3-cover__call → cover) ---- */
+/* ---------- Plain-language mode (whole page) -----------------------------------------------------------------------
+   It adds no sizes (§7.1): its texts are --v3-fs-plain, the cover title is D-M; everything else keeps its step. */
+html:not(.nh-plainmode) .v3-plain { display: none !important; }
+html.nh-plainmode .v3-plain { display: block; }
+html.nh-plainmode .v3-full { display: none !important; }
+html.nh-plainmode :where([class*="elementor-widget-nh-"]) :is(p.v3-plain, .v3-plain p),
+html.nh-plainmode .nh-cookies .v3-plain p { font-size: var(--v3-fs-plain); line-height: 1.6; margin: 0 0 .3rem; color: inherit; max-inline-size: 36ch; }
+html.nh-plainmode :is(h1, h2, h3, b, label) > .v3-plain { display: inline; }
+html.nh-plainmode .nh-btn > .v3-plain { display: inline; }
+html.nh-plainmode .v3-plain--after { margin-block-start: 1.5rem; }
+
+/* ---- v3.css L369–372 — plugin: the photos of our widgets, not the masthead's emblem (the prototype reaches
+   `main img`: the logo is never recoloured, research/07 §6) ---- */
+/* ---------- Calm mode (§4.3): no optional motion (the appearance is off, see the end of this file) and softer
+   colours — the honey spread becomes sand, the photos lose some saturation (photos only: not the logo) ---------- */
+html.nh-calm .v3-spread--citrus { background: var(--nh-paper-2); }
+html.nh-calm :where([class*="elementor-widget-nh-"]:not(.elementor-widget-nh-masthead)) img { filter: saturate(.7); }
+
+/* ---- v3.css L374–388 — plugin: the base selectors (.v3-letter__ink → letters.css; .v3-plainbtn → masthead.css;
+   .v3-door__bar, .v3-door__leg → door.css; .nh-video__btn → voices.css) ---- */
+/* ---------- Forced colours ------------------------------------------------------- */
+@media (forced-colors: active) {
+  .v3-toggle i { forced-color-adjust: none; background: Canvas; border: 1px solid CanvasText; }
+  .v3-toggle i::after { background: CanvasText; inset-block-start: 2px; }
+  .v3-toggle[aria-pressed="true"] i { background: Highlight; }
+  .v3-toggle[aria-pressed="true"] i::after { background: HighlightText; }
+  .v3-dot { color: inherit; }
+  .v3-dot::before { display: none; }
+  .v3-rule { background: CanvasText; }
+  .v3-print picture { outline: 1px solid CanvasText; }
+}
+
+/* ---- v3.css L442–446 — plugin: without L445 (.v3-plainbox → plainbox.css) ---- */
+/* long button labels wrap on narrow phones instead of widening the page */
+@media (max-width: 479px) {
+  .v3 .nh-btn { white-space: normal; text-align: center; line-height: 1.25; }
+}
+
+/* ---- v3.css L469–480 — plugin: on .v3-print only, so no other element that happens to carry data-reveal
+   (e.g. Foundation's Reveal) is ever touched; nh-core.js reveal() does the same ---- */
+/* v3.2: the one allowed reveal — a print photo appears once, softly, when it is on screen and loaded.
+   Hidden only by script, only below the first screen, only when motion is allowed.
+   Only the photo frame moves; the caption (text) never does. */
 .v3-print[data-reveal].is-waiting > picture { opacity: 0; transform: translateY(8px); }
 .v3-print[data-reveal].is-shown > picture { transition: opacity .32s var(--nh-ease-out), transform .32s var(--nh-ease-out); }
 @media (prefers-reduced-motion: reduce) {
@@ -294,78 +368,8 @@ html:is(.nh-calm, .nh-reduce-motion) .v3-print[data-reveal].is-waiting > picture
 html:is(.nh-calm, .nh-reduce-motion) .v3-print[data-reveal].is-shown > picture { transition: none; }
 @media print { .v3-print[data-reveal].is-waiting > picture { opacity: 1 !important; transform: none !important; } }
 
-/* ---- v3.css L252–253 — shared two-column grids (kaf, samekh, lamed, door, voices) ---- */
-.v3-kaf__grid, .v3-samekh__grid, .v3-lamed__grid, .v3-door__grid, .v3-voices__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem clamp(2rem, 1rem + 4vw, 6rem); }
-.v3-kaf__grid > .v3-rule, .v3-samekh__grid > .v3-rule, .v3-lamed__grid > .v3-rule, .v3-door__grid > .v3-rule, .v3-voices__grid > .v3-rule { grid-column: 1 / -1; margin-block-end: 0; }
-
-/* ---- v3.css L335–340 — v3.2: the quote D-S 400, its signature the small step (§7.1, §10.2 item 8) ---- */
-/* ---------- Voices (night) -------------------------------------------------- */
-.v3-quote { margin: 0; }
-.v3-quote p { position: relative; font: 400 var(--v3-fs-ds)/1.3 var(--nh-font-display); letter-spacing: 0; margin: 0; max-inline-size: 26ch; }
-.v3-quote p::before { content: "״"; position: absolute; inset-inline-end: 100%; margin-inline-end: .12em; color: var(--nh-citrus-400); }
-.v3-quote footer { margin-block-start: 1.25rem; font-size: var(--v3-fs-small); color: var(--nh-on-night-2); }
-.v3-quote cite { font-style: normal; }
-
-/* ---- v3.css L372–379 — v3.2: the arrow stands still; a row is a link of at least 64px whose title is
-   underlined 2px on hover and focus; the focus ring sits inside (§7.2, §10.2 item 10) ---- */
-.v3-roles { list-style: none; margin: 1.5rem 0 2rem; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-roles li { border-block-end: 1px solid var(--v3-hair, rgb(31 36 33 / .4)); }
-.v3-roles a { display: grid; grid-template-columns: minmax(0, 1fr) auto 1.5rem; gap: 1rem; align-items: baseline; min-block-size: 4rem; padding-block: 1.1rem; color: var(--nh-ink); text-decoration: none; }
-.v3-roles a:focus-visible { outline-offset: -3px; }
-.v3-roles b { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); }
-.v3-roles__meta { font-size: var(--v3-fs-small); color: var(--nh-ink-2); white-space: nowrap; }
-.v3-roles svg { inline-size: 1.25rem; block-size: 1.25rem; align-self: center; }
-.v3-roles a:hover b, .v3-roles a:focus-visible b { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
-
-/* ---- v3.css L550–557 — plugin: without L551 (.v3-related → related.css) ---- */
-/* rows with a long description wrap; on phones the description goes under the title */
-@media (max-width: 640px) {
-  .v3-roles a { grid-template-columns: minmax(0, 1fr) 1.5rem; row-gap: .25rem; }
-  .v3-roles b { grid-column: 1; grid-row: 1; }
-  .v3-roles__meta { grid-column: 1; grid-row: 2; white-space: normal; }
-  .v3-roles svg { grid-column: 2; grid-row: 1 / span 2; }
-}
-
-/* ---- v3.css L439, L490–491, L598–610 — v3.2: removed with the mobile visit bar (§3 item 4, §4.4 item 18) ---- */
-
-/* ---- v3.css L441–448, 451 — plugin: L445 without its third selector (.v3-home__who → homes.css);
-   v3.2: inside our widgets instead of the global main, at the plain-language step; no 19px on main (§7.1) ---- */
-/* ---------- Plain-language mode (whole page) ------------------------------- */
-html:not(.nh-plainmode) .v3-plain { display: none !important; }
-html.nh-plainmode .v3-plain { display: block; }
-html.nh-plainmode .v3-full { display: none !important; }
-html.nh-plainmode :where([class*="elementor-widget-nh-"]) :is(p.v3-plain, .v3-plain p) { font-size: var(--v3-fs-plain); line-height: 1.6; margin: 0 0 .3rem; color: inherit; max-inline-size: 36ch; }
-html.nh-plainmode :is(h1, h2, h3, b, label) > .v3-plain { display: inline; }
-html.nh-plainmode .nh-btn > .v3-plain { display: inline; }
-html.nh-plainmode .v3-plain--after { margin-block-start: 1.5rem; }
-
-/* ---- v3.css L465–467 — v3.2: honey → sand; photos of our widgets only ---- */
-/* ---------- Calm mode ------------------------------------------------------------ */
-html.nh-calm .v3-spread--citrus { background: var(--nh-paper-2); }
-html.nh-calm :where([class*="elementor-widget-nh-"]) img { filter: saturate(.7); }
-
-/* ---- v3.css L470–475 — v3.2: removed (switches and arrows have no transition left to switch off) ---- */
-
-/* ---- v3.css L477–488 — plugin: base selectors only (.v3-letter__ink → letters; .v3-plainbtn → masthead; .v3-door__* → door) ---- */
-/* ---------- Forced colours ------------------------------------------------------- */
-@media (forced-colors: active) {
-  .v3-toggle i { forced-color-adjust: none; background: Canvas; border: 1px solid CanvasText; }
-  .v3-toggle i::after { background: CanvasText; }
-  .v3-toggle[aria-pressed="true"] i { background: Highlight; }
-  .v3-toggle[aria-pressed="true"] i::after { background: HighlightText; }
-  .v3-dot { color: inherit; }
-  .v3-dot::before { display: none; }
-  .v3-rule { background: CanvasText; }
-  .v3-print picture { outline: 1px solid CanvasText; }
-}
-
-/* ---- v3.css L581–583 — plugin: without L584 (.v3-plainbox → plainbox.css) ---- */
-/* long button labels wrap on narrow phones instead of widening the page */
-@media (max-width: 479px) {
-  .v3 .nh-btn { white-space: normal; text-align: center; line-height: 1.25; }
-}
-
-/* ---- v3.css L587–590 (.nh-wordmark), L612–615, L644–645 (page transitions, the banner's transition name)
-   — v3.2: removed (§10.1 item 1, §4.4 item 2) ---- */
-
-/* ---- v3.css L632–638 — v3.2: .v2-bar removed; the short-screen scroll padding is masthead.css's ---- */
+/* Not ported (SPEC §9.3): main.css L77–82 (.nh-hl), L254–273 (video → voices.css), L275–310 (the footer: Elementor's
+   own widgets, research/07 §12.6), L324–362 (forms → forms.css, jobs grid → jobs-form.css), L364–371 (crumbs →
+   page-cover.css), L373–425 (v1 inner page, design-system helpers, accordion); v3.css L338–340 (colophon), L433–440
+   (design system), L448–452 (.nh-wordmark, design system only), L454–467 (masthead.css), L458–460 (.v3-dev,
+   the footer); the widgets' own blocks are in their files. */

@@ -1,17 +1,20 @@
 /* =========================================================================
    nevehairus-site · widget "door" (ד׳ · הדלת וטופס ביקור) — SPEC §4.12
-   Verbatim from prototype/assets/css/v3.css (commit 4173d31):
-   - L388–433  the wide ד, the form in its doorway, the contact (v3.2: without the opening lintel,
-               L428–433 — the door is drawn open and nothing moves, research/07 §10.2 item 11);
-   - L484      from the forced-colours group, the selectors .v3-door__bar, .v3-door__leg.
-   Elsewhere: the shared grid .v3-door__grid (v3.css L252–253) is in base.css, the ink of the
-   letter (.v3-letter__ink) in letters.css, the fields, alerts and notes in forms.css.
+   Verbatim from prototype/assets/css/v3.css (v3.2):
+   - L296–336  the wide ד drawn open (--open is always 1, nothing moves), the visit form in its doorway, the
+               contact beside it: the form's title is the H3 step, the phone D-M and underlined 2px (a link looks
+               like one), the address the body step; under 45em only the lintel, the form takes the whole width
+               (research/07 §10.2 item 11, §4.4 item 17);
+   - L383      from the forced-colours group, the selectors .v3-door__bar, .v3-door__leg.
+   Elsewhere: the shared grid .v3-door__grid (v3.css L191–192) is in base.css, the ink of the letter
+   (.v3-letter__ink) in letters.css, the fields, alerts and notes in forms.css (§7.5).
    ========================================================================= */
 
-/* ---------- ד׳ · The door (iris) ----------------------------------------------
-   The ד is drawn wide, as scribes stretch letters to fill a line: its head (the end of the lintel and
-   the leg) at the start, its flag at the far end, a bar between them. The visit form stands in the
-   doorway. --k is the scale of one font unit (Frank Ruhl Libre, wght 300). */
+/* ---------- ד׳ · The door (iris; v3.2, §10.2 p. 11) ---------------------------------------------------------------------
+   The ד is drawn wide and open, as scribes stretch letters to fill a line: its head (the end of the lintel and
+   the leg) at the start, its flag at the far end, a bar between them; the visit form stands in the doorway.
+   Nothing moves: --open is always 1. Under 45em only the lintel is drawn and the form takes the whole width.
+   --k is the scale of one font unit (Frank Ruhl Libre, wght 300). */
 .v3-door { overflow: clip; }
 .v3-door__top { max-inline-size: 46rem; }
 .v3-door__way { position: relative; --k: .4px; --open: 1; padding-block-start: calc(122 * var(--k) + 2rem); padding-inline-start: calc(95 * var(--k) + 1rem); }
@@ -26,15 +29,19 @@
 .v3-door__in { display: grid; gap: 2rem; }
 .v3-door__form { background: var(--nh-paper); color: var(--nh-ink); padding: clamp(1.5rem, 1rem + 2vw, 2.75rem); max-inline-size: 42rem;
   --nh-focus: var(--nh-iris-700); --nh-link: var(--nh-iris-700); --nh-text: var(--nh-ink); --nh-text-muted: var(--nh-ink-2); }
-.v3-door__form h3 { font: 400 clamp(1.6rem, 1.3rem + 1vw, 2.2rem)/1.1 var(--nh-font-display); margin: 0 0 1.25rem; }
+.v3-door__form h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 1.25rem; }
 .v3-door__form .nh-btn--primary { --_bg: var(--nh-iris-700); --_fg: var(--nh-white); }
 .v3-door__label { font-weight: 700; margin: 0; color: var(--v3-iris-text); }
-.v3-door__phone { margin: .25rem 0 .5rem; font: 300 clamp(2.5rem, 1.8rem + 2.4vw, 4rem)/1 var(--nh-font-display); }
-.v3-door__phone a { color: var(--nh-white); text-decoration: none; }
+.v3-door__phone { margin: .25rem 0 .5rem; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); }
+/* a link looks like one (§2 p. 5): underlined, 2px; only the colour changes on hover */
+.v3-door__phone a { color: var(--nh-white); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .12em; transition: color .15s ease; }
 .v3-door__phone a:hover { color: var(--nh-citrus-400); }
-.v3-door__addr { font-size: 1.0625rem; margin: 0; color: var(--v3-iris-text); }
+/* plugin: the phone link has no class, and the child theme's `.site-main a:where(:not([class]))` (0,1,1, printed
+   after this file) sets the offset of every plain link to .2em: keep the prototype's .12em under the D-M digits */
+.v3-door .v3-door__phone a { text-underline-offset: .12em; }
+.v3-door__addr { font-size: var(--v3-fs-body); line-height: 1.65; margin: 0; color: var(--v3-iris-text); }
 .v3-door__addr a { color: var(--nh-white); }
-@media (max-width: 23.99em) {   /* the narrowest phones: the lintel only, the form gets the whole width */
+@media (max-width: 44.99em) {   /* phones: the lintel only, the form gets the whole width */
   .v3-door__way { padding-inline-start: 0; }
   .v3-door__head { clip-path: inset(0 0 calc(100% - 122 * var(--k)) 0); }
   .v3-door__leg { display: none; }
@@ -47,9 +54,8 @@
   .v3-door__in { grid-template-columns: minmax(0, 42rem) minmax(0, 1fr); align-items: start; column-gap: clamp(2rem, 1rem + 3vw, 5rem); }
   .v3-door__contact { padding-block-start: 1rem; }
 }
-/* v3.2 (research/07 §4.4 item 17, §10.2 item 11): the ד is drawn open (--open: 1 above); nothing moves */
 
-/* ---------- Forced colours (v3.css L478–487: the door's selectors of L484) ---- */
+/* ---------- Forced colours (v3.css L374–388: the door's selectors of L383) ---- */
 @media (forced-colors: active) {
   .v3-door__bar, .v3-door__leg { background: CanvasText; }
 }

@@ -123,25 +123,11 @@ return [
 		}
 	},
 
-	'data_script() equals the build script\'s letter_data(), once per request' => static function () {
-		// v3.2: no page prints #nh-letters any more (the ב does not morph, research/07 §4.4 item 11), so the
-		// comparison is with the build script's function itself
-		$want = (string) shell_exec( 'python3 -I ' . escapeshellarg( NH_TEST_DIR . '/compare.py' ) . ' --prototype-letter-data bet' );
-		nh_assert( 0 === strpos( $want, '<script type="application/json" id="nh-letters">' ), 'compare.py --prototype-letter-data gave no script' );
-		nh_assert_same( $want, NH_Letters::data_script( [ 'bet' ] ) );
-		nh_assert_same( '', NH_Letters::data_script( [ 'bet' ] ), 'second call in the same request' );
-	},
-
-	'data_script() keeps short floats even with serialize_precision = 17' => static function () {
-		$old = ini_get( 'serialize_precision' );
-		ini_set( 'serialize_precision', '17' );
-		try {
-			$s = NH_Letters::data_script( [ 'bet' ] );
-		} finally {
-			ini_set( 'serialize_precision', $old );
+	'v3.2: no morph data — data_script() is gone, no page prints #nh-letters (research/07 §4.4 item 11)' => static function () {
+		nh_assert( ! method_exists( 'NH_Letters', 'data_script' ), 'NH_Letters::data_script() removed' );
+		foreach ( glob( NH_TEST_ROOT . '/prototype/*.html' ) as $page ) {
+			nh_assert_not_contains( 'id="nh-letters"', (string) file_get_contents( $page ), basename( $page ) );
 		}
-		nh_assert_contains( '"a":[31.0,760,61.2,', $s );
-		nh_assert_same( $old, ini_get( 'serialize_precision' ), 'serialize_precision restored' );
 	},
 
 	'path() is exact at 800 and 300 and clamps the weight' => static function () {

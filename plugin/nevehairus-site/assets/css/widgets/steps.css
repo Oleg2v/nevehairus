@@ -1,13 +1,12 @@
 /* nevehairus-site · widget "steps" (style handle nh-w-steps) — צעד צעד.
-   Copied verbatim from prototype/assets/css/v3.css, in source order: L356–367 (v3.1). v3.2 (research/07 §4.4
-   item 22, §7.5, §10.2 item 9): no background word «צעד», no staircase, no extra bottom padding; the v3.2 sizes
-   are ported with the markup (§15 B4). */
+   Copied verbatim from prototype/assets/css/v3.css (v3.2) L267–273. research/07 §10.2 item 9: a numbered list on
+   one line (4 columns from 56.25em); the number is D-M in clay inside the H3, the H3 is the H3 step, the text is the
+   body step in ink-2. No background word «צעד», no staircase, no extra bottom padding (§4.4 item 22, §7.5). */
 
-/* ---------- Steps: צעד צעד --------------------------------------------------- */
-.v3-steps__list { list-style: none; margin: clamp(2.5rem, 2rem + 2vw, 4rem) 0 0; padding: 0; display: grid; gap: 2.5rem 2rem; }
-.v3-steps__list h3 { font: 500 clamp(1.35rem, 1.2rem + .5vw, 1.7rem)/1.2 var(--nh-font-display); margin: 0 0 .4rem; }
-.v3-steps__n { color: var(--nh-clay-700); font-weight: 400; }
-.v3-steps__list p { font-size: 1.0625rem; line-height: 1.55; color: var(--nh-ink-2); margin: 0; max-inline-size: 30ch; }
-@media (min-width: 900px) {
-  .v3-steps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
+/* ---------- Steps: צעד צעד (v3.2, §10.2 p. 9) ---------------------------------------------------------------------------
+   A numbered list on one line (4 columns from 56.25em); the number is D-M in clay inside the H3. */
+.v3-steps__list { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 2.5rem 2rem; }
+.v3-steps__list h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 .5rem; }
+.v3-steps__n { display: block; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); color: var(--nh-clay-700); letter-spacing: -.03em; font-variant-numeric: lining-nums; margin-block-end: .5rem; }
+.v3-steps__list p { font-size: var(--v3-fs-body); line-height: 1.65; color: var(--nh-ink-2); margin: 0; max-inline-size: 30ch; }
+@media (min-width: 56.25em) { .v3-steps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }

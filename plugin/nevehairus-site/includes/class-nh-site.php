@@ -3,8 +3,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Site module (SPEC §5; research/07 §12.2–12.3): head (meta, font and cover preloads, the pre-paint script),
- * body open (the SVG sprite), footer (the cookie-settings panel, the global live region, parts queued by
- * widgets), body class `v3`, and the page setting "calm mode by default".
+ * body open (the SVG sprite), footer (the cookie-settings panel, the global live region), body class `v3`, and
+ * the page setting "calm mode by default".
  *
  * A guest on the site: every part is printed only on a page that uses our widgets (uses_widgets()) — in
  * the requested post or in the Theme Builder header/footer shown on it. The skip link and `<main>` belong
@@ -25,12 +25,6 @@ final class NH_Site {
 
 	/** @var bool body_open() ran in this request. */
 	private static $opened = false;
-
-	/** @var bool footer() ran in this request. */
-	private static $footed = false;
-
-	/** @var array<string,callable> footer_once() queue. */
-	private static $queue = [];
 
 	/** @var bool|null uses_widgets() of this request, once known. */
 	private static $uses = null;
@@ -221,51 +215,28 @@ final class NH_Site {
 	/**
 	 * `wp_footer` @5, when uses_widgets(): the sprite if the theme never fired wp_body_open; the
 	 * cookie-settings panel (not in the Elementor preview) — in the flow, right after the footer; the global
-	 * live region. Then the parts queued with footer_once(), in queue order (a widget that queued one has
-	 * rendered on this page, whatever uses_widgets() found).
+	 * live region. (v3.2: no part is queued by a widget any more — the lightbox is gone, and with it
+	 * footer_once().)
 	 */
 	public static function footer(): void {
-		self::$footed = true;
-		$out          = '';
-		if ( self::uses_widgets() ) {
-			if ( ! self::$opened ) {
-				self::$opened = true;
-				$out         .= self::sprite() . "\n";
-			}
-			if ( ! self::is_preview() ) {
-				$out .= self::cookie_panel() . "\n";
-			}
-			$out .= self::live_region() . "\n";
+		if ( ! self::uses_widgets() ) {
+			return;
 		}
-		foreach ( self::$queue as $printer ) {
-			$out .= (string) call_user_func( $printer ) . "\n";
+		$out = '';
+		if ( ! self::$opened ) {
+			self::$opened = true;
+			$out         .= self::sprite() . "\n";
 		}
-		self::$queue = [];
-		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- core parts are escaped; queued parts are built by widgets from escaped parts
+		if ( ! self::is_preview() ) {
+			$out .= self::cookie_panel() . "\n";
+		}
+		$out .= self::live_region() . "\n";
+		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled from escaped parts
 	}
 
 	/**
-	 * Queues `$printer()` (returns HTML) to be printed once in wp_footer (v3.2: no widget uses it any more; kept for
-	 * a part a future widget must print once per page).
-	 * After the footer has run (late renders) the part is printed at once.
-	 *
-	 * @param string   $key     Part name; a second call with the same key is ignored.
-	 * @param callable $printer Returns trusted HTML.
-	 */
-	public static function footer_once( string $key, callable $printer ): void {
-		if ( isset( self::$queue[ $key ] ) ) {
-			return;
-		}
-		if ( self::$footed ) {
-			echo (string) call_user_func( $printer ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built by the widget from escaped parts
-			self::$queue[ $key ] = '__return_empty_string';
-			return;
-		}
-		self::$queue[ $key ] = $printer;
-	}
-
-	/**
-	 * The SVG sprite: the nine symbols v3 uses (prototype partials/sprite.html, paths verbatim).
+	 * The SVG sprite: the six symbols the v3.2 pages use (prototype partials/sprite.html, paths verbatim;
+	 * NH_Html::ICONS).
 	 */
 	public static function sprite(): string {
 		return '<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>'
@@ -273,11 +244,8 @@ final class NH_Site {
 			. '<symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M10 17h10"/></symbol>'
 			. '<symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>'
 			. '<symbol id="i-arrow-fwd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>'
-			. '<symbol id="i-arrow-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>'
 			. '<symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></symbol>'
-			. '<symbol id="i-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></symbol>'
 			. '<symbol id="i-speech" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></symbol>'
-			. '<symbol id="i-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></symbol>'
 			. '</defs></svg>';
 	}
 

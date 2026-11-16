@@ -1,24 +1,23 @@
 /* =========================================================================
    nh-samekh — ס׳ · the circles of support around the residents' mandala (SPEC §4.7).
-   Verbatim from prototype/assets/css/v3.css L273–279 and L283–309 (v3.1), with one porting change:
-   .v3-samekh__art: `margin: 0 auto` → `margin: 0; justify-self: center;` (Elementor resets figure
-   margins with a stronger selector, SPEC §10.2.3). v3.2 (research/07 §4.4 item 15, §10.2 item 6):
-   the rings, the glint and the links of the circles are gone with their rules.
-   L280–282 (.v3-room__photo--whole, .v3-room__work) live in letters.css; the shared grid in base.css.
+   Verbatim from prototype/assets/css/v3.css (v3.2), the block «ס׳ · Circles of support»
+   (research/07 §10.2 item 6): the letter stands still in the middle (380) with the mandala whole
+   inside it; no rings, no glint; the six circles are a plain list, not links (names H3, texts in
+   the body step, ink); three columns on desktop.
+   One porting change: .v3-samekh__art `margin: 0 auto` → `margin: 0; justify-self: center;`
+   (Elementor resets figure margins with a stronger selector, SPEC §10.2.3; the figure is a grid
+   item, so the result is the same).
+   .v3-room__photo--whole and .v3-room__work live in letters.css; the shared grid in base.css.
    ========================================================================= */
 
-/* ---------- ס׳ · Circles of support --------------------------------------
-   The letter stands in the middle of the spread; the words on one side, the circles on the other.
-   The residents' mandala is shown whole (fit="whole" in the build): a square photo inside an ellipse
-   clip that hugs the counter. */
+/* ---------- ס׳ · Circles of support (v3.2, research/07 §10.2 item 6) --------- */
 .v3-samekh__intro { max-inline-size: 34rem; }
-.v3-samekh__art { position: relative; margin: 0; justify-self: center; inline-size: min(84vw, 28rem); }
-.v3-samekh__art figcaption { font-size: .9375rem; color: var(--nh-ink-2); margin-block-start: 1rem; text-align: center; }
+.v3-samekh__art { position: relative; margin: 0; justify-self: center; inline-size: min(84vw, 28rem); }   /* plugin: see the header */
+.v3-samekh__art figcaption { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-ink-2); margin-block-start: 1rem; text-align: center; }
 .v3-circles { list-style: none; margin: 0; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-circles > li { border-block-end: 1px solid rgb(31 36 33 / .4); }
-.v3-circles b { display: block; font: 400 clamp(1.25rem, 1.1rem + .5vw, 1.55rem)/1.2 var(--nh-font-display); }
-.v3-circles span { display: block; font-size: 1rem; color: var(--nh-ink-2); margin-block-start: .2rem; }
-.v3-circles > li { padding-block: .85rem; }
+.v3-circles > li { padding-block: .85rem; border-block-end: 1px solid var(--v3-hair); }
+.v3-circles b { display: block; font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); }
+.v3-circles span { display: block; font-size: var(--v3-fs-body); line-height: 1.5; color: var(--nh-ink); margin-block-start: .2rem; }
 @media (min-width: 64em) {
   .v3-samekh__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 26rem) minmax(0, 1fr); align-items: center; column-gap: clamp(2rem, 1rem + 2.5vw, 4.5rem); }
   .v3-samekh__art { inline-size: 100%; }

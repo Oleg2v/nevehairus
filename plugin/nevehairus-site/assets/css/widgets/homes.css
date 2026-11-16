@@ -1,29 +1,34 @@
 /* nevehairus-site · widget "homes" (style handle nh-w-homes) — the homes index.
-   Copied verbatim from prototype/assets/css/v3.css, in source order: L193–217; from L445 the third selector only;
-   L449. v3.2 (research/07 §4.4 item 13, §10.2 item 2): no quick chooser; the row fills at once (opacity, 150ms,
-   no «curtain»), the arrow never moves, no page transition; a row without a page is a `div.v3-home__row`
-   laid out like a link row. The v3.2 sizes are ported with the markup (§15 B4). */
+   Copied verbatim from prototype/assets/css/v3.css (v3.2), in source order: L134–156; from L347–348 the third
+   selector only (.v3-home__who.v3-plain; the other selectors are base.css's); L351. research/07 §10.2 item 2,
+   §4.4 item 13: no quick chooser; the row's own backdrop shows at once (opacity, 150ms, no «curtain») and the
+   name is underlined 2px; the arrow is always shown and never moves; no page transition; a row without a page is
+   a `div.v3-home__row` laid out like a link row, without an arrow. */
 
-/* ---------- Homes index ---------------------------------------------------- */
+/* ---------- Homes index (v3.2, §10.2 p. 2) -------------------------------------------------------------------
+   Three rows, each with its small ב (600). Only a row whose home has a page is a link (an <a>, with the still
+   arrow): hover and focus show the row's own backdrop at once (opacity, 150ms) and underline the name 2px. The
+   other rows are a <div> without an arrow and say «דף מפורט בקרוב». */
 .v3-homes__list { list-style: none; margin: 2rem 0 0; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-home { border-block-end: 1px solid rgb(31 36 33 / .45); }
+.v3-home { border-block-end: 1px solid var(--v3-hair); }
 .v3-home--paper { --field: var(--nh-paper-2); }
 .v3-home--sand { --field: var(--nh-citrus-100); }
 .v3-home--sky { --field: var(--nh-sky-200); }
-.v3-home__link, .v3-home__row { position: relative; isolation: isolate; display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 1.25rem; align-items: center; padding-block: 1.5rem; color: var(--nh-ink); text-decoration: none; }
+.v3-home__link, .v3-home__row { position: relative; isolation: isolate; display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) 2rem; gap: 1.25rem; align-items: center; padding-block: 1.5rem; color: var(--nh-ink); text-decoration: none; }
 .v3-home__link::before { content: ""; position: absolute; inset: 0 calc(-1 * var(--nh-gutter)); z-index: -1; background: var(--field); opacity: 0; transition: opacity .15s ease; }
-.v3-home__link:hover::before, .v3-home__link:focus-visible::before { opacity: 1; }
-.v3-home__link:focus-visible { outline-offset: -3px; }
+.v3-home__link:is(:hover, :focus-visible)::before { opacity: 1; }
+.v3-home__link:is(:hover, :focus-visible) .v3-home__title { text-decoration: underline 2px; text-underline-offset: .2em; }
+.v3-home__link:focus-visible { outline-offset: -3px; }                 /* a row link: the ring stays inside the row */
 .v3-home__bet { inline-size: 100%; }
-.v3-home__title { display: block; font: 300 clamp(1.9rem, 1.2rem + 2.6vw, 4rem)/1.04 var(--nh-font-display); letter-spacing: 0; }
-.v3-home__who { display: block; font-size: 1.0625rem; line-height: 1.5; color: var(--nh-ink-2); margin-block-start: .5rem; max-inline-size: 54ch; }
-.v3-home__facts { display: block; font-weight: 700; font-size: .9375rem; margin-block-start: .6rem; }
-.v3-home__arrow { display: none; inline-size: 2.25rem; block-size: 2.25rem; }
-@media (min-width: 900px) {
-  .v3-home__link, .v3-home__row { grid-template-columns: 9.5rem minmax(0, 1fr) auto; gap: 2.5rem; padding-block: 2rem; }
-  .v3-home__arrow { display: block; }
+.v3-home__title { display: block; font: 400 var(--v3-fs-ds)/1.12 var(--nh-font-display); letter-spacing: 0; }
+.v3-home__who { display: block; font-size: var(--v3-fs-body); line-height: 1.5; color: var(--nh-ink); margin-block-start: .5rem; max-inline-size: 54ch; }
+.v3-home__facts { display: block; font-size: var(--v3-fs-small); font-weight: 700; line-height: 1.5; color: var(--nh-ink-2); margin-block-start: .6rem; }
+.v3-home__arrow { display: block; inline-size: 2rem; block-size: 2rem; }   /* always shown, never moves */
+@media (min-width: 56.25em) {
+  .v3-home__link, .v3-home__row { grid-template-columns: 9.5rem minmax(0, 1fr) 2.25rem; gap: 2.5rem; padding-block: 2rem; }
+  .v3-home__arrow { inline-size: 2.25rem; block-size: 2.25rem; }
 }
 
-/* plain-language mode (v3.css L445, third selector; L449) */
-html.nh-plainmode .v3-home__who.v3-plain { font-size: 1.375rem; line-height: 1.6; margin: 0 0 .3rem; color: inherit; max-inline-size: 36ch; }
+/* ---------- Plain-language mode (v3.css L347–348, this widget's selector; L351) ---------- */
+html.nh-plainmode .v3-home__who.v3-plain { font-size: var(--v3-fs-plain); line-height: 1.6; margin: 0 0 .3rem; color: inherit; max-inline-size: 36ch; }
 html.nh-plainmode .v3-home__who.v3-plain > span { display: block; }

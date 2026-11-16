@@ -9,8 +9,8 @@ defined( 'ABSPATH' ) || exit;
  */
 final class NH_Html {
 
-	/** Symbols of the sprite printed by the site module (SPEC §5.3). */
-	public const ICONS = [ 'phone', 'menu', 'close', 'arrow-fwd', 'arrow-back', 'play', 'expand', 'speech', 'sliders' ];
+	/** Symbols of the sprite printed by the site module (SPEC §5.3): the six the v3.2 pages use. */
+	public const ICONS = [ 'phone', 'menu', 'close', 'arrow-fwd', 'play', 'speech' ];
 
 	/** Link tokens that resolve to a page from the settings (SPEC §3.5, §7). */
 	public const TOKENS = [ '#privacy', '#accessibility', '#sitemap', '#entrances', '#jobs-page' ];

@@ -1,23 +1,29 @@
 /* nevehairus-site · widget "lamed" (style handle nh-w-lamed) — ל׳ · דרושים.
-   Copied verbatim from prototype/assets/css/v3.css, in source order: L130; L369–371; L380–386; from L459 the
-   .v3-lamed__letter selector; L620–622. (.v3-roles and the shared two-column grid live in base.css.) */
+   Copied verbatim from prototype/assets/css/v3.css (v3.2), in source order: L275–294 without the .v3-roles rules
+   (L280–287: base.css, shared with "related"); from L362 the .v3-lamed__letter selector; L366–367.
+   research/07 §10.2 item 10: the ל stands still (600), at most 16rem tall, at the far end; it rises above its own
+   rule only inside its own top padding (-4rem, the smallest --v3-pad), never into the spread before it; it is not
+   shown under 64em. The rows are links with still arrows (base.css). */
 
-.v3-lamed__letter .v3-letter { position: static; display: block; block-size: auto; }
-
-/* ---------- ל׳ · Jobs: the one letter allowed to rise above the line ------------ */
-.v3-lamed { overflow: visible; z-index: 1; }
-.v3-lamed__letter { position: relative; inline-size: min(46vw, 13rem); margin-block-start: calc(-1 * min(18vh, 9rem)); }
+/* ---------- ל׳ · Jobs (v3.2, §10.2 p. 10) --------------------------------------------------------------------------------
+   The ל stands still (600), at most 16rem tall, at the far end. It rises above its own rule, but only inside its
+   own top padding (-4rem, the smallest --v3-pad), never into the spread before it. Not shown under 64em. The
+   rows are links with still arrows: hover and focus underline the title 2px. */
+.v3-lamed__letter { display: none; }
 @media (min-width: 64em) {
   .v3-lamed__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); }
-  .v3-lamed__grid > .v3-rule { grid-row: 1; }                     /* the ל stands on top of it */
+  .v3-lamed__grid > .v3-rule { grid-row: 1; }                     /* the ל stands on it, at the far end */
   .v3-lamed__text { grid-column: 1; grid-row: 2; }
-  .v3-lamed__letter { grid-column: 2; grid-row: 1 / span 2; position: relative; z-index: 1; justify-self: end; inline-size: 100%; max-inline-size: 19rem;
-    margin-block-start: calc(-1 * min(26vh, 14rem)); }
+  .v3-lamed__letter { display: block; grid-column: 2; grid-row: 1 / span 2; justify-self: end; block-size: 16rem; margin-block-start: -4rem; }
+  .v3-lamed__letter .v3-letter { position: static; block-size: 100%; inline-size: auto; }
 }
 
-/* plain-language mode: the big letter is folded away (v3.css L459, this widget's selector) */
-html.nh-plainmode .v3-lamed__letter { display: none !important; }
+/* plugin: a row link has no class, and the child theme's `.site-main a:where(:not([class]))` (0,1,1, printed after
+   base.css) would underline the whole row over base.css's `.v3-roles a { text-decoration: none }` (v3.css L282) */
+.v3-lamed .v3-roles a { text-decoration: none; }
 
+/* ---------- Plain-language mode (v3.css L362, this widget's selector; L366–367) ---------- */
+html.nh-plainmode .v3-lamed__letter { display: none !important; }
 /* plain mode: where the big letter is folded away, its spread becomes one column */
 html.nh-plainmode .v3-lamed__grid { grid-template-columns: minmax(0, 1fr); }
 html.nh-plainmode .v3-lamed__text { grid-column: auto; grid-row: auto; }

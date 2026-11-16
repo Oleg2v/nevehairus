@@ -1,23 +1,17 @@
 /* =========================================================================
    nevehairus-site · widget `day` (handle nh-w-day)
-   Source (verbatim): prototype/assets/css/v3.css L229–233, L242–249, L462.
-   `main { counter-reset: print }` and `.v3-print*` (v3.css L234–241) are in base.css.
+   Source (verbatim): prototype/assets/css/v3.css (v3.2), the block «Day: four verbs»
+   (research/07 §10.2 item 4): 4 / 2 / 1 columns, no zigzag; in each cell the verb (H3, D-M 400 —
+   the still typographic moment of the spread), a 4:3 print of at most 21rem, one sentence. The v3.1
+   rules of the zigzag and of the plain-mode verb size (v3.css L462 of v3.1) are gone with it.
+   `.v3 { counter-reset: print }` and `.v3-print` with its one soft appearance are in base.css.
    SPEC §4.5.
    ========================================================================= */
 
-/* ---------- Day: four verbs ----------------------------------------------- */
-.v3-day__list { list-style: none; margin: clamp(2.5rem, 2rem + 3vw, 5rem) 0 0; padding: 0; display: grid; gap: clamp(3.5rem, 2rem + 5vw, 8rem); }
-.v3-moment { display: grid; gap: 1rem 3rem; align-items: end; }
-.v3-moment__verb { font: 300 clamp(4.25rem, 1.5rem + 9vw, 11rem)/.82 var(--nh-font-display); letter-spacing: 0; margin: 0; }
-.v3-moment p { font-size: 1.1875rem; line-height: 1.55; max-inline-size: 36ch; margin: 0; }
-@media (min-width: 1024px) {
-  .v3-moment { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); grid-template-areas: "verb print" "verb text"; }
-  .v3-moment__verb { grid-area: verb; align-self: center; }
-  .v3-moment > figure { grid-area: print; }
-  .v3-moment > p { grid-area: text; }
-  .v3-moment--b, .v3-moment--d { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-areas: "print verb" "text verb"; }
-  .v3-moment--b .v3-moment__verb, .v3-moment--d .v3-moment__verb { text-align: end; }
-}
-
-/* plain language: the verbs fold to a readable size */
-html.nh-plainmode .v3-moment__verb { font-size: clamp(3rem, 2rem + 4vw, 5rem); }
+/* ---------- Day: four verbs (v3.2, research/07 §10.2 item 4) ---------------- */
+.v3-day__list { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 3rem 2rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 40em) { .v3-day__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 64em) { .v3-day__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.v3-moment { display: flex; flex-direction: column; gap: 1rem; }
+.v3-moment__verb { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: 0; margin: 0; }
+.v3-moment p { font-size: var(--v3-fs-body); line-height: 1.65; max-inline-size: 34ch; margin: 0; }

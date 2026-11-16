@@ -3,10 +3,12 @@
    YouTube facade: nothing is requested from YouTube before consent. The play
    button plays at once when media cookies are already allowed, otherwise it
    opens the consent question; "load" stores the consent (nh.consent), hides
-   the cookie banner and swaps the facade for a youtube-nocookie iframe, which
-   takes focus; "not now" closes the question and returns focus to play.
-   Port of prototype/assets/js/site.js L218–250 (SPEC §4.9), scoped to the
-   [data-video] element; no page-wide logic.
+   the cookie-settings panel (nh.consent.hideBanner, kept by nh-core.js for
+   this call, research/07 §9) and swaps the facade for a youtube-nocookie
+   iframe, which takes focus; "not now" closes the question and returns focus
+   to play. Nothing animates.
+   Port of the v3.2 prototype's site.js «Video facade» (SPEC §4.9), scoped to
+   the [data-video] element; no page-wide logic.
    ========================================================================= */
 (() => {
   "use strict";
@@ -31,8 +33,8 @@
       const f = document.createElement("iframe");
       f.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(id) + "?autoplay=1&rel=0";
       f.title = title();
+      // "fullscreen" here and no legacy allowfullscreen: Chrome warns in the console when both are set (v3.2 prototype)
       f.allow = "accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen";
-      f.allowFullscreen = true;
       f.referrerPolicy = "strict-origin-when-cross-origin";
       box.replaceChildren(f);
       f.focus();

@@ -1,43 +1,49 @@
 /* =========================================================================
-   נווה האירוס — forms (plugin nevehairus-site, core package).
-   Copied verbatim from prototype/assets/css/main.css and v3.css (v3.1, commit 4173d31) in the
-   order of plugin/SPEC.md §6.5. Every block names its source lines; porting changes
-   are marked "plugin:". RTL-first: logical properties only (inline-start = right).
+   נווה האירוס — forms (plugin nevehairus-site; loaded only with a widget that has a form: door, jobs-form).
+   Copied verbatim from prototype/assets/css/main.css and v3.css (v3.2) in the order of plugin/SPEC.md §6.5.
+   Every block names its source lines. RTL-first: logical properties only (inline-start = right).
+   v3.2 (research/07 §7.5, §4.1): 56px fields with a 2px #4F5550 frame (--nh-field, 6.80:1); only the border
+   colour changes, in 150ms; 32px check boxes whose whole label is the target; notes, hints and errors at the
+   16px step; the submit button full width under 40em; errors only after sending.
    ========================================================================= */
 
-/* ---- main.css L265–296 ---- */
-/* ---------- Forms ------------------------------------------------------------ */
+/* ---- main.css L324–358 ---- */
+/* ---------- Forms (v3.2, research/07 §7.5): 56px fields, a 2px #4F5550 frame (6.80:1), only the border
+   colour changes (150ms); errors appear only after sending ---------------------------------------- */
 .nh-form { display: grid; gap: var(--nh-s-5); }
 .nh-form__row { display: grid; gap: var(--nh-s-5); }
 @media (min-width: 720px) { .nh-form__row--2 { grid-template-columns: 1fr 1fr; } }
 .nh-field { display: grid; gap: .45rem; }
-.nh-label { font-weight: 700; }
+.nh-label { font: 700 var(--v3-fs-ui, 1.125rem)/1.3 var(--nh-font-body); }
 .nh-label .nh-req { color: var(--nh-error); margin-inline-start: .15rem; }
-.nh-hint { font-size: var(--nh-fs-small); color: var(--nh-ink-2); }
+.nh-hint { font-size: var(--v3-fs-small, 1rem); color: var(--nh-ink-2); }
 .nh-input, .nh-select, .nh-textarea {
-  inline-size: 100%; min-block-size: 3.25rem; padding: .75rem 1rem; border: 1.5px solid var(--nh-field);
-  border-radius: var(--nh-r-sm); background: var(--nh-white); color: var(--nh-ink); line-height: 1.4;
-  transition: border-color .15s ease;   /* v3.2 (research/07 §4.1): only the border colour changes */
+  inline-size: 100%; min-block-size: 3.5rem; padding: .75rem 1rem; border: 2px solid var(--nh-field);
+  border-radius: 2px; background: var(--nh-white); color: var(--nh-ink); font-size: var(--v3-fs-body, 1.125rem); line-height: 1.4;
+  transition: border-color .15s ease;
 }
 .nh-textarea { min-block-size: 8rem; resize: vertical; }
 .nh-input:hover, .nh-select:hover, .nh-textarea:hover { border-color: var(--nh-ink); }
-.nh-input:focus-visible, .nh-select:focus-visible, .nh-textarea:focus-visible { outline: 3px solid var(--nh-iris-700); outline-offset: 2px; border-color: var(--nh-iris-700); }
-.nh-input[aria-invalid="true"], .nh-select[aria-invalid="true"], .nh-textarea[aria-invalid="true"] { border-color: var(--nh-error); border-width: 2px; }
+.nh-input:focus-visible, .nh-select:focus-visible, .nh-textarea:focus-visible { outline: 3px solid var(--nh-iris-700); outline-offset: 3px; border-color: var(--nh-iris-700); }
+.nh-input[aria-invalid="true"], .nh-select[aria-invalid="true"], .nh-textarea[aria-invalid="true"] { border-color: var(--nh-error); }
 .nh-input[type="file"] { padding: .6rem; }
-.nh-error { color: var(--nh-error); font-weight: 600; font-size: var(--nh-fs-small); display: flex; gap: .4rem; align-items: center; }
+.nh-error { color: var(--nh-error); font-weight: 600; font-size: var(--v3-fs-small, 1rem); display: flex; gap: .4rem; align-items: center; }
 .nh-error svg { inline-size: 1.05rem; block-size: 1.05rem; flex: none; }
+/* the whole label is the target (<label for>); the box itself is 32px */
 .nh-check { display: flex; gap: .75rem; align-items: flex-start; }
-.nh-check input { inline-size: 1.5rem; block-size: 1.5rem; flex: none; margin-block-start: .15rem; accent-color: var(--nh-iris-700); }
+.nh-check input { inline-size: 2rem; block-size: 2rem; flex: none; margin: 0; accent-color: var(--nh-iris-700); }
+.nh-check label { padding-block-start: .2rem; }
 .nh-hp { position: absolute !important; inset-inline-start: -10000px; inline-size: 1px; block-size: 1px; overflow: hidden; }
-.nh-alert { border-radius: var(--nh-r-md); padding: var(--nh-s-4) var(--nh-s-5); border: 2px solid; }
+.nh-alert { border-radius: 2px; padding: var(--nh-s-4) var(--nh-s-5); border: 2px solid; }
 .nh-alert--error { border-color: var(--nh-error); background: #FBEDEB; color: var(--nh-ink); }
 .nh-alert--error h3 { color: var(--nh-error); font-family: var(--nh-font-body); font-size: 1.125rem; font-weight: 700; }
 .nh-alert--error ul { margin-block-start: .5rem; padding-inline-start: 1.25rem; }
 .nh-alert--error a { color: var(--nh-error); font-weight: 600; }
 .nh-alert--success { border-color: var(--nh-olive-700); background: #EEF3E8; }
 .nh-alert--success h3 { color: var(--nh-olive-700); font-family: var(--nh-font-body); font-size: 1.125rem; font-weight: 700; }
-.nh-form__note { font-size: var(--nh-fs-small); color: var(--nh-ink-2); }
+.nh-form__note { font-size: var(--v3-fs-small, 1rem); color: var(--nh-ink-2); }
+@media (max-width: 39.99em) { .nh-form [type="submit"] { inline-size: 100%; } }
 
-/* ---- v3.css L450, 460 — (plain-language form notes and hints) ---- */
-html.nh-plainmode .nh-form__note.v3-plain, html.nh-plainmode .nh-form__note.v3-plain p { font-size: 1.25rem; line-height: 1.55; color: var(--nh-ink); max-inline-size: 40ch; }
+/* ---- v3.css L352, L363 — (plain-language form notes and hints) ---- */
+html.nh-plainmode .nh-form__note.v3-plain, html.nh-plainmode .nh-form__note.v3-plain p { font-size: var(--v3-fs-plain); line-height: 1.55; color: var(--nh-ink); max-inline-size: 40ch; }
 html.nh-plainmode .nh-hint > .v3-plain { display: inline; }

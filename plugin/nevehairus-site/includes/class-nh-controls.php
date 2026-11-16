@@ -201,8 +201,10 @@ final class NH_Controls {
 	}
 
 	/**
-	 * The section "מקטע" (always last): anchor, running head and its plain twin. Opens and closes its
-	 * own controls section. Args: anchor, running, running_plain.
+	 * The section "מקטע" (always last): the anchor (the spread's id: menu links and #door land on the
+	 * `section` that carries aria-labelledby, never on Elementor's wrapper — research/07 §5.5). Opens and
+	 * closes its own controls section. Args: anchor (`running` and `running_plain` are accepted and
+	 * ignored: v3.2 has no running head, §12.3).
 	 *
 	 * @param \Elementor\Widget_Base $w Widget.
 	 * @param array                  $d Defaults.
@@ -216,25 +218,6 @@ final class NH_Controls {
 				'type'        => \Elementor\Controls_Manager::TEXT,
 				'default'     => (string) ( $d['anchor'] ?? '' ),
 				'description' => __( 'אותיות לטיניות, ספרות ומקפים. קישורים כמו #door מגיעים לכאן; ריק = בלי עוגן.', 'nevehairus-site' ),
-			]
-		);
-		$w->add_control(
-			'running',
-			[
-				'label'       => __( 'שם המקטע בכותרת העליונה', 'nevehairus-site' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
-				'default'     => (string) ( $d['running'] ?? '' ),
-				'label_block' => true,
-			]
-		);
-		$w->add_control(
-			'running_plain',
-			[
-				'label'       => __( 'שם המקטע בכותרת העליונה — בשפה פשוטה', 'nevehairus-site' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
-				'default'     => (string) ( $d['running_plain'] ?? '' ),
-				'description' => __( 'ריק = אותו שם גם בשפה פשוטה.', 'nevehairus-site' ),
-				'label_block' => true,
 			]
 		);
 		$w->end_controls_section();

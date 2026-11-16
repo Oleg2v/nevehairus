@@ -190,13 +190,7 @@ final class NH_Widget_Jobs_Form extends NH_Widget_Base {
 		);
 		$this->end_controls_section();
 
-		NH_Controls::section(
-			$this,
-			[
-				'anchor'  => 'form',
-				'running' => 'דרושים',
-			]
-		);
+		NH_Controls::section( $this, [ 'anchor' => 'form' ] );
 	}
 
 	protected function render() {

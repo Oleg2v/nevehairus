@@ -2,11 +2,12 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Widget `years` — «כמעט 70 שנה של בית.»: 1957 opens the spread at poster size; the word «שמיים»
- * has a window in its final ם.
+ * Widget `years` — «כמעט 70 שנה של בית.»: three equal columns; the first number (1957) is the large one
+ * (CSS `:first-child`, no class of its own); the word «שמיים» has a still window in its final ם.
  *
- * Prototype: prototype/src/index.html L230–259 (built: prototype/index.html `section#story`).
- * Spec: plugin/SPEC.md §4.8. CSS: assets/css/widgets/years.css. No JS (the cloud drift is CSS).
+ * Prototype: prototype/src/index.html `section#story` (built: prototype/index.html).
+ * Spec: plugin/SPEC.md §4.8; research/07 §10.2 item 7 (v3.2: the ruling line, one print size, the print
+ * appears once — `data-reveal` — and nothing else moves). CSS: assets/css/widgets/years.css. No JS.
  *
  * The list is always `v3-full` (no twins inside it, SPEC §3.5); `intro_plain` is its plain-language summary.
  *
@@ -20,14 +21,8 @@ final class NH_Widget_Years extends NH_Widget_Base {
 
 	public const KEYWORDS = [ 'years', 'history', 'timeline', 'story', 'שנים', 'היסטוריה', 'סיפור', 'שמיים', '1957' ];
 
-	/**
-	 * Print size → extra class of `figure.v3-print`.
-	 */
-	private const PRINT_CLASS = [
-		'normal' => '',
-		'small'  => ' v3-print--small',
-		'mid'    => ' v3-print--mid',
-	];
+	/** `sizes` of the print (research/07 §8.1: a print is at most 21rem wide). */
+	public const SIZES = '(max-width: 23em) calc(100vw - 2.5rem), 21rem';
 
 	/**
 	 * Panel title.
@@ -124,21 +119,7 @@ final class NH_Widget_Years extends NH_Widget_Base {
 				'label'      => __( 'תמונה', 'nevehairus-site' ),
 				'decorative' => false,
 				'alt'        => '',
-				'sizes'      => '(min-width: 1024px) 18rem, 70vw',
-			]
-		);
-
-		$r->add_control(
-			'print',
-			[
-				'label'   => __( 'גודל התמונה', 'nevehairus-site' ),
-				'type'    => \Elementor\Controls_Manager::SELECT,
-				'options' => [
-					'normal' => __( 'רגיל', 'nevehairus-site' ),
-					'small'  => __( 'קטן', 'nevehairus-site' ),
-					'mid'    => __( 'בינוני', 'nevehairus-site' ),
-				],
-				'default' => 'normal',
+				'sizes'      => self::SIZES,
 			]
 		);
 
@@ -197,7 +178,6 @@ final class NH_Widget_Years extends NH_Widget_Base {
 							'num'     => '1957',
 							'title'   => 'סנטוריום נס ציונה',
 							'text'    => 'אבן הפינה מונחת במקום שיהפוך לנווה האירוס.',
-							'print'   => 'small',
 							'caption' => 'החצר במעון, היום.',
 						]
 					),
@@ -223,13 +203,7 @@ final class NH_Widget_Years extends NH_Widget_Base {
 
 		$this->end_controls_section();
 
-		NH_Controls::section(
-			$this,
-			[
-				'anchor'  => 'story',
-				'running' => 'כמעט 70 שנה',
-			]
-		);
+		NH_Controls::section( $this, [ 'anchor' => 'story' ] );
 	}
 
 	/**
@@ -239,13 +213,11 @@ final class NH_Widget_Years extends NH_Widget_Base {
 		$s     = $this->get_settings_for_display();
 		$list  = isset( $s['years'] ) && is_array( $s['years'] ) ? $s['years'] : [];
 		$items = '';
-		$n     = 0;
 		foreach ( $list as $y ) {
 			if ( ! is_array( $y ) || '' === self::to_str( $y['title'] ?? '' ) ) {
 				continue;
 			}
-			$items .= self::year( $y, 0 === $n );
-			++$n;
+			$items .= self::year( $y );
 		}
 
 		$html = $this->nh_section_open(
@@ -256,6 +228,7 @@ final class NH_Widget_Years extends NH_Widget_Base {
 			]
 		)
 			. '<div class="nh-container">'
+			. $this->nh_rule()
 			. $this->nh_h2( $s )
 			. NH_Text::block(
 				self::to_str( $s['intro'] ?? '' ),
@@ -288,8 +261,7 @@ final class NH_Widget_Years extends NH_Widget_Base {
 				'photo'                     => $none,
 				'photo_alt'                 => '',
 				'photo_decorative'          => '',
-				'photo_sizes'               => '(min-width: 1024px) 18rem, 70vw',
-				'print'                     => 'normal',
+				'photo_sizes'               => self::SIZES,
 				'caption'                   => '',
 				'shamayim'                  => '',
 				'shamayim_text'             => '',
@@ -305,16 +277,16 @@ final class NH_Widget_Years extends NH_Widget_Base {
 
 	/**
 	 * `li.v3-year`: the decorative number, the H3 (with the number for screen readers), the text,
-	 * then the print and/or the «שמיים» word.
+	 * then the print and/or the «שמיים» word. The first item's number is the large one by CSS
+	 * (`.v3-year:first-child`), not by a class (research/07 §10.2 item 7).
 	 *
-	 * @param array $y     Repeater item (with a title).
-	 * @param bool  $first First rendered item (poster-size number).
+	 * @param array $y Repeater item (with a title).
 	 * @return string
 	 */
-	private static function year( array $y, bool $first ): string {
+	private static function year( array $y ): string {
 		$num   = self::to_str( $y['num'] ?? '' );
 		$sky   = ( 'yes' === ( $y['shamayim'] ?? '' ) );
-		$class = 'v3-year' . ( $first ? ' v3-year--first' : '' ) . ( $sky ? ' v3-year--sky' : '' );
+		$class = 'v3-year' . ( $sky ? ' v3-year--sky' : '' );
 
 		$out = '<li class="' . $class . '">';
 		if ( '' !== $num ) {
@@ -346,7 +318,7 @@ final class NH_Widget_Years extends NH_Widget_Base {
 	}
 
 	/**
-	 * `figure.v3-print` for the item's photo; '' without an image (SPEC §4.0).
+	 * `figure.v3-print[data-reveal]` for the item's photo; '' without an image (SPEC §4.0).
 	 *
 	 * @param array $y Repeater item.
 	 * @return string
@@ -360,6 +332,7 @@ final class NH_Widget_Years extends NH_Widget_Base {
 		$o = [
 			'alt'        => $img['alt'],
 			'decorative' => (bool) $img['decorative'],
+			'sizes'      => self::SIZES,
 		];
 		if ( null !== $img['sizes'] && '' !== trim( (string) $img['sizes'] ) ) {
 			$o['sizes'] = trim( (string) $img['sizes'] );
@@ -368,9 +341,8 @@ final class NH_Widget_Years extends NH_Widget_Base {
 		if ( '' === $picture ) {
 			return '';
 		}
-		$print   = self::to_str( $y['print'] ?? '' );
 		$caption = self::to_str( $y['caption'] ?? '' );
-		return '<figure class="v3-print' . ( self::PRINT_CLASS[ $print ] ?? '' ) . '">' . $picture
+		return '<figure class="v3-print" data-reveal>' . $picture
 			. ( '' !== $caption ? '<figcaption>' . NH_Text::esc( $caption ) . '</figcaption>' : '' )
 			. '</figure>';
 	}

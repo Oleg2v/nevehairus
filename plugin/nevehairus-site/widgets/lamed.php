@@ -4,7 +4,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Widget "lamed" — ל׳ · דרושים (package index, SPEC.md §4.11).
  *
- * The jobs spread: the ל, the one letter allowed to rise above the ruling line, stands at the far end; beside it
+ * The jobs spread: the ל (still, weight 600 — research/07 §10.2 item 10), the one letter allowed to rise above
+ * the ruling line (only inside its own top padding), stands at the far end; beside it
  * the heading, the lead and the open roles as row links. A role (or the button) without its own link goes to the
  * jobs page from Settings → נווה האירוס (with ?role=… so the application form preselects it); when that page is
  * not set the links stay inside the spread and editors see a note. Reads settings, so it is never cached
@@ -18,6 +19,9 @@ final class NH_Widget_Lamed extends NH_Widget_Base {
 	public const STYLE_DEPS = [ 'nh-letters' ];
 	public const DYNAMIC    = true;
 	public const KEYWORDS   = [ 'jobs', 'lamed', 'דרושים', 'משרות', 'עבודה', 'ל' ];
+
+	/** The one weight of the ל (v3.2: every letter keeps one weight for good). */
+	public const WEIGHT = 600;
 
 	public function get_title() {
 		return __( 'ל׳ · דרושים', 'nevehairus-site' );
@@ -77,17 +81,6 @@ final class NH_Widget_Lamed extends NH_Widget_Base {
 				'type'        => \Elementor\Controls_Manager::TEXT,
 				'default'     => '(נפתח באתר חיצוני)',
 				'label_block' => true,
-			]
-		);
-		$this->add_control(
-			'weight',
-			[
-				'label'   => __( 'עובי ה־ל׳ (300–800)', 'nevehairus-site' ),
-				'type'    => \Elementor\Controls_Manager::NUMBER,
-				'min'     => 300,
-				'max'     => 800,
-				'step'    => 10,
-				'default' => 800,
 			]
 		);
 		$this->end_controls_section();
@@ -175,13 +168,7 @@ final class NH_Widget_Lamed extends NH_Widget_Base {
 		);
 		$this->end_controls_section();
 
-		NH_Controls::section(
-			$this,
-			[
-				'anchor'  => 'jobs',
-				'running' => 'דרושים',
-			]
-		);
+		NH_Controls::section( $this, [ 'anchor' => 'jobs' ] );
 	}
 
 	protected function render() {
@@ -249,7 +236,7 @@ final class NH_Widget_Lamed extends NH_Widget_Base {
 		$html  = $this->nh_section_open( $s, $open );
 		$html .= "\n\t" . '<div class="nh-container v3-lamed__grid">';
 		$html .= "\n\t\t" . $this->nh_rule();
-		$html .= "\n\t\t" . '<div class="v3-lamed__letter" aria-hidden="true">' . NH_Letters::svg( 'lamed', self::weight( $s['weight'] ?? '', 800.0 ) ) . '</div>';
+		$html .= "\n\t\t" . '<div class="v3-lamed__letter" aria-hidden="true">' . NH_Letters::svg( 'lamed', self::WEIGHT ) . '</div>';
 		$html .= "\n\t\t" . '<div class="v3-lamed__text">';
 		if ( '' !== $h2 ) {
 			$html .= "\n\t\t\t" . $h2;
@@ -299,15 +286,5 @@ final class NH_Widget_Lamed extends NH_Widget_Base {
 	private static function items( array $s, string $key ): array {
 		$list = $s[ $key ] ?? [];
 		return is_array( $list ) ? array_filter( $list, 'is_array' ) : [];
-	}
-
-	/**
-	 * A letter weight from a NUMBER control, clamped to 300–800.
-	 */
-	private static function weight( $v, float $fallback ): float {
-		if ( ! is_numeric( $v ) ) {
-			return $fallback;
-		}
-		return max( 300.0, min( 800.0, (float) $v ) );
 	}
 }

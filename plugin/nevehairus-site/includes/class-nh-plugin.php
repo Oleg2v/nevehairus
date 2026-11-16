@@ -52,6 +52,47 @@ final class NH_Plugin {
 	}
 
 	/**
+	 * `register_activation_hook()`: Elementor's caches are cleared, so pages built from our widgets are
+	 * rendered and their assets collected afresh (research/07 §12.3). The settings are migrated on the next
+	 * request (NH_Settings::migrate(), `init`), which this request has already passed.
+	 */
+	public static function activate(): void {
+		self::clear_elementor_cache();
+	}
+
+	/**
+	 * `register_deactivation_hook()`: Elementor's element cache keeps the finished HTML of static widgets
+	 * for up to a day (`_elementor_element_cache`, on by default in 4.4.0); without clearing it our widgets
+	 * would still be printed, without their CSS, after the plugin is switched off. Settings are kept.
+	 */
+	public static function deactivate(): void {
+		self::clear_elementor_cache();
+	}
+
+	/**
+	 * `\Elementor\Plugin::$instance->files_manager->clear_cache()` when Elementor is loaded (Elementor
+	 * 4.4.0, core/files/manager.php: deletes the generated CSS files and the meta `_elementor_css`,
+	 * `_elementor_element_cache`, `_elementor_page_assets` — the button "Clear Files & Data"). Never fatal.
+	 *
+	 * @return bool True when Elementor's cache was cleared.
+	 */
+	public static function clear_elementor_cache(): bool {
+		if ( ! class_exists( '\Elementor\Plugin' ) || ! isset( \Elementor\Plugin::$instance ) || ! is_object( \Elementor\Plugin::$instance ) ) {
+			return false;
+		}
+		$files = \Elementor\Plugin::$instance->files_manager ?? null;
+		if ( ! is_object( $files ) || ! method_exists( $files, 'clear_cache' ) ) {
+			return false;
+		}
+		try {
+			$files->clear_cache();
+		} catch ( \Throwable $e ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * `load_plugin_textdomain()` on init (the site is Hebrew; the folder is kept for later translations).
 	 */
 	public static function load_textdomain(): void {

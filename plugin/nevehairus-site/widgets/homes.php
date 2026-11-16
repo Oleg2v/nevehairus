@@ -4,11 +4,11 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Widget "homes" — שלושה בתים · אינדקס (package index, SPEC.md §4.3).
  *
- * The homes index of the home page: the quick chooser («האם זה המקום בשבילנו?»), the spread's heading and one
- * row per home. A row is one link; its small ב holds the home's photo in its room (or a calm sky when there is
- * no photo). On the journey "row → that home's page" the ב becomes the page cover's ב: the row carries
- * data-vt="home-bet-{post id}" and homes.js names the room on click (D11).
- * Target markup: prototype/index.html section#homes (source prototype/src/index.html L38–98).
+ * The homes index of the home page: the spread's heading, a lead that says what each row tells, and one row per
+ * home. A row whose home has a page is one link (the whole row, with a still arrow); a row without a page is not
+ * a link and says «דף מפורט בקרוב» (research/07 §3 item 21, §10.2 item 2). The small ב (weight 600) holds the
+ * home's photo in its room, or a calm sky when there is no photo.
+ * Target markup: prototype/index.html section#homes (source prototype/src/index.html).
  *
  * @package nevehairus-site
  */
@@ -20,6 +20,12 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 
 	/** Row tones: the colour that fills the row on hover and focus (CSS --field). */
 	private const TONES = [ 'paper', 'sand', 'sky' ];
+
+	/** The one weight of the ב in every row (v3.2: every letter keeps one weight for good). */
+	public const WEIGHT = 600;
+
+	/** `sizes` of the photo in a row's room (research/07 §8.1: the small ב is 9.5rem wide). */
+	public const SIZES = '9.5rem';
 
 	public function get_title() {
 		return __( 'שלושה בתים · אינדקס', 'nevehairus-site' );
@@ -37,15 +43,6 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
-		NH_Controls::pair(
-			$this,
-			'fit_q',
-			[
-				'label'   => __( 'שאלת הבחירה המהירה', 'nevehairus-site' ),
-				'default' => 'האם זה המקום בשבילנו?',
-				'plain'   => '',
-			]
-		);
 		NH_Controls::heading(
 			$this,
 			[
@@ -56,12 +53,12 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 		);
 		NH_Controls::pair(
 			$this,
-			'intro',
+			'lead',
 			[
 				'label'   => __( 'פתיח מתחת לכותרת', 'nevehairus-site' ),
 				'type'    => 'textarea',
-				'default' => '',
-				'plain'   => "יש לנו שלושה בתים.\nהבתים שונים זה מזה.\nלחצו על בית כדי לקרוא עליו.",
+				'default' => 'האם זה המקום בשבילנו? ליד כל בית כתוב למי הוא מתאים.',
+				'plain'   => "יש לנו שלושה בתים.\nהבתים שונים זה מזה.\nליד כל בית כתוב למי הוא מתאים.",
 			]
 		);
 		NH_Controls::pair(
@@ -74,64 +71,14 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 				'plain'   => 'לבית השלישי עוד אין תמונות.',
 			]
 		);
-		$this->end_controls_section();
-
-		// The quick chooser: answers that jump to the matching row.
-		$this->start_controls_section(
-			'nh_fit',
-			[
-				'label' => __( 'בחירה מהירה', 'nevehairus-site' ),
-				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
-			]
-		);
-		$fit = new \Elementor\Repeater();
 		NH_Controls::pair(
-			$fit,
-			'label',
+			$this,
+			'soon_text',
 			[
-				'label'   => __( 'תשובה', 'nevehairus-site' ),
-				'default' => '',
-				'plain'   => '',
-			]
-		);
-		NH_Controls::link(
-			$fit,
-			'link',
-			[
-				'label'   => __( 'קישור (בדרך כלל לעוגן של שורת בית, למשל #home-1)', 'nevehairus-site' ),
-				'default' => '',
-			]
-		);
-		$this->add_control(
-			'fit',
-			[
-				'label'         => __( 'תשובות', 'nevehairus-site' ),
-				'type'          => \Elementor\Controls_Manager::REPEATER,
-				'fields'        => $fit->get_controls(),
-				'title_field'   => '{{ label }}',
-				'prevent_empty' => false,
-				'default'       => [
-					[
-						'label'       => 'צריך צוות צמוד כל היום',
-						'label_plain' => '',
-						'link'        => [ 'url' => '#home-1' ],
-					],
-					[
-						'label'       => 'יש התנהגות מאתגרת או אבחנה כפולה',
-						'label_plain' => '',
-						'link'        => [ 'url' => '#home-1' ],
-					],
-					[
-						'label'       => 'רוצים לגור בדירה בתוך העיר',
-						'label_plain' => '',
-						'link'        => [ 'url' => '#home-2' ],
-					],
-					[
-						'label'       => 'צעירים וצעירות על הרצף האוטיסטי',
-						'label_plain' => '',
-						'link'        => [ 'url' => '#home-3' ],
-					],
-				],
+				'label'       => __( 'בשורה של בית שעוד אין לו עמוד', 'nevehairus-site' ),
+				'default'     => 'דף מפורט בקרוב',
+				'plain'       => '',
+				'description' => __( 'שורה בלי קישור היא לא קישור: אין בה חץ, והמילים האלה נכתבות אחרי העובדות.', 'nevehairus-site' ),
 			]
 		);
 		$this->end_controls_section();
@@ -199,8 +146,9 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 			$row,
 			'link',
 			[
-				'label'   => __( 'קישור לעמוד הבית', 'nevehairus-site' ),
-				'default' => '',
+				'label'       => __( 'קישור לעמוד הבית (ריק = עוד אין עמוד)', 'nevehairus-site' ),
+				'default'     => '',
+				'description' => __( 'רק לעמוד שקיים. בלי עמוד השורה אינה קישור וכתוב בה „דף מפורט בקרוב”.', 'nevehairus-site' ),
 			]
 		);
 		NH_Controls::image(
@@ -211,17 +159,6 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 				'decorative' => true,
 				'alt'        => '',
 				'pos'        => '50% 50%',
-			]
-		);
-		$row->add_control(
-			'weight',
-			[
-				'label'   => __( 'עובי ה־ב׳ (300–800)', 'nevehairus-site' ),
-				'type'    => \Elementor\Controls_Manager::NUMBER,
-				'min'     => 300,
-				'max'     => 800,
-				'step'    => 10,
-				'default' => 560,
 			]
 		);
 		$this->add_control(
@@ -241,7 +178,7 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 						'who_plain'        => "בית גדול בנס ציונה.\nצוות עוזר שם כל היום.",
 						'facts'            => 'שתי יחידות · צוות קבוע · חדר סנוזלן ומרפאת שיניים',
 						'facts_plain'      => '-',
-						'link'             => [ 'url' => '#homes' ],
+						'link'             => [ 'url' => '' ],
 						'photo'            => [
 							'url' => '',
 							'id'  => '',
@@ -249,7 +186,6 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 						'photo_alt'        => '',
 						'photo_decorative' => 'yes',
 						'photo_pos'        => '55% 45%',
-						'weight'           => 600,
 					],
 					[
 						'anchor'           => 'home-2',
@@ -260,7 +196,7 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 						'who_plain'        => "דירות ובתים בתוך העיר.\nצוות עוזר לדיירים ולדיירות.",
 						'facts'            => 'שגרה ועצמאות · עבודה ופנאי בעיר · ליווי צמוד',
 						'facts_plain'      => '-',
-						'link'             => [ 'url' => '#homes' ],
+						'link'             => [ 'url' => '' ],
 						'photo'            => [
 							'url' => '',
 							'id'  => '',
@@ -268,7 +204,6 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 						'photo_alt'        => '',
 						'photo_decorative' => 'yes',
 						'photo_pos'        => '50% 45%',
-						'weight'           => 560,
 					],
 					[
 						'anchor'           => 'home-3',
@@ -279,7 +214,7 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 						'who_plain'        => "בית לצעירים ולצעירות עם אוטיזם.\nהבית שקט, ויש סדר יום ברור.",
 						'facts'            => 'סביבה רגועה · שגרה ברורה',
 						'facts_plain'      => '-',
-						'link'             => [ 'url' => '#homes' ],
+						'link'             => [ 'url' => '' ],
 						'photo'            => [
 							'url' => '',
 							'id'  => '',
@@ -287,20 +222,13 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 						'photo_alt'        => '',
 						'photo_decorative' => 'yes',
 						'photo_pos'        => '50% 50%',
-						'weight'           => 560,
 					],
 				],
 			]
 		);
 		$this->end_controls_section();
 
-		NH_Controls::section(
-			$this,
-			[
-				'anchor'  => 'homes',
-				'running' => 'שלושה בתים',
-			]
-		);
+		NH_Controls::section( $this, [ 'anchor' => 'homes' ] );
 	}
 
 	protected function render() {
@@ -314,26 +242,20 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 
 		$html  = $this->nh_section_open( $s, $open );
 		$html .= "\n\t<div class=\"nh-container\">";
-		$html .= $this->fit( $s );
 		$html .= "\n\t\t" . $this->nh_rule();
 		if ( '' !== $h2 ) {
 			$html .= "\n\t\t" . $h2;
 		}
-		$intro = NH_Text::block(
-			self::str( $s, 'intro' ),
-			self::str( $s, 'intro_plain' ),
-			[
-				'full_class' => 'v3-lead',
-				'plain_tag'  => 'div',
-			]
-		);
-		if ( '' !== $intro ) {
-			$html .= "\n\t\t" . $intro;
+		$lead = $this->nh_lead( $s );
+		if ( '' !== $lead ) {
+			$html .= "\n\t\t" . $lead;
 		}
 
-		$rows = '';
+		$rows   = '';
+		$anchor = sanitize_html_class( self::str( $s, 'anchor' ) );
+		$soon   = [ self::str( $s, 'soon_text' ), self::str( $s, 'soon_text_plain' ) ];
 		foreach ( self::items( $s, 'homes' ) as $item ) {
-			$rows .= $this->row( $item );
+			$rows .= $this->row( $item, $anchor, $soon );
 		}
 		if ( '' !== $rows ) {
 			$html .= "\n\t\t" . '<ol class="v3-homes__list" role="list">' . $rows . "\n\t\t</ol>";
@@ -358,53 +280,35 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 	}
 
 	/**
-	 * The quick chooser: a nav named by its question, one link per answer. '' when there are no answers.
+	 * One row of the index. With a link to the home's page the whole row is one link with a still arrow;
+	 * without one (or with a link back to this spread) it is a `div.v3-home__row` without an arrow, and its facts
+	 * end with «דף מפורט בקרוב». The ב's room shows the photo or a calm sky.
+	 *
+	 * @param array    $item   Repeater item.
+	 * @param string   $anchor The spread's own anchor (a row link to it leads nowhere new).
+	 * @param string[] $soon   The «coming soon» text and its plain twin.
 	 */
-	private function fit( array $s ): string {
-		$items = '';
-		foreach ( self::items( $s, 'fit' ) as $item ) {
-			$label = self::str( $item, 'label' );
-			if ( '' === $label ) {
-				continue;
-			}
-			$href   = NH_Html::url( $item['link'] ?? '' );
-			$hide   = NH_Text::HIDE === self::str( $item, 'label_plain' ); // the whole answer is left out in plain language
-			$items .= "\n\t\t\t\t<li" . ( $hide ? ' class="v3-full"' : '' ) . '><a' . ( '' !== $href ? ' href="' . $href . '"' : '' ) . '>'
-				. NH_Text::pair( $label, $hide ? '' : self::str( $item, 'label_plain' ) ) . '</a></li>';
-		}
-		if ( '' === $items ) {
-			return '';
-		}
-
-		$q   = NH_Text::pair( self::str( $s, 'fit_q' ), self::str( $s, 'fit_q_plain' ) );
-		$qid = $this->nh_uid( 'fit-title' );
-		$out = "\n\t\t" . '<nav class="v3-fit"' . ( '' !== $q ? ' aria-labelledby="' . esc_attr( $qid ) . '"' : '' ) . '>';
-		if ( '' !== $q ) {
-			$out .= "\n\t\t\t" . '<p class="v3-fit__q" id="' . esc_attr( $qid ) . '">' . $q . '</p>';
-		}
-		return $out . "\n\t\t\t" . '<ul role="list">' . $items . "\n\t\t\t</ul>\n\t\t</nav>";
-	}
-
-	/**
-	 * One row of the index: the whole row is one link; the ב's room shows the photo or a calm sky.
-	 */
-	private function row( array $item ): string {
+	private function row( array $item, string $anchor, array $soon ): string {
 		$title = self::str( $item, 'title' );
 		if ( '' === $title ) {
 			return '';
 		}
 
-		$tone   = self::str( $item, 'tone' );
-		$tone   = in_array( $tone, self::TONES, true ) ? $tone : 'paper';
-		$anchor = sanitize_html_class( self::str( $item, 'anchor' ) );
+		$tone = self::str( $item, 'tone' );
+		$tone = in_array( $tone, self::TONES, true ) ? $tone : 'paper';
+		$id   = sanitize_html_class( self::str( $item, 'anchor' ) );
 		// a title hidden in plain language hides the whole row (a row link must never lose its name);
 		// the texts inside are then rendered without mode classes
 		$hide = NH_Text::HIDE === self::str( $item, 'title_plain' );
 
 		$link = $item['link'] ?? '';
-		$href = NH_Html::url( $link );
 		$raw  = is_array( $link ) ? self::str( $link, 'url' ) : ( is_string( $link ) ? trim( $link ) : '' );
-		$post = '' !== $raw ? NH_Html::post_id( $raw ) : 0;
+		$href = NH_Html::url( $raw );
+		// a link back to this spread or to the row itself is no page of the home: the row is then not a link
+		$here = array_filter( [ '' !== $anchor ? '#' . $anchor : '', '' !== $id ? '#' . $id : '' ] );
+		if ( in_array( $raw, $here, true ) ) {
+			$href = '';
+		}
 
 		$img   = NH_Controls::image_args( $item, 'photo' );
 		$photo = (int) ( $img['photo'] ?? 0 );
@@ -413,8 +317,8 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 		}
 		$room = [
 			'photo'      => $photo,
-			'sizes'      => '9rem',
-			'weight'     => self::weight( $item['weight'] ?? '', 560.0 ),
+			'sizes'      => self::SIZES,
+			'weight'     => self::WEIGHT,
 			'class'      => 'v3-home__bet',
 			'decorative' => ! empty( $img['decorative'] ),
 			'field'      => 'sky',
@@ -426,7 +330,7 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 			$room['alt'] = $img['alt'];
 		}
 
-		$who   = NH_Text::pair(
+		$who = NH_Text::pair(
 			self::str( $item, 'who' ),
 			$hide ? '' : self::str( $item, 'who_plain' ),
 			[
@@ -436,37 +340,71 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 				'bare'        => false,
 			]
 		);
-		$facts = NH_Text::pair(
-			self::str( $item, 'facts' ),
-			$hide ? '' : self::str( $item, 'facts_plain' ),
-			[
-				'tag'   => 'span',
-				'class' => 'v3-home__facts',
-				'bare'  => false,
-			]
-		);
+		if ( '' !== $href ) {
+			$facts = NH_Text::pair(
+				self::str( $item, 'facts' ),
+				$hide ? '' : self::str( $item, 'facts_plain' ),
+				[
+					'tag'   => 'span',
+					'class' => 'v3-home__facts',
+					'bare'  => false,
+				]
+			);
+		} else {
+			$facts = self::facts_soon( self::str( $item, 'facts' ), $hide ? '' : self::str( $item, 'facts_plain' ), $soon, $hide );
+		}
 
-		$out  = "\n\t\t\t<li" . NH_Html::attrs(
+		$body = "\n\t\t\t\t\t" . NH_Letters::room( 'bet', $room )
+			. "\n\t\t\t\t\t" . '<span class="v3-home__body">'
+			. "\n\t\t\t\t\t\t" . '<span class="v3-home__title">' . NH_Text::pair( $title, $hide ? '' : self::str( $item, 'title_plain' ) ) . '</span>'
+			. ( '' !== $who ? "\n\t\t\t\t\t\t" . $who : '' )
+			. ( '' !== $facts ? "\n\t\t\t\t\t\t" . $facts : '' )
+			. "\n\t\t\t\t\t</span>";
+
+		$out = "\n\t\t\t<li" . NH_Html::attrs(
 			[
 				'class' => 'v3-home v3-home--' . $tone . ( $hide ? ' v3-full' : '' ),
-				'id'    => '' !== $anchor ? $anchor : null,
+				'id'    => '' !== $id ? $id : null,
 			]
 		) . '>';
-		$out .= "\n\t\t\t\t" . '<a class="v3-home__link"'
-			. ( '' !== $href ? ' href="' . $href . '"' : '' )
-			. ( $post > 0 ? ' data-vt="' . esc_attr( 'home-bet-' . $post ) . '"' : '' ) . '>';
-		$out .= "\n\t\t\t\t\t" . NH_Letters::room( 'bet', $room );
-		$out .= "\n\t\t\t\t\t" . '<span class="v3-home__body">';
-		$out .= "\n\t\t\t\t\t\t" . '<span class="v3-home__title">' . NH_Text::pair( $title, $hide ? '' : self::str( $item, 'title_plain' ) ) . '</span>';
-		if ( '' !== $who ) {
-			$out .= "\n\t\t\t\t\t\t" . $who;
+		if ( '' !== $href ) {
+			$out .= "\n\t\t\t\t" . '<a class="v3-home__link" href="' . $href . '">' . $body
+				. "\n\t\t\t\t\t" . NH_Html::icon( 'arrow-fwd', 'v3-home__arrow' )
+				. "\n\t\t\t\t</a>";
+		} else {
+			$out .= "\n\t\t\t\t" . '<div class="v3-home__row">' . $body . "\n\t\t\t\t</div>";
 		}
-		if ( '' !== $facts ) {
-			$out .= "\n\t\t\t\t\t\t" . $facts;
+		return $out . "\n\t\t\t</li>";
+	}
+
+	/**
+	 * The facts of a row without a page, ending with «דף מפורט בקרוב» in both modes (the facts themselves may be
+	 * hidden in plain language, the «soon» words never are unless their own twin is "-"):
+	 * `<span class="v3-home__facts v3-full">{facts} · <span class="v3-home__soon">{soon}</span></span>` and the
+	 * plain twin, or one element without mode class when both modes read the same.
+	 *
+	 * @param string   $facts The facts.
+	 * @param string   $plain Their plain twin ('' = the same, '-' = hidden in plain language).
+	 * @param string[] $soon  The «soon» text and its twin.
+	 * @param bool     $one   Only one mode (the whole row is full-only): no mode classes.
+	 */
+	private static function facts_soon( string $facts, string $plain, array $soon, bool $one ): string {
+		$line       = static function ( string $text, string $word ): string {
+			$text = '' !== $text ? NH_Text::esc( $text ) : '';
+			$word = '' !== $word ? '<span class="v3-home__soon">' . NH_Text::esc( $word ) . '</span>' : '';
+			return $text . ( '' !== $text && '' !== $word ? ' · ' : '' ) . $word;
+		};
+		$full_word  = (string) ( $soon[0] ?? '' );
+		$plain_word = (string) ( $soon[1] ?? '' );
+		$full       = $line( $facts, $full_word );
+		if ( $one || ( '' === $plain && '' === $plain_word ) ) {
+			return '' !== $full ? '<span class="v3-home__facts">' . $full . '</span>' : '';
 		}
-		$out .= "\n\t\t\t\t\t</span>";
-		$out .= "\n\t\t\t\t\t" . NH_Html::icon( 'arrow-fwd', 'v3-home__arrow' );
-		$out .= "\n\t\t\t\t</a>\n\t\t\t</li>";
+		$text = NH_Text::HIDE === $plain ? '' : ( '' !== $plain ? $plain : $facts );
+		$word = NH_Text::HIDE === $plain_word ? '' : ( '' !== $plain_word ? $plain_word : $full_word );
+		$twin = $line( $text, $word );
+		$out  = '' !== $full ? '<span class="v3-home__facts v3-full">' . $full . '</span>' : '';
+		$out .= '' !== $twin ? '<span class="v3-home__facts v3-plain">' . $twin . '</span>' : '';
 		return $out;
 	}
 
@@ -484,15 +422,5 @@ final class NH_Widget_Homes extends NH_Widget_Base {
 	private static function items( array $s, string $key ): array {
 		$list = $s[ $key ] ?? [];
 		return is_array( $list ) ? array_filter( $list, 'is_array' ) : [];
-	}
-
-	/**
-	 * A letter weight from a NUMBER control, clamped to 300–800.
-	 */
-	private static function weight( $v, float $fallback ): float {
-		if ( ! is_numeric( $v ) ) {
-			return $fallback;
-		}
-		return max( 300.0, min( 800.0, (float) $v ) );
 	}
 }

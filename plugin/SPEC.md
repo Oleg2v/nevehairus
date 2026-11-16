@@ -36,7 +36,7 @@ Facts about Elementor 4.4.0 and Hello Elementor 3.5.2 used below were checked ag
 |---|---|---|
 | D1 | The cookie banner, the SVG sprite and the skip link are printed on **`wp_body_open`** (Hello calls it right after `<body>`), not in `wp_footer`. The visit bar, the global live region and the lightbox dialog are printed in `wp_footer`. If the theme never fires `wp_body_open`, the sprite and the banner fall back to `wp_footer`. | The prototype puts the banner first in Tab order, right after the skip link (DESIGN-SYSTEM 6.2 «первый в Tab»); the icons are referenced with `<use href>` everywhere. |
 | D2 | Pages are built with Elementor's **"Elementor Full Width"** layout (`elementor_header_footer`). The site module wraps the content in `<main id="main" class="nh-main" tabindex="-1">` through the hooks `elementor/page_templates/header-footer/before_content` and `…/after_content`. With Hello's default template the existing `<main id="content">` is used and the skip link points there. | Elementor's full-width template has no `<main>` (checked in 4.4.0); the prototype's CSS and JS need one (`main` counter, plain-mode rules, focus return). |
-| D3 | Masthead and colophon are widgets placed in Elementor Pro Theme Builder header/footer templates. Their root tag is a control (`html_tag`) defaulting to **`div`**, because Elementor Pro wraps a header template in `<header>` and a footer template in `<footer>` by default (the template's "HTML Tag" document setting `content_wrapper_html_tag`; `Theme_Document::print_elements_with_wrapper()`, read in the Pro Elements 4.4.0 source, 16.11). *(Changed 16.11, step 4.)* The site's own templates (`templates/pages/header.json`, `footer.json`, written by `scripts/test_site.py pages`) set that wrapper to **`div`** and the widgets' `html_tag` to `header` / `footer`: the DOM is then the prototype's (`header.nh-header`, `footer.nh-footer`), with one landmark each. The control keeps its `div` default for a widget dropped into a template that keeps Pro's own wrapper. The `pages` smoke test fails on a `<header>`/`<footer>` wrapper; confirm the landmarks on the test site in step 5 with axe. | Two `banner`/`contentinfo` landmarks fail axe; none fails the "region" rule. |
+| D3 | Masthead and colophon are widgets placed in Elementor Pro Theme Builder header/footer templates. Their root tag is a control (`html_tag`) defaulting to **`div`**, because Elementor Pro wraps a header template in `<header>` and a footer template in `<footer>` by default (the template's "HTML Tag" document setting `content_wrapper_html_tag`; `Theme_Document::print_elements_with_wrapper()`, read in the Pro Elements 4.4.0 source, 16.11). *(Changed 16.11, step 4.)* The site's own templates (`templates/pages/header.json`, `footer.json`, written by `scripts/test_site.py pages`) set that wrapper to **`div`** and the widgets' `html_tag` to `header` / `footer`: the DOM is then the prototype's (`header.nh-header`, `footer.nh-footer`), with one landmark each. The control keeps its `div` default for a widget dropped into a template that keeps Pro's own wrapper. The `pages` smoke test fails on a `<header>`/`<footer>` wrapper; confirm the landmarks on the test site in step 5 with axe. *(v3.2, B2 16.11: the colophon is gone; the footer template is Elementor's own widgets and keeps Pro's `<footer>` wrapper as its landmark — `footer.json` sets `content_wrapper_html_tag` `footer`, the header template stays `div`; the smoke test checks each against its template, research/07 §12.6.)* | Two `banner`/`contentinfo` landmarks fail axe; none fails the "region" rule. |
 | D4 | Hello's `reset.css` and `theme.css`, Hello's skip link and page title are switched off by filters; Elementor's Google Fonts are switched off. The Kit's "Theme Style" must stay empty (step 4). | Hello's reset styles `button`/`[type=button]` with pink borders and hover fills that beat our single-class selectors. |
 | D5 | The page cover is a separate widget `page-cover` that reuses the cover's CSS and JS handles. | Different defaults and breadcrumbs; editors pick it by name. |
 | D6 | The jobs application form is a widget (`jobs-form`) for the jobs page; its section chrome follows v3 (ruling line, `v3-h2`, lead) instead of the design-system page's eyebrow and developer note; its role list defaults to the ל spread's role titles so `?role=` preselection matches. | The prototype shows the form only as a component sample. |
@@ -91,7 +91,7 @@ plugin/
 │   │   ├── plainbox.php  day.php  voices.php                                life
 │   │   ├── glance.php  gallery.php  features.php  stories.php               residence
 │   │   ├── door.php  jobs-form.php                                          door
-│   │   └── masthead.php  colophon.php                                       chrome
+│   │   └── masthead.php  display.php                                        chrome (v3.2: colophon.php removed)
 │   ├── assets/
 │   │   ├── letters.json                      core · copied verbatim from prototype/assets/letters.json by build_plugin.py sync
 │   │   ├── fonts/                            core · copied verbatim: 4 × *.woff2 + OFL-Assistant.txt + OFL-FrankRuhlLibre.txt
@@ -165,7 +165,7 @@ Control value shapes: SWITCHER `'yes'|''`; MEDIA `['id' => int|'', 'url' => stri
 
 - Section anchors (the `id` of a spread) are controls with Latin defaults from the prototype (`cover`, `homes`, `plain`, …). Hebrew anchors are not allowed (sanitised with `sanitize_html_class`).
 - Element ids inside a widget are `{anchor}-{suffix}`; if the anchor is empty, `nh-{element id}-{suffix}` (`NH_Widget_Base::nh_uid()`). Form field ids: `{anchor}-{field}` (e.g. `door-name`); the prototype's `c-name`/`v-name` are not kept (invisible).
-- The masthead uses the fixed ids of the prototype (`nh-menu`, `v3-display-panel`, `v3-display-title`); the site module uses `nh-cookies`, `nh-cookies-title`, `nh-cookies-text`, `nh-cookie-prefs`, `nh-c-stats`, `nh-c-media`, `nh-lightbox`. Only one masthead per page.
+- The masthead uses the fixed ids of the prototype (`nh-menu`, `nh-menu-title`); the site module uses `nh-cookies`, `nh-cookies-title`, `nh-c-stats` (only when the statistics row is shown), `nh-c-media`. Only one masthead per page. *(v3.2, B2 16.11: no display panel, no lightbox.)*
 
 ---
 
@@ -228,16 +228,15 @@ abstract class NH_Widget_Base extends \Elementor\Widget_Base {
 	protected function nh_uid( string $suffix ): string;
 	protected function nh_section_open( array $s, array $o ): string;
 	protected function nh_section_close( string $tag = 'section' ): string;
-	protected function nh_rule( bool $draw = false ): string;          // <div class="v3-rule[ v3-rule--draw]" aria-hidden="true"></div>
+	protected function nh_rule(): string;                              // <div class="v3-rule" aria-hidden="true"></div> (v3.2: never drawn)
 	protected function nh_h2( array $s, array $o = [] ): string;       // <h2 class="v3-h2" id="{uid title}">{pair:title + dot}</h2>
 	protected function nh_lead( array $s, array $o = [] ): string;     // NH_Text::block( lead, lead_plain, … )
 	protected function nh_admin_note( string $text ): string;          // visible only to users who can edit_posts
 }
 ```
 - `nh_uid( 'title' )` → `"{anchor}-title"` when the `anchor` setting is non-empty (sanitised), else `"nh-{$this->get_id()}-title"`.
-- `nh_section_open( $s, $o )` options: `class` (string, required, e.g. `'v3-homes v3-spread'`), `tone` (`''|'sand'|'citrus'|'iris'|'night'` → adds `v3-spread--{tone}`), `header` (`'light'|'dark'`, default: `dark` for `iris`/`night`, else `light`), `labelledby` (suffix, default `'title'`; `null` = no attribute), `tag` (default `'section'`), `attrs` (extra attributes). Output attribute order: `class`, `id` (anchor; omitted if empty), `data-header`, `data-running`, `data-running-plain` (only if set), `aria-labelledby`, extra attrs. Example: `<section class="v3-cover v3-spread" id="cover" data-header="light" data-running="בית. לחיים." aria-labelledby="cover-title">`.
+- `nh_section_open( $s, $o )` options: `class` (string, required, e.g. `'v3-homes v3-spread'`), `tone` (`''|'sand'|'citrus'|'iris'|'night'` → adds `v3-spread--{tone}`), `labelledby` (suffix, default `'title'`; `null` = no attribute), `tag` (default `'section'`), `attrs` (extra attributes). Output attribute order: `class`, `id` (anchor; omitted if empty), `aria-labelledby`, extra attrs. Example: `<section class="v3-cover v3-spread" id="cover" aria-labelledby="cover-title">`. *(v3.2, research/07 §12.3: no `data-header`, `data-running`, `data-running-plain` — the masthead never changes; an option `header` is ignored.)*
 - `nh_h2( $s, $o )` options: `class` (default `'v3-h2'`; `''` for the plain box), `prefix` (control prefix, default `'title'`), `tag` (default `'h2'`), `id` *(core addition: the `nh_uid()` suffix, default `'title'`)*. Uses `title`, `title_plain`, `title_dot` (no tessera when the widget has no `title_dot` control). Returns `''` when the title pair is in state 5.
-- *(Core: `data-running-plain` is also omitted when `running_plain` is `-`.)*
 - `nh_lead( $s, $o )` passes `$o` to `NH_Text::block()` with defaults `full_tag p`, `full_class v3-lead`, `plain_tag div`, `plain_class ''`, `plain_lines p` and reads `lead`/`lead_plain` (or `$o['prefix']`).
 - `nh_admin_note()` returns `<p class="nh-admin-note" role="note">{text}</p>` only if `current_user_can( 'edit_posts' )`, else `''`. Used for: form recipient missing, jobs page not set, unresolved link tokens.
 
@@ -251,7 +250,7 @@ final class NH_Controls {
 	public static function image( $target, string $id, array $a ): void;   // {id} MEDIA, {id}_alt, {id}_decorative[, {id}_pos][, {id}_sizes]
 	public static function link( $target, string $id, array $a ): void;    // URL control, options=false, default ['url' => $a['default']]
 	public static function lines( $target, string $id, array $a ): void;   // TEXTAREA, one item per line
-	public static function section( \Elementor\Widget_Base $w, array $d ): void; // section "מקטע": anchor, running (+ running_plain)
+	public static function section( \Elementor\Widget_Base $w, array $d ): void; // section "מקטע": anchor
 	public static function dot_options(): array;   // ['' => 'סגול', 'clay' => 'חימר', 'ink' => 'דיו', 'citrus' => 'הדר', 'none' => 'נקודה רגילה']
 	public static function image_args( array $s, string $id ): array;      // → ['photo' => int, 'alt' => ?string, 'decorative' => bool, 'pos' => ?string, 'sizes' => ?string]
 }
@@ -260,7 +259,7 @@ final class NH_Controls {
 - `pair()` args: `label` (required), `default` (string), `plain` (default of the twin), `type` (`'text'` → TEXT, `'textarea'` → TEXTAREA; default `'text'`), `rows`, `condition`. The twin `{id}_plain` is always a TEXTAREA (rows 3) labelled `{label} — בשפה פשוטה`, with `description` = `PLAIN_HELP` and the same `condition`. Both get `label_block => true`.
 - `heading()` args: `default`, `plain`, `dot` (default `''`), `label` (default `כותרת`).
 - `image()` args: `label`, `decorative` (bool default for `{id}_decorative`), `alt` (default for `{id}_alt`, usually `''` = use the media library's alt), `pos` (if set, adds `{id}_pos` TEXT with this default), `sizes` (if set, adds `{id}_sizes` TEXT with this default), `condition`. The MEDIA default is `['url' => '', 'id' => '']` — no placeholder image. *(Core: `{id}_alt` has `condition => [ '{id}_decorative!' => 'yes' ]`: it is hidden for a decorative image and then reads `null`. In general **a control whose condition is not met reads as `null`** from `get_settings_for_display()` (Elementor's own behaviour; the stub does the same), so read settings with a string/array cast, as `widgets/cover.php` does. `pair()` and `link()` also accept `description`.)*
-- `section()` args: `anchor`, `running`, `running_plain` (default `''`). It opens and closes its own controls section (`nh_section`, label `מקטע`). Labels: `עוגן (id באנגלית)`, `שם המקטע בכותרת העליונה`.
+- `section()` args: `anchor` (default `''`). It opens and closes its own controls section (`nh_section`, label `מקטע`). Label: `עוגן (id באנגלית)`. *(v3.2: the running head is gone, and with it the controls `running`, `running_plain`; keys `running*` passed in `$d` are ignored.)*
 - `heading()`, `pair()`, `image()`, `link()`, `lines()` add controls into the section that is currently open; the widget opens/closes its sections itself.
 
 ### 3.5 `NH_Text` — plain-language twins
@@ -310,7 +309,7 @@ final class NH_Text {
 
 `tokens( $html )` (used by settings texts): `{phone}` → `<a href="tel:{tel}"><span class="nh-ltr">{display}</span></a>`; `{email}` → `: <a href="mailto:{email}"><span class="nh-ltr">{email}</span></a>` when the public e-mail is set, else `''`; `{contact}` → the `{email}` form when the public e-mail is set, else `: ` + the `{phone}` link (the §11 notice must always name a way to reach the controller, so "…ולתקן אותו{contact}." reads correctly both ways); `{year}` → `wp_date( 'Y' )`.
 
-**Which texts get twins.** Every visible text control gets a `_plain` twin through `NH_Controls::pair()`, except: `<option>` texts (HTML cannot hold the spans), numbers drawn as decoration (`v3-year__num`, `v3-steps__n`, `v3-stories__n`), swatch names, and texts inside a container that is always `v3-full` (years list, stats, facts, feature list) — those widgets have a plain summary control instead. Attribute-only texts (aria-label, alt, `data-*`) have no twin, except `data-running` (`running_plain`) and gallery captions (`data-caption-plain`).
+**Which texts get twins.** Every visible text control gets a `_plain` twin through `NH_Controls::pair()`, except: `<option>` texts (HTML cannot hold the spans), numbers drawn as decoration (`v3-year__num`, `v3-steps__n`, `v3-stories__n`), and texts inside a container that is always `v3-full` (years list, stats, facts, feature list) — those widgets have a plain summary control instead. Attribute-only texts (aria-label, alt, `data-*`) have no twin. *(v3.2: the running head (`data-running`, `running_plain`), the swatch names and the gallery's `data-caption-plain` are gone.)*
 
 ### 3.6 `NH_Html`
 
@@ -325,7 +324,7 @@ final class NH_Html {
 	public static function tel( string $tel ): string;         // 'tel:' + [+0-9] only
 	public static function post_id( string $url ): int;        // url_to_postid() for same-host URLs without a fragment, else 0
 	public static function is_current( string $url, string $ids_csv = '' ): bool;
-	public static function display_toggles( array $labels ): string; // the three .v3-toggle buttons
+	public static function display_toggles( array $labels, array $states = [] ): string; // v3.2: the switches whose key is in $labels (plain, calm)
 	// core additions (16.11):
 	public const ICONS  = [ 'phone', 'menu', 'close', 'arrow-fwd', 'arrow-back', 'play', 'expand', 'speech', 'sliders' ];
 	public const TOKENS = [ '#privacy', '#accessibility', '#sitemap', '#entrances', '#jobs-page' ];
@@ -337,6 +336,7 @@ final class NH_Html {
 - `nh_admin_note()` (widgets) and `NH_Forms::recipient_note()` both use `NH_Html::admin_note()`.
 - `icon( 'arrow-fwd', 'nh-btn__icon nh-btn__icon--fwd' )` → `<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg>`. With `$class === ''` the `class` attribute is omitted (the arrows in `.v3-roles` rows); `icon( 'arrow-fwd', 'v3-home__arrow' )` for the homes rows. With `$aria_hidden = false` only `focusable="false"` is written — used where the parent is already `aria-hidden` (`.nh-video__icon`, `.nh-gallery__zoom`), exactly as in the prototype. Icon names: `phone menu close arrow-fwd arrow-back play expand speech sliders` (the sprite, §5.3).
 - `is_current( $url, $ids )`: true if the queried post or one of its ancestors is in `$ids` (comma-separated post IDs), or if `$url` has no fragment and `post_id( $url )` is the queried post or an ancestor. URLs with a `#fragment` never match by URL (the home page's nav anchors are not "current", as in the prototype).
+- *(v3.2, B2 16.11: a switch is printed only when its key is in `$labels`, always in the order plain, calm — the menu passes both, the display widget may pass only `calm`; `motion` is ignored; each switch is `<button type="button" class="v3-toggle" data-{plain|calm}-toggle aria-pressed="false"><span class="v3-toggle__label">{label}</span><span class="v3-toggle__state" aria-hidden="true" data-on="{on}" data-off="{off}"></span><i aria-hidden="true"></i></button>`, research/07 §7.3. The v3.1 form below is history.)*
 - `display_toggles( [ 'plain' => …, 'motion' => …, 'calm' => … ] )` → exactly (one per line in the prototype, header L28–30):
   `<button type="button" class="v3-toggle" data-plain-toggle aria-pressed="false"><span>{plain}</span><i aria-hidden="true"></i></button>` + the same with `data-motion-toggle` and `data-calm-toggle`.
 
@@ -495,19 +495,19 @@ Events (on `document`): `nh:motionchange` (`detail.reduce`), `nh:displaychange`,
 | plainbox | nh-plainbox | בשפה פשוטה · תיבה | eicon-info-box | life | index L100–122, page L122–143 |
 | day | nh-day | היום בארבע מילים | eicon-time-line | life | index L124–157 |
 | kaf | nh-kaf | כ׳ · ידיים שיוצרות | eicon-gallery-grid | crafts | index L159–204 |
-| samekh | nh-samekh | ס׳ · יש על מי לסמוך | eicon-image | crafts | index L206–228 + rings |
+| samekh | nh-samekh | ס׳ · יש על מי לסמוך | eicon-image | crafts | index `section#support` (v3.2: no rings) |
 | years | nh-years | שנים · 1957 ושמיים | eicon-calendar | crafts | index L230–259 |
 | voices | nh-voices | קולות · ציטוט ווידאו | eicon-testimonial | life | index L261–295 |
 | steps | nh-steps | צעד צעד | eicon-editor-list-ol | index | index L297–311 |
 | lamed | nh-lamed | ל׳ · דרושים | eicon-person | index | index L313–332 |
 | door | nh-door | ד׳ · הדלת וטופס ביקור | eicon-form-horizontal | door | index L334–377, page L158–233 |
 | glance | nh-glance | במבט אחד · מספרים ועובדות | eicon-number-field | residence | page L44–64 |
-| gallery | nh-gallery | גלריה ולייטבוקס | eicon-gallery-justified | residence | page L66–82 + lightbox |
+| gallery | nh-gallery | גלריה · תמונות עם כיתוב | eicon-gallery-justified | residence | page `section#inside` (v3.2: no lightbox) |
 | features | nh-features | מה יש בבית + ציטוט | eicon-bullet-list | residence | page L84–105 |
 | stories | nh-stories | שלושה סיפורים | eicon-posts-grid | residence | page L107–120 |
 | related | nh-related | להמשך קריאה | eicon-link | index | page L145–156 |
-| masthead | nh-masthead | כותרת האתר (Theme Builder) | eicon-header | chrome | header L3–78 |
-| colophon | nh-colophon | תחתית · קולופון (Theme Builder) | eicon-footer | chrome | footer L1–58 |
+| masthead | nh-masthead | כותרת האתר (Theme Builder) | eicon-header | chrome | `partials/header.html` (v3.2) |
+| display | nh-display | מתגי תצוגה | eicon-toggle | chrome (v3.2) | `partials/footer.html` `.v3-switches` |
 | jobs-form | nh-jobs-form | טופס הגשת מועמדות | eicon-form-horizontal | door | ds L291–338 (D6) |
 
 An icon that does not exist in Elementor's icon font is cosmetic; use `eicon-apps` then.
@@ -520,7 +520,7 @@ An icon that does not exist in Elementor's icon font is cosmetic; use `eicon-app
 4. Write `assets/js/widgets/<id>.js` by porting the listed ranges into `nh.widget()`, scoped to the root element.
 5. Write `tests/fixtures/widgets/<id>.php` (§11.3) and run the harness and `compare.py` until the only differences are the expected ones.
 
-**Controls layout.** Content tab only. Sections in this order (omit empty ones): `תוכן` (heading, lead, texts), `תמונות` (images), the repeater section(s), `טופס` (forms), `מקטע` (anchor, running head — always last, via `NH_Controls::section()`). Every visible text uses `NH_Controls::pair()` unless §3.5 lists it as an exception. Every image uses `NH_Controls::image()`. Every link uses `NH_Controls::link()`.
+**Controls layout.** Content tab only. Sections in this order (omit empty ones): `תוכן` (heading, lead, texts), `תמונות` (images), the repeater section(s), `טופס` (forms), `מקטע` (the anchor — always last, via `NH_Controls::section()`; v3.2: no running head, and «Section controls: `x` / `y`» below reads «anchor `x`»). Every visible text uses `NH_Controls::pair()` unless §3.5 lists it as an exception. Every image uses `NH_Controls::image()`. Every link uses `NH_Controls::link()`.
 
 **Render rules.**
 - Root = `nh_section_open()` … `nh_section_close()`; inside, `<div class="nh-container …">` as in the prototype.
@@ -528,8 +528,9 @@ An icon that does not exist in Elementor's icon font is cosmetic; use `eicon-app
 - A room or print whose image control is empty: rooms fall back to `field => 'sky'` (the calm sky of the third home); prints (`figure.v3-print`) are omitted; the video poster is omitted (the facade's dark background remains).
 - Heading ids come from `nh_uid()`; `aria-labelledby` of the section points to the spread's heading (H1 for covers, H2 otherwise).
 - Numbers with symbols (`100+`), phone numbers and e-mail addresses inside RTL text are wrapped in `<span class="nh-ltr">` exactly where the prototype does; Latin words inside Hebrew text keep their `<span lang="en" dir="ltr">` (colophon).
-- No inline `style` except the CSS custom properties of rooms (`NH_Letters::room()`) and swatches (`--c:#RRGGBB` after `sanitize_hex_color()`).
-- `DYNAMIC = true` for widgets that read settings or the request (masthead, colophon, door, jobs-form, lamed); everything else `false` (Elementor may cache the output).
+- No inline `style` except the CSS custom properties of rooms (`NH_Letters::room()`) *(v3.2: the swatches are gone; run.php allows a `style` attribute only on `.v3-room`)*.
+- `DYNAMIC = true` for widgets that read settings or the request (masthead, cover and page-cover — the phone line —, door, jobs-form, lamed); everything else `false` (Elementor may cache the output). *(v3.2: the colophon is gone; the gallery queues nothing and is static.)*
+- *(v3.2, B2 16.11, research/07 §4, §13: no widget script animates anything. The widget scripts left are `masthead.js` (the phone menu) and `voices.js` (the video facade); the one soft appearance of prints is `nh.reveal()` in nh-core.js, on `figure.v3-print[data-reveal]`. A print a widget prints carries `data-reveal`; every letter keeps one weight (`WEIGHT` constants: ב 600, כ 440, ס 380, ל 600).)*
 
 **Reference skeleton** (shape only — `widgets/cover.php` in the core package is the complete reference; long defaults shortened here with `…`):
 ```php
@@ -547,7 +548,6 @@ final class NH_Widget_Steps extends NH_Widget_Base {
 		$this->start_controls_section( 'nh_content', [ 'label' => __( 'תוכן', 'nevehairus-site' ) ] );
 		NH_Controls::heading( $this, [ 'default' => 'צעד צעד: ארבעה צעדים הביתה.', 'plain' => 'איך מגיעים לגור אצלנו?' ] );
 		NH_Controls::pair( $this, 'lead', [ 'label' => __( 'פתיח', 'nevehairus-site' ), 'type' => 'textarea', 'default' => '…', 'plain' => 'יש ארבעה צעדים.' ] );
-		$this->add_control( 'word', [ 'label' => __( 'מילת הרקע', 'nevehairus-site' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'צעד' ] );
 		$this->end_controls_section();
 
 		$this->start_controls_section( 'nh_list', [ 'label' => __( 'צעדים', 'nevehairus-site' ) ] );
@@ -562,7 +562,7 @@ final class NH_Widget_Steps extends NH_Widget_Base {
 		] );
 		$this->end_controls_section();
 
-		NH_Controls::section( $this, [ 'anchor' => 'start', 'running' => 'צעד צעד' ] ); // opens and closes its own controls section
+		NH_Controls::section( $this, [ 'anchor' => 'start' ] ); // opens and closes its own controls section
 	}
 
 	protected function render() {
@@ -574,7 +574,7 @@ final class NH_Widget_Steps extends NH_Widget_Base {
 				continue;
 			}
 			++$k;
-			$items .= '<li><span class="v3-steps__word" aria-hidden="true" data-word="' . esc_attr( $s['word'] ) . '"></span>'
+			$items .= '<li>'
 				. '<h3><span class="v3-steps__n">' . $k . '</span> ' . NH_Text::pair( $it['title'], $it['title_plain'] ) . '</h3>'
 				. NH_Text::block( $it['text'], $it['text_plain'], [ 'plain_tag' => 'p', 'plain_lines' => null ] ) . '</li>';
 		}
@@ -594,7 +594,10 @@ The tables below give, per widget: constants, controls (id · type · default ·
 
 ### 4.1 `cover` — package core (the reference widget)
 
-Constants: `ID 'cover'`, `STYLE_DEPS ['nh-letters']`, `KEYWORDS ['cover','bet','שער','ב']`. Section: class `v3-cover v3-spread`, tone none (light). Section controls: `cover` / `בית. לחיים.`.
+*(v3.2, B2 16.11: research/07 §10.2 item 1, §13. The ב stands still at weight 600; no ruling line, no morph, no
+`#nh-letters`; the line «או בטלפון» under the button reads the phone from the settings, so the widget is DYNAMIC.)*
+
+Constants: `ID 'cover'`, `STYLE_DEPS ['nh-letters']`, `DYNAMIC true`, `WEIGHT 600`, `KEYWORDS ['cover','bet','שער','ב']`, `SIZES` (the photo's default `sizes`). Section: class `v3-cover v3-spread`, tone none (light). Section control: anchor `cover`.
 
 | control | type | default | `_plain` default |
 |---|---|---|---|
@@ -606,91 +609,95 @@ Constants: `ID 'cover'`, `STYLE_DEPS ['nh-letters']`, `KEYWORDS ['cover','bet','
 | `lead` | pair, textarea | `בית בנס ציונה לאנשים עם מוגבלות שכלית התפתחותית, גם כשיש התנהגות מאתגרת או אבחנה כפולה.` | `גרים כאן אנשים עם מוגבלות שכלית התפתחותית.⏎הבית נמצא בעיר נס ציונה.⏎אפשר לגור אצלנו.⏎אפשר לבוא לראות את הבית לפני שמחליטים.` |
 | `cta_text` | pair | `בואו להכיר — תיאום ביקור` | `לקבוע ביקור` |
 | `cta_link` | URL | `#door` | |
-| `photo` | image | — · `_decorative` no · `_alt` '' · `_pos` `46% 38%` · `_sizes` `(min-width: 1024px) 30rem, 44vw` | |
-| `weight` | NUMBER 300–800 step 10 | `800` | |
+| `show_call` | SWITCHER | `yes` | |
+| `call_label` | pair (condition `show_call`) | `או בטלפון:` ⊕ | `אפשר גם להתקשר:` ⊕ |
+| `photo` | image | — · `_decorative` no · `_alt` '' · `_pos` `46% 50%` · `_sizes` `(min-width: 1024px) 30rem, 44vw` | |
+
+Removed in v3.2: `weight` (the constant 600), `running`.
 
 Markup (target: built `index.html` `section#cover`):
 ```html
-<section class="v3-cover v3-spread" id="cover" data-header="light" data-running="בית. לחיים." aria-labelledby="cover-title">
+<section class="v3-cover v3-spread" id="cover" aria-labelledby="cover-title">
   <div class="nh-container v3-cover__grid">
-    <div class="v3-rule v3-rule--draw" aria-hidden="true"></div>
     <div class="v3-cover__letter">
-      {NH_Letters::room('bet', [photo, sizes, priority => true, pos, weight, alt, decorative, class => 'v3-cover__bet', field => 'sky'])}
+      {NH_Letters::room('bet', [photo, sizes, priority => true, pos, weight => 600, alt, decorative, class => 'v3-cover__bet', field => 'sky'])}
     </div>
     <div class="v3-cover__text">
       <h1 class="v3-cover__title" id="cover-title"><span class="v3-full"><span>{dot(title_1)}</span> <span>{dot(title_2)}</span></span><span class="v3-plain">{title_plain}</span></h1>
       {block:lead full_class=v3-cover__lead plain_class=v3-cover__plain}
-      [if cta_text]<p class="v3-cover__cta"><a class="nh-btn nh-btn--primary" href="{cta_link}">{pair:cta_text}{icon:arrow-fwd nh-btn__icon nh-btn__icon--fwd}</a></p>[/if]
+      [if cta_text and cta_link]<p class="v3-cover__cta"><a class="nh-btn nh-btn--primary" href="{cta_link}" data-visit-cta>{pair:cta_text}{icon:arrow-fwd nh-btn__icon nh-btn__icon--fwd}</a></p>[/if]
+      [if show_call and a phone in the settings]<p class="v3-cover__call">{pair:call_label} <a href="{tel}"><span class="nh-ltr">{display}</span></a></p>[/if]
     </div>
   </div>
 </section>
-{NH_Letters::data_script(['bet'])}
 ```
-H1 rule: the H1 always has the `v3-full` / `v3-plain` structure (the CSS lays out the line spans inside `.v3-full`); if `title_plain` is empty (or `-` — the page heading is never hidden), the plain span repeats `title_1 title_2` as text without tesserae. A line whose text is empty is omitted (one-line titles).
+H1 rule: the H1 always has the `v3-full` / `v3-plain` structure (the CSS lays out the line spans inside `.v3-full`); if `title_plain` is empty (or `-` — the page heading is never hidden), the plain span repeats `title_1 title_2` as text without tesserae. A line whose text is empty is omitted (one-line titles). `data-visit-cta`: nh-core.js points the button at this page's `.v3-door[id]` when there is one (research/07 §5.5).
 
-CSS `cover.css`: v3.css L132–161, L163–191, L452–458, L463. (L162 goes to base.)
-JS `cover.js`: v3.js L116–173 inside `nh.widget('cover', '.v3-cover', …)` with a page-level guard (only the first cover on the page morphs). Reads `#nh-letters`; works for the page cover too (`v3-cover--page` check stays, the page cover's `--t` starts at its own weight). *(Core: cover.js registers the same init under both names, `nh.widget('cover', …)` and `nh.widget('page-cover', …)`, so the editor's re-render of a page cover also restarts the morph; when the editor replaces the morphing cover, the old instance is stopped. The page-cover package needs no JS of its own — only `SCRIPT_DEPS ['nh-w-cover']`.)*
+CSS `cover.css`: v3.css L132–161, L163–191 (v3.1) without the pinning, the drawn rule, the paper «curtain», the settling photo and their `@keyframes` (v3.2: removed by B2), the grid has no row for a rule and a row for `.v3-cover__call`; L452–458, L463. The v3.2 layout and type scale (research/07 §10.2 item 1) are ported with the markup (§15 B4).
+JS: none (`cover.js` deleted in v3.2).
 *(Core: an empty `cta_link` renders no button; `NH_Widget_Cover::SIZES` holds the default `sizes`.)*
-Fixture: `default` (no photo: the sky field, compared with its expected differences); `prototype` = photo `v3-walk`, compare `index.html` `section#cover` — **result: 0 differing lines**; `states`, `no-button` (edge cases, structure only).
+Fixture: `default` (no photo: the sky field, compared with its expected differences); `prototype` = photo `v3-walk`, compare `index.html` `section#cover` — **result: 0 differing lines**; `states`, `no-button`, `no-phone` (edge cases, structure only).
 
 ### 4.2 `page-cover` — package residence
 
-Constants: `ID 'page-cover'`, `STYLE_DEPS ['nh-letters','nh-w-cover']`, `SCRIPT_DEPS ['nh-w-cover']`. Section: class `v3-cover v3-cover--page v3-spread`. Section controls: `cover` / `מעון ראשי`.
+*(v3.2, B2 16.11: research/07 §10.3 item 1, §13.)*
 
-Same controls as `cover` with these defaults: `title_1` `מעון ראשי —`, `title_2` `בית לחיים.` (`title_2_dot` `''`), `title_plain` `המעון הראשי בנס ציונה`, `lead` `בית בנס ציונה לבוגרים ובוגרות עם מוגבלות שכלית התפתחותית, גם עם אבחנה כפולה או התנהגות מאתגרת. צוות קבוע, טיפול מקצועי ויום מלא בעשייה.` / `גרים כאן גברים ונשים עם מוגבלות שכלית התפתחותית.⏎הצוות קבוע, ומכיר את כולם.⏎אפשר לבוא לראות את המקום.`, `cta_text` `תיאום ביקור` / `לקבוע ביקור`, `cta_link` `#visit`, `photo_pos` `55% 45%`, `photo_sizes` `(min-width: 1024px) 22rem, 44vw`, `photo_alt` `תקרת „שמיים” באגף החדש של המעון: לוח תאורה עם עננים`, `weight` `600`. Plus:
+Constants: `ID 'page-cover'`, `STYLE_DEPS ['nh-letters','nh-w-cover']`, `DYNAMIC true` (the phone line), `WEIGHT 600`. No `SCRIPT_DEPS` (v3.2: no cover script). Section: class `v3-cover v3-cover--page v3-spread`. Section control: anchor `cover`.
+
+Same controls as `cover` with these defaults: `title_1` `מעון ראשי —`, `title_2` `בית לחיים.` (`title_2_dot` `''`), `title_plain` `המעון הראשי בנס ציונה`, `lead` `בית בנס ציונה לבוגרים ובוגרות עם מוגבלות שכלית התפתחותית, גם עם אבחנה כפולה או התנהגות מאתגרת. צוות קבוע, טיפול מקצועי ויום מלא בעשייה.` / `גרים כאן גברים ונשים עם מוגבלות שכלית התפתחותית.⏎הצוות קבוע, ומכיר את כולם.⏎אפשר לבוא לראות את המקום.`, `cta_text` `תיאום ביקור` / `לקבוע ביקור`, `cta_link` `#visit`, `show_call` / `call_label` as the cover, `photo_pos` `55% 45%`, `photo_sizes` `(min-width: 1024px) 22rem, 44vw`, `photo_alt` `תקרת „שמיים” באגף החדש של המעון: לוח תאורה עם עננים`. Removed in v3.2: `weight` (the constant 600), `running`. Plus:
 
 | control | type | default |
 |---|---|---|
 | `crumbs_label` | TEXT (aria-label) | `נתיב ניווט` |
-| `crumbs` | REPEATER: `label` (pair), `link` (URL) | 1 `דף הבית` → `home_url('/')`; 2 `מסגרות המגורים` → `home_url('/#homes')`; 3 `מעון ראשי` → `''` |
+| `crumbs` | REPEATER: `label` (pair), `link` (URL) | 1 `דף הבית` → `home_url('/')`; 2 `הבתים שלנו` → `home_url('/#homes')`; 3 `מעון ראשי` → `''` |
 
 Markup (target `program-main-home.html` `section#cover`): as `cover`, with
 - class `v3-cover v3-cover--page v3-spread`;
 - first child of the grid: `<nav class="nh-crumbs v3-crumbs" aria-label="{crumbs_label}"><ol>[each crumbs]<li><a href="{link}">{pair:label}</a></li>[/each]</ol></nav>` — an item with an empty link renders `<li><span aria-current="page">{pair:label}</span></li>`;
-- the room gets `class => 'v3-cover__bet'`, `attrs => ['data-vt' => 'home-bet-' . get_the_ID()]`;
+- no ruling line, no `data-vt` on the room, no `#nh-letters` (v3.2: no page transition, no morph);
 - H1 class `v3-cover__title v3-cover__title--page`;
-- `NH_Letters::data_script(['bet'])` after the section.
+- the button with `data-visit-cta` and the line `.v3-cover__call`, as the cover.
 
-CSS `page-cover.css`: main.css L301–305 (`.nh-crumbs`), v3.css L493–501. Adds (porting change): `.v3-cover--page .v3-room { view-transition-class: nh-bet; }` (D11).
-JS: none (uses `nh-w-cover`).
-Fixture: `prototype` = photo `v3-sky-room`, compare `program-main-home.html` `section#cover`. Expected differences: crumb hrefs (normalised), `data-vt`.
+CSS `page-cover.css`: main.css L301–305 (`.nh-crumbs`), v3.css L493–501; v3.2: no `view-transition-class` (D11 is gone). The crumbs of research/07 §10.3 item 2 («‹», silent) are ported with the markup (§15 B4).
+JS: none.
+Fixture: `prototype` = photo `v3-sky-room` on the house page (queried post 11), compare `program-main-home.html` `section#cover`: 0 differing lines (crumb hrefs normalised).
 
 ### 4.3 `homes` — package index
 
-Constants: `ID 'homes'`, `STYLE_DEPS ['nh-letters']`. Section class `v3-homes v3-spread`. Section controls: `homes` / `שלושה בתים`.
+*(v3.2, B2 16.11: research/07 §10.2 item 2, §3 item 21, §13. No quick chooser; every row's ב at weight 600; a
+row is a link only when its home has a page, otherwise it says «דף מפורט בקרוב».)*
+
+Constants: `ID 'homes'`, `STYLE_DEPS ['nh-letters']`, `WEIGHT 600`, `SIZES '9.5rem'`. Section class `v3-homes v3-spread`. Section control: anchor `homes`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
-| `fit_q` | pair | `האם זה המקום בשבילנו?` | '' |
-| `fit` | REPEATER: `label` (pair), `link` | `צריך צוות צמוד כל היום` → `#home-1`; `יש התנהגות מאתגרת או אבחנה כפולה` → `#home-1`; `רוצים לגור בדירה בתוך העיר` → `#home-2`; `צעירים וצעירות על הרצף האוטיסטי` → `#home-3` | '' each |
 | `title` + `title_dot` | heading | `שלושה בתים.` · `''` | '' |
-| `intro` | pair, textarea | '' | `יש לנו שלושה בתים.⏎הבתים שונים זה מזה.⏎לחצו על בית כדי לקרוא עליו.` |
+| `lead` | pair, textarea | `האם זה המקום בשבילנו? ליד כל בית כתוב למי הוא מתאים.` ⊕ | `יש לנו שלושה בתים.⏎הבתים שונים זה מזה.⏎ליד כל בית כתוב למי הוא מתאים.` ⊕ |
 | `homes` | REPEATER (below) | 3 items | |
 | `note` | pair, textarea | `לבית השלישי עוד אין צילומים, ולכן במקום תמונה יש בו שמיים שקטים.` | `לבית השלישי עוד אין תמונות.` |
+| `soon_text` | pair | `דף מפורט בקרוב` ⊕ | '' |
 
-`homes` repeater fields: `anchor` (TEXT), `tone` (SELECT `paper|sand|sky`), `title` (pair), `who` (pair, textarea), `facts` (pair), `link` (URL), `photo` (image: decorative yes, `_pos`), `weight` (NUMBER). Defaults:
+Removed in v3.2: `fit_q` and the repeater `fit` (the chooser), `intro` (→ `lead`), the rows' `weight` (the constant 600), `running`.
 
-| # | anchor | tone | title | who / who_plain | facts / facts_plain | link | photo · pos · weight |
+`homes` repeater fields: `anchor` (TEXT), `tone` (SELECT `paper|sand|sky`), `title` (pair), `who` (pair, textarea), `facts` (pair), `link` (URL; empty = the home has no page yet), `photo` (image: decorative yes, `_pos`). Defaults:
+
+| # | anchor | tone | title | who / who_plain | facts / facts_plain | link | photo · pos |
 |---|---|---|---|---|---|---|---|
-| 1 | `home-1` | paper | `מעון ראשי — בית לחיים` | `בוגרים ובוגרות עם מוגבלות שכלית התפתחותית, גם עם התנהגות מאתגרת או אבחנה כפולה.` / `בית גדול בנס ציונה.⏎צוות עוזר שם כל היום.` | `שתי יחידות · צוות קבוע · חדר סנוזלן ומרפאת שיניים` / `-` | `#homes` | (v3-sky-room) · `55% 45%` · 600 |
-| 2 | `home-2` | sand | `דיור בקהילה` | `בוגרים ובוגרות עם מוגבלות שכלית התפתחותית, בדירות ובבתים בתוך העיר — עם צוות מלווה.` / `דירות ובתים בתוך העיר.⏎צוות עוזר לדיירים ולדיירות.` | `שגרה ועצמאות · עבודה ופנאי בעיר · ליווי צמוד` / `-` | `#homes` | (v3-villa) · `50% 45%` · 560 |
-| 3 | `home-3` | sky | `דיור לצעירים על הרצף האוטיסטי` | `בית לצעירים ולצעירות, עם ליווי אישי בשגרת היום־יום.` / `בית לצעירים ולצעירות עם אוטיזם.⏎הבית שקט, ויש סדר יום ברור.` | `סביבה רגועה · שגרה ברורה` / `-` | `#homes` | none (sky field) · — · 560 |
+| 1 | `home-1` | paper | `מעון ראשי — בית לחיים` | `בוגרים ובוגרות עם מוגבלות שכלית התפתחותית, גם עם התנהגות מאתגרת או אבחנה כפולה.` / `בית גדול בנס ציונה.⏎צוות עוזר שם כל היום.` | `שתי יחידות · צוות קבוע · חדר סנוזלן ומרפאת שיניים` / `-` | '' (step 4: the house page) | (v3-sky-room) · `55% 45%` |
+| 2 | `home-2` | sand | `דיור בקהילה` | `בוגרים ובוגרות עם מוגבלות שכלית התפתחותית, בדירות ובבתים בתוך העיר — עם צוות מלווה.` / `דירות ובתים בתוך העיר.⏎צוות עוזר לדיירים ולדיירות.` | `שגרה ועצמאות · עבודה ופנאי בעיר · ליווי צמוד` / `-` | '' | (v3-villa) · `50% 45%` |
+| 3 | `home-3` | sky | `דיור לצעירים על הרצף האוטיסטי` | `בית לצעירים ולצעירות, עם ליווי אישי בשגרת היום־יום.` / `בית לצעירים ולצעירות עם אוטיזם.⏎הבית שקט, ויש סדר יום ברור.` | `סביבה רגועה · שגרה ברורה` / `-` | '' | none (sky field) · — |
 
 Markup (target `index.html` `section#homes`):
 ```html
-<section class="v3-homes v3-spread" id="homes" data-header="light" data-running="שלושה בתים" aria-labelledby="homes-title">
+<section class="v3-homes v3-spread" id="homes" aria-labelledby="homes-title">
   <div class="nh-container">
-    [if fit]<nav class="v3-fit" aria-labelledby="{uid fit-title}">
-      <p class="v3-fit__q" id="{uid fit-title}">{pair:fit_q}</p>
-      <ul role="list">[each fit]<li><a href="{link}">{pair:label}</a></li>[/each]</ul>
-    </nav>[/if]
     <div class="v3-rule" aria-hidden="true"></div>
     {nh_h2}
-    {block:intro full_class=v3-lead plain_tag=div}
+    {nh_lead}
     <ol class="v3-homes__list" role="list">
-      [each homes]<li class="v3-home v3-home--{tone}" id="{anchor}">
-        <a class="v3-home__link" href="{link}"[ data-vt="home-bet-{NH_Html::post_id(link)}" when > 0]>
-          {NH_Letters::room('bet', [photo, sizes => '9rem', weight, pos, class => 'v3-home__bet', decorative, field => 'sky'])}
+      [each homes with a link]<li class="v3-home v3-home--{tone}" id="{anchor}">
+        <a class="v3-home__link" href="{link}">
+          {NH_Letters::room('bet', [photo, sizes => '9.5rem', weight => 600, pos, class => 'v3-home__bet', decorative, field => 'sky'])}
           <span class="v3-home__body">
             <span class="v3-home__title">{pair:title}</span>
             {pair:who tag=span class=v3-home__who plain_lines=true bare=false}
@@ -698,17 +705,20 @@ Markup (target `index.html` `section#homes`):
           </span>
           {icon:arrow-fwd v3-home__arrow}
         </a>
+      </li>
+      [each homes without a link]<li class="v3-home v3-home--{tone}" id="{anchor}">
+        <div class="v3-home__row">{the same room and body; the facts end with « · <span class="v3-home__soon">{soon_text}</span>»; a plain twin of the facts holds the soon words when the facts are hidden in plain language}</div>
       </li>[/each]
     </ol>
     {block:note full_class=v3-note plain_tag=p plain_class=v3-note plain_lines=null}
   </div>
 </section>
 ```
-Note: for the prototype's third row (no photo) the room has no `decorative` image — the sky field `span` is already `aria-hidden`.
+A link back to the spread itself (`#{anchor}` of the widget or of the row) counts as no link. For the prototype's third row (no photo) the room has no `decorative` image — the sky field `span` is already `aria-hidden`.
 
-CSS `homes.css`: v3.css L193–217; L445 third selector only (`html.nh-plainmode .v3-home__who.v3-plain { … }` with the same declarations); L449; from L471–475 the selectors `.v3-home__link::before` and `.v3-home__arrow` (both the `html.nh-reduce-motion` and the `@media (prefers-reduced-motion: reduce)` forms). Adds: `.v3-home__bet { view-transition-class: nh-bet; }`.
-JS `homes.js`: v3.js L226–233, changed: listen on `.v3-home__link[data-vt]` (not `[href$='.html']`); on click, if `nh.motionOK()`, set the row room's `style.viewTransitionName = a.dataset.vt` and `sessionStorage['nh-vt'] = a.dataset.vt`; on `pageshow` clear the names.
-Fixture: `prototype` = photos `v3-sky-room`, `v3-villa`; compare `index.html` `section#homes`. Expected differences: row 1 href (prototype links `program-main-home.html`), ids of the chooser (`fit-title` → `homes-fit-title`).
+CSS `homes.css`: v3.css L193–217 (v3.1) without the chooser; the row fills at once (the `::before` changes `opacity` in 150ms, no «curtain»), the arrow never moves, no `view-transition-class`; `.v3-home__row` is laid out like `.v3-home__link`; L445 third selector only; L449. The v3.2 sizes are ported with the markup (§15 B4).
+JS: none (`homes.js` deleted in v3.2).
+Fixture: `prototype` = photos `v3-sky-room`, `v3-villa`, row 1 linked to the house page; compare `index.html` `section#homes`: 0 differing lines. `edge`, `linked` (structure only).
 
 ### 4.4 `plainbox` — package life
 
@@ -725,7 +735,7 @@ For the house page (step 4) the editor sets `variant = page`, anchor `plain-page
 
 Markup (target `index.html` `section#plain`):
 ```html
-<section class="v3-plainbox-wrap" id="plain" data-header="light" data-running="בשפה פשוטה" aria-labelledby="plain-title">
+<section class="v3-plainbox-wrap" id="plain" aria-labelledby="plain-title">
   <div class="nh-container">
     <div class="v3-plainbox">
       {icon:speech v3-plainbox__icon}
@@ -745,171 +755,167 @@ Fixture: `default` compare `index.html` `section#plain`; variant `page` compare 
 
 ### 4.5 `day` — package life
 
-Constants: `ID 'day'`. Section class `v3-day v3-spread`. Section controls: `day` / `החיים אצלנו`.
+*(v3.2, B2 16.11: research/07 §10.2 item 4, §4.2, §8.1.)*
+
+Constants: `ID 'day'`, `SIZES '(max-width: 23em) calc(100vw - 2.5rem), 21rem'`. Section class `v3-day v3-spread`. Section control: anchor `day`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
 | `title` + dot | heading | `החיים קורים כאן.` · `''` | `מה עושים ביום?` |
 | `lead` | pair, textarea | `יום רגיל בנווה האירוס בארבע מילים — וכל אחד ואחת בקצב שלהם.` | `-` |
-| `moments` | REPEATER: `verb` (pair), `photo` (image, `_sizes`), `print` (SELECT `normal\|small\|mid`), `caption` (pair), `text` (pair, textarea) | 4 items below | |
+| `moments` | REPEATER: `verb` (pair), `photo` (image, `_sizes` = `SIZES`), `caption` (pair), `text` (pair, textarea) | 4 items below | |
 
-| # | verb | photo · print · sizes | caption | text / text_plain |
+Removed in v3.2: the repeater's `print` (SELECT) and the constants `PRINT_CLASS`, `PRINT_SIZES`; `running`.
+
+| # | verb | photo | caption | text / text_plain |
 |---|---|---|---|---|
-| 1 | `יוצרים` | (v3-crafts) · normal · `(min-width: 1024px) 34rem, 92vw` | `עבודות פסיפס וקרמיקה ביום מכירה.` | `סדנאות פסיפס, תכשיטים, ציור על משי, מוזיקה ותנועה — וגם תעסוקה בעיר.` / `עובדים בסדנאות: פסיפס, תכשיטים וציור.` |
-| 2 | `רוכבים` | (v3-riding) · small · `(min-width: 1024px) 14rem, 60vw` | `סוס ליד הגדר, ביום של רכיבה טיפולית.` | `רכיבה טיפולית בחווה, ועוד חוגים מחוץ למעון.` / `רוכבים על סוסים בחווה.` |
-| 3 | `מטיילים` | (v3-orchard) · normal · `(min-width: 1024px) 26rem, 92vw` | `טיול בין עצי ההדר.` | `טיולים, בתי קפה וסרטים, בעיר ובטבע.` / `יוצאים לטיולים, לבית קפה ולסרט.` |
-| 4 | `מארחים` | (v3-villa) · mid · `(min-width: 1024px) 20rem, 80vw` | `פינה לשבת עם אורחים.` | `ביקורים של משפחה וחברים, וקשר פתוח עם הצוות.` / `המשפחות והחברים באים לבקר.` |
+| 1 | `יוצרים` | (v3-crafts) | `עבודות פסיפס וקרמיקה ביום מכירה.` | `סדנאות פסיפס, תכשיטים, ציור על משי, מוזיקה ותנועה — וגם תעסוקה בעיר.` / `עובדים בסדנאות: פסיפס, תכשיטים וציור.` |
+| 2 | `רוכבים` | (v3-riding) | `סוס ליד הגדר, ביום של רכיבה טיפולית.` | `רכיבה טיפולית בחווה, ועוד חוגים מחוץ למעון.` / `רוכבים על סוסים בחווה.` |
+| 3 | `מטיילים` | (v3-orchard) | `טיול בין עצי ההדר.` | `טיולים, בתי קפה וסרטים, בעיר ובטבע.` / `יוצאים לטיולים, לבית קפה ולסרט.` |
+| 4 | `מארחים` | (v3-villa-print) | `פינה לשבת עם אורחים.` | `ביקורים של משפחה וחברים, וקשר פתוח עם הצוות.` / `המשפחות והחברים באים לבקר.` |
 
 Images are informative (not decorative): alt from the media library.
 
 Markup (target `index.html` `section#day`):
 ```html
-<section class="v3-day v3-spread" id="day" data-header="light" data-running="החיים אצלנו" aria-labelledby="day-title">
+<section class="v3-day v3-spread" id="day" aria-labelledby="day-title">
   <div class="nh-container">
     <div class="v3-rule" aria-hidden="true"></div>
     {nh_h2}
     {nh_lead}
     <ol class="v3-day__list" role="list">
-      [each moments, n = 0…]<li class="v3-moment v3-moment--{a|b|c|d by n % 4}">
+      [each moments]<li class="v3-moment">
         <h3 class="v3-moment__verb">{pair:verb}</h3>
-        [if photo]<figure class="v3-print[ v3-print--small| v3-print--mid]">{NH_Picture::render(photo, [sizes])}<figcaption>{pair:caption}</figcaption></figure>[/if]
+        [if photo]<figure class="v3-print" data-reveal>{NH_Picture::render(photo, [sizes])}<figcaption>{pair:caption}</figcaption></figure>[/if]
         {block:text full_tag=p plain_tag=p plain_lines=null}
       </li>[/each]
     </ol>
   </div>
 </section>
 ```
-CSS `day.css`: v3.css L229–233, L242–249, L462. (`main { counter-reset }` and `.v3-print` are in base.)
+v3.2: no zigzag (no `v3-moment--a…d`), one print size; `data-reveal`: the print's photo frame may appear softly once (nh-core.js `nh.reveal()`, research/07 §4.2).
+CSS `day.css`: v3.css L229–233, L242–249, L462 (v3.1); the v3.2 grid (4 / 2 / 1 columns) and the D-M verbs are ported with the markup (§15 B4). (`.v3 { counter-reset: print }` and `.v3-print` with the reveal are in base.)
 JS: none.
-Fixture: `prototype` = photos `v3-crafts`, `v3-riding`, `v3-orchard`, `v3-villa`; compare `section#day`.
+Fixture: `prototype` = photos `v3-crafts`, `v3-riding`, `v3-orchard`, `v3-villa-print`; compare `section#day`: 0 differing lines.
 
 ### 4.6 `kaf` — package crafts
 
-Constants: `ID 'kaf'`, `STYLE_DEPS ['nh-letters']`. Section class `v3-kaf v3-spread`, tone `citrus`. **No ruling line.** Section controls: `made` / `ידיים שיוצרות`.
+*(v3.2, B2 16.11: research/07 §10.2 item 5, §13. One still work in the palm of a still כ (weight 440) and a visible
+caption; no list of works, no colour swatches, no crossfade; the honey ground; the ruling line first.)*
+
+Constants: `ID 'kaf'`, `STYLE_DEPS ['nh-letters']`, `WEIGHT 440`, `SIZES '(min-width: 64em) 28rem, 70vw'`. Section class `v3-kaf v3-spread`, tone `citrus` («honey», base.css). Section control: anchor `made`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
 | `title` + dot | heading | `ידיים שיוצרות.` · `ink` | `עבודות יד` |
 | `lead` | pair, textarea | `פסיפס, תכשיטים, קרמיקה וציור: עבודות שיוצרים הדיירים והדיירות בסדנאות. חלק מהיצירות מוצעות למכירה.` | `הדיירים והדיירות יוצרים בפסיפס ובקרמיקה.⏎הם מכינים כדים, ינשופים ותכשיטים.⏎אפשר לקנות חלק מהעבודות.` |
-| `cap_label` | TEXT (in an `aria-hidden` line) | `בכף היד:` | — |
-| `works_label` | TEXT (aria-label of the list) | `עבודות מהסדנאות: בחירה בעבודה מציגה אותה בכף היד` | — |
-| `works` | REPEATER: `name` (pair), `photo` (image, decorative yes), `swatches_label` (TEXT, aria-label), `swatches` (lines `#RRGGBB name`) | 4 items below | |
-| `palm_pos` / `palm_sizes` / `weight` | TEXT / TEXT / NUMBER | `50% 42%` / `(min-width: 1024px) 24rem, 60vw` / `440` | |
-| `credit` | pair | `כל העבודות: עבודת יד של דיירות ודיירי נווה האירוס.` | '' |
-| `button` + `button_link` | pair + URL | `לגלריית היצירות` · `#made` | `לראות עוד עבודות` |
+| `caption` | pair, textarea (visible) | `בכף היד: כד פסיפס כחול־ירוק — עבודת יד של דיירות ודיירי נווה האירוס.` ⊕ | '' |
+| `button` + `button_link` | pair + URL | `לגלריית היצירות` · `''` | `לראות עוד עבודות` |
+| `external_sr` | TEXT | `(נפתח באתר חיצוני)` | |
+| `photo` | image: decorative yes (the caption says what it is), `_pos` `50% 42%`, `_sizes` = `SIZES` | (v3-pot-b) | |
 
-| # | name | photo | swatches_label | swatches |
-|---|---|---|---|---|
-| 1 | `כד פסיפס כחול־ירוק` | (v3-pot-b) | `צבעים מהכד` | `#213546 כחול עמוק — שפת הכד⏎#49627F כחול אבן⏎#7B8DAC תכלת זכוכית` |
-| 2 | `כד פסיפס בגוני זהב` | (v3-pot-a) | `צבעים מהכד` | `#49331B חום כהה — הפס התחתון⏎#6D5B44 חום חם⏎#796D53 זהב עמום` |
-| 3 | `כד פסיפס לבן עם פרח` | (v3-pot-c) | `צבעים מהכד` | `#413C32 חום־אפור — שפת הכד⏎#9C9772 זית בהיר⏎#9DA0A3 אפור אבן` |
-| 4 | `ינשופים, חמסות ותליונים` | (v3-owls) | `צבעים מהינשופים` | `#E0B592 אפרסק⏎#7EA49A ירוק ים⏎#7D5C57 חום אדמה` |
-
-A swatch line is `#RRGGBB` (validated with `sanitize_hex_color`, line skipped if invalid), one space, the colour name.
+Removed in v3.2: `cap_label`, `works_label`, the repeater `works` (`name`, `photo`, `swatches_label`, `swatches`), `palm_pos`, `palm_sizes`, `palm_notice` (→ `photo_pos`, `photo_sizes`), `weight` (the constant 440), `credit`, `running`.
 
 Markup (target `index.html` `section#made`):
 ```html
-<section class="v3-kaf v3-spread v3-spread--citrus" id="made" data-header="light" data-running="ידיים שיוצרות" aria-labelledby="made-title">
+<section class="v3-kaf v3-spread v3-spread--citrus" id="made" aria-labelledby="made-title">
   <div class="nh-container v3-kaf__grid">
-    <div class="v3-kaf__letter" data-works>
-      {NH_Letters::room('kaf', [photo => works[0].photo, sizes => palm_sizes, weight, pos => palm_pos, class => 'v3-kaf__palm', decorative => true, field => 'sky'])}
-    </div>
+    <div class="v3-rule" aria-hidden="true"></div>
+    <div class="v3-kaf__letter">{NH_Letters::room('kaf', [photo, sizes, weight => 440, pos, class => 'v3-kaf__palm', alt, decorative, field => 'sky'])}</div>
     <div class="v3-kaf__text">
       {nh_h2}
       {nh_lead}
-      <p class="v3-kaf__cap" aria-hidden="true">{cap_label} <b data-work-name>{works[0].name}</b></p>
-      <ol class="v3-works" role="list" aria-label="{works_label}">
-        [each works, first = n == 0]<li><button type="button" class="v3-work[ is-on]" aria-pressed="{true|false}" data-work="{photo id}" data-name="{name}" data-src="{src}" data-srcset="{srcset}"[ data-avif="{avif_srcset}"]>{pair:name}</button>
-          <ul class="v3-swatches" role="list" aria-label="{swatches_label}">[each swatch]<li><i style="--c:{hex}"></i>{name}</li>[/each]</ul></li>[/each]
-      </ol>
-      {block:credit full_class=v3-credit plain_tag=p plain_class=v3-credit plain_lines=null}
-      [if button]<p><a class="nh-btn nh-btn--ink" href="{button_link}">{pair:button}{icon:arrow-fwd nh-btn__icon nh-btn__icon--fwd}</a></p>[/if]
+      [if photo]<p class="v3-kaf__cap">{pair:caption}</p>[/if]
+      [if button and a button_link to another page]<p><a class="nh-btn nh-btn--ink" href="{button_link}">{pair:button}{icon:arrow-fwd nh-btn__icon nh-btn__icon--fwd}</a></p>[/if]
     </div>
   </div>
 </section>
 ```
-`data-src` = `NH_Picture::src(id, 768)`; `data-srcset` = `NH_Picture::srcset(id)`; `data-avif` = `NH_Picture::avif_srcset(id)` (omitted if empty). The prototype's `{{imgdata id="nh-works"}}` JSON is replaced by these attributes.
-
-CSS `kaf.css`: v3.css L254–271; from L459 the selector `.v3-swatches` (`html.nh-plainmode .v3-swatches { display: none !important; }`); L461; from L474 the selector `.v3-kaf__palm .v3-room__photo img`.
-JS `kaf.js`: v3.js L188–224 in `nh.widget('kaf', '.v3-kaf', …)`, changed: the image set comes from the clicked button's `data-src`/`data-srcset`/`data-avif` (no URL building); the caption takes `button.dataset.name` (not `textContent`, which would include the plain twin); `aria-pressed` and `is-on` are updated within the widget only; the crossfade keeps the `motionOK()` check.
-Fixture: `prototype` = photos `v3-pot-b`, `v3-pot-a`, `v3-pot-c`, `v3-owls`; compare `section#made`. Expected differences: `data-*` on work buttons; the absent `script#nh-works`.
+The button is printed only with a link, and never with a link back to this spread (`#made`, `#{anchor}`, or this page with that fragment): editors then see `nh_admin_note( 'הכפתור מוביל לאותו מקטע ולכן לא מוצג' )` (research/07 §3 item 21; on staging there is no gallery page yet, §16 item 8). An external link gets `rel="noopener"` and the screen-reader suffix.
+CSS `kaf.css`: the prototype's v3.2 «כ׳ · Crafts in the palm» block (`.v3-kaf__letter`, `.v3-kaf__cap`, the two columns from 64em with the base cut by the spread's edge, the text column's bottom padding `var(--v3-pad)`) and the plain-mode letter size. (The grid and the honey ground are in base.css.)
+JS: none (`kaf.js` deleted in v3.2).
+Fixture: `prototype` = photo `v3-pot-b`; compare `section#made`: 0 differing lines. `button`, `self-link`, `edge` (structure only).
 
 ### 4.7 `samekh` — package crafts
 
-Constants: `ID 'samekh'`, `STYLE_DEPS ['nh-letters']`. Section class `v3-samekh v3-spread`. Section controls: `support` / `יש על מי לסמוך`.
+*(v3.2, B2 16.11: research/07 §10.2 item 6, §13. A still ס (weight 380), the mandala whole; the circles a plain
+list — no rings, no glint, no links.)*
+
+Constants: `ID 'samekh'`, `STYLE_DEPS ['nh-letters']`, `WEIGHT 380`. Section class `v3-samekh v3-spread`. Section control: anchor `support`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
 | `title` + dot | heading | `יש על מי לסמוך.` · `''` | `יש מי שעוזר` |
 | `lead` | pair, textarea | `סביב כל דייר ודיירת יש מעגלים של אנשים — כמו הטבעות בפסיפס שיצרו הדיירים והדיירות.` | `כל דייר וכל דיירת בוחרים בעצמם.⏎ויש סביבם אנשים שעוזרים:` |
-| `photo` | image: decorative no, `_alt` `טבעות של אבן לבנה, אפורה ואדומה סביב לב של זכוכית צבעונית`, `_sizes` `(min-width: 1024px) 28rem, 80vw` | (v3-mandala) | |
-| `weight` | NUMBER | `380` | |
-| `work_cx` / `work_cy` / `work_r` | NUMBER (fractions of the photo: centre x of width, centre y of height, outer radius of width) | `0.5` / `0.5552` / `0.4876` | |
-| `glint` | SWITCHER | `yes` | |
 | `caption` | pair | `מנדלה בפסיפס — עבודת יד של דיירות ודיירי נווה האירוס.` | '' |
-| `circles` | REPEATER: `name` (pair), `desc` (pair, textarea), `link` (URL), `ring` (NUMBER, radius as a fraction of the photo width; empty = no ring) | 6 items below | |
+| `photo` | image: decorative no, `_alt` `טבעות של אבן לבנה, אפורה ואדומה סביב לב של זכוכית צבעונית`, `_sizes` `(min-width: 1024px) 28rem, 80vw` | (v3-mandala) | |
+| `work_cx` / `work_cy` / `work_r` | NUMBER (fractions of the photo: centre x of width, centre y of height, outer radius of width) | `0.5` / `0.5552` / `0.4876` | |
+| `circles` | REPEATER: `name` (pair), `desc` (pair, textarea) | 6 items below | |
 
-| # | name / name_plain | desc / desc_plain | link | ring |
-|---|---|---|---|---|
-| 1 | `הדייר או הדיירת` / `-` | `ובחירות משלהם בכל יום.` / '' | '' | '' |
-| 2 | `משפחה וחברים` / '' | `ביקורים, ועד הורים פעיל וקשר שוטף.` / `-` | `#voices` | `0.1224` |
-| 3 | `צוות הבית` / '' | `אם בית ורכזות דירה, צוות קבוע.` / `-` | `#homes` | `0.2115` |
-| 4 | `אנשי ונשות מקצוע` / '' | `עבודה סוציאלית, ריפוי בעיסוק, רפואה ורפואת שיניים.` / `-` | `#homes` | `0.2568` |
-| 5 | `הקהילה בנס ציונה` / '' | `תעסוקה, פנאי ודיור בקהילה.` / `-` | `#home-2` | `0.3384` |
-| 6 | `פיקוח משרד הרווחה והביטחון החברתי` / `משרד הרווחה בודק שהכול בסדר.` | '' / '' | '' | `0.3927` |
+Removed in v3.2: `glint`, `weight` (the constant 380), the circles' `link` and `ring`, `external_sr` (it served the links), the constant `RING_W` and the rings' SVG, `running`.
 
-(The prototype links items 3–4 to the house page; step 4 sets the real URL.)
+| # | name / name_plain | desc / desc_plain |
+|---|---|---|
+| 1 | `הדייר או הדיירת` / `-` | `ובחירות משלהם בכל יום.` / '' |
+| 2 | `משפחה וחברים` / '' | `ביקורים, ועד הורים פעיל וקשר שוטף.` / `-` |
+| 3 | `צוות הבית` / '' | `אם בית ורכזות דירה, צוות קבוע.` / `-` |
+| 4 | `אנשי ונשות מקצוע` / '' | `עבודה סוציאלית, ריפוי בעיסוק, רפואה ורפואת שיניים.` / `-` |
+| 5 | `הקהילה בנס ציונה` / '' | `תעסוקה, פנאי ודיור בקהילה.` / `-` |
+| 6 | `פיקוח משרד הרווחה והביטחון החברתי` / `משרד הרווחה בודק שהכול בסדר.` | '' / '' |
 
-Item rules: `data-ring="{n}"` with `n = index + 1` when `ring > 0`; if `name_plain` is `-`, the whole `li` gets `class="v3-full"` and the texts inside are rendered without mode classes; the name pair uses `tag => 'b', bare => false` (two `<b>` in state 2, a single `<b>` in state 1 — item 1 is `<li class="v3-full"><b>הדייר או הדיירת</b><span>ובחירות משלהם בכל יום.</span></li>`); the description pair uses `tag => 'span'`, `bare => false`; a link wraps name and description.
-
-Rings (replace `partials/rings.html`): `<svg class="v3-rings" viewBox="0 0 3310 {H}" aria-hidden="true" focusable="false">[each circle with a ring]<circle data-ring="{n}" cx="{round(work_cx·3310)}" cy="{round(work_cy·H)}" r="{round(ring·3310)}"/>[/each]</svg>` with `H = round(3310 · photo_height / photo_width)`, then (if `glint`) `<span class="v3-glint" aria-hidden="true"></span>`. The fixed width 3310 keeps the prototype's CSS `stroke-width: 23` valid; for the prototype photo this reproduces rings.html exactly (1655/1659/405…1300).
+Item rules: if `name_plain` is `-`, the whole `li` gets `class="v3-full"` and the texts inside are rendered without mode classes; the name pair uses `tag => 'b', bare => false`; the description pair `tag => 'span', bare => false`.
 
 Markup (target `index.html` `section#support`):
 ```html
-<section class="v3-samekh v3-spread" id="support" data-header="light" data-running="יש על מי לסמוך" aria-labelledby="support-title">
+<section class="v3-samekh v3-spread" id="support" aria-labelledby="support-title">
   <div class="nh-container v3-samekh__grid">
     <div class="v3-rule" aria-hidden="true"></div>
     <div class="v3-samekh__intro">{nh_h2}{nh_lead}</div>
-    <figure class="v3-samekh__art" data-rings>
-      {NH_Letters::room('samekh', [fit => 'whole', work => [cx, cy, r], photo, sizes, weight, class => 'v3-samekh__letter', alt, decorative, extra => rings + glint])}
+    <figure class="v3-samekh__art">
+      {NH_Letters::room('samekh', [fit => 'whole', work => [cx, cy, r], photo, sizes, weight => 380, class => 'v3-samekh__letter', alt, decorative])}
       <figcaption>{pair:caption}</figcaption>
     </figure>
-    <ol class="v3-circles" role="list">[each circles]<li…>…</li>[/each]</ol>
+    <ol class="v3-circles" role="list">[each circles]<li…><b>…</b><span>…</span></li>[/each]</ol>
   </div>
 </section>
 ```
-CSS `samekh.css`: v3.css L273–279, L283–309. Porting changes: (1) `.v3-samekh__art { … margin: 0 auto; … }` becomes `margin: 0; justify-self: center;` (Elementor resets `figure` margins with a stronger selector, §10); (2) the `:has()` rules L298–302 are generated for rings 1–8 (same pattern). (L280–282 go to `letters.css`.)
-JS `samekh.js`: v3.js L185 → `nh.widget('samekh', '.v3-samekh__art', (el) => nh.once(el, 'is-lit'))`.
-Fixture: `prototype` = photo `v3-mandala`, items 3–4 link overridden to `program-main-home.html` for parity; compare `section#support`.
+CSS `samekh.css`: v3.css L273–279, L283–309 (v3.1) without the rings, the glint, the links' rules and the `:has()` ring rules; porting change `.v3-samekh__art { margin: 0; justify-self: center; }` (Elementor resets `figure` margins). The v3.2 sizes are ported with the markup (§15 B4).
+JS: none (`samekh.js` deleted in v3.2).
+Fixture: `prototype` = photo `v3-mandala`; compare `section#support`: 0 differing lines.
 
 ### 4.8 `years` — package crafts
 
-Constants: `ID 'years'`, `STYLE_DEPS ['nh-letters']`. Section class `v3-years v3-spread`, tone `sand`. **No ruling line.** Section controls: `story` / `כמעט 70 שנה`.
+*(v3.2, B2 16.11: research/07 §10.2 item 7.)*
+
+Constants: `ID 'years'`, `STYLE_DEPS ['nh-letters']`, `SIZES '(max-width: 23em) calc(100vw - 2.5rem), 21rem'`. Section class `v3-years v3-spread`, tone `sand`. v3.2: **the ruling line first**. Section control: anchor `story`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
 | `title` + dot | heading | `כמעט 70 שנה של בית.` · `''` | `הסיפור שלנו` |
 | `intro` | pair, textarea | '' | `נווה האירוס נפתח בשנת 1957.⏎בשנת 2021 נבנה אגף חדש.⏎היום יש לנו שלושה בתים.` |
-| `years` | REPEATER: `num` (TEXT), `title` (TEXT), `text` (TEXTAREA), `photo` (image, `_sizes`), `print` (SELECT normal/small/mid), `caption` (TEXT), `shamayim` (SWITCHER), `shamayim_text` (TEXT), `shamayim_photo` (image, decorative yes, `_pos`, `_sizes`) | 3 items below | (no twins: the list is always `v3-full`, `intro_plain` is the summary — §3.5) |
+| `years` | REPEATER: `num` (TEXT), `title` (TEXT), `text` (TEXTAREA), `photo` (image, `_sizes` = `SIZES`), `caption` (TEXT), `shamayim` (SWITCHER), `shamayim_text` (TEXT), `shamayim_photo` (image, decorative yes, `_pos`, `_sizes`) | 3 items below | (no twins: the list is always `v3-full`, `intro_plain` is the summary — §3.5) |
 
-| # | num | title | text | print | shamayim |
+Removed in v3.2: the repeater's `print` (SELECT), the class `v3-year--first` (the large first number is `.v3-year:first-child` in CSS), `running`.
+
+| # | num | title | text | photo | shamayim |
 |---|---|---|---|---|---|
-| 1 | `1957` | `סנטוריום נס ציונה` | `אבן הפינה מונחת במקום שיהפוך לנווה האירוס.` | (v3-courtyard) · small · `(min-width: 1024px) 18rem, 70vw` · caption `החצר במעון, היום.` | no |
+| 1 | `1957` | `סנטוריום נס ציונה` | `אבן הפינה מונחת במקום שיהפוך לנווה האירוס.` | (v3-courtyard) · caption `החצר במעון, היום.` | no |
 | 2 | `2021` | `אגף חדש, ובו שמיים` | `חדרים חדשים, מרחבים משותפים ותאורת „שמיים” בתקרה — אגף שתוכנן במיוחד לצורכי הדיירים והדיירות.` | none | yes · text `שמיי` · photo (v3-sky-room) · pos `72% 30%` · sizes `(min-width: 1024px) 8rem, 24vw` |
 | 3 | `היום` | `שלושה בתים` | `במעון, בבתים בקהילה ובמסגרת לצעירים על הרצף האוטיסטי — יותר מ־100 דיירים ודיירות. יותר מ־25,000 בקרים מאז 1957.` | none | no |
 
 Markup (target `index.html` `section#story`):
 ```html
-<section class="v3-years v3-spread v3-spread--sand" id="story" data-header="light" data-running="כמעט 70 שנה" aria-labelledby="story-title">
+<section class="v3-years v3-spread v3-spread--sand" id="story" aria-labelledby="story-title">
   <div class="nh-container">
+    <div class="v3-rule" aria-hidden="true"></div>
     {nh_h2}
     {block:intro plain_tag=div}
     <ol class="v3-years__list v3-full" role="list">
-      [each years]<li class="v3-year[ v3-year--first if n==0][ v3-year--sky if shamayim]">
+      [each years]<li class="v3-year[ v3-year--sky if shamayim]">
         <p class="v3-year__num[ v3-year__num--word if num is not all digits]" aria-hidden="true">{num}</p>
         <h3><span class="nh-sr-only">{num} — </span>{title}</h3>
         <p>{text}</p>
-        [if photo]<figure class="v3-print[ v3-print--small| v3-print--mid]">{NH_Picture::render(photo, [sizes])}<figcaption>{caption}</figcaption></figure>[/if]
+        [if photo]<figure class="v3-print" data-reveal>{NH_Picture::render(photo, [sizes])}<figcaption>{caption}</figcaption></figure>[/if]
         [if shamayim]<div class="v3-shamayim" aria-hidden="true"><span>{shamayim_text}</span>{NH_Letters::room('mem_final', [photo => shamayim_photo, sizes, weight => 300, frame => '300', pos, class => 'v3-shamayim__mem', decorative => true, field => 'sky'])}</div>[/if]
       </li>[/each]
     </ol>
@@ -917,43 +923,47 @@ Markup (target `index.html` `section#story`):
 </section>
 ```
 The `v3-shamayim` block is a `div` (never inside a `<p>`: the parser would close the paragraph — prototype README).
-CSS `years.css`: v3.css L311–333; from L459 the selector `.v3-shamayim`. Porting change: `.v3-year .v3-print { margin-block-start: 1.25rem; }` becomes `padding-block-start: 1.25rem` (figure margins are reset by Elementor, §10).
-JS: none (the cloud drift is CSS).
-Fixture: `prototype` = photos `v3-courtyard`, `v3-sky-room`; compare `section#story`.
+CSS `years.css`: v3.css L311–333 (v3.1) without the cloud drift (v3.2), its `.v3-year--first` rules as `.v3-year:first-child` until the v3.2 layout (three equal columns, «1957» D-L, the numbers on one baseline) is ported with the markup (§15 B4); from L459 the selector `.v3-shamayim`. Porting change: `.v3-year .v3-print { padding-block-start: 1.25rem; }` (figure margins are reset by Elementor, §10).
+JS: none.
+Fixture: `prototype` = photos `v3-courtyard`, `v3-sky-room`; compare `section#story`: 0 differing lines.
 
 ### 4.9 `voices` — package life
 
-Constants: `ID 'voices'`. Section class `v3-voices v3-spread`, tone `night`. **No ruling line.** Section controls: `voices` / `משפחות`.
+*(v3.2, B2 16.11: research/07 §10.2 item 8. The spread starts like every other — the ruling line, a visible H2 —
+and the play button on the 16:9 poster shows its word.)*
+
+Constants: `ID 'voices'`. Section class `v3-voices v3-spread`, tone `night`. Section control: anchor `voices`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
-| `title` | pair (rendered in an `nh-sr-only` H2) | `מה אומרות המשפחות` | '' |
+| `title` + dot | heading (a visible `v3-h2`) | `מה אומרות המשפחות.` · `citrus` | '' |
 | `quote` | pair, textarea (the twin replaces the whole blockquote) | `הבן שלי וחבריו מבלים מחוץ לכותלי המוסד מדי שבוע.` | `אמא של דייר כתבה לנו מכתב.⏎היא כתבה שהבן שלה והחברים שלו יוצאים לבלות כל שבוע.` |
 | `cite` | TEXT | `ליליה, אמא של דייר בנווה האירוס` | — |
 | `video_id` | TEXT (YouTube id, `^[A-Za-z0-9_-]{11}$`, else no video) | `JiaXto-WmJo` | |
 | `video_title` | TEXT | `הורה של דייר מספר על נווה האירוס` | |
-| `play_prefix` | TEXT (screen-reader text before the title) | `צפו בסרטון:` | |
-| `poster` | image: decorative yes, `_sizes` `(min-width: 1024px) 46rem, 128vw` | (v3-owls) | |
+| `play_label` | pair (the visible word on the button) | `צפו בסרטון` ⊕ | '' |
+| `play_prefix` | TEXT (screen-reader text between the word and the title) | `:` | |
+| `poster` | image: decorative yes, `_sizes` `(min-width: 64em) 37.5rem, calc(100vw - 2.5rem)` | (v3-owls, the 16:9 frame) | |
 | `consent_text` | pair, textarea | `הסרטון מוטמע מ־YouTube, שעשוי לשמור עוגיות. לטעון אותו?` | `הסרטון נמצא באתר YouTube.⏎YouTube יכול לשמור מידע עליכם.⏎לפתוח את הסרטון?` |
 | `load_label` / `cancel_label` | pair / pair | `כן, לטעון את הסרטון` / `לא עכשיו` | '' / '' |
 | `caption` | pair | `סרטון: הורה של דייר מספר על נווה האירוס. בתמונה: ינשופים, עבודת יד של דיירות ודיירי נווה האירוס.` | '' |
 
+Changed in v3.2: `title` (was a pair for an `nh-sr-only` H2) is the spread's heading with its tessera; `play_prefix` (was `צפו בסרטון:` before the title) is only the screen-reader text after the visible `play_label`; `running` removed.
+
 Markup (target `index.html` `section#voices`):
 ```html
-<section class="v3-voices v3-spread v3-spread--night" id="voices" data-header="dark" data-running="משפחות" aria-labelledby="voices-title">
+<section class="v3-voices v3-spread v3-spread--night" id="voices" aria-labelledby="voices-title">
   <div class="nh-container v3-voices__grid">
+    <div class="v3-rule" aria-hidden="true"></div>
     <div class="v3-voices__words">
-      <h2 class="nh-sr-only" id="voices-title">{pair:title}</h2>
+      {nh_h2}
       <blockquote class="v3-quote[ v3-full if quote_plain]"><p>{quote}</p><footer>— <cite>{cite}</cite></footer></blockquote>
       [if quote_plain]<div class="v3-plain"><p>…</p>…</div>[/if]
     </div>
     [if video_id]<figure class="v3-video-fig">
       <div class="nh-video v3-video" data-video="{video_id}" data-title="{video_title}">
         {NH_Picture::render(poster, [sizes, decorative => true])}
-        <button class="nh-video__play" type="button">
-          <span class="nh-video__icon" aria-hidden="true"><svg focusable="false"><use href="#i-play"/></svg></span>
-          <span class="nh-sr-only">{play_prefix} {video_title}</span>
-        </button>
+        <button class="nh-video__play" type="button"><span class="nh-video__btn"><span class="nh-video__icon" aria-hidden="true"><svg focusable="false"><use href="#i-play"/></svg></span><span>{pair:play_label}</span></span><span class="nh-sr-only">{play_prefix} {video_title}</span></button>
         <div class="nh-video__consent" hidden>
           {block:consent_text full_tag=p plain_tag=div}
           <div class="nh-btn-row"><button class="nh-btn nh-btn--light" type="button" data-video-load>{pair:load_label}</button><button class="nh-btn nh-btn--ghost" type="button" data-video-cancel>{pair:cancel_label}</button></div>
@@ -964,21 +974,24 @@ Markup (target `index.html` `section#voices`):
   </div>
 </section>
 ```
-Porting change: the prototype's inline `style="justify-content:center"` on `.nh-btn-row` moves to CSS (`.v3-video .nh-btn-row { justify-content: center; }`).
-CSS `voices.css`: main.css L216–228 (`.nh-video…`), from L428 the `.nh-video` print rule (`@media print { .nh-video { display: none !important; } }`); v3.css L341–350; plus the rule above.
-JS `voices.js`: site.js L218–250 in `nh.widget('voices', '[data-video]', …)`, using `nh.consent.read()`, `nh.consent.save()`, `nh.consent.hideBanner()`; iframe `https://www.youtube-nocookie.com/embed/{id}?autoplay=1&rel=0`; fallback title `nh.data.i18n.videoTitle`.
-Fixture: `prototype` = poster `v3-owls`; compare `section#voices`. Expected differences: the `style` attribute of `.nh-btn-row` (moved to CSS).
+Porting change: the prototype's inline `style="justify-content:center"` on `.nh-btn-row` moved to CSS (`.v3-video .nh-btn-row { justify-content: center; }`).
+CSS `voices.css`: main.css L216–228 (`.nh-video…`) without the round icon, its `scale` and the shifted 2rem svg; the v3.2 button `.nh-video__btn` (paper, icon + word, `--nh-citrus-100` on hover and focus, 150ms) and the explicit 1.25rem `.nh-video__icon` (an svg without a size grows to 300×150; research/07 §10.2 item 8, §18 item 6); `.v3-video` 16:9, at most 37.5rem, the button at the bottom start; the caption 16px; from L428 the `.nh-video` print rule; the `.nh-btn-row` rule above.
+JS `voices.js`: site.js L218–250 in `nh.widget('voices', '[data-video]', …)`, unchanged (it needs `nh.consent.hideBanner`, kept by nh-core.js, research/07 §9).
+Fixture: `prototype` = poster `v3-owls`; compare `section#voices`: 0 differing lines. `states`, `no-word`, `no-video` (structure only).
 
 ### 4.10 `steps` — package index
 
-Constants: `ID 'steps'`. Section class `v3-steps v3-spread`. Section controls: `start` / `צעד צעד`.
+*(v3.2, B2 16.11: research/07 §10.2 item 9: no background word «צעד», no staircase.)*
+
+Constants: `ID 'steps'`. Section class `v3-steps v3-spread`. Section control: anchor `start`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
 | `title` + dot | heading | `צעד צעד: ארבעה צעדים הביתה.` · `''` | `איך מגיעים לגור אצלנו?` |
 | `lead` | pair, textarea | `המחלקה הסוציאלית שלנו מלווה אתכם לאורך כל הדרך.` | `יש ארבעה צעדים.` |
-| `word` | TEXT (decorative, generated content) | `צעד` | — |
 | `steps` | REPEATER: `title` (pair), `text` (pair, textarea) | below | |
+
+Removed in v3.2: `word`, `running`.
 
 | # | title / title_plain | text / text_plain |
 |---|---|---|
@@ -989,23 +1002,23 @@ Constants: `ID 'steps'`. Section class `v3-steps v3-spread`. Section controls: `
 
 Markup (target `index.html` `section#start`):
 ```html
-<section class="v3-steps v3-spread" id="start" data-header="light" data-running="צעד צעד" aria-labelledby="start-title">
+<section class="v3-steps v3-spread" id="start" aria-labelledby="start-title">
   <div class="nh-container">
     <div class="v3-rule" aria-hidden="true"></div>
     {nh_h2}
     {nh_lead plain_tag=p plain_class=v3-lead plain_lines=null}
     <ol class="v3-steps__list" role="list">
-      [each steps, n = 1…]<li><span class="v3-steps__word" aria-hidden="true" data-word="{word}"></span><h3><span class="v3-steps__n">{n}</span> {pair:title}</h3>{block:text full_tag=p plain_tag=p plain_lines=null}</li>[/each]
+      [each steps, n = 1…]<li><h3><span class="v3-steps__n">{n}</span> {pair:title}</h3>{block:text full_tag=p plain_tag=p plain_lines=null}</li>[/each]
     </ol>
   </div>
 </section>
 ```
-CSS `steps.css`: v3.css L356–367; from L459 the selector `.v3-steps__word`.
-JS: none. Fixture: `default` compare `section#start`.
+CSS `steps.css`: v3.css L356–367 (v3.1) without the word, the staircase and the extra bottom padding; the v3.2 sizes (the number D-M in clay) are ported with the markup (§15 B4).
+JS: none. Fixture: `default` compare `section#start`: 0 differing lines.
 
 ### 4.11 `lamed` — package index
 
-Constants: `ID 'lamed'`, `STYLE_DEPS ['nh-letters']`, `DYNAMIC true`. Section class `v3-lamed v3-spread`. Section controls: `jobs` / `דרושים`.
+Constants: `ID 'lamed'`, `STYLE_DEPS ['nh-letters']`, `DYNAMIC true`, `WEIGHT 600` *(v3.2, B2: the ל stands still at 600, research/07 §10.2 item 10; the control `weight` is removed)*. Section class `v3-lamed v3-spread`. Section control: anchor `jobs`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
@@ -1013,7 +1026,6 @@ Constants: `ID 'lamed'`, `STYLE_DEPS ['nh-letters']`, `DYNAMIC true`. Section cl
 | `lead` | pair, textarea | `מחפשים אנשים שרוצים להשפיע ולהיות חלק מבית: צוות קבוע, ואפשרויות ללמוד ולהתפתח מקצועית.` | `מחפשים עובדים ועובדות.⏎יש עבודה במעון ובבתים בעיר.` |
 | `roles` | REPEATER: `title` (pair), `meta` (pair), `link` (URL; empty = `NH_Settings::jobs_url( title )`) | below | |
 | `button` + `button_link` | pair + URL (empty = `NH_Settings::jobs_url()`) | `לכל המשרות ולהגשת מועמדות` · '' | `לראות את כל העבודות` |
-| `weight` | NUMBER | `800` | |
 
 | # | title / title_plain | meta |
 |---|---|---|
@@ -1027,10 +1039,10 @@ If the jobs page is not set in settings, empty links fall back to `#{anchor}` an
 
 Markup (target `index.html` `section#jobs`):
 ```html
-<section class="v3-lamed v3-spread" id="jobs" data-header="light" data-running="דרושים" aria-labelledby="jobs-title">
+<section class="v3-lamed v3-spread" id="jobs" aria-labelledby="jobs-title">
   <div class="nh-container v3-lamed__grid">
     <div class="v3-rule" aria-hidden="true"></div>
-    <div class="v3-lamed__letter" aria-hidden="true">{NH_Letters::svg('lamed', weight)}</div>
+    <div class="v3-lamed__letter" aria-hidden="true">{NH_Letters::svg('lamed', 600)}</div>
     <div class="v3-lamed__text">
       {nh_h2}
       {nh_lead}
@@ -1074,7 +1086,7 @@ Field layout (normative): row 1 = `name` + `phone` in `<div class="nh-form__row 
 
 Markup (target `index.html` `section#door`; variant `page` → `program-main-home.html` `section#visit`):
 ```html
-<section class="v3-door v3-spread v3-spread--iris" id="door" data-header="dark" data-running="בואו להכיר" aria-labelledby="door-title">
+<section class="v3-door v3-spread v3-spread--iris" id="door" aria-labelledby="door-title">
   <div class="nh-container v3-door__grid">
     <div class="v3-rule" aria-hidden="true"></div>
     <div class="v3-door__top">{nh_h2}{nh_lead}</div>
@@ -1109,7 +1121,7 @@ Markup (target `index.html` `section#door`; variant `page` → `program-main-hom
 The exact field, summary, alert and note markup is defined by `NH_Forms` (§6.3) — the widget only passes texts and switches.
 
 CSS `door.css`: v3.css L388–433; from L484 the selectors `.v3-door__bar, .v3-door__leg` (`@media (forced-colors: active) { … background: CanvasText; }`).
-JS `door.js`: v3.js L186 → `nh.widget('door', '.v3-door__way', (el) => nh.once(el, 'is-open', '0px 0px -20% 0px'))`. Validation and sending are in `nh-forms.js`.
+JS: none *(v3.2, B2 16.11: `door.js` deleted — the ד is drawn open, `--open: 1`; door.css lost its `@property --open` and the lintel's transition, research/07 §10.2 item 11)*. Validation and sending are in `nh-forms.js`.
 Fixture: `default` compare `index.html` `section#door`; variant `page` (settings from the right-hand column) compare `program-main-home.html` `section#visit`. Expected differences: form `action`, hidden inputs, field ids (`c-*`/`v-*` → `door-*`/`visit-*`), the success text without the prototype's "(באב־הטיפוס הטופס אינו נשלח.)", the contact e-mail link (setting empty in tests).
 
 ### 4.13 `glance` — package residence
@@ -1126,7 +1138,7 @@ Constants: `ID 'glance'`. Section class `v3-glance v3-spread`. Section controls:
 
 Markup (target `program-main-home.html` `section#glance`):
 ```html
-<section class="v3-glance v3-spread" id="glance" data-header="light" data-running="במבט אחד" aria-labelledby="glance-title">
+<section class="v3-glance v3-spread" id="glance" aria-labelledby="glance-title">
   <div class="nh-container">
     <div class="v3-rule" aria-hidden="true"></div>
     {nh_h2}{nh_lead}
@@ -1140,53 +1152,35 @@ CSS `glance.css`: v3.css L502–514. JS: none. Fixture: `default` compare `secti
 
 ### 4.14 `gallery` — package residence
 
-Constants: `ID 'gallery'`. Section class `v3-inside v3-spread`, tone `sand`. Section controls: `inside` / `האגף החדש`.
+*(v3.2, B2 16.11: research/07 §10.3 item 4, §4.4 item 20, §13. An even grid of six 4:3 prints of one size with
+their captions visible — no mosaic, no zoom, no lightbox; weak photos are never enlarged.)*
+
+Constants: `ID 'gallery'`, `DYNAMIC false` (nothing is queued for the footer any more), `SIZES '(min-width: 64em) 27rem, (min-width: 40em) 50vw, calc(100vw - 2.5rem)'`. Title `גלריה · תמונות עם כיתוב`. Section class `v3-inside v3-spread`, tone `sand`. Section control: anchor `inside`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
 | `title` + dot | heading | `האגף החדש.` · `''` | '' |
-| `lead` | pair, textarea (plain block has class `v3-lead`) | `את האגף החדש תכננו אדריכליות במיוחד בשביל הדיירים והדיירות: קו עיצובי נעים ורגוע, ותאורת „שמיים” בתקרה. לחצו על תמונה כדי להגדיל אותה.` | `תמונות מהאגף החדש.⏎לחצו על תמונה כדי לראות אותה גדולה.` |
-| `images` | REPEATER: `image` (image, not decorative), `caption` (pair; goes to `data-caption` / `data-caption-plain`) | 6 items: `פינת האוכל המשותפת.` (dining) · `תקרת „שמיים” — לוחות תאורה עם עננים.` (sky-ceiling) · `חדר מגורים לשניים.` (bedroom) · `הסלון המשותף.` (living) · `מסדרון האגף החדש, עם תאורת „שמיים”.` (sky-corridor) · `החצר במעון.` (courtyard) | '' each |
-| `zoom_label` | TEXT (screen-reader text in each button) | `הגדלת התמונה` | |
-| `lb_label` / `lb_count` / `lb_close` / `lb_prev` / `lb_next` | TEXT | `גלריית תמונות` / `תמונה {n} מתוך {total}` / `סגירת הגלריה` / `התמונה הקודמת` / `התמונה הבאה` | |
+| `lead` | pair, textarea (plain block has class `v3-lead`) | `את האגף החדש תכננו אדריכליות במיוחד בשביל הדיירים והדיירות: קו עיצובי נעים ורגוע, ותאורת „שמיים” בתקרה.` | `תמונות מהאגף החדש.` |
+| `images` | REPEATER: `image` (image, not decorative), `caption` (pair, visible under the print) | 6 items: `פינת האוכל המשותפת.` (v3-dining) · `תקרת „שמיים” — לוחות תאורה עם עננים.` (v3-sky-ceiling) · `חדר מגורים לשניים.` (v3-bedroom) · `הסלון המשותף.` (v3-living) · `מסדרון האגף החדש, עם תאורת „שמיים”.` (v3-sky-corridor) · `פינת אוכל וסלון באגף החדש.` ⊕ (v3-lounge) | '' each |
 
-`sizes` by position (the mosaic is fixed by CSS): 1 `(min-width: 900px) 34vw, 46vw`; 2 `(min-width: 900px) 28vw, 46vw`; 3–4 `(min-width: 900px) 22vw, 46vw`; 5 `(min-width: 900px) 28vw, 46vw`; 6 `(min-width: 900px) 16vw, 92vw`; 7+ like 1.
+Removed in v3.2: `zoom_label`, `lb_label`, `lb_count`, `lb_close`, `lb_prev`, `lb_next`, the constant `TEXTS`, the call `NH_Site::footer_once('lightbox', …)`, the buttons' `data-full` / `data-srcset` / `data-caption*`, the sizes by position, `running`; the lead's «לחצו על תמונה…» sentences.
 
 Markup (target `program-main-home.html` `section#inside`):
 ```html
-<section class="v3-inside v3-spread v3-spread--sand" id="inside" data-header="light" data-running="האגף החדש" aria-labelledby="inside-title">
+<section class="v3-inside v3-spread v3-spread--sand" id="inside" aria-labelledby="inside-title">
   <div class="nh-container">
     <div class="v3-rule" aria-hidden="true"></div>
     {nh_h2}
     {nh_lead plain_class=v3-lead}
-    <ul class="nh-gallery v3-gallery" role="list" data-lightbox>
-      [each images with an image]<li><button type="button" data-full="{NH_Picture::src(id, 1440)}" data-srcset="{NH_Picture::srcset(id)}" data-caption="{caption}"[ data-caption-plain="{caption_plain}"]>{NH_Picture::render(id, [sizes])}<span class="nh-gallery__zoom" aria-hidden="true"><svg focusable="false"><use href="#i-expand"/></svg></span><span class="nh-sr-only">{zoom_label}</span></button></li>[/each]
+    <ul class="v3-gallery" role="list">
+      [each images with an image]<li><figure class="v3-print" data-reveal>{NH_Picture::render(id, [sizes => SIZES])}<figcaption>{pair:caption}</figcaption></figure></li>[/each]
     </ul>
   </div>
 </section>
 ```
-Lightbox: `render()` calls `NH_Site::footer_once( 'lightbox', fn )`; `fn` returns `partials/lightbox.html` with the widget's texts and `data-count="{lb_count}"` on the `dialog`:
-```html
-<dialog class="nh-lightbox" id="nh-lightbox" aria-label="{lb_label}" data-count="{lb_count}">
-  <div class="nh-lightbox__inner">
-    <div class="nh-lightbox__bar">
-      <p class="nh-lightbox__count"></p>
-      <button class="nh-lightbox__btn" type="button" data-lb-close><svg aria-hidden="true" focusable="false"><use href="#i-close"/></svg><span class="nh-sr-only">{lb_close}</span></button>
-    </div>
-    <div class="nh-lightbox__stage">
-      <img alt="">
-      <button class="nh-lightbox__btn nh-lightbox__nav nh-lightbox__nav--prev" type="button" data-lb-prev><svg aria-hidden="true" focusable="false"><use href="#i-arrow-back"/></svg><span class="nh-sr-only">{lb_prev}</span></button>
-      <button class="nh-lightbox__btn nh-lightbox__nav nh-lightbox__nav--next" type="button" data-lb-next><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg><span class="nh-sr-only">{lb_next}</span></button>
-    </div>
-    <p class="nh-lightbox__caption"></p>
-    <p class="nh-sr-only" aria-live="polite" data-lb-live></p>
-  </div>
-</dialog>
-```
-(The prototype's static "תמונה 1 מתוך 6" is filled by JS on open.)
-CSS `gallery.css`: main.css L325–343 (`.nh-gallery`), L356–377 (lightbox), from L421 the selector `.nh-lightbox__btn` (`border: 2px solid ButtonText` in forced colours); v3.css L515–523.
-JS `gallery.js`: site.js L282–337, changed: count text from `dialog.dataset.count` (`{n}`, `{total}`); caption = `data-caption-plain` when `<html>` has `nh-plainmode` and it is set, else `data-caption`; one dialog for all galleries on the page (`#nh-lightbox`), each `[data-lightbox]` list keeps its own item list.
-Fixture: `prototype` = the six images; compare `section#inside`. Expected differences: `data-full`/`data-srcset` URLs (normalised).
+CSS `gallery.css`: the prototype's v3.2 «Gallery» block: `.v3-gallery` grid of 1 / 2 (from 40em) / 3 (from 64em) columns, `.v3-gallery .v3-print { max-inline-size: none; }`. (The print — 4:3, numbered caption, the soft appearance — is in base.css.)
+JS: none (`gallery.js` deleted in v3.2).
+Fixture: `prototype` = the six photos; compare `section#inside`: 0 differing lines. `states` (structure only).
 
 ### 4.15 `features` — package residence
 
@@ -1202,7 +1196,7 @@ Constants: `ID 'features'`. Section class `v3-features v3-spread`. Section contr
 
 Markup (target `program-main-home.html` `section#features`):
 ```html
-<section class="v3-features v3-spread" id="features" data-header="light" data-running="מה יש בבית" aria-labelledby="features-title">
+<section class="v3-features v3-spread" id="features" aria-labelledby="features-title">
   <div class="nh-container">
     <div class="v3-rule" aria-hidden="true"></div>
     {nh_h2}
@@ -1236,68 +1230,93 @@ CSS `stories.css`: v3.css L529–534. JS: none. Fixture: `default` compare `sect
 
 ### 4.17 `related` — package index
 
-Constants: `ID 'related'`. Section class `v3-related v3-spread`. Section controls: `related` / `להמשך קריאה`.
+*(v3.2, B2 16.11: research/07 §10.3 item 8, §3 item 21: a row leads only to something that exists elsewhere.)*
+
+Constants: `ID 'related'`. Section class `v3-related v3-spread`. Section control: anchor `related`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
 | `title` + dot | heading | `להמשך קריאה.` · `''` | `עוד דפים` |
-| `links` | REPEATER: `title` (pair), `meta` (pair), `link` (URL) | `אבחנה כפולה` · `מוגבלות שכלית התפתחותית לצד אבחנה נפשית — ואיך אנחנו מלווים` · `#related`; `גלריית יצירות למכירה` · `פסיפס, תכשיטים וקרמיקה — עבודות יד של דיירות ודיירי נווה האירוס` · `home_url('/#made')`; `דיור בקהילה` · `הצעד הבא: בית בלב הקהילה, בליווי צוות` · `home_url('/#home-2')` | title '' · meta `-` |
+| `external_sr` | TEXT | `(נפתח באתר חיצוני)` | |
+| `links` | REPEATER: `title` (pair), `meta` (pair), `link` (URL) | `שלושת הבתים` · `מי גר בכל בית ולמי הוא מתאים` ⊕ · `home_url('/#homes')`; `ידיים שיוצרות` · `פסיפס, תכשיטים וקרמיקה — עבודות יד של דיירות ודיירי נווה האירוס` · `home_url('/#made')` | title '' · meta `-` |
+
+Removed in v3.2: the rows «אבחנה כפולה» (a link to itself), «גלריית יצירות למכירה» and «דיור בקהילה» (pages that do not exist yet; they come back first when they do, §16 item 8); `running`.
+
+A row is printed only with a link to another page or to a section of another page: a row without a link, with a bare fragment (`#…`, a section of this page, or a link token whose page is not set) or with a link to the page it is on (`url_to_postid()` of the link without its fragment = `get_the_ID()`) is left out, and editors see `nh_admin_note( 'השורה „…” לא מוצגת: אין לה קישור, או שהיא מקשרת לעמוד הזה עצמו.' )` after the list.
 
 Markup (target `program-main-home.html` `section#related`): section › container › rule, `{nh_h2}`, `<ul class="v3-roles" role="list">[each]<li><a href="{link}"><b>{pair:title}</b>{pair:meta tag=span class=v3-roles__meta bare=false}{icon:arrow-fwd}</a></li>[/each]</ul>`.
-CSS `related.css`: v3.css L550–551 (`.v3-related .v3-roles__meta { white-space: normal; }`). JS: none. Fixture: `default` compare `section#related`.
+CSS `related.css`: v3.css L550–551 (`.v3-related .v3-roles__meta { white-space: normal; }`); the arrows of `.v3-roles` never move (base.css). JS: none.
+Fixture: `default` on the house page (queried post 11) compare `section#related`: 0 differing lines; `edge`, `home` (structure only). `build_pages.py` writes the links as `@page:home#homes`, `@page:home#made`.
 
 ### 4.18 `masthead` — package chrome (Theme Builder header)
 
-Constants: `ID 'masthead'`, `DYNAMIC true`. Not a spread: no section controls. Placed alone in an Elementor Pro header template (condition: entire site).
+*(v3.2, B2 16.11: research/07 §5, §6, §7.2, §10.1 items 1–2, §13. Fixed and always the same: the mark (the logo's
+emblem and the name as live text), at most five links, «בשפה פשוטה», the phone, «תיאום ביקור» / «תפריט»; no
+running head, no progress line, no display panel, nothing changes while the page scrolls. The phone menu: a
+native dialog with a visible title and «סגירה», the links, the visit button, the call line and two switches.)*
+
+Constants: `ID 'masthead'`, `DYNAMIC true`, `MAX_ITEMS 5`. Not a spread: no section controls. Placed alone in an Elementor Pro header template (condition: entire site).
 
 | control | type | default | `_plain` |
 |---|---|---|---|
 | `html_tag` | SELECT `div\|header` | `div` (D3) | |
-| `wordmark_small` / `wordmark` | pair / pair | `מעון` / `נווה האירוס` | '' |
-| `logo` | image (optional; replaces the wordmark when set; alt from media or `מעון נווה האירוס`) | — | |
-| `home_sr` | TEXT (screen-reader suffix of the logo link) | ` — לדף הבית` | |
-| `nav_label` | TEXT (aria-label of both navs) | `ראשי` | |
-| `nav` | REPEATER: `label` (pair), `link` (URL), `current_ids` (TEXT, comma-separated post IDs) | `מי אנחנו` → `home_url('/#story')`; `מסגרות המגורים` → `home_url('/#homes')`; `החיים אצלנו` → `home_url('/#day')`; `דרושים` → `home_url('/#jobs')`; `יצירת קשר` → `home_url('/#door')`; `current_ids` '' | '' |
+| `name` | pair (live text beside the emblem; split into two lines at its last space) | `מעון נווה האירוס` | '' |
+| `home_sr` | TEXT (screen-reader suffix of the home link) | ` — לדף הבית` | |
+| `logo` | MEDIA (the emblem: decorative, `alt=""`, width/height from the attachment; without one only the name shows) | — (staging: `@media:logo-emblem`) | |
 | `plain_label` | pair | `בשפה פשוטה` | '' |
-| `display_label` / `display_title` / `display_note` | pair / pair / pair | `תצוגה` / `הגדרות תצוגה` / `הבחירה נשמרת בדפדפן הזה.` | '' |
-| `toggle_plain` / `toggle_motion` / `toggle_calm` | pair ×3 | `בשפה פשוטה` / `הפחתת תנועה` / `מצב רגוע` | '' |
 | `phone_label` | TEXT (aria-label prefix) | `טלפון:` | |
 | `cta_text` + `cta_link` | pair + URL (empty = `NH_Settings::visit_url()`) | `תיאום ביקור` · '' | `לקבוע ביקור` |
-| `menu_label` / `menu_close` | TEXT / TEXT | `תפריט` / `סגירת התפריט` | |
-| `menu_phone_label` | pair | `טלפון:` | '' |
-| `menu_toggles_label` | TEXT | `הגדרות תצוגה` | |
+| `menu_label` | TEXT (the visible word on the menu button and the menu's title) | `תפריט` | |
+| `menu_close` | TEXT (visible) | `סגירה` | |
+| `menu_phone_label` | pair | `התקשרו:` | '' |
+| `menu_toggles_label` | TEXT (the switches' group name) | `הגדרות תצוגה` | |
+| `toggle_plain` / `toggle_calm` | pair ×2 | `בשפה פשוטה` / `מצב רגוע` | '' |
+| `state_on` / `state_off` | TEXT | `פועל` / `כבוי` ⊕ | |
+| `nav_label` | TEXT (aria-label of both navs) | `ראשי` | |
+| `nav` | REPEATER: `label` (pair), `link` (URL), `current_ids` (TEXT, comma-separated post IDs) | `הבתים שלנו` → `home_url('/#homes')`; `החיים אצלנו` → `/#day`; `מי אנחנו` → `/#story`; `דרושים` → `/#jobs`; `יצירת קשר` → `/#door` (research/07 §5.1) | '' |
 
-Markup = header L3–78 (target: built `index.html` `header.nh-header` and `dialog#nh-menu`) with: root tag from `html_tag` (`<div class="nh-header v3-mast">` by default); logo `<a class="nh-logo" href="{home_url('/')}"><span class="nh-wordmark"><small>{wordmark_small}</small> {wordmark}</span><span class="nh-sr-only">{home_sr}</span></a>`; `<p class="v3-mast__running" aria-hidden="true" data-running></p>`; nav items with `aria-current="page"` when `NH_Html::is_current( url, current_ids )`; the plain button `<button class="v3-plainbtn" type="button" data-plain-toggle aria-pressed="false">{icon:speech}<span>{pair:plain_label}</span></button>`; the display panel with `NH_Html::display_toggles()`; the phone link `<a class="nh-phone" href="{tel}" aria-label="{phone_label} {display}">{icon:phone}<span class="nh-phone__num nh-ltr">{display}</span></a>`; the CTA `<a class="nh-btn nh-btn--primary nh-btn--sm v3-mast__cta" href="{cta}">{pair:cta_text}</a>`; the menu button; `<div class="v3-progress" aria-hidden="true"></div>`; then the `<dialog class="nh-menu" id="nh-menu" aria-label="{menu_label}">` exactly as header L48–78 (second nav, light CTA `nh-btn nh-btn--light`, phone line `<a href="{tel}">{menu_phone_label} <span class="nh-ltr">{display}</span></a>`, toggles group `<div class="v3-menu-toggles" role="group" aria-label="{menu_toggles_label}">`, and the dialog's own live region `<p class="nh-sr-only" role="status" aria-live="polite" data-announce-menu></p>`). The skip link, the cookie banner (header L1–2) and the global live region (header L79) are printed by the site module, not here.
+Removed in v3.2: `wordmark_small`, `wordmark` (→ `name` + the emblem), `display_label`, `display_title`, `display_note`, `toggle_motion`.
 
-CSS `masthead.css`: main.css L145–205 (header, nav, phone, menu button, menu dialog), from L421 the selector `.nh-menu-btn`, from L428 the selectors `.nh-header, .nh-menu`; v3.css L30–79, from L468 `html.nh-calm .v3-progress { display: none; }`, from L477–488 the selectors `.v3-progress` and `.v3-plainbtn, .v3-display__btn` (incl. `[aria-pressed="true"]`), L537–548, L568–580, L591–593, L624–626, from L632–638 `.v3-mast { position: absolute; }` (inside `@media (max-height: 30em)`).
-JS `masthead.js`: site.js L59–95 (scrolled state + header theme from `[data-header]`), L135–150 (menu dialog); v3.js L83–104 (display panel), L106–114 (running head). Changed: the running head shows `data-running-plain` instead of `data-running` when plain mode is on and the attribute exists (update on `nh:displaychange`); everything attribute-based (`[data-header]`, `[data-running]`), never `main > section`.
-Fixture: `default` compare `index.html` selectors `header.nh-header`, `dialog#nh-menu`. Expected differences: root tag (`div`), hrefs normalised.
+Markup = `partials/header.html` (target: built `index.html` `header.nh-header` and `dialog#nh-menu`):
+```html
+<{html_tag} class="nh-header v3-mast">
+  <div class="nh-container nh-header__inner">
+    <a class="nh-logo" href="{home_url('/')}">[if logo]<img class="nh-logo__mark" src="{src}" width="{w}" height="{h}" alt="">[/if]<span class="nh-logo__name"><span>מעון נווה</span> <span>האירוס</span></span><span class="nh-sr-only">{home_sr}</span></a>
+    <nav class="nh-nav" aria-label="{nav_label}"><ul role="list">[each nav, at most 5]<li><a href="{link}"[ aria-current="{page|true}"]>{pair:label}</a></li>[/each]</ul></nav>
+    <div class="nh-header__actions">
+      <button class="v3-plainbtn" type="button" data-plain-toggle aria-pressed="false">{icon:speech}<span>{pair:plain_label}</span></button>
+      [if phone]<a class="nh-phone" href="{tel}" aria-label="{phone_label} {display}">{icon:phone}<span class="nh-phone__num nh-ltr">{display}</span></a>[/if]
+      [if cta]<a class="nh-btn nh-btn--primary nh-btn--sm v3-mast__cta" href="{cta}" data-visit-cta>{pair:cta_text}</a>[/if]
+      <button class="nh-menu-btn" type="button" data-menu-open aria-haspopup="dialog" aria-expanded="false" aria-controls="nh-menu">{icon:menu}<span>{menu_label}</span></button>
+    </div>
+  </div>
+</{html_tag}>
+<dialog class="nh-menu" id="nh-menu" aria-labelledby="nh-menu-title">
+  <div class="nh-menu__inner">
+    <div class="nh-menu__top"><p class="nh-menu__title" id="nh-menu-title">{menu_label}</p><button class="nh-menu__close" type="button" data-menu-close>{icon:close}<span>{menu_close}</span></button></div>
+    <div class="nh-menu__body">
+      <nav aria-label="{nav_label}">{the same list}</nav>
+      <div class="nh-menu__meta">
+        [if cta]<a class="nh-btn nh-btn--primary nh-menu__cta" href="{cta}" data-visit-cta>{pair:cta_text}</a>[/if]
+        [if phone]<p class="nh-menu__call"><a href="{tel}">{pair:menu_phone_label} <span class="nh-ltr">{display}</span></a></p>[/if]
+        <div class="v3-switches" role="group" aria-label="{menu_toggles_label}">{NH_Html::display_toggles([plain, calm], [state_on, state_off])}</div>
+        <p class="nh-sr-only" role="status" aria-live="polite" data-announce-menu></p>
+      </div>
+    </div>
+  </div>
+</dialog>
+```
+- `aria-current` comes from `NH_Html::current_state( url, current_ids )`: `page` only for a link to this very page, `true` for the section the page belongs to (research/07 §5.3) — on the house page «הבתים שלנו» (its `current_ids` hold the house page). A sixth link and beyond are not printed; editors see `nh_admin_note( 'בתפריט יותר מחמישה פריטים: מוצגים חמשת הראשונים' )` after the dialog.
+- The name: `name` split at its last space into two `span`s (the compact masthead shows them as two lines); with a plain twin, one `.nh-logo__name.v3-full` and one `.v3-plain`. Without any name the link keeps the site's name in its screen-reader text. `menu_label` / `menu_close` fall back to `תפריט` / `סגירה` when emptied (a button must have a name).
+- The skip link (the child theme), the cookie panel and the global live region (the site module) are not printed here.
 
-### 4.19 `colophon` — package chrome (Theme Builder footer)
+CSS `masthead.css`: the prototype's «v3.2 masthead» and «Phone menu» blocks (main.css), then v3.css's 1.4.12 wrap and the `max-height: 30em` rule (`.v3-mast { position: absolute; }`), the masthead's selectors of the forced-colours and print groups, `.nh-menu .v3-switches`, `html:has(.v3-mast)` scroll padding, the admin-bar offset. Porting change: the emblem's selector is `.nh-logo .nh-logo__mark` (0,2,0), to beat Elementor's `.elementor img { height: auto }`. Breakpoints: the full menu from 80em, the phone number from 90em, the compact mark below 40em, no emblem below 22.5em.
+JS `masthead.js`: the menu only (site.js «1. Phone menu»): «תפריט» opens it, Esc and «סגירה» close it and focus returns to «תפריט»; a link of the menu or its visit button sets `menu.dataset.nav`, closes it, and the close handler then leaves focus to nh-core.js (the target's heading, research/07 §5.4–5.5).
+Fixture: `default` compare `index.html` `header.nh-header`, `dialog#nh-menu` (expected: the root tag `div`, no emblem chosen); `prototype` (root `header`, the emblem) and `house` (queried post 11, `current_ids` 11 on «הבתים שלנו») — 0 differing lines; `page`, `plain`, `six`, `sparse`, `cta-link` (structure only).
 
-Constants: `ID 'colophon'`, `DYNAMIC true`. Root: `<div class="nh-footer nh-on-dark v3-colophon" data-header="dark" data-running="{running}">` (tag from `html_tag`, `div|footer`, default `div`). Controls `running` (default `קולופון`) + `running_plain`.
+### 4.19 `colophon` — removed in v3.2
 
-| control | type | default | `_plain` |
-|---|---|---|---|
-| `wordmark_small` / `wordmark` / `logo` / `home_sr` | as masthead | `מעון` / `נווה האירוס` / — / ` — לדף הבית` | |
-| `about` | pair, textarea | `בית לאנשים עם מוגבלות שכלית התפתחותית בנס ציונה, מאז 1957. בפיקוח משרד הרווחה והביטחון החברתי.` | '' |
-| `nav_title` + `nav` | pair + REPEATER (`label` pair, `link`) | `ניווט` + the five masthead items | |
-| `contact_title` | pair | `יצירת קשר` | |
-| `phone_label` / `fax_label` / `email_label` | pair ×3 | `טלפון:` / `פקס:` / `מזכירות:` | |
-| `facebook_label` / `external_sr` | pair / TEXT | `נווה האירוס בפייסבוק` / ` (נפתח באתר חיצוני)` | |
-| `info_title` | pair | `מידע ונגישות` | |
-| `info` | REPEATER: `type` (SELECT `link\|cookies`), `label` (pair), `link` (URL, link tokens allowed) | link `הצהרת נגישות` `#accessibility`; link `מדיניות פרטיות` `#privacy`; cookies `הגדרות עוגיות`; link `מפת אתר` `#sitemap`; link `מפרט כניסות נגישות (PDF)` `#entrances` | |
-| `toggles_label` + 3 toggle labels | TEXT + pair ×3 | `הגדרות תצוגה` + as masthead | |
-| `credits` | pair, textarea (inline HTML; newlines become spaces — one paragraph, no `<br>`) | footer L46–49 verbatim, joined by single spaces: `<b>קולופון.</b> גופנים: <span lang="en" dir="ltr">Frank Ruhl Libre</span> (יאנק יונטף) ו־<span lang="en" dir="ltr">Assistant</span> (בן נתן ו־<span lang="en" dir="ltr">Adobe</span>), ברישיון <span lang="en" dir="ltr">SIL OFL</span>. האותיות: חמש אותיות שהשמות שלהן הם מילים של בית — ב׳ (בית), כ׳ (כף), ס׳ (סמך), ל׳ (למד) ו־ד׳ (דלת) — משמשות כאן כאדריכלות, ובתוכן יש חדרים. הכדים, המנדלה והינשופים בעמוד — עבודות יד של דיירות ודיירי נווה האירוס. הצילומים זמניים, מתוך האתר הקיים, ללא פנים מזוהות.` | '' |
-| `copyright` | pair | `מעון נווה האירוס. כל הזכויות שמורות.` | '' |
-| `bottom_note` | pair | `אב־טיפוס לעיון פנימי · נוסחי „בשפה פשוטה” הם טיוטה לבדיקה של מומחה או מומחית לפישוט לשוני` | '' |
-| `dev_label` / `dev_name` / `dev_link` / `dev_logo` | pair / pair / URL / image | `עיצוב ופיתוח:` / `קורנגה` / `https://koranga.co.il/` / — | |
-
-Markup = footer L1–58 (target `index.html` `footer.nh-footer`) with: contact list from settings — `<li>{phone_label} <a href="{tel}"><span class="nh-ltr">{display}</span></a></li>`, `<li>{fax_label} <span class="nh-ltr">{fax}</span></li>` (if fax set), `<li>{email_label} <a href="mailto:…"><span class="nh-ltr">…</span></a></li>` (only if the public e-mail is set), `<li>{address}</li>`, `<li><a href="{facebook}" rel="noopener">{facebook_label}<span class="nh-sr-only">{external_sr}</span></a></li>` (if set); info items — `cookies` renders `<li><button class="nh-linkbtn" type="button" data-cookie-settings>{pair:label}</button></li>`; toggles `<div class="v3-footer-toggles" role="group" aria-label="{toggles_label}">{NH_Html::display_toggles()}</div>`; credits `<p class="v3-colophon__credits">{credits}</p>`; bottom row `<p>© <span data-year>{wp_date('Y')}</span> {pair:copyright}</p>`, `<p>{pair:bottom_note}</p>` (omitted if empty), `<p class="v3-dev">{dev_label} <a href="{dev_link}" rel="noopener">{dev_name}<span class="nh-sr-only">{external_sr}</span></a></p>` (or the logo image inside the link when `dev_logo` is set). External links (`NH_Html::is_external`) get `rel="noopener"` and the screen-reader suffix, as the prototype does. The visit bar (footer L60–63) is printed by the site module.
-
-CSS `colophon.css`: main.css L230–242; v3.css L435–438, L594–596, L628–630.
-JS: none (year and cookie button are handled by `nh-core.js`).
-Fixture: `default` compare `index.html` `footer.nh-footer`. Expected differences: root tag, the e-mail item (not rendered), hrefs of tokens (unresolved in tests stay `#…`, as in the prototype).
+*(B2 16.11: research/07 §10.1 item 3, §12.6, §13.)* The widget, its `colophon.css` and its fixture are deleted. The footer is a Theme Builder template of Elementor's own widgets — Image (the emblem), Heading, Text Editor in inner containers, plus the `display` widget (§4.21) for «מצב רגוע» — written by `scripts/build_pages.py` (`templates/pages/footer.json`), so the footer with its navigation, contacts and הצהרת נגישות keeps working when the plugin is off. Its texts, colours and type are set in those widgets; the child theme underlines its links and keeps its rows at 44px.
 
 ### 4.20 `jobs-form` — package door
 
@@ -1319,7 +1338,7 @@ Constants: `ID 'jobs-form'`, `STYLE_DEPS ['nh-forms']`, `SCRIPT_DEPS ['nh-forms'
 
 Markup (ds L291–338 with v3 chrome):
 ```html
-<section class="v3-jobsform v3-spread" id="form" data-header="light" data-running="דרושים" aria-labelledby="form-title">
+<section class="v3-jobsform v3-spread" id="form" aria-labelledby="form-title">
   <div class="nh-container">
     <div class="v3-rule" aria-hidden="true"></div>
     <div class="nh-jobs__grid">
@@ -1343,6 +1362,26 @@ Markup (ds L291–338 with v3 chrome):
 CSS `jobs-form.css`: main.css L297–299 (`.nh-jobs__grid`), plus `.v3-jobsform .nh-jobs__grid { align-items: start; }` (new, small).
 JS: none (`nh-forms.js`).
 Fixture: `default` (no compare target: structure checked by run.php); variant `role` with `$_GET['role']` set to role 2 → that option is `selected`.
+
+### 4.21 `display` — package chrome (v3.2, B2 16.11)
+
+*(research/07 §12.6, §13.)* The display switches as a widget of their own, for the footer of Elementor's widgets.
+
+Constants: `ID 'display'`. Title `מתגי תצוגה`, icon `eicon-toggle`. No section controls (not a spread). Static (no settings or request read).
+
+| control | type | default | `_plain` |
+|---|---|---|---|
+| `group_label` | TEXT (the group's aria-label) | `הגדרות תצוגה` | |
+| `show_plain` | SWITCHER | `''` (off: the masthead has «בשפה פשוטה») | |
+| `label_plain` | pair (condition `show_plain`) | `בשפה פשוטה` | '' |
+| `show_calm` | SWITCHER | `yes` | |
+| `label_calm` | pair (condition `show_calm`) | `מצב רגוע` | '' |
+| `state_on` / `state_off` | TEXT | `פועל` / `כבוי` | |
+| `tone` | SELECT `light` / `dark` | `dark` | |
+
+Markup (the prototype's footer group): `<div class="v3-switches[ nh-on-dark]" role="group" aria-label="{group_label}">{NH_Html::display_toggles( [ the switches that are on ], [ state_on, state_off ] )}</div>`; nothing when both switches are off.
+CSS `display.css`: `.v3-switches { display: grid; gap: .25rem; max-inline-size: 20rem; }` (the switch itself is in base.css). JS: none (nh-core.js handles the switches by delegation and keeps every switch of the page in step).
+Fixture: `default` (as the footer uses it); `prototype` compare `index.html` `footer.nh-footer .v3-switches` (expected: `nh-on-dark` on the group itself); `both`, `none` (`empty`).
 
 ---
 
@@ -1573,7 +1612,7 @@ These are the prototype's rules (DESIGN-SYSTEM §0, §2, §6; STORYBOARD "Общ
 **Structure and semantics**
 1. One `h1` per page (the cover). Each spread is a `section` with `aria-labelledby` pointing to its heading; the heading may be `nh-sr-only` (voices). Inside a spread: `h2` for the spread, `h3` for items (verbs, years, steps, stories, features, form title).
 2. Lists that lose their bullets keep `role="list"` (VoiceOver). Numbered things are `ol`.
-3. Decorative SVG (letters, rules, icons, the door) has `aria-hidden="true" focusable="false"`; decorative text (`v3-year__num`, `v3-steps__word` generated content, `v3-kaf__cap`, `v3-shamayim`, running head) is `aria-hidden` and the information exists as real text elsewhere.
+3. Decorative SVG (letters, rules, icons, the door) has `aria-hidden="true" focusable="false"`; decorative text (`v3-year__num`, `v3-shamayim`) is `aria-hidden` and the information exists as real text elsewhere. *(v3.2: the steps' word, the running head and the kaf's hidden caption are gone; the kaf's caption is visible text.)*
 4. Images: alt from the media library, or the widget's alt override; decorative images `alt=""`. Rooms and prints keep `aspect-ratio`/`width`/`height` so nothing shifts (CLS 0).
 5. Links in running text are underlined (1.4.1); a link's name says where it goes; external links say "(נפתח באתר חיצוני)" to screen readers. No `target="_blank"`.
 6. Buttons that switch a state are `aria-pressed` with a constant label (masthead, panel, menu, footer toggles); the plain box button is an action with a changing label and **no** `aria-pressed`.
@@ -1598,6 +1637,8 @@ These are the prototype's rules (DESIGN-SYSTEM §0, §2, §6; STORYBOARD "Общ
 19. Forced colours: letters `CanvasText`, rules and door parts `CanvasText`, tessera falls back to a normal ".", toggles keep borders (v3.css L477–488, main.css L419–424).
 
 **Motion (STORYBOARD)**
+
+*(v3.2, B2 16.11: items 20–25 describe v3.1 and are superseded by research/07 §4 — the only motion is the one soft appearance of `figure.v3-print[data-reveal] > picture` (§4.2), hover/focus colour changes and accordions; nothing is pinned (no `position: sticky`), nothing runs on a timer or follows scroll, «הפחתת תנועה» is gone; `build_plugin.py check` rejects the forbidden patterns. To be rewritten in step B5.)*
 20. **Text never moves.** Only letters, lines and photos inside rooms move. No reveals, no split text.
 21. No JS pinning or scroll hijacking. The only pin is CSS `position: sticky` on the home cover (≥ 64em × 43.75em, 150svh) and only when motion is on and plain mode is off.
 22. No infinite loops (2.2.2): time-based motion only for the cover entrance (≤ 1.8 s), the mandala glint (once, 1.7 s) and the door lintel (once, 0.9 s); everything else follows scroll.
@@ -1617,6 +1658,8 @@ These are the prototype's rules (DESIGN-SYSTEM §0, §2, §6; STORYBOARD "Общ
 ## 9. CSS and JS map (prototype → plugin)
 
 Every line of `main.css`, `v3.css`, `site.js`, `v3.js` has exactly one destination or is listed as not ported. "→ widget" refers to the CSS/JS lines in §4.
+
+*(v3.2, B2 16.11: this map is the v3.1 one. Motion, view transitions, the visit bar, the running head, `.nh-wordmark` and the colophon are gone (the §14 tables of B1 and B2 list what changed); the map is redone against the v3.2 prototype with the markup port (step B4) and the documents (step B5).)*
 
 ### 9.1 `base.css` (core; site-wide), in this order
 
@@ -1683,6 +1726,8 @@ main.css L42–49 (paper grain; v3 switched it off — and v3.css L640–642 wit
 | site.js L218–250 | `voices.js` |
 | site.js L282–337 | `gallery.js` |
 
+*(v3.2, B2 16.11, research/07 §4.4, §11.1, §13: `cover.js`, `homes.js`, `kaf.js`, `samekh.js`, `door.js` and `gallery.js` are deleted with what they moved; `masthead.js` keeps only the menu (prototype site.js «1. Phone menu», with `menu.dataset.nav`); `voices.js` is unchanged; nh-core.js has no `nh.once` any more. The build check refuses a `"scroll"` listener, `ResizeObserver` and view transitions in the plugin's scripts.)*
+
 ---
 
 ## 10. Elementor and Hello compatibility rules
@@ -1710,15 +1755,15 @@ These rules sit in base.css right after the typography (§9.1, row 32 note): bef
 1. **Load order.** All our styles depend (directly or through `nh-base`) on `elementor-frontend`, so they print after Elementor's CSS; equal specificity then goes to us.
 2. **`a` and `img` inside Elementor.** Elementor sets `.elementor a { box-shadow: none; text-decoration: none }` and `.elementor img { height: auto; max-width: 100%; border: none; border-radius: 0; box-shadow: none }` (specificity 0,1,1). Any of our rules that sets `box-shadow`, `text-decoration`, `height`/`block-size`, `border` or `max-width` on an `a` or an `img` must have specificity ≥ (0,1,1): e.g. `.v3-room__photo img` (fine as is), but `.nh-btn--ghost` → `a.nh-btn--ghost, button.nh-btn--ghost` and `.nh-btn--ink` → `a.nh-btn--ink, button.nh-btn--ink` (base.css items 7 and 13).
 3. **No margins on `figure`.** Elementor resets figure margins with `.elementor-widget:not(.elementor-widget-text-editor):not(.elementor-widget-theme-post-content) figure { margin: 0 }` — specificity (0,3,1), stronger than our component selectors. Use `padding`, `gap` or `justify-self` instead (the two cases: `.v3-samekh__art`, `.v3-year .v3-print`, §4.7, §4.8).
-4. **No reliance on DOM structure** between `main` and our sections (Elementor inserts `div.elementor > div.e-con…`). Query by our classes and data attributes (`[data-running]`, `[data-header]`, `.v3-door`), never `main > section`.
-5. **No `overflow` on containers.** The ל rises into the previous spread and the cover pins with `position: sticky`; containers must keep `overflow: visible` and must not use transforms/motion effects.
+4. **No reliance on DOM structure** between `main` and our sections (Elementor inserts `div.elementor > div.e-con…`). Query by our classes and data attributes (`.v3-print[data-reveal]`, `[data-visit-cta]`, `.v3-door`), never `main > section`.
+5. **No `overflow` on containers.** The ל rises into the previous spread; containers must keep `overflow: visible` and must not use transforms/motion effects. *(v3.2: nothing is pinned any more — no `position: sticky` anywhere, research/07 §4.4.)*
 6. **No Elementor style controls** in our widgets and no `selectors`: the design is fixed by the prototype.
 
 ### 10.3 Site set-up the plugin expects (step 4 checklist, not plugin code)
 
 - Theme Hello Elementor 3.5.2 + child theme active; Hello settings untouched (our filters switch off its reset/theme CSS, skip link and page title).
 - Elementor → Site Settings → Layout → Default page layout: **Elementor Full Width**; Kit **Theme Style empty** (no typography, buttons, links, form fields); Global Colors/Fonts may be synced from V4 variables but are not used by our widgets.
-- Elementor Pro Theme Builder: one header template with `nh-masthead` (entire site), one footer template with `nh-colophon`; each template's HTML Tag (document setting `content_wrapper_html_tag`) `div` and the widget's `html_tag` `header` / `footer` (D3); every page: one container (Full Width, padding 0, gap 0, direction column) holding the spreads in prototype order — so Elementor's **Container** feature must be active (Elementor 4.4.0 still lists it under Features; it is off by default on a site first installed before Elementor 3.16, and without it the containers are not rendered). Page Transitions (Pro) off; Element Caching may stay on (dynamic widgets opt out). Steps 4–5 on the test site: `scripts/test_site.py pages` builds both pages and both templates from `templates/pages/*.json` and checks the Container feature and the wrapper tag.
+- Elementor Pro Theme Builder: one header template with `nh-masthead` (entire site), its HTML Tag (document setting `content_wrapper_html_tag`) `div` and the widget's `html_tag` `header` (D3); one footer template (entire site) of Elementor's own Image, Heading and Text Editor widgets in inner containers plus `nh-display`, its HTML Tag `footer` *(v3.2, B2: the colophon widget is gone, research/07 §12.6; `templates/pages/footer.json`)*; every page: one container (Full Width, padding 0, gap 0, direction column) holding the spreads in prototype order — so Elementor's **Container** feature must be active (Elementor 4.4.0 still lists it under Features; it is off by default on a site first installed before Elementor 3.16, and without it the containers are not rendered). Page Transitions (Pro) off; Element Caching may stay on (dynamic widgets opt out). Steps 4–5 on the test site: `scripts/test_site.py pages` builds both pages and both templates from `templates/pages/*.json` and checks the Container feature and the wrapper tag.
 - Caching plugin (ezCache): exclude `#nh-prepaint` from JS optimisation if it touches inline scripts; never cache `admin-ajax.php` / `admin-post.php`.
 - Settings → Privacy: the privacy policy page set; Settings → נווה האירוס filled (recipients by the client).
 
@@ -1736,6 +1781,7 @@ python3 -I scripts/build_plugin.py zip     # sync, check, then plugin/dist/neveh
 - **sync** copies, byte for byte: `prototype/assets/fonts/*.woff2` and `OFL-*.txt` → `assets/fonts/`; `prototype/assets/letters.json` → `assets/letters.json`; `prototype/assets/css/tokens.css` → `assets/css/tokens.css`. The copies are committed, so the plugin folder is complete in git.
 - **check** fails (exit 1) on: a synced file that differs from its source; a `widgets/*.php` whose id, class name or `ID` constant break §3.1; a PHP file without the `ABSPATH` guard; PHP ≥ 8.1 syntax (regex for `readonly `, `enum `, `: never`, `(...)` callables, typed `const`); forbidden patterns anywhere in `plugin/nevehairus-site/` — e-mail addresses (except `@example.com`, `@example.test`, `.invalid`), `assets/img/`, `gsap`, `fonts.googleapis`, `fonts.gstatic`, `<script src="http`, `cdn.`; `php -l` errors (plugin and `plugin/tests`); `node --check` errors (if `node` exists); a non-zero exit of `php plugin/tests/run.php`; `Version:` header ≠ `NH_VERSION`. Optional `--phpcs`: runs `plugin/vendor/bin/phpcs --standard=WordPress-Extra plugin/nevehairus-site` when `composer install` (dev tools in `plugin/composer.json`) has been run.
 - **zip** writes `plugin/dist/nevehairus-site.zip` deterministically: top folder `nevehairus-site/`, entries sorted, fixed timestamp 1980-01-01, mode 0644 (dirs 0755), excluding `.DS_Store`, `*.map`, `Thumbs.db`. Prints file count, size and SHA-256. The zip is committed.
+- *(v3.2, B2 16.11, research/07 §4, §11.3 item 5, §17.1:)* **check** also refuses forbidden motion: in the plugin's CSS (comments stripped; the synced `tokens.css` included) `@keyframes`, `animation-timeline`, `view-transition`, `@property`, `scroll-behavior: smooth`, `position: sticky`; in its scripts (comments stripped) a `"scroll"` listener, `ResizeObserver`, `startViewTransition`.
 - *(Core, 16.11:)* the synced copies are exempt from the content patterns (they are checked byte for byte against the prototype instead; `tokens.css` compares its easing curves with GSAP's in two comments), the OFL licence texts from the e-mail pattern; the PHP 8.1+ regexes run on the code with comments and strings removed and also catch `new` in initializers, `final const` and functions added after 8.0 (`array_is_list`, `json_validate`, …); `README-dev.md` is not zipped; `--no-harness` skips run.php; `--phpcs` runs WordPress-Extra **without** `Universal.Arrays.DisallowShortArraySyntax` (this spec's convention) and `WordPress.Files.FileName` (`widgets/<id>.php` is this spec's convention), warnings do not fail, plus PHPCompatibilityWP with `testVersion 8.0-`. The PHP 8.0 claim is verified by PHPCompatibility: the core passes clean.
 
 ### 11.2 Stub harness (`plugin/tests/`, PHP 8.3 CLI, no Composer, no WordPress)
@@ -1761,12 +1807,13 @@ return [
 	],
 ];
 ```
-- `run.php [--widget=<id>]`: for every discovered widget and every variant (a widget without a fixture file gets the `default` variant only): build settings, render, then assert (fail = exit 1): no PHP error; non-empty output; well-formed HTML (`DOMDocument` with libxml errors, ignoring "unknown tag" warnings for HTML5 elements); unique ids; every `for`, `aria-labelledby`, `aria-describedby`, `aria-controls` resolves inside the output (or to the documented global ids); every `img` has `alt`; every `svg` without a role has `aria-hidden="true"` and `focusable="false"`; no `style` attribute other than CSS custom properties (`--…`); no forbidden pattern (§11.1); spread widgets have `data-header` and `data-running` on the root and `aria-labelledby` pointing to a heading inside; no `v3-full`/`v3-plain` element is empty. It writes `out/<id>--<variant>.html` (a full page: `lang="he" dir="rtl" class="js"`, `body.v3`, sprite, `main#main`, the widget, the site parts, `tokens.css` + `base.css` + `letters.css`/`forms.css` + the widget CSS, `nh-core.js` + widget JS, `window.nhData`) and two assembled pages `out/page-home.html` and `out/page-main-home.html` from `fixtures/pages.php` (masthead, the spreads in prototype order with their `prototype` variants, colophon, site parts). Then it runs `core/*.test.php`.
+- `run.php [--widget=<id>]`: for every discovered widget and every variant (a widget without a fixture file gets the `default` variant only): build settings, render, then assert (fail = exit 1): no PHP error; non-empty output; well-formed HTML (`DOMDocument` with libxml errors, ignoring "unknown tag" warnings for HTML5 elements); unique ids; every `for`, `aria-labelledby`, `aria-describedby`, `aria-controls` resolves inside the output (or to the documented global ids); every `img` has `alt`; every `svg` without a role has `aria-hidden="true"` and `focusable="false"`; no `style` attribute other than CSS custom properties (`--…`); no forbidden pattern (§11.1); spread widgets have `aria-labelledby` on the root pointing to a heading inside (v3.2: and no `data-header` / `data-running`); no `v3-full`/`v3-plain` element is empty. It writes `out/<id>--<variant>.html` (a full page: `lang="he" dir="rtl" class="js"`, `body.v3`, sprite, `main#main`, the widget, the site parts, `tokens.css` + `base.css` + `letters.css`/`forms.css` + the widget CSS, `nh-core.js` + widget JS, `window.nhData`) and two assembled pages `out/page-home.html` and `out/page-main-home.html` from `fixtures/pages.php` (masthead, the spreads in prototype order with their `prototype` variants, colophon, site parts). Then it runs `core/*.test.php`.
 - `render.php <id> [variant] [--plain]` prints one render (with `--plain` the page has `html.nh-plainmode`).
 - *(Core, 16.11 — how the harness behaves, for fixture authors:)*
   - Hook order as on a real site: `elementor/loaded` (Elementor is included before us), `plugins_loaded`, `init`, the two Elementor registration hooks, `wp_enqueue_scripts`. Each render is a fresh request (`nh_test_reset_request()`): options, transients, `$_GET`/`$_POST`, the user's capabilities, the queried post (10) and the plugin's per-request statics are reset; hooks, handles and media stay.
   - The stub `Widget_Base` refuses what §2.2 forbids: controls outside a section, a section on another tab than content, a duplicate control id, a type outside the subset, `selectors`, `dynamic`, a URL control without `'options' => false`. Controls whose `condition` is not met read as `null` (as in Elementor). Missing repeater fields get their field defaults.
   - Assertions, refined: a widget is a *spread* when its root element is a `<section>` (the colophon and masthead use the section controls for their running head but are not spreads); an `svg` may also rely on an `aria-hidden` ancestor (`NH_Html::icon( …, false )`); the forbidden-pattern scan ignores the fixture photos' base path; links without `href` are reported as warnings; the controls section «מקטע» must be the last one.
+  - *(v3.2, B2 16.11:)* a `style` attribute is allowed only on a letter's room (`.v3-room`, research/07 §13 «Стенд»: no swatches any more); a spread root with `data-header` / `data-running` fails (B1); the global ids are the theme's `main#content`, the masthead's `nh-menu` / `nh-menu-title` and the cookie panel's; a fixture variant may set `'queried' => <post id>` (the post being shown: 10 = the home page, 11 = «מעון ראשי», 12 = the jobs page; default 10) and `'empty' => true` (the settings leave nothing to show: the render must be empty, e.g. `display/none`); `fixtures/pages.php` may set `queried` per page (the house page is 11). The assembled pages have the masthead in the header slot and, in the footer slot, the `display` widget — the one widget of ours in the footer of Elementor's own widgets.
   - The stub `esc_url()` keeps relative paths starting with `.` (WordPress would prefix `http://`; real attachment URLs are absolute), `wp_kses()` keeps the text of removed tags as WordPress does, `sanitize_file_name()` keeps letters of any script, and the fake media library's full size is the original upload (manifest width × height) while its file is the largest derivative.
   - Options: `run.php --widget=<id> | --core-only | --suite=<name> | --no-pages | --no-core | --verbose`; `render.php <id> [variant] [--page] [--plain] [--out]`. Each render also writes `out/<id>--<variant>.json` (its compare target) for compare.py. Assertion helpers for core tests (`nh_assert()`, `nh_assert_same()`, `nh_assert_contains()`, `nh_assert_not_contains()`) live in bootstrap.php.
   - `fixtures/pages.php`: per page `title`, `prototype`, `header` and `footer` ([ id, variant ]) and `widgets` (a list of [ id, variant ]; a missing variant falls back to `prototype`, then `default`; a missing widget becomes an HTML comment). The options and `$_GET` of all chosen variants are merged; the page's `_elementor_data` is built from the list, so the head's cover preload is exercised too.
@@ -1785,9 +1832,9 @@ With `$overrides = []` this is exactly the output an editor sees after dropping 
 
 `python3 -I plugin/tests/compare.py <id> [variant]` reads `out/<id>--<variant>.html` and the built prototype page named in the fixture, selects the target elements, and compares normalised trees: tag names; class **sets**; attributes except `id`, `for`, `aria-labelledby`, `aria-describedby`, `aria-controls` (presence only), `src`/`srcset`/`sizes`/`width`/`height` (presence only), `href` (fragment only, or "URL"), `action`, `style` (custom properties compared numerically ± 0.01), `data-vt`, `data-src`, `data-srcset`, `data-avif`, `data-name`, `data-work`, `data-full`, `data-caption-plain`, `data-count`, `data-running-plain`; ignored elements: `input[type=hidden]`, `script`, `.nh-admin-note`; text with collapsed whitespace. The normalised tree is printed one node per line (`tag.class.class [attr=value] …` for elements, `"text"` for text, indented by depth); `compare.py` prints the unified diff of the two trees and exits 0 when every differing line matches one of the fixture's `expect_diff` regular expressions. The "expected differences" listed per widget in §4 are what those expressions must cover — nothing more.
 
-*(Core, 16.11 — the exact format, so fixture authors can write the expressions.)* One line per node, two spaces of indent per depth. An element: `tag` + `.class` for each class, **sorted**, then its attributes sorted by name: `[name=value]`, or `[name]` for the presence-only ones and for empty values; `href` becomes `[href=#fragment]` or `[href=URL]`; `style` becomes `[style=--a:1.00%;--b:2.00%…]` (properties sorted, numbers with two decimals; two lines that differ only by numbers within ±0.01 are equal). A text node: its JSON string, whitespace collapsed and trimmed next to non-inline neighbours. A **whitespace-only** text node is kept (as `" "`) only in running text: between two inline elements/texts inside an element that also has text of its own — formatting whitespace between blocks, flex/grid items or an icon and its label is not compared. Diff lines start with `-` (prototype) or `+` (plugin) followed by the indented node, e.g. `-          img [alt=…] [decoding=async] …`; `expect_diff` entries are Python regular expressions matched with `re.search` (an invalid expression — prose — fails the compare with a message; patterns that match nothing are reported). A selector that finds nothing in the plugin output is retried without its tag (`header.nh-header` → `.nh-header`), so a changed root tag shows as one diff line. More: `compare.py <id> --all` (every variant with a target), `compare.py --tree FILE [SELECTOR]` (print a normalised tree), `compare.py --prototype-letters` (the build script's letter output, for the parity test).
+*(Core, 16.11 — the exact format, so fixture authors can write the expressions.)* One line per node, two spaces of indent per depth. An element: `tag` + `.class` for each class, **sorted**, then its attributes sorted by name: `[name=value]`, or `[name]` for the presence-only ones and for empty values; `href` becomes `[href=#fragment]` or `[href=URL]`; `style` becomes `[style=--a:1.00%;--b:2.00%…]` (properties sorted, numbers with two decimals; two lines that differ only by numbers within ±0.01 are equal). A text node: its JSON string, whitespace collapsed and trimmed next to non-inline neighbours. A **whitespace-only** text node is kept (as `" "`) only in running text: between two inline elements/texts inside an element that also has text of its own — formatting whitespace between blocks, flex/grid items or an icon and its label is not compared. Diff lines start with `-` (prototype) or `+` (plugin) followed by the indented node, e.g. `-          img [alt=…] [decoding=async] …`; `expect_diff` entries are Python regular expressions matched with `re.search` (an invalid expression — prose — fails the compare with a message; patterns that match nothing are reported). A selector that finds nothing in the plugin output is retried without its tag (`header.nh-header` → `.nh-header`), so a changed root tag shows as one diff line. *(v3.2, B2 16.11: a selector may be a descendant selector of such parts, `footer.nh-footer .v3-switches`; in the plugin output, which has no surroundings, it falls back to its last part. `compare.py --prototype-letter-data [NAMES]` prints the build script's `letter_data()`, for the core test of `NH_Letters::data_script()` now that no page prints `#nh-letters`.)* More: `compare.py <id> --all` (every variant with a target), `compare.py --tree FILE [SELECTOR]` (print a normalised tree), `compare.py --prototype-letters` (the build script's letter output, for the parity test).
 
-`shots.mjs` (optional, Node 22 + the globally installed Playwright 1.63 and `/usr/bin/google-chrome`): serves the repository on a local port, opens `out/page-home.html` and `prototype/index.html` (and the house page pair) at 1440×900 and 390×844, normal / `?plain=1` / reduced motion, with consent pre-set in `localStorage`, takes full-page screenshots into `out/shots/`, computes the share of differing pixels in the browser (canvas) and writes `out/shots/report.json`. Target: < 1 % per pair; any difference above that is explained in the package report. *(Core: before each shot the page is walked once and every image is decoded (lazy images otherwise race the screenshot); `node plugin/tests/shots.mjs --behaviour` runs 25 checks of the core scripts on `out/page-home.html` in Chrome — consent and focus return, the display switches and announcements, validation, the token refresh, the server answers mocked (invalid, sent, limited, network error), the visit bar, the cover morph. First results, all 20 widgets assembled: desktop 0.01–0.04 % on both pages in all three modes; phone plain 0.04–0.06 %; phone normal/reduced 1.8 % / 2.7 % only because the test settings' public e-mail is shorter than the prototype's address — the privacy note under the door form is one line shorter and everything below moves up 25 px.)*
+`shots.mjs` (optional, Node 22 + the globally installed Playwright 1.63 and `/usr/bin/google-chrome`): serves the repository on a local port, opens `out/page-home.html` and `prototype/index.html` (and the house page pair) at 1440×900 and 390×844, normal / `?plain=1` / reduced motion, with consent pre-set in `localStorage`, takes full-page screenshots into `out/shots/`, computes the share of differing pixels in the browser (canvas) and writes `out/shots/report.json`. Target: < 1 % per pair; any difference above that is explained in the package report. *(v3.2, B2 16.11: `--behaviour` now runs 41 checks on `out/page-home.html` in Chrome: nothing opens or moves by itself (`document.getAnimations()` empty), no `scroll`/`resize` listener on window or document (CDP), every `[data-visit-cta]` leads to `#door`, no running head / progress line / display panel / visit bar, the cookie panel (a link to `#nh-cookies` opens it in the flow with focus on its title; Esc and Save hide it and return focus; the choice is stored), focus on the target's heading after an in-page link and after a link of the phone menu (not on «תפריט»), the menu (opened only by «תפריט»; Esc and «סגירה» return focus), the one soft appearance (prints below the first screen wait, captions never hidden, every print shown after a slow scroll, nothing runs afterwards, nothing hidden with reduced motion), the display switches and announcements, and the visit form as before. The morph, the visit bar and the banner's self-show are no longer tested: they are gone.)* *(Core: before each shot the page is walked once and every image is decoded (lazy images otherwise race the screenshot); `node plugin/tests/shots.mjs --behaviour` runs 25 checks of the core scripts on `out/page-home.html` in Chrome — consent and focus return, the display switches and announcements, validation, the token refresh, the server answers mocked (invalid, sent, limited, network error), the visit bar, the cover morph. First results, all 20 widgets assembled: desktop 0.01–0.04 % on both pages in all three modes; phone plain 0.04–0.06 %; phone normal/reduced 1.8 % / 2.7 % only because the test settings' public e-mail is shorter than the prototype's address — the privacy note under the door form is one line shorter and everything below moves up 25 px.)*
 
 ### 11.5 Core unit tests (`plugin/tests/core/*.test.php`)
 
@@ -1872,3 +1919,54 @@ The core is in place (§12 row "core"); every change it made to this spec is mar
 | Settings → נווה האירוס: the readiness list runs the widget discovery itself when Elementor is OK, so a skipped widget file shows there (Elementor builds no widget list on that screen) | §3.1, §7 | no |
 | Colophon: the editors-only note of an unresolved credit link (`dev_link` = a link token) follows `<p class="v3-dev">` instead of breaking it, and names the link | §4.19 | no |
 | Plugin header `Update URI: false`: WordPress.org never offers an update of another plugin with the slug `nevehairus-site` | §3.1 | no |
+
+**v3.2 — the plugin is a guest (B1, 16.11.2026; [research/07-calm-v3.2.md](../research/07-calm-v3.2.md) §12, §15 column B step 1).** Version 0.2.0. One line per behaviour change; "B2" = the next step (widgets, §13).
+
+| what changed | where | does a widget package need to act? |
+|---|---|---|
+| `get_style_depends()` = `nh-base` + `STYLE_DEPS` + `nh-w-<ID>`; `get_script_depends()` = `nh-core` + `SCRIPT_DEPS` + `nh-w-<ID>`: the core CSS and JS (with `window.nhData`) travel with every widget in Elementor's `_elementor_page_assets` | §3.3, §2.4; 07 §12.1 | no |
+| `NH_Assets::enqueue()` (`wp_enqueue_scripts` @20) registers every handle on every front-end page but enqueues tokens/base/core only when `NH_Site::uses_widgets()`; `window.nhData` is attached to `nh-core` in `register()`, so it prints only with it | §3.2; 07 §12.1 | no |
+| New `NH_Site::uses_widgets()`: per request, remembered; admin false; Elementor preview true; true when the Theme Builder header/footer shown on the request (Pro's `get_documents_for_location()`, every call guarded, skipped without Pro, not on `elementor_canvas`) or the requested post (`is_singular()`) holds `"widgetType":"nh-…"` in its raw `_elementor_data`; before `wp_enqueue_scripts` it answers false without remembering (Pro caches its conditions per request). Helpers `has_widget( $post_id )`, `chrome_documents()` | §3.10, §5; 07 §12.2 | no |
+| `head()`, `body_class()` (`v3`), `body_open()` (the sprite only), `footer()` (sprite fallback, cookie panel, live region) print nothing on a page that does not use our widgets; parts queued with `footer_once()` still print (a widget that queued one has rendered) | §5.1–5.4; 07 §12.3 | no |
+| Pre-paint script: no `html.js`, no `pagereveal`/`nh-vt-in`/`data-vt` (page transitions are gone); `calm_default()` reads the post only on `is_singular()` | §5.2; 07 §12.3 | no (B2 removes `data-vt`) |
+| Removed from the plugin (now the child theme's, §12.5): the skip link, `<main>` on Elementor's Full Width template and its hooks, the template memory (`template_include`); removed altogether: the mobile visit bar | §5.1, D1, D2; 07 §12.3 | no |
+| `cookie_banner()` → `cookie_panel()`: the §9 markup (`section.nh-cookies.nh-on-dark`, hidden), printed in `wp_footer` right after the footer, never shown by itself, not in the preview; buttons «שמירת הבחירה» / «סגירה» | §5.3–5.4, D1; 07 §9 | no |
+| `js_data()` i18n without `motionOn` / `motionOff` | §5.6 | no |
+| New `NH_Html::current_state( $url, $ids )`: `'page'` (this very post), `'true'` (the section: the post or an ancestor in `$ids`, or the URL of an ancestor), `''` — always `''` outside `is_singular()`; `is_current()` is its wrapper (the archive bug is gone) | §3.6; 07 §5.3, §12.3 | B2: masthead prints `aria-current` from it |
+| `NH_Html::display_toggles( $labels, $states = [] )`: two switches (plain, calm), `span.v3-toggle__label` + silent `span.v3-toggle__state[data-on][data-off]` (fallback «פועל»/«כבוי»); a `motion` label is ignored | §3.6; 07 §7.3 | B2: masthead and display pass `state_on`/`state_off` |
+| `NH_Controls::section()` adds only `anchor` (`running`, `running_plain` ignored); `nh_section_open()` writes no `data-header`, `data-running`, `data-running-plain` (option `header` ignored); `nh_rule()` takes no argument and never writes `v3-rule--draw`; run.php now fails a spread that still has those attributes | §3.3, §3.4, §11.2; 07 §12.3 | B2: drop `running` defaults and fixture settings; cover/page-cover drop the rule |
+| Settings: removed `show_bar`, `bar_*`, `skip_label`, `cookie_more`, `cookie_all`, `cookie_necessary_only`, `cookie_settings`; added `cookie_close` (סגירה); defaults `cookie_title` הגדרות עוגיות, `cookie_stats` '', `webp_subsizes` 0, `cookie_text`/`cookie_text_plain`/`cookie_necessary` = the §9 texts; the settings page follows | §7; 07 §9, §12.3 | no |
+| `NH_Settings::migrate()` on `init` @5 (before `register_setting()`), once while option `nh_version` < 0.2.0 or missing: removed keys deleted, untouched 0.1.0 defaults (`cookie_title`, `cookie_stats`, `cookie_text*`, `cookie_necessary`) replaced, `webp_subsizes` 1 → 0, edited values kept; then `nh_version` = 0.2.0; any version change also clears Elementor's caches | §7; 07 §12.3 | no |
+| `NH_Compat`: no Hello or Google Fonts filter any more (→ the child theme); `image_editor_output_format` hooked only when `webp_subsizes` is on | §5.1, D4, D10; 07 §12.3 | no |
+| Activation and deactivation hooks: `NH_Plugin::clear_elementor_cache()` = `\Elementor\Plugin::$instance->files_manager->clear_cache()` (checked in 4.4.0; guarded): no cached HTML of our widgets outlives the plugin; `uninstall.php` also deletes `nh_version` | §3.1; 07 §12.3, §12.6 | no |
+| `nh-core.js`: gone — the motion switch and `nh:motionchange`, the banner's self-show, `ResizeObserver`, «מה זה אומר?», the visit bar, the skip-link repair, `showBanner`; new — `nh.reveal()` (the one appearance, on `.v3-print[data-reveal] > picture`), the panel (`[data-cookie-settings]` or a link to `#nh-cookies`; Save / Close / Esc return focus to the link; `nh.consent = { read, save, openSettings, hideBanner }`; `read()` ignores older consent versions), `[data-visit-cta]` → this page's `.v3-door[id]`, focus on the target's heading after an in-page link (same page by origin, path and query; after the menu dialog's `close`; on a load with `#…` after `load`), keepPlace by `:is(.v3-spread, .v3-plainbox-wrap) …`, `focusPage()` → `main`. `nh.once` stays, deprecated, until door.js and samekh.js are deleted | §3.12, §5.5; 07 §4.2, §5.5, §9, §12.3 | B2: delete door.js, samekh.js, then `once`; masthead.js sets `menu.dataset.nav` |
+| base.css: nothing global — element rules scoped with `:where([class*="elementor-widget-nh-"], .nh-cookies)` (zero specificity); `html`/`body`, the skip link, the Hello fallback layout, smooth scroll, view transitions, the visit bar, `.nh-wordmark` and the global reduced-motion rule removed; v3.2 type tokens (§7.1, with `--v3-poster`/`--v3-lead` kept as aliases for cover.css until the port), buttons (§7.2), switches (§7.3), the panel (§9), «honey» citrus, `.v3-spread` paper ground and `--v3-pad`, the 4:3 print and the reveal (§4.2, §10.2 item 4), the 16px step for notes, captions, quote signature and role meta | §9.1, §10.1; 07 §12.4 | B2/B4: drop the aliases once cover.css is ported; masthead/colophon lose `.nh-wordmark` |
+| masthead.css: `html:has(.v3-mast) { scroll-padding-block-start: 6rem }` and its `max-height: 30em` variant (moved from base.css) | §9.1; 07 §12.4 | no |
+| `assets/css/tokens.css` synced from the prototype (the A track's v3.2 tokens: field #4F5550, 16px minimum, radius 2px, 150/320 ms, no `--nh-ease-in-out`, `--nh-dur-3/4`) | §11.1; 07 §4.1, §7 | B2: the v3.1 motions in cover/door/samekh.css lose their easing and stop |
+| Harness: the fake media library loads the logo record (`file`, no `widths`) as one PNG; picture tests take the widths from the manifest; `get_option()` returns the registered default only without an explicit default (as WordPress); test pages are built as the site prints them with the child theme (`main#content.site-main`, skip link, style.css after ours, body class from NH_Site); new suite `core/scope.test.php` | §11.2, §11.5 | no |
+| The child theme (`theme/hello-elementor-child`, 1.1.0) now owns what applies to the whole site: Hello's reset/theme CSS, skip link and Elementor-page title off, Elementor's Google Fonts off, the skip link (`wp_body_open` @5), `main#content.site-main` on Elementor's Full Width **and** Canvas templates, `body`, the focus ring (zero specificity, so the widgets' `--nh-focus` wins), underlines of class-less links, the footer's links, the system reduced-motion rule; style.css after `elementor-frontend`. Install it together with 0.2.0 | D2, D4, §10; 07 §12.5 | no |
+
+**v3.2 — the widgets lose their motion and their removed controls (B2, 16.11.2026; [research/07](../research/07-calm-v3.2.md) §5, §10, §12.6, §13, §15 column B steps 2–3).** Version 0.2.0 (not yet released). One line per behaviour change; "B4" = the port of the widgets' markup and CSS to the finished prototype (§15 B4).
+
+| what changed | where | does the next package need to act? |
+|---|---|---|
+| Widget scripts deleted: `cover.js`, `homes.js`, `kaf.js`, `samekh.js`, `door.js`, `gallery.js`; `nh.once` removed from nh-core.js; `page-cover` has no `SCRIPT_DEPS`. Left: `masthead.js` (the menu), `voices.js` | §4, §9.4; 07 §4.4, §13 | no |
+| Every widget: `NH_Controls::section( $this, [ 'anchor' => … ] )` only (no `running` default) | §4.0; 07 §12.3 | no |
+| `cover`, `page-cover`: no `weight` (constant 600), no ruling line, no `#nh-letters`, no `data-vt`; new `show_call` + `call_label` (the line «או בטלפון» with the phone of the settings, `p.v3-cover__call`), `DYNAMIC` true, the button with `data-visit-cta`; cover `photo_pos` `46% 50%`; page-cover crumb 2 «הבתים שלנו» | §4.1, §4.2; 07 §10.2 item 1, §10.3 item 1 | B4: the v3.2 cover CSS (one screen, D-L title, `--v3-poster`/`--v3-lead` aliases out) |
+| `homes`: no chooser (`fit_q`, `fit`), `intro` → `lead` (full text added), rows without `weight` (600) and `data-vt`, links default `''`; a row without a page is `div.v3-home__row` with «דף מפורט בקרוב» (`soon_text`), without arrow | §4.3; 07 §10.2 item 2 | B4: the v3.2 sizes; homes.css only lost its motion and lays out `.v3-home__row` |
+| `day`, `years`, `gallery`: prints are `figure.v3-print[data-reveal]` of one size (`SIZES`); no `print` select; day without zigzag classes; years with the ruling line and no `v3-year--first` (years.css reads `:first-child` until B4) | §4.5, §4.8, §4.14; 07 §4.2, §8.1 | B4: the v3.2 grids |
+| `kaf`: one work (`photo`, decorative, `_pos`, `_sizes`), a visible `caption`, the ruling line; no `works`, swatches, `cap_label`, `works_label`, `credit`, `weight` (440); the button only with a link that is not this spread (an editors' note otherwise); kaf.css ported from the prototype's v3.2 block | §4.6; 07 §10.2 item 5 | no |
+| `samekh`: no rings, glint, links, `ring`, `weight` (380), `external_sr` | §4.7; 07 §10.2 item 6 | B4: sizes |
+| `voices`: the ruling line, a visible `v3-h2` (heading with a citrus tessera), `play_label` («צפו בסרטון») on a paper button with an explicit 1.25rem icon, `play_prefix` = the screen-reader text after it (`:`), poster `sizes` for 37.5rem; voices.css: the button, 16:9 | §4.9; 07 §10.2 item 8 | no |
+| `steps`: no `word`; `lamed`: no `weight` (600) | §4.10, §4.11 | B4: sizes, the ל inside its own padding |
+| `gallery`: no lightbox (`zoom_label`, `lb_*`, `TEXTS`, `footer_once`, `data-*`), `DYNAMIC` false, the grid of prints with visible captions; gallery.css ported from the prototype's v3.2 block; default 6th caption «פינת אוכל וסלון באגף החדש.» | §4.14; 07 §10.3 item 4 | no |
+| `related`: defaults «שלושת הבתים» (`/#homes`) and «ידיים שיוצרות» (`/#made`); a row without a link, with a bare fragment or with a link to this very page is not printed (editors' note) | §4.17; 07 §10.3 item 8 | no |
+| `masthead`: rewritten per `partials/header.html` — `name` (two spans at the last space) + `logo` (the emblem, `alt=""`), at most 5 links (editors' note for more), `aria-current` = `NH_Html::current_state()` (`page` / `true`), `data-visit-cta` on both visit buttons, visible «תפריט» and «סגירה», a menu title (`aria-labelledby="nh-menu-title"`), `nh-menu__call`, the switches `plain` + `calm` with `state_on` / `state_off`; no wordmark, running head, progress line, display panel, `toggle_motion`; masthead.css = the prototype's v3.2 masthead and menu; masthead.js = the menu with `menu.dataset.nav` | §4.18; 07 §5, §6, §10.1 | no |
+| `colophon` deleted (widget, CSS, fixture); new widget `display` (מתגי תצוגה): the switches group for the footer of Elementor's own widgets | §4.19, §4.21; 07 §12.6, §13 | no |
+| `NH_Html::display_toggles()` prints only the switches whose key is in `$labels` | §3.6 | no |
+| base.css: `.nh-btn` padding `.5rem 1.75rem` and `.nh-btn--sm` without its own font size (UI 18/700, as the prototype's §7.2); the dead `.v3-menu-toggles` / `.v3-footer-toggles` rules removed; forms.css: the fields' transition only `border-color .15s ease` (§4.1) | §9.1; 07 §4.1, §7.2 | B4: the rest of forms.css §7.5 |
+| CSS motion removed from the widgets' files: cover (pinning, drawn rule, curtain, settling photo, `@keyframes`), page-cover and homes (`view-transition-class`), homes (curtain → opacity, the arrow's shift), samekh (rings, glint), years (cloud drift), door (`@property --open`, the lintel), gallery (zoom), voices (the round icon's scale), steps (the word, the staircase) | §4; 07 §4.4 | no |
+| Build check: forbidden motion in the plugin's CSS and JS (§11.1) | §11.1; 07 §17.1 | no |
+| Harness: `style` only on `.v3-room`; fixture keys `queried`, `empty`; pages.php without the colophon, with `display` in the footer slot and `queried` 11 for the house page; `NH_TEST_GLOBAL_IDS` trimmed; compare.py descendant selectors and `--prototype-letter-data`; `letters.test.php` compares `data_script()` with the build script's `letter_data()`; `site.test.php` uses the masthead for the script handle; door and lamed `expect_diff` are regexes now (compare clean) | §11.2, §11.4, §11.5 | no |
+| `shots.mjs --behaviour`: the v3.2 checks (41, passing in Chrome) | §11.4 | no |
+| Step 4 (`scripts/build_pages.py`, `templates/pages/*.json`): the header is the masthead `prototype` variant with the emblem `@media:logo-emblem` and `current_ids` on «הבתים שלנו»; the footer is Elementor's Image (the emblem), Heading and Text Editor in inner containers (grid 5fr 3fr 4fr / 2 / 1) plus `nh-display`, its template HTML Tag `footer`; `lint()` allows those only in the footer; the render check compares the masthead and `nh-display`; `scripts/test_site.py pages` uploads the emblem PNG (`nh:logo-emblem`, alt `''`), resolves the footer's link tokens and `@nh:email` from the plugin's settings on deploy and checks each template's wrapper | D3, §10.3; 07 §11.2 item 5, §12.6 | no |

@@ -5,9 +5,11 @@
  *     php plugin/tests/run.php [--widget=<id>] [--no-pages] [--no-core] [--core-only] [--suite=<name>] [--verbose]
  *
  * For every discovered widget and every variant of its fixture (a widget without a fixture gets the
- * `default` variant): build the settings, render, assert (no PHP error, non-empty, well-formed, unique
- * ids, resolvable references, alt on every img, decorative svgs, only custom properties in style, no
- * forbidden pattern, spread root attributes, no empty full/plain twin), write out/<id>--<variant>.html
+ * `default` variant): build the settings, render, assert (no PHP error, non-empty unless the variant says
+ * `'empty' => true`, well-formed, unique ids, resolvable references, alt on every img, decorative svgs,
+ * inline style only on a letter's room and only custom properties there, no forbidden pattern, spread root
+ * attributes (v3.2: no data-header / data-running), no empty full/plain twin), write
+ * out/<id>--<variant>.html
  * (+ .json for compare.py). Then the two assembled prototype pages and the core unit tests
  * (core/*.test.php). Exit 1 on any failure.
  *
@@ -21,8 +23,9 @@ $only    = isset( $opts['widget'] ) ? (string) $opts['widget'] : null;
 $verbose = isset( $opts['verbose'] );
 $core_only = isset( $opts['core-only'] ) || isset( $opts['suite'] );
 
-/** Ids that may be referenced from outside a widget (site module and masthead, SPEC §2.5). */
-const NH_TEST_GLOBAL_IDS = [ 'main', 'content', 'nh-menu', 'v3-display-panel', 'v3-display-title', 'nh-cookies', 'nh-cookies-title', 'nh-cookies-text', 'nh-cookie-prefs', 'nh-c-stats', 'nh-c-media', 'nh-lightbox' ];
+/** Ids that may be referenced from outside a widget (the theme's main, the masthead's menu, the site module's
+ * cookie panel; SPEC §2.5). v3.2: no display panel, no lightbox. */
+const NH_TEST_GLOBAL_IDS = [ 'main', 'content', 'nh-menu', 'nh-menu-title', 'nh-cookies', 'nh-cookies-title', 'nh-c-stats', 'nh-c-media' ];
 
 $failures = [];
 $warnings = [];
@@ -94,6 +97,10 @@ function nh_test_assert( string $id, array $render ): array {
 	$f    = [];
 	$w    = [];
 	$html = $render['html'];
+	if ( ! empty( $render['variant']['empty'] ) ) {
+		// a variant whose settings leave nothing to show (e.g. the display widget with both switches off)
+		return [ '' === trim( $html ) ? [] : [ 'expected an empty render' ], [] ];
+	}
 	if ( '' === trim( $html ) ) {
 		return [ [ 'empty output' ], [] ];
 	}
@@ -135,6 +142,12 @@ function nh_test_assert( string $id, array $render ): array {
 		}
 	}
 	foreach ( $xp->query( './/*[@style]', $root ) as $el ) {
+		// v3.2 (research/07 §13): the only inline style is the geometry of a letter's room (the colour
+		// swatches of v3.1 are gone)
+		if ( ! in_array( 'v3-room', preg_split( '/\s+/', trim( $el->getAttribute( 'class' ) ) ), true ) ) {
+			$f[] = "inline style on <{$el->nodeName} class=\"" . $el->getAttribute( 'class' ) . '"> (only on a letter\'s room, .v3-room)';
+			continue;
+		}
 		foreach ( explode( ';', $el->getAttribute( 'style' ) ) as $decl ) {
 			$prop = trim( explode( ':', $decl, 2 )[0] );
 			if ( '' !== $prop && 0 !== strpos( $prop, '--' ) ) {
@@ -162,7 +175,8 @@ function nh_test_assert( string $id, array $render ): array {
 	if ( isset( $sections['nh_section'] ) && 'nh_section' !== array_key_last( $sections ) ) {
 		$f[] = 'the controls section "מקטע" (NH_Controls::section) must be the last one';
 	}
-	// Spread widgets (the root is a <section>): data-header, data-running and the labelled heading.
+	// Spread widgets (the root is a <section>): the labelled heading; v3.2 (research/07 §12.3): no running-head
+	// or header-theme attributes any more.
 	$first = null;
 	foreach ( $root->childNodes as $n ) {
 		if ( XML_ELEMENT_NODE === $n->nodeType ) {
@@ -173,9 +187,9 @@ function nh_test_assert( string $id, array $render ): array {
 	if ( null === $first ) {
 		$f[] = 'no root element';
 	} elseif ( 'section' === $first->nodeName ) {
-		foreach ( [ 'data-header', 'data-running' ] as $a ) {
-			if ( ! $first->hasAttribute( $a ) ) {
-				$f[] = "root <section> without $a";
+		foreach ( [ 'data-header', 'data-running', 'data-running-plain' ] as $a ) {
+			if ( $first->hasAttribute( $a ) ) {
+				$f[] = "root <section> with $a (removed in v3.2)";
 			}
 		}
 		$lb = $first->getAttribute( 'aria-labelledby' );
@@ -210,6 +224,18 @@ foreach ( NH_Plugin::widget_ids_on_disk() as $id ) {
 		try {
 			$render = nh_test_render( $id, $variant );
 			[ $f, $w ] = nh_test_assert( $id, $render );
+			if ( '' === trim( $render['html'] ) ) {
+				// nothing to put on a page (an `empty` variant): the empty render is the result
+				nh_test_write( "$id--$variant.html", '' );
+				++$count;
+				if ( $verbose ) {
+					echo ( $f ? 'FAIL ' : 'ok   ' ) . $where . "\n";
+				}
+				foreach ( $f as $x ) {
+					$fail( $where, $x );
+				}
+				continue;
+			}
 			$page = nh_test_page(
 				[
 					[
@@ -282,6 +308,7 @@ if ( null === $only && ! $core_only && ! isset( $opts['no-pages'] ) ) {
 				$get            = array_merge( $get, (array) ( $c[1]['get'] ?? [] ) );
 			}
 			nh_test_reset_request( $options, $get );
+			$GLOBALS['nh_test']['queried'] = (int) ( $def['queried'] ?? 10 );
 			$elements = [];
 			foreach ( $chosen as [ $id, $c ] ) {
 				if ( null !== $c ) {
@@ -293,7 +320,7 @@ if ( null === $only && ! $core_only && ! isset( $opts['no-pages'] ) ) {
 					];
 				}
 			}
-			update_post_meta( 10, '_elementor_data', wp_json_encode( [ [ 'elType' => 'container', 'elements' => $elements ] ] ) );
+			update_post_meta( (int) get_queried_object_id(), '_elementor_data', wp_json_encode( [ [ 'elType' => 'container', 'elements' => $elements ] ] ) );
 
 			$render = static function ( string $id, ?array $c ): array {
 				if ( null === $c ) {
@@ -333,7 +360,7 @@ if ( null === $only && ! $core_only && ! isset( $opts['no-pages'] ) ) {
 
 if ( null === $only && ! isset( $opts['no-core'] ) ) {
 	$passed = 0;
-	foreach ( isset( $opts['suite'] ) ? [ (string) $opts['suite'] ] : [ 'letters', 'text', 'picture', 'forms', 'site', 'settings' ] as $suite ) {
+	foreach ( isset( $opts['suite'] ) ? [ (string) $opts['suite'] ] : [ 'letters', 'text', 'picture', 'forms', 'site', 'settings', 'scope' ] as $suite ) {
 		$file = NH_TEST_DIR . '/core/' . $suite . '.test.php';
 		if ( ! is_file( $file ) ) {
 			$fail( "core/$suite", 'test file missing' );

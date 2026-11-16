@@ -4,9 +4,9 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Widget "steps" — צעד צעד (package index, SPEC.md §4.10).
  *
- * Four numbered steps to moving in. Above each step the word «צעד» is drawn as decoration only: it is generated
- * content (CSS ::before from data-word) in an aria-hidden span, and it is folded away in plain-language mode.
- * Target markup: prototype/index.html section#start (source prototype/src/index.html L297–311).
+ * Four numbered steps to moving in, on one line: the number (large, clay) inside each step's H3. v3.2
+ * (research/07 §10.2 item 9): no background word «צעד» and no staircase.
+ * Target markup: prototype/index.html section#start (source prototype/src/index.html).
  *
  * @package nevehairus-site
  */
@@ -47,15 +47,6 @@ final class NH_Widget_Steps extends NH_Widget_Base {
 				'type'    => 'textarea',
 				'default' => 'המחלקה הסוציאלית שלנו מלווה אתכם לאורך כל הדרך.',
 				'plain'   => 'יש ארבעה צעדים.',
-			]
-		);
-		$this->add_control(
-			'word',
-			[
-				'label'       => __( 'מילת הרקע מעל כל צעד (קישוט בלבד, ריק = בלי)', 'nevehairus-site' ),
-				'type'        => \Elementor\Controls_Manager::TEXT,
-				'default'     => 'צעד',
-				'label_block' => true,
 			]
 		);
 		$this->end_controls_section();
@@ -124,18 +115,11 @@ final class NH_Widget_Steps extends NH_Widget_Base {
 		);
 		$this->end_controls_section();
 
-		NH_Controls::section(
-			$this,
-			[
-				'anchor'  => 'start',
-				'running' => 'צעד צעד',
-			]
-		);
+		NH_Controls::section( $this, [ 'anchor' => 'start' ] );
 	}
 
 	protected function render() {
-		$s    = $this->get_settings_for_display();
-		$word = self::str( $s, 'word' );
+		$s = $this->get_settings_for_display();
 
 		$items = '';
 		$n     = 0;
@@ -146,7 +130,6 @@ final class NH_Widget_Steps extends NH_Widget_Base {
 			}
 			++$n;
 			$items .= "\n\t\t\t<li>"
-				. ( '' !== $word ? '<span class="v3-steps__word" aria-hidden="true" data-word="' . esc_attr( $word ) . '"></span>' : '' )
 				. '<h3><span class="v3-steps__n">' . $n . '</span> ' . NH_Text::pair( $title, self::str( $item, 'title_plain' ) ) . '</h3>'
 				. NH_Text::block(
 					self::str( $item, 'text' ),

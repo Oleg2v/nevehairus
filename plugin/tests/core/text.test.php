@@ -148,12 +148,22 @@ return [
 				'calm'   => 'מצב <script>רגוע</script>',
 			]
 		);
+		// v3.2 (research/07 §7.3): two switches; the motion switch is gone; the state said in a silent word
+		$state = '<span class="v3-toggle__state" aria-hidden="true" data-on="פועל" data-off="כבוי"></span>';
 		nh_assert_same(
-			'<button type="button" class="v3-toggle" data-plain-toggle aria-pressed="false"><span>בשפה פשוטה</span><i aria-hidden="true"></i></button>'
-			. '<button type="button" class="v3-toggle" data-motion-toggle aria-pressed="false"><span>הפחתת תנועה</span><i aria-hidden="true"></i></button>'
-			. '<button type="button" class="v3-toggle" data-calm-toggle aria-pressed="false"><span>מצב רגוע</span><i aria-hidden="true"></i></button>',
+			'<button type="button" class="v3-toggle" data-plain-toggle aria-pressed="false"><span class="v3-toggle__label">בשפה פשוטה</span>' . $state . '<i aria-hidden="true"></i></button>'
+			. '<button type="button" class="v3-toggle" data-calm-toggle aria-pressed="false"><span class="v3-toggle__label">מצב רגוע</span>' . $state . '<i aria-hidden="true"></i></button>',
 			$t
 		);
+		nh_assert_contains(
+			'data-on="On &quot;1&quot;" data-off="Off"',
+			NH_Html::display_toggles( [ 'calm' => 'x' ], [ 'on' => 'On "1"', 'off' => 'Off' ] ),
+			'the widgets pass their own words, escaped'
+		);
+		nh_assert_not_contains( 'v3-toggle__state', NH_Html::display_toggles( [ 'calm' => 'x' ], [ 'on' => '', 'off' => '' ] ), 'no words: no state span' );
+		$calm = NH_Html::display_toggles( [ 'calm' => 'מצב רגוע' ] );
+		nh_assert( false === strpos( $calm, 'data-plain-toggle' ) && 1 === substr_count( $calm, 'data-calm-toggle' ), 'only the switches whose label is passed (the footer: calm only)' );
+		nh_assert_same( '', NH_Html::display_toggles( [ 'motion' => 'הפחתת תנועה' ] ), 'no switch without a plain or calm label' );
 		nh_assert_same( '', NH_Html::admin_note( 'x' ), 'visitors see no note' );
 		$GLOBALS['nh_test']['caps']['edit_posts'] = true;
 		nh_assert_same( '<p class="nh-admin-note" role="note">חסר &lt;x&gt;</p>', NH_Html::admin_note( 'חסר <x>' ) );
@@ -168,6 +178,25 @@ return [
 		nh_assert( ! NH_Html::is_current( 'https://nh.test/jobs/', '12, 13' ) );
 		nh_assert_same( 11, NH_Html::post_id( '/main-home/' ) );
 		nh_assert_same( 0, NH_Html::post_id( 'https://example.com/main-home/' ) );
+		unset( $GLOBALS['nh_test']['posts'][17] );
+	},
+
+	'NH_Html::current_state(): page, true (the section), never outside is_singular()' => static function () {
+		$GLOBALS['nh_test']['queried'] = 11;                             // מעון ראשי
+		nh_assert_same( 'page', NH_Html::current_state( 'https://nh.test/main-home/' ), 'the link to this very page' );
+		nh_assert_same( 'page', NH_Html::current_state( 'https://nh.test/main-home/', '11' ), 'page wins over the section ids' );
+		nh_assert_same( 'true', NH_Html::current_state( 'https://nh.test/#homes', '11' ), 'the section: this page in the ids (§5.3: «הבתים שלנו»)' );
+		nh_assert_same( '', NH_Html::current_state( 'https://nh.test/#homes' ), 'a fragment link without ids' );
+		nh_assert_same( '', NH_Html::current_state( 'https://nh.test/jobs/', '12' ) );
+		$GLOBALS['nh_test']['posts'][17] = [ 'type' => 'page', 'status' => 'publish', 'url' => 'https://nh.test/main-home/rooms/', 'parent' => 11, 'title' => 'חדרים' ];
+		$GLOBALS['nh_test']['queried']   = 17;
+		nh_assert_same( 'true', NH_Html::current_state( 'https://nh.test/main-home/' ), 'the URL of an ancestor' );
+		nh_assert_same( 'true', NH_Html::current_state( 'https://nh.test/#homes', '11' ), 'an ancestor in the ids' );
+		nh_assert_same( 'page', NH_Html::current_state( '/main-home/rooms/' ) );
+		$GLOBALS['nh_test']['is_singular'] = false;                       // an archive: the queried id is a term's
+		$GLOBALS['nh_test']['queried']     = 11;
+		nh_assert_same( '', NH_Html::current_state( 'https://nh.test/main-home/', '11' ), 'not singular: never current' );
+		nh_assert( ! NH_Html::is_current( 'https://nh.test/main-home/', '11' ), 'is_current() follows' );
 		unset( $GLOBALS['nh_test']['posts'][17] );
 	},
 ];

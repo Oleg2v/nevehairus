@@ -3,8 +3,11 @@
    Paper; a ruling line (שרטוט) that every spread hangs from; five Hebrew letters
    whose names are words of home (ב בית, כ כף, ס סמך, ל למד, ד דלת) used as
    architecture: their counters are rooms where life is shown.
-   Rules (research/06): text never moves, only the letters do; no JS pinning;
-   photos live only inside the rooms; no arches, chips, stickers or eyebrow labels.
+   Rules (research/06): text never moves; no JS pinning; photos live only inside the rooms or as
+   4:3 prints; no arches, chips, stickers or eyebrow labels.
+   v3.2 «calm» (research/07): nothing moves by itself. Allowed: colour on hover/focus (150ms), the one soft
+   appearance of the print photos, accordions. One fixed layer (the masthead), one radius (2px), a nine-step
+   type scale, nothing under 16px.
    ========================================================================= */
 
 :root {
@@ -12,96 +15,59 @@
   --v3-iris-text: #E2DAF0;                 /* secondary text on iris (7.76:1) */
   --v3-toggle-dark: #8F84A6;               /* toggle track on night (4.92:1) */
 }
+/* v3.2 type scale: nine steps (research/07 §7.1); every font-size of the spreads refers to them. 390 → 1440px.
+   Frank Ruhl only at 300, 400, 500: 300 only for D-L from 48em (where it is 68px or more). Minimum 16px. */
 .v3 {
   --v3-mast: 4.5rem;
-  --v3-poster: clamp(4.25rem, 1rem + 10.2vw, max(9.5rem, min(14rem, 12vh)));
-  --v3-h2: clamp(2.6rem, 1.4rem + 3.8vw, 5.25rem);
-  --v3-lead: clamp(1.2rem, 1.06rem + .5vw, 1.5rem);
+  --v3-fs-dl:    clamp(2.75rem, 1.171rem + 6.476vw, 7rem);     /* 44 → 112  Frank Ruhl var(--v3-fw-dl), lh .92 */
+  --v3-fw-dl:    300;                                          /* 400 below 48em, where D-L is under ~68px */
+  --v3-fs-dm:    clamp(2.375rem, 1.771rem + 2.476vw, 4rem);    /* 38 → 64   Frank Ruhl 400, lh 1   */
+  --v3-fs-ds:    clamp(1.75rem, 1.379rem + 1.524vw, 2.75rem);  /* 28 → 44   Frank Ruhl 400, lh 1.12 */
+  --v3-fs-h3:    clamp(1.375rem, 1.236rem + .571vw, 1.75rem);  /* 22 → 28   Frank Ruhl 500, lh 1.25 */
+  --v3-fs-lead:  clamp(1.25rem, 1.157rem + .381vw, 1.5rem);    /* 20 → 24   Assistant 400, lh 1.5, ink, ≤ 36ch */
+  --v3-fs-body:  clamp(1.125rem, 1.079rem + .19vw, 1.25rem);   /* 18 → 20   Assistant 400, lh 1.65, ≤ 60ch */
+  --v3-fs-ui:    1.125rem;                                     /* 18        Assistant 600/700, lh 1.2 */
+  --v3-fs-small: 1rem;                                         /* 16        Assistant 400/600/700, lh 1.5 — the minimum */
+  --v3-fs-plain: clamp(1.375rem, 1.329rem + .19vw, 1.5rem);    /* 22 → 24   Assistant 400, lh 1.6, ≤ 36ch */
+  --v3-pad:      clamp(4rem, 2.7rem + 5.333vw, 7.5rem);        /* 64 → 120  spread padding */
+  --v3-hair:     rgb(31 36 33 / .4);                           /* hairline between rows, #A19F98 on paper */
   background: var(--nh-paper);
+  counter-reset: print;                                        /* the numbered captions of the prints («1 ·») */
 }
-@media (max-width: 69.99em) { .v3 { --v3-mast: 3.75rem; } }
+@media (max-width: 79.99em) { .v3 { --v3-mast: 3.75rem; } }
+@media (max-width: 47.99em) { .v3 { --v3-fw-dl: 400; } }
 
-/* ---------- Buttons: square, like a printed form ------------------------- */
-.v3 .nh-btn { border-radius: 2px; min-block-size: 3.5rem; padding-inline: 1.6em; }
-.v3 .nh-btn--sm { min-block-size: 2.75rem; padding-inline: 1.1em; }
-.nh-btn--ink { box-shadow: inset 0 0 0 1.5px var(--nh-ink); --_fg: var(--nh-ink); }
-.nh-btn--ink:hover { --_bg: var(--nh-ink); --_fg: var(--nh-citrus-400); }
-
-/* ---------- Masthead ------------------------------------------------------ */
-.v3-mast { background: var(--nh-paper); box-shadow: 0 1px 0 rgb(31 36 33 / .9); -webkit-backdrop-filter: none; backdrop-filter: none; }
-.v3-mast .nh-header__inner { min-block-size: var(--v3-mast); gap: clamp(.75rem, .5rem + 1vw, 1.5rem); }
-.v3-mast[data-theme="dark"] { background: var(--nh-night); color: var(--nh-paper); box-shadow: 0 1px 0 rgb(247 241 231 / .28); }
-.v3-mast[data-theme="dark"] .nh-logo, .v3-mast[data-theme="dark"] .nh-nav a, .v3-mast[data-theme="dark"] .nh-phone,
-.v3-mast[data-theme="dark"] .v3-plainbtn, .v3-mast[data-theme="dark"] .v3-display__btn, .v3-mast[data-theme="dark"] .nh-menu-btn { color: var(--nh-paper); }
-.v3-mast[data-theme="dark"] .nh-phone svg { color: var(--nh-citrus-400); }
-.v3-mast[data-theme="dark"] { --nh-focus: var(--nh-citrus-400); }
-.v3-mast[data-theme="dark"] .v3-mast__cta { --_bg: var(--nh-citrus-400); --_fg: var(--nh-ink); }
-/* running head: the name of the spread being read, set under the wordmark. It is out of the
-   flex row, so it can never push the navigation or the actions to a second line. */
-.v3-mast__running { display: none; margin: 0; }
-@media (min-width: 70em) {
-  .v3-mast .nh-header__inner { position: relative; }
-  .v3-mast__running { display: block; position: absolute; inset-inline-start: 0; inset-block-end: .5rem; max-inline-size: 15rem;
-    font: 600 .75rem/1 var(--nh-font-body); color: inherit; opacity: .8; white-space: nowrap; overflow: hidden; pointer-events: none; }
-  .v3-mast .nh-logo { transform: translateY(-.45rem); }
-}
-@media (max-width: 89.99em) { .v3-mast .nh-phone__num { display: none; } }
-.v3-mast .nh-nav ul { gap: clamp(.9rem, 1.4vw, 1.75rem); }
-.v3-mast .nh-menu-btn { border-radius: 2px; }
-.v3-progress { position: absolute; inset-inline: 0; inset-block-end: -1px; block-size: 2px; background: var(--nh-iris-700); transform: scaleX(0); transform-origin: right; pointer-events: none; }
-.v3-mast[data-theme="dark"] .v3-progress { background: var(--nh-citrus-400); }
-@supports (animation-timeline: scroll()) {
-  .v3-progress { animation: v3-progress linear both; animation-timeline: scroll(root block); }
-}
-@keyframes v3-progress { to { transform: scaleX(1); } }
-
-/* plain-language button and the display panel */
-.v3-plainbtn, .v3-display__btn {
-  display: inline-flex; align-items: center; gap: .45rem; min-block-size: 2.75rem; padding-inline: .7rem;
-  font: 700 .9375rem/1.1 var(--nh-font-body); color: var(--nh-ink); white-space: nowrap; border-radius: 2px;
-  box-shadow: inset 0 0 0 1.5px currentColor;
-}
-.v3-plainbtn svg, .v3-display__btn svg { inline-size: 1.15rem; block-size: 1.15rem; flex: none; }
-.v3-plainbtn[aria-pressed="true"] { background: var(--nh-olive-700); color: var(--nh-paper) !important; box-shadow: none; }
-.v3-display__btn { box-shadow: none; padding-inline: .5rem; }
-.v3-display { position: relative; display: none; }
-@media (min-width: 70em) { .v3-display { display: block; } }
-@media (max-width: 69.99em) { .v3-mast .nh-phone__num { display: none; } .v3-mast .v3-mast__cta { display: none; } }
-@media (max-width: 420px) { .v3-plainbtn { font-size: .8125rem; padding-inline: .5rem; gap: .3rem; } .v3-plainbtn svg { display: none; } }
-.v3-display__panel {
-  position: absolute; inset-block-start: calc(100% + .75rem); inset-inline-end: 0; z-index: 70;
-  inline-size: 17rem; padding: 1rem 1.1rem .9rem; background: var(--nh-paper); color: var(--nh-ink);
-  box-shadow: 0 0 0 1px var(--nh-ink), 0 24px 48px -16px rgb(28 24 48 / .35);
-  display: grid; gap: .15rem; --nh-focus: var(--nh-iris-700);
-}
-.v3-display__panel[hidden] { display: none; }
-.v3-display__title { font: 400 1.25rem/1.2 var(--nh-font-display); margin: 0 0 .4rem; }
-.v3-display__note { font-size: .875rem; color: var(--nh-ink-2); margin: .4rem 0 0; }
+/* ---------- Display switches (v3.2, research/07 §7.3) -----------------------------------------
+   <button class="v3-toggle" aria-pressed>: label · the state in words («פועל» / «כבוי», aria-hidden: the state
+   itself is aria-pressed) · a 44×24 track with an 18px square thumb. Nothing moves: the thumb jumps. */
 .v3-toggle {
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem; inline-size: 100%;
-  min-block-size: 2.75rem; padding-inline: .25rem; font: 600 1rem/1.2 var(--nh-font-body); color: inherit; text-align: start;
+  display: flex; align-items: center; gap: .75rem; inline-size: 100%;
+  min-block-size: 2.75rem; padding-inline: .25rem; font: 600 var(--v3-fs-ui)/1.2 var(--nh-font-body); color: inherit; text-align: start;
 }
-.v3-toggle i { position: relative; flex: none; inline-size: 2.6rem; block-size: 1.5rem; border-radius: .75rem; background: var(--nh-field); transition: background-color .2s ease; }
-.v3-toggle i::after { content: ""; position: absolute; inset-block-start: 3px; inset-inline-start: 3px; inline-size: calc(1.5rem - 6px); block-size: calc(1.5rem - 6px); border-radius: 50%; background: var(--nh-white); transition: transform .2s var(--nh-ease-out); }
+.v3-toggle__label { flex: 1; }
+.v3-toggle__state { flex: none; font: 700 var(--v3-fs-small)/1.2 var(--nh-font-body); }
+.v3-toggle__state::before { content: attr(data-off); }
+.v3-toggle[aria-pressed="true"] .v3-toggle__state::before { content: attr(data-on); }
+.v3-toggle i { position: relative; flex: none; inline-size: 2.75rem; block-size: 1.5rem; border-radius: 2px; background: var(--nh-field); }
+.v3-toggle i::after { content: ""; position: absolute; inset-block-start: 3px; inset-inline-start: 3px; inline-size: 1.125rem; block-size: 1.125rem; border-radius: 2px; background: var(--nh-white); }
 .v3-toggle[aria-pressed="true"] i { background: var(--nh-olive-700); }
-.v3-toggle[aria-pressed="true"] i::after { transform: translateX(-1.1rem); }
-.v3-menu-toggles, .v3-footer-toggles { display: grid; gap: .1rem; max-inline-size: 18rem; }
-.v3-footer-toggles { margin-block-start: 1rem; }
+.v3-toggle[aria-pressed="true"] i::after { inset-inline-start: auto; inset-inline-end: 3px; }
+.v3-switches, .v3-menu-toggles { display: grid; gap: .25rem; max-inline-size: 20rem; }
 .nh-on-dark .v3-toggle i { background: var(--v3-toggle-dark); }
 .nh-on-dark .v3-toggle[aria-pressed="true"] i { background: var(--nh-citrus-400); }
 .nh-on-dark .v3-toggle[aria-pressed="true"] i::after { background: var(--nh-ink); }
 
 /* ---------- Spreads and the ruling line ---------------------------------- */
-.v3-spread { position: relative; padding-block: clamp(4.5rem, 2.5rem + 6vw, 9rem); }
+.v3-spread { position: relative; padding-block: var(--v3-pad); background-color: var(--nh-paper); }
 .v3-spread--sand { background: var(--nh-paper-2); }
-.v3-spread--citrus { background: var(--nh-citrus-400); color: var(--nh-ink); --nh-focus: var(--nh-ink); --nh-link: var(--nh-ink); --nh-text-muted: var(--nh-ink); --v3-ink: var(--nh-ink); }
+/* כ: «honey» (citrus-100), not the saturated citrus of v3.1: ink 12.82, ink-2 6.22, iris 8.54 (§7.4) */
+.v3-spread--citrus { background: var(--nh-citrus-100); color: var(--nh-ink); --nh-focus: var(--nh-iris-700); --nh-link: var(--nh-iris-700); --nh-text-muted: var(--nh-ink-2); --v3-ink: var(--nh-ink); }
 .v3-spread--iris { background: var(--nh-iris-700); color: var(--nh-white); --nh-focus: var(--nh-citrus-400); --nh-link: var(--nh-white); --nh-text: var(--nh-white); --nh-text-muted: var(--v3-iris-text); --v3-ink: var(--nh-paper); }
 .v3-spread--night { background: var(--nh-night); color: var(--nh-paper); --nh-focus: var(--nh-citrus-400); --nh-link: var(--nh-citrus-400); --nh-text: var(--nh-paper); --nh-text-muted: var(--nh-on-night-2); --v3-ink: var(--nh-paper); }
-.v3-rule { position: relative; block-size: 1px; background: currentColor; margin-block-end: clamp(2rem, 1.2rem + 2vw, 3.5rem); }
-.v3-h2 { font: 300 var(--v3-h2)/1 var(--nh-font-display); letter-spacing: 0; margin: 0 0 1.25rem; text-wrap: balance; }
-.v3-lead { font-size: var(--v3-lead); line-height: 1.5; max-inline-size: 38ch; margin: 0 0 1.5rem; color: var(--nh-text-muted, var(--nh-ink-2)); }
-.v3-note { font-size: .9375rem; color: var(--nh-ink-2); margin-block-start: 1rem; }
-.v3-credit { font-size: .9375rem; font-weight: 600; }
+.v3-rule { position: relative; block-size: 1px; background: currentColor; margin-block-end: 2.5rem; }
+.v3-h2 { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: 0; margin: 0 0 1.25rem; text-wrap: balance; }
+.v3-lead { font-size: var(--v3-fs-lead); line-height: 1.5; max-inline-size: 36ch; margin: 0 0 3rem; color: var(--nh-text); }
+.v3-note { font-size: var(--v3-fs-small); color: var(--nh-ink-2); margin-block-start: 1rem; }
 
 /* the full stop of the headlines is drawn as one square glazed tessera */
 .v3-dot { position: relative; color: transparent; }
@@ -124,182 +90,130 @@
     calc(var(--ab) + (var(--bb) - var(--ab)) * var(--t)) calc(var(--al) + (var(--bl) - var(--al)) * var(--t)));
 }
 .v3-room__photo img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: var(--pos); }
-.v3-room__field--sky { background: linear-gradient(180deg, #8FC0E6 0%, #BFDDF2 45%, #E3F0F8 100%); }
+/* the quiet sky: a room without a photo, and any room whose photo cannot be shown (images off: v3.js 3) */
+.v3-room__field--sky, .v3-room.is-sky .v3-room__photo { background: linear-gradient(180deg, #8FC0E6 0%, #BFDDF2 45%, #E3F0F8 100%); }
+.v3-room.is-sky img { opacity: 0; }                                  /* not the broken-image box; its alt stays in the tree */
 .v3-letter { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; pointer-events: none; }
 .v3-letter__ink { fill: var(--v3-ink); }
-.v3-lamed__letter .v3-letter { position: static; display: block; block-size: auto; }
 
-/* ---------- ב׳ · Cover -----------------------------------------------------
-   Phones: the ב beside the words, lead and button under both (the button is on the first screen).
-   Tablets and up: two columns. Desktop (and tall enough): the cover is 150svh and the ב is pinned
-   while it thins from 800 to 300, so the whole morph happens on screen; the text does not move. */
-.v3-cover { padding-block: calc(var(--v3-mast) + clamp(1.25rem, .75rem + 2vw, 3.5rem)) clamp(3rem, 2rem + 4vw, 6rem); }
-.v3-cover__grid { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "rule rule" "letter title" "lead lead" "plain plain" "cta cta"; gap: 1.25rem 1rem; align-items: end; }
-.v3-cover__grid > .v3-rule { grid-area: rule; margin-block-end: 0; }
-.v3-cover--page .v3-cover__grid { grid-template-areas: "crumbs crumbs" "rule rule" "letter title" "lead lead" "plain plain" "cta cta"; }
+/* ---------- ב׳ · Cover (v3.2, research/07 §10.2 p. 1, §10.3 p. 1) ------------------------------------------
+   One screen. The ב stands still at weight 600; no rule, no pinning, nothing plays on load (the photo is the
+   LCP and is painted final). Phones: the ב beside the title, then the lead, the button and «או בטלפון»; the
+   page cover stacks (crumbs · letter · title …). From 48em: two columns 5fr 6fr, the letter as tall as the
+   screen allows (--cover-h), so at 1440×900 the cover is about 800px and the next spread shows below it. */
+.v3-cover { padding-block: calc(var(--v3-mast) + clamp(1.5rem, 1rem + 2vw, 3rem)) clamp(2.5rem, 2rem + 2vw, 4rem); }
+.v3-cover__grid { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "letter title" "lead lead" "plain plain" "cta cta" "call call"; gap: 1.25rem 1rem; align-items: end; }
+.v3-cover--page .v3-cover__grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "crumbs" "letter" "title" "lead" "plain" "cta" "call"; }
 .v3-cover__grid > .v3-crumbs { grid-area: crumbs; }
 .v3-cover__letter { grid-area: letter; position: relative; inline-size: min(44vw, 13rem); }
+.v3-cover--page .v3-cover__letter { inline-size: min(52vw, 10rem); }
 .v3-cover__text { display: contents; }
-.v3-cover__title { grid-area: title; font: 300 clamp(2.5rem, 1.1rem + 6.8vw, 4.25rem)/.88 var(--nh-font-display); letter-spacing: 0; margin: 0; padding-block-end: .12em; }
+.v3-cover__title { grid-area: title; font: var(--v3-fw-dl) var(--v3-fs-dl)/.92 var(--nh-font-display); letter-spacing: 0; margin: 0; }
 .v3-cover__title > .v3-full { display: block; }
 .v3-cover__title .v3-full > span { display: block; }
-.v3-cover__lead { grid-area: lead; font-size: var(--v3-lead); line-height: 1.45; max-inline-size: 30ch; margin: 0; color: var(--nh-ink-2); }
+.v3-cover__lead { grid-area: lead; font-size: var(--v3-fs-lead); line-height: 1.5; max-inline-size: 36ch; margin: 0; color: var(--nh-ink); }
 .v3-cover__plain { grid-area: plain; }
 .v3-cover__cta { grid-area: cta; margin: 0; }
+/* «או בטלפון»: families often call from a phone (§3 p. 24); UI 18/600, the number is an underlined link */
+.v3-cover__call { grid-area: call; margin: 0; font: 600 var(--v3-fs-ui)/1.2 var(--nh-font-body); }
+.v3-cover__call a { display: inline-flex; align-items: center; min-block-size: 2.75rem; }
 @media (min-width: 48em) {
-  .v3-cover { --cover-h: 58svh; }
-  .v3-cover__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-areas: none; column-gap: clamp(2rem, 1rem + 4vw, 6rem); row-gap: 0; align-items: start; }
-  .v3-cover__grid > .v3-rule, .v3-cover__grid > .v3-crumbs { grid-area: auto; grid-column: 1 / -1; }
-  .v3-cover__letter { grid-area: auto; inline-size: min(100%, calc(var(--cover-h) * 432.4 / 597)); margin-block-start: 1.5rem; }
-  .v3-cover__text { display: block; padding-block-start: clamp(1.5rem, 1rem + 2vw, 3rem); }
-  .v3-cover__title { font-size: var(--v3-poster); line-height: .86; margin: 0 0 1.25rem; padding: 0; }
+  .v3-cover { --cover-h: min(calc(100svh - var(--v3-mast) - 13rem), 44rem); }
+  .v3-cover__grid, .v3-cover--page .v3-cover__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-areas: none; column-gap: clamp(2rem, 1rem + 4vw, 6rem); row-gap: 0; align-items: center; }
+  .v3-cover__grid > .v3-crumbs { grid-area: auto; grid-column: 1 / -1; margin-block-end: 1.5rem; }
+  .v3-cover__letter, .v3-cover--page .v3-cover__letter { grid-area: auto; inline-size: min(100%, calc(var(--cover-h) * 432.4 / 597)); }
+  .v3-cover__text { display: block; }
+  .v3-cover__title { margin: 0 0 1.25rem; }
   .v3-cover__lead { margin: 0 0 1.75rem; }
   .v3-cover__plain { margin-block-end: 1.75rem; }
+  .v3-cover__call { margin-block-start: .75rem; }
 }
-@media (min-width: 64em) {
-  .v3-cover { --cover-h: min(calc(100svh - var(--v3-mast) - 7rem), 62rem); }
-}
-@media (min-width: 112.5em) { .v3 { --nh-max: 110rem; } }
-/* tall portrait tablets: the letter takes the wider column, so the first screen is not half empty */
-@media (min-width: 48em) and (max-width: 79.99em) and (orientation: portrait) {
-  .v3-cover__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
-  .v3-cover { --cover-h: 70svh; }
-}
-/* pinned only when the ב actually moves: not with reduced motion, calm mode or plain language
-   (then the cover is one screen and nothing waits for the scroll) */
-@media (prefers-reduced-motion: no-preference) and (min-width: 64em) and (min-height: 43.75em) {
-  html:not(.nh-reduce-motion):not(.nh-calm):not(.nh-plainmode) .v3-cover:not(.v3-cover--page) .v3-cover__grid { grid-template-rows: auto 1fr;
-    min-block-size: calc(150svh - var(--v3-mast) - clamp(1.25rem, .75rem + 2vw, 3.5rem) - clamp(3rem, 2rem + 4vw, 6rem)); }
-  html:not(.nh-reduce-motion):not(.nh-calm):not(.nh-plainmode) .v3-cover:not(.v3-cover--page) :is(.v3-cover__letter, .v3-cover__text) {
-    position: sticky; inset-block-start: calc(var(--v3-mast) + 1.5rem); align-self: start; }
-}
-/* load: the rule is drawn right → left, a paper cover slides off the letter
-   in reading direction, the photo settles. Text is painted final on frame one. */
-@media (prefers-reduced-motion: no-preference) {
-  html:not(.nh-reduce-motion):not(.nh-calm) .v3-rule--draw { transform-origin: right; animation: v3-draw .6s var(--nh-ease-out) both .05s; }
-  html:not(.nh-reduce-motion):not(.nh-calm):not(.nh-vt-in) .v3-cover .v3-room__photo img { animation: v3-settle 1.8s var(--nh-ease-out) both .2s; }
-}
-@media (prefers-reduced-motion: no-preference) and (min-width: 1024px) {
-  html:not(.nh-reduce-motion):not(.nh-calm):not(.nh-vt-in) .v3-cover__letter::after {
-    content: ""; position: absolute; inset: -2px -4px; background: var(--nh-paper); transform-origin: left; z-index: 2;
-    transform: scaleX(0);                                   /* at rest the paper is gone: if animations never run, the ב shows */
-    animation: v3-unveil 1s var(--nh-ease-in-out) backwards .25s;
-  }
-}
-@keyframes v3-draw { from { transform: scaleX(0); } }
-@keyframes v3-settle { from { transform: scale(1.06); } }
-@keyframes v3-unveil { from { transform: none; } }
+/* a home's page: a smaller letter, so its cover stays one screen with the crumbs above it (as in v3.1) */
+@media (min-width: 64em) { .v3-cover--page { --cover-h: min(calc(100svh - var(--v3-mast) - 11rem), 34rem); } }
 
-/* ---------- Homes index ---------------------------------------------------- */
-.v3-fit { display: flex; flex-wrap: wrap; align-items: baseline; gap: .75rem 1.75rem; margin-block-end: clamp(2.5rem, 2rem + 2vw, 4rem); }
-.v3-fit__q { font: 400 clamp(1.4rem, 1.2rem + .6vw, 1.75rem)/1.2 var(--nh-font-display); margin: 0; }
-.v3-fit ul { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin: 0; padding: 0; }
-.v3-fit a { font-weight: 600; color: var(--nh-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .35em; display: inline-block; padding-block: .3rem; }
-.v3-fit a:hover { text-decoration-thickness: 2px; color: var(--nh-iris-700); }
+/* ---------- Homes index (v3.2, §10.2 p. 2) -------------------------------------------------------------------
+   Three rows, each with its small ב (600). Only a row whose home has a page is a link (an <a>, with the still
+   arrow): hover and focus show the row's own backdrop at once (opacity, 150ms) and underline the name 2px. The
+   other rows are a <div> without an arrow and say «דף מפורט בקרוב». */
 .v3-homes__list { list-style: none; margin: 2rem 0 0; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-home { border-block-end: 1px solid rgb(31 36 33 / .45); }
+.v3-home { border-block-end: 1px solid var(--v3-hair); }
 .v3-home--paper { --field: var(--nh-paper-2); }
 .v3-home--sand { --field: var(--nh-citrus-100); }
 .v3-home--sky { --field: var(--nh-sky-200); }
-.v3-home__link { position: relative; isolation: isolate; display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 1.25rem; align-items: center; padding-block: 1.5rem; color: var(--nh-ink); text-decoration: none; }
-.v3-home__link::before { content: ""; position: absolute; inset: 0 calc(-1 * var(--nh-gutter)); z-index: -1; background: var(--field); transform: scaleX(0); transform-origin: right; transition: transform .55s var(--nh-ease-out); }
-.v3-home__link:hover::before, .v3-home__link:focus-visible::before { transform: scaleX(1); }
-.v3-home__link:focus-visible { outline-offset: -3px; }
+.v3-home__link, .v3-home__row { position: relative; isolation: isolate; display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) 2rem; gap: 1.25rem; align-items: center; padding-block: 1.5rem; color: var(--nh-ink); text-decoration: none; }
+.v3-home__link::before { content: ""; position: absolute; inset: 0 calc(-1 * var(--nh-gutter)); z-index: -1; background: var(--field); opacity: 0; transition: opacity .15s ease; }
+.v3-home__link:is(:hover, :focus-visible)::before { opacity: 1; }
+.v3-home__link:is(:hover, :focus-visible) .v3-home__title { text-decoration: underline 2px; text-underline-offset: .2em; }
+.v3-home__link:focus-visible { outline-offset: -3px; }                 /* a row link: the ring stays inside the row */
 .v3-home__bet { inline-size: 100%; }
-.v3-home__title { display: block; font: 300 clamp(1.9rem, 1.2rem + 2.6vw, 4rem)/1.04 var(--nh-font-display); letter-spacing: 0; }
-.v3-home__who { display: block; font-size: 1.0625rem; line-height: 1.5; color: var(--nh-ink-2); margin-block-start: .5rem; max-inline-size: 54ch; }
-.v3-home__facts { display: block; font-weight: 700; font-size: .9375rem; margin-block-start: .6rem; }
-.v3-home__arrow { display: none; inline-size: 2.25rem; block-size: 2.25rem; transition: transform .35s var(--nh-ease-out); }
-.v3-home__link:hover .v3-home__arrow, .v3-home__link:focus-visible .v3-home__arrow { transform: translateX(-8px); }
-@media (min-width: 900px) {
-  .v3-home__link { grid-template-columns: 9.5rem minmax(0, 1fr) auto; gap: 2.5rem; padding-block: 2rem; }
-  .v3-home__arrow { display: block; }
+.v3-home__title { display: block; font: 400 var(--v3-fs-ds)/1.12 var(--nh-font-display); letter-spacing: 0; }
+.v3-home__who { display: block; font-size: var(--v3-fs-body); line-height: 1.5; color: var(--nh-ink); margin-block-start: .5rem; max-inline-size: 54ch; }
+.v3-home__facts { display: block; font-size: var(--v3-fs-small); font-weight: 700; line-height: 1.5; color: var(--nh-ink-2); margin-block-start: .6rem; }
+.v3-home__arrow { display: block; inline-size: 2rem; block-size: 2rem; }   /* always shown, never moves */
+@media (min-width: 56.25em) {
+  .v3-home__link, .v3-home__row { grid-template-columns: 9.5rem minmax(0, 1fr) 2.25rem; gap: 2.5rem; padding-block: 2rem; }
+  .v3-home__arrow { inline-size: 2.25rem; block-size: 2.25rem; }
 }
 
-/* ---------- Plain-language box ------------------------------------------- */
+/* ---------- Plain-language box (§10.2 p. 3) ------------------------------------------------------------------
+   The olive bar is a border (v3.1 drew it with an inset box-shadow; v3.2 allows no shadows but 0 0 0 1px). */
 .v3-plainbox-wrap { padding-block: 0 clamp(4rem, 2.5rem + 4vw, 7rem); }
-.v3-plainbox { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.25rem 1.5rem; padding: clamp(1.5rem, 1rem + 2vw, 3rem); background: var(--nh-paper-2); box-shadow: inset 6px 0 0 var(--nh-olive-700); }
+.v3-plainbox { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.25rem 1.5rem; padding: clamp(1.5rem, 1rem + 2vw, 3rem); background: var(--nh-paper-2); border-inline-end: 6px solid var(--nh-olive-700); }
 .v3-plainbox__icon { inline-size: 2.5rem; block-size: 2.5rem; color: var(--nh-olive-700); }
-.v3-plainbox h2 { font: 400 clamp(1.75rem, 1.4rem + 1vw, 2.4rem)/1.1 var(--nh-font-display); margin: 0 0 1rem; }
+.v3-plainbox h2 { font: 400 var(--v3-fs-ds)/1.12 var(--nh-font-display); margin: 0 0 1rem; }
 .v3-plainbox ul { list-style: none; margin: 0 0 1.5rem; padding: 0; display: grid; gap: .35rem; }
-.v3-plainbox li, .v3-plainbox p { font-size: 1.375rem; line-height: 1.55; }
+.v3-plainbox li, .v3-plainbox p { font-size: var(--v3-fs-plain); line-height: 1.6; }
 .v3-plainbox__btn { --_bg: var(--nh-olive-700); --_fg: var(--nh-paper); }
 .v3-plainbox__btn:hover { --_bg: var(--nh-ink); }
 
-/* ---------- Day: four verbs ----------------------------------------------- */
-.v3-day__list { list-style: none; margin: clamp(2.5rem, 2rem + 3vw, 5rem) 0 0; padding: 0; display: grid; gap: clamp(3.5rem, 2rem + 5vw, 8rem); }
-.v3-moment { display: grid; gap: 1rem 3rem; align-items: end; }
-.v3-moment__verb { font: 300 clamp(4.25rem, 1.5rem + 9vw, 11rem)/.82 var(--nh-font-display); letter-spacing: 0; margin: 0; }
-.v3-moment p { font-size: 1.1875rem; line-height: 1.55; max-inline-size: 36ch; margin: 0; }
-main { counter-reset: print; }
-.v3-print { margin: 0; max-inline-size: 34rem; counter-increment: print; }
-.v3-print picture { display: block; box-shadow: 0 0 0 1px var(--v3-ink); }
-.v3-print img { display: block; inline-size: 100%; block-size: auto; }
-.v3-print figcaption { font-size: .875rem; line-height: 1.4; color: var(--nh-text-muted, var(--nh-ink-2)); margin-block-start: .65rem; }
-.v3-print figcaption::before { content: counter(print) " · "; content: counter(print) " · " / ""; font-weight: 700; color: var(--nh-text, var(--nh-ink)); }
-.v3-print--small { max-inline-size: 14rem; }
-.v3-print--mid { max-inline-size: 20rem; }
-@media (min-width: 1024px) {
-  .v3-moment { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); grid-template-areas: "verb print" "verb text"; }
-  .v3-moment__verb { grid-area: verb; align-self: center; }
-  .v3-moment > figure { grid-area: print; }
-  .v3-moment > p { grid-area: text; }
-  .v3-moment--b, .v3-moment--d { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-areas: "print verb" "text verb"; }
-  .v3-moment--b .v3-moment__verb, .v3-moment--d .v3-moment__verb { text-align: end; }
-}
+/* ---------- Day: four verbs (v3.2, §10.2 p. 4) ------------------------------------------------------------------
+   4 / 2 / 1 columns, no zigzag. In each cell: the verb (H3, D-M — the still typographic moment of the spread),
+   a 4:3 print of at most 21rem, one sentence. */
+.v3-day__list { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 3rem 2rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 40em) { .v3-day__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 64em) { .v3-day__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.v3-moment { display: flex; flex-direction: column; gap: 1rem; }
+.v3-moment__verb { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: 0; margin: 0; }
+.v3-moment p { font-size: var(--v3-fs-body); line-height: 1.65; max-inline-size: 34ch; margin: 0; }
 
-/* ---------- כ׳ · Crafts in the palm --------------------------------------- */
+/* ---------- The print (§8.1, §10.2 p. 4): every single photo is a 4:3 print, one size in a row, with a thin
+   ink frame and a numbered caption («1 ·»: the number is silent). The file is already 4:3: cover trims only
+   fractions of a pixel. Never full width, never behind text. */
+.v3-print { margin: 0; inline-size: 100%; max-inline-size: 21rem; counter-increment: print; }
+.v3-print picture { display: block; aspect-ratio: 4 / 3; box-shadow: 0 0 0 1px var(--v3-ink); }
+.v3-print img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
+.v3-print figcaption { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-text-muted, var(--nh-ink-2)); margin-block-start: .65rem; }
+.v3-print figcaption::before { content: counter(print) " · "; content: counter(print) " · " / ""; font-weight: 700; color: var(--nh-text, var(--nh-ink)); }
+
+/* ---------- כ׳ · The palm holds one work (honey; v3.2, §10.2 p. 5) ------------------------------------------------
+   Still: the blue-green jar in the palm and a visible caption; no list of works, no colour swatches. On desktop
+   the base of the letter is cut by the edge of the spread, so the bottom padding moves to the text column. */
 .v3-kaf__grid, .v3-samekh__grid, .v3-lamed__grid, .v3-door__grid, .v3-voices__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem clamp(2rem, 1rem + 4vw, 6rem); }
 .v3-kaf__grid > .v3-rule, .v3-samekh__grid > .v3-rule, .v3-lamed__grid > .v3-rule, .v3-door__grid > .v3-rule, .v3-voices__grid > .v3-rule { grid-column: 1 / -1; margin-block-end: 0; }
 .v3-kaf__letter { inline-size: min(78vw, 26rem); }
-.v3-kaf__palm .v3-room__photo img { transition: opacity .3s ease; }
-.v3-works { list-style: none; margin: 2rem 0 1.25rem; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-works > li { border-block-end: 1px solid rgb(31 36 33 / .4); }
-.v3-work { display: flex; align-items: baseline; gap: 1rem; inline-size: 100%; min-block-size: 3rem; padding-block: .8rem; text-align: start; color: var(--nh-ink); font: 400 clamp(1.3rem, 1.1rem + .6vw, 1.65rem)/1.2 var(--nh-font-display); }
-.v3-work[aria-pressed="true"] { font-weight: 600; }
-.v3-work:hover { text-decoration: underline; text-underline-offset: .25em; text-decoration-thickness: 1px; }
-.v3-swatches { display: none; list-style: none; margin: 0; padding: 0 0 1rem; flex-wrap: wrap; gap: .5rem 1.25rem; font-size: .9375rem; font-weight: 600; }
-.v3-work[aria-pressed="true"] + .v3-swatches { display: flex; }
-.v3-swatches i { display: inline-block; inline-size: 1.3rem; block-size: 1.3rem; background: var(--c); vertical-align: -.25em; margin-inline-end: .45rem; box-shadow: inset 0 0 0 1px rgb(0 0 0 / .3); transform: rotate(-3deg); }
-.v3-kaf__cap { font-size: 1rem; margin: 1.75rem 0 0; }
-.v3-kaf__cap b { font-weight: 700; }
+.v3-kaf__cap { font-size: var(--v3-fs-body); line-height: 1.65; max-inline-size: 40ch; margin: 0 0 2rem; }
+html.nh-plainmode .v3-kaf__cap { margin-block-start: 1.5rem; }
 @media (min-width: 64em) {
   .v3-kaf { padding-block-end: 0; overflow: clip; }
   .v3-kaf__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: end; }
   .v3-kaf__letter { inline-size: 100%; max-inline-size: 31rem; margin-block-end: -3.25rem; }   /* the base runs off the spread */
-  .v3-kaf__text { align-self: center; padding-block-end: clamp(4.5rem, 2.5rem + 6vw, 9rem); }
+  .v3-kaf__text { align-self: center; padding-block-end: var(--v3-pad); }
 }
 
-/* ---------- ס׳ · Circles of support --------------------------------------
-   The letter stands in the middle of the spread; the words on one side, the circles on the other.
-   The residents' mandala is shown whole (fit="whole" in the build): a square photo inside an ellipse
-   clip that hugs the counter; the rings and the one-time glint live inside the same clip. */
+/* ---------- ס׳ · Circles of support (v3.2, §10.2 p. 6) -------------------------------------------------------------
+   The letter stands still in the middle (380) with the residents' mandala whole inside it (fit="whole" in the
+   build: a square photo in an ellipse clip that hugs the counter). No rings, no glint; the six circles are a
+   plain list, not links. Three columns on desktop. */
 .v3-samekh__intro { max-inline-size: 34rem; }
 .v3-samekh__art { position: relative; margin: 0 auto; inline-size: min(84vw, 28rem); }
-.v3-samekh__art figcaption { font-size: .9375rem; color: var(--nh-ink-2); margin-block-start: 1rem; text-align: center; }
+.v3-samekh__art figcaption { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-ink-2); margin-block-start: 1rem; text-align: center; }
 .v3-room__photo--whole { clip-path: var(--clip); background: #C9C9C5; }          /* the work table's own grey */
 .v3-room__work { position: absolute; left: var(--wl); top: var(--wt); width: var(--ww); height: var(--wh); }
 .v3-room__work img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
-.v3-room__work .v3-rings { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; pointer-events: none; }
-.v3-rings circle { fill: none; stroke: var(--nh-citrus-400); stroke-width: 23; opacity: 0; transition: opacity .3s ease; filter: drop-shadow(0 0 .6px var(--nh-night)) drop-shadow(0 0 .6px var(--nh-night)); }
-.v3-glint { position: absolute; left: var(--wcx); top: var(--wcy); inline-size: 24.5%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; overflow: hidden; pointer-events: none; }
-.v3-glint::before { content: ""; position: absolute; inset: -20% -80%; background: linear-gradient(100deg, transparent 40%, rgb(255 252 240 / .55) 50%, transparent 60%); transform: translateX(80%); opacity: 0; }
-@media (prefers-reduced-motion: no-preference) {
-  html:not(.nh-reduce-motion):not(.nh-calm) .is-lit .v3-glint::before { animation: v3-glint 1.7s var(--nh-ease-in-out) 1 both .2s; }
-}
-@keyframes v3-glint { 0% { opacity: 1; transform: translateX(60%); } 100% { opacity: 1; transform: translateX(-60%); } }
 .v3-circles { list-style: none; margin: 0; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-circles > li { border-block-end: 1px solid rgb(31 36 33 / .4); }
-.v3-circles b { display: block; font: 400 clamp(1.25rem, 1.1rem + .5vw, 1.55rem)/1.2 var(--nh-font-display); }
-.v3-circles span { display: block; font-size: 1rem; color: var(--nh-ink-2); margin-block-start: .2rem; }
-.v3-circles > li:not(:has(a)) { padding-block: .85rem; }
-.v3-circles a { display: block; padding-block: .85rem; color: var(--nh-ink); text-decoration: none; }
-.v3-circles a:hover b, .v3-circles a:focus-visible b { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 1px; }
-.v3-samekh:has(li[data-ring="2"]:is(:hover, :focus-within)) circle[data-ring="2"],
-.v3-samekh:has(li[data-ring="3"]:is(:hover, :focus-within)) circle[data-ring="3"],
-.v3-samekh:has(li[data-ring="4"]:is(:hover, :focus-within)) circle[data-ring="4"],
-.v3-samekh:has(li[data-ring="5"]:is(:hover, :focus-within)) circle[data-ring="5"],
-.v3-samekh:has(li[data-ring="6"]:is(:hover, :focus-within)) circle[data-ring="6"] { opacity: 1; }
+.v3-circles > li { padding-block: .85rem; border-block-end: 1px solid var(--v3-hair); }
+.v3-circles b { display: block; font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); }
+.v3-circles span { display: block; font-size: var(--v3-fs-body); line-height: 1.5; color: var(--nh-ink); margin-block-start: .2rem; }
 @media (min-width: 64em) {
   .v3-samekh__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 26rem) minmax(0, 1fr); align-items: center; column-gap: clamp(2rem, 1rem + 2.5vw, 4.5rem); }
   .v3-samekh__art { inline-size: 100%; }
@@ -308,88 +222,82 @@ main { counter-reset: print; }
   .v3-samekh__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 22rem) minmax(0, 1fr); }
 }
 
-/* ---------- Years ---------------------------------------------------------- */
+/* ---------- Years (v3.2, §10.2 p. 7) ------------------------------------------------------------------------------
+   Three equal columns: 1957 · 2021 · היום. 1957 is the one big number (D-L), the others D-M. From 64em all three
+   numbers stand in a row of the same height on one bottom line, so the H3 under them line up. The courtyard is a
+   4:3 print under 1957; the ם window in «שמיים» is still. */
 .v3-years__list { list-style: none; margin: clamp(2rem, 1.5rem + 2vw, 3.5rem) 0 0; padding: 0; display: grid; gap: 3rem; }
 .v3-year { border-block-start: 1.5px solid var(--nh-ink); padding-block-start: 1rem; }
-.v3-year__num { font: 300 clamp(4rem, 2rem + 5.5vw, 8rem)/.9 var(--nh-font-display); letter-spacing: -.03em; margin: 0 0 1rem; font-variant-numeric: lining-nums; }
+.v3-year__num { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: -.03em; font-variant-numeric: lining-nums; margin: 0 0 1rem; }
 .v3-year__num--word { letter-spacing: 0; }
-.v3-year--first .v3-year__num { font-size: clamp(6rem, 1.5rem + 13vw, 15rem); line-height: .8; }
-.v3-year h3 { font: 500 clamp(1.35rem, 1.2rem + .5vw, 1.7rem)/1.2 var(--nh-font-display); margin: 0 0 .5rem; }
-.v3-year p:not(.v3-year__num):not(.v3-shamayim) { font-size: 1.0625rem; line-height: 1.55; color: var(--nh-ink-2); max-inline-size: 38ch; }
+.v3-year:first-child .v3-year__num { font-size: var(--v3-fs-dl); font-weight: var(--v3-fw-dl); line-height: .92; }
+.v3-year h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 .5rem; }
+.v3-year p:not(.v3-year__num):not(.v3-shamayim) { font-size: var(--v3-fs-body); line-height: 1.65; color: var(--nh-ink-2); max-inline-size: 38ch; margin: 0; }
 .v3-year .v3-print { margin-block-start: 1.25rem; }
-.v3-shamayim { display: flex; align-items: baseline; margin: 1.25rem 0 0; font: 300 clamp(3.75rem, 2rem + 5vw, 7.5rem)/1 var(--nh-font-display); color: var(--v3-ink); }
+.v3-shamayim { display: flex; align-items: baseline; margin: 1.25rem 0 0; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); color: var(--v3-ink); }
 .v3-shamayim__mem { flex: none; inline-size: calc(var(--em-w) * 1em); margin-inline-start: .03em; }
 @media (min-width: 64em) {
-  .v3-years__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(2rem, 1rem + 3vw, 4rem); }
-  .v3-year--first { grid-column: 1 / -1; display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto 1fr; column-gap: clamp(2rem, 1rem + 3vw, 4rem); align-items: start; }
-  .v3-year--first .v3-year__num { grid-row: 1 / span 3; margin: 0; }
-  .v3-year--first .v3-print { grid-column: 2; }
+  .v3-years__list { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(2rem, 1rem + 3vw, 4rem); }
+  .v3-year__num { display: flex; align-items: flex-end; block-size: calc(var(--v3-fs-dl) * .92); }
 }
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    html:not(.nh-reduce-motion):not(.nh-calm) .v3-shamayim .v3-room__photo img { scale: 1.12; animation: v3-drift linear both; animation-timeline: view(); }
-  }
-}
-@keyframes v3-drift { from { translate: 0 4%; } to { translate: 0 -4%; } }
 
-/* ---------- Voices (night) -------------------------------------------------- */
+/* ---------- Voices (night; v3.2, §10.2 p. 8) ---------------------------------------------------------------------------
+   The rule and a visible heading, the quote (D-S 400) with a hanging citrus mark, the film 16:9 (at most 37.5rem)
+   behind a facade: a paper button with the word «צפו בסרטון»; only its background changes on hover and focus.
+   The consent question opens in place. It is in the flow, so on a phone, where a 16:9 box is too low for the
+   question and its two buttons, the box grows to hold it (overflow: clip keeps the box's own minimum height). */
 .v3-quote { margin: 0; }
-.v3-quote p { position: relative; font: 300 clamp(1.9rem, 1.2rem + 2.3vw, 3.4rem)/1.2 var(--nh-font-display); letter-spacing: 0; margin: 0; max-inline-size: 24ch; }
+.v3-quote p { position: relative; font: 400 var(--v3-fs-ds)/1.3 var(--nh-font-display); letter-spacing: 0; margin: 0; max-inline-size: 26ch; }
 .v3-quote p::before { content: "״"; position: absolute; inset-inline-end: 100%; margin-inline-end: .12em; color: var(--nh-citrus-400); }
-.v3-quote footer { margin-block-start: 1.25rem; font-size: 1.0625rem; color: var(--nh-on-night-2); }
+.v3-quote footer { margin-block-start: 1.25rem; font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-on-night-2); }
 .v3-quote cite { font-style: normal; }
 .v3-video-fig { margin: 0; }
-.v3-video { aspect-ratio: 1; border-radius: 0; background: var(--nh-night-2); }
+.v3-video { display: grid; aspect-ratio: 16 / 9; max-inline-size: 37.5rem; border-radius: 0; overflow: clip; background: var(--nh-night-2); }
 .v3-video picture { position: absolute; inset: 0; display: block; }
-.v3-video img { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: 8% 50%; opacity: 1; }   /* all three owls and both hamsas stay whole */
-.v3-video .nh-video__consent { place-content: center; place-content: safe center; overflow-y: auto; }
-.v3-video .nh-video__play { background: none; }
-.v3-video .nh-video__icon { inline-size: 4.5rem; block-size: 4.5rem; border-radius: 2px; background: var(--nh-paper); color: var(--nh-ink); box-shadow: 0 0 0 1px rgb(28 24 48 / .3); }
-.v3-video .nh-video__play:hover .nh-video__icon, .v3-video .nh-video__play:focus-visible .nh-video__icon { background: var(--nh-citrus-400); transform: none; }
-.v3-video__cap { font-size: .9375rem; line-height: 1.5; color: var(--nh-on-night-2); margin-block-start: .85rem; max-inline-size: 44ch; }
+.v3-video img { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; opacity: 1; }
+.v3-video .nh-video__play { place-content: end start; justify-items: start; padding: 1rem; background: none; }
+.v3-video .nh-video__consent { position: relative; inset: auto; place-content: center; }
+.v3-video__cap { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-on-night-2); margin-block-start: .85rem; max-inline-size: 44ch; }
 @media (min-width: 64em) { .v3-voices__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; } }
 .v3-quote--page { margin-block-start: clamp(2.5rem, 2rem + 2vw, 4rem); padding-block-start: 1.5rem; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-quote--page p { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.3rem); max-inline-size: 34ch; }
+.v3-quote--page p { max-inline-size: 34ch; }
 .v3-quote--page p::before { color: var(--nh-iris-700); }
 .v3-quote--page footer { color: var(--nh-ink-2); }
 
-/* ---------- Steps: צעד צעד --------------------------------------------------- */
-.v3-steps { padding-block-end: clamp(9rem, 6rem + 10vw, 16rem); }
-.v3-steps__list { list-style: none; margin: clamp(2.5rem, 2rem + 2vw, 4rem) 0 0; padding: 0; display: grid; gap: 2.5rem 2rem; }
-.v3-steps__word { display: block; font: 800 clamp(3rem, 2rem + 3.5vw, 5.75rem)/.9 var(--nh-font-display); color: rgb(28 24 48 / .13); letter-spacing: 0; margin-block-end: .5rem; }
-.v3-steps__word::before { content: attr(data-word); }   /* pure decoration, drawn as generated content */
-.v3-steps__list h3 { font: 500 clamp(1.35rem, 1.2rem + .5vw, 1.7rem)/1.2 var(--nh-font-display); margin: 0 0 .4rem; }
-.v3-steps__n { color: var(--nh-clay-700); font-weight: 400; }
-.v3-steps__list p { font-size: 1.0625rem; line-height: 1.55; color: var(--nh-ink-2); margin: 0; max-inline-size: 30ch; }
-@media (min-width: 900px) {
-  .v3-steps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .v3-steps__list > li:nth-child(even) { margin-block-start: 3.5rem; }
-}
+/* ---------- Steps: צעד צעד (v3.2, §10.2 p. 9) ---------------------------------------------------------------------------
+   A numbered list on one line (4 columns from 56.25em); the number is D-M in clay inside the H3. */
+.v3-steps__list { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 2.5rem 2rem; }
+.v3-steps__list h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 .5rem; }
+.v3-steps__n { display: block; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); color: var(--nh-clay-700); letter-spacing: -.03em; font-variant-numeric: lining-nums; margin-block-end: .5rem; }
+.v3-steps__list p { font-size: var(--v3-fs-body); line-height: 1.65; color: var(--nh-ink-2); margin: 0; max-inline-size: 30ch; }
+@media (min-width: 56.25em) { .v3-steps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
-/* ---------- ל׳ · Jobs: the one letter allowed to rise above the line ------------ */
-.v3-lamed { overflow: visible; z-index: 1; }
-.v3-lamed__letter { position: relative; inline-size: min(46vw, 13rem); margin-block-start: calc(-1 * min(18vh, 9rem)); }
-.v3-roles { list-style: none; margin: 1.5rem 0 2rem; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-roles li { border-block-end: 1px solid rgb(31 36 33 / .4); }
-.v3-roles a { display: grid; grid-template-columns: minmax(0, 1fr) auto 1.5rem; gap: 1rem; align-items: baseline; padding-block: 1.1rem; color: var(--nh-ink); text-decoration: none; }
-.v3-roles b { font: 500 clamp(1.2rem, 1.05rem + .5vw, 1.55rem)/1.25 var(--nh-font-display); }
-.v3-roles__meta { font-size: .9375rem; color: var(--nh-ink-2); white-space: nowrap; }
-.v3-roles svg { inline-size: 1.25rem; block-size: 1.25rem; transition: transform .3s var(--nh-ease-out); align-self: center; }
-.v3-roles a:hover b, .v3-roles a:focus-visible b { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 1px; }
-.v3-roles a:hover svg, .v3-roles a:focus-visible svg { transform: translateX(-8px); }
+/* ---------- ל׳ · Jobs (v3.2, §10.2 p. 10) --------------------------------------------------------------------------------
+   The ל stands still (600), at most 16rem tall, at the far end. It rises above its own rule, but only inside its
+   own top padding (-4rem, the smallest --v3-pad), never into the spread before it. Not shown under 64em. The
+   rows are links with still arrows: hover and focus underline the title 2px. */
+.v3-lamed__letter { display: none; }
+.v3-roles { list-style: none; margin: 2rem 0; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
+.v3-roles li { border-block-end: 1px solid var(--v3-hair); }
+.v3-roles a { display: grid; grid-template-columns: minmax(0, 1fr) auto 1.5rem; gap: 1rem; align-items: baseline; min-block-size: 4rem; padding-block: 1.1rem; color: var(--nh-ink); text-decoration: none; }
+.v3-roles a:focus-visible { outline-offset: -3px; }                    /* a row link: the ring stays inside the row */
+.v3-roles b { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); }
+.v3-roles__meta { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-ink-2); white-space: nowrap; }
+.v3-roles svg { inline-size: 1.25rem; block-size: 1.25rem; align-self: center; }
+.v3-roles a:is(:hover, :focus-visible) b { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 2px; }
 @media (min-width: 64em) {
   .v3-lamed__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); }
-  .v3-lamed__grid > .v3-rule { grid-row: 1; }                     /* the ל stands on top of it */
+  .v3-lamed__grid > .v3-rule { grid-row: 1; }                     /* the ל stands on it, at the far end */
   .v3-lamed__text { grid-column: 1; grid-row: 2; }
-  .v3-lamed__letter { grid-column: 2; grid-row: 1 / span 2; position: relative; z-index: 1; justify-self: end; inline-size: 100%; max-inline-size: 19rem;
-    margin-block-start: calc(-1 * min(26vh, 14rem)); }
+  .v3-lamed__letter { display: block; grid-column: 2; grid-row: 1 / span 2; justify-self: end; block-size: 16rem; margin-block-start: -4rem; }
+  .v3-lamed__letter .v3-letter { position: static; block-size: 100%; inline-size: auto; }
 }
 
-/* ---------- ד׳ · The door (iris) ----------------------------------------------
-   The ד is drawn wide, as scribes stretch letters to fill a line: its head (the end of the lintel and
-   the leg) at the start, its flag at the far end, a bar between them. The visit form stands in the
-   doorway. Once, when the door is reached, the lintel extends from 60% to the full width. --k is the
-   scale of one font unit (Frank Ruhl Libre, wght 300). */
+/* ---------- ד׳ · The door (iris; v3.2, §10.2 p. 11) ---------------------------------------------------------------------
+   The ד is drawn wide and open, as scribes stretch letters to fill a line: its head (the end of the lintel and
+   the leg) at the start, its flag at the far end, a bar between them; the visit form stands in the doorway.
+   Nothing moves: --open is always 1. Under 45em only the lintel is drawn and the form takes the whole width.
+   --k is the scale of one font unit (Frank Ruhl Libre, wght 300). */
 .v3-door { overflow: clip; }
 .v3-door__top { max-inline-size: 46rem; }
 .v3-door__way { position: relative; --k: .4px; --open: 1; padding-block-start: calc(122 * var(--k) + 2rem); padding-inline-start: calc(95 * var(--k) + 1rem); }
@@ -404,15 +312,16 @@ main { counter-reset: print; }
 .v3-door__in { display: grid; gap: 2rem; }
 .v3-door__form { background: var(--nh-paper); color: var(--nh-ink); padding: clamp(1.5rem, 1rem + 2vw, 2.75rem); max-inline-size: 42rem;
   --nh-focus: var(--nh-iris-700); --nh-link: var(--nh-iris-700); --nh-text: var(--nh-ink); --nh-text-muted: var(--nh-ink-2); }
-.v3-door__form h3 { font: 400 clamp(1.6rem, 1.3rem + 1vw, 2.2rem)/1.1 var(--nh-font-display); margin: 0 0 1.25rem; }
+.v3-door__form h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 1.25rem; }
 .v3-door__form .nh-btn--primary { --_bg: var(--nh-iris-700); --_fg: var(--nh-white); }
 .v3-door__label { font-weight: 700; margin: 0; color: var(--v3-iris-text); }
-.v3-door__phone { margin: .25rem 0 .5rem; font: 300 clamp(2.5rem, 1.8rem + 2.4vw, 4rem)/1 var(--nh-font-display); }
-.v3-door__phone a { color: var(--nh-white); text-decoration: none; }
+.v3-door__phone { margin: .25rem 0 .5rem; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); }
+/* a link looks like one (§2 p. 5): underlined, 2px; only the colour changes on hover */
+.v3-door__phone a { color: var(--nh-white); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .12em; transition: color .15s ease; }
 .v3-door__phone a:hover { color: var(--nh-citrus-400); }
-.v3-door__addr { font-size: 1.0625rem; margin: 0; color: var(--v3-iris-text); }
+.v3-door__addr { font-size: var(--v3-fs-body); line-height: 1.65; margin: 0; color: var(--v3-iris-text); }
 .v3-door__addr a { color: var(--nh-white); }
-@media (max-width: 23.99em) {   /* the narrowest phones: the lintel only, the form gets the whole width */
+@media (max-width: 44.99em) {   /* phones: the lintel only, the form gets the whole width */
   .v3-door__way { padding-inline-start: 0; }
   .v3-door__head { clip-path: inset(0 0 calc(100% - 122 * var(--k)) 0); }
   .v3-door__leg { display: none; }
@@ -425,201 +334,122 @@ main { counter-reset: print; }
   .v3-door__in { grid-template-columns: minmax(0, 42rem) minmax(0, 1fr); align-items: start; column-gap: clamp(2rem, 1rem + 3vw, 5rem); }
   .v3-door__contact { padding-block-start: 1rem; }
 }
-/* the door opens: once, when it is reached, the lintel extends toward the far end */
-@property --open { syntax: "<number>"; inherits: true; initial-value: 1; }
-@media (prefers-reduced-motion: no-preference) {
-  html.v3-ready:not(.nh-reduce-motion):not(.nh-calm) .v3-door__way { --open: .6; transition: --open .9s var(--nh-ease-in-out); }
-  html.v3-ready:not(.nh-reduce-motion):not(.nh-calm) .v3-door__way.is-open { --open: 1; }
-}
 
 /* ---------- Colophon footer ------------------------------------------------- */
-.v3-colophon .v3-rule { opacity: .35; margin-block-end: 2.5rem; }
-.v3-colophon__credits { font-size: .9375rem; line-height: 1.6; color: var(--nh-on-night-2); max-inline-size: 90ch; margin: 2.5rem 0 0; }
+.v3-colophon__credits { line-height: 1.6; color: var(--nh-on-night-2); max-inline-size: 104ch; margin: 2.5rem 0 0; }
 .v3-colophon__credits b { color: var(--nh-paper); }
-.v3-bar { --nh-focus: var(--nh-citrus-400); }
 
-/* ---------- Plain-language mode (whole page) ------------------------------- */
+/* ---------- Plain-language mode (whole page) -----------------------------------------------------------------------
+   It adds no sizes (§7.1): its texts are --v3-fs-plain, the cover title is D-M; everything else keeps its step. */
 html:not(.nh-plainmode) .v3-plain { display: none !important; }
 html.nh-plainmode .v3-plain { display: block; }
 html.nh-plainmode .v3-full { display: none !important; }
-html.nh-plainmode main p.v3-plain, html.nh-plainmode main .v3-plain p, html.nh-plainmode .v3-home__who.v3-plain { font-size: 1.375rem; line-height: 1.6; margin: 0 0 .3rem; color: inherit; max-inline-size: 36ch; }
-html.nh-plainmode main { font-size: 1.1875rem; }
+html.nh-plainmode main p.v3-plain, html.nh-plainmode main .v3-plain p, html.nh-plainmode .v3-home__who.v3-plain,
+html.nh-plainmode .nh-cookies .v3-plain p { font-size: var(--v3-fs-plain); line-height: 1.6; margin: 0 0 .3rem; color: inherit; max-inline-size: 36ch; }
 html.nh-plainmode :is(h1, h2, h3, b, label) > .v3-plain { display: inline; }
-html.nh-plainmode .nh-btn > .v3-plain { display: inline; }
+html.nh-plainmode .nh-btn > .v3-plain, html.nh-plainmode .v3-cover__call > .v3-plain { display: inline; }
 html.nh-plainmode .v3-home__who.v3-plain > span { display: block; }
-html.nh-plainmode .nh-form__note.v3-plain, html.nh-plainmode .nh-form__note.v3-plain p { font-size: 1.25rem; line-height: 1.55; color: var(--nh-ink); max-inline-size: 40ch; }
+html.nh-plainmode .nh-form__note.v3-plain, html.nh-plainmode .nh-form__note.v3-plain p { font-size: var(--v3-fs-plain); line-height: 1.55; color: var(--nh-ink); max-inline-size: 40ch; }
 html.nh-plainmode .v3-plain--after { margin-block-start: 1.5rem; }
 /* the cover: the ב folds into a chapter mark beside the words, the button under them */
-html.nh-plainmode .v3-cover__title { font-size: clamp(2.25rem, 1.5rem + 2.5vw, 3.75rem); line-height: 1.1; }
-html.nh-plainmode main .v3-cover__plain p { font-size: 1.5rem; }
+html.nh-plainmode .v3-cover__title { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); }
+html.nh-plainmode main .v3-cover__plain p { font-size: var(--v3-fs-plain); }
 @media (min-width: 48em) {
   html.nh-plainmode .v3-cover__grid { grid-template-columns: auto minmax(0, 1fr); min-block-size: 0; align-items: start; }
   html.nh-plainmode .v3-cover__letter { position: relative; inline-size: calc(min(48svh, 22rem) * 432.4 / 597); }
+  html.nh-plainmode .v3-cover__text { padding-block-start: 1rem; }
 }
-html.nh-plainmode .v3-lamed__letter, html.nh-plainmode .v3-steps__word, html.nh-plainmode .v3-shamayim, html.nh-plainmode .v3-swatches { display: none !important; }
+html.nh-plainmode .v3-lamed__letter, html.nh-plainmode .v3-shamayim { display: none !important; }
 html.nh-plainmode .nh-hint > .v3-plain { display: inline; }
 html.nh-plainmode .v3-kaf__letter { max-inline-size: 18rem; }
-html.nh-plainmode .v3-moment__verb { font-size: clamp(3rem, 2rem + 4vw, 5rem); }
-html.nh-plainmode .v3-cover__text { padding-block-start: 1rem; }
+/* plain mode: where the big letter is folded away, its spread becomes one column */
+html.nh-plainmode .v3-lamed__grid { grid-template-columns: minmax(0, 1fr); }
+html.nh-plainmode .v3-lamed__text { grid-column: auto; grid-row: auto; }
 
-/* ---------- Calm mode ------------------------------------------------------------ */
+/* ---------- Calm mode (§4.3): no optional motion (the appearance is off, see the end of this file) and softer
+   colours — the honey spread becomes sand, the photos lose some saturation (photos only: not the logo) ---------- */
 html.nh-calm .v3-spread--citrus { background: var(--nh-paper-2); }
-html.nh-calm .v3 img, html.nh-calm.v3 img, html.nh-calm main img { filter: saturate(.7); }
-html.nh-calm .v3-progress { display: none; }
-
-/* ---------- Reduced motion (OS or on-site) ---------------------------------------- */
-html.nh-reduce-motion .v3-home__link::before, html.nh-reduce-motion .v3-toggle i, html.nh-reduce-motion .v3-toggle i::after,
-html.nh-reduce-motion .v3-roles svg, html.nh-reduce-motion .v3-home__arrow { transition: none; }
-@media (prefers-reduced-motion: reduce) {
-  .v3-home__link::before, .v3-toggle i, .v3-toggle i::after, .v3-roles svg, .v3-home__arrow, .v3-kaf__palm .v3-room__photo img { transition: none; }
-}
+html.nh-calm main img { filter: saturate(.7); }
 
 /* ---------- Forced colours ------------------------------------------------------- */
 @media (forced-colors: active) {
   .v3-letter__ink { fill: CanvasText; }
   .v3-toggle i { forced-color-adjust: none; background: Canvas; border: 1px solid CanvasText; }
+  .v3-toggle i::after { background: CanvasText; inset-block-start: 2px; }
   .v3-toggle[aria-pressed="true"] i { background: Highlight; }
+  .v3-toggle[aria-pressed="true"] i::after { background: HighlightText; }
   .v3-dot { color: inherit; }
   .v3-dot::before { display: none; }
-  .v3-rule, .v3-progress, .v3-door__bar, .v3-door__leg { background: CanvasText; }
-  .v3-plainbtn, .v3-display__btn { border: 1.5px solid ButtonText; }
+  .v3-rule, .v3-door__bar, .v3-door__leg { background: CanvasText; }
+  .v3-plainbtn { border-color: ButtonText; }
   .v3-plainbtn[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText !important; border-color: Highlight; }
   .v3-print picture { outline: 1px solid CanvasText; }
+  .nh-video__btn { border: 2px solid ButtonText; }
 }
 
-/* the visit bar steps aside while a form field is being filled in */
-.v2-bar.is-typing { transform: translateY(160%) !important; visibility: hidden !important; }
-
-/* ---------- Inner page (programme): the same letters ------------------------------- */
+/* ---------- A home's page: numbers, gallery, features, stories (v3.2, §10.3) --------------------------------------- */
 .v3-crumbs { grid-column: 1 / -1; margin-block-end: .25rem; }
 .v3-crumbs ol { margin: 0; }
-.v3-cover__title--page { font-size: clamp(3rem, 1.4rem + 5.4vw, 7.25rem); line-height: .96; letter-spacing: 0; }
-@media (max-width: 47.99em) { .v3-cover__title--page { font-size: clamp(1.9rem, 1rem + 4vw, 3rem); } }   /* beside the ב on phones: two lines, not four */
-@media (min-width: 1024px) {
-  .v3-cover--page { min-block-size: auto; }
-  .v3-cover--page { --cover-h: min(calc(100svh - var(--v3-mast) - 11rem), 34rem); }
-}
-.v3-stats { list-style: none; margin: clamp(2rem, 1.5rem + 2vw, 3.5rem) 0 2rem; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-block-start: 1.5px solid var(--nh-ink); }
-.v3-stats li { padding-block: 1.25rem; padding-inline-end: 1rem; border-block-end: 1px solid rgb(31 36 33 / .4); }
-.v3-stats b { display: block; font: 300 clamp(3.5rem, 2rem + 4vw, 6.5rem)/1 var(--nh-font-display); letter-spacing: -.03em; }
-.v3-stats li > span { display: block; font-size: 1rem; line-height: 1.45; color: var(--nh-ink-2); max-inline-size: 26ch; margin-block-start: .5rem; }
-@media (min-width: 1024px) {
+.v3-stats { list-style: none; margin: 2rem 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-block-start: 1.5px solid var(--nh-ink); }
+.v3-stats li { padding-block: 1.25rem; padding-inline-end: 1rem; border-block-end: 1px solid var(--v3-hair); }
+.v3-stats b { display: block; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: -.03em; font-variant-numeric: lining-nums tabular-nums; }
+.v3-stats li > span { display: block; font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-ink-2); max-inline-size: 26ch; margin-block-start: .5rem; }
+@media (min-width: 64em) {
   .v3-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .v3-stats li { border-block-end: 0; padding-inline: 0 1.5rem; }
-  .v3-stats li + li { border-inline-start: 1px solid rgb(31 36 33 / .4); padding-inline-start: 1.5rem; }
+  .v3-stats li + li { border-inline-start: 1px solid var(--v3-hair); padding-inline-start: 1.5rem; }
 }
-.v3-facts { margin: 0; border-block-start: 1px solid rgb(31 36 33 / .4); }
-.v3-facts div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 1rem; padding-block: .85rem; border-block-end: 1px solid rgb(31 36 33 / .4); }
+.v3-facts { margin: 0; border-block-start: 1px solid var(--v3-hair); }
+.v3-facts div { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 1rem; padding-block: .85rem; border-block-end: 1px solid var(--v3-hair); }
 .v3-facts dt { font-weight: 700; }
-.v3-facts dd { margin: 0; }
-.v3-gallery { margin-block-start: 2rem; }
-.v3-gallery button { border-radius: 0; background: none; padding: 0; box-shadow: 0 0 0 1px var(--v3-ink); }   /* square-cut prints, no polaroid frame */
-@media (min-width: 900px) {
-  .nh-gallery.v3-gallery li:nth-child(4) { grid-column: span 2; }
-  .nh-gallery.v3-gallery li:nth-child(5) { grid-column: span 3; }
-  .nh-gallery.v3-gallery li:nth-child(6) { grid-column: span 2; }
-}
-.v3-gallery button > picture { overflow: hidden; }
-.v3-gallery img { border-radius: 0 !important; }
+.v3-facts dd { margin: 0; font-size: var(--v3-fs-body); }
+/* the new wing: six 4:3 prints of one size, 3 / 2 / 1 columns, captions visible; no lightbox (§10.3 p. 4) */
+.v3-gallery { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 2rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 40em) { .v3-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 64em) { .v3-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.v3-gallery .v3-print { max-inline-size: none; }
 .v3-feature-list { list-style: none; margin: clamp(2rem, 1.5rem + 2vw, 3rem) 0 0; padding: 0; display: grid; column-gap: 3rem; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-feature-list li { padding-block: 1.25rem; border-block-end: 1px solid rgb(31 36 33 / .4); }
-.v3-feature-list h3 { font: 500 clamp(1.3rem, 1.15rem + .5vw, 1.6rem)/1.2 var(--nh-font-display); margin: 0 0 .4rem; }
-.v3-feature-list p { margin: 0; color: var(--nh-ink-2); line-height: 1.55; max-inline-size: 38ch; }
-@media (min-width: 900px) { .v3-feature-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.v3-stories__list { list-style: none; margin: clamp(2rem, 1.5rem + 2vw, 3.5rem) 0 0; padding: 0; display: grid; gap: 2rem 3rem; }
-.v3-stories__list li { border-block-start: 1px solid rgb(247 241 231 / .35); padding-block-start: 1rem; }
-.v3-stories__n { display: block; font: 300 clamp(3.5rem, 2.5rem + 3vw, 5.5rem)/1 var(--nh-font-display); color: var(--nh-citrus-400); }
-.v3-stories__list h3 { font: 500 clamp(1.3rem, 1.15rem + .5vw, 1.6rem)/1.2 var(--nh-font-display); margin: .75rem 0 .4rem; }
-.v3-stories__list p { margin: 0; color: var(--nh-on-night-2); line-height: 1.55; max-inline-size: 36ch; }
-@media (min-width: 900px) { .v3-stories__list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.v3-feature-list li { padding-block: 1.25rem; border-block-end: 1px solid var(--v3-hair); }
+.v3-feature-list h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: 0 0 .4rem; }
+.v3-feature-list p { margin: 0; font-size: var(--v3-fs-body); color: var(--nh-ink-2); line-height: 1.65; max-inline-size: 38ch; }
+@media (min-width: 56.25em) { .v3-feature-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.v3-stories__list { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 2rem 3rem; }
+.v3-stories__list li { border-block-start: 1px solid rgb(247 241 231 / .3); padding-block-start: 1rem; }
+.v3-stories__n { display: block; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); color: var(--nh-citrus-400); letter-spacing: -.03em; font-variant-numeric: lining-nums; }
+.v3-stories__list h3 { font: 500 var(--v3-fs-h3)/1.25 var(--nh-font-display); margin: .75rem 0 .4rem; }
+.v3-stories__list p { margin: 0; font-size: var(--v3-fs-body); color: var(--nh-on-night-2); line-height: 1.65; max-inline-size: 36ch; }
+@media (min-width: 56.25em) { .v3-stories__list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .v3-plainbox-wrap--page { padding-block: clamp(4rem, 2.5rem + 4vw, 7rem); }
-
-/* ---------- Narrow masthead: everything fits in 360px, targets stay 44px ------------ */
-.v3-mast .nh-menu-btn, .v3-mast .nh-phone { flex: none; min-inline-size: 2.75rem; min-block-size: 2.75rem; justify-content: center; }
-.v3-mast .nh-logo { min-inline-size: 0; }
-@media (max-width: 69.99em) {
-  .v3-mast .nh-header__inner { gap: .5rem; }
-  .v3-mast .nh-header__actions { gap: .4rem; }
-}
-@media (max-width: 480px) {
-  .v3-mast .nh-wordmark { font-size: 1.3rem; gap: .3rem; }
-  .v3-mast .nh-wordmark::before { inline-size: .5rem; block-size: .5rem; margin-inline-end: .2rem; }
-  .v3-mast .nh-wordmark small { font-size: .6875rem; }
-}
 
 /* rows with a long description wrap; on phones the description goes under the title */
 .v3-related .v3-roles__meta { white-space: normal; }
-@media (max-width: 640px) {
+@media (max-width: 40em) {
   .v3-roles a { grid-template-columns: minmax(0, 1fr) 1.5rem; row-gap: .25rem; }
   .v3-roles b { grid-column: 1; grid-row: 1; }
   .v3-roles__meta { grid-column: 1; grid-row: 2; white-space: normal; }
   .v3-roles svg { grid-column: 2; grid-row: 1 / span 2; }
 }
 
-/* ---------- Design-system page ------------------------------------------------------ */
+/* ---------- Design-system page: each letter in its one, constant weight ------------------------------------------- */
 .v3-ds-letters { list-style: none; padding: 0; margin: 2rem 0; display: grid; gap: 2rem 3rem; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
 .v3-ds-pair { display: flex; gap: 1.25rem; align-items: flex-end; block-size: 9rem; }
 .v3-ds-pair .v3-letter { position: static; inline-size: auto; block-size: 100%; }
 .v3-ds-letters p { margin: .75rem 0 0; color: var(--nh-ink-2); }
 .v3-ds-rooms { display: flex; flex-wrap: wrap; gap: 2rem; }
 .v3-ds-rooms figure { margin: 0; inline-size: 10rem; }
-.v3-ds-rooms figcaption { font-size: .875rem; color: var(--nh-ink-2); margin-block-start: .5rem; }
+.v3-ds-rooms figcaption { font-size: var(--v3-fs-small); color: var(--nh-ink-2); margin-block-start: .5rem; }
 
-/* ---------- Masthead at awkward widths -------------------------------------------- */
-.v3-mast .nh-nav a { white-space: nowrap; }
-@media (max-width: 379px) {
-  .v3-mast .nh-phone { display: none; }               /* still in the menu and the visit bar */
-  .v3-mast .nh-wordmark { font-size: 1.15rem; }
-  .v3-plainbtn { font-size: .78rem; padding-inline: .45rem; }
-}
-@media (min-width: 70em) and (max-width: 79.99em) {
-  .v3-mast .nh-nav ul { gap: .85rem; }
-  .v3-mast .nh-phone__num { display: none; }
-  .v3-display__btn span { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .v3-display__btn { padding-inline: .6rem; }
-}
 /* long button labels wrap on narrow phones instead of widening the page */
 @media (max-width: 479px) {
   .v3 .nh-btn { white-space: normal; text-align: center; line-height: 1.25; }
   .v3-plainbox { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* ---------- Wordmark (temporary typographic logo; moved from v2) ----------------- */
+/* ---------- Wordmark (v2/v3.1 typographic logo): design-system page only. The masthead and the footer
+   show the emblem of the logo and the name as live text (v3.2, research/07 §6). ---------------- */
 .nh-wordmark { display: inline-flex; align-items: baseline; gap: .45rem; font: 500 1.6rem/1 var(--nh-font-display); letter-spacing: 0; color: currentColor; white-space: nowrap; }
 .nh-wordmark::before { content: ""; inline-size: .62rem; block-size: .62rem; background: var(--nh-iris-700); transform: rotate(45deg) translateY(-.12em); border-radius: 2px; box-shadow: .5rem .5rem 0 -.08rem #BBA957; margin-inline-end: .35rem; }
 .nh-wordmark small { font: 700 .75rem/1 var(--nh-font-body); letter-spacing: .08em; }
-.nh-header .nh-logo { color: var(--nh-ink); }
-.nh-header[data-theme="dark"] .nh-logo { color: var(--nh-paper); }
-.nh-header[data-theme="dark"] .nh-wordmark::before { background: var(--nh-citrus-400); }
-.nh-footer__logo { background: none !important; padding: 0 !important; color: var(--nh-paper); text-decoration: none; }
-.nh-footer__logo .nh-wordmark { font-size: 2rem; }
-.nh-footer__logo .nh-wordmark::before { background: var(--nh-citrus-400); }
-
-/* ---------- Mobile visit bar (moved from v2; square, solid, no blur) ---------------- */
-.v2-bar { position: fixed; z-index: 45; inset-inline: .75rem; inset-block-end: calc(.75rem + env(safe-area-inset-bottom, 0px));
-  display: none; grid-template-columns: 1fr auto; gap: .5rem; padding: .5rem; border-radius: 4px; background: var(--nh-night);
-  box-shadow: 0 10px 30px rgb(0 0 0 / .25);
-  transform: translateY(160%); visibility: hidden; transition: transform .45s var(--nh-ease-out), visibility 0s linear .45s; --nh-focus: var(--nh-citrus-400); }
-.v2-bar .nh-btn { min-block-size: 3rem; padding-block: .5em; }
-.v2-bar .nh-btn--primary { --_bg: var(--nh-citrus-400); --_fg: var(--nh-ink); }
-.v2-bar .nh-btn--ghost { color: var(--nh-paper); }
-@media (max-width: 69.99em) { .v2-bar { display: grid; } }
-.v2-bar.is-on { transform: none; visibility: visible; transition: transform .45s var(--nh-ease-out), visibility 0s; }
-html.nh-has-bar { scroll-padding-block-end: 6rem; }
-html.nh-has-cookies .v2-bar { display: none !important; }   /* while the cookie banner is up it would sit over the bar's buttons */
-@media (min-width: 70em) { html.nh-has-bar { scroll-padding-block-end: 0; } }
-
-/* ---------- Page transitions: the homes-index ב grows into the page cover ב ---------- */
-::view-transition-group(home-bet-1) { animation-duration: .6s; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
-html.nh-reduce-motion::view-transition-group(*), html.nh-reduce-motion::view-transition-old(*), html.nh-reduce-motion::view-transition-new(*),
-html.nh-calm::view-transition-group(*), html.nh-calm::view-transition-old(*), html.nh-calm::view-transition-new(*) { animation: none !important; }
-
-/* a moment without a photo (no consented pictures of family visits yet): words only */
-
-
-/* plain mode: where the big letter is folded away, its spread becomes one column */
-html.nh-plainmode .v3-lamed__grid { grid-template-columns: minmax(0, 1fr); }
-html.nh-plainmode .v3-lamed__text { grid-column: auto; grid-row: auto; }
 
 /* WCAG 1.4.12: with user text-spacing the masthead wraps instead of pushing buttons off screen */
 .v3-mast .nh-header__inner { flex-wrap: wrap; row-gap: .25rem; }
@@ -629,17 +459,22 @@ html.nh-plainmode .v3-lamed__text { grid-column: auto; grid-row: auto; }
 .v3-dev a { color: var(--nh-paper); font-weight: 700; text-decoration: underline; text-underline-offset: .25em; text-decoration-thickness: 1px; }
 .v3-dev a:hover { color: var(--nh-citrus-400); }
 
-/* short screens (landscape phones, 400% zoom): the masthead scrolls away with the page and the visit
-   bar is not shown — the visit button is on the cover and in the door */
+/* short screens (landscape phones, 400% zoom): the masthead scrolls away with the page; the visit button
+   is on the cover, in the menu and in the door */
 @media (max-height: 30em) {
-  .v2-bar { display: none !important; }
   .v3-mast { position: absolute; }
   html { scroll-padding-block: 1rem; }
 }
 
-/* no fixed full-screen layers (research/06): the v1 paper-grain overlay is off in v3 — the photos carry
-   their own grain from the darkroom grade */
-body.v3::after { content: none; display: none; }
-
-/* the cookie banner keeps its place above a page transition */
-.nh-cookies { view-transition-name: nh-cookies; }
+/* v3.2: the one allowed reveal — a print photo appears once, softly, when it is on screen and loaded.
+   Hidden only by script, only below the first screen, only when motion is allowed.
+   Only the photo frame moves; the caption (text) never does. */
+[data-reveal].is-waiting > picture { opacity: 0; transform: translateY(8px); }
+[data-reveal].is-shown > picture { transition: opacity .32s var(--nh-ease-out), transform .32s var(--nh-ease-out); }
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal].is-waiting > picture { opacity: 1; transform: none; }
+  [data-reveal].is-shown > picture { transition: none; }
+}
+html:is(.nh-calm, .nh-reduce-motion) [data-reveal].is-waiting > picture { opacity: 1; transform: none; }
+html:is(.nh-calm, .nh-reduce-motion) [data-reveal].is-shown > picture { transition: none; }
+@media print { [data-reveal].is-waiting > picture { opacity: 1 !important; transform: none !important; } }

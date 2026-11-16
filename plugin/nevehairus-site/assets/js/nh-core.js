@@ -1,11 +1,13 @@
 /* =========================================================================
    נווה האירוס — nh-core.js (plugin nevehairus-site, core). No libraries.
    window.nh: the helpers every widget script uses, the display modes (plain
-   language, calm mode, reduced motion), cookie consent, the mobile visit bar,
-   the widget hook for Elementor (SPEC §3.12, §5.5).
-   Ported from prototype/assets/js/site.js L12–40, L108–133, L152–216, L457–458
-   and v3.js L14–81, L176–184, L235–241 (v3.1). Toggles and the cookie-settings
-   buttons are delegated, so widgets added later (Elementor editor) work too.
+   language, calm mode), the one allowed reveal of print photos, the
+   cookie-settings panel, the visit button and focus after an in-page link,
+   the widget hook for Elementor (SPEC §3.12, §5.5; research/07 §12.3).
+   Ported from prototype/assets/js/site.js and v3.js (v3.1) and changed for
+   v3.2 (research/07 §4.2, §5.5, §9, §10.1 item 4): no scroll listener, no
+   ResizeObserver, nothing opens by itself. Switches, cookie-settings links and
+   in-page links are delegated, so widgets added later (Elementor editor) work too.
    ========================================================================= */
 (() => {
   "use strict";
@@ -20,6 +22,7 @@
     set(k, v) { try { w.localStorage.setItem(k, v); } catch (e) { /* private mode */ } },
   };
   const osReduced = () => !!(w.matchMedia && w.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  // the old "reduce motion" choice (nh-motion in localStorage, applied before paint) still counts
   const motionOK = () => !html.classList.contains("nh-reduce-motion") && !html.classList.contains("nh-calm") && !osReduced();
   // an open modal dialog makes the rest of the page inert: speak from inside it
   const announce = (msg) => {
@@ -28,15 +31,31 @@
     el.textContent = ""; setTimeout(() => { el.textContent = msg; }, 80);
   };
 
-  /* ---------- once: a class when first seen ------------------------------------ */
-  const once = (target, cls, rootMargin) => {
-    const els = typeof target === "string" ? Array.from(d.querySelectorAll(target))
-      : (target && target.nodeType === 1 ? [target] : Array.from(target || []));
+  /* ---------- the one allowed reveal (research/07 §4.2) --------------------------------
+     A print photo (figure.v3-print[data-reveal] > picture) appears once, softly, when at
+     least 15% of it is on screen and its image has loaded. Only below the first screen,
+     only when motion is allowed, never in the Elementor preview; the caption never moves. */
+  const reveal = () => {
+    if (!motionOK() || !("IntersectionObserver" in w) || /[?&]elementor-preview=/.test(w.location.search)) return;
+    const els = d.querySelectorAll(".v3-print[data-reveal]:not(.is-shown)");
     if (!els.length) return;
-    if (!("IntersectionObserver" in w)) { els.forEach((el) => el.classList.add(cls)); return; }
+    const show = (el) => requestAnimationFrame(() => { el.classList.add("is-shown"); el.classList.remove("is-waiting"); });
     const io = new IntersectionObserver((entries) => entries.forEach((e) => {
-      if (e.isIntersecting) { e.target.classList.add(cls); io.unobserve(e.target); }
-    }), { rootMargin: rootMargin || "0px 0px -30% 0px" });
+      const el = e.target;
+      if (!el.dataset.revealSeen) {                    // first report: never hide what is already on or above the screen
+        el.dataset.revealSeen = "1";
+        if (e.isIntersecting || e.boundingClientRect.top < 0) io.unobserve(el);
+        else el.classList.add("is-waiting");
+        return;
+      }
+      if (e.intersectionRatio < 0.15) return;          // isIntersecting is already true at the first pixel
+      io.unobserve(el);
+      const img = el.querySelector("img");
+      if (!img || (img.complete && img.naturalWidth)) { show(el); return; }
+      img.addEventListener("load", () => show(el), { once: true });
+      img.addEventListener("error", () => show(el), { once: true });
+      setTimeout(() => show(el), 2500);
+    }), { threshold: 0.15 });
     els.forEach((el) => io.observe(el));
   };
 
@@ -45,12 +64,10 @@
   const syncToggles = () => {
     const plain = String(html.classList.contains("nh-plainmode"));
     const calm = String(html.classList.contains("nh-calm"));
-    const motion = String(html.classList.contains("nh-reduce-motion"));
     d.querySelectorAll("[data-plain-toggle]:not([data-plain-toggle='action'])").forEach((b) => b.setAttribute("aria-pressed", plain));
     d.querySelectorAll("[data-calm-toggle]").forEach((b) => b.setAttribute("aria-pressed", calm));
-    d.querySelectorAll("[data-motion-toggle]").forEach((b) => b.setAttribute("aria-pressed", motion));
   };
-  // nobody loses their place: the control that was used (or else the spread at the top of the screen) stays put
+  // nobody loses their place: the control that was used (or else the first line on screen) stays put
   const keepPlace = (change) => {
     const top = (d.querySelector(".nh-header") || { offsetHeight: 0 }).offsetHeight;
     let anchor = null, before = 0;
@@ -58,7 +75,7 @@
     if (a && a !== d.body && a.closest("main, footer, .nh-footer")) { anchor = a; before = a.getBoundingClientRect().top; }
     else {
       // the first line on screen that exists in both modes (not inside a full-only or plain-only block)
-      for (const el of d.querySelectorAll("[data-running] :is(h1, h2, h3, li, p, figure)")) {
+      for (const el of d.querySelectorAll(":is(.v3-spread, .v3-plainbox-wrap) :is(h1, h2, h3, li, p, figure)")) {
         if (el.closest(".v3-full, .v3-plain")) continue;
         const r = el.getBoundingClientRect();
         if (r.height && r.top >= top + 8) { anchor = el; before = r.top; break; }
@@ -91,21 +108,57 @@
     syncToggles(); changed();
     announce(on ? i18n.calmOn : i18n.calmOff);
   };
-  const toggleMotion = () => {
-    const reduce = !html.classList.contains("nh-reduce-motion");
-    html.classList.toggle("nh-reduce-motion", reduce);
-    store.set("nh-motion", reduce ? "reduce" : "full");
-    syncToggles();
-    d.dispatchEvent(new CustomEvent("nh:motionchange", { detail: { reduce } }));
-  };
-  d.addEventListener("nh:motionchange", (e) => announce(e.detail && e.detail.reduce ? i18n.motionOn : i18n.motionOff));
 
-  /* ---------- cookie consent (stays in this browser; nothing is sent) ------------- */
+  /* ---------- focus after an in-page link (research/07 §5.5) -------------------------
+     No smooth scroll: the browser jumps to the target by itself; then the target's heading
+     takes focus — the target if it is h1–h3, else its aria-labelledby, else its first h2/h3. */
+  const headingOf = (el) => {
+    if (/^H[1-3]$/.test(el.tagName)) return el;
+    const ref = (el.getAttribute("aria-labelledby") || "").trim().split(/\s+/)[0];
+    const named = ref ? d.getElementById(ref) : null;
+    return named || el.querySelector("h2, h3");
+  };
+  const focusTarget = (el) => requestAnimationFrame(() => {
+    const h = el && el.isConnected ? headingOf(el) : null;
+    if (!h) return;
+    if (!h.hasAttribute("tabindex")) h.setAttribute("tabindex", "-1");
+    h.focus({ preventScroll: true });
+  });
+  const byHash = (hash) => {
+    if (!hash || hash.length < 2 || hash === "#nh-cookies") return null;   // the panel opens itself (§9)
+    let id = hash.slice(1);
+    try { id = decodeURIComponent(id); } catch (e) { /* keep it as written */ }
+    const el = d.getElementById(id);
+    return el && !el.matches("main") ? el : null;                        // the skip link's main takes focus by itself
+  };
+  // the same page by address, not by the start of href: catches "#door" and "/#homes" alike
+  const samePage = (a) => a.origin === w.location.origin && a.pathname === w.location.pathname
+    && a.search === w.location.search && a.hash.length > 1;
+  const followAnchor = (e, a) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if ((a.target && a.target !== "_self") || a.matches(".nh-skip") || !samePage(a)) return;
+    const target = byHash(a.hash);
+    if (!target) return;
+    // a link in the phone menu: the dialog closes first and would give focus back to its button
+    const dialog = a.closest("dialog");
+    if (dialog) dialog.addEventListener("close", () => focusTarget(target), { once: true });
+    else focusTarget(target);
+  };
+  // the visit buttons lead to this page's door when it has one (else to the home page's #door, as printed)
+  const visitButtons = () => {
+    const door = d.querySelector(".v3-door[id]");
+    if (door) d.querySelectorAll("a[data-visit-cta]").forEach((a) => a.setAttribute("href", "#" + door.id));
+  };
+
+  /* ---------- cookie settings (the choice stays in this browser; nothing is sent) ------ */
   const consentKey = (data.consent && data.consent.key) || "nh-consent-v1";
   const consentV = (data.consent && Number(data.consent.v)) || 1;
-  const banner = () => d.getElementById("nh-cookies");
+  const panel = () => d.getElementById("nh-cookies");
+  // a record of an older consent version counts as none: the video asks again (§9)
   const read = () => {
-    try { return JSON.parse(store.get(consentKey) || "null"); } catch (e) { return null; }
+    let rec = null;
+    try { rec = JSON.parse(store.get(consentKey) || "null"); } catch (e) { rec = null; }
+    return rec && typeof rec === "object" && Number(rec.v) >= consentV ? rec : null;
   };
   const save = (c) => {
     const rec = { necessary: true, stats: !!c.stats, media: !!c.media, date: new Date().toISOString(), v: consentV };
@@ -113,11 +166,9 @@
     d.dispatchEvent(new CustomEvent("nh:consent", { detail: rec }));
     return rec;
   };
-  const showBanner = () => { const b = banner(); if (b) { b.hidden = false; html.classList.add("nh-has-cookies"); } };
-  const hideBanner = () => { const b = banner(); if (b) { b.hidden = true; html.classList.remove("nh-has-cookies"); } };
-  // after a choice, focus goes back to the page: #main, else the first main, else the page title
+  // when the link that opened the panel is gone: the page's main, else the page title
   const focusPage = () => {
-    const main = d.getElementById("main") || d.querySelector("main");
+    const main = d.querySelector("main");
     if (main) {
       if (!main.hasAttribute("tabindex")) main.setAttribute("tabindex", "-1");
       main.focus({ preventScroll: true });
@@ -127,112 +178,60 @@
       if (h1) { h1.setAttribute("tabindex", "-1"); h1.focus({ preventScroll: true }); }
     }
   };
-  const openSettings = () => {
-    const b = banner();
-    if (!b) return;
+  let opener = null;
+  // hides the panel (kept under this name: the video's consent calls it before loading the film)
+  const hideBanner = () => { const p = panel(); if (p) p.hidden = true; opener = null; };
+  const closePanel = () => {
+    const p = panel();
+    if (!p || p.hidden) return;
+    const back = opener;
+    hideBanner();
+    if (back && back.isConnected && back.getClientRects().length) back.focus();
+    else focusPage();
+  };
+  // in the flow after the footer, no animation: shown, scrolled to at once, its title focused
+  const openSettings = (source) => {
+    const p = panel();
+    if (!p) return false;
+    if (source && source.nodeType === 1) opener = source;
     const c = read() || {};
-    const stats = b.querySelector("#nh-c-stats"), media = b.querySelector("#nh-c-media"), prefs = b.querySelector(".nh-cookies__prefs");
+    const stats = p.querySelector("#nh-c-stats"), media = p.querySelector("#nh-c-media");
     if (stats) stats.checked = !!c.stats;
     if (media) media.checked = !!c.media;
-    if (prefs) prefs.hidden = false;
-    const set = b.querySelector("[data-consent='settings']");
-    if (set) set.setAttribute("aria-expanded", "true");
-    showBanner();
-    const h = b.querySelector("h2");
-    if (h) h.focus();
+    p.hidden = false;
+    try { p.scrollIntoView({ block: "start" }); } catch (e) { p.scrollIntoView(); }
+    const h = p.querySelector("h2");
+    if (h) h.focus({ preventScroll: true });
+    return true;
   };
-  const initBanner = () => {
-    const b = banner();
-    if (!b) return;
-    // the page keeps focus clear of the banner: scroll padding follows the banner's real height
-    // (measured by a ResizeObserver after layout, never forced while the page loads)
-    if ("ResizeObserver" in w) new ResizeObserver(([e]) => {
-      const h = e.borderBoxSize && e.borderBoxSize[0] ? e.borderBoxSize[0].blockSize : b.offsetHeight;
-      if (h) html.style.setProperty("--nh-cookie-h", Math.ceil(h) + "px");
-    }).observe(b);
-    const rec = read();
-    if (!rec || !(Number(rec.v) >= consentV)) showBanner();
-    const prefs = b.querySelector(".nh-cookies__prefs");
-    const more = b.querySelector("[data-cookie-more]");
-    if (more) more.addEventListener("click", () => {
-      const open = !b.classList.contains("is-more");
-      b.classList.toggle("is-more", open);
-      more.setAttribute("aria-expanded", String(open));
-    });
-    b.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-consent]");
+  const initPanel = () => {
+    const p = panel();
+    if (!p) return;
+    p.addEventListener("click", (e) => {
+      const btn = e.target instanceof Element ? e.target.closest("[data-consent]") : null;
       if (!btn) return;
       const act = btn.dataset.consent;
-      if (act === "settings") {
-        if (!prefs) return;
-        prefs.hidden = !prefs.hidden;
-        btn.setAttribute("aria-expanded", String(!prefs.hidden));
-        const first = prefs.querySelector("input:not([disabled])");
-        if (!prefs.hidden && first) first.focus();
-        return;
-      }
-      const c = { stats: false, media: false };
-      if (act === "all") { c.stats = true; c.media = true; }
       if (act === "save") {
-        const s = b.querySelector("#nh-c-stats"), m = b.querySelector("#nh-c-media");
-        c.stats = !!(s && s.checked);
-        c.media = !!(m && m.checked);
+        const s = p.querySelector("#nh-c-stats"), m = p.querySelector("#nh-c-media");
+        save({ stats: !!(s && s.checked), media: !!(m && m.checked) });
       }
-      save(c);
-      hideBanner();
-      focusPage();
+      if (act === "save" || act === "close") closePanel();
     });
+    p.addEventListener("keydown", (e) => { if (e.key === "Escape") { e.preventDefault(); closePanel(); } });
   };
 
-  /* ---------- delegated clicks: switches anywhere, "cookie settings" anywhere -------- */
+  /* ---------- delegated clicks: switches, «הגדרות עוגיות», in-page links ------------- */
   d.addEventListener("click", (e) => {
     const t = e.target instanceof Element ? e.target : null;
     if (!t) return;
     if (t.closest("[data-plain-toggle]")) { togglePlain(); return; }
     if (t.closest("[data-calm-toggle]")) { toggleCalm(); return; }
-    if (t.closest("[data-motion-toggle]")) { toggleMotion(); return; }
-    if (t.closest("[data-cookie-settings]")) openSettings();
+    const a = t.closest("a[href]");
+    // «הגדרות עוגיות»: [data-cookie-settings] or any link to #nh-cookies on this page (the footer's Text Editor)
+    const settings = t.closest("[data-cookie-settings]") || (a && a.hash === "#nh-cookies" && samePage(a) ? a : null);
+    if (settings) { if (openSettings(settings)) e.preventDefault(); return; }
+    if (a) followAnchor(e, a);
   });
-
-  /* ---------- the mobile visit bar --------------------------------------------------- */
-  // after the cover's own visit button has scrolled away; hidden near the door, the footer and
-  // any [data-bar-hide]; steps aside while a form field is being filled in
-  const initBar = () => {
-    const bar = d.querySelector("[data-bar]");
-    if (!bar) return;
-    const door = d.querySelector(".v3-door[id]");
-    const cta = bar.querySelector("[data-bar-cta]");
-    if (door && cta) cta.setAttribute("href", "#" + door.id);
-    const zones = Array.from(d.querySelectorAll(".v3-door, .nh-footer, [data-bar-hide]"));
-    const inView = (el) => { const b = el.getBoundingClientRect(); return b.top < w.innerHeight && b.bottom > 0; };
-    const firstCta = d.querySelector(".v3-cover__cta a");
-    let ctaGone = false, bt = false;
-    const passed = () => (firstCta && "IntersectionObserver" in w ? ctaGone : w.scrollY > w.innerHeight * 0.9);
-    const upd = () => {
-      const on = passed() && !zones.some(inView);
-      bar.classList.toggle("is-on", on);
-      html.classList.toggle("nh-has-bar", on);
-    };
-    const later = () => { if (bt) return; bt = true; requestAnimationFrame(() => { upd(); bt = false; }); };
-    w.addEventListener("scroll", later, { passive: true });
-    if (firstCta && "IntersectionObserver" in w) {
-      new IntersectionObserver(([e]) => { ctaGone = !e.isIntersecting && e.boundingClientRect.top < 0; later(); }).observe(firstCta);
-    } else later();
-    const field = (el) => el && el.matches && el.matches("input, select, textarea");
-    d.addEventListener("focusin", (e) => { if (field(e.target)) bar.classList.add("is-typing"); });
-    d.addEventListener("focusout", (e) => { if (field(e.target)) bar.classList.remove("is-typing"); });
-  };
-
-  /* ---------- the skip link always lands on the page's main ------------------------- */
-  const fixSkip = () => {
-    const skip = d.querySelector("a.nh-skip[href^='#']");
-    if (!skip || d.getElementById(skip.getAttribute("href").slice(1))) return;
-    const main = d.querySelector("main");
-    if (!main) return;
-    if (!main.id) main.id = "main";
-    if (!main.hasAttribute("tabindex")) main.setAttribute("tabindex", "-1");
-    skip.setAttribute("href", "#" + main.id);
-  };
 
   /* ---------- nh.widget: init every element of a widget, now and when Elementor renders one ---------- */
   const seen = {};
@@ -270,9 +269,16 @@
 
   /* ---------- start ------------------------------------------------------------------- */
   syncToggles();
-  initBanner();
-  initBar();
-  fixSkip();
+  initPanel();
+  visitButtons();
+  reveal();
+  // arrived from another page with #…: after `load`, because the browser's own scroll to the fragment at
+  // load runs its focusing steps and would drop a focus set earlier; never over a focus the visitor moved
+  const landed = byHash(w.location.hash);
+  if (landed) {
+    const land = () => { if (!d.activeElement || d.activeElement === d.body) focusTarget(landed); };
+    if (d.readyState === "complete") land(); else w.addEventListener("load", land, { once: true });
+  }
   d.querySelectorAll("[data-year]").forEach((el) => { el.textContent = String(new Date().getFullYear()); });
 
   w.nh = Object.assign(w.nh || {}, {
@@ -282,9 +288,9 @@
     osReduced,
     motionOK,
     announce,
-    once,
+    reveal,
     widget,
-    consent: { read, save, showBanner, hideBanner, openSettings },
+    consent: { read, save, openSettings, hideBanner },
     syncToggles,
     keepPlace,
   });

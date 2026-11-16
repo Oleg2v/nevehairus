@@ -7,8 +7,11 @@
  *              differences besides the §11.4 normalisation.
  * - states:    a one-line title with an empty plain twin (the plain H1 repeats the line), the lead
  *              hidden in plain mode (state 3), the button text without a twin (state 1), no anchor
- *              (ids nh-{element id}-…), a lighter letter, a decorative photo.
- * - no-button: an empty button link (no button), an alt override, a plain-only lead (state 4).
+ *              (ids nh-{element id}-…), a decorative photo, the phone line's words hidden in plain
+ *              language (state 3).
+ * - no-button: an empty button link (no button), an alt override, a plain-only lead (state 4), the
+ *              phone line switched off.
+ * - no-phone:  no phone in the settings: no phone line (the switch is on).
  *
  * @package nevehairus-site
  */
@@ -52,14 +55,13 @@ return [
 				'title_plain'      => '',
 				'lead_plain'       => '-',
 				'cta_text_plain'   => '',
-				'weight'           => 560,
 				'photo'            => [
 					'id'  => nh_test_media_id( 'v3-sky-room' ),
 					'url' => '',
 				],
 				'photo_decorative' => 'yes',
 				'photo_pos'        => '55% 45%',
-				'running_plain'    => 'בית',
+				'call_label_plain' => '-',
 			],
 		],
 		'no-button' => [
@@ -72,6 +74,14 @@ return [
 					'url' => '',
 				],
 				'photo_alt'  => 'שביל בין עצים',
+				'show_call'  => '',
+			],
+		],
+		'no-phone'  => [
+			'settings' => [],
+			'options'  => [
+				'phone_display' => '',
+				'phone_tel'     => '',
 			],
 		],
 	],

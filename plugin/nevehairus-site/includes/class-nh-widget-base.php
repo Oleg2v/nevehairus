@@ -15,10 +15,10 @@ abstract class NH_Widget_Base extends \Elementor\Widget_Base {
 	/** Widget id (`widgets/<ID>.php`, Elementor name `nh-<ID>`). Set by the child. */
 	public const ID = '';
 
-	/** Extra style handles, listed before the widget's own `nh-w-<ID>`. */
+	/** Extra style handles, listed after `nh-base` and before the widget's own `nh-w-<ID>`. */
 	public const STYLE_DEPS = [];
 
-	/** Extra script handles, listed before the widget's own `nh-w-<ID>`. */
+	/** Extra script handles, listed after `nh-core` and before the widget's own `nh-w-<ID>`. */
 	public const SCRIPT_DEPS = [];
 
 	/** True if render() reads NH_Settings, $_GET, the current user or the current post. */
@@ -49,19 +49,21 @@ abstract class NH_Widget_Base extends \Elementor\Widget_Base {
 	}
 
 	/**
-	 * STYLE_DEPS + `nh-w-<ID>` when the widget has a CSS file.
+	 * `nh-base` (which needs `nh-tokens`) + STYLE_DEPS + `nh-w-<ID>` when the widget has a CSS file.
+	 * Elementor stores these handles in the document's `_elementor_page_assets` and enqueues them only on
+	 * pages where the widget is (research/07 §12.1): the core CSS travels with the widgets.
 	 */
 	public function get_style_depends() {
 		$own = NH_Assets::widget_style( static::ID );
-		return array_values( array_unique( array_merge( static::STYLE_DEPS, null === $own ? [] : [ $own ] ) ) );
+		return array_values( array_unique( array_merge( [ 'nh-base' ], static::STYLE_DEPS, null === $own ? [] : [ $own ] ) ) );
 	}
 
 	/**
-	 * SCRIPT_DEPS + `nh-w-<ID>` when the widget has a JS file.
+	 * `nh-core` (with window.nhData) + SCRIPT_DEPS + `nh-w-<ID>` when the widget has a JS file.
 	 */
 	public function get_script_depends() {
 		$own = NH_Assets::widget_script( static::ID );
-		return array_values( array_unique( array_merge( static::SCRIPT_DEPS, null === $own ? [] : [ $own ] ) ) );
+		return array_values( array_unique( array_merge( [ 'nh-core' ], static::SCRIPT_DEPS, null === $own ? [] : [ $own ] ) ) );
 	}
 
 	/**
@@ -88,8 +90,10 @@ abstract class NH_Widget_Base extends \Elementor\Widget_Base {
 	}
 
 	/**
-	 * Opening tag of a spread (SPEC §3.3). Options: class (required), tone, header, labelledby, tag, attrs.
-	 * Attribute order: class, id, data-header, data-running, data-running-plain, aria-labelledby, extra.
+	 * Opening tag of a spread (SPEC §3.3). Options: class (required), tone, labelledby, tag, attrs
+	 * (`header` is still accepted and ignored). Attribute order: class, id, aria-labelledby, extra.
+	 * v3.2 (research/07 §12.3): no `data-header`, `data-running`, `data-running-plain` — the masthead no
+	 * longer changes its theme or shows a running head.
 	 *
 	 * @param array $s Settings for display.
 	 * @param array $o Options.
@@ -99,7 +103,6 @@ abstract class NH_Widget_Base extends \Elementor\Widget_Base {
 			[
 				'class'      => '',
 				'tone'       => '',
-				'header'     => null,
 				'labelledby' => 'title',
 				'tag'        => 'section',
 				'attrs'      => [],
@@ -108,23 +111,13 @@ abstract class NH_Widget_Base extends \Elementor\Widget_Base {
 		);
 		$tone = in_array( $o['tone'], [ 'sand', 'citrus', 'iris', 'night' ], true ) ? $o['tone'] : '';
 
-		$header = $o['header'];
-		if ( ! in_array( $header, [ 'light', 'dark' ], true ) ) {
-			$header = in_array( $tone, [ 'iris', 'night' ], true ) ? 'dark' : 'light';
-		}
-
 		$classes = trim( (string) $o['class'] . ( '' !== $tone ? ' v3-spread--' . $tone : '' ) );
 		$anchor  = $this->nh_anchor( $s );
-		$running = self::nh_str( $s, 'running' );
-		$plain   = trim( self::nh_str( $s, 'running_plain' ) );
 
 		$attrs = [
-			'class'              => $classes,
-			'id'                 => '' !== $anchor ? $anchor : null,
-			'data-header'        => $header,
-			'data-running'       => trim( $running ),
-			'data-running-plain' => ( '' !== $plain && NH_Text::HIDE !== $plain ) ? $plain : null,
-			'aria-labelledby'    => null === $o['labelledby'] ? null : $this->nh_uid( (string) $o['labelledby'] ),
+			'class'           => $classes,
+			'id'              => '' !== $anchor ? $anchor : null,
+			'aria-labelledby' => null === $o['labelledby'] ? null : $this->nh_uid( (string) $o['labelledby'] ),
 		];
 		foreach ( (array) $o['attrs'] as $k => $v ) {
 			$attrs[ $k ] = $v;
@@ -140,10 +133,11 @@ abstract class NH_Widget_Base extends \Elementor\Widget_Base {
 	}
 
 	/**
-	 * The ruling line every spread hangs from (`--draw`: drawn on load, the cover).
+	 * The ruling line every spread hangs from. v3.2: never drawn (no `v3-rule--draw`); an argument passed by
+	 * an older caller is ignored.
 	 */
-	protected function nh_rule( bool $draw = false ): string {
-		return '<div class="v3-rule' . ( $draw ? ' v3-rule--draw' : '' ) . '" aria-hidden="true"></div>';
+	protected function nh_rule(): string {
+		return '<div class="v3-rule" aria-hidden="true"></div>';
 	}
 
 	/**

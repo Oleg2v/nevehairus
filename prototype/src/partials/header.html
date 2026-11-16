@@ -1,16 +1,15 @@
 <a class="nh-skip" href="#main">דילוג לתוכן הראשי</a>
-{{> cookies}}
 <header class="nh-header v3-mast">
   <div class="nh-container nh-header__inner">
     <a class="nh-logo" href="index.html">
-      <span class="nh-wordmark"><small>מעון</small> נווה האירוס</span><span class="nh-sr-only"> — לדף הבית</span>
+      <img class="nh-logo__mark" src="assets/img/logo-emblem.png" width="105" height="74" alt="">
+      <span class="nh-logo__name"><span>מעון נווה</span> <span>האירוס</span></span><span class="nh-sr-only"> — לדף הבית</span>
     </a>
-    <p class="v3-mast__running" aria-hidden="true" data-running></p>
     <nav class="nh-nav" aria-label="ראשי">
       <ul role="list">
-        <li><a href="index.html#story" {{current:about}}>מי אנחנו</a></li>
-        <li><a href="index.html#homes" {{current:programs}}>מסגרות המגורים</a></li>
+        <li><a href="index.html#homes" {{current:programs}}>הבתים שלנו</a></li>
         <li><a href="index.html#day" {{current:life}}>החיים אצלנו</a></li>
+        <li><a href="index.html#story" {{current:about}}>מי אנחנו</a></li>
         <li><a href="index.html#jobs" {{current:jobs}}>דרושים</a></li>
         <li><a href="index.html#door" {{current:contact}}>יצירת קשר</a></li>
       </ul>
@@ -19,60 +18,45 @@
       <button class="v3-plainbtn" type="button" data-plain-toggle aria-pressed="false">
         <svg aria-hidden="true" focusable="false"><use href="#i-speech"/></svg><span>בשפה פשוטה</span>
       </button>
-      <div class="v3-display">
-        <button class="v3-display__btn" type="button" aria-expanded="false" aria-controls="v3-display-panel" data-display-open>
-          <svg aria-hidden="true" focusable="false"><use href="#i-sliders"/></svg><span>תצוגה</span>
-        </button>
-        <div class="v3-display__panel" id="v3-display-panel" role="group" aria-labelledby="v3-display-title" hidden>
-          <p class="v3-display__title" id="v3-display-title">הגדרות תצוגה</p>
-          <button type="button" class="v3-toggle" data-plain-toggle aria-pressed="false"><span>בשפה פשוטה</span><i aria-hidden="true"></i></button>
-          <button type="button" class="v3-toggle" data-motion-toggle aria-pressed="false"><span>הפחתת תנועה</span><i aria-hidden="true"></i></button>
-          <button type="button" class="v3-toggle" data-calm-toggle aria-pressed="false"><span>מצב רגוע</span><i aria-hidden="true"></i></button>
-          <p class="v3-display__note">הבחירה נשמרת בדפדפן הזה.</p>
-        </div>
-      </div>
       <a class="nh-phone" href="tel:+97289403047" aria-label="טלפון: 08-9403047">
         <svg aria-hidden="true" focusable="false"><use href="#i-phone"/></svg>
         <span class="nh-phone__num nh-ltr">08-9403047</span>
       </a>
-      <a class="nh-btn nh-btn--primary nh-btn--sm v3-mast__cta" href="index.html#door"><span class="v3-full">תיאום ביקור</span><span class="v3-plain">לקבוע ביקור</span></a>
+      <a class="nh-btn nh-btn--primary nh-btn--sm v3-mast__cta" href="index.html#door" data-visit-cta><span class="v3-full">תיאום ביקור</span><span class="v3-plain">לקבוע ביקור</span></a>
       <button class="nh-menu-btn" type="button" data-menu-open aria-haspopup="dialog" aria-expanded="false" aria-controls="nh-menu">
-        <svg aria-hidden="true" focusable="false"><use href="#i-menu"/></svg>
-        <span class="nh-sr-only">תפריט</span>
+        <svg aria-hidden="true" focusable="false"><use href="#i-menu"/></svg><span>תפריט</span>
       </button>
     </div>
   </div>
-  <div class="v3-progress" aria-hidden="true"></div>
 </header>
 
-<dialog class="nh-menu" id="nh-menu" aria-label="תפריט">
+<!-- the phone menu: opened only by «תפריט», at once (no animation); a modal dialog makes the rest of the page inert -->
+<dialog class="nh-menu" id="nh-menu" aria-labelledby="nh-menu-title">
   <div class="nh-menu__inner">
     <div class="nh-menu__top">
-      <span class="nh-wordmark" aria-hidden="true"><small>מעון</small> נווה האירוס</span>
-      <button class="nh-menu__close" type="button" data-menu-close>
-        <svg aria-hidden="true" focusable="false"><use href="#i-close"/></svg>
-        <span class="nh-sr-only">סגירת התפריט</span>
-      </button>
+      <p class="nh-menu__title" id="nh-menu-title">תפריט</p>
+      <button class="nh-menu__close" type="button" data-menu-close><svg aria-hidden="true" focusable="false"><use href="#i-close"/></svg><span>סגירה</span></button>
     </div>
-    <nav aria-label="ראשי">
-      <ul role="list">
-        <li><a href="index.html#story">מי אנחנו</a></li>
-        <li><a href="index.html#homes">מסגרות המגורים</a></li>
-        <li><a href="index.html#day">החיים אצלנו</a></li>
-        <li><a href="index.html#jobs">דרושים</a></li>
-        <li><a href="index.html#door">יצירת קשר</a></li>
-      </ul>
-    </nav>
-    <div class="nh-menu__meta">
-      <a class="nh-btn nh-btn--light" href="index.html#door"><span class="v3-full">תיאום ביקור</span><span class="v3-plain">לקבוע ביקור</span></a>
-      <a href="tel:+97289403047">טלפון: <span class="nh-ltr">08-9403047</span></a>
-      <div class="v3-menu-toggles" role="group" aria-label="הגדרות תצוגה">
-        <button type="button" class="v3-toggle" data-plain-toggle aria-pressed="false"><span>בשפה פשוטה</span><i aria-hidden="true"></i></button>
-        <button type="button" class="v3-toggle" data-motion-toggle aria-pressed="false"><span>הפחתת תנועה</span><i aria-hidden="true"></i></button>
-        <button type="button" class="v3-toggle" data-calm-toggle aria-pressed="false"><span>מצב רגוע</span><i aria-hidden="true"></i></button>
+    <div class="nh-menu__body">
+      <nav aria-label="ראשי">
+        <ul role="list">
+          <li><a href="index.html#homes" {{current:programs}}>הבתים שלנו</a></li>
+          <li><a href="index.html#day" {{current:life}}>החיים אצלנו</a></li>
+          <li><a href="index.html#story" {{current:about}}>מי אנחנו</a></li>
+          <li><a href="index.html#jobs" {{current:jobs}}>דרושים</a></li>
+          <li><a href="index.html#door" {{current:contact}}>יצירת קשר</a></li>
+        </ul>
+      </nav>
+      <div class="nh-menu__meta">
+        <a class="nh-btn nh-btn--primary nh-menu__cta" href="index.html#door" data-visit-cta><span class="v3-full">תיאום ביקור</span><span class="v3-plain">לקבוע ביקור</span></a>
+        <p class="nh-menu__call"><a href="tel:+97289403047">התקשרו: <span class="nh-ltr">08-9403047</span></a></p>
+        <div class="v3-switches" role="group" aria-label="הגדרות תצוגה">
+          <button type="button" class="v3-toggle" data-plain-toggle aria-pressed="false"><span class="v3-toggle__label">בשפה פשוטה</span><span class="v3-toggle__state" aria-hidden="true" data-on="פועל" data-off="כבוי"></span><i aria-hidden="true"></i></button>
+          <button type="button" class="v3-toggle" data-calm-toggle aria-pressed="false"><span class="v3-toggle__label">מצב רגוע</span><span class="v3-toggle__state" aria-hidden="true" data-on="פועל" data-off="כבוי"></span><i aria-hidden="true"></i></button>
+        </div>
+        <!-- a modal dialog makes the rest of the page inert, so the menu has its own live region -->
+        <p class="nh-sr-only" role="status" aria-live="polite" data-announce-menu></p>
       </div>
-      <!-- a modal dialog makes the rest of the page inert, so the menu has its own live region -->
-      <p class="nh-sr-only" role="status" aria-live="polite" data-announce-menu></p>
     </div>
   </div>
 </dialog>

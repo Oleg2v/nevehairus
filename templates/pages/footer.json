@@ -10,51 +10,508 @@
   "include/general"
  ],
  "page_settings": {
-  "content_wrapper_html_tag": "div"
+  "content_wrapper_html_tag": "footer"
  },
  "built_from": {
   "widgets": [
-   "colophon/prototype"
+   "display/default",
+   "heading",
+   "image",
+   "text-editor"
   ],
   "extra": null,
   "plugin": {
-   "version": "0.1.0",
-   "php_sha256": "0b23f9b82fe650266660e2d5a40d4dfde808b792bd3e9f7ba19e7cb155088c07"
+   "version": "0.2.0",
+   "php_sha256": "d9d1690709089fafe406fba9ce60667c41cad84690110de8a40b3bb369565ba1"
   },
-  "inputs_sha256": "773a5ac5199bf5c35a55a62de80e2aa3bb3eff006c31296a70c525c25e233269"
+  "inputs_sha256": "f1d3284214a3fbebf3eb73956bce4395d7d650421c72522aa6a946145eff6a76"
  },
  "elementor_data": [
   {
-   "id": "75d2dc6",
+   "id": "cbb7d37",
    "elType": "container",
    "settings": {
     "container_type": "flex",
-    "content_width": "full",
+    "content_width": "boxed",
+    "boxed_width": {
+     "unit": "px",
+     "size": 1440,
+     "sizes": []
+    },
     "flex_direction": "column",
     "flex_gap": {
      "column": "0",
-     "row": "0",
-     "isLinked": true,
+     "row": "32",
+     "isLinked": false,
      "unit": "px"
     },
+    "background_background": "classic",
+    "background_color": "#1C1830",
     "padding": {
      "unit": "px",
-     "top": "0",
-     "right": "0",
-     "bottom": "0",
-     "left": "0",
-     "isLinked": true
+     "top": "64",
+     "right": "48",
+     "bottom": "32",
+     "left": "48",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "px",
+     "top": "64",
+     "right": "32",
+     "bottom": "32",
+     "left": "32",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "px",
+     "top": "64",
+     "right": "16",
+     "bottom": "32",
+     "left": "16",
+     "isLinked": false
     }
    },
    "elements": [
     {
-     "id": "629eedc",
+     "id": "6e964c3",
+     "elType": "container",
+     "settings": {
+      "container_type": "grid",
+      "content_width": "full",
+      "grid_columns_grid": {
+       "unit": "custom",
+       "size": "5fr 3fr 4fr",
+       "sizes": []
+      },
+      "grid_columns_grid_tablet": {
+       "unit": "fr",
+       "size": 2,
+       "sizes": []
+      },
+      "grid_columns_grid_mobile": {
+       "unit": "fr",
+       "size": 1,
+       "sizes": []
+      },
+      "grid_rows_grid": {
+       "unit": "custom",
+       "size": "auto",
+       "sizes": []
+      },
+      "grid_gaps": {
+       "column": "32",
+       "row": "40",
+       "isLinked": false,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "0",
+       "bottom": "0",
+       "left": "0",
+       "isLinked": false
+      }
+     },
+     "elements": [
+      {
+       "id": "676ef0c",
+       "elType": "container",
+       "settings": {
+        "container_type": "flex",
+        "content_width": "full",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "0",
+         "row": "12",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": false
+        },
+        "grid_column_tablet": "2",
+        "grid_column_mobile": "1"
+       },
+       "elements": [
+        {
+         "id": "908dc15",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:logo-emblem",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "full",
+          "align": "start",
+          "width": {
+           "unit": "px",
+           "size": 51,
+           "sizes": []
+          },
+          "height": {
+           "unit": "px",
+           "size": 36,
+           "sizes": []
+          }
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "3ccb8af",
+         "elType": "widget",
+         "settings": {
+          "title": "מעון נווה האירוס",
+          "header_size": "p",
+          "title_color": "#F7F1E7",
+          "typography_typography": "custom",
+          "typography_font_family": "Frank Ruhl Libre",
+          "typography_font_size": {
+           "unit": "rem",
+           "size": 1.5,
+           "sizes": []
+          },
+          "typography_font_weight": "500",
+          "typography_line_height": {
+           "unit": "em",
+           "size": 1.15,
+           "sizes": []
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "9c7061f",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>בית לאנשים עם מוגבלות שכלית התפתחותית בנס ציונה, מאז 1957. בפיקוח משרד הרווחה והביטחון החברתי.</p>",
+          "text_color": "#CFC8DE",
+          "link_color": "#F7F1E7",
+          "typography_typography": "custom",
+          "typography_font_family": "Assistant",
+          "typography_font_size": {
+           "unit": "rem",
+           "size": 1,
+           "sizes": []
+          },
+          "typography_font_weight": "400",
+          "typography_line_height": {
+           "unit": "em",
+           "size": 1.5,
+           "sizes": []
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "91665ee",
+         "elType": "widget",
+         "settings": {
+          "editor": "<ul class=\"nh-footer-contacts\"><li>טלפון: <a href=\"tel:+97289403047\"><span dir=\"ltr\">08-9403047</span></a></li><li>פקס: <span dir=\"ltr\">08-9400805</span></li><li>מזכירות: <a href=\"mailto:@nh:email\"><span dir=\"ltr\">@nh:email</span></a></li><li>ת״ד 28, נס ציונה</li><li><a href=\"https://www.facebook.com/neveirus/\" rel=\"noopener\">נווה האירוס בפייסבוק<span class=\"elementor-screen-only\"> (נפתח באתר חיצוני)</span></a></li></ul>",
+          "text_color": "#CFC8DE",
+          "link_color": "#F7F1E7",
+          "typography_typography": "custom",
+          "typography_font_family": "Assistant",
+          "typography_font_size": {
+           "unit": "rem",
+           "size": 1,
+           "sizes": []
+          },
+          "typography_font_weight": "400",
+          "typography_line_height": {
+           "unit": "em",
+           "size": 1.5,
+           "sizes": []
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      },
+      {
+       "id": "83661b0",
+       "elType": "container",
+       "settings": {
+        "container_type": "flex",
+        "content_width": "full",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "0",
+         "row": "12",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": false
+        }
+       },
+       "elements": [
+        {
+         "id": "d68c039",
+         "elType": "widget",
+         "settings": {
+          "title": "ניווט",
+          "header_size": "h2",
+          "title_color": "#F2B33D",
+          "typography_typography": "custom",
+          "typography_font_family": "Assistant",
+          "typography_font_size": {
+           "unit": "rem",
+           "size": 1,
+           "sizes": []
+          },
+          "typography_font_weight": "700",
+          "typography_line_height": {
+           "unit": "em",
+           "size": 1.3,
+           "sizes": []
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "fb5ceb7",
+         "elType": "widget",
+         "settings": {
+          "editor": "<ul class=\"nh-footer-links\"><li><a href=\"/#homes\">הבתים שלנו</a></li><li><a href=\"/#day\">החיים אצלנו</a></li><li><a href=\"/#story\">מי אנחנו</a></li><li><a href=\"/#jobs\">דרושים</a></li><li><a href=\"/#door\">יצירת קשר</a></li></ul>",
+          "text_color": "#CFC8DE",
+          "link_color": "#F7F1E7",
+          "typography_typography": "custom",
+          "typography_font_family": "Assistant",
+          "typography_font_size": {
+           "unit": "rem",
+           "size": 1,
+           "sizes": []
+          },
+          "typography_font_weight": "400",
+          "typography_line_height": {
+           "unit": "em",
+           "size": 1.5,
+           "sizes": []
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      },
+      {
+       "id": "874355c",
+       "elType": "container",
+       "settings": {
+        "container_type": "flex",
+        "content_width": "full",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "0",
+         "row": "12",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": false
+        }
+       },
+       "elements": [
+        {
+         "id": "7f6cbc7",
+         "elType": "widget",
+         "settings": {
+          "title": "מידע ונגישות",
+          "header_size": "h2",
+          "title_color": "#F2B33D",
+          "typography_typography": "custom",
+          "typography_font_family": "Assistant",
+          "typography_font_size": {
+           "unit": "rem",
+           "size": 1,
+           "sizes": []
+          },
+          "typography_font_weight": "700",
+          "typography_line_height": {
+           "unit": "em",
+           "size": 1.3,
+           "sizes": []
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "1908c36",
+         "elType": "widget",
+         "settings": {
+          "editor": "<ul class=\"nh-footer-links\"><li><a href=\"#accessibility\">הצהרת נגישות</a></li><li><a href=\"#privacy\">מדיניות פרטיות</a></li><li><a href=\"#nh-cookies\">הגדרות עוגיות</a></li><li><a href=\"#sitemap\">מפת אתר</a></li><li><a href=\"#entrances\">מפרט כניסות נגישות (PDF)</a></li></ul>",
+          "text_color": "#CFC8DE",
+          "link_color": "#F7F1E7",
+          "typography_typography": "custom",
+          "typography_font_family": "Assistant",
+          "typography_font_size": {
+           "unit": "rem",
+           "size": 1,
+           "sizes": []
+          },
+          "typography_font_weight": "400",
+          "typography_line_height": {
+           "unit": "em",
+           "size": 1.5,
+           "sizes": []
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "2ef5896",
+         "elType": "widget",
+         "settings": {},
+         "elements": [],
+         "widgetType": "nh-display"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    },
+    {
+     "id": "f66e765",
      "elType": "widget",
      "settings": {
-      "html_tag": "footer"
+      "editor": "<p><b>קולופון.</b> גופנים: <span lang=\"en\" dir=\"ltr\">Frank Ruhl Libre</span> (יאנק יונטף) ו־<span lang=\"en\" dir=\"ltr\">Assistant</span> (בן נתן ו־<span lang=\"en\" dir=\"ltr\">Adobe</span>), ברישיון <span lang=\"en\" dir=\"ltr\">SIL OFL</span>. חמש אותיות שהשמות שלהן מילים של בית — ב׳, כ׳, ס׳, ל׳ ו־ד׳ — משמשות כאן כאדריכלות. הכדים, המנדלה והינשופים — עבודות יד של דיירות ודיירי נווה האירוס. הצילומים זמניים, ללא פנים מזוהות.</p>",
+      "text_color": "#CFC8DE",
+      "link_color": "#F7F1E7",
+      "typography_typography": "custom",
+      "typography_font_family": "Assistant",
+      "typography_font_size": {
+       "unit": "rem",
+       "size": 1,
+       "sizes": []
+      },
+      "typography_font_weight": "400",
+      "typography_line_height": {
+       "unit": "em",
+       "size": 1.5,
+       "sizes": []
+      }
      },
      "elements": [],
-     "widgetType": "nh-colophon"
+     "widgetType": "text-editor"
+    },
+    {
+     "id": "2aba9d6",
+     "elType": "container",
+     "settings": {
+      "container_type": "flex",
+      "content_width": "full",
+      "flex_direction": "row",
+      "flex_wrap": "wrap",
+      "flex_justify_content": "space-between",
+      "flex_gap": {
+       "column": "32",
+       "row": "4",
+       "isLinked": false,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "20",
+       "right": "0",
+       "bottom": "0",
+       "left": "0",
+       "isLinked": false
+      },
+      "border_border": "solid",
+      "border_width": {
+       "unit": "px",
+       "top": "1",
+       "right": "0",
+       "bottom": "0",
+       "left": "0",
+       "isLinked": false
+      },
+      "border_color": "rgba(247, 241, 231, 0.3)"
+     },
+     "elements": [
+      {
+       "id": "964b4bf",
+       "elType": "widget",
+       "settings": {
+        "editor": "<p>© מעון נווה האירוס. כל הזכויות שמורות.</p>",
+        "text_color": "#CFC8DE",
+        "link_color": "#F7F1E7",
+        "typography_typography": "custom",
+        "typography_font_family": "Assistant",
+        "typography_font_size": {
+         "unit": "rem",
+         "size": 1,
+         "sizes": []
+        },
+        "typography_font_weight": "400",
+        "typography_line_height": {
+         "unit": "em",
+         "size": 1.5,
+         "sizes": []
+        },
+        "__dynamic__": {
+         "editor": "[elementor-tag id=\"90fec9f\" name=\"current-date-time\" settings=\"%7B%22date_format%22%3A%22custom%22%2C%22custom_format%22%3A%22Y%22%2C%22before%22%3A%22%C2%A9+%22%2C%22after%22%3A%22+%D7%9E%D7%A2%D7%95%D7%9F+%D7%A0%D7%95%D7%95%D7%94+%D7%94%D7%90%D7%99%D7%A8%D7%95%D7%A1.+%D7%9B%D7%9C+%D7%94%D7%96%D7%9B%D7%95%D7%99%D7%95%D7%AA+%D7%A9%D7%9E%D7%95%D7%A8%D7%95%D7%AA.%22%7D\"]"
+        }
+       },
+       "elements": [],
+       "widgetType": "text-editor"
+      },
+      {
+       "id": "0ccd70c",
+       "elType": "widget",
+       "settings": {
+        "editor": "<p>עיצוב ופיתוח: <a href=\"https://koranga.co.il/\" rel=\"noopener\">קורנגה<span class=\"elementor-screen-only\"> (נפתח באתר חיצוני)</span></a></p>",
+        "text_color": "#CFC8DE",
+        "link_color": "#F7F1E7",
+        "typography_typography": "custom",
+        "typography_font_family": "Assistant",
+        "typography_font_size": {
+         "unit": "rem",
+         "size": 1,
+         "sizes": []
+        },
+        "typography_font_weight": "400",
+        "typography_line_height": {
+         "unit": "em",
+         "size": 1.5,
+         "sizes": []
+        }
+       },
+       "elements": [],
+       "widgetType": "text-editor"
+      }
+     ],
+     "isInner": true
     }
    ],
    "isInner": false

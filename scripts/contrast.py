@@ -10,6 +10,9 @@ Thresholds (WCAG 2.1/2.2 AA, the level ת"י 5568 requires):
   text        4.5:1  (normal text)
   large       3.0:1  (>= 24px regular or >= 18.66px bold)
   ui          3.0:1  (1.4.11 non-text: borders of inputs, focus rings, icons)
+  deco        none   (decorative hairlines: never the only cue, so no threshold; listed for the record)
+A pair marked "unused" is listed to show why a combination is not used (e.g. the logo's violet on night);
+it is not counted as a failure.
 """
 import json
 import sys
@@ -31,7 +34,7 @@ TOKENS = {
     "night": "#1C1830",
     "night-2": "#2B2647",
     "on-night-2": "#CFC8DE",
-    "field-border": "#857A6B",
+    "field-border": "#4F5550",   # --nh-field since v3.2 (research/07 §3 p. 9): 2px, 6.80:1 on paper (v3.1: #857A6B)
     "error": "#A8261B",
     # v2 «ב׳ — בית»: day colour script (top colour of each moment)
     "v2-dawn": "#F6CFAE",
@@ -42,6 +45,10 @@ TOKENS = {
     "v3-ink": "#1C1830",
     "iris-text": "#E2DAF0",
     "toggle-dark": "#8F84A6",
+    # v3.2 «calm» (research/07 §7.4)
+    "hair": "#A19F98",          # --v3-hair: ink at 40% on paper
+    "hair-dark": "#5E5967",     # paper at 30% on night
+    "logo-violet": "#4F3B97",   # the violet lettering of the logo file (≈)
 }
 
 # (foreground, background, kind, usage)
@@ -86,12 +93,25 @@ PAIRS = [
     # v3
     ("iris-text", "iris-700", "text", "v3: лид и адрес на ирисовом развороте ד"),
     ("white", "iris-700", "text", "v3: заголовок и телефон на развороте ד"),
-    ("ink", "citrus-400", "text", "v3: весь текст на цитрусовом развороте כ"),
     ("paper", "v3-ink", "text", "v3: текст на ночном развороте «голоса»"),
     ("field-border", "paper", "ui", "v3: дорожка выключенного переключателя (1.4.11)"),
     ("olive-700", "paper", "ui", "v3: дорожка включённого переключателя"),
     ("toggle-dark", "night", "ui", "v3: дорожка переключателя в подвале"),
     ("ink", "paper", "ui", "v3: линейка разворота и рамка кнопки «בשפה פשוטה»"),
+    # v3.2 «calm» (research/07 §7.4)
+    ("ink", "citrus-100", "text", "v3.2: весь текст на развороте כ («мёд»), подложка строки индекса"),
+    ("ink-2", "citrus-100", "text", "v3.2: мелкий текст на «мёде»"),
+    ("iris-700", "citrus-100", "text", "v3.2: ссылки и кольцо фокуса на «мёде»"),
+    ("ink-2", "sky-200", "text", "v3.2: мелкий текст на подложке «небо»"),
+    ("ink", "paper-2", "text", "v3.2: «מצב רגוע» — разворот כ становится песком"),
+    ("olive-700", "paper", "ui", "v3.2: рамка 2px кнопки «בשפה פשוטה» в шапке"),
+    ("citrus-400", "iris-700", "ui", "v3.2: кольцо фокуса на ирисовом развороте ד"),
+    ("citrus-400", "night", "ui", "v3.2: включённый переключатель в подвале"),
+    ("ink", "citrus-100", "text", "v3.2: кнопка «צפו בסרטון» при наведении"),
+    ("hair", "paper", "deco", "v3.2: волосная линия между строками (не единственный признак)"),
+    ("hair-dark", "night", "deco", "v3.2: волосная линия на тёмном"),
+    ("logo-violet", "paper", "text", "v3.2: фиолетовый текст логотипа на бумаге"),
+    ("logo-violet", "night", "text", "v3.2: фиолетовый текст логотипа на тёмном — поэтому в подвале только эмблема", False),
 ]
 
 
@@ -110,22 +130,26 @@ def ratio(a, b):
 
 def main():
     rows = []
-    for fg, bg, kind, usage in PAIRS:
+    for fg, bg, kind, usage, *rest in PAIRS:
+        used = rest[0] if rest else True
         r = ratio(TOKENS[fg], TOKENS[bg])
-        need = 4.5 if kind == "text" else 3.0
+        need = {"text": 4.5, "ui": 3.0}.get(kind)
         rows.append({"fg": fg, "bg": bg, "fg_hex": TOKENS[fg], "bg_hex": TOKENS[bg],
-                     "ratio": round(r, 2), "kind": kind, "need": need,
-                     "aa": r >= need, "aaa_text": kind == "text" and r >= 7.0, "usage": usage})
+                     "ratio": round(r, 2), "kind": kind, "need": need, "used": used,
+                     "aa": None if need is None else r >= need, "aaa_text": kind == "text" and r >= 7.0,
+                     "usage": usage if used else usage + " (не используется)"})
     if "--json" in sys.argv:
         print(json.dumps({"tokens": TOKENS, "pairs": rows}, ensure_ascii=False, indent=1))
         return
     print("| Передний план | Фон | Контраст | Порог | AA | AAA (текст) | Где используется |")
     print("|---|---|---:|---:|:---:|:---:|---|")
     for r in rows:
-        print(f"| `{r['fg']}` {r['fg_hex']} | `{r['bg']}` {r['bg_hex']} | {r['ratio']}:1 | {r['need']}:1 | "
-              f"{'✅' if r['aa'] else '❌'} | {'✅' if r['aaa_text'] else '—'} | {r['usage']} |")
-    bad = [r for r in rows if not r["aa"]]
-    print(f"\nИтого пар: {len(rows)}; не проходят AA: {len(bad)}")
+        need = f"{r['need']}:1" if r["need"] else "—"
+        aa = "—" if r["aa"] is None else ("✅" if r["aa"] else "❌")
+        print(f"| `{r['fg']}` {r['fg_hex']} | `{r['bg']}` {r['bg_hex']} | {r['ratio']}:1 | {need} | "
+              f"{aa} | {'✅' if r['aaa_text'] else '—'} | {r['usage']} |")
+    bad = [r for r in rows if r["aa"] is False and r["used"]]
+    print(f"\nИтого пар: {len(rows)}; используемые пары, не проходящие AA: {len(bad)}")
 
 
 if __name__ == "__main__":

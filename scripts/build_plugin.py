@@ -69,6 +69,23 @@ PHP81 = [
     (re.compile(r"\bfinal\s+(?:public\s+|protected\s+|private\s+)?const\b"), "final class constant (PHP 8.1)"),
 ]
 GUARD = re.compile(r"defined\(\s*'ABSPATH'\s*\)\s*\|\|\s*exit\s*;")
+# v3.2 calm (research/07 §4, §11.3 item 5, §17.1): motion the agency's rules forbid, in the plugin's CSS (comments
+# stripped first) and scripts. One soft appearance, colour changes on hover and focus, accordions: nothing else.
+MOTION_CSS = [
+    (re.compile(r"@keyframes"), "@keyframes"),
+    (re.compile(r"animation-timeline"), "animation-timeline"),
+    (re.compile(r"view-transition"), "view-transition"),
+    (re.compile(r"@property"), "@property"),
+    (re.compile(r"scroll-behavior\s*:\s*smooth"), "scroll-behavior: smooth"),
+    (re.compile(r"position\s*:\s*sticky"), "position: sticky"),
+]
+MOTION_JS = [
+    (re.compile(r"""addEventListener\(\s*["']scroll["']"""), 'a "scroll" listener'),
+    (re.compile(r"\bResizeObserver\b"), "ResizeObserver"),
+    (re.compile(r"\bstartViewTransition\b"), "view transitions"),
+]
+CSS_COMMENT = re.compile(r"/\*.*?\*/", re.S)
+JS_COMMENT = re.compile(r"/\*.*?\*/|(?<![:\\])//[^\n]*", re.S)
 
 
 def rel(path):
@@ -171,6 +188,12 @@ def check(run_harness=True, phpcs=False):
             for m in rx.finditer(text):
                 line = text.count("\n", 0, m.start()) + 1
                 err(f"{r}:{line}: forbidden pattern {what}")
+        # v3.2: no forbidden motion (the synced tokens.css included: it is the prototype's, checked there too)
+        if path.endswith(".css") or path.endswith(".js"):
+            code = (CSS_COMMENT if path.endswith(".css") else JS_COMMENT).sub("", text)
+            for rx, what in (MOTION_CSS if path.endswith(".css") else MOTION_JS):
+                if rx.search(code):
+                    err(f"{r}: {what} (v3.2 calm: research/07 §4, §17.1)")
         if not r.startswith("assets/fonts/OFL-"):   # third-party licence texts are copied verbatim
             for m in EMAIL.finditer(text):
                 if not EMAIL_OK.search(m.group(0)):

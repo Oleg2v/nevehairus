@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: נווה האירוס — אתר
- * Description: Elementor widgets and site module for the v3.1 design.
- * Version: 0.1.0
+ * Description: Elementor widgets and site module for the v3.2 design. Loads its CSS and JS only on pages that use its widgets.
+ * Version: 0.2.0
  * Requires at least: 7.0
  * Requires PHP: 8.0
  * Author: קורנגה
@@ -24,7 +24,7 @@ if ( defined( 'NH_VERSION' ) ) {
 	return; // Loaded twice (a copy of the plugin in another folder): keep the first one.
 }
 
-define( 'NH_VERSION', '0.1.0' );
+define( 'NH_VERSION', '0.2.0' );
 define( 'NH_FILE', __FILE__ );
 define( 'NH_DIR', plugin_dir_path( __FILE__ ) );
 define( 'NH_URL', plugin_dir_url( __FILE__ ) );
@@ -70,5 +70,12 @@ foreach (
 	require_once NH_DIR . 'includes/' . $nh_class_file;
 }
 unset( $nh_class_file );
+
+/*
+ * Activation and deactivation clear Elementor's caches (research/07 §12.3): its element cache keeps the HTML
+ * of static widgets for up to a day, which must not outlive the plugin, nor survive into a new version.
+ */
+register_activation_hook( __FILE__, [ 'NH_Plugin', 'activate' ] );
+register_deactivation_hook( __FILE__, [ 'NH_Plugin', 'deactivate' ] );
 
 add_action( 'plugins_loaded', [ 'NH_Plugin', 'boot' ] );

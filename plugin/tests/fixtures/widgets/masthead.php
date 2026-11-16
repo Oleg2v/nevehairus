@@ -1,9 +1,9 @@
 <?php
 /**
- * Harness fixture: widget «masthead» (SPEC §4.18, §11.2–11.4).
+ * Harness fixture: widget «masthead» (SPEC §4.18, §11.2–11.4; research/07 §5, §6, §10.1 items 1–2).
  *
  * Variants: settings overrides (merged into the control defaults), NH settings overrides
- * (`options`), the compare target in the built prototype and the expected differences.
+ * (`options`), the queried post, the compare target in the built prototype and the expected differences.
  * Texts in the non-compared variants are test data only.
  *
  * @package nevehairus-site
@@ -11,26 +11,35 @@
 
 defined( 'ABSPATH' ) || exit;
 
+$nh_emblem = [
+	'id'  => nh_test_media_id( 'logo-emblem' ),
+	'url' => '',
+];
+
 return [
 	'variants' => [
 
-		// What an editor sees after dropping the widget: the root is a <div> (D3: the default, for a
-		// header template that keeps Pro's own <header> wrapper; the site's template sets that wrapper
-		// to div and this control to header, as the `prototype` variant). Everything else as index.html.
-		'default'   => [
+		// What an editor sees after dropping the widget: the root is a <div> (D3: the default, for a header
+		// template that keeps Pro's own <header> wrapper; the site's template sets that wrapper to div and this
+		// control to header, as the `prototype` variant) and no emblem is chosen yet (only the name shows).
+		'default'         => [
 			'settings'    => [],
 			'compare'     => [
 				'page'      => 'index.html',
 				'selectors' => [ 'header.nh-header', 'dialog#nh-menu' ],
 			],
 			'expect_diff' => [
-				'root tag of .nh-header: div instead of header (D3)',
+				'^[-+]div\.nh-header\.v3-mast$|^[-+]header\.nh-header\.v3-mast$',   // the root tag (D3)
+				'^-\s+img\.nh-logo__mark ',                                        // no emblem chosen yet
 			],
 		],
 
-		// The root switched to <header>: the same tree as the prototype's header and menu.
-		'prototype' => [
-			'settings'    => [ 'html_tag' => 'header' ],
+		// The root switched to <header> and the emblem chosen: the same tree as the prototype's header and menu.
+		'prototype'       => [
+			'settings'    => [
+				'html_tag' => 'header',
+				'logo'     => $nh_emblem,
+			],
 			'compare'     => [
 				'page'      => 'index.html',
 				'selectors' => [ 'header.nh-header', 'dialog#nh-menu' ],
@@ -38,15 +47,17 @@ return [
 			'expect_diff' => [],
 		],
 
-		// On a house page: «מסגרות המגורים» marks the current section (the stub's queried post is 10),
-		// as in program-main-home.html.
-		'house'     => [
+		// On a house page (the queried post is 11): «הבתים שלנו» marks the section the page belongs to
+		// (aria-current="true" from current_ids), as in program-main-home.html.
+		'house'           => [
 			'settings'    => [
 				'html_tag' => 'header',
+				'logo'     => $nh_emblem,
 				'nav'      => [
-					1 => [ 'current_ids' => '10' ],
+					0 => [ 'current_ids' => '11' ],
 				],
 			],
+			'queried'     => 11,
 			'compare'     => [
 				'page'      => 'program-main-home.html',
 				'selectors' => [ 'header.nh-header', 'dialog#nh-menu' ],
@@ -54,50 +65,54 @@ return [
 			'expect_diff' => [],
 		],
 
-		// Plain-language twins in states 2 (both), 3 (hidden in plain mode) and 4 (plain only).
-		'plain'     => [
+		// A link to the page itself: aria-current="page" (the stub's queried post 12 is the jobs page).
+		'page'            => [
 			'settings' => [
-				'wordmark_plain'         => 'נווה האירוס',
-				'display_title'          => '',
-				'display_title_plain'    => 'איך רואים את האתר',
-				'display_note_plain'     => '-',
+				'nav' => [
+					3 => [ 'link' => [ 'url' => 'https://nh.test/jobs/' ] ],
+				],
+			],
+			'queried'  => 12,
+		],
+
+		// Plain-language twins in states 2 (both), 3 (hidden in plain mode) and 4 (plain only); the name in two
+		// modes (each split at its last space).
+		'plain'           => [
+			'settings' => [
+				'name_plain'             => 'נווה האירוס',
 				'toggle_calm_plain'      => 'פחות תנועה וצבעים רכים',
 				'menu_phone_label_plain' => 'להתקשר:',
 				'nav'                    => [
-					0 => [ 'label_plain' => 'מי אנחנו?' ],
+					0 => [ 'label_plain' => 'הבתים' ],
 					4 => [ 'label_plain' => 'לדבר איתנו' ],
 				],
 			],
 		],
 
-		// A logo from the media library replaces the wordmark in the logo link (alt from the media library).
-		'logo'      => [
+		// Six links: only the first five are shown (editors see a note).
+		'six'             => [
 			'settings' => [
-				'logo' => [
-					'id'  => nh_test_media_id( 'v3-courtyard' ),
-					'url' => '',
+				'nav' => [
+					5 => [
+						'label' => 'עוד',
+						'link'  => [ 'url' => 'https://nh.test/sitemap/' ],
+					],
 				],
 			],
 		],
 
-		// A logo marked decorative: alt="" and the wordmark text names the link in the visually hidden span.
-		'logo-decorative' => [
-			'settings' => [
-				'logo'            => [
-					'id'  => nh_test_media_id( 'v3-courtyard' ),
-					'url' => '',
-				],
-				'logo_decorative' => 'yes',
-			],
-		],
-
-		// Parts with nothing to show are left out: no phone in the settings, no visit-button text,
-		// no panel note, a link row without text and a link row without a URL.
-		'sparse'    => [
+		// Parts with nothing to show are left out: no phone in the settings, no visit-button text, no name
+		// (the link keeps its screen-reader text), a link row without text and a link row without a URL; the
+		// state words, the menu's word and «סגירה» emptied (the switches lose their words, the buttons fall back).
+		'sparse'          => [
 			'settings' => [
 				'cta_text'       => '',
 				'cta_text_plain' => '',
-				'display_note'   => '',
+				'name'           => '',
+				'menu_label'     => '',
+				'menu_close'     => '',
+				'state_on'       => '',
+				'state_off'      => '',
 				'nav'            => [
 					0 => [ 'label' => '' ],
 					3 => [ 'link' => [ 'url' => '' ] ],
@@ -109,10 +124,13 @@ return [
 			],
 		],
 
-		// Own visit-button link instead of the visit URL from the settings.
-		'cta-link'  => [
+		// Own visit-button link instead of the visit URL from the settings; one-word name; other state words.
+		'cta-link'        => [
 			'settings' => [
-				'cta_link' => [ 'url' => '#visit' ],
+				'cta_link'  => [ 'url' => '#visit' ],
+				'name'      => 'נווה',
+				'state_on'  => 'כן',
+				'state_off' => 'לא',
 			],
 		],
 	],

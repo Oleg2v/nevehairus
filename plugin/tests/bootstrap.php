@@ -99,7 +99,7 @@ function nh_test_reset_request( array $options = [], array $get = [] ): void {
 		[ 'NH_Site', 'opened', false ],
 		[ 'NH_Site', 'footed', false ],
 		[ 'NH_Site', 'queue', [] ],
-		[ 'NH_Site', 'template', '' ],
+		[ 'NH_Site', 'uses', null ],
 	] as [ $class, $prop, $value ] ) {
 		if ( class_exists( $class ) ) {
 			$p = new ReflectionProperty( $class, $prop );
@@ -149,6 +149,8 @@ function nh_test_fixture( string $id ): array {
 				'settings'    => [],
 				'options'     => [],
 				'get'         => [],
+				'queried'     => 10,      // the post being shown (NH_TEST_PAGES): 10 = the home page, 11 = a house page
+				'empty'       => false,   // true: the settings leave nothing to show (run.php expects an empty render)
 				'compare'     => null,
 				'expect_diff' => [],
 			],
@@ -192,6 +194,7 @@ function nh_test_render( string $id, string $variant ): array {
 	}
 	$v = $fixture['variants'][ $variant ];
 	nh_test_reset_request( (array) $v['options'], (array) $v['get'] );
+	$GLOBALS['nh_test']['queried'] = (int) $v['queried'];
 	$widget = nh_test_widget( $id, $variant, (array) $v['settings'] );
 	return [
 		'html'    => $widget->nh_test_render(),
@@ -244,9 +247,12 @@ function nh_test_resolve( string $kind, array $handles ): array {
 }
 
 /**
- * A full test page around rendered widgets: `html[lang=he][dir=rtl].js`, the head of the site module,
- * the CSS of every widget (tokens, base, …), body.v3 with the body-open parts, main#main with the widgets
- * inside Elementor-like wrappers, the footer parts, nhData and the scripts.
+ * A full test page around rendered widgets, as the site prints it with the child theme: `html[lang=he]
+ * [dir=rtl]`, the head of the site module, the CSS of every widget (tokens, base, …) then the theme's
+ * style.css (printed after them on the site), the body class of NH_Site with the body-open parts, the
+ * theme's skip link and main#content with the widgets inside Elementor-like wrappers, the footer parts,
+ * nhData and the scripts. The queried post (10) holds the widgets in its `_elementor_data` (written here
+ * when it does not already), so NH_Site::uses_widgets() sees a page that uses them.
  *
  * @param array  $parts   [ [ 'id' => widget id, 'html' => …, 'widget' => obj ] ] in page order.
  * @param array  $o       title, plain (bool), header (part, outside main), footer (part, outside main).
@@ -286,16 +292,37 @@ function nh_test_page( array $parts, array $o = [] ): string {
 		$body .= isset( $p['comment'] ) ? '<!-- ' . $p['comment'] . " -->\n" : $wrap( $p );
 	}
 
+	$queried = (int) get_queried_object_id();
+	if ( ! NH_Site::has_widget( $queried ) ) {
+		$elements = [];
+		foreach ( array_filter( array_merge( [ $o['header'] ], $parts, [ $o['footer'] ] ) ) as $p ) {
+			if ( isset( $p['widget'] ) ) {
+				$elements[] = [
+					'id'         => (string) $p['widget']->get_id(),
+					'elType'     => 'widget',
+					'widgetType' => $p['widget']->get_name(),
+				];
+			}
+		}
+		update_post_meta( $queried, '_elementor_data', wp_json_encode( [ [ 'elType' => 'container', 'elements' => $elements ] ] ) );
+		$memo = new ReflectionProperty( 'NH_Site', 'uses' );
+		$memo->setAccessible( true );
+		$memo->setValue( null, null );
+	}
+	$css .= '<link rel="stylesheet" id="nh-child-css" href="../../../theme/hello-elementor-child/style.css">' . "\n";
+
 	$head   = nh_test_capture( [ 'NH_Site', 'head' ] );
 	$open   = nh_test_capture( [ 'NH_Site', 'body_open' ] );
 	$footer = nh_test_capture( [ 'NH_Site', 'footer' ] );
-	$class  = 'js' . ( $o['plain'] ? ' nh-plainmode' : '' );
+	$class  = $o['plain'] ? ' class="nh-plainmode"' : '';
+	$bodyc  = implode( ' ', NH_Site::body_class( [] ) );
 
-	return "<!doctype html>\n<html lang=\"he\" dir=\"rtl\" class=\"" . $class . "\">\n<head>\n<meta charset=\"utf-8\">\n"
+	return "<!doctype html>\n<html lang=\"he\" dir=\"rtl\"" . $class . ">\n<head>\n<meta charset=\"utf-8\">\n"
 		. "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"robots\" content=\"noindex, nofollow\">\n"
-		. '<title>' . esc_html( $o['title'] ) . "</title>\n" . $head . $css . "</head>\n<body class=\"v3\">\n" . $open
+		. '<title>' . esc_html( $o['title'] ) . "</title>\n" . $head . $css . "</head>\n<body class=\"" . esc_attr( $bodyc ) . "\">\n" . $open
+		. "<a class=\"nh-skip\" href=\"#content\">דילוג לתוכן הראשי</a>\n"
 		. ( $o['header'] ? $wrap( $o['header'] ) : '' )
-		. "<main id=\"main\" class=\"nh-main\" tabindex=\"-1\">\n<div class=\"elementor elementor-10\" data-elementor-type=\"wp-page\">\n<div class=\"elementor-element e-con-full e-flex e-con e-parent\" data-element_type=\"container\">\n"
+		. "<main id=\"content\" class=\"site-main\" tabindex=\"-1\">\n<div class=\"elementor elementor-10\" data-elementor-type=\"wp-page\">\n<div class=\"elementor-element e-con-full e-flex e-con e-parent\" data-element_type=\"container\">\n"
 		. $body . "</div>\n</div>\n</main>\n"
 		. ( $o['footer'] ? $wrap( $o['footer'] ) : '' )
 		. $footer . $js . "</body>\n</html>\n";

@@ -1,35 +1,21 @@
 /* =========================================================================
-   nh-kaf — כ׳ · the palm that holds the residents' works (SPEC §4.6).
-   Verbatim from prototype/assets/css/v3.css: L254–271; from L459 the selector
-   .v3-swatches; L461; from L474 the selector .v3-kaf__palm .v3-room__photo img.
-   The shared two-column grid (v3.css L252–253) lives in base.css, the room in letters.css.
+   nh-kaf — כ׳ · the palm that holds one work of the residents (SPEC §4.6).
+   v3.2 (research/07 §10.2 item 5): one still work in the palm and a visible caption; the list of
+   works, the colour swatches and the crossfade are gone. From prototype/assets/css/v3.css (v3.2,
+   the «כ׳ · Crafts in the palm» block and the plain-mode letter size). The shared two-column grid
+   and the honey ground live in base.css, the room in letters.css.
    ========================================================================= */
 
 /* ---------- כ׳ · Crafts in the palm --------------------------------------- */
 .v3-kaf__letter { inline-size: min(78vw, 26rem); }
-.v3-kaf__palm .v3-room__photo img { transition: opacity .3s ease; }
-.v3-works { list-style: none; margin: 2rem 0 1.25rem; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
-.v3-works > li { border-block-end: 1px solid rgb(31 36 33 / .4); }
-.v3-work { display: flex; align-items: baseline; gap: 1rem; inline-size: 100%; min-block-size: 3rem; padding-block: .8rem; text-align: start; color: var(--nh-ink); font: 400 clamp(1.3rem, 1.1rem + .6vw, 1.65rem)/1.2 var(--nh-font-display); }
-.v3-work[aria-pressed="true"] { font-weight: 600; }
-.v3-work:hover { text-decoration: underline; text-underline-offset: .25em; text-decoration-thickness: 1px; }
-.v3-swatches { display: none; list-style: none; margin: 0; padding: 0 0 1rem; flex-wrap: wrap; gap: .5rem 1.25rem; font-size: .9375rem; font-weight: 600; }
-.v3-work[aria-pressed="true"] + .v3-swatches { display: flex; }
-.v3-swatches i { display: inline-block; inline-size: 1.3rem; block-size: 1.3rem; background: var(--c); vertical-align: -.25em; margin-inline-end: .45rem; box-shadow: inset 0 0 0 1px rgb(0 0 0 / .3); transform: rotate(-3deg); }
-.v3-kaf__cap { font-size: 1rem; margin: 1.75rem 0 0; }
-.v3-kaf__cap b { font-weight: 700; }
+.v3-kaf__cap { font-size: var(--v3-fs-body); line-height: 1.65; max-inline-size: 40ch; margin: 0 0 2rem; }
+html.nh-plainmode .v3-kaf__cap { margin-block-start: 1.5rem; }
 @media (min-width: 64em) {
   .v3-kaf { padding-block-end: 0; overflow: clip; }
   .v3-kaf__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: end; }
   .v3-kaf__letter { inline-size: 100%; max-inline-size: 31rem; margin-block-end: -3.25rem; }   /* the base runs off the spread */
-  .v3-kaf__text { align-self: center; padding-block-end: clamp(4.5rem, 2.5rem + 6vw, 9rem); }
+  .v3-kaf__text { align-self: center; padding-block-end: var(--v3-pad); }
 }
 
-/* ---------- Plain-language mode: no colour credits, a smaller letter (v3.css L459, L461) ---------- */
-html.nh-plainmode .v3-swatches { display: none !important; }
+/* ---------- Plain-language mode: a smaller letter ---------- */
 html.nh-plainmode .v3-kaf__letter { max-inline-size: 18rem; }
-
-/* ---------- Reduced motion (v3.css L474): the palm swaps its work without a fade ---------- */
-@media (prefers-reduced-motion: reduce) {
-  .v3-kaf__palm .v3-room__photo img { transition: none; }
-}

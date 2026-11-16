@@ -2,12 +2,15 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Style and script handles (SPEC §2.4, §3.2).
+ * Style and script handles (SPEC §2.4, §3.2; research/07 §12.1).
  *
  * Core handles are fixed; widget handles are registered by convention: every
  * `assets/css/widgets/<id>.css` becomes style `nh-w-<id>` and every `assets/js/widgets/<id>.js` script
- * `nh-w-<id>`. Only nh-tokens, nh-base and nh-core are enqueued on every page; the rest comes through
- * the widgets' get_style_depends() / get_script_depends().
+ * `nh-w-<id>`. Every handle is registered on every front-end page, but nothing is enqueued on a page that
+ * does not use our widgets: the widgets name nh-base and nh-core in get_style_depends() /
+ * get_script_depends(), Elementor stores those in the document's `_elementor_page_assets` and enqueues
+ * them only where a widget is; enqueue_site() puts tokens, base CSS and nh-core in the `<head>` early,
+ * but only when NH_Site::uses_widgets().
  *
  * @package nevehairus-site
  */
@@ -21,11 +24,15 @@ final class NH_Assets {
 	}
 
 	/**
-	 * `wp_enqueue_scripts` @20.
+	 * `wp_enqueue_scripts` @20: registration always; the site-wide part only on pages that use our widgets
+	 * (in the requested post or in the Theme Builder header/footer shown on it), so the core CSS is printed
+	 * in the `<head>` there and nowhere else.
 	 */
 	public static function enqueue(): void {
 		self::register();
-		self::enqueue_site();
+		if ( NH_Site::uses_widgets() ) {
+			self::enqueue_site();
+		}
 	}
 
 	/**
@@ -41,6 +48,12 @@ final class NH_Assets {
 		self::style( 'nh-letters', 'assets/css/letters.css', [ 'nh-base' ] );
 		self::style( 'nh-forms', 'assets/css/forms.css', [ 'nh-base' ] );
 		self::script( 'nh-core', 'assets/js/nh-core.js', [] );
+		// window.nhData is attached to nh-core itself: it is printed only together with the script.
+		wp_add_inline_script(
+			'nh-core',
+			'window.nhData=' . wp_json_encode( NH_Site::js_data(), JSON_HEX_TAG | JSON_HEX_AMP ) . ';',
+			'before'
+		);
 		self::script( 'nh-forms', 'assets/js/nh-forms.js', [ 'nh-core' ] );
 
 		foreach ( self::files( 'assets/css/widgets', 'css' ) as $id ) {
@@ -52,7 +65,8 @@ final class NH_Assets {
 	}
 
 	/**
-	 * The site-wide part, front end only: tokens, base CSS, nh-core and window.nhData.
+	 * The core part, front end only: tokens, base CSS and nh-core (with window.nhData). Called by enqueue()
+	 * only when NH_Site::uses_widgets().
 	 */
 	public static function enqueue_site(): void {
 		if ( is_admin() ) {
@@ -61,11 +75,6 @@ final class NH_Assets {
 		wp_enqueue_style( 'nh-tokens' );
 		wp_enqueue_style( 'nh-base' );
 		wp_enqueue_script( 'nh-core' );
-		wp_add_inline_script(
-			'nh-core',
-			'window.nhData=' . wp_json_encode( NH_Site::js_data(), JSON_HEX_TAG | JSON_HEX_AMP ) . ';',
-			'before'
-		);
 	}
 
 	/**

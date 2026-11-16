@@ -17,7 +17,7 @@
 .nh-input, .nh-select, .nh-textarea {
   inline-size: 100%; min-block-size: 3.25rem; padding: .75rem 1rem; border: 1.5px solid var(--nh-field);
   border-radius: var(--nh-r-sm); background: var(--nh-white); color: var(--nh-ink); line-height: 1.4;
-  transition: border-color var(--nh-dur-1), box-shadow var(--nh-dur-1);
+  transition: border-color .15s ease;   /* v3.2 (research/07 §4.1): only the border colour changes */
 }
 .nh-textarea { min-block-size: 8rem; resize: vertical; }
 .nh-input:hover, .nh-select:hover, .nh-textarea:hover { border-color: var(--nh-ink); }

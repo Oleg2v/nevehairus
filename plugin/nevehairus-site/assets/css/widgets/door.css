@@ -1,7 +1,8 @@
 /* =========================================================================
    nevehairus-site · widget "door" (ד׳ · הדלת וטופס ביקור) — SPEC §4.12
    Verbatim from prototype/assets/css/v3.css (commit 4173d31):
-   - L388–433  the wide ד, the form in its doorway, the contact, the opening lintel;
+   - L388–433  the wide ד, the form in its doorway, the contact (v3.2: without the opening lintel,
+               L428–433 — the door is drawn open and nothing moves, research/07 §10.2 item 11);
    - L484      from the forced-colours group, the selectors .v3-door__bar, .v3-door__leg.
    Elsewhere: the shared grid .v3-door__grid (v3.css L252–253) is in base.css, the ink of the
    letter (.v3-letter__ink) in letters.css, the fields, alerts and notes in forms.css.
@@ -10,8 +11,7 @@
 /* ---------- ד׳ · The door (iris) ----------------------------------------------
    The ד is drawn wide, as scribes stretch letters to fill a line: its head (the end of the lintel and
    the leg) at the start, its flag at the far end, a bar between them. The visit form stands in the
-   doorway. Once, when the door is reached, the lintel extends from 60% to the full width. --k is the
-   scale of one font unit (Frank Ruhl Libre, wght 300). */
+   doorway. --k is the scale of one font unit (Frank Ruhl Libre, wght 300). */
 .v3-door { overflow: clip; }
 .v3-door__top { max-inline-size: 46rem; }
 .v3-door__way { position: relative; --k: .4px; --open: 1; padding-block-start: calc(122 * var(--k) + 2rem); padding-inline-start: calc(95 * var(--k) + 1rem); }
@@ -47,12 +47,7 @@
   .v3-door__in { grid-template-columns: minmax(0, 42rem) minmax(0, 1fr); align-items: start; column-gap: clamp(2rem, 1rem + 3vw, 5rem); }
   .v3-door__contact { padding-block-start: 1rem; }
 }
-/* the door opens: once, when it is reached, the lintel extends toward the far end */
-@property --open { syntax: "<number>"; inherits: true; initial-value: 1; }
-@media (prefers-reduced-motion: no-preference) {
-  html.v3-ready:not(.nh-reduce-motion):not(.nh-calm) .v3-door__way { --open: .6; transition: --open .9s var(--nh-ease-in-out); }
-  html.v3-ready:not(.nh-reduce-motion):not(.nh-calm) .v3-door__way.is-open { --open: 1; }
-}
+/* v3.2 (research/07 §4.4 item 17, §10.2 item 11): the ד is drawn open (--open: 1 above); nothing moves */
 
 /* ---------- Forced colours (v3.css L478–487: the door's selectors of L484) ---- */
 @media (forced-colors: active) {

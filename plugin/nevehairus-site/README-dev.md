@@ -1,6 +1,7 @@
 # nevehairus-site — developer notes
 
-The Elementor plugin of the v3.1 design. The contract is [`plugin/SPEC.md`](../SPEC.md): read it first.
+The Elementor plugin of the v3.2 design («calm»: [`research/07-calm-v3.2.md`](../../research/07-calm-v3.2.md)). The
+contract is [`plugin/SPEC.md`](../SPEC.md): read it first, then its §14 (what v3.2 changed).
 This page is the practical part: how to build, how to add a widget, how to test. It is not shipped in
 the zip.
 
@@ -24,8 +25,9 @@ plugin/
 │   └── assets/fonts/           synced from the prototype (OFL)
 └── tests/                  the stub harness (not shipped)
     ├── bootstrap.php           fake WordPress + Elementor, fixtures, helpers, assertions
-    ├── stubs/                  wordpress.php, elementor.php
+    ├── stubs/                  wordpress.php, elementor.php, elementor-pro.php
     ├── fixtures/               media.php (fake media library), pages.php, widgets/<id>.php
+    ├── elementor_data.php      the Elementor data of the pages for scripts/build_pages.py, and its render check
     ├── core/*.test.php         unit tests of the core
     ├── run.php                 renders every widget variant, asserts, writes out/
     ├── render.php              one render to stdout or a file
@@ -48,7 +50,10 @@ python3 -I scripts/build_plugin.py          # zip (default): sync + check + plug
 - `check` also fails on: a widget file whose id, class name or `ID` constant do not match; a PHP file
   without the `ABSPATH` guard; PHP 8.1+ syntax (the target is PHP 8.0, the local CLI is 8.3 and would
   not notice); e-mail addresses (only the reserved example domains are allowed); photo paths of the
-  prototype; animation libraries; remote fonts, scripts or CDNs; a failing harness.
+  prototype; animation libraries; remote fonts, scripts or CDNs; a failing harness; and (v3.2) motion the
+  agency's rules forbid — in CSS `@keyframes`, `animation-timeline`, `view-transition`, `@property`,
+  `scroll-behavior: smooth`, `position: sticky`; in JS a `"scroll"` listener, `ResizeObserver`, view
+  transitions (comments are not searched).
 - `--no-harness` skips run.php (useful while a package is half done; never for a release).
 - `--phpcs` adds PHPCS (WordPress-Extra, and PHPCompatibilityWP for PHP 8.0+). Install the tools once:
   `cd plugin && composer install` (they go to `plugin/vendor/`, git-ignored).
@@ -69,14 +74,19 @@ php plugin/tests/render.php homes prototype   # print one render (add --page for
 python3 -I plugin/tests/compare.py homes prototype   # structural diff of one variant
 python3 -I plugin/tests/compare.py homes --all       # every variant that has a compare target
 node plugin/tests/shots.mjs                   # optional: screenshots of out/page-*.html vs the prototype
+node plugin/tests/shots.mjs --behaviour       # the core scripts in Chrome: nothing opens or moves by itself, the
+                                              # soft appearance of prints, the cookie panel, the visit buttons,
+                                              # focus after anchors and menu links, the menu, the switches, the form
 ```
 
 What run.php checks for every render (a failure exits 1): no PHP notice/warning/exception; output not
-empty; well-formed HTML; unique ids; every `for`, `aria-labelledby`, `aria-describedby`,
-`aria-controls` resolves; every `img` has `alt`; every `svg` is `aria-hidden` (itself or a parent) and
-`focusable="false"`; inline `style` only with custom properties; no forbidden pattern; a widget whose
-root is a `<section>` has `data-header`, `data-running` and `aria-labelledby` on a heading inside; no
-empty `v3-full` / `v3-plain` element; the controls section «מקטע» is the last one.
+empty (unless the variant says `'empty' => true`); well-formed HTML; unique ids; every `for`,
+`aria-labelledby`, `aria-describedby`, `aria-controls` resolves; every `img` has `alt`; every `svg` is
+`aria-hidden` (itself or a parent) and `focusable="false"`; inline `style` only on a letter's room
+(`.v3-room`) and only with custom properties; no forbidden pattern; a widget whose root is a `<section>`
+has `aria-labelledby` on a heading inside and **no** `data-header` / `data-running` (v3.2: no running
+head, no header theme); no empty `v3-full` / `v3-plain` element; the controls section «מקטע» is the last
+one.
 
 It writes, under `plugin/tests/out/` (git-ignored):
 
@@ -85,14 +95,16 @@ It writes, under `plugin/tests/out/` (git-ignored):
   `python3 -m http.server 8080` and http://localhost:8080/plugin/tests/out/cover--prototype.html;
 - `<id>--<variant>.json`: the compare target of the variant (read by compare.py);
 - `page-home.html`, `page-main-home.html`: the two prototype pages assembled from the widgets
-  (fixtures/pages.php), to look at and to screenshot.
+  (fixtures/pages.php), to look at and to screenshot: the masthead, the spreads, and in the footer slot
+  the `display` widget (v3.2: the site's footer is Elementor's own widgets, which the harness does not
+  render; scripts/build_pages.py builds it).
 
 ### Reading compare.py
 
 Both sides are normalised to one line per node, indented by depth:
 
 ```
-section.v3-cover.v3-spread [aria-labelledby] [data-header=light] [data-running=בית. לחיים.] [id]
+section.v3-cover.v3-spread [aria-labelledby] [id]
   div.nh-container.v3-cover__grid
     "a text node, whitespace collapsed"
 ```
@@ -102,6 +114,9 @@ Classes are sorted; attributes are sorted, and some are compared by presence onl
 attributes listed in SPEC §11.4); `href` keeps only its `#fragment` (or becomes `URL`); `style` keeps
 its custom properties with numbers rounded to two decimals. A whitespace-only text node counts only
 in running text (inside an element that also has text of its own) and shows as `" "`.
+
+A selector may be a descendant selector (`footer.nh-footer .v3-switches`); in the plugin output, which has
+no surroundings, it falls back to its last part.
 
 The diff prints `-` for the prototype and `+` for the plugin. Every such line must be matched by one
 of the fixture's `expect_diff` entries, which are **regular expressions** (Python `re.search`) over the
@@ -130,8 +145,8 @@ compare.py reports patterns that match nothing, so stale expectations are easy t
    `assets/js/widgets/<id>.js` exist. `DYNAMIC = true` only if `render()` reads settings, the request,
    the user or the current post. `KEYWORDS` for the panel search.
 3. **Controls** (`register_controls()`), in this order of sections: `תוכן`, `תמונות`, repeaters,
-   `טופס`, then `NH_Controls::section( $this, [ 'anchor' => …, 'running' => … ] )` last (it opens and
-   closes its own section). Every visible text through `NH_Controls::pair()` (the text and its plain
+   `טופס`, then `NH_Controls::section( $this, [ 'anchor' => … ] )` last (it opens and closes its own
+   section; v3.2: the anchor only — no running head). Every visible text through `NH_Controls::pair()` (the text and its plain
    twin), the heading through `NH_Controls::heading()`, images through `NH_Controls::image()`, links
    through `NH_Controls::link()`. Defaults are the prototype's text, verbatim, as plain strings (not
    translated); labels are Hebrew UI strings in `__( '…', 'nevehairus-site' )`.
@@ -148,15 +163,19 @@ compare.py reports patterns that match nothing, so stale expectations are easy t
    `text-decoration`, `height`, `border` or `max-width` need a specificity of at least (0,1,1) to beat
    Elementor; never put margins on `figure` (Elementor resets them); never style by DOM structure
    (`main > section`).
-6. **JS.** Plain ES2020 in an IIFE: `nh.widget( '<id>', '<root selector>', ( el ) => { … } )`, and query
-   only inside `el`. `nh.widget()` runs on the page now and again when Elementor's editor re-renders
-   the widget. Use `nh.motionOK()` before any animation; listen to `nh:motionchange` /
-   `nh:displaychange` when the state matters.
+6. **JS.** Only when the widget really needs it (v3.2: just the masthead's menu and the video facade).
+   Plain ES2020 in an IIFE: `nh.widget( '<id>', '<root selector>', ( el ) => { … } )`, and query only
+   inside `el`. `nh.widget()` runs on the page now and again when Elementor's editor re-renders the
+   widget. Nothing moves (research/07 §4): no scroll listener, no `requestAnimationFrame` loop, no
+   animation; the one soft appearance of prints is nh-core.js's `nh.reveal()` — give a print
+   `figure.v3-print` the attribute `data-reveal` instead. Listen to `nh:displaychange` when the plain or
+   calm mode matters.
 7. **Fixture.** `tests/fixtures/widgets/<id>.php` returns `[ 'variants' => [ … ] ]`; each variant has
    `settings` (merged into the control defaults with `array_replace_recursive`, so
    `'items' => [ 1 => [ 'title' => 'x' ] ]` changes only item 2), and optionally `options` (settings of
-   Settings → נווה האירוס), `get` (`$_GET`), `compare` (`page`, `selectors`) and `expect_diff`
-   (regular expressions). Photos: `[ 'id' => nh_test_media_id( 'v3-walk' ), 'url' => '' ]`. The element
+   Settings → נווה האירוס), `get` (`$_GET`), `queried` (the post being shown: 10 = the home page,
+   11 = «מעון ראשי», 12 = the jobs page; default 10), `empty` (true: the settings leave nothing to show),
+   `compare` (`page`, `selectors`) and `expect_diff` (regular expressions). Photos: `[ 'id' => nh_test_media_id( 'v3-walk' ), 'url' => '' ]`. The element
    id of a render is `substr( md5( "<id>/<variant>" ), 0, 7 )` (needed for form states).
 8. **Run** `php plugin/tests/run.php --widget=<id>` and `python3 -I plugin/tests/compare.py <id> --all`
    until the only differences are the expected ones; then `python3 -I scripts/build_plugin.py check`.
@@ -171,8 +190,14 @@ compare.py reports patterns that match nothing, so stale expectations are easy t
   or in inline text are resolved from the settings by `NH_Html::url()` / `NH_Text::esc()`; when a page
   is not set they stay in-page anchors — add `$this->nh_admin_note( … )` for editors if it matters.
 - **Once per page.** `NH_Letters::data_script()` prints its script once per request;
-  `NH_Site::footer_once( $key, $fn )` prints a part (the lightbox) once in the footer. On a re-render in
-  the Elementor editor (an AJAX request) there is no footer: such parts are absent in the editor only.
+  `NH_Site::footer_once( $key, $fn )` prints a part once in the footer. On a re-render in the Elementor
+  editor (an AJAX request) there is no footer: such parts are absent in the editor only. v3.2: no widget
+  uses either any more (no morph, no lightbox).
+- **One weight per letter.** v3.2: the letters stand still, each in one weight for good — a `WEIGHT`
+  constant in the widget (ב 600, כ 440, ס 380, ל 600), never a control.
+- **Links lead somewhere else.** v3.2 (research/07 §3 item 21): a link leads only to a page that exists or
+  to another section — a row of the homes index without a page is not a link, a further-reading row or a
+  kaf button back to the same page is not printed (editors see `nh_admin_note()`).
 - **Escaping.** `NH_Text::pair()` / `block()` / `esc()` escape; `NH_Html::attrs()` escapes values;
   `NH_Html::url()` returns an escaped URL; strings you build yourself go through `esc_html()` /
   `esc_attr()`. Never echo a raw setting.

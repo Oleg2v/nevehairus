@@ -1,25 +1,17 @@
-<section class="nh-cookies" id="nh-cookies" aria-labelledby="nh-cookies-title" hidden>
-  <h2 id="nh-cookies-title" tabindex="-1">עוגיות באתר</h2>
-  <!-- on short or narrow screens the explanation folds behind «מה זה אומר?» so the banner never covers the page -->
-  <button class="nh-linkbtn nh-cookies__more" type="button" aria-expanded="false" aria-controls="nh-cookies-text" data-cookie-more>מה זה אומר?</button>
-  <div class="nh-cookies__text" id="nh-cookies-text">
-    <p class="v3-full">אנחנו משתמשים בעוגיות הכרחיות כדי שהאתר יעבוד. עוגיות סטטיסטיקה ותוכן מוטמע (כמו סרטוני YouTube) יופעלו רק בהסכמתכם. אפשר לשנות את הבחירה בכל עת. <a href="#privacy">מדיניות הפרטיות</a></p>
-    <div class="v3-plain">
-      <p>האתר שומר קבצים קטנים במחשב או בטלפון שלכם.</p>
-      <p>חלק מהקבצים חייבים, כדי שהאתר יעבוד.</p>
-      <p>את שאר הקבצים נשמור רק אם תסכימו.</p>
-      <p>אפשר לשנות את הבחירה מתי שרוצים. <a href="#privacy">מה עושים עם המידע?</a></p>
+<!-- cookie settings (v3.2, research/07 §9): never opens by itself. «הגדרות עוגיות» in the footer opens it here,
+     in the flow right after the footer; texts are a draft for the client's lawyer -->
+<section class="nh-cookies nh-on-dark" id="nh-cookies" aria-labelledby="nh-cookies-title" hidden>
+  <div class="nh-container nh-cookies__inner">
+    <h2 class="nh-cookies__title" id="nh-cookies-title" tabindex="-1">הגדרות עוגיות</h2>
+    <p class="v3-full">באתר יש רק עוגיות הכרחיות. סרטון מ־YouTube נטען רק אחרי שמאשרים אותו, ואז YouTube עשוי לשמור עוגיות. כאן אפשר לשנות את הבחירה. <a href="#privacy">מדיניות הפרטיות</a></p>
+    <div class="v3-plain"><p>האתר שומר רק מה שחייבים.</p><p>סרטון מ־YouTube נפתח רק אם מסכימים.</p><p>כאן אפשר לשנות את הבחירה.</p></div>
+    <div class="nh-cookies__prefs">
+      <label class="nh-check"><input type="checkbox" checked disabled><span><b>הכרחיות</b> — פעילות תקינה של האתר ושמירת הבחירות שלכם. תמיד פעילות.</span></label>
+      <label class="nh-check"><input type="checkbox" id="nh-c-media"><span><b>תוכן מוטמע</b> — סרטונים מ־YouTube.</span></label>
     </div>
-  </div>
-  <div class="nh-cookies__prefs" id="nh-cookie-prefs" hidden>
-    <label class="nh-check"><input type="checkbox" checked disabled><span><b>הכרחיות</b> — פעילות תקינה של האתר ושמירת הבחירה שלכם. תמיד פעילות.</span></label>
-    <label class="nh-check"><input type="checkbox" id="nh-c-stats"><span><b>סטטיסטיקה</b> — מדידת שימוש אנונימית, כדי לשפר את האתר.</span></label>
-    <label class="nh-check"><input type="checkbox" id="nh-c-media"><span><b>תוכן מוטמע</b> — סרטונים מ־YouTube.</span></label>
-    <div><button class="nh-btn nh-btn--primary" type="button" data-consent="save">שמירת הבחירה</button></div>
-  </div>
-  <div class="nh-btn-row">
-    <button class="nh-btn nh-btn--primary" type="button" data-consent="all">אישור הכול</button>
-    <button class="nh-btn nh-btn--ghost" type="button" data-consent="necessary">רק הכרחיות</button>
-    <button class="nh-btn nh-btn--ghost" type="button" data-consent="settings" aria-expanded="false" aria-controls="nh-cookie-prefs">הגדרות</button>
+    <div class="nh-btn-row">
+      <button class="nh-btn nh-btn--light" type="button" data-consent="save">שמירת הבחירה</button>
+      <button class="nh-btn nh-btn--ghost" type="button" data-consent="close">סגירה</button>
+    </div>
   </div>
 </section>

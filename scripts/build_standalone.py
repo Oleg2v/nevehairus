@@ -1,12 +1,14 @@
 """Standalone copies of the prototype pages for viewing without a server.
 
-Each page becomes one HTML file with its CSS, JS, fonts and photos inlined (one WebP per photo,
-up to 1080 px; lightbox images up to 1440 px). The files open by double-click, as a mail attachment
-or in the Claude app. Links between the three files keep working when they sit in one folder.
+Each page becomes one HTML file with its CSS, JS, fonts, the logo emblem and photos inlined (one WebP per
+photo, up to 1080 px). The files open by double-click, as a mail attachment or in the Claude app. Links
+between the three files keep working when they sit in one folder.
 
     python3 -I scripts/build_standalone.py [out_dir]          # default: prototype/standalone (git-ignored)
 
 The originals stay the source of truth: rebuild the prototype first (scripts/build_prototype_html.py).
+v3.2 (research/07): there is no lightbox and no palm swap any more, so the pages need nothing but their own
+photos; the one soft appearance of the print photos works the same with inlined files.
 Photos are temporary (see prototype/README.md): do not publish the standalone files.
 """
 import base64
@@ -19,9 +21,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 P = os.path.join(ROOT, "prototype")
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(P, "standalone")
 PAGES = {  # source page -> standalone name
-    "index.html": "nevehairus-v3.1-home.html",
-    "program-main-home.html": "nevehairus-v3.1-main-home.html",
-    "design-system.html": "nevehairus-v3.1-design-system.html",
+    "index.html": "nevehairus-v3.2-home.html",
+    "program-main-home.html": "nevehairus-v3.2-main-home.html",
+    "design-system.html": "nevehairus-v3.2-design-system.html",
 }
 manifest = json.load(open(os.path.join(P, "assets", "img", "manifest.json"), encoding="utf-8"))
 _cache = {}
@@ -45,12 +47,6 @@ css = re.sub(r'url\("\.\./fonts/([^"]+)"\)',
              lambda m: 'url("' + data_uri(os.path.join(P, "assets", "fonts", m.group(1)), "font/woff2") + '")', css)
 js_site = open(os.path.join(P, "assets", "js", "site.js"), encoding="utf-8").read()
 js_v3 = open(os.path.join(P, "assets", "js", "v3.js"), encoding="utf-8").read()
-# the palm (כ) swaps works from inlined pictures instead of assets/img
-old = 'const swap = () => {\n        if (source) source.srcset = set("avif");'
-assert old in js_v3, "v3.js palm swap changed: update build_standalone.py"
-js_v3 = js_v3.replace(old, 'const swap = () => {\n'
-                      '        if (window.NH_IMG && window.NH_IMG[name]) { if (source) source.remove(); img.removeAttribute("srcset"); img.src = window.NH_IMG[name]; return; }\n'
-                      '        if (source) source.srcset = set("avif");')
 for code in (css, js_site, js_v3):
     assert "</script" not in code and "</style" not in code
 
@@ -59,6 +55,8 @@ def build(src):
     s = open(os.path.join(P, src), encoding="utf-8").read()
     s = re.sub(r'<link rel="preload"[^>]*>\n?', "", s)
     s = s.replace('<link rel="stylesheet" href="assets/css/site.css">', "<style>" + css + "</style>")
+    # the logo emblem (masthead and footer, research/07 §6)
+    s = s.replace('src="assets/img/logo-emblem.png"', 'src="' + data_uri(os.path.join(P, "assets", "img", "logo-emblem.png"), "image/png") + '"')
     s = s.replace('<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">',
                   '<link rel="icon" href="' + data_uri(os.path.join(P, "assets", "img", "favicon.svg"), "image/svg+xml") + '">')
     s = s.replace('<script src="assets/js/site.js" defer></script>\n', "").replace('<script src="assets/js/v3.js" defer></script>\n', "")
@@ -72,25 +70,12 @@ def build(src):
         tag = re.sub(r' (srcset|sizes)="[^"]*"', "", tag)
         return re.sub(r'src="assets/img/[^"]+"', 'src="' + photo(hit.group(1)) + '"', tag)
     s = re.sub(r"<img [^>]*>", one_photo, s)
-    s = re.sub(r' data-srcset="[^"]*"', "", s)
-
-    def lightbox(m):
-        # one inlined file for the lightbox; when it is smaller than 1440 px, a srcset entry with its width lets
-        # the lightbox scale it to the screen like the original does (a data: URL has no spaces, so it is a valid
-        # srcset candidate)
-        name = m.group(1)
-        w = max([x for x in manifest[name]["widths"] if x <= 1440] or manifest[name]["widths"][:1])
-        uri = photo(name, 1440)
-        return f'data-full="{uri}"' + (f' data-srcset="{uri} {w}w"' if w < 1440 else "")
-    s = re.sub(r'data-full="assets/img/([\w-]+?)-\d+\.webp"', lightbox, s)
     for a, b in PAGES.items():
         s = s.replace(f'href="{a}', f'href="{b}')
-    works = re.search(r'<script type="application/json" id="nh-works">(.*?)</script>', s)
-    extra = ("<script>window.NH_IMG = " + json.dumps({n: photo(n) for n in json.loads(works.group(1))}) + ";</script>\n") if works else ""
-    s = s.replace("</body>", extra + "<script>" + js_site + "</script>\n<script>" + js_v3 + "</script>\n</body>")
+    s = s.replace("</body>", "<script>" + js_site + "</script>\n<script>" + js_v3 + "</script>\n</body>")
     s = s.replace("<!doctype html>\n", "<!doctype html>\n<!-- standalone copy for viewing without a server "
                   "(scripts/build_standalone.py); temporary photos, not for publishing -->\n", 1)
-    left = sorted(set(re.findall(r'(?:src|href|data-full)="(assets/[^"]+)"', s)))
+    left = sorted(set(re.findall(r'(?:src|href|srcset)="(assets/[^"]+)"', s)))
     assert not left, f"{src}: unresolved assets {left[:5]}"
     return s
 

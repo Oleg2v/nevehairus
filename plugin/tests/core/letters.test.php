@@ -123,10 +123,12 @@ return [
 		}
 	},
 
-	'data_script() equals the prototype\'s #nh-letters, once per request' => static function () {
-		$built = (string) file_get_contents( NH_TEST_ROOT . '/prototype/index.html' );
-		nh_assert( (bool) preg_match( '~<script type="application/json" id="nh-letters">.*?</script>~s', $built, $m ), 'no #nh-letters in index.html' );
-		nh_assert_same( $m[0], NH_Letters::data_script( [ 'bet' ] ) );
+	'data_script() equals the build script\'s letter_data(), once per request' => static function () {
+		// v3.2: no page prints #nh-letters any more (the ב does not morph, research/07 §4.4 item 11), so the
+		// comparison is with the build script's function itself
+		$want = (string) shell_exec( 'python3 -I ' . escapeshellarg( NH_TEST_DIR . '/compare.py' ) . ' --prototype-letter-data bet' );
+		nh_assert( 0 === strpos( $want, '<script type="application/json" id="nh-letters">' ), 'compare.py --prototype-letter-data gave no script' );
+		nh_assert_same( $want, NH_Letters::data_script( [ 'bet' ] ) );
 		nh_assert_same( '', NH_Letters::data_script( [ 'bet' ] ), 'second call in the same request' );
 	},
 

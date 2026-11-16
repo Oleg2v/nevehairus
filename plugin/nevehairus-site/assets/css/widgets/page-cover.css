@@ -18,6 +18,4 @@
   .v3-cover--page { --cover-h: min(calc(100svh - var(--v3-mast) - 11rem), 34rem); }
 }
 
-/* porting change (SPEC D11): the page-transition name is set per post by script (home-bet-{id}),
-   the shared animation in base.css targets the class */
-.v3-cover--page .v3-room { view-transition-class: nh-bet; }
+/* v3.2 (research/07 §4.4 item 2): no page transition — the view-transition class of D11 is gone */

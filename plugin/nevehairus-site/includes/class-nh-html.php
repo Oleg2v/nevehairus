@@ -2,8 +2,8 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Small HTML helpers: attributes, icons, URLs and link tokens, LTR spans, phone links, aria-current,
- * the display toggles, the editor-only note (SPEC §3.6).
+ * Small HTML helpers: attributes, icons, URLs and link tokens, LTR spans, phone links, aria-current
+ * (current_state()), the display toggles, the editor-only note (SPEC §3.6).
  *
  * @package nevehairus-site
  */
@@ -139,38 +139,71 @@ final class NH_Html {
 	}
 
 	/**
-	 * Current-page test for navigation: the queried post or one of its ancestors is in `$ids_csv`
-	 * (comma-separated post ids), or `$url` has no fragment and points to the queried post or an ancestor.
+	 * Where a navigation link stands relative to the requested page (research/07 §5.3, §12.3):
+	 * - `'page'`: `$url` (same host, no fragment) is the requested post itself;
+	 * - `'true'`: the requested post or one of its ancestors is in `$ids_csv` (comma-separated post ids), or
+	 *   `$url` points to an ancestor of the requested post — the link is the current section;
+	 * - `''`: anything else, and always outside `is_singular()` (on archives, search and 404 the queried
+	 *   object is a term, a user or nothing, never a post: its id must not be read as one).
+	 *
+	 * @param string $url     The link (plain, not HTML-escaped).
+	 * @param string $ids_csv Post ids that make the link current (e.g. the pages of the section).
 	 */
-	public static function is_current( string $url, string $ids_csv = '' ): bool {
+	public static function current_state( string $url, string $ids_csv = '' ): string {
+		if ( ! is_singular() ) {
+			return '';
+		}
 		$current = (int) get_queried_object_id();
 		if ( $current <= 0 ) {
-			return false;
-		}
-		$chain = array_merge( [ $current ], array_map( 'intval', (array) get_post_ancestors( $current ) ) );
-		$ids   = array_filter( array_map( 'absint', explode( ',', $ids_csv ) ) );
-		if ( array_intersect( $chain, $ids ) ) {
-			return true;
+			return '';
 		}
 		$id = self::post_id( $url );
-		return $id > 0 && in_array( $id, $chain, true );
+		if ( $id > 0 && $id === $current ) {
+			return 'page';
+		}
+		$ancestors = array_map( 'intval', (array) get_post_ancestors( $current ) );
+		$ids       = array_filter( array_map( 'absint', explode( ',', $ids_csv ) ) );
+		if ( array_intersect( array_merge( [ $current ], $ancestors ), $ids ) ) {
+			return 'true';
+		}
+		return ( $id > 0 && in_array( $id, $ancestors, true ) ) ? 'true' : '';
 	}
 
 	/**
-	 * The three display switches (plain language, reduced motion, calm mode), as in the prototype's header.
-	 * Each label is HTML (e.g. NH_Text::pair() output; filtered with the inline allowlist) or a
-	 * [ full, plain ] pair.
-	 *
-	 * @param array $labels [ 'plain' => …, 'motion' => …, 'calm' => … ].
+	 * Current-page test for navigation: `current_state()` is not ''.
 	 */
-	public static function display_toggles( array $labels ): string {
+	public static function is_current( string $url, string $ids_csv = '' ): bool {
+		return '' !== self::current_state( $url, $ids_csv );
+	}
+
+	/**
+	 * The display switches, plain language and calm mode (research/07 §7.3), as in the menu and the footer:
+	 * `<button class="v3-toggle" data-{plain|calm}-toggle aria-pressed="false">` with the label, the silent
+	 * state word (`data-on` / `data-off`, shown by CSS) and the track. A switch is printed only when its key is
+	 * in `$labels` (always in this order: plain, calm): the menu passes both, the footer's display widget may
+	 * pass only `calm`. Each label is HTML (e.g. NH_Text::pair() output; filtered with the inline allowlist) or
+	 * a [ full, plain ] pair. The reduced-motion switch of v3.1 is gone: a `motion` label is ignored.
+	 *
+	 * @param array $labels [ 'plain' => …, 'calm' => … ] (either key may be left out).
+	 * @param array $states [ 'on' => 'פועל', 'off' => 'כבוי' ] (plain text; the defaults when missing).
+	 */
+	public static function display_toggles( array $labels, array $states = [] ): string {
+		// the widgets pass their own controls (state_on / state_off); these are only the fallback
+		$on  = isset( $states['on'] ) && is_scalar( $states['on'] ) ? trim( (string) $states['on'] ) : __( 'פועל', 'nevehairus-site' );
+		$off = isset( $states['off'] ) && is_scalar( $states['off'] ) ? trim( (string) $states['off'] ) : __( 'כבוי', 'nevehairus-site' );
 		$out = '';
-		foreach ( [ 'plain', 'motion', 'calm' ] as $key ) {
+		foreach ( [ 'plain', 'calm' ] as $key ) {
+			if ( ! array_key_exists( $key, $labels ) ) {
+				continue;
+			}
 			$label = $labels[ $key ] ?? '';
 			$label = is_array( $label )
 				? NH_Text::pair( (string) ( $label[0] ?? '' ), (string) ( $label[1] ?? '' ) )
 				: wp_kses( (string) $label, NH_Text::kses_inline() );
-			$out  .= '<button type="button" class="v3-toggle" data-' . $key . '-toggle aria-pressed="false"><span>' . $label . '</span><i aria-hidden="true"></i></button>';
+			$state = ( '' !== $on || '' !== $off )
+				? '<span class="v3-toggle__state" aria-hidden="true" data-on="' . esc_attr( $on ) . '" data-off="' . esc_attr( $off ) . '"></span>'
+				: '';
+			$out  .= '<button type="button" class="v3-toggle" data-' . $key . '-toggle aria-pressed="false"><span class="v3-toggle__label">' . $label . '</span>' . $state . '<i aria-hidden="true"></i></button>';
 		}
 		return $out;
 	}

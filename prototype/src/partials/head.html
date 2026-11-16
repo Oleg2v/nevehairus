@@ -8,25 +8,16 @@
 <link rel="preload" href="assets/fonts/assistant-core-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css">
 <script>
-  /* Runs before first paint: apply the visitor's saved display choices so the page
-     never flashes in the wrong mode. v3 needs no animation library: the letters
-     move with a few lines of our own code (assets/js/v3.js), loaded with defer. */
+  /* Runs before first paint: apply the visitor's saved display choices so the page never flashes in the
+     wrong mode (plain language, «מצב רגוע», and the v3.1 motion switch still kept in some visitors' storage:
+     nh-reduce-motion switches the one soft appearance off, like the OS setting). v3.2 has no page
+     transitions and nothing that moves by itself (research/07 §4). */
   (function (w, d) {
     var h = d.documentElement, get = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };
-    h.classList.add("js");
     if (get("nh-motion") === "reduce") h.classList.add("nh-reduce-motion");
     if (get("nh-calm") === "on") h.classList.add("nh-calm");
     var q = /[?&]plain=([01])/.exec(w.location.search);
     if (q ? q[1] === "1" : get("nh-plain") === "on") h.classList.add("nh-plainmode");
-    // arriving through a page transition: the cover is already drawn, so its load choreography is skipped.
-    // The shared ב is named only for the one journey it belongs to (homes index → this home's page).
-    w.addEventListener("pagereveal", function (e) {
-      if (!e.viewTransition) return;
-      h.classList.add("nh-vt-in");
-      var vt = null; try { vt = sessionStorage.getItem("nh-vt"); sessionStorage.removeItem("nh-vt"); } catch (x) { /* private mode */ }
-      var cover = d.querySelector(".v3-cover--page .v3-room");
-      if (vt && cover) cover.style.viewTransitionName = vt;
-    });
   })(window, document);
 </script>
 <script src="assets/js/site.js" defer></script>

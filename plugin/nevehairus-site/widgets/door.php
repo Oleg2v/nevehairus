@@ -243,13 +243,7 @@ final class NH_Widget_Door extends NH_Widget_Base {
 		);
 		$this->end_controls_section();
 
-		NH_Controls::section(
-			$this,
-			[
-				'anchor'  => 'door',
-				'running' => 'בואו להכיר',
-			]
-		);
+		NH_Controls::section( $this, [ 'anchor' => 'door' ] );
 	}
 
 	protected function render() {

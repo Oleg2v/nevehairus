@@ -11,8 +11,10 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Four moments of the day. The residents are the subjects: each verb is a real H3, the photo is a
- * numbered «print» (the number comes from a CSS counter on `main`, hidden from screen readers).
+ * Four moments of the day. The residents are the subjects: each verb is a real H3 (large and still, the
+ * spread's typographic moment), the photo is a numbered 4:3 «print» (the number comes from a CSS counter on
+ * `.v3`, hidden from screen readers). v3.2 (research/07 §10.2 item 4): one print size for all, no zigzag;
+ * the print is the one element that may appear softly once (`data-reveal`, nh-core.js).
  */
 final class NH_Widget_Day extends NH_Widget_Base {
 
@@ -21,27 +23,9 @@ final class NH_Widget_Day extends NH_Widget_Base {
 	public const KEYWORDS = [ 'day', 'moments', 'activities', 'יום', 'פעילויות', 'רגעים' ];
 
 	/**
-	 * Print size → extra class of `figure.v3-print`.
+	 * `sizes` of every print (research/07 §8.1: a print is at most 21rem wide).
 	 */
-	private const PRINT_CLASS = [
-		'normal' => '',
-		'small'  => 'v3-print--small',
-		'mid'    => 'v3-print--mid',
-	];
-
-	/**
-	 * Print size → `sizes` used when the item's own `photo_sizes` is empty.
-	 */
-	private const PRINT_SIZES = [
-		'normal' => '(min-width: 1024px) 34rem, 92vw',
-		'small'  => '(min-width: 1024px) 14rem, 60vw',
-		'mid'    => '(min-width: 1024px) 20rem, 80vw',
-	];
-
-	/**
-	 * Row modifiers: b and d mirror the layout on wide screens.
-	 */
-	private const ROWS = [ 'a', 'b', 'c', 'd' ];
+	public const SIZES = '(max-width: 23em) calc(100vw - 2.5rem), 21rem';
 
 	/**
 	 * Panel title.
@@ -122,21 +106,7 @@ final class NH_Widget_Day extends NH_Widget_Base {
 				'label'      => __( 'תמונה', 'nevehairus-site' ),
 				'decorative' => false,
 				'alt'        => '',
-				'sizes'      => self::PRINT_SIZES['normal'],
-			]
-		);
-
-		$repeater->add_control(
-			'print',
-			[
-				'label'   => __( 'גודל התמונה', 'nevehairus-site' ),
-				'type'    => \Elementor\Controls_Manager::SELECT,
-				'options' => [
-					'normal' => __( 'רגיל', 'nevehairus-site' ),
-					'small'  => __( 'קטן', 'nevehairus-site' ),
-					'mid'    => __( 'בינוני', 'nevehairus-site' ),
-				],
-				'default' => 'normal',
+				'sizes'      => self::SIZES,
 			]
 		);
 
@@ -170,35 +140,27 @@ final class NH_Widget_Day extends NH_Widget_Base {
 				'default'     => [
 					self::life_moment(
 						'יוצרים',
-						'normal',
 						'עבודות פסיפס וקרמיקה ביום מכירה.',
 						'סדנאות פסיפס, תכשיטים, ציור על משי, מוזיקה ותנועה — וגם תעסוקה בעיר.',
-						'עובדים בסדנאות: פסיפס, תכשיטים וציור.',
-						'(min-width: 1024px) 34rem, 92vw'
+						'עובדים בסדנאות: פסיפס, תכשיטים וציור.'
 					),
 					self::life_moment(
 						'רוכבים',
-						'small',
 						'סוס ליד הגדר, ביום של רכיבה טיפולית.',
 						'רכיבה טיפולית בחווה, ועוד חוגים מחוץ למעון.',
-						'רוכבים על סוסים בחווה.',
-						'(min-width: 1024px) 14rem, 60vw'
+						'רוכבים על סוסים בחווה.'
 					),
 					self::life_moment(
 						'מטיילים',
-						'normal',
 						'טיול בין עצי ההדר.',
 						'טיולים, בתי קפה וסרטים, בעיר ובטבע.',
-						'יוצאים לטיולים, לבית קפה ולסרט.',
-						'(min-width: 1024px) 26rem, 92vw'
+						'יוצאים לטיולים, לבית קפה ולסרט.'
 					),
 					self::life_moment(
 						'מארחים',
-						'mid',
 						'פינה לשבת עם אורחים.',
 						'ביקורים של משפחה וחברים, וקשר פתוח עם הצוות.',
-						'המשפחות והחברים באים לבקר.',
-						'(min-width: 1024px) 20rem, 80vw'
+						'המשפחות והחברים באים לבקר.'
 					),
 				],
 			]
@@ -206,13 +168,7 @@ final class NH_Widget_Day extends NH_Widget_Base {
 
 		$this->end_controls_section();
 
-		NH_Controls::section(
-			$this,
-			[
-				'anchor'  => 'day',
-				'running' => 'החיים אצלנו',
-			]
-		);
+		NH_Controls::section( $this, [ 'anchor' => 'day' ] );
 	}
 
 	/**
@@ -224,7 +180,6 @@ final class NH_Widget_Day extends NH_Widget_Base {
 		$title = $this->nh_h2( $s );
 
 		$items   = '';
-		$n       = 0;
 		$moments = isset( $s['moments'] ) && is_array( $s['moments'] ) ? $s['moments'] : [];
 		foreach ( $moments as $m ) {
 			if ( ! is_array( $m ) ) {
@@ -244,7 +199,7 @@ final class NH_Widget_Day extends NH_Widget_Base {
 				]
 			);
 
-			$items .= '<li class="v3-moment v3-moment--' . self::ROWS[ $n % 4 ] . '">' . "\n";
+			$items .= '<li class="v3-moment">' . "\n";
 			$items .= '<h3 class="v3-moment__verb">' . $verb . '</h3>' . "\n";
 			$figure = $this->life_figure( $m );
 			if ( '' !== $figure ) {
@@ -254,7 +209,6 @@ final class NH_Widget_Day extends NH_Widget_Base {
 				$items .= $text . "\n";
 			}
 			$items .= '</li>' . "\n";
-			++$n;
 		}
 
 		$html  = $this->nh_section_open(
@@ -283,7 +237,7 @@ final class NH_Widget_Day extends NH_Widget_Base {
 	}
 
 	/**
-	 * `figure.v3-print` of one moment, or '' when it has no image (prints are omitted, §4.0).
+	 * `figure.v3-print[data-reveal]` of one moment, or '' when it has no image (prints are omitted, §4.0).
 	 *
 	 * @param array $m Repeater item.
 	 * @return string
@@ -295,13 +249,8 @@ final class NH_Widget_Day extends NH_Widget_Base {
 			return '';
 		}
 
-		$print = self::life_text( $m, 'print' );
-		if ( ! isset( self::PRINT_CLASS[ $print ] ) ) {
-			$print = 'normal';
-		}
-
 		$sizes = isset( $img['sizes'] ) && is_string( $img['sizes'] ) ? trim( $img['sizes'] ) : '';
-		$o     = [ 'sizes' => '' !== $sizes ? $sizes : self::PRINT_SIZES[ $print ] ];
+		$o     = [ 'sizes' => '' !== $sizes ? $sizes : self::SIZES ];
 		// The photos are informative: the media library's alt, unless the editor overrides it.
 		if ( ! empty( $img['decorative'] ) ) {
 			$o['decorative'] = true;
@@ -316,12 +265,7 @@ final class NH_Widget_Day extends NH_Widget_Base {
 
 		$caption = NH_Text::pair( self::life_text( $m, 'caption' ), self::life_text( $m, 'caption_plain' ) );
 
-		$class = 'v3-print';
-		if ( '' !== self::PRINT_CLASS[ $print ] ) {
-			$class .= ' ' . self::PRINT_CLASS[ $print ];
-		}
-
-		return '<figure' . NH_Html::attrs( [ 'class' => $class ] ) . '>' . $picture
+		return '<figure class="v3-print" data-reveal>' . $picture
 			. ( '' !== $caption ? '<figcaption>' . $caption . '</figcaption>' : '' )
 			. '</figure>';
 	}
@@ -330,14 +274,12 @@ final class NH_Widget_Day extends NH_Widget_Base {
 	 * One default repeater item (prototype text; the photo is chosen in the media library).
 	 *
 	 * @param string $verb       Verb (H3).
-	 * @param string $print      normal|small|mid.
 	 * @param string $caption    Caption of the print.
 	 * @param string $text       Text.
 	 * @param string $text_plain Plain twin of the text.
-	 * @param string $sizes      `sizes` of the photo.
 	 * @return array
 	 */
-	private static function life_moment( string $verb, string $print, string $caption, string $text, string $text_plain, string $sizes ): array {
+	private static function life_moment( string $verb, string $caption, string $text, string $text_plain ): array {
 		return [
 			'verb'             => $verb,
 			'verb_plain'       => '',
@@ -347,8 +289,7 @@ final class NH_Widget_Day extends NH_Widget_Base {
 			],
 			'photo_alt'        => '',
 			'photo_decorative' => '',
-			'photo_sizes'      => $sizes,
-			'print'            => $print,
+			'photo_sizes'      => self::SIZES,
 			'caption'          => $caption,
 			'caption_plain'    => '',
 			'text'             => $text,

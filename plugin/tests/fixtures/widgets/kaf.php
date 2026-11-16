@@ -2,12 +2,17 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Fixture of widget `kaf` (SPEC §4.6, §11.2): variants = settings overrides on top of the control defaults.
+ * Fixture of widget `kaf` (SPEC §4.6, §11.2; research/07 §10.2 item 5): variants = settings overrides on top of
+ * the control defaults.
  *
- * - default:   what an editor sees after dropping the widget (no photos yet: the palm shows the calm sky).
- * - prototype: the four works with the prototype's photos; compared with index.html `section#made`.
- * - edge:      empty anchor and labels, twins in a button, a hidden row, invalid colour lines, a work
- *              without a photo in the palm, an external button link, an out-of-range weight.
+ * - default:   what an editor sees after dropping the widget (no photo yet: the palm shows the calm sky and the
+ *              caption, which describes the photo, is left out; no button: its link is empty by default).
+ * - prototype: the work in the palm with the prototype's photo; compared with index.html `section#made`.
+ * - button:    a link to another page shows the ink button; the same with a link back to this spread shows
+ *              nothing (editors see a note) — see `self-link`.
+ * - self-link: the button's link is #made (this spread): no button.
+ * - edge:      an empty anchor, a plain twin of the caption, an external button link, an alt override on a
+ *              photo that is not decorative.
  */
 return [
 	'variants' => [
@@ -16,75 +21,44 @@ return [
 		],
 		'prototype' => [
 			'settings'    => [
-				'works' => [
-					0 => [
-						'photo' => [
-							'id'  => nh_test_media_id( 'v3-pot-b' ),
-							'url' => '',
-						],
-					],
-					1 => [
-						'photo' => [
-							'id'  => nh_test_media_id( 'v3-pot-a' ),
-							'url' => '',
-						],
-					],
-					2 => [
-						'photo' => [
-							'id'  => nh_test_media_id( 'v3-pot-c' ),
-							'url' => '',
-						],
-					],
-					3 => [
-						'photo' => [
-							'id'  => nh_test_media_id( 'v3-owls' ),
-							'url' => '',
-						],
-					],
+				'photo' => [
+					'id'  => nh_test_media_id( 'v3-pot-b' ),
+					'url' => '',
 				],
 			],
-			'options'     => [],
-			'get'         => [],
 			'compare'     => [
 				'page'      => 'index.html',
 				'selectors' => [ 'section#made' ],
 			],
-			'expect_diff' => [
-				// SPEC §4.6: data-* on the work buttons (attachment id instead of the image name; data-name/src/srcset/avif are new).
-				'^.*button\.(?:[\w-]+\.)*v3-work\b.*\[data-.*$',
-				// SPEC §4.6: the prototype's script#nh-works JSON is replaced by those attributes.
-				'^.*script.*nh-works.*$',
+			'expect_diff' => [],
+		],
+		'button'    => [
+			'settings' => [
+				'photo'       => [
+					'id'  => nh_test_media_id( 'v3-pot-b' ),
+					'url' => '',
+				],
+				'button_link' => [ 'url' => 'https://nh.test/sample-page/' ],
+			],
+		],
+		'self-link' => [
+			'settings' => [
+				'button_link' => [ 'url' => '#made' ],
 			],
 		],
 		'edge'      => [
 			'settings' => [
-				'anchor'        => '',
-				'cap_label'     => '',
-				'works_label'   => '',
-				'weight'        => '1200',
-				'palm_pos'      => 'center',
-				'credit'        => '',
-				'credit_plain'  => 'כל העבודות נעשו בידי הדיירים והדיירות.',
-				'button_link'   => [ 'url' => 'https://example.com/gallery/' ],
-				'works'         => [
-					0 => [ 'name_plain' => 'כד כחול' ],
-					1 => [ 'name' => '' ],
-					2 => [
-						'name_plain' => '-',
-						'swatches'   => "nope שם\n#12345 שגוי\n#ABC\n#abc קצר",
-					],
-					3 => [
-						'photo'          => [
-							'id'  => nh_test_media_id( 'v3-owls' ),
-							'url' => '',
-						],
-						'swatches_label' => '',
-						'swatches'       => '',
-					],
+				'anchor'           => '',
+				'caption_plain'    => 'בכף היד יש כד.',
+				'button_link'      => [ 'url' => 'https://example.com/gallery/' ],
+				'photo'            => [
+					'id'  => nh_test_media_id( 'v3-owls' ),
+					'url' => '',
 				],
+				'photo_decorative' => '',
+				'photo_alt'        => 'ינשופים בעבודת יד',
+				'photo_pos'        => 'center',
 			],
-			'options'  => [],
-			'get'      => [],
 		],
 	],
 ];

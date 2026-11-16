@@ -9,6 +9,10 @@
  * shape); alt = the manifest alt. URLs point from plugin/tests/out/ to the prototype's real photos —
  * test data only, so rendered test pages show the real pictures.
  *
+ * A record with `file` and no `widths` (the logo emblem, research/07 §11.2 item 5: `{"file":
+ * "logo-emblem.png", "width": 105, "height": 74, "alt": "", "decorative": true}`) is one PNG without
+ * sub-sizes, as WordPress stores a small upload.
+ *
  * @package nevehairus-site
  */
 
@@ -25,7 +29,34 @@ function nh_test_media_load(): void {
 	$id       = 101;
 	$GLOBALS['nh_test']['media'] = [];
 	foreach ( (array) $manifest as $name => $m ) {
-		$widths = array_map( 'intval', (array) $m['widths'] );
+		if ( ! is_array( $m ) ) {
+			continue;
+		}
+		if ( ! isset( $m['widths'] ) && isset( $m['file'] ) ) {
+			$file                               = basename( (string) $m['file'] );
+			$GLOBALS['nh_test']['posts'][ $id ] = [
+				'type'   => 'attachment',
+				'status' => 'inherit',
+				'mime'   => 'image/png',
+				'title'  => $name,
+				'url'    => NH_TEST_MEDIA_BASE . $file,
+			];
+			$GLOBALS['nh_test']['meta'][ $id ]['_wp_attachment_metadata'] = [
+				'width'   => (int) ( $m['width'] ?? 0 ),
+				'height'  => (int) ( $m['height'] ?? 0 ),
+				'file'    => $file,
+				'sizes'   => [],
+				'sources' => [],
+			];
+			$GLOBALS['nh_test']['meta'][ $id ]['_wp_attachment_image_alt'] = (string) ( $m['alt'] ?? '' );
+			$GLOBALS['nh_test']['media'][ $name ]                          = $id;
+			++$id;
+			continue;
+		}
+		$widths = array_map( 'intval', (array) ( $m['widths'] ?? [] ) );
+		if ( ! $widths ) {
+			continue;
+		}
 		sort( $widths );
 		$w     = (int) $m['width'];
 		$h     = (int) $m['height'];

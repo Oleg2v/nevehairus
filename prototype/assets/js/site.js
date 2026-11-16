@@ -1,140 +1,31 @@
 /* =========================================================================
    נווה האירוס — prototype UI behaviours (vanilla JS, no dependencies)
-   - motion preference toggle (in addition to the OS setting)
-   - sticky header state, mobile menu (<dialog>)
-   - cookie consent (prototype: localStorage; production: cookie + server log)
-   - YouTube facade (nothing loads from YouTube before consent)
-   - horizontal "day" track controls (RTL-aware)
-   - accessible lightbox (<dialog>, keyboard, swipe, focus return)
-   - form validation with Hebrew messages, error summary, honeypot
+   v3.2 (research/07 §11.1): nothing here moves anything; no scroll listeners, no animation loops.
+   1. phone menu (<dialog>, opened only by «תפריט»)
+   2. the visit button and in-page anchors: reached at once, focus on the target's heading
+   3. cookie settings: a panel in the flow after the footer, never shown by itself
+      (prototype: localStorage; production: cookie + server log)
+   4. YouTube facade (nothing loads from YouTube before consent)
+   5. form validation with Hebrew messages, error summary, honeypot
+   6. the year in the footer
+   (v3.2 removed the v1 story and colour handlers, the day track and the gallery lightbox.)
    Everything degrades gracefully: without JS, content is readable.
    ========================================================================= */
 (() => {
   "use strict";
   const d = document;
-  const html = d.documentElement;
-  const isRTL = () => (html.getAttribute("dir") || "rtl") === "rtl";
   const store = {
     get(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } },
     set(k, v) { try { window.localStorage.setItem(k, v); } catch (e) { /* private mode */ } },
   };
-  const prefersReduced = () =>
-    html.classList.contains("nh-reduce-motion") ||
-    (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
-  /* ---------- 1. Motion preference ------------------------------------- */
-  const motionBtns = d.querySelectorAll("[data-motion-toggle]");
-  const syncMotionBtns = () =>
-    motionBtns.forEach((b) => b.setAttribute("aria-pressed", String(html.classList.contains("nh-reduce-motion"))));
-  motionBtns.forEach((b) =>
-    b.addEventListener("click", () => {
-      const reduce = !html.classList.contains("nh-reduce-motion");
-      html.classList.toggle("nh-reduce-motion", reduce);
-      store.set("nh-motion", reduce ? "reduce" : "full");
-      syncMotionBtns();
-      // motion layer was never loaded for this visitor? load it now (no-op if loaded)
-      if (!reduce && !window.gsap && typeof window.nhLoadMotion === "function") window.nhLoadMotion();
-      d.dispatchEvent(new CustomEvent("nh:motionchange", { detail: { reduce } }));
-    })
-  );
-  syncMotionBtns();
-
-  /* ---------- 1b. Story: swap the sticky image when a chapter crosses the
-     middle of the viewport (IntersectionObserver — works with and without
-     GSAP; the cross-fade is CSS and is removed under reduced motion). ---- */
-  const storyItems = d.querySelectorAll(".nh-story__item");
-  const storyFigs = d.querySelectorAll(".nh-story__stack figure");
-  if (storyItems.length && storyFigs.length && "IntersectionObserver" in window) {
-    const setActive = (i) => storyFigs.forEach((f, k) => f.classList.toggle("is-active", k === i));
-    setActive(0);
-    const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => {
-        if (e.isIntersecting) setActive(Array.prototype.indexOf.call(storyItems, e.target));
-      }),
-      { rootMargin: "-50% 0px -50% 0px" }
-    );
-    storyItems.forEach((it) => io.observe(it));
-  }
-
-  /* ---------- 2. Header state ------------------------------------------- */
-  const header = d.querySelector(".nh-header");
-  if (header) {
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        header.classList.toggle("is-scrolled", window.scrollY > 24);
-        ticking = false;
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-  }
-
-  /* ---------- 2b. Header theme follows the section beneath it ------------- */
-  const themed = d.querySelectorAll("[data-header]");
-  if (header && themed.length) {
-    const probe = () => {
-      const y = header.getBoundingClientRect().bottom - 6;
-      let theme = "light";
-      for (const s of themed) {
-        const b = s.getBoundingClientRect();
-        if (b.top <= y && b.bottom > y) { theme = s.dataset.header; break; }
-      }
-      if (header.dataset.theme !== theme) header.dataset.theme = theme;
-    };
-    let tk = false;
-    window.addEventListener("scroll", () => {
-      if (tk) return; tk = true;
-      requestAnimationFrame(() => { probe(); tk = false; });
-    }, { passive: true });
-    window.addEventListener("resize", probe);
-    probe();
-    window.nhUpdateHeaderTheme = probe;
-  }
-
-  /* ---------- 2c. Colour = life: photos bloom from duotone to colour ------- */
-  const colourEls = d.querySelectorAll("[data-colour]");
-  if (prefersReduced() || !("IntersectionObserver" in window)) {
-    colourEls.forEach((el) => el.classList.add("is-colour"));
-  } else {
-    const cio = new IntersectionObserver((entries) => entries.forEach((e) => {
-      if (e.isIntersecting) { e.target.classList.add("is-colour"); cio.unobserve(e.target); }
-    }), { threshold: 0.45 });
-    colourEls.forEach((el) => cio.observe(el));
-  }
-
-  /* ---------- 2d. Mobile visit bar: after the first screen, hidden near the
-     contact form and the footer (never covers the thing you are reading) --- */
-  const bar = d.querySelector("[data-bar]");
-  if (bar) {
-    const own = d.getElementById("visit");
-    const cta = bar.querySelector("[data-bar-cta]");
-    if (own && cta) cta.setAttribute("href", "#visit");
-    const zones = [d.getElementById("contact"), d.getElementById("door"), own, d.querySelector(".nh-footer")].filter(Boolean);
-    const inView = (el) => { const b = el.getBoundingClientRect(); return b.top < window.innerHeight && b.bottom > 0; };
-    let bt = false;
-    // the bar appears once the page's own visit button (on the cover) has scrolled away; an observer
-    // tells us when, so nothing reads layout while the page is loading
-    const firstCta = d.querySelector(".v3-cover__cta a");
-    let ctaGone = false;
-    const passed = () => (firstCta && "IntersectionObserver" in window ? ctaGone : window.scrollY > window.innerHeight * 0.9);
-    const upd = () => {
-      const on = passed() && !zones.some(inView);
-      bar.classList.toggle("is-on", on);
-      html.classList.toggle("nh-has-bar", on);
-    };
-    const later = () => { if (bt) return; bt = true; requestAnimationFrame(() => { upd(); bt = false; }); };
-    window.addEventListener("scroll", later, { passive: true });
-    if (firstCta && "IntersectionObserver" in window) {
-      new IntersectionObserver(([e]) => { ctaGone = !e.isIntersecting && e.boundingClientRect.top < 0; later(); }).observe(firstCta);
-    } else later();
-  }
-
-  /* ---------- 3. Mobile menu --------------------------------------------- */
+  /* ---------- 1. Phone menu (<dialog>, research/07 §5.4) ------------------
+     Opens only on «תפריט», at once. Esc and «סגירה» close it and focus returns to «תפריט». A link closes it
+     too, but then focus goes to the heading of the link's target (2), not back to «תפריט»: the link sets
+     menu.dataset.nav, and the close handler sees it and clears it. */
   const menu = d.getElementById("nh-menu");
   const menuBtn = d.querySelector("[data-menu-open]");
+  const plainClick = (e) => e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
   if (menu && menuBtn && typeof menu.showModal === "function") {
     menuBtn.addEventListener("click", () => {
       menu.showModal();
@@ -142,80 +33,112 @@
     });
     menu.addEventListener("close", () => {
       menuBtn.setAttribute("aria-expanded", "false");
+      if (menu.dataset.nav) { delete menu.dataset.nav; return; }
       menuBtn.focus();
     });
-    menu.querySelectorAll("[data-menu-close], nav a").forEach((el) =>
-      el.addEventListener("click", () => menu.close())
-    );
+    menu.querySelectorAll("[data-menu-close]").forEach((el) => el.addEventListener("click", () => menu.close()));
+    menu.querySelectorAll("nav a, a[data-visit-cta]").forEach((el) => el.addEventListener("click", (e) => {
+      if (!plainClick(e)) return;
+      menu.dataset.nav = "1";
+      menu.close();
+    }));
   }
 
-  /* ---------- 4. Cookie consent ------------------------------------------- */
+  /* ---------- 2. The visit button and in-page anchors (research/07 §5.5) ------
+     Every [data-visit-cta] (masthead, menu) leads to this page's door when it has one, else to the home page's
+     (index.html#door in the markup). An anchor is reached at once (no smooth scrolling, no preventDefault);
+     then focus goes to the heading of the target, so the keyboard and a screen reader go on from where the
+     eyes are. "This page" is decided by the address, so index.html#homes counts on the home page. */
+  const door = d.querySelector(".v3-door[id]");
+  if (door) d.querySelectorAll("a[data-visit-cta]").forEach((a) => a.setAttribute("href", "#" + door.id));
+  const headingOf = (t) => {
+    if (/^H[1-3]$/.test(t.tagName)) return t;
+    const ids = (t.getAttribute("aria-labelledby") || "").split(/\s+/).filter(Boolean);
+    return (ids.length && d.getElementById(ids[0])) || t.querySelector("h2, h3");
+  };
+  const focusTarget = (hash) => {
+    let id = hash.slice(1);
+    try { id = decodeURIComponent(id); } catch (e) { /* keep it as written */ }
+    if (!id || id === "main" || id === "nh-cookies") return;     // the skip link's main takes focus itself; the panel opens in 3
+    const t = d.getElementById(id);
+    const h = t && headingOf(t);
+    if (!h) return;
+    // after the browser's own fragment navigation (which resets focus), on the next frame
+    requestAnimationFrame(() => {
+      if (!h.hasAttribute("tabindex")) h.setAttribute("tabindex", "-1");
+      h.focus({ preventScroll: true });
+    });
+  };
+  const samePage = (a) => a.origin === location.origin && a.pathname === location.pathname &&
+    a.search === location.search && a.hash.length > 1;
+  d.addEventListener("click", (e) => {
+    if (e.defaultPrevented || !plainClick(e)) return;
+    const a = e.target.closest("a[href]");
+    if (!a || !samePage(a) || a.classList.contains("nh-skip") || a.hash === "#nh-cookies") return;
+    // a link in the menu: after the dialog's close event, or the return to «תפריט» would take the focus back
+    if (menu && menu.contains(a)) menu.addEventListener("close", () => focusTarget(a.hash), { once: true });
+    else focusTarget(a.hash);
+  });
+  if (location.hash.length > 1) focusTarget(location.hash);     // arriving from another page, e.g. index.html#homes
+
+  /* ---------- 3. Cookie settings (research/07 §9) ----------------------------
+     Never opens by itself: there are no statistics and no advertising pixels, and the one third party
+     (YouTube) asks inside the video. «הגדרות עוגיות» (or any link to #nh-cookies) opens the panel in the flow
+     right after the footer, at once, with focus on its heading; «שמירת הבחירה», «סגירה» and Esc hide it and
+     return focus to the link. Display choices and the consent record are necessary storage. */
   const CONSENT_KEY = "nh-consent-v1";
+  const CONSENT_V = 1;                                            // a record of an older version counts as none
   const banner = d.getElementById("nh-cookies");
   const readConsent = () => {
-    try { return JSON.parse(store.get(CONSENT_KEY) || "null"); } catch (e) { return null; }
+    let rec = null;
+    try { rec = JSON.parse(store.get(CONSENT_KEY) || "null"); } catch (e) { return null; }
+    return rec && (rec.v || 0) >= CONSENT_V ? rec : null;
   };
   const saveConsent = (c) => {
-    const rec = { necessary: true, stats: !!c.stats, media: !!c.media, date: new Date().toISOString(), v: 1 };
+    const rec = { necessary: true, stats: !!c.stats, media: !!c.media, date: new Date().toISOString(), v: CONSENT_V };
     store.set(CONSENT_KEY, JSON.stringify(rec));
     d.dispatchEvent(new CustomEvent("nh:consent", { detail: rec }));
   };
-  // the page keeps focus clear of the banner: scroll padding follows the banner's real height
-  // (measured by a ResizeObserver after layout, never forced while the page loads)
-  const showBanner = () => { if (banner) { banner.hidden = false; html.classList.add("nh-has-cookies"); } };
-  const hideBanner = () => { if (banner) { banner.hidden = true; html.classList.remove("nh-has-cookies"); } };
-  if (banner && "ResizeObserver" in window) new ResizeObserver(([e]) => {
-    const h = e.borderBoxSize && e.borderBoxSize[0] ? e.borderBoxSize[0].blockSize : banner.offsetHeight;
-    if (h) html.style.setProperty("--nh-cookie-h", Math.ceil(h) + "px");
-  }).observe(banner);
+  let opener = null;
+  // the name stays (research/07 §9): the video's «כן, לטעון את הסרטון» calls it before it loads the film
+  const hideBanner = (focusBack) => {
+    if (!banner || banner.hidden) return;
+    banner.hidden = true;
+    if (focusBack === true && opener && opener.isConnected) opener.focus();
+    opener = null;
+  };
+  const openSettings = (from) => {
+    if (!banner) return;
+    opener = from || null;
+    const media = banner.querySelector("#nh-c-media");
+    if (media) media.checked = !!(readConsent() || {}).media;
+    banner.hidden = false;
+    banner.scrollIntoView({ block: "start" });                    // at once: no smooth scrolling anywhere
+    const h = banner.querySelector("h2");
+    if (h) h.focus({ preventScroll: true });
+  };
   if (banner) {
-    if (!readConsent()) showBanner();
-    const prefs = banner.querySelector(".nh-cookies__prefs");
-    const more = banner.querySelector("[data-cookie-more]");
-    if (more) more.addEventListener("click", () => {
-      const open = !banner.classList.contains("is-more");
-      banner.classList.toggle("is-more", open);
-      more.setAttribute("aria-expanded", String(open));
+    d.addEventListener("click", (e) => {
+      const link = e.target.closest('[data-cookie-settings], a[href="#nh-cookies"]');
+      if (!link) return;
+      e.preventDefault();
+      openSettings(link);
     });
     banner.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-consent]");
       if (!btn) return;
-      const act = btn.dataset.consent;
-      if (act === "settings") {
-        prefs.hidden = !prefs.hidden;
-        btn.setAttribute("aria-expanded", String(!prefs.hidden));
-        if (!prefs.hidden) prefs.querySelector("input:not([disabled])").focus();
-        return;
+      if (btn.dataset.consent === "save") {
+        const media = banner.querySelector("#nh-c-media");
+        saveConsent({ stats: false, media: !!(media && media.checked) });
       }
-      const c = { stats: false, media: false };
-      if (act === "all") { c.stats = true; c.media = true; }
-      if (act === "save") {
-        c.stats = banner.querySelector("#nh-c-stats").checked;
-        c.media = banner.querySelector("#nh-c-media").checked;
-      }
-      saveConsent(c);
-      hideBanner();
-      // focus goes back to the page (main has tabindex="-1"; if it cannot take focus, the page title can)
-      const main = d.getElementById("main");
-      if (main) main.focus({ preventScroll: true });
-      if (main && d.activeElement !== main) {
-        const h1 = d.querySelector("h1");
-        if (h1) { h1.setAttribute("tabindex", "-1"); h1.focus({ preventScroll: true }); }
-      }
+      hideBanner(true);
     });
-    d.querySelectorAll("[data-cookie-settings]").forEach((b) =>
-      b.addEventListener("click", () => {
-        const c = readConsent() || {};
-        banner.querySelector("#nh-c-stats").checked = !!c.stats;
-        banner.querySelector("#nh-c-media").checked = !!c.media;
-        prefs.hidden = false;
-        showBanner();
-        banner.querySelector("h2").focus();
-      })
-    );
+    banner.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") { e.preventDefault(); hideBanner(true); }
+    });
   }
 
-  /* ---------- 5. Video facade (privacy: no YouTube request before consent) */
+  /* ---------- 4. Video facade (privacy: no YouTube request before consent) */
   d.querySelectorAll("[data-video]").forEach((box) => {
     const id = box.dataset.video;
     const play = box.querySelector(".nh-video__play");
@@ -224,8 +147,7 @@
       const f = d.createElement("iframe");
       f.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(id) + "?autoplay=1&rel=0";
       f.title = box.dataset.title || "סרטון";
-      f.allow = "accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen";
-      f.allowFullscreen = true;
+      f.allow = "accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen";   // "fullscreen" here: no legacy allowfullscreen (Chrome warns when both are set)
       f.referrerPolicy = "strict-origin-when-cross-origin";
       box.replaceChildren(f);
       f.focus();
@@ -249,94 +171,7 @@
     });
   });
 
-  /* ---------- 6. Horizontal track (native scroll + buttons) --------------- */
-  d.querySelectorAll("[data-track]").forEach((wrap) => {
-    const track = wrap.querySelector(".nh-day__track");
-    const prev = wrap.querySelector("[data-track-prev]");
-    const next = wrap.querySelector("[data-track-next]");
-    const bar = wrap.querySelector(".nh-day__progress i");
-    if (!track) return;
-    const gap = () => parseFloat(getComputedStyle(track).columnGap) || 24;
-    const step = () => {
-      const card = track.querySelector(".nh-day__card");
-      return card ? card.getBoundingClientRect().width + gap() : 320;
-    };
-    const max = () => Math.max(0, track.scrollWidth - track.clientWidth);
-    const pos = () => Math.abs(track.scrollLeft); // RTL scrollLeft runs 0 → -max
-    const update = () => {
-      const m = max();
-      const p = m > 0 ? pos() / m : 1;
-      if (bar) bar.style.transform = "scaleX(" + Math.max(0.12, Math.min(1, p)).toFixed(3) + ")";
-      if (prev) prev.disabled = pos() <= 2;
-      if (next) next.disabled = pos() >= m - 2;
-    };
-    const go = (dir) =>
-      track.scrollBy({ left: (isRTL() ? -1 : 1) * dir * step(), behavior: prefersReduced() ? "auto" : "smooth" });
-    next && next.addEventListener("click", () => go(1));
-    prev && prev.addEventListener("click", () => go(-1));
-    track.addEventListener("scroll", () => requestAnimationFrame(update), { passive: true });
-    window.addEventListener("resize", update);
-    update();
-  });
-
-  /* ---------- 7. Lightbox ------------------------------------------------- */
-  const lb = d.getElementById("nh-lightbox");
-  if (lb && typeof lb.showModal === "function") {
-    const img = lb.querySelector(".nh-lightbox__stage img");
-    const cap = lb.querySelector(".nh-lightbox__caption");
-    const count = lb.querySelector(".nh-lightbox__count");
-    const live = lb.querySelector("[data-lb-live]");
-    let items = [];
-    let idx = 0;
-    let opener = null;
-    const render = () => {
-      const it = items[idx];
-      img.removeAttribute("srcset");
-      img.src = it.src;
-      if (it.srcset) { img.srcset = it.srcset; img.sizes = "100vw"; }
-      img.alt = it.alt || "";
-      cap.textContent = it.caption || "";
-      count.textContent = "תמונה " + (idx + 1) + " מתוך " + items.length;
-      if (live) live.textContent = count.textContent + ". " + (it.alt || "");
-    };
-    const open = (list, i, from) => {
-      items = list; idx = i; opener = from;
-      render();
-      lb.showModal();
-      lb.querySelector("[data-lb-close]").focus();
-    };
-    const move = (n) => { idx = (idx + n + items.length) % items.length; render(); };
-    lb.querySelector("[data-lb-prev]").addEventListener("click", () => move(-1));
-    lb.querySelector("[data-lb-next]").addEventListener("click", () => move(1));
-    lb.querySelector("[data-lb-close]").addEventListener("click", () => lb.close());
-    lb.addEventListener("close", () => opener && opener.focus());
-    lb.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") { e.preventDefault(); move(isRTL() ? 1 : -1); }
-      if (e.key === "ArrowRight") { e.preventDefault(); move(isRTL() ? -1 : 1); }
-      if (e.key === "Home") { e.preventDefault(); idx = 0; render(); }
-      if (e.key === "End") { e.preventDefault(); idx = items.length - 1; render(); }
-    });
-    let x0 = null;
-    lb.addEventListener("pointerdown", (e) => { x0 = e.clientX; });
-    lb.addEventListener("pointerup", (e) => {
-      if (x0 === null) return;
-      const dx = e.clientX - x0;
-      x0 = null;
-      if (Math.abs(dx) > 50) move(dx > 0 ? (isRTL() ? 1 : -1) : (isRTL() ? -1 : 1));
-    });
-    d.querySelectorAll("[data-lightbox]").forEach((g) => {
-      const btns = Array.from(g.querySelectorAll("button[data-full]"));
-      const list = btns.map((b) => ({
-        src: b.dataset.full,
-        srcset: b.dataset.srcset,
-        alt: (b.querySelector("img") || {}).alt,
-        caption: b.dataset.caption,
-      }));
-      btns.forEach((b, i) => b.addEventListener("click", () => open(list, i, b)));
-    });
-  }
-
-  /* ---------- 8. Forms ---------------------------------------------------- */
+  /* ---------- 5. Forms ---------------------------------------------------- */
   const ICON_ERR =
     '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v6M12 16.5v.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
   const MSG = {
@@ -454,6 +289,6 @@
     });
   });
 
-  /* ---------- 9. Small things ------------------------------------------- */
+  /* ---------- 6. Small things ------------------------------------------- */
   d.querySelectorAll("[data-year]").forEach((el) => { el.textContent = String(new Date().getFullYear()); });
 })();

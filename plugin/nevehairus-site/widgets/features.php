@@ -158,13 +158,7 @@ final class NH_Widget_Features extends NH_Widget_Base {
 		$this->end_controls_section();
 
 		/* ---------- מקטע (always last) ---------- */
-		NH_Controls::section(
-			$this,
-			[
-				'anchor'  => 'features',
-				'running' => 'מה יש בבית',
-			]
-		);
+		NH_Controls::section( $this, [ 'anchor' => 'features' ] );
 	}
 
 	protected function render() {

@@ -8,13 +8,32 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * The `{file} {w}w, …` list of a fixture photo in one format, from the prototype's manifest widths (the
+ * A track exports each photo's own width too, research/07 §11.2 item 3: v3-walk 480, 768, 1080, 1224).
+ */
+function nh_test_picture_set( string $name, string $ext ): string {
+	$manifest = json_decode( (string) file_get_contents( NH_TEST_ROOT . '/prototype/assets/img/manifest.json' ), true );
+	$widths   = array_map( 'intval', (array) ( $manifest[ $name ]['widths'] ?? [] ) );
+	sort( $widths );
+	return implode(
+		', ',
+		array_map(
+			static function ( int $w ) use ( $name, $ext ): string {
+				return NH_TEST_MEDIA_BASE . $name . '-' . $w . '.' . $ext . ' ' . $w . 'w';
+			},
+			$widths
+		)
+	);
+}
+
 return [
 	'render(): a fixture image with AVIF source, in the prototype\'s attribute order' => static function () {
 		$id   = nh_test_media_id( 'v3-walk' );
 		$base = NH_TEST_MEDIA_BASE . 'v3-walk-';
 		$want = '<picture class="v3-room__photo">'
-			. '<source type="image/avif" srcset="' . $base . '480.avif 480w, ' . $base . '768.avif 768w, ' . $base . '1080.avif 1080w" sizes="(min-width: 1024px) 30rem, 44vw">'
-			. '<img src="' . $base . '768.webp" srcset="' . $base . '480.webp 480w, ' . $base . '768.webp 768w, ' . $base . '1080.webp 1080w" sizes="(min-width: 1024px) 30rem, 44vw" width="1224" height="1571" alt="שני אנשים צועדים יחד, מחובקים, בשביל מוצל בין עצים ודקלים" loading="lazy" decoding="async">'
+			. '<source type="image/avif" srcset="' . nh_test_picture_set( 'v3-walk', 'avif' ) . '" sizes="(min-width: 1024px) 30rem, 44vw">'
+			. '<img src="' . $base . '768.webp" srcset="' . nh_test_picture_set( 'v3-walk', 'webp' ) . '" sizes="(min-width: 1024px) 30rem, 44vw" width="1224" height="1571" alt="' . esc_attr( NH_Picture::alt( $id ) ) . '" loading="lazy" decoding="async">'
 			. '</picture>';
 		nh_assert_same(
 			$want,
@@ -82,7 +101,7 @@ return [
 		$id   = nh_test_media_id( 'v3-walk' );
 		$base = NH_TEST_MEDIA_BASE . 'v3-walk-';
 		nh_assert_same(
-			'<link rel="preload" as="image" type="image/avif" href="' . $base . '768.avif" imagesrcset="' . $base . '480.avif 480w, ' . $base . '768.avif 768w, ' . $base . '1080.avif 1080w" imagesizes="(min-width: 1024px) 30rem, 44vw" fetchpriority="high">',
+			'<link rel="preload" as="image" type="image/avif" href="' . $base . '768.avif" imagesrcset="' . nh_test_picture_set( 'v3-walk', 'avif' ) . '" imagesizes="(min-width: 1024px) 30rem, 44vw" fetchpriority="high">',
 			NH_Picture::preload( $id, '(min-width: 1024px) 30rem, 44vw' )
 		);
 		$m = $GLOBALS['nh_test']['meta'][ $id ]['_wp_attachment_metadata'];

@@ -4,9 +4,10 @@ defined( 'ABSPATH' ) || exit;
 /**
  * ב׳ · שער דף הבית — the home cover (SPEC §4.1), the reference widget every other widget copies.
  *
- * Target: prototype `index.html` `section#cover`. A ב whose room holds the cover photo (the LCP image,
- * eager and preloaded), the H1 in two lines with tesserae, the lead and the visit button. The ב thins
- * from 800 to 300 while the page scrolls (assets/js/widgets/cover.js reads `#nh-letters`).
+ * Target: prototype `index.html` `section#cover`. A still ב (weight 600, research/07 §10.2 item 1) whose room
+ * holds the cover photo (the LCP image, eager and preloaded), the H1 in two lines with tesserae, the lead, the
+ * visit button and the line «או בטלפון» with the phone number from the settings. One screen, no ruling line,
+ * nothing moves.
  *
  * How a widget is built (the pattern to copy):
  * - constants first (ID, deps, keywords); get_title() / get_icon();
@@ -22,7 +23,11 @@ final class NH_Widget_Cover extends NH_Widget_Base {
 
 	public const ID         = 'cover';
 	public const STYLE_DEPS = [ 'nh-letters' ];
+	public const DYNAMIC    = true; // the phone line reads NH_Settings (a cached copy would keep an old number)
 	public const KEYWORDS   = [ 'cover', 'bet', 'שער', 'ב' ];
+
+	/** The one weight of the ב (v3.2: every letter keeps one weight for good). */
+	public const WEIGHT = 600;
 
 	/** Default `sizes` of the cover photo (also used by NH_Site::cover_preload()). */
 	public const SIZES = '(min-width: 1024px) 30rem, 44vw';
@@ -42,8 +47,8 @@ final class NH_Widget_Cover extends NH_Widget_Base {
 	}
 
 	/**
-	 * Controls: תוכן (title lines, their tesserae, the H1's plain twin, lead, button), תמונות (the photo
-	 * in the ב's room and the weight of the letter), מקטע.
+	 * Controls: תוכן (title lines, their tesserae, the H1's plain twin, lead, button, the phone line),
+	 * תמונות (the photo in the ב's room), מקטע.
 	 */
 	protected function register_controls() {
 		$this->start_controls_section( 'nh_content', [ 'label' => __( 'תוכן', 'nevehairus-site' ) ] );
@@ -123,6 +128,7 @@ final class NH_Widget_Cover extends NH_Widget_Base {
 				'default' => '#door',
 			]
 		);
+		self::call_controls( $this );
 
 		$this->end_controls_section();
 
@@ -135,36 +141,68 @@ final class NH_Widget_Cover extends NH_Widget_Base {
 				'label'      => __( 'התמונה בחדר של ב׳', 'nevehairus-site' ),
 				'decorative' => false,
 				'alt'        => '',
-				'pos'        => '46% 38%',
+				'pos'        => '46% 50%',
 				'sizes'      => self::SIZES,
-			]
-		);
-		$this->add_control(
-			'weight',
-			[
-				'label'       => __( 'עובי האות בטעינה (300–800)', 'nevehairus-site' ),
-				'type'        => \Elementor\Controls_Manager::NUMBER,
-				'min'         => 300,
-				'max'         => 800,
-				'step'        => 10,
-				'default'     => 800,
-				'description' => __( 'בגלילה האות נעשית דקה יותר והחדר גדל. בלי תמונה — שמיים שקטים בחדר.', 'nevehairus-site' ),
 			]
 		);
 
 		$this->end_controls_section();
 
-		NH_Controls::section(
-			$this,
+		NH_Controls::section( $this, [ 'anchor' => 'cover' ] );
+	}
+
+	/**
+	 * The phone line under the button (research/07 §10.2 item 1, §3 item 24): `call_label` (pair) and
+	 * `show_call` (the page cover has the same two controls).
+	 *
+	 * @param \Elementor\Widget_Base $w Widget.
+	 */
+	private static function call_controls( $w ): void {
+		$w->add_control(
+			'show_call',
 			[
-				'anchor'  => 'cover',
-				'running' => 'בית. לחיים.',
+				'label'        => __( 'שורת הטלפון מתחת לכפתור', 'nevehairus-site' ),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'description'  => __( 'המספר נלקח מההגדרות: הגדרות ← נווה האירוס.', 'nevehairus-site' ),
+			]
+		);
+		NH_Controls::pair(
+			$w,
+			'call_label',
+			[
+				'label'     => __( 'שורת הטלפון — המילים לפני המספר', 'nevehairus-site' ),
+				'default'   => 'או בטלפון:',
+				'plain'     => 'אפשר גם להתקשר:',
+				'condition' => [ 'show_call' => 'yes' ],
 			]
 		);
 	}
 
 	/**
-	 * Markup of SPEC §4.1 (target: built index.html section#cover) + the morph data after the section.
+	 * `<p class="v3-cover__call">{call_label} <a href="tel:…"><span class="nh-ltr">{phone}</span></a></p>`;
+	 * '' when switched off or when the settings hold no phone (the page cover prints the same line).
+	 *
+	 * @param array $s Settings for display.
+	 */
+	private static function call_line( array $s ): string {
+		if ( 'yes' !== ( $s['show_call'] ?? '' ) ) {
+			return '';
+		}
+		$phone   = NH_Settings::phone();
+		$display = trim( (string) ( $phone['display'] ?? '' ) );
+		$tel     = trim( (string) ( $phone['tel'] ?? '' ) );
+		if ( '' === $display || '' === $tel ) {
+			return '';
+		}
+		$label = NH_Text::pair( self::str( $s, 'call_label' ), self::str( $s, 'call_label_plain' ) );
+		return '<p class="v3-cover__call">' . ( '' !== $label ? $label . ' ' : '' )
+			. '<a href="' . esc_url( NH_Html::tel( $tel ) ) . '">' . NH_Html::ltr( $display ) . '</a></p>';
+	}
+
+	/**
+	 * Markup of SPEC §4.1 (target: built index.html section#cover).
 	 */
 	protected function render() {
 		$s   = $this->get_settings_for_display();
@@ -177,7 +215,7 @@ final class NH_Widget_Cover extends NH_Widget_Base {
 				'sizes'      => $img['sizes'] ?? self::SIZES,
 				'priority'   => true,
 				'pos'        => $img['pos'] ?? '50% 50%',
-				'weight'     => self::weight( $s['weight'] ?? 800 ),
+				'weight'     => self::WEIGHT,
 				'alt'        => $img['alt'],
 				'decorative' => $img['decorative'],
 				'class'      => 'v3-cover__bet',
@@ -198,18 +236,17 @@ final class NH_Widget_Cover extends NH_Widget_Base {
 		$text = NH_Text::pair( self::str( $s, 'cta_text' ), self::str( $s, 'cta_text_plain' ) );
 		$href = NH_Html::url( $s['cta_link'] ?? '' );
 		if ( '' !== $text && '' !== $href ) {
-			$cta = '<p class="v3-cover__cta"><a class="nh-btn nh-btn--primary" href="' . $href . '">' . $text
+			// data-visit-cta: nh-core.js points it at this page's door when there is one (research/07 §5.5)
+			$cta = '<p class="v3-cover__cta"><a class="nh-btn nh-btn--primary" href="' . $href . '" data-visit-cta>' . $text
 				. NH_Html::icon( 'arrow-fwd', 'nh-btn__icon nh-btn__icon--fwd' ) . '</a></p>';
 		}
 
 		$html = $this->nh_section_open( $s, [ 'class' => 'v3-cover v3-spread' ] )
 			. '<div class="nh-container v3-cover__grid">'
-			. $this->nh_rule( true )
 			. '<div class="v3-cover__letter">' . $room . '</div>'
-			. '<div class="v3-cover__text">' . $this->title( $s ) . $lead . $cta . '</div>'
+			. '<div class="v3-cover__text">' . $this->title( $s ) . $lead . $cta . self::call_line( $s ) . '</div>'
 			. '</div>'
-			. $this->nh_section_close()
-			. NH_Letters::data_script( [ 'bet' ] );
+			. $this->nh_section_close();
 
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled from escaped parts
 	}
@@ -251,14 +288,5 @@ final class NH_Widget_Cover extends NH_Widget_Base {
 	 */
 	private static function str( array $s, string $key ): string {
 		return isset( $s[ $key ] ) && is_scalar( $s[ $key ] ) ? (string) $s[ $key ] : '';
-	}
-
-	/**
-	 * The weight control (NUMBER may be '' or a string): 300–800, default 800.
-	 *
-	 * @param mixed $v Value.
-	 */
-	private static function weight( $v ): float {
-		return is_numeric( $v ) ? max( 300.0, min( 800.0, (float) $v ) ) : 800.0;
 	}
 }

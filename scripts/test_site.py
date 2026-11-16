@@ -43,13 +43,20 @@ pages: builds what templates/pages/*.json describe (made by scripts/build_pages.
 from this tree's plugin, fixtures and builder, and, with a local PHP, unless their render check passes): the home
 page (front page), the house page and the Elementor Pro Theme Builder header and footer. (a) The photos those files
 reference are uploaded once each (the largest .webp; WordPress makes the sub-sizes), titled nh:<name> with the
-manifest's alt text; a later run finds them by that title and reuses them; the name -> id map is kept in
-templates/media-map.json. (b) The photo tokens get the attachment ids and URLs. (c) One PHP step, acting as the
+manifest's alt text; the logo's emblem (a manifest record with `file`, research/07 §11.2 item 5) is uploaded as
+its PNG, as it is, with an empty alt text (it is decorative); a later run finds them by that title and reuses them;
+the name -> id map is kept in templates/media-map.json. (b) The photo tokens get the attachment ids and URLs.
+(c) One PHP step, acting as the
 signed-in user, first checks that the plugin's PHP on the site is the one the files were built against and that
 Elementor's Container feature is on; then it creates (as drafts) or updates the four posts, found by their post meta
 _nh_page_key (no other post is ever touched), writes the Elementor data and meta, publishes them, regenerates the
-Theme Builder conditions and sets the front page last; its answer carries every old value. (d) ezCache is purged and
-both pages are smoke-tested: HTTP 200 without PHP errors, every widget, the header and footer, no unresolved token.
+Theme Builder conditions and sets the front page last; its answer carries every old value. The footer is Elementor's
+own widgets (research/07 §12.6): what the plugin's colophon read from its settings at render time is read there
+once, on this step — the plugin's link tokens in the footer's links (#privacy, #accessibility, #sitemap,
+#entrances: the pages chosen in Settings → נווה האירוס; an unset one stays an in-page anchor) and the public e-mail
+(@nh:email; its list item is left out while none is set). (d) ezCache is purged and both pages are smoke-tested:
+HTTP 200 without PHP errors, every widget, the header (in a div) and the footer (in a footer element), no
+unresolved token.
 """
 import argparse
 import base64
@@ -831,7 +838,7 @@ PAGE_KEYS = ("home", "main-home", "header", "footer")
 MEDIA_MAP = os.path.join(ROOT, "templates", "media-map.json")
 IMG_DIR = os.path.join(ROOT, "prototype", "assets", "img")
 MEDIA_TOKEN = re.compile(r"^@media:([a-z0-9-]+)$")
-UNRESOLVED = re.compile(r"@(?:media|page|page-id|home):")
+UNRESOLVED = re.compile(r"@(?:media|page|page-id|home|nh):")
 
 # The one PHP step of `pages`. Our posts are the ones whose post meta _nh_page_key names a document; besides them it
 # changes only Settings → Reading (the front page) and the Theme Builder conditions cache, which Pro rebuilds from every
@@ -1047,10 +1054,45 @@ PAGES_PHP = r"""
 			}
 			throw new Exception( "unresolved token $value" );
 		};
-		$nh_write = static function ( $nh_doc ) use ( $nh_resolve, $nh_ids ) {
+		// The footer is Elementor's own widgets (research/07 §12.6): what the plugin's colophon read from its settings
+		// on every view is read here, once. In the HTML of its Text Editors: the plugin's link tokens (#privacy,
+		// #accessibility, #sitemap, #entrances → the pages chosen in Settings → נווה האירוס; an unset one stays an
+		// in-page anchor, as in the plugin's own widgets) and the public e-mail (@nh:email; while none is set, the list
+		// item that holds it is left out). Only strings of the footer document are touched.
+		$nh_email  = is_callable( array( 'NH_Settings', 'email_public' ) ) ? (string) NH_Settings::email_public() : '';
+		$nh_footer = static function ( $value ) use ( &$nh_footer, $nh_email ) {
+			if ( is_array( $value ) ) {
+				foreach ( $value as $k => $v ) {
+					$value[ $k ] = $nh_footer( $v );
+				}
+				return $value;
+			}
+			if ( ! is_string( $value ) || '' === $value ) {
+				return $value;
+			}
+			if ( false !== strpos( $value, '@nh:email' ) ) {
+				$value = '' !== $nh_email && is_email( $nh_email )
+					? str_replace( '@nh:email', esc_html( $nh_email ), $value )
+					: (string) preg_replace( '~<li>(?:(?!</li>).)*@nh:email(?:(?!</li>).)*</li>~su', '', $value );
+			}
+			return (string) preg_replace_callback(
+				'~href="(#(?:privacy|accessibility|sitemap|entrances))"~',
+				static function ( $m ) {
+					return 'href="' . esc_url( NH_Html::resolve_token( $m[1] ) ) . '"';
+				},
+				$value
+			);
+		};
+		$nh_write = static function ( $nh_doc ) use ( $nh_resolve, $nh_ids, $nh_footer ) {
 			$nh_key  = (string) $nh_doc['key'];
 			$nh_id   = $nh_ids[ $nh_key ];
 			$nh_data = $nh_resolve( $nh_doc['elementor_data'] );
+			if ( 'footer' === (string) $nh_doc['document_type'] ) {
+				$nh_data = $nh_footer( $nh_data );
+				if ( false !== strpos( (string) wp_json_encode( $nh_data ), '@nh:' ) ) {
+					throw new Exception( "$nh_key: a token @nh:… is left in the footer" );
+				}
+			}
 			$nh_json = wp_json_encode( $nh_data );
 			if ( ! is_string( $nh_json ) || '' === $nh_json ) {
 				throw new Exception( "$nh_key: the Elementor data did not encode" );
@@ -1243,7 +1285,16 @@ def media_tokens(value, found=None):
 
 
 def widget_types(doc):
-    return [el.get("widgetType") for el in doc["elementor_data"][0].get("elements", [])]
+    """The widget types of a document, depth first (the footer's widgets sit in inner containers)."""
+    out = []
+
+    def walk(el):
+        if el.get("elType") == "widget":
+            out.append(el.get("widgetType"))
+        for child in el.get("elements") or []:
+            walk(child)
+    walk(doc["elementor_data"][0])
+    return out
 
 
 def webp_size(path):
@@ -1263,21 +1314,44 @@ def webp_size(path):
     return 0, 0
 
 
+def png_size(path):
+    """(width, height) from a PNG header (IHDR), (0, 0) if it is not a PNG."""
+    with open(path, "rb") as fh:
+        head = fh.read(24)
+    if len(head) < 24 or head[:8] != b"\x89PNG\r\n\x1a\n" or head[12:16] != b"IHDR":
+        return 0, 0
+    return int.from_bytes(head[16:20], "big"), int.from_bytes(head[20:24], "big")
+
+
 def photo_files(names):
-    """name -> the largest .webp of the photo, its size and the manifest's alt text."""
+    """name -> the file to upload, its size, type and the manifest's alt text: the largest .webp of a photo, or, for a
+    record with `file` (the logo's emblem, research/07 §11.2 item 5), that PNG as it is; an empty alt text only for a
+    record marked decorative."""
     with open(os.path.join(IMG_DIR, "manifest.json"), encoding="utf-8") as fh:
         manifest = json.load(fh)
     out = {}
     for name in sorted(names):
         need(name in manifest, f"photo {name} is not in prototype/assets/img/manifest.json")
-        width = max(int(w) for w in manifest[name]["widths"])
+        rec = manifest[name]
+        if "widths" not in rec and rec.get("file"):
+            path = os.path.join(IMG_DIR, os.path.basename(str(rec["file"])))
+            need(path.endswith(".png") and os.path.isfile(path), f"missing {os.path.relpath(path, ROOT)} (a PNG)")
+            w, h = png_size(path)
+            need((w, h) != (0, 0) and (not rec.get("width") or (w, h) == (int(rec["width"]), int(rec["height"]))),
+                 f"{os.path.relpath(path, ROOT)} is not the {rec.get('width')}×{rec.get('height')} PNG the manifest names")
+            alt = (rec.get("alt") or "").strip()
+            need(alt or rec.get("decorative") is True, f"image {name} has no alt text and is not marked decorative")
+            out[name] = {"path": path, "file": os.path.basename(path), "width": w, "height": h, "alt": alt,
+                         "bytes": os.path.getsize(path), "type": "image/png", "ext": "png"}
+            continue
+        width = max(int(w) for w in rec["widths"])
         path = os.path.join(IMG_DIR, f"{name}-{width}.webp")
         need(os.path.isfile(path), f"missing {os.path.relpath(path, ROOT)}")
         w, h = webp_size(path)
-        alt = (manifest[name].get("alt") or "").strip()
+        alt = (rec.get("alt") or "").strip()
         need(alt, f"photo {name} has no alt text in the manifest")
         out[name] = {"path": path, "file": os.path.basename(path), "width": w, "height": h, "alt": alt,
-                     "bytes": os.path.getsize(path)}
+                     "bytes": os.path.getsize(path), "type": "image/webp", "ext": "webp"}
     return out
 
 
@@ -1340,8 +1414,8 @@ def upload_photo(name, info, media_map):
     with open(info["path"], "rb") as fh:
         data = fh.read()
     st, media, hdr = api("/wp/v2/media", "POST", data, query={"title": f"nh:{name}", "alt_text": info["alt"]},
-                         headers={"Content-Type": "image/webp",
-                                  "Content-Disposition": f'attachment; filename="{name}.webp"'}, timeout=300)
+                         headers={"Content-Type": info["type"],
+                                  "Content-Disposition": f'attachment; filename="{name}.{info["ext"]}"'}, timeout=300)
     att = str((media.get("id") if st == 201 and isinstance(media, dict) else None)
               or hdr.get("x-wp-upload-attachment-id") or "").strip()
     need(att.isdigit() and int(att) > 0, f"could not upload {info['file']} ({st} {err(media)})")
@@ -1399,9 +1473,10 @@ def lint_php(label, body):
     step(f"the PHP step parses (php -l, {len(code) / 1024:.0f} KB)")
 
 
-def page_problems(url, doc, chrome):
+def page_problems(url, doc, chrome, wrappers):
     """What a visitor gets at url: 200 without PHP errors, every widget of the page and the chrome, the Theme Builder
-    header and footer wrapped in a div (our widgets are the landmarks), no unresolved token. -> (problems, photos)"""
+    header in a div (the masthead is the banner landmark) and the footer in the element its template names (footer:
+    the contentinfo landmark of a footer of Elementor's own widgets), no unresolved token. -> (problems, photos)"""
     _check_url(url)
     st, _, body = http(url + ("&" if "?" in url else "?") + urllib.parse.urlencode(bust()))
     html = body.decode("utf-8", "replace")
@@ -1413,18 +1488,21 @@ def page_problems(url, doc, chrome):
             problems.append(f"widget {wt} is missing")
     for loc in ("header", "footer"):
         m = re.search(r'<(\w+)\s[^>]*\bdata-elementor-type="' + loc + '"', html)
+        want = wrappers.get(loc, "div")
         if not m:
             problems.append(f"no Theme Builder {loc} on the page")
-        elif m.group(1) != "div":
-            problems.append(f"the Theme Builder {loc} is wrapped in <{m.group(1)}>: two {loc} landmarks with our widget")
+        elif m.group(1) != want:
+            problems.append(f"the Theme Builder {loc} is wrapped in <{m.group(1)}>, not <{want}>: "
+                            + ("two banner landmarks with the masthead" if loc == "header" else "no contentinfo landmark"))
     if UNRESOLVED.search(html):
-        problems.append("an unresolved token (@media:/@page:/@home:) in the page")
+        problems.append("an unresolved token (@media:/@page:/@home:/@nh:) in the page")
     return problems, len(re.findall(r'<img\s[^>]*src="[^"]*/wp-content/uploads/', html))
 
 
 PAGES_PLAN = """pages will change the test site:
-  1. photos: {upload} to upload (the largest .webp; WordPress makes the sub-sizes), titled nh:<name>, alt text from
-     the manifest; {reuse} already there (found by that title) are reused; ids kept in templates/media-map.json
+  1. photos: {upload} to upload (the largest .webp; WordPress makes the sub-sizes; the logo's emblem as its PNG),
+     titled nh:<name>, alt text from the manifest ('' for the decorative emblem); {reuse} already there (found by that
+     title) are reused; ids kept in templates/media-map.json
   2. one PHP step, as user #{user}. It stops before writing anything unless the plugin's PHP on the site is the one
      these files were built against (sha256 {sha}…) and Elementor's Container feature is on. Then it creates (as
      drafts) or updates the posts found by post meta _nh_page_key (no other post is touched):
@@ -1512,7 +1590,7 @@ def cmd_pages(args):
         if (size.get("width"), size.get("height")) != (info["width"], info["height"]):
             print(f"!! photo {name} (#{item['id']}) is {size.get('width')}×{size.get('height')} on the site, "
                   f"{info['width']}×{info['height']} here")
-        if not size.get("sizes"):
+        if not size.get("sizes") and info["type"] == "image/webp":   # the 105×74 emblem has none, by design
             print(f"!! photo {name} (#{item['id']}) has no sub-sizes on the site (no WebP in the server's image "
                   "editor?): pages will use the full file without a srcset")
         atts[name] = {"id": int(item["id"]), "url": str(item.get("source_url") or ""), "alt": info["alt"]}
@@ -1548,12 +1626,14 @@ def cmd_pages(args):
     st_c, _, _ = api("/ezcache/v1/cache", "DELETE")
     step(f"ezCache page cache purged ({st_c})")
     chrome = [wt for d in docs if d["post_type"] == "elementor_library" for wt in widget_types(d)]
+    wrappers = {d["document_type"]: str((d.get("page_settings") or {}).get("content_wrapper_html_tag") or "div")
+                for d in docs if d["post_type"] == "elementor_library"}
     problems, report = {}, {}
     for d in docs:
         if d["post_type"] != "page":
             continue
         info = log["docs"][d["key"]]
-        found, photos = page_problems(str(info.get("url") or ""), d, chrome)
+        found, photos = page_problems(str(info.get("url") or ""), d, chrome, wrappers)
         report[d["key"]] = {"url": info.get("url"), "id": info.get("id"), "photos": photos, "problems": found}
         if found:
             problems[d["key"]] = found

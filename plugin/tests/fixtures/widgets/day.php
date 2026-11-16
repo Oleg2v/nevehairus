@@ -38,7 +38,7 @@ return [
 					],
 					3 => [
 						'photo' => [
-							'id'  => nh_test_media_id( 'v3-villa' ),
+							'id'  => nh_test_media_id( 'v3-villa-print' ),
 							'url' => '',
 						],
 					],

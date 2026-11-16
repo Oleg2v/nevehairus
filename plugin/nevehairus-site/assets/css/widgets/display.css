@@ -1,0 +1,5 @@
+/* nevehairus-site · widget `display` (style handle nh-w-display) — מתגי תצוגה.
+   research/07 §13: the switches as a group, from prototype/assets/css/v3.css (v3.2, «Display switches»:
+   the .v3-switches rule). The switch itself (.v3-toggle, its colours on light and on night) is in base.css. */
+
+.v3-switches { display: grid; gap: .25rem; max-inline-size: 20rem; }

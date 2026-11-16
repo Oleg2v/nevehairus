@@ -195,13 +195,7 @@ final class NH_Widget_Glance extends NH_Widget_Base {
 		$this->end_controls_section();
 
 		/* ---------- מקטע (always last) ---------- */
-		NH_Controls::section(
-			$this,
-			[
-				'anchor'  => 'glance',
-				'running' => 'במבט אחד',
-			]
-		);
+		NH_Controls::section( $this, [ 'anchor' => 'glance' ] );
 	}
 
 	protected function render() {

@@ -7,12 +7,19 @@ prototype/src/*.html  ->  prototype/*.html
 Directives inside source pages:
   {{page current="home"}}                 declare the page (for aria-current)
   {{> header}}  {{> footer}} ...          include prototype/src/partials/<name>.html
-  {{current:programs}}                    -> aria-current="page" when it matches
-  {{pic name="hero-walk" sizes="..." class="..." loading="lazy|eager"
-        priority="high" alt="..." decorative="1"}}
-                                          -> responsive <picture> (AVIF + WebP)
-  {{srcset name="dining"}}                -> WebP srcset string (for lightbox)
-  {{src name="dining" w="1080"}}          -> single WebP URL
+  {{current:programs}}                    -> aria-current="true" when it matches: the menu links to sections
+                                             (the section you are in), never to this very page (research/07 §5.3)
+  {{pic name="v3-crafts" sizes="..." class="..." loading="lazy|eager"
+        priority="high" alt="..." decorative="1" max="336"}}
+                                          -> responsive <picture> (AVIF + WebP). max = the widest CSS px of the
+                                             slot: the build stops when the widest file is narrower than 2 × max
+                                             (research/07 §8.1: a photo is never stretched)
+  {{letterroom letter="bet" photo="v3-walk" w="600" max="480" ...}}  a letter with a photo in its room
+  {{srcset name="..."}}  {{src name="..." w="1080"}}                  WebP srcset / one URL (unused since v3.2)
+
+At the end the build checks site.css (research/07 §11.3 p. 5): no @keyframes, animation-timeline,
+view-transition, @property, smooth scrolling or position: sticky — v3.2 allows only colour on hover and
+focus, the one soft appearance of the print photos and the accordion's "+".
 
 Usage: python3 -I scripts/build_prototype_html.py
 """
@@ -38,6 +45,12 @@ def picture(attrs):
     name = attrs["name"]
     m = manifest[name]
     widths = m["widths"]
+    if attrs.get("max"):
+        # research/07 §8.1, §11.3 p. 2: CSS width × 2 <= the widest file (if the source is small, the slot gets
+        # smaller; the photo is never stretched)
+        slot = int(attrs["max"])
+        if 2 * slot > max(widths):
+            raise SystemExit(f"{name}: {slot}px slot needs {2 * slot}px, widest file is {max(widths)}px")
     sizes = attrs.get("sizes", "100vw")
     alt = "" if attrs.get("decorative") == "1" else attrs.get("alt", m["alt"])
     loading = attrs.get("loading", "lazy")
@@ -92,9 +105,10 @@ def lerp_d(name, weight):
 
 
 def letter_room(attrs):
-    """{{letterroom letter="bet" photo="v3-walk" sizes="..." priority="high" pos="50% 40%" w="800"}}
+    """{{letterroom letter="bet" photo="v3-walk" sizes="..." priority="high" pos="50% 40%" w="600" max="480"}}
     A photo that lives only in the letter's room (counter): positioned on the union of the
-    room at wght 800 and 300, clipped with inset() values interpolated by --t (0 = 800, 1 = 300)."""
+    room at wght 800 and 300, clipped with inset() values interpolated by --t (0 = 800, 1 = 300).
+    v3.2: every letter has one weight for good, so --t is fixed here at build time and nothing changes it."""
     name = attrs["letter"]
     fx, fy, fw, fh = _frame(name, attrs.get("frame", "800"))
     r8, r3 = letters[name]["800"]["room"], letters[name]["300"]["room"]
@@ -146,7 +160,8 @@ def letter_room(attrs):
         extra_in = open(os.path.join(SRC, "partials", attrs["extra"] + ".html"), encoding="utf-8").read().strip() if attrs.get("extra") else ""
         inner = picture({"name": attrs["photo"], "sizes": attrs.get("sizes", "50vw"), "loading": "lazy",
                          "class": "v3-room__img", **({"alt": attrs["alt"]} if attrs.get("alt") else {}),
-                         **({"decorative": "1"} if attrs.get("decorative") == "1" else {})})
+                         **({"decorative": "1"} if attrs.get("decorative") == "1" else {}),
+                         **({"max": attrs["max"]} if attrs.get("max") else {})})
         pic = f'<div class="v3-room__photo v3-room__photo--whole"><div class="v3-room__work">{inner}{extra_in}</div></div>'
         attrs = {**attrs, "extra": ""}
     elif attrs.get("photo"):
@@ -154,13 +169,13 @@ def letter_room(attrs):
                        "loading": "eager" if attrs.get("priority") == "high" else "lazy",
                        "priority": attrs.get("priority", ""), "class": "v3-room__photo",
                        **({"decorative": "1"} if attrs.get("decorative") == "1" else {}),
-                       **({"alt": attrs["alt"]} if attrs.get("alt") else {})})
+                       **({"alt": attrs["alt"]} if attrs.get("alt") else {}),
+                       **({"max": attrs["max"]} if attrs.get("max") else {})})
     elif attrs.get("field"):
         pic = f'<span class="v3-room__photo v3-room__field v3-room__field--{attrs["field"]}" aria-hidden="true"></span>'
     cls = (" " + attrs["class"]) if attrs.get("class") else ""
-    vt = ""   # transition names are set by script for the one journey they belong to (see head.html, v3.js)
     extra = open(os.path.join(SRC, "partials", attrs["extra"] + ".html"), encoding="utf-8").read().strip() if attrs.get("extra") else ""
-    return (f'<div class="v3-room v3-room--{name}{cls}" style="{style}--t:{t0:g};{vt}" data-room="{name}">'
+    return (f'<div class="v3-room v3-room--{name}{cls}" style="{style}--t:{t0:g};" data-room="{name}">'
             f'{pic}{letter_svg({"name": name, "w": w, "frame": attrs.get("frame", "800")})}{extra}</div>')
 
 
@@ -210,7 +225,7 @@ def build_page(fname):
     current = cur.group(1) if cur else ""
     text = re.sub(r'\{\{page [^}]*\}\}\n?', "", text)
     text = re.sub(r"\{\{current:([\w-]+)\}\}",
-                  lambda m: 'aria-current="page"' if m.group(1) == current else "", text)
+                  lambda m: 'aria-current="true"' if m.group(1) == current else "", text)
     text = re.sub(r"\{\{pic ([^}]*)\}\}", lambda m: picture(dict(ATTR.findall(m.group(1)))), text)
     text = re.sub(r"\{\{letterroom ([^}]*)\}\}", lambda m: letter_room(dict(ATTR.findall(m.group(1)))), text)
     text = re.sub(r"\{\{letterdata ([^}]*)\}\}", lambda m: letter_data(dict(ATTR.findall(m.group(1)))), text)
@@ -280,18 +295,40 @@ def minify_css(css):
     return "".join(res).replace(";}", "}").strip()
 
 
+# research/07 §11.3 p. 5: what v3.2 does not allow in the CSS (it covers the design-system page too)
+CALM_FORBIDDEN = [
+    (re.compile(r"@keyframes", re.I), "@keyframes"),
+    (re.compile(r"animation-timeline", re.I), "animation-timeline"),
+    (re.compile(r"view-transition", re.I), "view-transition"),
+    (re.compile(r"@property", re.I), "@property"),
+    (re.compile(r"scroll-behavior\s*:\s*smooth", re.I), "scroll-behavior: smooth"),
+    (re.compile(r"position\s*:\s*sticky", re.I), "position: sticky"),
+]
+
+
+def check_calm(css):
+    """Stop the build when site.css has anything v3.2 forbids."""
+    found = [f"{label} (×{len(rx.findall(css))})" for rx, label in CALM_FORBIDDEN if rx.search(css)]
+    if found:
+        raise SystemExit("site.css: v3.2 forbids " + ", ".join(found) + " (research/07 §11.3 p. 5)")
+
+
 def build_css():
     """tokens.css + main.css + v3.css -> one minified site.css (one render-blocking request)."""
     css_dir = os.path.join(ROOT, "assets", "css")
     parts = [open(os.path.join(css_dir, n), encoding="utf-8").read() for n in ("tokens.css", "main.css", "v3.css") if os.path.exists(os.path.join(css_dir, n))]
     banner = "/* GENERATED by scripts/build_prototype_html.py from tokens.css + main.css + v3.css (minified) — do not edit */\n"
+    css = minify_css("\n".join(parts))
     with open(os.path.join(css_dir, "site.css"), "w", encoding="utf-8") as fh:
-        fh.write(banner + minify_css("\n".join(parts)) + "\n")
+        fh.write(banner + css + "\n")
     print("built assets/css/site.css")
+    return css
 
 
 if __name__ == "__main__":
-    build_css()
+    site_css = build_css()
     for f in sorted(os.listdir(SRC)):
         if f.endswith(".html"):
             build_page(f)
+    check_calm(site_css)
+    print("site.css: no keyframes, scroll timelines, view transitions, @property, smooth scrolling or sticky")

@@ -101,13 +101,7 @@ final class NH_Widget_Plainbox extends NH_Widget_Base {
 
 		$this->end_controls_section();
 
-		NH_Controls::section(
-			$this,
-			[
-				'anchor'  => 'plain',
-				'running' => 'בשפה פשוטה',
-			]
-		);
+		NH_Controls::section( $this, [ 'anchor' => 'plain' ] );
 	}
 
 	/**

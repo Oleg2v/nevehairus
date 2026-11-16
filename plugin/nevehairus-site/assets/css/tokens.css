@@ -49,7 +49,7 @@
   --nh-ink:        #1F2421;  /* primary text      14.03:1 on paper       */
   --nh-ink-2:      #4F5550;  /* secondary text     6.80:1 on paper       */
   --nh-line:       #DCD0BD;  /* decorative hairlines (not for UI borders)*/
-  --nh-field:      #857A6B;  /* input borders      3.74:1 on paper (1.4.11) */
+  --nh-field:      #4F5550;  /* input borders, 2px  6.80:1 on paper, 7.64:1 on white (v3.2) */
 
   /* ---- Colour: brand -------------------------------------------------- */
   --nh-iris-700:   #4A2D84;  /* brand violet from the logo's iris        */
@@ -87,9 +87,9 @@
   --nh-fs-h3:      clamp(1.5rem, 1.25rem + 1.1vw, 2.25rem); /* 24 → 36 */
   --nh-fs-h4:      clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);/* 20 → 24 */
   --nh-fs-lead:    clamp(1.25rem, 1.12rem + 0.55vw, 1.625rem); /* 20 → 26 */
-  --nh-fs-body:    clamp(1.0625rem, 1.03rem + 0.15vw, 1.1875rem); /* 17 → 19 */
-  --nh-fs-small:   0.9375rem;  /* 15 */
-  --nh-fs-xs:      0.875rem;   /* 14 — labels only, never body copy */
+  --nh-fs-body:    clamp(1.125rem, 1.079rem + .19vw, 1.25rem); /* 18 → 20, = --v3-fs-body (v3.2) */
+  --nh-fs-small:   1rem;       /* 16 — the minimum for any text (v3.2) */
+  --nh-fs-xs:      1rem;       /* 16 — kept as a name only: nothing is smaller than 16px */
 
   --nh-lh-tight: 1.02;
   --nh-lh-heading: 1.12;
@@ -110,19 +110,17 @@
   --nh-gutter: clamp(1rem, 0.6rem + 3vw, 4rem);       /* page side gutter: 16px on phones */
   --nh-max: 90rem;                                     /* 1440 */
 
-  /* ---- Shape ------------------------------------------------------------ */
-  --nh-r-sm: 0.5rem;
-  --nh-r-md: 1rem;
-  --nh-r-lg: 1.75rem;
-  --nh-r-pill: 999px;
+  /* ---- Shape: one radius, 2px (v3.2); photos 0 ------------------------- */
+  --nh-r-sm: 2px;
+  --nh-r-md: 2px;
+  --nh-r-lg: 2px;
+  --nh-r-pill: 2px;
   --nh-shadow-1: 0 1px 2px rgb(31 36 33 / 0.06), 0 6px 18px rgb(31 36 33 / 0.06);
   --nh-shadow-2: 0 2px 6px rgb(31 36 33 / 0.08), 0 24px 60px rgb(31 36 33 / 0.12);
 
-  /* ---- Motion (mirrored in motion.js) ---------------------------------- */
-  --nh-ease-out: cubic-bezier(0.22, 1, 0.36, 1);    /* ≈ GSAP power3.out / expo-ish */
-  --nh-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* ≈ GSAP power2.inOut */
-  --nh-dur-1: 160ms;   /* hover/focus colour */
-  --nh-dur-2: 320ms;   /* small UI */
-  --nh-dur-3: 800ms;   /* reveals */
-  --nh-dur-4: 1200ms;  /* hero / masks */
+  /* ---- Motion (v3.2, research/07 §4): colour on hover and focus, and one soft appearance of the
+     print photos. Nothing else moves; prefers-reduced-motion and «מצב רגוע» switch the appearance off. */
+  --nh-ease-out: cubic-bezier(0.22, 1, 0.36, 1);    /* the appearance: no overshoot */
+  --nh-dur-1: 150ms;   /* hover and focus: color, background-color, border-color, text-decoration-color */
+  --nh-dur-2: 320ms;   /* the one appearance (print photos, once) */
 }

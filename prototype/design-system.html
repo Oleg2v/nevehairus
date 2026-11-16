@@ -12,25 +12,16 @@
 <link rel="preload" href="assets/fonts/assistant-core-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css">
 <script>
-  /* Runs before first paint: apply the visitor's saved display choices so the page
-     never flashes in the wrong mode. v3 needs no animation library: the letters
-     move with a few lines of our own code (assets/js/v3.js), loaded with defer. */
+  /* Runs before first paint: apply the visitor's saved display choices so the page never flashes in the
+     wrong mode (plain language, «מצב רגוע», and the v3.1 motion switch still kept in some visitors' storage:
+     nh-reduce-motion switches the one soft appearance off, like the OS setting). v3.2 has no page
+     transitions and nothing that moves by itself (research/07 §4). */
   (function (w, d) {
     var h = d.documentElement, get = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };
-    h.classList.add("js");
     if (get("nh-motion") === "reduce") h.classList.add("nh-reduce-motion");
     if (get("nh-calm") === "on") h.classList.add("nh-calm");
     var q = /[?&]plain=([01])/.exec(w.location.search);
     if (q ? q[1] === "1" : get("nh-plain") === "on") h.classList.add("nh-plainmode");
-    // arriving through a page transition: the cover is already drawn, so its load choreography is skipped.
-    // The shared ב is named only for the one journey it belongs to (homes index → this home's page).
-    w.addEventListener("pagereveal", function (e) {
-      if (!e.viewTransition) return;
-      h.classList.add("nh-vt-in");
-      var vt = null; try { vt = sessionStorage.getItem("nh-vt"); sessionStorage.removeItem("nh-vt"); } catch (x) { /* private mode */ }
-      var cover = d.querySelector(".v3-cover--page .v3-room");
-      if (vt && cover) cover.style.viewTransitionName = vt;
-    });
   })(window, document);
 </script>
 <script src="assets/js/site.js" defer></script>
@@ -68,43 +59,17 @@
 </svg>
 
 <a class="nh-skip" href="#main">דילוג לתוכן הראשי</a>
-<section class="nh-cookies" id="nh-cookies" aria-labelledby="nh-cookies-title" hidden>
-  <h2 id="nh-cookies-title" tabindex="-1">עוגיות באתר</h2>
-  <!-- on short or narrow screens the explanation folds behind «מה זה אומר?» so the banner never covers the page -->
-  <button class="nh-linkbtn nh-cookies__more" type="button" aria-expanded="false" aria-controls="nh-cookies-text" data-cookie-more>מה זה אומר?</button>
-  <div class="nh-cookies__text" id="nh-cookies-text">
-    <p class="v3-full">אנחנו משתמשים בעוגיות הכרחיות כדי שהאתר יעבוד. עוגיות סטטיסטיקה ותוכן מוטמע (כמו סרטוני YouTube) יופעלו רק בהסכמתכם. אפשר לשנות את הבחירה בכל עת. <a href="#privacy">מדיניות הפרטיות</a></p>
-    <div class="v3-plain">
-      <p>האתר שומר קבצים קטנים במחשב או בטלפון שלכם.</p>
-      <p>חלק מהקבצים חייבים, כדי שהאתר יעבוד.</p>
-      <p>את שאר הקבצים נשמור רק אם תסכימו.</p>
-      <p>אפשר לשנות את הבחירה מתי שרוצים. <a href="#privacy">מה עושים עם המידע?</a></p>
-    </div>
-  </div>
-  <div class="nh-cookies__prefs" id="nh-cookie-prefs" hidden>
-    <label class="nh-check"><input type="checkbox" checked disabled><span><b>הכרחיות</b> — פעילות תקינה של האתר ושמירת הבחירה שלכם. תמיד פעילות.</span></label>
-    <label class="nh-check"><input type="checkbox" id="nh-c-stats"><span><b>סטטיסטיקה</b> — מדידת שימוש אנונימית, כדי לשפר את האתר.</span></label>
-    <label class="nh-check"><input type="checkbox" id="nh-c-media"><span><b>תוכן מוטמע</b> — סרטונים מ־YouTube.</span></label>
-    <div><button class="nh-btn nh-btn--primary" type="button" data-consent="save">שמירת הבחירה</button></div>
-  </div>
-  <div class="nh-btn-row">
-    <button class="nh-btn nh-btn--primary" type="button" data-consent="all">אישור הכול</button>
-    <button class="nh-btn nh-btn--ghost" type="button" data-consent="necessary">רק הכרחיות</button>
-    <button class="nh-btn nh-btn--ghost" type="button" data-consent="settings" aria-expanded="false" aria-controls="nh-cookie-prefs">הגדרות</button>
-  </div>
-</section>
-
 <header class="nh-header v3-mast">
   <div class="nh-container nh-header__inner">
     <a class="nh-logo" href="index.html">
-      <span class="nh-wordmark"><small>מעון</small> נווה האירוס</span><span class="nh-sr-only"> — לדף הבית</span>
+      <img class="nh-logo__mark" src="assets/img/logo-emblem.png" width="105" height="74" alt="">
+      <span class="nh-logo__name"><span>מעון נווה</span> <span>האירוס</span></span><span class="nh-sr-only"> — לדף הבית</span>
     </a>
-    <p class="v3-mast__running" aria-hidden="true" data-running></p>
     <nav class="nh-nav" aria-label="ראשי">
       <ul role="list">
-        <li><a href="index.html#story" >מי אנחנו</a></li>
-        <li><a href="index.html#homes" >מסגרות המגורים</a></li>
+        <li><a href="index.html#homes" >הבתים שלנו</a></li>
         <li><a href="index.html#day" >החיים אצלנו</a></li>
+        <li><a href="index.html#story" >מי אנחנו</a></li>
         <li><a href="index.html#jobs" >דרושים</a></li>
         <li><a href="index.html#door" >יצירת קשר</a></li>
       </ul>
@@ -113,60 +78,45 @@
       <button class="v3-plainbtn" type="button" data-plain-toggle aria-pressed="false">
         <svg aria-hidden="true" focusable="false"><use href="#i-speech"/></svg><span>בשפה פשוטה</span>
       </button>
-      <div class="v3-display">
-        <button class="v3-display__btn" type="button" aria-expanded="false" aria-controls="v3-display-panel" data-display-open>
-          <svg aria-hidden="true" focusable="false"><use href="#i-sliders"/></svg><span>תצוגה</span>
-        </button>
-        <div class="v3-display__panel" id="v3-display-panel" role="group" aria-labelledby="v3-display-title" hidden>
-          <p class="v3-display__title" id="v3-display-title">הגדרות תצוגה</p>
-          <button type="button" class="v3-toggle" data-plain-toggle aria-pressed="false"><span>בשפה פשוטה</span><i aria-hidden="true"></i></button>
-          <button type="button" class="v3-toggle" data-motion-toggle aria-pressed="false"><span>הפחתת תנועה</span><i aria-hidden="true"></i></button>
-          <button type="button" class="v3-toggle" data-calm-toggle aria-pressed="false"><span>מצב רגוע</span><i aria-hidden="true"></i></button>
-          <p class="v3-display__note">הבחירה נשמרת בדפדפן הזה.</p>
-        </div>
-      </div>
       <a class="nh-phone" href="tel:+97289403047" aria-label="טלפון: 08-9403047">
         <svg aria-hidden="true" focusable="false"><use href="#i-phone"/></svg>
         <span class="nh-phone__num nh-ltr">08-9403047</span>
       </a>
-      <a class="nh-btn nh-btn--primary nh-btn--sm v3-mast__cta" href="index.html#door"><span class="v3-full">תיאום ביקור</span><span class="v3-plain">לקבוע ביקור</span></a>
+      <a class="nh-btn nh-btn--primary nh-btn--sm v3-mast__cta" href="index.html#door" data-visit-cta><span class="v3-full">תיאום ביקור</span><span class="v3-plain">לקבוע ביקור</span></a>
       <button class="nh-menu-btn" type="button" data-menu-open aria-haspopup="dialog" aria-expanded="false" aria-controls="nh-menu">
-        <svg aria-hidden="true" focusable="false"><use href="#i-menu"/></svg>
-        <span class="nh-sr-only">תפריט</span>
+        <svg aria-hidden="true" focusable="false"><use href="#i-menu"/></svg><span>תפריט</span>
       </button>
     </div>
   </div>
-  <div class="v3-progress" aria-hidden="true"></div>
 </header>
 
-<dialog class="nh-menu" id="nh-menu" aria-label="תפריט">
+<!-- the phone menu: opened only by «תפריט», at once (no animation); a modal dialog makes the rest of the page inert -->
+<dialog class="nh-menu" id="nh-menu" aria-labelledby="nh-menu-title">
   <div class="nh-menu__inner">
     <div class="nh-menu__top">
-      <span class="nh-wordmark" aria-hidden="true"><small>מעון</small> נווה האירוס</span>
-      <button class="nh-menu__close" type="button" data-menu-close>
-        <svg aria-hidden="true" focusable="false"><use href="#i-close"/></svg>
-        <span class="nh-sr-only">סגירת התפריט</span>
-      </button>
+      <p class="nh-menu__title" id="nh-menu-title">תפריט</p>
+      <button class="nh-menu__close" type="button" data-menu-close><svg aria-hidden="true" focusable="false"><use href="#i-close"/></svg><span>סגירה</span></button>
     </div>
-    <nav aria-label="ראשי">
-      <ul role="list">
-        <li><a href="index.html#story">מי אנחנו</a></li>
-        <li><a href="index.html#homes">מסגרות המגורים</a></li>
-        <li><a href="index.html#day">החיים אצלנו</a></li>
-        <li><a href="index.html#jobs">דרושים</a></li>
-        <li><a href="index.html#door">יצירת קשר</a></li>
-      </ul>
-    </nav>
-    <div class="nh-menu__meta">
-      <a class="nh-btn nh-btn--light" href="index.html#door"><span class="v3-full">תיאום ביקור</span><span class="v3-plain">לקבוע ביקור</span></a>
-      <a href="tel:+97289403047">טלפון: <span class="nh-ltr">08-9403047</span></a>
-      <div class="v3-menu-toggles" role="group" aria-label="הגדרות תצוגה">
-        <button type="button" class="v3-toggle" data-plain-toggle aria-pressed="false"><span>בשפה פשוטה</span><i aria-hidden="true"></i></button>
-        <button type="button" class="v3-toggle" data-motion-toggle aria-pressed="false"><span>הפחתת תנועה</span><i aria-hidden="true"></i></button>
-        <button type="button" class="v3-toggle" data-calm-toggle aria-pressed="false"><span>מצב רגוע</span><i aria-hidden="true"></i></button>
+    <div class="nh-menu__body">
+      <nav aria-label="ראשי">
+        <ul role="list">
+          <li><a href="index.html#homes" >הבתים שלנו</a></li>
+          <li><a href="index.html#day" >החיים אצלנו</a></li>
+          <li><a href="index.html#story" >מי אנחנו</a></li>
+          <li><a href="index.html#jobs" >דרושים</a></li>
+          <li><a href="index.html#door" >יצירת קשר</a></li>
+        </ul>
+      </nav>
+      <div class="nh-menu__meta">
+        <a class="nh-btn nh-btn--primary nh-menu__cta" href="index.html#door" data-visit-cta><span class="v3-full">תיאום ביקור</span><span class="v3-plain">לקבוע ביקור</span></a>
+        <p class="nh-menu__call"><a href="tel:+97289403047">התקשרו: <span class="nh-ltr">08-9403047</span></a></p>
+        <div class="v3-switches" role="group" aria-label="הגדרות תצוגה">
+          <button type="button" class="v3-toggle" data-plain-toggle aria-pressed="false"><span class="v3-toggle__label">בשפה פשוטה</span><span class="v3-toggle__state" aria-hidden="true" data-on="פועל" data-off="כבוי"></span><i aria-hidden="true"></i></button>
+          <button type="button" class="v3-toggle" data-calm-toggle aria-pressed="false"><span class="v3-toggle__label">מצב רגוע</span><span class="v3-toggle__state" aria-hidden="true" data-on="פועל" data-off="כבוי"></span><i aria-hidden="true"></i></button>
+        </div>
+        <!-- a modal dialog makes the rest of the page inert, so the menu has its own live region -->
+        <p class="nh-sr-only" role="status" aria-live="polite" data-announce-menu></p>
       </div>
-      <!-- a modal dialog makes the rest of the page inert, so the menu has its own live region -->
-      <p class="nh-sr-only" role="status" aria-live="polite" data-announce-menu></p>
     </div>
   </div>
 </dialog>
@@ -176,12 +126,13 @@
 <main id="main" tabindex="-1">
   <section class="nh-page-hero" aria-labelledby="ds-title">
     <div class="nh-container">
-      <p class="nh-eyebrow">מערכת עיצוב · גרסה 0.3.1 · אב־טיפוס</p>
+      <p class="nh-eyebrow">מערכת עיצוב · גרסה 0.3.2 · אב־טיפוס</p>
       <h1 id="ds-title">„אותיות שגרים בהן”</h1>
-      <p class="nh-lead">חם, מכובד ומלא חיים. נייר חם, דיו כהה, סגול האירוס מהלוגו, וגוונים מעבודות הפסיפס של הדיירים. כל צירוף צבעים לטקסט נבדק מול WCAG ברמה AA (ת״י 5568).</p>
+      <p class="nh-lead">חם, מכובד ושקט. נייר חם, דיו כהה, סגול האירוס מהלוגו, וגוונים מעבודות הפסיפס של הדיירים. שום דבר לא זז מעצמו: היוקרה באה מהאותיות, מהצבע, מהרשת ומהאוויר. כל צירוף צבעים לטקסט נבדק מול WCAG ברמה AA (ת״י 5568).</p>
     </div>
   </section>
 
+  <!-- static (v3.2: nothing sticky, research/07 §11.3 p. 5) -->
   <nav class="nh-ds-nav" aria-label="מערכת העיצוב — תוכן העניינים">
     <div class="nh-container">
       <ul role="list">
@@ -199,27 +150,27 @@
   </nav>
 
 
-  <!-- V3 · LETTERS AS ARCHITECTURE ============================================= -->
+  <!-- V3 · LETTERS AS ARCHITECTURE: each letter in its one, constant weight ====================== -->
   <section class="nh-section" id="letters" aria-labelledby="letters-title">
     <div class="nh-container nh-stack">
       <div class="v3-rule" aria-hidden="true"></div>
       <h2 class="v3-h2" id="letters-title">אותיות שגרים בהן<span class="v3-dot">.</span></h2>
-      <p class="v3-lead">חמש אותיות ששמותיהן מילים של בית — ב׳ (בית), כ׳ (כף), ס׳ (סמך), ל׳ (למד), ד׳ (דלת) — הן האדריכלות של האתר. החלל שבתוך האות הוא חדר, ושם חיות התמונות. הטקסט אף פעם לא זז; רק האותיות. באתר עצמו האותיות לא מקבלות תוויות: השם שלהן נאמר רק בכותרות (בית, בכף היד, לסמוך, ללמוד, הדלת) ופעם אחת בקולופון.</p>
+      <p class="v3-lead">חמש אותיות ששמותיהן מילים של בית — ב׳ (בית), כ׳ (כף), ס׳ (סמך), ל׳ (למד), ד׳ (דלת) — הן האדריכלות של האתר. החלל שבתוך האות הוא חדר, ושם חיות התמונות. האותיות עומדות במקום: לכל אות משקל אחד, תמיד. באתר עצמו האותיות לא מקבלות תוויות: השם שלהן נאמר רק בכותרות (בית, בכף היד, לסמוך, ללמוד, הדלת) ופעם אחת בקולופון.</p>
       <ul class="v3-ds-letters" role="list">
-        <li><div class="v3-ds-pair"><svg class="v3-letter v3-letter--bet" viewBox="31 163 432.4 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="bet"><path class="v3-letter__ink" d="M31 760L61.2 587.4L348.8 587.4Q361.2 562.2 367.4 544.9Q373.6 527.6 376.2 511.1Q378.8 494.6 378.8 472Q378.8 437 372.5 418.3Q366.2 399.6 349.6 392.3Q333 385 301.8 385L121 385Q85.8 385 70.8 365.1Q55.8 345.2 55.8 307Q55.8 271 62.8 240.8Q69.8 210.6 77.3 189.7Q84.8 168.8 87.8 163L106.8 163L106.8 185Q106.8 197.4 113.6 203.7Q120.4 210 129.8 210L331.8 210Q361.4 210 383 221.7Q404.6 233.4 416.7 256.1Q428.8 278.8 428.8 313L428.8 458Q428.8 502.4 418.4 534.8Q408 567.2 398 587.4L463.4 587.4L433.2 760Z"/></svg><svg class="v3-letter v3-letter--bet" viewBox="31 163 432.4 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="bet"><path class="v3-letter__ink" d="M40 760L55 676L354 676Q360 645 364.5 609.5Q369 574 371.5 535Q374 496 374 456Q374 392 371 359Q368 326 354 314Q340 302 307 302L106 302Q79 302 68 290Q57 278 57 255Q57 239 60.5 226Q64 213 69 201.5Q74 190 77 180L92 180L92 192Q92 205 98 210.5Q104 216 121 216L327 216Q348 216 368 223.5Q388 231 401 250.5Q414 270 414 305L414 456Q414 532 403 592.5Q392 653 386 676L458 676L443 760Z"/></svg></div><p><b>ב׳ · בית</b> — שער הבית ועמודי המסגרות. משקל 800 → 300 בגלילה, כשהאות נעוצה במקום.</p></li>
-        <li><div class="v3-ds-pair"><svg class="v3-letter v3-letter--kaf" viewBox="31 163 417.8 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="kaf"><path class="v3-letter__ink" d="M31 760L71 587.4L334.6 587.4Q357.6 587.4 370.4 576.8Q383.2 566.2 389 545Q394.8 523.8 394.8 492.6Q394.8 438.4 376.2 411.7Q357.6 385 306.6 385L122.8 385Q87.6 385 73.2 365.3Q58.8 345.6 58.8 304.6Q58.8 271.4 65.3 241.9Q71.8 212.4 79.7 191.2Q87.6 170 90.6 163L109.6 163L109.6 184.8Q109.6 196.4 115.8 203.2Q122 210 132.8 210L313.8 210Q351.2 210 374.5 226.6Q397.8 243.2 412 273.8Q415.2 279.4 423.9 305.8Q432.6 332.2 440.7 379.3Q448.8 426.4 448.8 496Q448.8 585.8 433.3 634.9Q417.8 684 394.8 712.6Q375.6 737.2 352.8 748.6Q330 760 304.8 760Z"/></svg><svg class="v3-letter v3-letter--kaf" viewBox="31 163 417.8 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="kaf"><path class="v3-letter__ink" d="M40 760L55 676L265 676Q317 676 345 651.5Q373 627 383.5 585.5Q394 544 394 493Q394 404 365.5 353Q337 302 265 302L104 302Q77 302 66 291.5Q55 281 55 257Q55 239 59 223.5Q63 208 68 196Q73 184 75 180L90 180L90 192Q90 205 96 210.5Q102 216 119 216L293 216Q329 216 352 230.5Q375 245 388 271Q392 279 401.5 305.5Q411 332 419.5 377.5Q428 423 428 489Q428 570 413 628.5Q398 687 370 719Q354 738 333 749Q312 760 292 760Z"/></svg></div><p><b>כ׳ · כף</b> — כף יד שמחזיקה עבודה של הדיירים.</p></li>
-        <li><div class="v3-ds-pair"><svg class="v3-letter v3-letter--samekh" viewBox="41 163 419.2 608.6" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="samekh"><path class="v3-letter__ink" d="M253.6 771.6Q154.6 771.6 102.4 716.3Q50.2 661 50.2 567Q50.2 517.8 61 482.8Q71.8 447.8 86.1 424.4Q100.4 401 109.2 387L109.2 353L147.2 353L147.2 385Q140.6 396.4 132 411.8Q123.4 427.2 116.9 447.3Q110.4 467.4 110.4 495.2Q110.4 554.8 145.4 581.7Q180.4 608.6 254.8 608.6Q334 608.6 370.2 578.8Q406.4 549 406.4 485.8Q406.4 452.4 399 430.3Q391.6 408.2 373.2 396.6Q354.8 385 322.6 385L105 385Q69.8 385 55.4 365.3Q41 345.6 41 304.6Q41 271.4 47.5 241.9Q54 212.4 61.9 191.2Q69.8 170 72.8 163L91.8 163L91.8 184.8Q91.8 196.4 98 203.2Q104.2 210 115 210L325 210Q362.8 210 385.9 226.7Q409 243.4 423.6 273.8Q427.4 280 436 305.9Q444.6 331.8 452.4 376.9Q460.2 422 460.2 489.6Q460.2 583.2 436 645.8Q411.8 708.4 365.4 740Q319 771.6 253.6 771.6Z"/></svg><svg class="v3-letter v3-letter--samekh" viewBox="41 163 419.2 608.6" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="samekh"><path class="v3-letter__ink" d="M252.6 772Q147 772 98.5 703.8Q50 635.6 50 518Q50 467 58 429.5Q66 392 80.5 362Q95 332 114 304L114 283L144 283L144 302.3Q135 313 122.4 338.1Q109.9 363.2 99.9 402.8Q90 442.4 90 497Q90 594.2 130 640.1Q170 686 255 686Q343 686 385 637.5Q427 589 427 489.2Q427 436 414.5 393.5Q402 351 373.5 326.5Q345 302 297.4 302L103 302Q76.1 302 65 291.6Q54 281.2 54 257Q54 239.3 58 223.7Q62 208 67.1 196.1Q72.3 184.2 74 180L89 180L89 192Q89 205 94.9 210.5Q100.8 216 118 216L325 216Q364 216 386 232Q408 248 420 271Q424 278 433.5 304Q443 330 451.5 374.9Q460 419.9 460 487Q460 574 440 638Q420 702 374.5 737Q329 772 252.6 772Z"/></svg></div><p><b>ס׳ · סמך</b> — האות העגולה: מעגלי תמיכה סביב המנדלה.</p></li>
-        <li><div class="v3-ds-pair"><svg class="v3-letter v3-letter--lamed" viewBox="20 -40 452.8 810" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="lamed"><path class="v3-letter__ink" d="M234.6 770Q210.4 770 195.3 754.5Q180.2 739 180.2 709.4Q180.2 668 207 633.2Q233.8 598.4 269.8 571L367.8 497Q385.2 483 392.5 467.1Q399.8 451.2 399.8 430.8Q399.8 408.8 389.8 396.9Q379.8 385 345.8 385L107.8 385Q79.8 385 69.3 359.6Q58.8 334.2 58.8 293.4Q58.8 262.2 62.8 232.7Q66.8 203.2 72.8 178.4Q78.8 153.6 82.8 135.5Q86.8 117.4 86.8 108.2Q86.8 100.2 83.8 97.7Q80.8 95.2 74.8 94.2L48.8 89.2Q36.4 87.2 28.2 76.7Q20 66.2 20 42.4Q20 15.6 28.5 -7.3Q37 -30.2 40.8 -40L59.8 -40L59.8 -30Q59.8 -19 72.8 -16L122.8 -5Q142.8 -1 146.8 13Q150.8 27 150.8 34.4Q150.8 64.6 140.3 91.4Q129.8 118.2 119.3 140.6Q108.8 163 108.8 181Q108.8 200.6 124.9 205.3Q141 210 164.8 210L410.6 210Q429.4 210 438.6 217Q447.8 224 451.8 234Q456.8 245 464.8 277Q472.8 309 472.8 355.8Q472.8 381.2 468.2 413.4Q463.6 445.6 449.6 476.9Q435.6 508.2 406.8 530L305.4 608.6Q286.8 621.6 282.3 633.6Q277.8 645.6 277.8 652.8Q277.8 668.2 281.7 682.3Q285.6 696.4 285.6 712.8Q285.6 735.6 273.7 752.8Q261.8 770 234.6 770Z"/></svg><svg class="v3-letter v3-letter--lamed" viewBox="20 -40 452.8 810" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="lamed"><path class="v3-letter__ink" d="M222 770Q207 770 196 757.5Q185 745 185 725Q185 694 207 663Q229 632 248 612L349 509Q375 483 381 448Q387 413 387 384Q387 341 375 321.5Q363 302 313 302L88 302Q66 302 57 290.5Q48 279 48 255Q48 234 53 208Q58 182 64.5 156Q71 130 77 110Q83 90 85 83Q87 75 85.5 66.5Q84 58 71 56L44 51Q36 49 30.5 41Q25 33 25 20Q25 0 33.5 -18Q42 -36 44 -40L58 -40L58 -26Q58 -15 71 -12L103 -6Q120 -3 125 8Q130 19 130 30Q130 50 120.5 75Q111 100 101 126Q91 152 91 177Q91 198 103 207Q115 216 147 216L361 216Q384 216 398 224Q412 232 419 240Q426 247 433 269.5Q440 292 440 346Q440 360 437.5 391.5Q435 423 423 458Q411 493 384 521L281 627Q264 645 257 656Q250 667 250 680Q250 691 253.5 701Q257 711 257 726Q257 749 246 759.5Q235 770 222 770Z"/></svg></div><p><b>ל׳ · למד</b> — האות היחידה שעולה מעל השורה: דרושים.</p></li>
-        <li><div class="v3-ds-pair"><svg class="v3-letter v3-letter--dalet" viewBox="20 163 413 601" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="dalet"><path class="v3-letter__ink" d="M96.8 385Q56.8 385 38.4 366.9Q20 348.8 20 302.2Q20 268.2 26.5 239.1Q33 210 40.5 189.6Q48 169.2 51 163L70 163L70 180Q70 192.4 77 201.2Q84 210 99.6 210L395.8 210Q418.2 210 425.6 218.6Q433 227.2 433 246L433 385ZM302 764Q296 764 290 763.5Q284 763 279 762L279 754Q284 747 286.5 735Q289 723 289 685L289 533Q289 483 301.5 452Q314 421 327 405.5Q340 390 343 387L343 354L389 354L389 385Q372 406 363.5 422.5Q355 439 352.6 459.5Q350.2 480 352 515L361 685Q363 728 346 746Q329 764 302 764Z"/></svg><svg class="v3-letter v3-letter--dalet" viewBox="20 163 413 601" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="dalet"><path class="v3-letter__ink" d="M74 302Q46 302 35.5 290Q25 278 25 253Q25 238 29 223.5Q33 209 38 197.5Q43 186 45 180L60 180L60 193Q60 205 66 210.5Q72 216 89 216L387 216Q399 216 404.5 222Q410 228 410 239L410 302ZM326 764Q322 764 317.5 763.5Q313 763 310 762L310 757Q313 753 314 746Q315 739 315 715L315 396Q315 364 321 344Q327 324 333 314Q339 304 340 303L340 273L366 273L366 302Q361 306 357.5 318.5Q354 331 352.5 350Q351 369 351 393L359 708Q360 729 354 746.5Q348 764 326 764Z"/></svg></div><p><b>ד׳ · דלת</b> — אות רחבה לכל רוחב המקטע, כמו האותיות שהסופרים מותחים בשורה; טופס הביקור עומד בפתח הדלת.</p></li>
-        <li><div class="v3-ds-pair"><svg class="v3-letter v3-letter--mem_final" viewBox="46 163 441.4 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="mem_final"><path class="v3-letter__ink" d="M70.2 760L71 526Q71 482 84.6 451.4Q98.2 420.8 128 387L128 385L108.8 385Q80.8 385 63.4 365.5Q46 346 46 308.6Q46 273.4 52.8 243.1Q59.6 212.8 67.1 191.3Q74.6 169.8 77.8 163L96.8 163L96.8 182.8Q96.8 196.2 103.1 203.1Q109.4 210 120.2 210L389.6 210Q419.2 210 441.1 221.9Q463 233.8 475.2 257.2Q487.4 280.6 487.4 316L487.4 760ZM152 587.4L428.4 587.4L428.4 461.4Q428.4 416.8 412.9 400.9Q397.4 385 352.2 385L162.2 385Q150 409.8 142.8 428.3Q135.6 446.8 132.8 466.4Q130 486 130 515.6L130 560.4Q130 578.4 135.5 582.9Q141 587.4 152 587.4Z"/></svg><svg class="v3-letter v3-letter--mem_final" viewBox="46 163 441.4 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="mem_final"><path class="v3-letter__ink" d="M84 760L84 399Q84 364 91 344Q98 324 114 303L114 302L104 302Q77 302 66 291.5Q55 281 55 257Q55 239 59 224Q63 209 68 197.5Q73 186 75 180L90 180L90 192Q90 205 96 210.5Q102 216 119 216L403 216Q421 216 438.5 223.5Q456 231 467 249.5Q478 268 478 302L478 760ZM142 676L442 676L442 376Q442 341 431 321.5Q420 302 389 302L149 302Q141 309 134 321Q127 333 123.5 352Q120 371 120 399L120 656Q120 669 126 672.5Q132 676 142 676Z"/></svg></div><p><b>ם</b> — חלון ב„שמיים”.</p></li>
+        <li><div class="v3-ds-pair"><svg class="v3-letter v3-letter--bet" viewBox="31 163 432.4 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="bet"><path class="v3-letter__ink" d="M34.6 760.0L58.7 622.8L350.9 622.8Q360.7 595.3 366.2 570.7Q371.8 546.2 374.3 520.7Q376.9 495.2 376.9 465.6Q376.9 419.0 371.9 394.6Q366.9 370.2 351.4 361.0Q335.8 351.8 303.9 351.8L115.0 351.8Q83.1 351.8 69.7 335.1Q56.3 318.3 56.3 286.2Q56.3 258.2 61.9 234.9Q67.5 211.6 74.0 194.4Q80.5 177.3 83.5 169.8L100.9 169.8L100.9 187.8Q100.9 200.4 107.4 206.4Q113.8 212.4 126.3 212.4L329.9 212.4Q356.0 212.4 377.0 222.4Q398.0 232.4 410.4 253.9Q422.9 275.3 422.9 309.8L422.9 457.2Q422.9 514.2 412.2 557.9Q401.6 601.5 393.2 622.8L461.2 622.8L437.1 760.0Z"/></svg></div><p><b>ב׳ · בית · 600</b> — שער הבית. אותו משקל בשער של דף הבית, בשורות האינדקס ובשער של דף הבית למגורים.</p></li>
+        <li><div class="v3-ds-pair"><svg class="v3-letter v3-letter--kaf" viewBox="31 163 417.8 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="kaf"><path class="v3-letter__ink" d="M37.5 760.0L59.5 651.2L284.5 651.2Q328.4 651.2 352.1 630.6Q375.9 610.0 385.0 574.2Q394.2 538.3 394.2 492.9Q394.2 413.6 368.5 369.4Q342.8 325.2 276.6 325.2L109.3 325.2Q80.0 325.2 68.0 312.2Q56.1 299.1 56.1 270.3Q56.1 248.1 60.8 228.7Q65.5 209.2 71.3 194.7Q77.1 180.1 79.4 175.2L95.5 175.2L95.5 190.0Q95.5 202.6 101.5 208.5Q107.6 214.3 122.9 214.3L298.8 214.3Q335.2 214.3 358.3 229.4Q381.4 244.5 394.7 271.8Q398.5 279.1 407.8 305.6Q417.0 332.1 425.4 378.0Q433.8 424.0 433.8 491.0Q433.8 574.4 418.7 630.3Q403.5 686.2 376.9 717.2Q360.0 737.8 338.5 748.9Q317.0 760.0 295.6 760.0Z"/></svg></div><p><b>כ׳ · כף · 440</b> — כף יד שמחזיקה עבודה אחת של הדיירים.</p></li>
+        <li><div class="v3-ds-pair"><svg class="v3-letter v3-letter--samekh" viewBox="41 163 419.2 608.6" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="samekh"><path class="v3-letter__ink" d="M252.8 771.9Q148.2 771.9 99.1 705.8Q50.0 639.7 50.0 525.8Q50.0 475.1 58.5 438.0Q66.9 400.9 81.4 372.0Q95.9 343.0 113.2 317.3L113.2 294.2L144.5 294.2L144.5 315.5Q135.9 326.3 123.9 349.9Q112.1 373.4 102.6 409.9Q93.3 446.4 93.3 496.7Q93.3 587.9 132.5 630.8Q171.7 673.6 255.0 673.6Q341.6 673.6 382.6 628.1Q423.7 582.6 423.7 488.7Q423.7 438.6 412.0 399.4Q400.3 360.2 373.5 337.7Q346.6 315.3 301.4 315.3L103.3 315.3Q75.1 315.3 63.5 303.4Q51.9 291.5 51.9 264.6Q51.9 244.4 56.3 226.6Q60.7 208.7 66.3 195.3Q71.9 181.9 73.8 177.3L89.4 177.3L89.4 190.8Q89.4 203.6 95.4 209.3Q101.3 215.0 117.5 215.0L325.0 215.0Q363.8 215.0 386.0 231.2Q408.2 247.3 420.6 271.4Q424.5 278.3 433.9 304.3Q443.3 330.3 451.6 375.2Q460.0 420.2 460.0 487.4Q460.0 575.5 439.4 639.2Q418.7 703.0 373.0 737.5Q327.4 771.9 252.8 771.9Z"/></svg></div><p><b>ס׳ · סמך · 380</b> — האות העגולה: המנדלה של הדיירים בתוכה, שלמה.</p></li>
+        <li><div class="v3-ds-pair"><svg class="v3-letter v3-letter--lamed" viewBox="20 -40 452.8 810" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="lamed"><path class="v3-letter__ink" d="M229.6 770.0Q209.0 770.0 195.6 755.7Q182.1 741.4 182.1 715.6Q182.1 678.4 207.0 645.1Q231.9 611.8 261.1 587.4L360.3 501.8Q381.1 483.0 387.9 459.5Q394.7 435.9 394.7 412.1Q394.7 381.7 383.9 366.7Q373.1 351.8 332.7 351.8L99.9 351.8Q74.3 351.8 64.4 332.0Q54.5 312.1 54.5 278.0Q54.5 250.9 58.9 222.8Q63.3 194.7 69.5 169.4Q75.7 144.2 80.5 125.3Q85.3 106.4 86.1 98.1Q86.9 90.1 84.5 85.2Q82.1 80.3 73.3 78.9L46.9 73.9Q36.2 71.9 29.1 62.4Q22.0 52.9 22.0 33.4Q22.0 9.4 30.5 -11.6Q39.0 -32.5 42.1 -40.0L59.1 -40.0L59.1 -28.4Q59.1 -17.4 72.1 -14.4L114.9 -5.4Q133.7 -1.8 138.1 11.0Q142.5 23.8 142.5 32.6Q142.5 58.8 132.4 84.8Q122.3 110.9 112.0 134.8Q101.7 158.6 101.7 179.4Q101.7 199.6 116.1 206.0Q130.6 212.4 157.7 212.4L390.8 212.4Q411.2 212.4 422.4 219.8Q433.5 227.2 438.7 236.4Q444.5 245.8 452.1 274.0Q459.7 302.2 459.7 351.9Q459.7 372.7 455.9 404.6Q452.2 436.6 439.0 469.3Q425.8 502.1 397.7 526.4L295.6 616.0Q277.7 631.0 272.2 642.6Q266.7 654.2 266.7 663.7Q266.7 677.3 270.4 689.8Q274.2 702.2 274.2 718.1Q274.2 741.0 262.6 755.5Q251.1 770.0 229.6 770.0Z"/></svg></div><p><b>ל׳ · למד · 600</b> — האות היחידה שעולה מעל השורה, רק בתוך המרווח העליון של המקטע שלה: דרושים.</p></li>
+        <li><div class="v3-ds-pair"><svg class="v3-letter v3-letter--dalet" viewBox="20 163 413 601" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="dalet"><path class="v3-letter__ink" d="M74 302Q46 302 35.5 290Q25 278 25 253Q25 238 29 223.5Q33 209 38 197.5Q43 186 45 180L60 180L60 193Q60 205 66 210.5Q72 216 89 216L387 216Q399 216 404.5 222Q410 228 410 239L410 302ZM326 764Q322 764 317.5 763.5Q313 763 310 762L310 757Q313 753 314 746Q315 739 315 715L315 396Q315 364 321 344Q327 324 333 314Q339 304 340 303L340 273L366 273L366 302Q361 306 357.5 318.5Q354 331 352.5 350Q351 369 351 393L359 708Q360 729 354 746.5Q348 764 326 764Z"/></svg></div><p><b>ד׳ · דלת · 300</b> — אות רחבה לכל רוחב המקטע, כמו האותיות שהסופרים מותחים בשורה. מצוירת פתוחה; טופס הביקור עומד בפתח.</p></li>
+        <li><div class="v3-ds-pair"><svg class="v3-letter v3-letter--mem_final" viewBox="46 163 441.4 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="mem_final"><path class="v3-letter__ink" d="M84 760L84 399Q84 364 91 344Q98 324 114 303L114 302L104 302Q77 302 66 291.5Q55 281 55 257Q55 239 59 224Q63 209 68 197.5Q73 186 75 180L90 180L90 192Q90 205 96 210.5Q102 216 119 216L403 216Q421 216 438.5 223.5Q456 231 467 249.5Q478 268 478 302L478 760ZM142 676L442 676L442 376Q442 341 431 321.5Q420 302 389 302L149 302Q141 309 134 321Q127 333 123.5 352Q120 371 120 399L120 656Q120 669 126 672.5Q132 676 142 676Z"/></svg></div><p><b>ם · 300</b> — חלון ב„שמיים”.</p></li>
       </ul>
       <h3 class="nh-h3">אות עם חדר</h3>
-      <p class="nh-muted">התמונה נחתכת לפי החדר של האות (‎clip-path: inset‎), והמשתנה ‎--t‎ מזיז יחד את קו המתאר ואת החדר: 0 = משקל 800, ‏1 = משקל 300.</p>
+      <p class="nh-muted">התמונה נחתכת לפי החדר של האות (‎clip-path: inset‎), במשקל הקבוע של האות; שום דבר לא משנה אותו. כשאין תמונה, החדר מראה „שמיים שקטים”.</p>
       <div class="v3-ds-rooms">
-        <figure><div class="v3-room v3-room--bet" style="--fx:0.000%;--fy:22.781%;--fw:80.944%;--fh:63.819%;--at:21.785%;--ar:0.000%;--ab:23.360%;--al:0.000%;--bt:0.000%;--br:1.429%;--bb:0.000%;--bl:2.571%;--pos:46% 38%;--asp:432.4/597;--cx:40.472%;--cy:54.690%;--sqw:88.113%;--em-w:0.4324;--t:0;" data-room="bet"><picture class="v3-room__photo"><source type="image/avif" srcset="assets/img/v3-walk-480.avif 480w, assets/img/v3-walk-768.avif 768w, assets/img/v3-walk-1080.avif 1080w" sizes="12rem"><img src="assets/img/v3-walk-768.webp" srcset="assets/img/v3-walk-480.webp 480w, assets/img/v3-walk-768.webp 768w, assets/img/v3-walk-1080.webp 1080w" sizes="12rem" width="1080" height="1386" alt="" loading="lazy" decoding="async"></picture><svg class="v3-letter v3-letter--bet" viewBox="31 163 432.4 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="bet"><path class="v3-letter__ink" d="M31 760L61.2 587.4L348.8 587.4Q361.2 562.2 367.4 544.9Q373.6 527.6 376.2 511.1Q378.8 494.6 378.8 472Q378.8 437 372.5 418.3Q366.2 399.6 349.6 392.3Q333 385 301.8 385L121 385Q85.8 385 70.8 365.1Q55.8 345.2 55.8 307Q55.8 271 62.8 240.8Q69.8 210.6 77.3 189.7Q84.8 168.8 87.8 163L106.8 163L106.8 185Q106.8 197.4 113.6 203.7Q120.4 210 129.8 210L331.8 210Q361.4 210 383 221.7Q404.6 233.4 416.7 256.1Q428.8 278.8 428.8 313L428.8 458Q428.8 502.4 418.4 534.8Q408 567.2 398 587.4L463.4 587.4L433.2 760Z"/></svg></div><figcaption>ב׳ · 800</figcaption></figure>
-        <figure><div class="v3-room v3-room--bet" style="--fx:0.000%;--fy:22.781%;--fw:80.944%;--fh:63.819%;--at:21.785%;--ar:0.000%;--ab:23.360%;--al:0.000%;--bt:0.000%;--br:1.429%;--bb:0.000%;--bl:2.571%;--pos:46% 38%;--asp:432.4/597;--cx:40.472%;--cy:54.690%;--sqw:88.113%;--em-w:0.4324;--t:1;" data-room="bet"><picture class="v3-room__photo"><source type="image/avif" srcset="assets/img/v3-walk-480.avif 480w, assets/img/v3-walk-768.avif 768w, assets/img/v3-walk-1080.avif 1080w" sizes="12rem"><img src="assets/img/v3-walk-768.webp" srcset="assets/img/v3-walk-480.webp 480w, assets/img/v3-walk-768.webp 768w, assets/img/v3-walk-1080.webp 1080w" sizes="12rem" width="1080" height="1386" alt="" loading="lazy" decoding="async"></picture><svg class="v3-letter v3-letter--bet" viewBox="31 163 432.4 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="bet"><path class="v3-letter__ink" d="M40 760L55 676L354 676Q360 645 364.5 609.5Q369 574 371.5 535Q374 496 374 456Q374 392 371 359Q368 326 354 314Q340 302 307 302L106 302Q79 302 68 290Q57 278 57 255Q57 239 60.5 226Q64 213 69 201.5Q74 190 77 180L92 180L92 192Q92 205 98 210.5Q104 216 121 216L327 216Q348 216 368 223.5Q388 231 401 250.5Q414 270 414 305L414 456Q414 532 403 592.5Q392 653 386 676L458 676L443 760Z"/></svg></div><figcaption>ב׳ · 300</figcaption></figure>
-        <figure><div class="v3-room v3-room--kaf" style="--fx:0.000%;--fy:22.781%;--fw:87.602%;--fh:63.819%;--at:21.785%;--ar:0.000%;--ab:23.360%;--al:0.000%;--bt:0.000%;--br:0.000%;--bb:0.000%;--bl:2.459%;--pos:50% 40%;--asp:417.8/597;--cx:43.801%;--cy:54.690%;--sqw:91.192%;--em-w:0.4178;--t:0;" data-room="kaf"><picture class="v3-room__photo"><source type="image/avif" srcset="assets/img/v3-pot-b-480.avif 480w, assets/img/v3-pot-b-768.avif 768w, assets/img/v3-pot-b-1080.avif 1080w, assets/img/v3-pot-b-1440.avif 1440w" sizes="12rem"><img src="assets/img/v3-pot-b-768.webp" srcset="assets/img/v3-pot-b-480.webp 480w, assets/img/v3-pot-b-768.webp 768w, assets/img/v3-pot-b-1080.webp 1080w, assets/img/v3-pot-b-1440.webp 1440w" sizes="12rem" width="1440" height="1951" alt="" loading="lazy" decoding="async"></picture><svg class="v3-letter v3-letter--kaf" viewBox="31 163 417.8 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="kaf"><path class="v3-letter__ink" d="M31 760L71 587.4L334.6 587.4Q357.6 587.4 370.4 576.8Q383.2 566.2 389 545Q394.8 523.8 394.8 492.6Q394.8 438.4 376.2 411.7Q357.6 385 306.6 385L122.8 385Q87.6 385 73.2 365.3Q58.8 345.6 58.8 304.6Q58.8 271.4 65.3 241.9Q71.8 212.4 79.7 191.2Q87.6 170 90.6 163L109.6 163L109.6 184.8Q109.6 196.4 115.8 203.2Q122 210 132.8 210L313.8 210Q351.2 210 374.5 226.6Q397.8 243.2 412 273.8Q415.2 279.4 423.9 305.8Q432.6 332.2 440.7 379.3Q448.8 426.4 448.8 496Q448.8 585.8 433.3 634.9Q417.8 684 394.8 712.6Q375.6 737.2 352.8 748.6Q330 760 304.8 760Z"/></svg></div><figcaption>כ׳ · 800</figcaption></figure>
-        <figure><div class="v3-room v3-room--samekh" style="--fx:10.973%;--fy:22.346%;--fw:81.823%;--fh:64.246%;--at:21.228%;--ar:6.122%;--ab:19.949%;--al:6.414%;--bt:0.000%;--br:0.000%;--bb:0.000%;--bl:0.000%;--pos:50% 50%;--asp:419.2/608.6;--cx:51.885%;--cy:54.469%;--sqw:93.273%;--em-w:0.4192;--clip:ellipse(52.427% 49.975% at 50.023% 50.102%);--wl:1.288%;--wt:3.396%;--ww:97.472%;--wh:77.188%;--wcx:50.00%;--wcy:55.52%;--t:0.84;" data-room="samekh"><div class="v3-room__photo v3-room__photo--whole"><div class="v3-room__work"><picture class="v3-room__img"><source type="image/avif" srcset="assets/img/v3-mandala-480.avif 480w, assets/img/v3-mandala-768.avif 768w, assets/img/v3-mandala-1080.avif 1080w, assets/img/v3-mandala-1440.avif 1440w" sizes="12rem"><img src="assets/img/v3-mandala-768.webp" srcset="assets/img/v3-mandala-480.webp 480w, assets/img/v3-mandala-768.webp 768w, assets/img/v3-mandala-1080.webp 1080w, assets/img/v3-mandala-1440.webp 1440w" sizes="12rem" width="1440" height="1300" alt="" loading="lazy" decoding="async"></picture></div></div><svg class="v3-letter v3-letter--samekh" viewBox="41 163 419.2 608.6" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="samekh"><path class="v3-letter__ink" d="M252.8 771.9Q148.2 771.9 99.1 705.8Q50.0 639.7 50.0 525.8Q50.0 475.1 58.5 438.0Q66.9 400.9 81.4 372.0Q95.9 343.0 113.2 317.3L113.2 294.2L144.5 294.2L144.5 315.5Q135.9 326.3 123.9 349.9Q112.1 373.4 102.6 409.9Q93.3 446.4 93.3 496.7Q93.3 587.9 132.5 630.8Q171.7 673.6 255.0 673.6Q341.6 673.6 382.6 628.1Q423.7 582.6 423.7 488.7Q423.7 438.6 412.0 399.4Q400.3 360.2 373.5 337.7Q346.6 315.3 301.4 315.3L103.3 315.3Q75.1 315.3 63.5 303.4Q51.9 291.5 51.9 264.6Q51.9 244.4 56.3 226.6Q60.7 208.7 66.3 195.3Q71.9 181.9 73.8 177.3L89.4 177.3L89.4 190.8Q89.4 203.6 95.4 209.3Q101.3 215.0 117.5 215.0L325.0 215.0Q363.8 215.0 386.0 231.2Q408.2 247.3 420.6 271.4Q424.5 278.3 433.9 304.3Q443.3 330.3 451.6 375.2Q460.0 420.2 460.0 487.4Q460.0 575.5 439.4 639.2Q418.7 703.0 373.0 737.5Q327.4 771.9 252.8 771.9Z"/></svg></div><figcaption>ס׳ · 380</figcaption></figure>
+        <figure><div class="v3-room v3-room--bet" style="--fx:0.000%;--fy:22.781%;--fw:80.944%;--fh:63.819%;--at:21.785%;--ar:0.000%;--ab:23.360%;--al:0.000%;--bt:0.000%;--br:1.429%;--bb:0.000%;--bl:2.571%;--pos:46% 50%;--asp:432.4/597;--cx:40.472%;--cy:54.690%;--sqw:88.113%;--em-w:0.4324;--t:0.4;" data-room="bet"><picture class="v3-room__photo"><source type="image/avif" srcset="assets/img/v3-walk-480.avif 480w, assets/img/v3-walk-768.avif 768w, assets/img/v3-walk-1080.avif 1080w, assets/img/v3-walk-1224.avif 1224w" sizes="10rem"><img src="assets/img/v3-walk-768.webp" srcset="assets/img/v3-walk-480.webp 480w, assets/img/v3-walk-768.webp 768w, assets/img/v3-walk-1080.webp 1080w, assets/img/v3-walk-1224.webp 1224w" sizes="10rem" width="1224" height="1571" alt="" loading="lazy" decoding="async"></picture><svg class="v3-letter v3-letter--bet" viewBox="31 163 432.4 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="bet"><path class="v3-letter__ink" d="M34.6 760.0L58.7 622.8L350.9 622.8Q360.7 595.3 366.2 570.7Q371.8 546.2 374.3 520.7Q376.9 495.2 376.9 465.6Q376.9 419.0 371.9 394.6Q366.9 370.2 351.4 361.0Q335.8 351.8 303.9 351.8L115.0 351.8Q83.1 351.8 69.7 335.1Q56.3 318.3 56.3 286.2Q56.3 258.2 61.9 234.9Q67.5 211.6 74.0 194.4Q80.5 177.3 83.5 169.8L100.9 169.8L100.9 187.8Q100.9 200.4 107.4 206.4Q113.8 212.4 126.3 212.4L329.9 212.4Q356.0 212.4 377.0 222.4Q398.0 232.4 410.4 253.9Q422.9 275.3 422.9 309.8L422.9 457.2Q422.9 514.2 412.2 557.9Q401.6 601.5 393.2 622.8L461.2 622.8L437.1 760.0Z"/></svg></div><figcaption>ב׳ · 600</figcaption></figure>
+        <figure><div class="v3-room v3-room--kaf" style="--fx:0.000%;--fy:22.781%;--fw:87.602%;--fh:63.819%;--at:21.785%;--ar:0.000%;--ab:23.360%;--al:0.000%;--bt:0.000%;--br:0.000%;--bb:0.000%;--bl:2.459%;--pos:50% 42%;--asp:417.8/597;--cx:43.801%;--cy:54.690%;--sqw:91.192%;--em-w:0.4178;--t:0.72;" data-room="kaf"><picture class="v3-room__photo"><source type="image/avif" srcset="assets/img/v3-pot-b-480.avif 480w, assets/img/v3-pot-b-768.avif 768w, assets/img/v3-pot-b-1080.avif 1080w, assets/img/v3-pot-b-1440.avif 1440w" sizes="10rem"><img src="assets/img/v3-pot-b-768.webp" srcset="assets/img/v3-pot-b-480.webp 480w, assets/img/v3-pot-b-768.webp 768w, assets/img/v3-pot-b-1080.webp 1080w, assets/img/v3-pot-b-1440.webp 1440w" sizes="10rem" width="1440" height="1951" alt="" loading="lazy" decoding="async"></picture><svg class="v3-letter v3-letter--kaf" viewBox="31 163 417.8 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="kaf"><path class="v3-letter__ink" d="M37.5 760.0L59.5 651.2L284.5 651.2Q328.4 651.2 352.1 630.6Q375.9 610.0 385.0 574.2Q394.2 538.3 394.2 492.9Q394.2 413.6 368.5 369.4Q342.8 325.2 276.6 325.2L109.3 325.2Q80.0 325.2 68.0 312.2Q56.1 299.1 56.1 270.3Q56.1 248.1 60.8 228.7Q65.5 209.2 71.3 194.7Q77.1 180.1 79.4 175.2L95.5 175.2L95.5 190.0Q95.5 202.6 101.5 208.5Q107.6 214.3 122.9 214.3L298.8 214.3Q335.2 214.3 358.3 229.4Q381.4 244.5 394.7 271.8Q398.5 279.1 407.8 305.6Q417.0 332.1 425.4 378.0Q433.8 424.0 433.8 491.0Q433.8 574.4 418.7 630.3Q403.5 686.2 376.9 717.2Q360.0 737.8 338.5 748.9Q317.0 760.0 295.6 760.0Z"/></svg></div><figcaption>כ׳ · 440</figcaption></figure>
+        <figure><div class="v3-room v3-room--samekh" style="--fx:10.973%;--fy:22.346%;--fw:81.823%;--fh:64.246%;--at:21.228%;--ar:6.122%;--ab:19.949%;--al:6.414%;--bt:0.000%;--br:0.000%;--bb:0.000%;--bl:0.000%;--pos:50% 50%;--asp:419.2/608.6;--cx:51.885%;--cy:54.469%;--sqw:93.273%;--em-w:0.4192;--clip:ellipse(52.427% 49.975% at 50.023% 50.102%);--wl:1.288%;--wt:3.396%;--ww:97.472%;--wh:77.188%;--wcx:50.00%;--wcy:55.52%;--t:0.84;" data-room="samekh"><div class="v3-room__photo v3-room__photo--whole"><div class="v3-room__work"><picture class="v3-room__img"><source type="image/avif" srcset="assets/img/v3-mandala-480.avif 480w, assets/img/v3-mandala-768.avif 768w, assets/img/v3-mandala-1080.avif 1080w, assets/img/v3-mandala-1440.avif 1440w" sizes="10rem"><img src="assets/img/v3-mandala-768.webp" srcset="assets/img/v3-mandala-480.webp 480w, assets/img/v3-mandala-768.webp 768w, assets/img/v3-mandala-1080.webp 1080w, assets/img/v3-mandala-1440.webp 1440w" sizes="10rem" width="1440" height="1300" alt="" loading="lazy" decoding="async"></picture></div></div><svg class="v3-letter v3-letter--samekh" viewBox="41 163 419.2 608.6" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="samekh"><path class="v3-letter__ink" d="M252.8 771.9Q148.2 771.9 99.1 705.8Q50.0 639.7 50.0 525.8Q50.0 475.1 58.5 438.0Q66.9 400.9 81.4 372.0Q95.9 343.0 113.2 317.3L113.2 294.2L144.5 294.2L144.5 315.5Q135.9 326.3 123.9 349.9Q112.1 373.4 102.6 409.9Q93.3 446.4 93.3 496.7Q93.3 587.9 132.5 630.8Q171.7 673.6 255.0 673.6Q341.6 673.6 382.6 628.1Q423.7 582.6 423.7 488.7Q423.7 438.6 412.0 399.4Q400.3 360.2 373.5 337.7Q346.6 315.3 301.4 315.3L103.3 315.3Q75.1 315.3 63.5 303.4Q51.9 291.5 51.9 264.6Q51.9 244.4 56.3 226.6Q60.7 208.7 66.3 195.3Q71.9 181.9 73.8 177.3L89.4 177.3L89.4 190.8Q89.4 203.6 95.4 209.3Q101.3 215.0 117.5 215.0L325.0 215.0Q363.8 215.0 386.0 231.2Q408.2 247.3 420.6 271.4Q424.5 278.3 433.9 304.3Q443.3 330.3 451.6 375.2Q460.0 420.2 460.0 487.4Q460.0 575.5 439.4 639.2Q418.7 703.0 373.0 737.5Q327.4 771.9 252.8 771.9Z"/></svg></div><figcaption>ס׳ · 380</figcaption></figure>
+        <figure><div class="v3-room v3-room--bet" style="--fx:0.000%;--fy:22.781%;--fw:80.944%;--fh:63.819%;--at:21.785%;--ar:0.000%;--ab:23.360%;--al:0.000%;--bt:0.000%;--br:1.429%;--bb:0.000%;--bl:2.571%;--pos:50% 50%;--asp:432.4/597;--cx:40.472%;--cy:54.690%;--sqw:88.113%;--em-w:0.4324;--t:0.4;" data-room="bet"><span class="v3-room__photo v3-room__field v3-room__field--sky" aria-hidden="true"></span><svg class="v3-letter v3-letter--bet" viewBox="31 163 432.4 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="bet"><path class="v3-letter__ink" d="M34.6 760.0L58.7 622.8L350.9 622.8Q360.7 595.3 366.2 570.7Q371.8 546.2 374.3 520.7Q376.9 495.2 376.9 465.6Q376.9 419.0 371.9 394.6Q366.9 370.2 351.4 361.0Q335.8 351.8 303.9 351.8L115.0 351.8Q83.1 351.8 69.7 335.1Q56.3 318.3 56.3 286.2Q56.3 258.2 61.9 234.9Q67.5 211.6 74.0 194.4Q80.5 177.3 83.5 169.8L100.9 169.8L100.9 187.8Q100.9 200.4 107.4 206.4Q113.8 212.4 126.3 212.4L329.9 212.4Q356.0 212.4 377.0 222.4Q398.0 232.4 410.4 253.9Q422.9 275.3 422.9 309.8L422.9 457.2Q422.9 514.2 412.2 557.9Q401.6 601.5 393.2 622.8L461.2 622.8L437.1 760.0Z"/></svg></div><figcaption>ב׳ · בלי תמונה: שמיים</figcaption></figure>
       </div>
     </div>
   </section>
@@ -232,25 +183,26 @@
       <div class="nh-ds-grid nh-ds-grid--2">
         <div class="nh-ds-box nh-stack">
           <h3 class="nh-h3">שרטוט ונקודה</h3>
-          <p class="nh-muted nh-small">כל מקטע תלוי על קו דק. הנקודה בכותרות היא אבן פסיפס מרובעת; ב־DOM נשארת נקודה אמיתית.</p>
+          <p class="nh-muted nh-small">כל מקטע מתחיל באותו סדר: קו דק, כותרת, פתיח. הנקודה בכותרות היא אבן פסיפס מרובעת; ב־DOM נשארת נקודה אמיתית.</p>
           <p class="v3-cover__title" style="font-size:4.5rem;margin:0" aria-hidden="true">בית<span class="v3-dot">.</span> לחיים<span class="v3-dot v3-dot--clay">.</span></p>
         </div>
         <div class="nh-ds-box nh-stack">
           <h3 class="nh-h3">מתגי תצוגה</h3>
-          <p class="nh-muted nh-small">כפתורים עם ‎aria-pressed‎ ותווית גלויה. הבחירה נשמרת ומוכרזת לקורא המסך.</p>
-          <div class="v3-menu-toggles" role="group" aria-label="הגדרות תצוגה (דוגמה פעילה)">
-            <button type="button" class="v3-toggle" data-plain-toggle aria-pressed="false"><span>בשפה פשוטה</span><i aria-hidden="true"></i></button>
-            <button type="button" class="v3-toggle" data-motion-toggle aria-pressed="false"><span>הפחתת תנועה</span><i aria-hidden="true"></i></button>
-            <button type="button" class="v3-toggle" data-calm-toggle aria-pressed="false"><span>מצב רגוע</span><i aria-hidden="true"></i></button>
+          <p class="nh-muted nh-small">כפתורים עם ‎aria-pressed‎, תווית גלויה ומילת מצב „פועל / כבוי”. מסילה 44×24 וידית מרובעת — בלי אנימציה: הידית קופצת למקום. הבחירה נשמרת ומוכרזת לקורא המסך.</p>
+          <div class="v3-switches" role="group" aria-label="הגדרות תצוגה (דוגמה פעילה)">
+            <button type="button" class="v3-toggle" data-plain-toggle aria-pressed="false"><span class="v3-toggle__label">בשפה פשוטה</span><span class="v3-toggle__state" aria-hidden="true" data-on="פועל" data-off="כבוי"></span><i aria-hidden="true"></i></button>
+            <button type="button" class="v3-toggle" data-calm-toggle aria-pressed="false"><span class="v3-toggle__label">מצב רגוע</span><span class="v3-toggle__state" aria-hidden="true" data-on="פועל" data-off="כבוי"></span><i aria-hidden="true"></i></button>
           </div>
         </div>
       </div>
       <h3 class="nh-h3">שורת אינדקס</h3>
+      <p class="nh-muted nh-small">שורה שיש לבית שלה דף היא קישור אחד: ריחוף ופוקוס מראים את הרקע של השורה (שקיפות, ‎150ms‎) וקו תחתון של 2px בשם; החץ לא זז. שורה בלי דף איננה קישור, בלי חץ, וכתוב בה „דף מפורט בקרוב”.</p>
       <ol class="v3-homes__list" role="list">
-        <li class="v3-home v3-home--sky"><a class="v3-home__link" href="#v3-components"><div class="v3-room v3-room--bet v3-home__bet" style="--fx:0.000%;--fy:22.781%;--fw:80.944%;--fh:63.819%;--at:21.785%;--ar:0.000%;--ab:23.360%;--al:0.000%;--bt:0.000%;--br:1.429%;--bb:0.000%;--bl:2.571%;--pos:50% 50%;--asp:432.4/597;--cx:40.472%;--cy:54.690%;--sqw:88.113%;--em-w:0.4324;--t:0.48;" data-room="bet"><span class="v3-room__photo v3-room__field v3-room__field--sky" aria-hidden="true"></span><svg class="v3-letter v3-letter--bet" viewBox="31 163 432.4 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="bet"><path class="v3-letter__ink" d="M35.3 760.0L58.2 629.9L351.3 629.9Q360.6 601.9 366.0 575.9Q371.4 549.9 373.9 522.6Q376.5 495.3 376.5 464.3Q376.5 415.4 371.8 389.8Q367.1 364.3 351.7 354.7Q336.4 345.2 304.3 345.2L113.8 345.2Q82.5 345.2 69.5 329.1Q56.4 312.9 56.4 282.0Q56.4 255.6 61.7 233.7Q67.0 211.8 73.3 195.4Q79.6 179.0 82.6 171.2L99.7 171.2L99.7 188.4Q99.7 201.0 106.1 207.0Q112.5 212.9 125.6 212.9L329.5 212.9Q355.0 212.9 375.8 222.6Q396.6 232.2 409.2 253.4Q421.7 274.6 421.7 309.2L421.7 457.0Q421.7 516.6 411.0 562.5Q400.3 608.4 392.2 629.9L460.8 629.9L437.9 760.0Z"/></svg></div><span class="v3-home__body"><span class="v3-home__title">שורה שלמה היא קישור אחד</span><span class="v3-home__who">ריחוף ופוקוס צובעים את השורה מימין לשמאל.</span></span><svg class="v3-home__arrow" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
+        <li class="v3-home v3-home--sky"><a class="v3-home__link" href="#v3-components"><div class="v3-room v3-room--bet v3-home__bet" style="--fx:0.000%;--fy:22.781%;--fw:80.944%;--fh:63.819%;--at:21.785%;--ar:0.000%;--ab:23.360%;--al:0.000%;--bt:0.000%;--br:1.429%;--bb:0.000%;--bl:2.571%;--pos:50% 50%;--asp:432.4/597;--cx:40.472%;--cy:54.690%;--sqw:88.113%;--em-w:0.4324;--t:0.4;" data-room="bet"><span class="v3-room__photo v3-room__field v3-room__field--sky" aria-hidden="true"></span><svg class="v3-letter v3-letter--bet" viewBox="31 163 432.4 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="bet"><path class="v3-letter__ink" d="M34.6 760.0L58.7 622.8L350.9 622.8Q360.7 595.3 366.2 570.7Q371.8 546.2 374.3 520.7Q376.9 495.2 376.9 465.6Q376.9 419.0 371.9 394.6Q366.9 370.2 351.4 361.0Q335.8 351.8 303.9 351.8L115.0 351.8Q83.1 351.8 69.7 335.1Q56.3 318.3 56.3 286.2Q56.3 258.2 61.9 234.9Q67.5 211.6 74.0 194.4Q80.5 177.3 83.5 169.8L100.9 169.8L100.9 187.8Q100.9 200.4 107.4 206.4Q113.8 212.4 126.3 212.4L329.9 212.4Q356.0 212.4 377.0 222.4Q398.0 232.4 410.4 253.9Q422.9 275.3 422.9 309.8L422.9 457.2Q422.9 514.2 412.2 557.9Q401.6 601.5 393.2 622.8L461.2 622.8L437.1 760.0Z"/></svg></div><span class="v3-home__body"><span class="v3-home__title">שורה עם דף: קישור אחד</span><span class="v3-home__who">ריחוף ופוקוס: רקע וקו תחתון.</span></span><svg class="v3-home__arrow" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
+        <li class="v3-home v3-home--paper"><div class="v3-home__row"><div class="v3-room v3-room--bet v3-home__bet" style="--fx:0.000%;--fy:22.781%;--fw:80.944%;--fh:63.819%;--at:21.785%;--ar:0.000%;--ab:23.360%;--al:0.000%;--bt:0.000%;--br:1.429%;--bb:0.000%;--bl:2.571%;--pos:50% 50%;--asp:432.4/597;--cx:40.472%;--cy:54.690%;--sqw:88.113%;--em-w:0.4324;--t:0.4;" data-room="bet"><span class="v3-room__photo v3-room__field v3-room__field--sky" aria-hidden="true"></span><svg class="v3-letter v3-letter--bet" viewBox="31 163 432.4 597" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false" data-letter="bet"><path class="v3-letter__ink" d="M34.6 760.0L58.7 622.8L350.9 622.8Q360.7 595.3 366.2 570.7Q371.8 546.2 374.3 520.7Q376.9 495.2 376.9 465.6Q376.9 419.0 371.9 394.6Q366.9 370.2 351.4 361.0Q335.8 351.8 303.9 351.8L115.0 351.8Q83.1 351.8 69.7 335.1Q56.3 318.3 56.3 286.2Q56.3 258.2 61.9 234.9Q67.5 211.6 74.0 194.4Q80.5 177.3 83.5 169.8L100.9 169.8L100.9 187.8Q100.9 200.4 107.4 206.4Q113.8 212.4 126.3 212.4L329.9 212.4Q356.0 212.4 377.0 222.4Q398.0 232.4 410.4 253.9Q422.9 275.3 422.9 309.8L422.9 457.2Q422.9 514.2 412.2 557.9Q401.6 601.5 393.2 622.8L461.2 622.8L437.1 760.0Z"/></svg></div><span class="v3-home__body"><span class="v3-home__title">שורה בלי דף</span><span class="v3-home__who">לא קישור, בלי חץ.</span><span class="v3-home__facts">סביבה רגועה · <span class="v3-home__soon">דף מפורט בקרוב</span></span></span></div></li>
       </ol>
       <div class="nh-ds-grid nh-ds-grid--2" style="margin-block-start:1.5rem">
-        <figure class="v3-print" style="max-inline-size:20rem"><picture><source type="image/avif" srcset="assets/img/v3-orchard-480.avif 480w, assets/img/v3-orchard-768.avif 768w, assets/img/v3-orchard-1080.avif 1080w" sizes="20rem"><img src="assets/img/v3-orchard-768.webp" srcset="assets/img/v3-orchard-480.webp 480w, assets/img/v3-orchard-768.webp 768w, assets/img/v3-orchard-1080.webp 1080w" sizes="20rem" width="1080" height="608" alt="קבוצה צועדת בטיול בין עצי הדר" loading="lazy" decoding="async"></picture><figcaption>„הדפס”: חיתוך ישר, קו דק בצבע הדיו, כיתוב ממוספר.</figcaption></figure>
+        <figure class="v3-print" data-reveal><picture><source type="image/avif" srcset="assets/img/v3-orchard-480.avif 480w, assets/img/v3-orchard-768.avif 768w, assets/img/v3-orchard-996.avif 996w" sizes="(max-width: 23em) calc(100vw - 2.5rem), 21rem"><img src="assets/img/v3-orchard-768.webp" srcset="assets/img/v3-orchard-480.webp 480w, assets/img/v3-orchard-768.webp 768w, assets/img/v3-orchard-996.webp 996w" sizes="(max-width: 23em) calc(100vw - 2.5rem), 21rem" width="996" height="747" alt="קבוצה צועדת בטיול בין עצי הדר" loading="lazy" decoding="async"></picture><figcaption>„הדפס”: 4:3, קו דק בצבע הדיו, כיתוב ממוספר. התמונה מופיעה פעם אחת, ברכות.</figcaption></figure>
         <ul class="v3-stats" role="list" style="grid-template-columns:repeat(2,minmax(0,1fr))"><li><b>2</b><span>מספרים על השרטוט, בלי כרטיסים</span></li><li><b>1957</b><span>שנת הקמה</span></li></ul>
       </div>
     </div>
@@ -260,17 +212,18 @@
   <section class="nh-section" id="colors" aria-labelledby="colors-title">
     <div class="nh-container nh-stack">
       <h2 class="nh-h2" id="colors-title">צבעים</h2>
-      <p class="nh-muted">צבעי בסיס לטקסט ולרקע; צבעי מותג לפעולות ולהדגשות; צבעים „דקורטיביים בלבד” אינם משמשים לטקסט.</p>
+      <p class="nh-muted">צבעי בסיס לטקסט ולרקע; צבעי מותג לפעולות ולהדגשות; צבע בבלוקים — מקטע שלם בצבע אחד; צבעים „דקורטיביים בלבד” אינם משמשים לטקסט.</p>
       <ul class="nh-ds-swatches" role="list">
-        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-paper);color:var(--nh-ink)">א</div><div class="nh-ds-swatch__meta"><b>נייר</b><code dir="ltr">--nh-paper #F7F1E7</code><span>רקע העמוד</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-paper);color:var(--nh-ink)">א</div><div class="nh-ds-swatch__meta"><b>נייר</b><code dir="ltr">--nh-paper #F7F1E7</code><span>רקע העמוד, הכותרת העליונה, תפריט הטלפון</span></div></li>
         <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-paper-2);color:var(--nh-ink)">א</div><div class="nh-ds-swatch__meta"><b>חול</b><code dir="ltr">--nh-paper-2 #EEE4D4</code><span>מקטעים מתחלפים</span></div></li>
-        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-ink);color:var(--nh-paper)">א</div><div class="nh-ds-swatch__meta"><b>דיו</b><code dir="ltr">--nh-ink #1F2421</code><span>טקסט ראשי</span></div></li>
-        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-ink-2);color:var(--nh-paper)">א</div><div class="nh-ds-swatch__meta"><b>דיו משני</b><code dir="ltr">--nh-ink-2 #4F5550</code><span>טקסט משני</span></div></li>
-        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-iris-700);color:#fff">א</div><div class="nh-ds-swatch__meta"><b>אירוס</b><code dir="ltr">--nh-iris-700 #4A2D84</code><span>מותג, כפתורים, קישורים</span></div></li>
-        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-iris-100);color:var(--nh-iris-700)">א</div><div class="nh-ds-swatch__meta"><b>אירוס בהיר</b><code dir="ltr">--nh-iris-100 #ECE5F6</code><span>רקע לאייקונים ותגיות</span></div></li>
-        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-clay-700);color:#fff">א</div><div class="nh-ds-swatch__meta"><b>חימר</b><code dir="ltr">--nh-clay-700 #9E4325</code><span>שנים, כותרות־על</span></div></li>
-        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-olive-700);color:#fff">א</div><div class="nh-ds-swatch__meta"><b>זית</b><code dir="ltr">--nh-olive-700 #3D5832</code><span>הצלחה, „בשפה פשוטה”</span></div></li>
-        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-citrus-400);color:var(--nh-ink)">א</div><div class="nh-ds-swatch__meta"><b>הדר</b><code dir="ltr">--nh-citrus-400 #F2B33D</code><span>מרקר, פוקוס על כהה</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-citrus-100);color:var(--nh-ink)">א</div><div class="nh-ds-swatch__meta"><b>דבש</b><code dir="ltr">--nh-citrus-100 #FBE6B4</code><span>מקטע הכף; ב„מצב רגוע” — חול</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-ink);color:var(--nh-paper)">א</div><div class="nh-ds-swatch__meta"><b>דיו</b><code dir="ltr">--nh-ink #1F2421</code><span>טקסט ראשי, פתיחים וטקסט רץ</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-ink-2);color:var(--nh-paper)">א</div><div class="nh-ds-swatch__meta"><b>דיו משני</b><code dir="ltr">--nh-ink-2 #4F5550</code><span>טקסט קטן (16px ומעלה), מסגרות שדות</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-iris-700);color:#fff">א</div><div class="nh-ds-swatch__meta"><b>אירוס</b><code dir="ltr">--nh-iris-700 #4A2D84</code><span>מותג, כפתורים, קישורים, פוקוס</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-iris-100);color:var(--nh-iris-700)">א</div><div class="nh-ds-swatch__meta"><b>אירוס בהיר</b><code dir="ltr">--nh-iris-100 #ECE5F6</code><span>גוון רקע</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-clay-700);color:#fff">א</div><div class="nh-ds-swatch__meta"><b>חימר</b><code dir="ltr">--nh-clay-700 #9E4325</code><span>מספרי הצעדים</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-olive-700);color:#fff">א</div><div class="nh-ds-swatch__meta"><b>זית</b><code dir="ltr">--nh-olive-700 #3D5832</code><span>„בשפה פשוטה”, מתג פעיל, הצלחה</span></div></li>
+        <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-citrus-400);color:var(--nh-ink)">א</div><div class="nh-ds-swatch__meta"><b>הדר</b><code dir="ltr">--nh-citrus-400 #F2B33D</code><span>פוקוס וכותרות על כהה, הנקודה</span></div></li>
         <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-sky-200);color:var(--nh-ink)">א</div><div class="nh-ds-swatch__meta"><b>שמיים</b><code dir="ltr">--nh-sky-200 #D3E6F4</code><span>רקע שקט (אוטיזם, חושים)</span></div></li>
         <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-night);color:var(--nh-paper)">א</div><div class="nh-ds-swatch__meta"><b>לילה</b><code dir="ltr">--nh-night #1C1830</code><span>מקטעים כהים, פוטר</span></div></li>
         <li class="nh-ds-swatch"><div class="nh-ds-swatch__chip" style="background:var(--nh-error);color:#fff">א</div><div class="nh-ds-swatch__meta"><b>שגיאה</b><code dir="ltr">--nh-error #A8261B</code><span>הודעות שגיאה בטפסים</span></div></li>
@@ -279,62 +232,69 @@
     </div>
   </section>
 
-  <!-- CONTRAST (computed live from the CSS tokens) ============================ -->
+  <!-- CONTRAST (computed live from the CSS tokens; research/07 §7.4) ============================ -->
   <section class="nh-section nh-section--sand" id="contrast" aria-labelledby="contrast-title">
     <div class="nh-container nh-stack">
       <h2 class="nh-h2" id="contrast-title">בדיקת ניגודיות</h2>
-      <p class="nh-muted">היחס מחושב בדפדפן מתוך משתני ה־CSS עצמם (נוסחת WCAG). סף: 4.5:1 לטקסט רגיל, 3:1 לרכיבי ממשק ומסגרות פוקוס (1.4.11).</p>
+      <p class="nh-muted">היחס מחושב בדפדפן מתוך משתני ה־CSS עצמם (נוסחת WCAG). סף: 4.5:1 לטקסט רגיל, 3:1 לרכיבי ממשק ומסגרות פוקוס (1.4.11). קווים דקורטיביים אינם הסימן היחיד לשום דבר, ולכן אין להם סף. אותה טבלה מחשב <span dir="ltr">scripts/contrast.py</span>.</p>
       <div style="overflow-x:auto" tabindex="0" role="region" aria-label="טבלת ניגודיות (גלילה אופקית)">
         <table class="nh-ds-table" id="contrast-table">
           <caption class="nh-sr-only">צירופי צבעים ויחס הניגודיות שלהם</caption>
           <thead><tr><th scope="col">דוגמה</th><th scope="col">קדמה / רקע</th><th scope="col">שימוש</th><th scope="col">יחס</th><th scope="col">AA</th></tr></thead>
           <tbody>
-            <tr data-fg="--nh-ink" data-bg="--nh-paper" data-kind="text" data-use="טקסט ראשי"></tr>
-            <tr data-fg="--nh-ink-2" data-bg="--nh-paper" data-kind="text" data-use="טקסט משני"></tr>
-            <tr data-fg="--nh-ink-2" data-bg="--nh-paper-2" data-kind="text" data-use="טקסט משני על חול"></tr>
+            <tr data-fg="--nh-ink" data-bg="--nh-paper" data-kind="text" data-use="טקסט ראשי, פתיחים, הכותרת העליונה"></tr>
+            <tr data-fg="--nh-ink-2" data-bg="--nh-paper" data-kind="text" data-use="טקסט קטן (16px ומעלה)"></tr>
+            <tr data-fg="--nh-ink" data-bg="--nh-paper-2" data-kind="text" data-use="טקסט על חול"></tr>
+            <tr data-fg="--nh-ink-2" data-bg="--nh-paper-2" data-kind="text" data-use="טקסט קטן על חול"></tr>
+            <tr data-fg="--nh-ink" data-bg="--nh-citrus-100" data-kind="text" data-use="מקטע הכף („דבש”), רקע שורה באינדקס"></tr>
+            <tr data-fg="--nh-ink-2" data-bg="--nh-citrus-100" data-kind="text" data-use="טקסט קטן על דבש"></tr>
+            <tr data-fg="--nh-iris-700" data-bg="--nh-citrus-100" data-kind="text" data-use="קישורים ופוקוס על דבש"></tr>
+            <tr data-fg="--nh-ink" data-bg="--nh-sky-200" data-kind="text" data-use="רקע שורה „שמיים” באינדקס"></tr>
+            <tr data-fg="--nh-ink-2" data-bg="--nh-sky-200" data-kind="text" data-use="טקסט קטן על שמיים"></tr>
             <tr data-fg="--nh-iris-700" data-bg="--nh-paper" data-kind="text" data-use="קישורים"></tr>
-            <tr data-fg="--nh-white" data-bg="--nh-iris-700" data-kind="text" data-use="כפתור ראשי"></tr>
+            <tr data-fg="--nh-white" data-bg="--nh-iris-700" data-kind="text" data-use="כפתור ראשי, הדלת"></tr>
             <tr data-fg="--nh-white" data-bg="--nh-iris-600" data-kind="text" data-use="כפתור ראשי, ריחוף"></tr>
-            <tr data-fg="--nh-clay-700" data-bg="--nh-paper" data-kind="text" data-use="שנים וכותרות־על"></tr>
-            <tr data-fg="--nh-olive-700" data-bg="--nh-paper" data-kind="text" data-use="הצלחה"></tr>
+            <tr data-fg="--v3-iris-text" data-bg="--nh-iris-700" data-kind="text" data-use="טקסט משני בדלת"></tr>
+            <tr data-fg="--nh-clay-700" data-bg="--nh-paper" data-kind="text" data-use="מספרי הצעדים"></tr>
+            <tr data-fg="--nh-paper" data-bg="--nh-olive-700" data-kind="text" data-use="„בשפה פשוטה” לחוץ, כפתור התיבה"></tr>
+            <tr data-fg="--nh-error" data-bg="--nh-paper" data-kind="text" data-use="שגיאות"></tr>
             <tr data-fg="--nh-error" data-bg="--nh-white" data-kind="text" data-use="שגיאות בשדות"></tr>
-            <tr data-fg="--nh-ink" data-bg="--nh-citrus-400" data-kind="text" data-use="תגית „מאז 1957”"></tr>
-            <tr data-fg="--nh-ink" data-bg="--nh-sky-200" data-kind="text" data-use="מקטע שמיים"></tr>
-            <tr data-fg="--nh-paper" data-bg="--nh-night" data-kind="text" data-use="טקסט במקטע כהה"></tr>
+            <tr data-fg="--nh-paper" data-bg="--nh-night" data-kind="text" data-use="טקסט במקטע כהה ובפוטר"></tr>
             <tr data-fg="--nh-on-night-2" data-bg="--nh-night" data-kind="text" data-use="טקסט משני במקטע כהה"></tr>
-            <tr data-fg="--nh-citrus-400" data-bg="--nh-night" data-kind="text" data-use="קישורים במקטע כהה"></tr>
-            <tr data-fg="--nh-paper" data-bg="--nh-olive-700" data-kind="text" data-use="כפתור „בשפה פשוטה” לחוץ"></tr>
-            <tr data-fg="--v3-iris-text" data-bg="--nh-iris-700" data-kind="text" data-use="v3: טקסט משני על הדלת (סגול)"></tr>
-            <tr data-fg="--nh-ink" data-bg="--nh-citrus-400" data-kind="text" data-use="v3: מקטע הכף (הדר)"></tr>
-            <tr data-fg="--nh-paper" data-bg="--v3-ink" data-kind="text" data-use="v3: טקסט על לילה"></tr>
-            <tr data-fg="--nh-clay-700" data-bg="--nh-paper-2" data-kind="text" data-use="v3: מספרי צעדים על חול"></tr>
-            <tr data-fg="--nh-field" data-bg="--nh-white" data-kind="ui" data-use="מסגרת שדה טופס"></tr>
+            <tr data-fg="--nh-citrus-400" data-bg="--nh-night" data-kind="text" data-use="מספרי הסיפורים, כותרות הפוטר"></tr>
+            <tr data-fg="--nh-ink" data-bg="--nh-citrus-100" data-kind="text" data-use="כפתור הסרטון, ריחוף"></tr>
+            <tr data-fg="--nh-field" data-bg="--nh-paper" data-kind="ui" data-use="מסגרת שדה 2px, מתג כבוי"></tr>
+            <tr data-fg="--nh-field" data-bg="--nh-white" data-kind="ui" data-use="מסגרת שדה על לבן"></tr>
             <tr data-fg="--nh-iris-700" data-bg="--nh-paper" data-kind="ui" data-use="טבעת פוקוס"></tr>
-            <tr data-fg="--nh-citrus-400" data-bg="--nh-night" data-kind="ui" data-use="טבעת פוקוס על כהה"></tr>
-            <tr data-fg="--nh-field" data-bg="--nh-paper" data-kind="ui" data-use="v3: מתג כבוי"></tr>
-            <tr data-fg="--nh-olive-700" data-bg="--nh-paper" data-kind="ui" data-use="v3: מתג פעיל"></tr>
-            <tr data-fg="--v3-toggle-dark" data-bg="--nh-night" data-kind="ui" data-use="v3: מתג בכותרת התחתונה"></tr>
+            <tr data-fg="--nh-citrus-400" data-bg="--nh-night" data-kind="ui" data-use="טבעת פוקוס על כהה, מתג פעיל בפוטר"></tr>
+            <tr data-fg="--nh-citrus-400" data-bg="--nh-iris-700" data-kind="ui" data-use="טבעת פוקוס בדלת"></tr>
+            <tr data-fg="--nh-olive-700" data-bg="--nh-paper" data-kind="ui" data-use="מתג פעיל"></tr>
+            <tr data-fg="--v3-toggle-dark" data-bg="--nh-night" data-kind="ui" data-use="מתג כבוי בפוטר"></tr>
+            <tr data-fg="#A19F98" data-bg="--nh-paper" data-kind="deco" data-use="קו בין שורות (דיו 40%)"></tr>
+            <tr data-fg="#5E5967" data-bg="--nh-night" data-kind="deco" data-use="קו בין שורות על כהה (נייר 30%)"></tr>
+            <tr data-fg="#4F3B97" data-bg="--nh-paper" data-kind="text" data-use="הכיתוב הסגול של הלוגו על נייר"></tr>
+            <tr data-fg="#4F3B97" data-bg="--nh-night" data-kind="unused" data-use="הכיתוב הסגול של הלוגו על כהה — לכן בפוטר רק הסמל, בלי הכיתוב"></tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <!-- TYPE =================================================================== -->
+  <!-- TYPE: nine steps (research/07 §7.1) =================================================== -->
   <section class="nh-section" id="type" aria-labelledby="type-title">
     <div class="nh-container nh-stack">
       <h2 class="nh-h2" id="type-title">טיפוגרפיה</h2>
-      <p class="nh-muted">כותרות: <b>Frank Ruhl Libre</b> (סריף עברי קלאסי, משתנה 300–900). גוף: <b>Assistant</b> (סנס הומניסטי, משתנה 200–800). שניהם ברישיון SIL OFL 1.1, מתארחים מקומית — בלי Google Fonts CDN. אין נטוי בעברית: הדגשה במשקל ובצבע בלבד.</p>
+      <p class="nh-muted">כותרות: <b>Frank Ruhl Libre</b> (סריף עברי קלאסי) במשקלים 300, 400 ו־500 בלבד. גוף: <b>Assistant</b> (סנס הומניסטי). שניהם ברישיון SIL OFL 1.1, מתארחים מקומית — בלי Google Fonts CDN. תשע מדרגות, והקטנה שבהן היא 16px. אין נטוי ואין מרווח בין אותיות בעברית: הדגשה במשקל ובצבע בלבד; רק מספרים מקבלים ‎−0.03em‎.</p>
       <div class="nh-ds-scale">
-        <div><small dir="ltr">--nh-fs-display · clamp(56px → 152px) · Frank Ruhl 500 · lh .9</small><span class="nh-display" style="font-size:var(--nh-fs-display);line-height:.9">בית. לחיים.</span></div>
-        <div><small dir="ltr">--nh-fs-h1 · 44 → 84px · lh 1.04</small><span class="nh-display nh-h1">מעון ראשי — בית לחיים</span></div>
-        <div><small dir="ltr">--nh-fs-h2 · 34 → 62px · lh 1.08</small><span class="nh-display nh-h2">שלוש מסגרות. בית אחד.</span></div>
-        <div><small dir="ltr">--nh-fs-h3 · 24 → 36px · lh 1.18</small><span class="nh-display nh-h3">החיים קורים כאן כל יום</span></div>
-        <div><small dir="ltr">--nh-fs-h4 · 20 → 24px · Frank Ruhl 600</small><span class="nh-display" style="font-size:var(--nh-fs-h4);font-weight:600">חוג טיפול בכלבים</span></div>
-        <div><small dir="ltr">--nh-fs-lead · 20 → 26px · Assistant 400 · lh 1.55</small><span class="nh-lead">בית לאנשים עם מוגבלות שכלית התפתחותית: צוות קבוע, עשייה, פנאי — ומשפחה שתמיד מוזמנת.</span></div>
-        <div><small dir="ltr">--nh-fs-body · 17 → 19px · Assistant 400 · lh 1.68 · max 62ch</small><span>הדרך הטובה ביותר להכיר בית היא לבקר בו. נשמח לארח אתכם למפגש היכרות, לענות על כל שאלה ולהראות לכם את המקום.</span></div>
-        <div><small dir="ltr">--nh-fs-small · 15px · labels, captions (min. size for text)</small><span class="nh-small">תמונה זמנית מתוך האתר הקיים.</span></div>
-        <div><small dir="ltr">eyebrow · Assistant 700 · 16px · clay</small><span class="nh-eyebrow">כותרת־על</span></div>
+        <div><small dir="ltr">D-L · --v3-fs-dl · 44 → 112px · Frank Ruhl 300 from 48em (400 below) · lh .92 — the covers' H1, «1957»</small><span style="font:var(--v3-fw-dl) var(--v3-fs-dl)/.92 var(--nh-font-display)">בית. לחיים.</span></div>
+        <div><small dir="ltr">D-M · --v3-fs-dm · 38 → 64px · Frank Ruhl 400 · lh 1 — H2, the verbs of the day, numbers</small><span style="font:400 var(--v3-fs-dm)/1 var(--nh-font-display)">החיים קורים כאן.</span></div>
+        <div><small dir="ltr">D-S · --v3-fs-ds · 28 → 44px · Frank Ruhl 400 · lh 1.12 — homes, quotes, menu items</small><span style="font:400 var(--v3-fs-ds)/1.12 var(--nh-font-display)">מעון ראשי — בית לחיים</span></div>
+        <div><small dir="ltr">H3 · --v3-fs-h3 · 22 → 28px · Frank Ruhl 500 · lh 1.25</small><span style="font:500 var(--v3-fs-h3)/1.25 var(--nh-font-display)">שיחה ראשונה</span></div>
+        <div><small dir="ltr">Lead · --v3-fs-lead · 20 → 24px · Assistant 400 · lh 1.5 · ink · ≤ 36ch</small><span style="font-size:var(--v3-fs-lead);line-height:1.5;max-inline-size:36ch">הדרך הטובה ביותר להכיר בית היא לבקר בו.</span></div>
+        <div><small dir="ltr">Body · --v3-fs-body · 18 → 20px · Assistant 400 · lh 1.65 · ≤ 60ch</small><span style="font-size:var(--v3-fs-body);line-height:1.65;max-inline-size:60ch">נשמח לארח אתכם למפגש היכרות, לענות על כל שאלה ולהראות לכם את המקום.</span></div>
+        <div><small dir="ltr">UI · --v3-fs-ui · 18px · Assistant 600/700 — menu, buttons, labels, switches</small><span style="font:700 var(--v3-fs-ui)/1.2 var(--nh-font-body)">תיאום ביקור</span></div>
+        <div><small dir="ltr">Small · --v3-fs-small · 16px — the minimum: captions, notes, crumbs, footer</small><span style="font-size:var(--v3-fs-small)">תמונה זמנית מתוך האתר הקיים.</span></div>
+        <div><small dir="ltr">Plain · --v3-fs-plain · 22 → 24px · Assistant 400 · lh 1.6 · ≤ 36ch — plain language</small><span style="font-size:var(--v3-fs-plain);line-height:1.6">נווה האירוס הוא בית.</span></div>
       </div>
     </div>
   </section>
@@ -343,46 +303,48 @@
   <section class="nh-section nh-section--white" id="space" aria-labelledby="space-title">
     <div class="nh-container nh-stack">
       <h2 class="nh-h2" id="space-title">מרווחים וצורות</h2>
-      <p class="nh-muted">בסיס 4px. ריווח מקטעים זורם: <code dir="ltr">--nh-section = clamp(72px, …, 160px)</code>. שוליים צדדיים בנייד: 16px.</p>
+      <p class="nh-muted">בסיס 4px. מרווח מקטע: <code dir="ltr">--v3-pad = clamp(64px, …, 120px)</code>. קצב קבוע בכל מקטע: קו → 40px → כותרת → 20px → פתיח → 48px → תוכן. מכל גודל מסך המכולה עד 90rem; שוליים צדדיים בנייד: 16px.</p>
       <ul class="nh-ds-space" role="list">
         <li><i style="--s:4px"></i>1 · 4</li><li><i style="--s:8px"></i>2 · 8</li><li><i style="--s:12px"></i>3 · 12</li><li><i style="--s:16px"></i>4 · 16</li><li><i style="--s:24px"></i>5 · 24</li><li><i style="--s:32px"></i>6 · 32</li><li><i style="--s:48px"></i>7 · 48</li><li><i style="--s:64px"></i>8 · 64</li><li><i style="--s:96px"></i>9 · 96</li><li><i style="--s:128px"></i>10 · 128</li>
       </ul>
       <div class="nh-ds-grid nh-ds-grid--2" style="margin-block-start:var(--nh-s-7)">
         <div class="nh-ds-box nh-stack">
           <h3 class="nh-h3">בלי קשתות</h3>
-          <p class="nh-muted">בגרסה 3 אין מסגרות קשת, „גלולות” או כרטיסים מעוגלים. התמונה נכנסת רק לחדר של אות, או ל„הדפס”: חיתוך ישר עם קו דק, בלי שוליים ובלי צל.</p>
-          <figure class="v3-print" style="max-inline-size:12rem;margin:0"><picture><source type="image/avif" srcset="assets/img/v3-courtyard-480.avif 480w, assets/img/v3-courtyard-768.avif 768w" sizes="12rem"><img src="assets/img/v3-courtyard-768.webp" srcset="assets/img/v3-courtyard-480.webp 480w, assets/img/v3-courtyard-768.webp 768w" sizes="12rem" width="768" height="432" alt="החצר במעון: עצים, ספסלים ומדרגות לבניין" loading="lazy" decoding="async"></picture><figcaption>„הדפס”: החצר במעון.</figcaption></figure>
+          <p class="nh-muted">אין מסגרות קשת, „גלולות” או כרטיסים מעוגלים. התמונה נכנסת רק לחדר של אות, או ל„הדפס” 4:3: חיתוך ישר עם קו דק, בלי שוליים ובלי צל. אף פעם לא לכל הרוחב ואף פעם לא מאחורי טקסט.</p>
+          <figure class="v3-print" style="max-inline-size:12rem"><picture><source type="image/avif" srcset="assets/img/v3-courtyard-480.avif 480w, assets/img/v3-courtyard-768.avif 768w" sizes="12rem"><img src="assets/img/v3-courtyard-768.webp" srcset="assets/img/v3-courtyard-480.webp 480w, assets/img/v3-courtyard-768.webp 768w" sizes="12rem" width="768" height="576" alt="החצר במעון: עצים, ספסלים ומדרגות לבניין" loading="lazy" decoding="async"></picture><figcaption>„הדפס”: החצר במעון.</figcaption></figure>
         </div>
         <div class="nh-ds-box nh-stack">
-          <h3 class="nh-h3">צבעים מהיצירות</h3>
-          <p class="nh-muted">בגרסה 3 צבעי היצירות מופיעים כ„קרדיט צבע” ליד העבודה עצמה, לא כרצועת אריחים דקורטיבית.</p>
-          <ul class="v3-swatches" role="list" style="display:flex"><li><i style="--c:#213546"></i>כחול עמוק</li><li><i style="--c:#49627F"></i>כחול אבן</li><li><i style="--c:#7B8DAC"></i>תכלת זכוכית</li></ul>
-          <p class="nh-small nh-muted">רדיוס בגרסה 3: ‎2px‎ לכפתורים ולשדות. בלי צללים: „הדפס” מוגדר בקו של ‎1px‎.</p>
+          <h3 class="nh-h3">רדיוס אחד, שלושה קווים</h3>
+          <p class="nh-muted">רדיוס ‎2px‎ לכפתורים, לשדות ולמתגים; לתמונות 0. בלי צללים, חוץ מהמסגרת של ה„הדפס” (‎0 0 0 1px‎).</p>
+          <div class="v3-rule" aria-hidden="true" style="margin-block-end:1rem"></div>
+          <ul class="v3-roles" role="list" style="margin:0">
+            <li style="padding-block:.75rem">‎1px‎ דיו — השרטוט, תחתית הכותרת העליונה</li>
+            <li style="padding-block:.75rem">‎1.5px‎ דיו — ראש רשימה (הקו העליון של הרשימה הזאת)</li>
+            <li style="padding-block:.75rem">‎1px‎ „שיער” (דיו 40%) — בין שורות</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- MOTION ================================================================ -->
+  <!-- MOTION (research/07 §4): what is left, and only that ============================================ -->
   <section class="nh-section" id="motion" aria-labelledby="motion-title">
     <div class="nh-container nh-stack">
       <h2 class="nh-h2" id="motion-title">תנועה</h2>
-      <p class="nh-muted">תנועה שקטה, לא ממהרת, שלא מפריעה לקריאה ולגלילה. בלי „חטיפת גלילה”, בלי לולאות אינסופיות. לכל אפקט יש גרסה ל־<span dir="ltr">prefers-reduced-motion</span> ולמתג „הפחתת תנועה” באתר. מפרט מלא: <span dir="ltr">prototype/STORYBOARD.md</span>.</p>
-      <div style="overflow-x:auto" tabindex="0" role="region" aria-label="טבלת אסימוני תנועה (גלילה אופקית)">
+      <p class="nh-muted">שום דבר לא זז מעצמו. נשארים רק שלושה דברים: צבע בריחוף ובפוקוס, הופעה רכה אחת של תמונות ה„הדפס”, ופתיחת אקורדיון. כל השאר מיידי: המתגים, תפריט הטלפון, לוח העוגיות, ההסכמה לסרטון והמעבר לעוגן (הפוקוס עובר לכותרת היעד). עם ‎prefers-reduced-motion‎ וב„מצב רגוע” גם ההופעה כבויה. מפרט מלא: <span dir="ltr">prototype/STORYBOARD.md</span>.</p>
+      <div style="overflow-x:auto" tabindex="0" role="region" aria-label="טבלת התנועה המותרת (גלילה אופקית)">
         <table class="nh-ds-table">
-          <caption class="nh-sr-only">אסימוני תנועה</caption>
-          <thead><tr><th scope="col">אסימון</th><th scope="col">ערך</th><th scope="col">שימוש</th></tr></thead>
+          <caption class="nh-sr-only">התנועה המותרת ואסימוני התנועה</caption>
+          <thead><tr><th scope="col">מה</th><th scope="col">מאפיינים</th><th scope="col">משך ועקומה</th><th scope="col">אסימון</th></tr></thead>
           <tbody>
-            <tr><td dir="ltr">--nh-dur-1</td><td dir="ltr">160ms</td><td>צבע בריחוף ובפוקוס</td></tr>
-            <tr><td dir="ltr">--nh-dur-2</td><td dir="ltr">320ms</td><td>רכיבי ממשק קטנים, חיצים</td></tr>
-            <tr><td dir="ltr">--nh-dur-3</td><td dir="ltr">800ms</td><td>חשיפת תוכן בגלילה</td></tr>
-            <tr><td dir="ltr">--nh-dur-4</td><td dir="ltr">1200ms</td><td>פתיח, מסכות קשת</td></tr>
-            <tr><td dir="ltr">--nh-ease-out</td><td dir="ltr">cubic-bezier(.22,1,.36,1) ≈ power3.out</td><td>כניסות</td></tr>
-            <tr><td dir="ltr">--nh-ease-in-out</td><td dir="ltr">cubic-bezier(.65,0,.35,1) ≈ power2.inOut</td><td>מסכות, מרקר</td></tr>
+            <tr><td>ריחוף ופוקוס</td><td dir="ltr">color, background-color, border-color, text-decoration-color; opacity (index rows)</td><td dir="ltr">150ms ease</td><td dir="ltr">--nh-dur-1</td></tr>
+            <tr><td>ההופעה האחת של ה„הדפס”</td><td dir="ltr">opacity 0 → 1, translateY(8px) → none (the photo only, not the caption)</td><td dir="ltr">320ms cubic-bezier(.22, 1, .36, 1), once</td><td dir="ltr">--nh-dur-2, --nh-ease-out</td></tr>
+            <tr><td>אקורדיון</td><td dir="ltr">the “+” turns 45°</td><td dir="ltr">200ms</td><td>—</td></tr>
+            <tr><td>טבעת פוקוס, עובי הקו התחתון</td><td dir="ltr">outline 3px, offset 3px; underline 1 → 2px</td><td>מיידי</td><td>—</td></tr>
           </tbody>
         </table>
       </div>
-      <div class="nh-btn-row"><button class="nh-motion-toggle" type="button" data-motion-toggle aria-pressed="false"><svg aria-hidden="true" focusable="false"><use href="#i-pause"/></svg>הפחתת תנועה באתר</button></div>
+      <p class="nh-muted">אסור: חלונות שנפתחים מעצמם, סליידרים וקרוסלות, פרלקסה, חטיפת גלילה ומקטעים נעוצים, גלילה אופקית, אפקטים של הסמן, אנימציה של אותיות בודדות, קפיצות, מונים רצים, לולאות, תלת־ממד. בניית האב־טיפוס נעצרת אם יש ב־CSS ‏<span dir="ltr">@keyframes</span>, ‏<span dir="ltr">view-transition</span>, ‏<span dir="ltr">@property</span>, גלילה חלקה או <span dir="ltr">position: sticky</span>.</p>
     </div>
   </section>
 
@@ -390,11 +352,12 @@
   <section class="nh-section nh-section--sand" id="components" aria-labelledby="components-title">
     <div class="nh-container nh-stack">
       <h2 class="nh-h2" id="components-title">רכיבים</h2>
-      <p class="nh-muted">לחצו Tab כדי לראות את מצבי הפוקוס. כל רכיב לחיץ גדול מ־44×44px.</p>
+      <p class="nh-muted">לחצו Tab כדי לראות את מצבי הפוקוס. כל רכיב לחיץ גדול מ־44×44px; כפתור רגיל 56px.</p>
 
       <div class="nh-ds-grid nh-ds-grid--2">
         <div class="nh-ds-box nh-stack">
           <h3 class="nh-h3">כפתורים וקישורים</h3>
+          <p class="nh-muted nh-small">מסגרת של 2px, רדיוס 2px. בריחוף משתנה רק הצבע; החץ לא זז.</p>
           <div class="nh-btn-row">
             <a class="nh-btn nh-btn--primary" href="#components">כפתור ראשי<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a>
             <a class="nh-btn nh-btn--ghost" href="#components">כפתור משני</a>
@@ -416,7 +379,7 @@
       <div class="nh-ds-grid nh-ds-grid--2">
         <div class="nh-ds-box nh-stack">
           <h3 class="nh-h3">פירורי לחם</h3>
-          <nav class="nh-crumbs" aria-label="נתיב ניווט — דוגמה"><ol><li><a href="index.html">דף הבית</a></li><li><a href="index.html#homes">מסגרות המגורים</a></li><li><span aria-current="page">מעון ראשי</span></li></ol></nav>
+          <nav class="nh-crumbs" aria-label="נתיב ניווט — דוגמה"><ol><li><a href="index.html">דף הבית</a></li><li><a href="index.html#homes">הבתים שלנו</a></li><li><span aria-current="page">מעון ראשי</span></li></ol></nav>
           <h3 class="nh-h3">התראות</h3>
           <div class="nh-alert nh-alert--success"><h3>תודה! הפנייה התקבלה.</h3><p>נחזור אליכם בהקדם.</p></div>
           <div class="nh-alert nh-alert--error"><h3>נמצאה שגיאה אחת בטופס:</h3><ul><li><a href="#components">טלפון — נא להזין מספר טלפון תקין.</a></li></ul></div>
@@ -433,18 +396,18 @@
 
       <div class="nh-ds-grid nh-ds-grid--2">
         <div class="nh-ds-box nh-stack">
-          <h3 class="nh-h3">גלריה + לייטבוקס נגיש</h3>
-          <p class="nh-muted nh-small">פתיחה ב־Enter, מעבר בחיצים (בעברית: חץ שמאלה = הבא), Esc לסגירה, החלקה בנייד, הפוקוס חוזר לתמונה.</p>
-          <ul class="nh-gallery" role="list" data-lightbox style="grid-template-columns:repeat(3,1fr)">
-            <li style="grid-column:auto;grid-row:auto"><button type="button" data-full="assets/img/mosaic-pot-1080.webp" data-srcset="assets/img/mosaic-pot-480.webp 480w, assets/img/mosaic-pot-768.webp 768w, assets/img/mosaic-pot-1080.webp 1080w, assets/img/mosaic-pot-1440.webp 1440w" data-caption="כד פסיפס בעבודת יד."><picture><source type="image/avif" srcset="assets/img/mosaic-pot-480.avif 480w, assets/img/mosaic-pot-768.avif 768w, assets/img/mosaic-pot-1080.avif 1080w, assets/img/mosaic-pot-1440.avif 1440w" sizes="10rem"><img src="assets/img/mosaic-pot-768.webp" srcset="assets/img/mosaic-pot-480.webp 480w, assets/img/mosaic-pot-768.webp 768w, assets/img/mosaic-pot-1080.webp 1080w, assets/img/mosaic-pot-1440.webp 1440w" sizes="10rem" width="1440" height="1894" alt="כד פסיפס צבעוני בעבודת יד" loading="lazy" decoding="async"></picture><span class="nh-sr-only">הגדלת התמונה</span></button></li>
-            <li style="grid-column:auto;grid-row:auto"><button type="button" data-full="assets/img/mosaic-pot-2-1080.webp" data-srcset="assets/img/mosaic-pot-2-480.webp 480w, assets/img/mosaic-pot-2-768.webp 768w, assets/img/mosaic-pot-2-1080.webp 1080w, assets/img/mosaic-pot-2-1440.webp 1440w" data-caption="כד פסיפס עם צלחת."><picture><source type="image/avif" srcset="assets/img/mosaic-pot-2-480.avif 480w, assets/img/mosaic-pot-2-768.avif 768w, assets/img/mosaic-pot-2-1080.avif 1080w, assets/img/mosaic-pot-2-1440.avif 1440w" sizes="10rem"><img src="assets/img/mosaic-pot-2-768.webp" srcset="assets/img/mosaic-pot-2-480.webp 480w, assets/img/mosaic-pot-2-768.webp 768w, assets/img/mosaic-pot-2-1080.webp 1080w, assets/img/mosaic-pot-2-1440.webp 1440w" sizes="10rem" width="1440" height="1894" alt="כד פסיפס בגווני כחול וירוק עם צלחת" loading="lazy" decoding="async"></picture><span class="nh-sr-only">הגדלת התמונה</span></button></li>
-            <li style="grid-column:auto;grid-row:auto"><button type="button" data-full="assets/img/crafts-owls-1080.webp" data-srcset="assets/img/crafts-owls-480.webp 480w, assets/img/crafts-owls-768.webp 768w, assets/img/crafts-owls-1080.webp 1080w" data-caption="ינשופים וחמסות מעבודות הדיירים."><picture><source type="image/avif" srcset="assets/img/crafts-owls-480.avif 480w, assets/img/crafts-owls-768.avif 768w, assets/img/crafts-owls-1080.avif 1080w" sizes="10rem"><img src="assets/img/crafts-owls-768.webp" srcset="assets/img/crafts-owls-480.webp 480w, assets/img/crafts-owls-768.webp 768w, assets/img/crafts-owls-1080.webp 1080w" sizes="10rem" width="1080" height="1440" alt="דוכן יצירות: ינשופים צבעוניים, חמסות ותליונים בעבודת יד" loading="lazy" decoding="async"></picture><span class="nh-sr-only">הגדלת התמונה</span></button></li>
+          <h3 class="nh-h3">גלריה: הדפסים 4:3</h3>
+          <p class="nh-muted nh-small">רשת של הדפסים בגודל אחד (3 / 2 / 1 עמודות), וכיתוב גלוי מתחת לכל תמונה. בלי לייטבוקס ובלי הגדלה בריחוף: תמונות חלשות לא מגדילים.</p>
+          <ul class="v3-gallery" role="list">
+            <li><figure class="v3-print" data-reveal><picture><source type="image/avif" srcset="assets/img/v3-dining-480.avif 480w, assets/img/v3-dining-768.avif 768w, assets/img/v3-dining-1080.avif 1080w, assets/img/v3-dining-1440.avif 1440w" sizes="(min-width: 64em) 12rem, (min-width: 40em) 50vw, calc(100vw - 2.5rem)"><img src="assets/img/v3-dining-768.webp" srcset="assets/img/v3-dining-480.webp 480w, assets/img/v3-dining-768.webp 768w, assets/img/v3-dining-1080.webp 1080w, assets/img/v3-dining-1440.webp 1440w" sizes="(min-width: 64em) 12rem, (min-width: 40em) 50vw, calc(100vw - 2.5rem)" width="1440" height="1080" alt="שולחן אוכל מעץ בהיר עם כיסאות, בפינת האוכל המשותפת באגף החדש" loading="lazy" decoding="async"></picture><figcaption>פינת האוכל המשותפת.</figcaption></figure></li>
+            <li><figure class="v3-print" data-reveal><picture><source type="image/avif" srcset="assets/img/v3-bedroom-480.avif 480w, assets/img/v3-bedroom-768.avif 768w, assets/img/v3-bedroom-1080.avif 1080w, assets/img/v3-bedroom-1440.avif 1440w" sizes="(min-width: 64em) 12rem, (min-width: 40em) 50vw, calc(100vw - 2.5rem)"><img src="assets/img/v3-bedroom-768.webp" srcset="assets/img/v3-bedroom-480.webp 480w, assets/img/v3-bedroom-768.webp 768w, assets/img/v3-bedroom-1080.webp 1080w, assets/img/v3-bedroom-1440.webp 1440w" sizes="(min-width: 64em) 12rem, (min-width: 40em) 50vw, calc(100vw - 2.5rem)" width="1440" height="1080" alt="חדר מגורים עם שתי מיטות מוצעות בכיסוי ורוד" loading="lazy" decoding="async"></picture><figcaption>חדר מגורים לשניים.</figcaption></figure></li>
+            <li><figure class="v3-print" data-reveal><picture><source type="image/avif" srcset="assets/img/v3-living-480.avif 480w, assets/img/v3-living-768.avif 768w, assets/img/v3-living-1080.avif 1080w, assets/img/v3-living-1440.avif 1440w" sizes="(min-width: 64em) 12rem, (min-width: 40em) 50vw, calc(100vw - 2.5rem)"><img src="assets/img/v3-living-768.webp" srcset="assets/img/v3-living-480.webp 480w, assets/img/v3-living-768.webp 768w, assets/img/v3-living-1080.webp 1080w, assets/img/v3-living-1440.webp 1440w" sizes="(min-width: 64em) 12rem, (min-width: 40em) 50vw, calc(100vw - 2.5rem)" width="1440" height="1080" alt="סלון משותף עם ספות כחולות ושולחן אוכל" loading="lazy" decoding="async"></picture><figcaption>הסלון המשותף.</figcaption></figure></li>
           </ul>
         </div>
         <div class="nh-ds-box nh-stack">
-          <h3 class="nh-h3">באנר עוגיות</h3>
-          <p class="nh-muted nh-small">לא חוסם את הדף, לא מכסה פוקוס (scroll-padding), נפתח מחדש מהפוטר. סטטיסטיקה ותוכן מוטמע — רק בהסכמה.</p>
-          <p><button class="nh-btn nh-btn--ghost" type="button" data-cookie-settings>הצגת הבאנר</button></p>
+          <h3 class="nh-h3">הגדרות עוגיות</h3>
+          <p class="nh-muted nh-small">הלוח לא נפתח מעצמו: באתר יש רק עוגיות הכרחיות, וסרטון YouTube שואל בתוך הסרטון. הקישור „הגדרות עוגיות” בפוטר פותח את הלוח בתוך הדף, מיד אחרי הפוטר — בלי צל, בלי אנימציה ובלי לכסות תוכן, והפוקוס עובר לכותרת שלו. „שמירת הבחירה”, „סגירה” ו־Esc סוגרים אותו ומחזירים את הפוקוס.</p>
+          <p><button class="nh-btn nh-btn--ghost" type="button" data-cookie-settings>הגדרות עוגיות</button></p>
         </div>
       </div>
     </div>
@@ -457,6 +420,7 @@
         <p class="nh-eyebrow">רכיב: טופס מועמדות</p>
         <h2 class="nh-h2" id="form-title">הגשת מועמדות</h2>
         <p class="nh-muted">ב־WordPress: שליחה דרך <span dir="ltr">wp_mail()</span> לכתובת שתוגדר בווידג׳ט, הגנת nonce, honeypot, מלכודת זמן והגבלת קצב. בבדיקות — רק לכתובת של אולג. קורות החיים נשלחים כקובץ מצורף ואינם נשמרים בספריית המדיה.</p>
+        <p class="nh-muted">שדות של 56px עם מסגרת 2px; בריחוף ובפוקוס משתנה רק צבע המסגרת. שגיאות מופיעות רק אחרי שליחה, ושום דבר לא קופץ כשעוזבים שדה.</p>
       </div>
       <div>
         <div class="nh-alert nh-alert--success" data-success tabindex="-1" role="status" hidden>
@@ -500,27 +464,13 @@
   </section>
 </main>
 
-<footer class="nh-footer nh-on-dark v3-colophon" data-header="dark" data-running="קולופון">
+<footer class="nh-footer nh-on-dark">
   <div class="nh-container">
-    <div class="v3-rule" aria-hidden="true"></div>
     <div class="nh-footer__grid">
       <div class="nh-footer__brand">
-        <a class="nh-footer__logo" href="index.html"><span class="nh-wordmark"><small>מעון</small> נווה האירוס</span><span class="nh-sr-only"> — לדף הבית</span></a>
+        <a class="nh-footer__logo" href="index.html"><img src="assets/img/logo-emblem.png" width="105" height="74" alt=""><span>מעון נווה האירוס</span><span class="nh-sr-only"> — לדף הבית</span></a>
         <p>בית לאנשים עם מוגבלות שכלית התפתחותית בנס ציונה, מאז 1957. בפיקוח משרד הרווחה והביטחון החברתי.</p>
-      </div>
-      <div>
-        <h2>ניווט</h2>
-        <ul role="list">
-          <li><a href="index.html#story">מי אנחנו</a></li>
-          <li><a href="index.html#homes">מסגרות המגורים</a></li>
-          <li><a href="index.html#day">החיים אצלנו</a></li>
-          <li><a href="index.html#jobs">דרושים</a></li>
-          <li><a href="index.html#door">יצירת קשר</a></li>
-        </ul>
-      </div>
-      <div>
-        <h2>יצירת קשר</h2>
-        <ul role="list">
+        <ul class="nh-footer__contacts" role="list">
           <li>טלפון: <a href="tel:+97289403047"><span class="nh-ltr">08-9403047</span></a></li>
           <li>פקס: <span class="nh-ltr">08-9400805</span></li>
           <li>מזכירות: <a href="mailto:irus3@nevehairus.com"><span class="nh-ltr">irus3@nevehairus.com</span></a></li>
@@ -529,27 +479,31 @@
         </ul>
       </div>
       <div>
+        <h2>ניווט</h2>
+        <ul class="nh-footer__links" role="list">
+          <li><a href="index.html#homes">הבתים שלנו</a></li>
+          <li><a href="index.html#day">החיים אצלנו</a></li>
+          <li><a href="index.html#story">מי אנחנו</a></li>
+          <li><a href="index.html#jobs">דרושים</a></li>
+          <li><a href="index.html#door">יצירת קשר</a></li>
+        </ul>
+      </div>
+      <div>
         <h2>מידע ונגישות</h2>
-        <ul role="list">
+        <ul class="nh-footer__links" role="list">
           <li><a href="#accessibility">הצהרת נגישות</a></li>
           <li><a href="#privacy">מדיניות פרטיות</a></li>
-          <li><button class="nh-linkbtn" type="button" data-cookie-settings>הגדרות עוגיות</button></li>
+          <li><a href="#nh-cookies" data-cookie-settings>הגדרות עוגיות</a></li>
           <li><a href="#sitemap">מפת אתר</a></li>
           <li><a href="https://www.nevehairus.com/wp-content/uploads/2017/08/מפרט-כניסות-נגישות.pdf">מפרט כניסות נגישות (PDF)</a></li>
         </ul>
-        <div class="v3-footer-toggles" role="group" aria-label="הגדרות תצוגה">
-          <button type="button" class="v3-toggle" data-plain-toggle aria-pressed="false"><span>בשפה פשוטה</span><i aria-hidden="true"></i></button>
-          <button type="button" class="v3-toggle" data-motion-toggle aria-pressed="false"><span>הפחתת תנועה</span><i aria-hidden="true"></i></button>
-          <button type="button" class="v3-toggle" data-calm-toggle aria-pressed="false"><span>מצב רגוע</span><i aria-hidden="true"></i></button>
+        <div class="v3-switches" role="group" aria-label="הגדרות תצוגה">
+          <button type="button" class="v3-toggle" data-calm-toggle aria-pressed="false"><span class="v3-toggle__label">מצב רגוע</span><span class="v3-toggle__state" aria-hidden="true" data-on="פועל" data-off="כבוי"></span><i aria-hidden="true"></i></button>
         </div>
       </div>
     </div>
-    <p class="v3-colophon__credits">
-      <b>קולופון.</b> גופנים: <span lang="en" dir="ltr">Frank Ruhl Libre</span> (יאנק יונטף) ו־<span lang="en" dir="ltr">Assistant</span> (בן נתן ו־<span lang="en" dir="ltr">Adobe</span>), ברישיון <span lang="en" dir="ltr">SIL OFL</span>.
-      האותיות: חמש אותיות שהשמות שלהן הם מילים של בית — ב׳ (בית), כ׳ (כף), ס׳ (סמך), ל׳ (למד) ו־ד׳ (דלת) — משמשות כאן כאדריכלות, ובתוכן יש חדרים.
-      הכדים, המנדלה והינשופים בעמוד — עבודות יד של דיירות ודיירי נווה האירוס.
-      הצילומים זמניים, מתוך האתר הקיים, ללא פנים מזוהות.
-    </p>
+    <!-- short colophon (v3.2): new wording, to be shown to the client -->
+    <p class="v3-colophon__credits"><b>קולופון.</b> גופנים: <span lang="en" dir="ltr">Frank Ruhl Libre</span> (יאנק יונטף) ו־<span lang="en" dir="ltr">Assistant</span> (בן נתן ו־<span lang="en" dir="ltr">Adobe</span>), ברישיון <span lang="en" dir="ltr">SIL OFL</span>. חמש אותיות שהשמות שלהן מילים של בית — ב׳, כ׳, ס׳, ל׳ ו־ד׳ — משמשות כאן כאדריכלות. הכדים, המנדלה והינשופים — עבודות יד של דיירות ודיירי נווה האירוס. הצילומים זמניים, ללא פנים מזוהות.</p>
     <div class="nh-footer__bottom">
       <p>© <span data-year>2026</span> מעון נווה האירוס. כל הזכויות שמורות.</p>
       <p>אב־טיפוס לעיון פנימי · נוסחי „בשפה פשוטה” הם טיוטה לבדיקה של מומחה או מומחית לפישוט לשוני</p>
@@ -558,39 +512,30 @@
     </div>
   </div>
 </footer>
-
-<aside class="v2-bar v3-bar" data-bar aria-label="תיאום ביקור מהיר">
-  <a class="nh-btn nh-btn--primary" href="index.html#door" data-bar-cta><span class="v3-full">תיאום ביקור</span><span class="v3-plain">לקבוע ביקור</span><svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a>
-  <a class="nh-btn nh-btn--ghost" href="tel:+97289403047" aria-label="התקשרו: 08-9403047"><svg class="nh-btn__icon" aria-hidden="true" focusable="false"><use href="#i-phone"/></svg></a>
-</aside>
-
-<dialog class="nh-lightbox" id="nh-lightbox" aria-label="גלריית תמונות">
-  <div class="nh-lightbox__inner">
-    <div class="nh-lightbox__bar">
-      <p class="nh-lightbox__count">תמונה 1 מתוך 6</p>
-      <button class="nh-lightbox__btn" type="button" data-lb-close>
-        <svg aria-hidden="true" focusable="false"><use href="#i-close"/></svg><span class="nh-sr-only">סגירת הגלריה</span>
-      </button>
+<!-- cookie settings (v3.2, research/07 §9): never opens by itself. «הגדרות עוגיות» in the footer opens it here,
+     in the flow right after the footer; texts are a draft for the client's lawyer -->
+<section class="nh-cookies nh-on-dark" id="nh-cookies" aria-labelledby="nh-cookies-title" hidden>
+  <div class="nh-container nh-cookies__inner">
+    <h2 class="nh-cookies__title" id="nh-cookies-title" tabindex="-1">הגדרות עוגיות</h2>
+    <p class="v3-full">באתר יש רק עוגיות הכרחיות. סרטון מ־YouTube נטען רק אחרי שמאשרים אותו, ואז YouTube עשוי לשמור עוגיות. כאן אפשר לשנות את הבחירה. <a href="#privacy">מדיניות הפרטיות</a></p>
+    <div class="v3-plain"><p>האתר שומר רק מה שחייבים.</p><p>סרטון מ־YouTube נפתח רק אם מסכימים.</p><p>כאן אפשר לשנות את הבחירה.</p></div>
+    <div class="nh-cookies__prefs">
+      <label class="nh-check"><input type="checkbox" checked disabled><span><b>הכרחיות</b> — פעילות תקינה של האתר ושמירת הבחירות שלכם. תמיד פעילות.</span></label>
+      <label class="nh-check"><input type="checkbox" id="nh-c-media"><span><b>תוכן מוטמע</b> — סרטונים מ־YouTube.</span></label>
     </div>
-    <div class="nh-lightbox__stage">
-      <img alt="">
-      <button class="nh-lightbox__btn nh-lightbox__nav nh-lightbox__nav--prev" type="button" data-lb-prev>
-        <svg aria-hidden="true" focusable="false"><use href="#i-arrow-back"/></svg><span class="nh-sr-only">התמונה הקודמת</span>
-      </button>
-      <button class="nh-lightbox__btn nh-lightbox__nav nh-lightbox__nav--next" type="button" data-lb-next>
-        <svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg><span class="nh-sr-only">התמונה הבאה</span>
-      </button>
+    <div class="nh-btn-row">
+      <button class="nh-btn nh-btn--light" type="button" data-consent="save">שמירת הבחירה</button>
+      <button class="nh-btn nh-btn--ghost" type="button" data-consent="close">סגירה</button>
     </div>
-    <p class="nh-lightbox__caption"></p>
-    <p class="nh-sr-only" aria-live="polite" data-lb-live></p>
   </div>
-</dialog>
+</section>
+
 
 <script>
-  /* Live WCAG contrast check from the CSS tokens themselves */
+  /* Live WCAG contrast check from the CSS tokens themselves (a value that starts with # is a literal colour) */
   (function () {
     var root = getComputedStyle(document.documentElement);
-    function hex(v) { return root.getPropertyValue(v).trim(); }
+    function hex(v) { return v.charAt(0) === "#" ? v : root.getPropertyValue(v).trim(); }
     function lum(h) {
       h = h.replace("#", "");
       var c = [0, 2, 4].map(function (i) { var x = parseInt(h.substr(i, 2), 16) / 255; return x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); });
@@ -598,15 +543,19 @@
     }
     function ratio(a, b) { var la = lum(a), lb = lum(b); return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05); }
     document.querySelectorAll("#contrast-table tbody tr").forEach(function (tr) {
-      var fg = hex(tr.dataset.fg), bg = hex(tr.dataset.bg), r = ratio(fg, bg), need = tr.dataset.kind === "ui" ? 3 : 4.5, ok = r >= need;
-      tr.innerHTML =
-        (tr.dataset.kind === "ui"
-          ? '<td><span class="nh-ds-table__sample" style="color:' + (lum(bg) < 0.3 ? "#F7F1E7" : "#1F2421") + ";background:" + bg + ";box-shadow:inset 0 0 0 3px " + fg + '">מסגרת</span></td>'
-          : '<td><span class="nh-ds-table__sample" style="color:' + fg + ";background:" + bg + '">אבג 123</span></td>') +
-        '<td dir="ltr">' + tr.dataset.fg + " " + fg + " / " + tr.dataset.bg + " " + bg + "</td>" +
+      var fg = hex(tr.dataset.fg), bg = hex(tr.dataset.bg), r = ratio(fg, bg), kind = tr.dataset.kind,
+          need = kind === "ui" ? 3 : 4.5, ok = r >= need;
+      // a pair that fails and is not used is shown as a colour, not as text that fails on this page
+      var sample = kind === "text"
+        ? '<td><span class="nh-ds-table__sample" style="color:' + fg + ";background:" + bg + '">אבג 123</span></td>'
+        : '<td><span class="nh-ds-table__sample" style="color:' + (lum(bg) < 0.3 ? "#F7F1E7" : "#1F2421") + ";background:" + bg + ";outline:3px solid " + fg + ';outline-offset:-3px">' + (kind === "ui" ? "מסגרת" : kind === "unused" ? "צבע" : "קו") + "</span></td>";
+      tr.innerHTML = sample +
+        '<td dir="ltr">' + tr.dataset.fg + (tr.dataset.fg.charAt(0) === "#" ? "" : " " + fg) + " / " + tr.dataset.bg + " " + bg + "</td>" +
         "<td>" + tr.dataset.use + "</td>" +
         '<td dir="ltr">' + r.toFixed(2) + ":1</td>" +
-        '<td class="' + (ok ? "nh-ds-pass" : "nh-ds-fail") + '">' + (ok ? "עובר" : "נכשל") + " (סף " + need + ":1)</td>";
+        (kind === "deco"
+          ? "<td>דקורטיבי, בלי סף</td>"
+          : '<td class="' + (ok ? "nh-ds-pass" : "nh-ds-fail") + '">' + (ok ? "עובר" : "נכשל") + " (סף " + need + ":1)" + (kind === "unused" ? " — לא בשימוש" : "") + "</td>");
     });
   })();
 </script>

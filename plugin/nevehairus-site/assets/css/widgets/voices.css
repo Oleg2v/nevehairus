@@ -1,8 +1,12 @@
 /* =========================================================================
    nevehairus-site · widget `voices` (handle nh-w-voices)
-   Source (verbatim): prototype/assets/css/main.css L216–228 (video facade), the `.nh-video`
-   selector of the print rule at main.css L428, then v3.css L341–350.
-   `.v3-quote` (v3.css L336–340) and `.v3-voices__grid` (v3.css L252–253) are in base.css.
+   Source: prototype/assets/css/main.css L216–228 (video facade), the `.nh-video` selector of
+   the print rule at main.css L428, then v3.css L341–350 (v3.1), changed for v3.2 by
+   research/07 §10.2 item 8 and §4.4 item 21: the play button is a paper button with the icon
+   and a visible word («צפו בסרטון»), only its background changes on hover and focus (no circle,
+   no scale, no shift); the icon has an explicit size (an svg without one grows to 300×150);
+   the poster is a 16:9 frame of at most 37.5rem.
+   `.v3-quote` and `.v3-voices__grid` are in base.css.
    Porting change (SPEC §4.9): the prototype's inline style="justify-content:center" on the
    consent buttons' `.nh-btn-row` is the last rule of this file.
    ========================================================================= */
@@ -15,28 +19,39 @@
   color: var(--nh-paper); text-align: center; padding: var(--nh-s-5); font-weight: 700; font-size: 1.125rem;
   background: linear-gradient(180deg, rgb(28 24 48 / 0) 30%, rgb(28 24 48 / .78) 100%);
 }
-.nh-video__icon { inline-size: 5rem; block-size: 5rem; border-radius: 50%; background: var(--nh-citrus-400); color: var(--nh-ink); display: grid; place-items: center; transition: transform var(--nh-dur-2) var(--nh-ease-out); }
-.nh-video__play:hover .nh-video__icon { transform: scale(1.06); }
-.nh-video__icon svg { inline-size: 2rem; block-size: 2rem; transform: translateX(-2px); }
 .nh-video__consent { position: absolute; inset: 0; display: grid; place-content: center; gap: var(--nh-s-4); padding: var(--nh-s-6); background: var(--nh-night-2); text-align: center; }
 .nh-video iframe { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; border: 0; }
+
+/* v3.2: the button on the poster — the icon and the word, on paper (research/07 §10.2 item 8) */
+.nh-video__btn {
+  display: inline-flex; align-items: center; gap: .6rem; min-block-size: 3.5rem; padding-inline: 1rem 1.25rem;
+  background-color: var(--nh-paper); color: var(--nh-ink); border-radius: 2px;
+  font: 700 var(--v3-fs-ui, 1.125rem)/1 var(--nh-font-body);
+  transition: background-color .15s ease;
+}
+.nh-video__play:is(:hover, :focus-visible) .nh-video__btn { background-color: var(--nh-citrus-100); }
+.nh-video__icon { display: inline-grid; inline-size: 1.25rem; block-size: 1.25rem; flex: none; }
+.nh-video__icon svg { inline-size: 100%; block-size: 100%; }
 
 /* ---------- Print ----------------------------------------------------------- */
 @media print {
   .nh-video { display: none !important; }
 }
 
-/* ---------- Voices (night): the video print ------------------------------------- */
+/* ---------- Voices (night): the video print, 16:9 ---------------------------------- */
 .v3-video-fig { margin: 0; }
-.v3-video { aspect-ratio: 1; border-radius: 0; background: var(--nh-night-2); }
+.v3-video { aspect-ratio: 16 / 9; max-inline-size: 37.5rem; border-radius: 0; background: var(--nh-night-2); }
 .v3-video picture { position: absolute; inset: 0; display: block; }
-.v3-video img { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: 8% 50%; opacity: 1; }   /* all three owls and both hamsas stay whole */
+.v3-video img { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; opacity: 1; }
 .v3-video .nh-video__consent { place-content: center; place-content: safe center; overflow-y: auto; }
-.v3-video .nh-video__play { background: none; }
-.v3-video .nh-video__icon { inline-size: 4.5rem; block-size: 4.5rem; border-radius: 2px; background: var(--nh-paper); color: var(--nh-ink); box-shadow: 0 0 0 1px rgb(28 24 48 / .3); }
-.v3-video .nh-video__play:hover .nh-video__icon, .v3-video .nh-video__play:focus-visible .nh-video__icon { background: var(--nh-citrus-400); transform: none; }
-.v3-video__cap { font-size: .9375rem; line-height: 1.5; color: var(--nh-on-night-2); margin-block-start: .85rem; max-inline-size: 44ch; }
+.v3-video .nh-video__play { background: none; place-content: end start; padding: 1rem; }
+.v3-video__cap { font-size: var(--v3-fs-small, 1rem); line-height: 1.5; color: var(--nh-on-night-2); margin-block-start: .85rem; max-inline-size: 44ch; }
 @media (min-width: 64em) { .v3-voices__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; } }
+
+/* forced colours: the paper button keeps a frame */
+@media (forced-colors: active) {
+  .nh-video__btn { border: 2px solid ButtonText; }
+}
 
 /* porting change: was style="justify-content:center" on the consent buttons' row */
 .v3-video .nh-btn-row { justify-content: center; }

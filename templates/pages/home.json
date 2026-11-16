@@ -25,10 +25,10 @@
    "door/default"
   ],
   "plugin": {
-   "version": "0.1.0",
-   "php_sha256": "0b23f9b82fe650266660e2d5a40d4dfde808b792bd3e9f7ba19e7cb155088c07"
+   "version": "0.2.0",
+   "php_sha256": "d9d1690709089fafe406fba9ce60667c41cad84690110de8a40b3bb369565ba1"
   },
-  "inputs_sha256": "773a5ac5199bf5c35a55a62de80e2aa3bb3eff006c31296a70c525c25e233269"
+  "inputs_sha256": "f1d3284214a3fbebf3eb73956bce4395d7d650421c72522aa6a946145eff6a76"
  },
  "elementor_data": [
   {
@@ -96,7 +96,6 @@
         "photo_alt": "",
         "photo_decorative": "yes",
         "photo_pos": "55% 45%",
-        "weight": 600,
         "_id": "14696d4"
        },
        {
@@ -109,7 +108,7 @@
         "facts": "שגרה ועצמאות · עבודה ופנאי בעיר · ליווי צמוד",
         "facts_plain": "-",
         "link": {
-         "url": "#homes"
+         "url": ""
         },
         "photo": {
          "url": "",
@@ -121,7 +120,6 @@
         "photo_alt": "",
         "photo_decorative": "yes",
         "photo_pos": "50% 45%",
-        "weight": 560,
         "_id": "8d3b088"
        },
        {
@@ -134,7 +132,7 @@
         "facts": "סביבה רגועה · שגרה ברורה",
         "facts_plain": "-",
         "link": {
-         "url": "#homes"
+         "url": ""
         },
         "photo": {
          "url": "",
@@ -143,7 +141,6 @@
         "photo_alt": "",
         "photo_decorative": "yes",
         "photo_pos": "50% 50%",
-        "weight": 560,
         "_id": "9f296ff"
        }
       ]
@@ -175,8 +172,7 @@
         },
         "photo_alt": "",
         "photo_decorative": "",
-        "photo_sizes": "(min-width: 1024px) 34rem, 92vw",
-        "print": "normal",
+        "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
         "caption": "עבודות פסיפס וקרמיקה ביום מכירה.",
         "caption_plain": "",
         "text": "סדנאות פסיפס, תכשיטים, ציור על משי, מוזיקה ותנועה — וגם תעסוקה בעיר.",
@@ -195,8 +191,7 @@
         },
         "photo_alt": "",
         "photo_decorative": "",
-        "photo_sizes": "(min-width: 1024px) 14rem, 60vw",
-        "print": "small",
+        "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
         "caption": "סוס ליד הגדר, ביום של רכיבה טיפולית.",
         "caption_plain": "",
         "text": "רכיבה טיפולית בחווה, ועוד חוגים מחוץ למעון.",
@@ -215,8 +210,7 @@
         },
         "photo_alt": "",
         "photo_decorative": "",
-        "photo_sizes": "(min-width: 1024px) 26rem, 92vw",
-        "print": "normal",
+        "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
         "caption": "טיול בין עצי ההדר.",
         "caption_plain": "",
         "text": "טיולים, בתי קפה וסרטים, בעיר ובטבע.",
@@ -228,15 +222,14 @@
         "verb_plain": "",
         "photo": {
          "url": "",
-         "id": "@media:v3-villa",
+         "id": "@media:v3-villa-print",
          "size": "",
          "alt": "",
          "source": "library"
         },
         "photo_alt": "",
         "photo_decorative": "",
-        "photo_sizes": "(min-width: 1024px) 20rem, 80vw",
-        "print": "mid",
+        "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
         "caption": "פינה לשבת עם אורחים.",
         "caption_plain": "",
         "text": "ביקורים של משפחה וחברים, וקשר פתוח עם הצוות.",
@@ -252,72 +245,13 @@
      "id": "506a3ee",
      "elType": "widget",
      "settings": {
-      "works": [
-       {
-        "name": "כד פסיפס כחול־ירוק",
-        "name_plain": "",
-        "photo": {
-         "url": "",
-         "id": "@media:v3-pot-b",
-         "size": "",
-         "alt": "",
-         "source": "library"
-        },
-        "photo_alt": "",
-        "photo_decorative": "yes",
-        "swatches_label": "צבעים מהכד",
-        "swatches": "#213546 כחול עמוק — שפת הכד\n#49627F כחול אבן\n#7B8DAC תכלת זכוכית",
-        "_id": "522b5ac"
-       },
-       {
-        "name": "כד פסיפס בגוני זהב",
-        "name_plain": "",
-        "photo": {
-         "url": "",
-         "id": "@media:v3-pot-a",
-         "size": "",
-         "alt": "",
-         "source": "library"
-        },
-        "photo_alt": "",
-        "photo_decorative": "yes",
-        "swatches_label": "צבעים מהכד",
-        "swatches": "#49331B חום כהה — הפס התחתון\n#6D5B44 חום חם\n#796D53 זהב עמום",
-        "_id": "af7b522"
-       },
-       {
-        "name": "כד פסיפס לבן עם פרח",
-        "name_plain": "",
-        "photo": {
-         "url": "",
-         "id": "@media:v3-pot-c",
-         "size": "",
-         "alt": "",
-         "source": "library"
-        },
-        "photo_alt": "",
-        "photo_decorative": "yes",
-        "swatches_label": "צבעים מהכד",
-        "swatches": "#413C32 חום־אפור — שפת הכד\n#9C9772 זית בהיר\n#9DA0A3 אפור אבן",
-        "_id": "e138070"
-       },
-       {
-        "name": "ינשופים, חמסות ותליונים",
-        "name_plain": "",
-        "photo": {
-         "url": "",
-         "id": "@media:v3-owls",
-         "size": "",
-         "alt": "",
-         "source": "library"
-        },
-        "photo_alt": "",
-        "photo_decorative": "yes",
-        "swatches_label": "צבעים מהינשופים",
-        "swatches": "#E0B592 אפרסק\n#7EA49A ירוק ים\n#7D5C57 חום אדמה",
-        "_id": "4e7b968"
-       }
-      ]
+      "photo": {
+       "url": "",
+       "id": "@media:v3-pot-b",
+       "size": "",
+       "alt": "",
+       "source": "library"
+      }
      },
      "elements": [],
      "widgetType": "nh-kaf"
@@ -332,75 +266,7 @@
        "size": "",
        "alt": "",
        "source": "library"
-      },
-      "circles": [
-       {
-        "name": "הדייר או הדיירת",
-        "name_plain": "-",
-        "desc": "ובחירות משלהם בכל יום.",
-        "desc_plain": "",
-        "link": {
-         "url": ""
-        },
-        "ring": "",
-        "_id": "ead0689"
-       },
-       {
-        "name": "משפחה וחברים",
-        "name_plain": "",
-        "desc": "ביקורים, ועד הורים פעיל וקשר שוטף.",
-        "desc_plain": "-",
-        "link": {
-         "url": "#voices"
-        },
-        "ring": 0.1224,
-        "_id": "3ad079d"
-       },
-       {
-        "name": "צוות הבית",
-        "name_plain": "",
-        "desc": "אם בית ורכזות דירה, צוות קבוע.",
-        "desc_plain": "-",
-        "link": {
-         "url": "@page:main-home"
-        },
-        "ring": 0.2115,
-        "_id": "ded9441"
-       },
-       {
-        "name": "אנשי ונשות מקצוע",
-        "name_plain": "",
-        "desc": "עבודה סוציאלית, ריפוי בעיסוק, רפואה ורפואת שיניים.",
-        "desc_plain": "-",
-        "link": {
-         "url": "@page:main-home"
-        },
-        "ring": 0.2568,
-        "_id": "39973a1"
-       },
-       {
-        "name": "הקהילה בנס ציונה",
-        "name_plain": "",
-        "desc": "תעסוקה, פנאי ודיור בקהילה.",
-        "desc_plain": "-",
-        "link": {
-         "url": "#home-2"
-        },
-        "ring": 0.3384,
-        "_id": "f48e52b"
-       },
-       {
-        "name": "פיקוח משרד הרווחה והביטחון החברתי",
-        "name_plain": "משרד הרווחה בודק שהכול בסדר.",
-        "desc": "",
-        "desc_plain": "",
-        "link": {
-         "url": ""
-        },
-        "ring": 0.3927,
-        "_id": "e58c1df"
-       }
-      ]
+      }
      },
      "elements": [],
      "widgetType": "nh-samekh"
@@ -423,8 +289,7 @@
         },
         "photo_alt": "",
         "photo_decorative": "",
-        "photo_sizes": "(min-width: 1024px) 18rem, 70vw",
-        "print": "small",
+        "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
         "caption": "החצר במעון, היום.",
         "shamayim": "",
         "shamayim_text": "",
@@ -448,8 +313,7 @@
         },
         "photo_alt": "",
         "photo_decorative": "",
-        "photo_sizes": "(min-width: 1024px) 18rem, 70vw",
-        "print": "normal",
+        "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
         "caption": "",
         "shamayim": "yes",
         "shamayim_text": "שמיי",
@@ -476,8 +340,7 @@
         },
         "photo_alt": "",
         "photo_decorative": "",
-        "photo_sizes": "(min-width: 1024px) 18rem, 70vw",
-        "print": "normal",
+        "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
         "caption": "",
         "shamayim": "",
         "shamayim_text": "",

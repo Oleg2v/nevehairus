@@ -2,9 +2,13 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Site module (SPEC §5): head (meta, font and cover preloads, the pre-paint script), body open (sprite,
- * skip link, cookie banner), footer (visit bar, global live region, parts queued by widgets), the
- * `<main>` of Elementor's full-width template and the page setting "calm mode by default".
+ * Site module (SPEC §5; research/07 §12.2–12.3): head (meta, font and cover preloads, the pre-paint script),
+ * body open (the SVG sprite), footer (the cookie-settings panel, the global live region, parts queued by
+ * widgets), body class `v3`, and the page setting "calm mode by default".
+ *
+ * A guest on the site: every part is printed only on a page that uses our widgets (uses_widgets()) — in
+ * the requested post or in the Theme Builder header/footer shown on it. The skip link and `<main>` belong
+ * to the child theme (research/07 §12.5).
  *
  * @package nevehairus-site
  */
@@ -16,6 +20,9 @@ final class NH_Site {
 		'nh-page-cover' => '(min-width: 1024px) 22rem, 44vw',
 	];
 
+	/** One of our widgets in Elementor's raw data: `"widgetType":"nh-…"` (wp_json_encode() writes no spaces). */
+	private const WIDGET_RX = '/"widgetType"\s*:\s*"nh-/';
+
 	/** @var bool body_open() ran in this request. */
 	private static $opened = false;
 
@@ -25,8 +32,8 @@ final class NH_Site {
 	/** @var array<string,callable> footer_once() queue. */
 	private static $queue = [];
 
-	/** @var string the final template file (template_include). */
-	private static $template = '';
+	/** @var bool|null uses_widgets() of this request, once known. */
+	private static $uses = null;
 
 	/**
 	 * Hooks (SPEC §5.1).
@@ -35,19 +42,112 @@ final class NH_Site {
 		add_action( 'wp_head', [ __CLASS__, 'head' ], 1 );
 		add_filter( 'body_class', [ __CLASS__, 'body_class' ] );
 		add_action( 'wp_body_open', [ __CLASS__, 'body_open' ], 5 );
-		add_action( 'elementor/page_templates/header-footer/before_content', [ __CLASS__, 'main_open' ] );
-		add_action( 'elementor/page_templates/header-footer/after_content', [ __CLASS__, 'main_close' ] );
 		add_action( 'wp_footer', [ __CLASS__, 'footer' ], 5 );
 		add_action( 'elementor/documents/register_controls', [ __CLASS__, 'page_settings' ] );
 		add_action( 'template_redirect', [ __CLASS__, 'no_cache_for_form_states' ] );
-		add_filter( 'template_include', [ __CLASS__, 'remember_template' ], PHP_INT_MAX );
 	}
 
 	/**
-	 * `wp_head` @1: color-scheme, theme-color, font preloads, the cover photo preload, the pre-paint script.
+	 * Does this front-end request show one of our widgets (research/07 §12.2)? Decided on the request, no
+	 * stored flag, remembered for the rest of the request:
+	 * 1. admin → false;
+	 * 2. the Elementor preview → true (any widget may be dropped in);
+	 * 3. the Theme Builder header or footer shown on this request holds an `nh-*` widget → true, unless
+	 *    the requested post uses the Elementor Canvas template (no header, no footer there);
+	 * 4. the requested post (is_singular()) holds an `nh-*` widget in its raw `_elementor_data` → true
+	 *    (`_elementor_page_assets` is not read: it does not exist before the first view);
+	 * 5. false.
+	 * Called before `wp_enqueue_scripts` (the main query and Pro's display conditions are not ready, and
+	 * Pro caches what it finds for the request): false, not remembered.
+	 */
+	public static function uses_widgets(): bool {
+		if ( null !== self::$uses ) {
+			return self::$uses;
+		}
+		if ( is_admin() ) {
+			return false;
+		}
+		if ( self::is_preview() ) {
+			self::$uses = true;
+			return true;
+		}
+		if ( ! did_action( 'wp_enqueue_scripts' ) ) {
+			return false;
+		}
+		self::$uses = self::chrome_uses_widgets() || ( is_singular() && self::has_widget( (int) get_queried_object_id() ) );
+		return self::$uses;
+	}
+
+	/**
+	 * A post (page, template) whose raw `_elementor_data` holds one of our widgets.
+	 */
+	public static function has_widget( int $post_id ): bool {
+		if ( $post_id <= 0 ) {
+			return false;
+		}
+		$raw = get_post_meta( $post_id, '_elementor_data', true );
+		if ( is_array( $raw ) ) {
+			$raw = wp_json_encode( $raw );
+		}
+		return is_string( $raw ) && '' !== $raw && 1 === preg_match( self::WIDGET_RX, $raw );
+	}
+
+	/**
+	 * Post ids of the Theme Builder header and footer templates Elementor Pro shows on this request:
+	 * `\ElementorPro\Modules\ThemeBuilder\Module::instance()->get_conditions_manager()
+	 * ->get_documents_for_location( 'header' | 'footer' )` — display conditions applied, unpublished
+	 * templates skipped, cached by Pro for the request (it calls the same method to print them). Pro's
+	 * source is not public: every step is guarded, [] without Pro or on any surprise.
+	 *
+	 * @return int[]
+	 */
+	public static function chrome_documents(): array {
+		$class = '\ElementorPro\Modules\ThemeBuilder\Module';
+		if ( ! class_exists( $class ) || ! method_exists( $class, 'instance' ) ) {
+			return [];
+		}
+		$ids = [];
+		try {
+			$module     = $class::instance();
+			$conditions = ( is_object( $module ) && method_exists( $module, 'get_conditions_manager' ) ) ? $module->get_conditions_manager() : null;
+			if ( ! is_object( $conditions ) || ! method_exists( $conditions, 'get_documents_for_location' ) ) {
+				return [];
+			}
+			foreach ( [ 'header', 'footer' ] as $location ) {
+				$documents = $conditions->get_documents_for_location( $location );
+				foreach ( is_array( $documents ) ? $documents : [] as $document ) {
+					if ( is_object( $document ) && method_exists( $document, 'get_main_id' ) ) {
+						$ids[] = (int) $document->get_main_id();
+					}
+				}
+			}
+		} catch ( \Throwable $e ) {
+			return [];
+		}
+		return array_values( array_unique( array_filter( $ids ) ) );
+	}
+
+	/**
+	 * Rule 3 of uses_widgets(): a header or footer of ours is printed on this request.
+	 */
+	private static function chrome_uses_widgets(): bool {
+		if ( is_singular() && 'elementor_canvas' === (string) get_page_template_slug( (int) get_queried_object_id() ) ) {
+			return false;
+		}
+		foreach ( self::chrome_documents() as $id ) {
+			if ( self::has_widget( $id ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * `wp_head` @1 (after `wp_enqueue_scripts`, which core hooks at the same priority first): color-scheme,
+	 * theme-color, font preloads, the cover photo preload, the pre-paint script — only when uses_widgets().
 	 */
 	public static function head(): void {
-		if ( is_admin() ) {
+		if ( ! self::uses_widgets() ) {
 			return;
 		}
 		$out  = '<meta name="color-scheme" content="light">' . "\n";
@@ -73,78 +173,70 @@ final class NH_Site {
 	}
 
 	/**
-	 * The pre-paint script (prototype head.html L10–31): saved display choices are applied before the
-	 * first paint; not inside the Elementor preview (editors see the full text); the page's calm default;
-	 * the page-transition name applied only to the cover room whose data-vt was stored.
+	 * The pre-paint script (prototype head.html L14–20): saved display choices are applied before the first
+	 * paint; not inside the Elementor preview (editors see the full text); the page's calm default; the old
+	 * reduced-motion choice (`nh-motion`) is still honoured (research/07 §4.3). v3.2: no `pagereveal` (page
+	 * transitions are gone) and no `js` class on `<html>` (nothing used it, and a generic name may clash).
 	 */
 	public static function prepaint_js(): string {
 		$calm = self::calm_default() ? 'true' : 'false';
 		return '(function (w, d) {'
 			. 'var h = d.documentElement, get = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };'
-			. 'h.classList.add("js");'
 			. 'if (/[?&]elementor-preview=/.test(w.location.search)) return;'
 			. 'var cd = ' . $calm . ';'
 			. 'if (get("nh-motion") === "reduce") h.classList.add("nh-reduce-motion");'
 			. 'if (get("nh-calm") === "on" || (get("nh-calm") === null && cd)) h.classList.add("nh-calm");'
 			. 'var q = /[?&]plain=([01])/.exec(w.location.search);'
 			. 'if (q ? q[1] === "1" : get("nh-plain") === "on") h.classList.add("nh-plainmode");'
-			. 'w.addEventListener("pagereveal", function (e) {'
-			. 'if (!e.viewTransition) return;'
-			. 'h.classList.add("nh-vt-in");'
-			. 'var vt = null; try { vt = sessionStorage.getItem("nh-vt"); sessionStorage.removeItem("nh-vt"); } catch (x) { /* private mode */ }'
-			. 'if (!vt) return;'
-			. 'var rooms = d.querySelectorAll(".v3-cover--page .v3-room[data-vt]");'
-			. 'for (var i = 0; i < rooms.length; i++) { if (rooms[i].getAttribute("data-vt") === vt) rooms[i].style.viewTransitionName = vt; }'
-			. '});'
 			. '})(window, document);';
 	}
 
 	/**
-	 * `body_class`: the v3 page class.
+	 * `body_class`: the v3 page class (it carries the type scale and the masthead height), only when
+	 * uses_widgets().
 	 *
 	 * @param string[] $classes Body classes.
 	 * @return string[]
 	 */
 	public static function body_class( $classes ) {
-		$classes   = is_array( $classes ) ? $classes : [];
-		$classes[] = 'v3';
+		$classes = is_array( $classes ) ? $classes : [];
+		if ( self::uses_widgets() ) {
+			$classes[] = 'v3';
+		}
 		return $classes;
 	}
 
 	/**
-	 * `wp_body_open` @5: the sprite, the skip link and (not in the Elementor preview) the cookie banner,
-	 * so the banner is second in Tab order (D1).
+	 * `wp_body_open` @5: the SVG sprite (the icons are `<use href="#i-…">`), only when uses_widgets(). The
+	 * skip link is the child theme's (research/07 §12.5).
 	 */
 	public static function body_open(): void {
-		if ( self::$opened ) {
+		if ( self::$opened || ! self::uses_widgets() ) {
 			return;
 		}
 		self::$opened = true;
-		$out          = self::sprite() . "\n" . self::skip_link() . "\n";
-		if ( ! self::is_preview() ) {
-			$out .= self::cookie_banner() . "\n";
-		}
-		echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled from escaped parts
+		echo self::sprite() . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static markup
 	}
 
 	/**
-	 * `wp_footer` @5: the sprite and banner if the theme never fired wp_body_open; the visit bar (if enabled,
-	 * not in the preview); the global live region; parts queued with footer_once(), in queue order.
+	 * `wp_footer` @5, when uses_widgets(): the sprite if the theme never fired wp_body_open; the
+	 * cookie-settings panel (not in the Elementor preview) — in the flow, right after the footer; the global
+	 * live region. Then the parts queued with footer_once(), in queue order (a widget that queued one has
+	 * rendered on this page, whatever uses_widgets() found).
 	 */
 	public static function footer(): void {
 		self::$footed = true;
 		$out          = '';
-		if ( ! self::$opened ) {
-			self::$opened = true;
-			$out         .= self::sprite() . "\n";
-			if ( ! self::is_preview() ) {
-				$out .= self::cookie_banner() . "\n";
+		if ( self::uses_widgets() ) {
+			if ( ! self::$opened ) {
+				self::$opened = true;
+				$out         .= self::sprite() . "\n";
 			}
+			if ( ! self::is_preview() ) {
+				$out .= self::cookie_panel() . "\n";
+			}
+			$out .= self::live_region() . "\n";
 		}
-		if ( ! empty( NH_Settings::get( 'show_bar' ) ) && ! self::is_preview() ) {
-			$out .= self::visit_bar() . "\n";
-		}
-		$out .= self::live_region() . "\n";
 		foreach ( self::$queue as $printer ) {
 			$out .= (string) call_user_func( $printer ) . "\n";
 		}
@@ -153,7 +245,8 @@ final class NH_Site {
 	}
 
 	/**
-	 * Queues `$printer()` (returns HTML) to be printed once in wp_footer (e.g. the gallery's lightbox).
+	 * Queues `$printer()` (returns HTML) to be printed once in wp_footer (v3.2: no widget uses it any more; kept for
+	 * a part a future widget must print once per page).
 	 * After the footer has run (late renders) the part is printed at once.
 	 *
 	 * @param string   $key     Part name; a second call with the same key is ignored.
@@ -169,21 +262,6 @@ final class NH_Site {
 			return;
 		}
 		self::$queue[ $key ] = $printer;
-	}
-
-	/**
-	 * `elementor/page_templates/header-footer/before_content`: Elementor's full-width template has no
-	 * `<main>` (D2).
-	 */
-	public static function main_open(): void {
-		echo '<main id="main" class="nh-main" tabindex="-1">';
-	}
-
-	/**
-	 * `elementor/page_templates/header-footer/after_content`.
-	 */
-	public static function main_close(): void {
-		echo '</main>';
 	}
 
 	/**
@@ -204,25 +282,14 @@ final class NH_Site {
 	}
 
 	/**
-	 * The skip link: to `#main` under Elementor's full-width template (main_open() prints it), else to
-	 * `#content` (Hello's main). nh-core.js repairs it if the target is missing.
+	 * The cookie-settings panel (research/07 §9) with the texts from the settings: a section in the flow
+	 * after the footer, hidden until «הגדרות עוגיות» (`[data-cookie-settings]`, `a[href="#nh-cookies"]`)
+	 * opens it — it never shows itself. Without a statistics text the statistics row is not rendered.
 	 */
-	public static function skip_link(): string {
-		$label = trim( (string) NH_Settings::get( 'skip_label' ) );
-		if ( '' === $label ) {
-			return '';
-		}
-		$target = self::is_full_width_template() ? '#main' : '#content';
-		return '<a class="nh-skip" href="' . esc_attr( $target ) . '">' . esc_html( $label ) . '</a>';
-	}
-
-	/**
-	 * The cookie banner (prototype partials/cookies.html) with the texts from the settings, hidden until
-	 * nh-core.js shows it. Without a statistics text the statistics row is not rendered.
-	 */
-	public static function cookie_banner(): string {
+	public static function cookie_panel(): string {
 		$t = static function ( string $key ): string {
-			return esc_html( trim( (string) NH_Settings::get( $key ) ) );
+			$v = trim( (string) NH_Settings::get( $key ) );
+			return esc_html( '' !== $v ? $v : (string) ( NH_Settings::defaults()[ $key ] ?? '' ) );
 		};
 		$h = static function ( string $key ): string {
 			return NH_Text::esc( (string) NH_Settings::get( $key ) );
@@ -244,36 +311,15 @@ final class NH_Site {
 		}
 		$rows .= '<label class="nh-check"><input type="checkbox" id="nh-c-media"><span>' . $h( 'cookie_media' ) . '</span></label>';
 
-		return '<section class="nh-cookies" id="nh-cookies" aria-labelledby="nh-cookies-title" hidden>'
-			. '<h2 id="nh-cookies-title" tabindex="-1">' . $t( 'cookie_title' ) . '</h2>'
-			. '<button class="nh-linkbtn nh-cookies__more" type="button" aria-expanded="false" aria-controls="nh-cookies-text" data-cookie-more>' . $t( 'cookie_more' ) . '</button>'
-			. '<div class="nh-cookies__text" id="nh-cookies-text">' . $text . '</div>'
-			. '<div class="nh-cookies__prefs" id="nh-cookie-prefs" hidden>' . $rows
-			. '<div><button class="nh-btn nh-btn--primary" type="button" data-consent="save">' . $t( 'cookie_save' ) . '</button></div></div>'
+		return '<section class="nh-cookies nh-on-dark" id="nh-cookies" aria-labelledby="nh-cookies-title" hidden>'
+			. '<div class="nh-container nh-cookies__inner">'
+			. '<h2 class="nh-cookies__title" id="nh-cookies-title" tabindex="-1">' . $t( 'cookie_title' ) . '</h2>'
+			. $text
+			. '<div class="nh-cookies__prefs">' . $rows . '</div>'
 			. '<div class="nh-btn-row">'
-			. '<button class="nh-btn nh-btn--primary" type="button" data-consent="all">' . $t( 'cookie_all' ) . '</button>'
-			. '<button class="nh-btn nh-btn--ghost" type="button" data-consent="necessary">' . $t( 'cookie_necessary_only' ) . '</button>'
-			. '<button class="nh-btn nh-btn--ghost" type="button" data-consent="settings" aria-expanded="false" aria-controls="nh-cookie-prefs">' . $t( 'cookie_settings' ) . '</button>'
-			. '</div></section>';
-	}
-
-	/**
-	 * The mobile visit bar (prototype footer.html L60–63).
-	 */
-	public static function visit_bar(): string {
-		$phone = NH_Settings::phone();
-		$cta   = NH_Text::pair( (string) NH_Settings::get( 'bar_cta' ), (string) NH_Settings::get( 'bar_cta_plain' ) );
-		$out   = '<aside class="v2-bar v3-bar" data-bar aria-label="' . esc_attr( trim( (string) NH_Settings::get( 'bar_label' ) ) ) . '">';
-		if ( '' !== $cta ) {
-			$out .= '<a class="nh-btn nh-btn--primary" href="' . esc_url( NH_Settings::visit_url() ) . '" data-bar-cta>' . $cta
-				. NH_Html::icon( 'arrow-fwd', 'nh-btn__icon nh-btn__icon--fwd' ) . '</a>';
-		}
-		if ( '' !== $phone['tel'] ) {
-			$label = trim( trim( (string) NH_Settings::get( 'bar_call_label' ) ) . ' ' . $phone['display'] );
-			$out  .= "\n" . '<a class="nh-btn nh-btn--ghost" href="' . esc_url( NH_Html::tel( $phone['tel'] ) ) . '" aria-label="' . esc_attr( $label ) . '">'
-				. NH_Html::icon( 'phone', 'nh-btn__icon' ) . '</a>';
-		}
-		return $out . '</aside>';
+			. '<button class="nh-btn nh-btn--light" type="button" data-consent="save">' . $t( 'cookie_save' ) . '</button>'
+			. '<button class="nh-btn nh-btn--ghost" type="button" data-consent="close">' . $t( 'cookie_close' ) . '</button>'
+			. '</div></div></section>';
 	}
 
 	/**
@@ -316,7 +362,7 @@ final class NH_Site {
 	 * Elementor page setting `nh_calm_default` of the queried post.
 	 */
 	public static function calm_default(): bool {
-		$id = (int) get_queried_object_id();
+		$id = is_singular() ? (int) get_queried_object_id() : 0; // elsewhere the queried object is not a post
 		if ( $id <= 0 ) {
 			return false;
 		}
@@ -344,8 +390,6 @@ final class NH_Site {
 				'plainOff'   => __( 'הדף מוצג עכשיו בקריאה רגילה.', 'nevehairus-site' ),
 				'calmOn'     => __( 'מצב רגוע פעיל: בלי תנועה ועם צבעים רכים יותר.', 'nevehairus-site' ),
 				'calmOff'    => __( 'מצב רגוע כבוי.', 'nevehairus-site' ),
-				'motionOn'   => __( 'התנועה באתר מופחתת.', 'nevehairus-site' ),
-				'motionOff'  => __( 'התנועה באתר חזרה.', 'nevehairus-site' ),
 				'videoTitle' => __( 'סרטון', 'nevehairus-site' ),
 			],
 			'forms'    => [
@@ -419,25 +463,6 @@ final class NH_Site {
 		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
 			define( 'DONOTCACHEPAGE', true );
 		}
-	}
-
-	/**
-	 * `template_include` @PHP_INT_MAX: remembers the final template (decides the skip-link target).
-	 *
-	 * @param string $template Template file.
-	 * @return string The same template.
-	 */
-	public static function remember_template( $template ) {
-		self::$template = is_string( $template ) ? $template : '';
-		return $template;
-	}
-
-	/**
-	 * The final template is Elementor's "Full Width" (header-footer.php), where main_open() prints main#main.
-	 */
-	private static function is_full_width_template(): bool {
-		$t = str_replace( '\\', '/', self::$template );
-		return '' !== $t && false !== strpos( $t, 'page-templates/templates/header-footer.php' );
 	}
 
 	/**

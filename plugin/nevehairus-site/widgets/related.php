@@ -6,8 +6,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * Further reading at the end of an inner page: row links in the shape of the ל spread's roles (.v3-roles, whose
  * rules live in base.css); a long description wraps. Links that leave the site say so to screen readers.
- * Target markup: prototype/program-main-home.html section#related (source prototype/src/program-main-home.html
- * L145–156).
+ * v3.2 (research/07 §10.3 item 8, §3 item 21): a row leads only to something that exists elsewhere — a page,
+ * or a section of another page. A row without a link, or with a link to this very page (its own sections
+ * included), is not printed; editors see a note instead.
+ * Target markup: prototype/program-main-home.html section#related (source prototype/src/program-main-home.html).
  *
  * @package nevehairus-site
  */
@@ -92,56 +94,51 @@ final class NH_Widget_Related extends NH_Widget_Base {
 				'type'        => \Elementor\Controls_Manager::REPEATER,
 				'fields'      => $r->get_controls(),
 				'title_field' => '{{ title }}',
+				'description' => __( 'רק קישור לעמוד אחר או למקטע בעמוד אחר. שורה בלי קישור, או עם קישור לעמוד הזה עצמו, לא מוצגת.', 'nevehairus-site' ),
 				'default'     => [
 					[
-						'title'       => 'אבחנה כפולה',
+						'title'       => 'שלושת הבתים',
 						'title_plain' => '',
-						'meta'        => 'מוגבלות שכלית התפתחותית לצד אבחנה נפשית — ואיך אנחנו מלווים',
+						'meta'        => 'מי גר בכל בית ולמי הוא מתאים',
 						'meta_plain'  => '-',
-						'link'        => [ 'url' => '#related' ],
+						'link'        => [ 'url' => home_url( '/#homes' ) ],
 					],
 					[
-						'title'       => 'גלריית יצירות למכירה',
+						'title'       => 'ידיים שיוצרות',
 						'title_plain' => '',
 						'meta'        => 'פסיפס, תכשיטים וקרמיקה — עבודות יד של דיירות ודיירי נווה האירוס',
 						'meta_plain'  => '-',
 						'link'        => [ 'url' => home_url( '/#made' ) ],
-					],
-					[
-						'title'       => 'דיור בקהילה',
-						'title_plain' => '',
-						'meta'        => 'הצעד הבא: בית בלב הקהילה, בליווי צוות',
-						'meta_plain'  => '-',
-						'link'        => [ 'url' => home_url( '/#home-2' ) ],
 					],
 				],
 			]
 		);
 		$this->end_controls_section();
 
-		NH_Controls::section(
-			$this,
-			[
-				'anchor'  => 'related',
-				'running' => 'להמשך קריאה',
-			]
-		);
+		NH_Controls::section( $this, [ 'anchor' => 'related' ] );
 	}
 
 	protected function render() {
 		$s  = $this->get_settings_for_display();
 		$sr = self::str( $s, 'external_sr' );
 
-		$items = '';
+		$items   = '';
+		$skipped = [];
 		foreach ( self::items( $s, 'links' ) as $item ) {
 			$title = self::str( $item, 'title' );
 			if ( '' === $title ) {
 				continue;
 			}
-			$href   = NH_Html::url( $item['link'] ?? '' );
-			$ext    = '' !== $href && self::external( $href );
+			$link = $item['link'] ?? '';
+			$raw  = is_array( $link ) ? self::str( $link, 'url' ) : ( is_scalar( $link ) ? trim( (string) $link ) : '' );
+			$href = NH_Html::url( $raw );
+			if ( '' === $href || self::is_this_page( $raw ) ) {
+				$skipped[] = $title; // research/07 §10.3 item 8: never a row without a target or back to this page
+				continue;
+			}
+			$ext    = self::external( $href );
 			$hide   = NH_Text::HIDE === self::str( $item, 'title_plain' ); // the whole row is left out in plain language
-			$items .= "\n\t\t\t" . '<li' . ( $hide ? ' class="v3-full"' : '' ) . '><a' . ( '' !== $href ? ' href="' . $href . '"' : '' ) . ( $ext ? ' rel="noopener"' : '' ) . '>'
+			$items .= "\n\t\t\t" . '<li' . ( $hide ? ' class="v3-full"' : '' ) . '><a href="' . $href . '"' . ( $ext ? ' rel="noopener"' : '' ) . '>'
 				. '<b>' . NH_Text::pair( $title, $hide ? '' : self::str( $item, 'title_plain' ) ) . ( $ext ? self::sr( $sr ) : '' ) . '</b>'
 				. NH_Text::pair(
 					self::str( $item, 'meta' ),
@@ -170,9 +167,30 @@ final class NH_Widget_Related extends NH_Widget_Base {
 		if ( '' !== $items ) {
 			$html .= "\n\t\t" . '<ul class="v3-roles" role="list">' . $items . "\n\t\t</ul>";
 		}
+		foreach ( $skipped as $title ) {
+			/* translators: %s: the title of a further-reading row */
+			$html .= $this->nh_admin_note( sprintf( __( 'השורה „%s” לא מוצגת: אין לה קישור, או שהיא מקשרת לעמוד הזה עצמו.', 'nevehairus-site' ), wp_kses( $title, [] ) ) );
+		}
 		$html .= "\n\t</div>\n" . $this->nh_section_close();
 
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled from escaped parts
+	}
+
+	/**
+	 * Does the link lead back to the page this widget is on? A bare fragment (`#…`, a section of this page, or a
+	 * link token whose page is not set) does, and so does a URL whose page — without its fragment — is the post
+	 * being shown.
+	 *
+	 * @param string $raw The link as typed (not escaped).
+	 */
+	private static function is_this_page( string $raw ): bool {
+		$raw = NH_Html::resolve_token( $raw ); // #privacy, #accessibility, … are pages when they are set
+		if ( '' === $raw || '#' === $raw[0] ) {
+			return true;
+		}
+		$page = strtok( $raw, '#' );
+		$here = (int) get_the_ID();
+		return $here > 0 && is_string( $page ) && NH_Html::post_id( $page ) === $here;
 	}
 
 	/**

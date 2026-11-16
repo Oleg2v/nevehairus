@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
  * - default:   what an editor sees after dropping the widget (no photos yet: no print, the ם shows the calm sky).
  * - prototype: the courtyard print and the sky in «שמיים»; compared with index.html `section#story`.
  * - edge:      another anchor, a full-only intro, a year without a number, the ם without a word or a photo,
- *              a mid print without a caption, a number with a symbol.
+ *              a print without a caption, a number with a symbol.
  */
 return [
 	'variants' => [
@@ -53,7 +53,6 @@ return [
 							'id'  => nh_test_media_id( 'v3-courtyard' ),
 							'url' => '',
 						],
-						'print'   => 'mid',
 						'caption' => '',
 					],
 				],

@@ -1,14 +1,12 @@
 <?php
 /**
- * Fixture of widget `gallery` (SPEC §4.14, §11.2).
+ * Fixture of widget `gallery` (SPEC §4.14, §11.2; research/07 §10.3 item 4): an even grid of 4:3 prints with
+ * visible captions, no lightbox.
  *
- * - default:   the widget as dropped on a page: no images yet, so no list and no lightbox
- *              (structure only).
- * - prototype: the prototype's six photos → program-main-home.html `section#inside`.
- *              Expected differences (§4.14): the data-full / data-srcset URLs (media library URLs).
- * - states:    seven images (the 7th is sized like the 1st), an item without an image (skipped),
- *              caption twins (a plain caption; "-" = no caption in plain language), an alt override,
- *              a decorative image, emptied screen-reader texts (they fall back to the defaults)
+ * - default:   the widget as dropped on a page: no images yet, so no list (structure only).
+ * - prototype: the prototype's six photos of the new wing → program-main-home.html `section#inside`.
+ * - states:    seven images, an item without an image (skipped), caption twins (a plain caption; "-" = no
+ *              caption in plain language), an alt override, a decorative image, an image without a caption
  *              (structure only).
  *
  * @package nevehairus-site
@@ -29,51 +27,45 @@ return [
 		'prototype' => [
 			'settings'    => [
 				'images' => [
-					0 => [ 'image' => $photo( 'dining' ) ],
-					1 => [ 'image' => $photo( 'sky-ceiling' ) ],
-					2 => [ 'image' => $photo( 'bedroom' ) ],
-					3 => [ 'image' => $photo( 'living' ) ],
-					4 => [ 'image' => $photo( 'sky-corridor' ) ],
-					5 => [ 'image' => $photo( 'courtyard' ) ],
+					0 => [ 'image' => $photo( 'v3-dining' ) ],
+					1 => [ 'image' => $photo( 'v3-sky-ceiling' ) ],
+					2 => [ 'image' => $photo( 'v3-bedroom' ) ],
+					3 => [ 'image' => $photo( 'v3-living' ) ],
+					4 => [ 'image' => $photo( 'v3-sky-corridor' ) ],
+					5 => [ 'image' => $photo( 'v3-lounge' ) ],
 				],
 			],
 			'compare'     => [
 				'page'      => 'program-main-home.html',
 				'selectors' => [ 'section#inside' ],
 			],
-			'expect_diff' => [
-				'data-(full|srcset)=',       // only if compare.py prints their values: media library URLs
-			],
+			'expect_diff' => [],
 		],
 		'states'    => [
 			'settings' => [
-				'zoom_label' => '',
-				'lb_close'   => '',
-				'lb_count'   => '',
-				'images'     => [
+				'images' => [
 					0 => [
-						'image'         => $photo( 'dining' ),
+						'image'         => $photo( 'v3-dining' ),
 						'caption_plain' => "שולחן האוכל.\nאוכלים כאן ביחד.",
 					],
 					1 => [
-						'image'         => $photo( 'sky-ceiling' ),
+						'image'         => $photo( 'v3-sky-ceiling' ),
 						'caption_plain' => '-',
 						'image_alt'     => 'תקרה עם עננים',
 					],
 					2 => [ 'caption' => 'פריט בלי תמונה.' ],
-					3 => [ 'image' => $photo( 'living' ) ],
+					3 => [
+						'image'   => $photo( 'v3-living' ),
+						'caption' => '',
+					],
 					4 => [
-						'image'            => $photo( 'sky-corridor' ),
+						'image'            => $photo( 'v3-sky-corridor' ),
 						'image_decorative' => 'yes',
 					],
-					5 => [ 'image' => $photo( 'courtyard' ) ],
+					5 => [ 'image' => $photo( 'v3-lounge' ) ],
 					6 => [
-						'image'   => $photo( 'bedroom' ),
+						'image'   => $photo( 'v3-bedroom' ),
 						'caption' => 'חדר מגורים לשניים.',
-					],
-					7 => [
-						'image'   => $photo( 'lounge' ),
-						'caption' => 'פינת האוכל והסלון.',
 					],
 				],
 			],

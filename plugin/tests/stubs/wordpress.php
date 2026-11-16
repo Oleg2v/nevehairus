@@ -532,7 +532,9 @@ if ( ! function_exists( 'get_option' ) ) {
 		if ( array_key_exists( $name, $defaults ) ) {
 			return $defaults[ $name ];
 		}
-		if ( isset( $GLOBALS['nh_test']['settings'][ $name ]['default'] ) ) {
+		// as WordPress (register_setting()'s filter_default_option()): the registered default only when the
+		// caller passed none of its own
+		if ( func_num_args() < 2 && isset( $GLOBALS['nh_test']['settings'][ $name ]['default'] ) ) {
 			return $GLOBALS['nh_test']['settings'][ $name ]['default'];
 		}
 		return $default_value;
@@ -756,6 +758,21 @@ if ( ! function_exists( 'home_url' ) ) {
 	function plugin_basename( $file ) {
 		return basename( dirname( (string) $file ) ) . '/' . basename( (string) $file );
 	}
+	function register_activation_hook( $file, $callback ) {
+		add_action( 'activate_' . plugin_basename( $file ), $callback );
+	}
+	function register_deactivation_hook( $file, $callback ) {
+		add_action( 'deactivate_' . plugin_basename( $file ), $callback );
+	}
+	/** As WordPress: the `_wp_page_template` meta, '' for the default template, false for no post. */
+	function get_page_template_slug( $post = null ) {
+		$id = is_object( $post ) ? (int) $post->ID : (int) ( $post ?? get_the_ID() );
+		if ( ! isset( $GLOBALS['nh_test']['posts'][ $id ] ) ) {
+			return false;
+		}
+		$slug = (string) get_post_meta( $id, '_wp_page_template', true );
+		return ( '' === $slug || 'default' === $slug ) ? '' : $slug;
+	}
 }
 
 /* ---------- Users, nonces, requests ------------------------------------------------------------------- */
@@ -977,6 +994,9 @@ if ( ! function_exists( 'wp_register_style' ) ) {
 		return true;
 	}
 	function wp_enqueue_style( $handle, $src = '', $deps = [], $ver = false, $media = 'all' ) {
+		if ( '' !== (string) $src && ! isset( $GLOBALS['nh_test']['styles'][ $handle ] ) ) {
+			wp_register_style( $handle, $src, $deps, $ver, $media ); // as WordPress: registers on the fly
+		}
 		$GLOBALS['nh_test']['enqueued']['style'][ $handle ] = true;
 	}
 	function wp_enqueue_script( $handle, $src = '', $deps = [], $ver = false, $args = [] ) {

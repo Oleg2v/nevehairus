@@ -30,13 +30,15 @@ return [
 				'selectors' => [ 'section#door' ],
 			],
 			'expect_diff' => [
-				'form[action]: NH_Forms::action_url() (admin-post.php) instead of "#"',
-				'form[data-nh-form="visit"]: new attribute (SPEC §4.12)',
-				'input[type=hidden]: the hidden fields of NH_Forms::hidden_fields()',
-				'field ids c-name, c-phone, c-who, c-prog, c-website, c-consent → door-name, door-phone, door-who, door-program, door-website, door-consent',
-				'.nh-alert--success p: without the prototype note " (באב־הטיפוס הטופס אינו נשלח.)"',
-				'privacy note ({contact} token, public e-mail empty in tests): the phone link (tel:, 08-9403047) instead of the e-mail link',
-				'.v3-door__addr: no " · " and mailto link after the address (public e-mail empty in tests)',
+				'^-\s+"נחזור אליכם[^"]* \(באב־הטיפוס הטופס אינו נשלח\.\)"$',   // the success text without the prototype's note
+				'^\+\s+"נחזור אליכם[^"(]*"$',
+				'^[-+]\s+form\.nh-form \[action\] ',                            // + data-nh-form="visit" (SPEC §4.12)
+				'^-\s+"[^"\s]+@[^"\s]+"$',                                        // the public e-mail is empty in the tests:
+				'^\+\s+"08-9403047"$',                                           // the privacy note names the phone instead
+				'^-\s+"ת״ד 28, נס ציונה · "$',                                     // and the address has no e-mail link after it
+				'^\+\s+"ת״ד 28, נס ציונה"$',
+				'^-\s+a \[href=URL\]$',
+				'^-\s+span\.nh-ltr$',
 			],
 		],
 		'page'    => [
@@ -49,20 +51,21 @@ return [
 				'show_program' => '',
 				'show_message' => 'yes',
 				'anchor'       => 'visit',
-				'running'      => 'בואו לראות',
 			],
 			'compare'     => [
 				'page'      => 'program-main-home.html',
 				'selectors' => [ 'section#visit' ],
 			],
 			'expect_diff' => [
-				'form[action]: NH_Forms::action_url() (admin-post.php) instead of "#"',
-				'form[data-nh-form="visit"]: new attribute (SPEC §4.12)',
-				'input[type=hidden]: the hidden fields of NH_Forms::hidden_fields()',
-				'field ids v-name, v-phone, v-email, v-role, v-msg, v-msg-hint, v-website, v-consent → visit-name, visit-phone, visit-email, visit-who, visit-message, visit-message-hint, visit-website, visit-consent',
-				'.nh-alert--success p: without the prototype note " (באב־הטיפוס הטופס אינו נשלח.)"',
-				'privacy note ({contact} token, public e-mail empty in tests): the phone link (tel:, 08-9403047) instead of the e-mail link',
-				'.v3-door__addr: no " · " and mailto link after the address (public e-mail empty in tests)',
+				'^-\s+"נחזור אליכם[^"]* \(באב־הטיפוס הטופס אינו נשלח\.\)"$',   // the success text without the prototype's note
+				'^\+\s+"נחזור אליכם[^"(]*"$',
+				'^[-+]\s+form\.nh-form \[action\] ',                            // + data-nh-form="visit" (SPEC §4.12)
+				'^-\s+"[^"\s]+@[^"\s]+"$',                                        // the public e-mail is empty in the tests:
+				'^\+\s+"08-9403047"$',                                           // the privacy note names the phone instead
+				'^-\s+"ת״ד 28, נס ציונה · "$',                                     // and the address has no e-mail link after it
+				'^\+\s+"ת״ד 28, נס ציונה"$',
+				'^-\s+a \[href=URL\]$',
+				'^-\s+span\.nh-ltr$',
 			],
 		],
 		'sent'    => [

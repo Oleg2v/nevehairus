@@ -9,9 +9,11 @@
 
      node plugin/tests/shots.mjs [--page=home|main-home] [--mode=normal|plain|reduced]
                                  [--viewport=desktop|mobile] [--threshold=0.01]
-     node plugin/tests/shots.mjs --behaviour     the core scripts in a real browser instead:
-                                 cookie consent, display switches, announcements, form validation,
-                                 the token refresh and the server answers (mocked), the visit bar
+     node plugin/tests/shots.mjs --behaviour     the core scripts in a real browser instead (v3.2):
+                                 nothing opens or moves by itself, no scroll listener, the one soft
+                                 appearance of prints, the cookie panel, the visit buttons, focus after
+                                 an in-page link and a menu link, the phone menu, display switches,
+                                 announcements, form validation, the token refresh, server answers (mocked)
 
    Needs Node 22, the globally installed Playwright (1.63) and /usr/bin/google-chrome.
    Local files only: nothing leaves this machine. Exit 1 when a pair differs by more
@@ -89,7 +91,7 @@ async function shoot(browser, base, rel, viewport, mode, file) {
     scrollTo(0, 0);
     await sleep(200);
   });
-  await page.waitForTimeout(mode === "normal" ? 2600 : 600);            // the cover's entrance (≤ 1.8 s), the door, the glint
+  await page.waitForTimeout(600);                                        // v3.2: nothing animates on load
   await page.screenshot({ path: file, fullPage: true });
   await context.close();
 }
@@ -121,12 +123,123 @@ const base = `http://127.0.0.1:${server.address().port}`;
 const browser = await chromium.launch({ executablePath: fs.existsSync("/usr/bin/google-chrome") ? "/usr/bin/google-chrome" : undefined });
 
 /* ---------- --behaviour: the core scripts on the assembled home page -------------------------- */
+/* v3.2 (research/07 §13 «Стенд», §17.1): nothing opens by itself, the one soft appearance (only `> picture`, once,
+   never with reduced motion), the cookie panel, the visit buttons, focus after an in-page link and after a link of
+   the phone menu, no scroll listener and no running animation; then the display switches and the forms as before.
+   The harness renders hrefs with the stub's home_url() (https://nh.test/…): links that must stay on this page are
+   pointed at their #fragment first, as a real site's would be. */
 async function behaviour() {
   let failed = 0;
   const ok = (c, m) => { if (!c) failed++; console.log((c ? "ok   " : "FAIL ") + m); };
   const url = `${base}/plugin/tests/out/page-home.html`;
   const json = (body) => ({ status: 200, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify(body) });
+  const local = (p, sel) => p.evaluate((s) => document.querySelectorAll(s).forEach((a) => {
+    const u = new URL(a.getAttribute("href"), location.href);
+    if (u.hash) a.setAttribute("href", u.hash);
+  }), sel);
   {
+    // 1. first visit: nothing opens by itself, nothing moves, no scroll listener; the visit buttons; the cookie panel
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const p = await ctx.newPage();
+    const errors = [];
+    p.on("pageerror", (e) => errors.push(e.message));
+    await p.goto(url, { waitUntil: "load" });
+    await p.waitForTimeout(600);
+    ok(await p.evaluate(() => document.getElementById("nh-cookies").hidden && !document.querySelector("dialog[open]")), "first visit: the cookie panel hidden, no dialog open");
+    ok(await p.evaluate(() => document.getAnimations().length === 0), "after load: no animation or transition running");
+    const cdp = await ctx.newCDPSession(p);
+    const types = [];
+    for (const expr of ["window", "document"]) {
+      const { result } = await cdp.send("Runtime.evaluate", { expression: expr });
+      const { listeners } = await cdp.send("DOMDebugger.getEventListeners", { objectId: result.objectId });
+      types.push(...listeners.map((l) => l.type));
+    }
+    ok(!types.includes("scroll") && !types.includes("resize"), `no scroll or resize listener on window/document (${[...new Set(types)].join(", ")})`);
+    ok(await p.evaluate(() => Array.from(document.querySelectorAll("a[data-visit-cta]")).every((a) => a.getAttribute("href") === "#door")), "every visit button leads to this page's door (#door)");
+    ok(await p.evaluate(() => !document.querySelector(".v3-mast__running, .v3-progress, .v3-display, [data-bar]")), "no running head, progress line, display panel or visit bar");
+    await p.evaluate(() => { const a = document.createElement("a"); a.id = "t-cookies"; a.href = "#nh-cookies"; a.textContent = "הגדרות עוגיות"; document.querySelector("main").append(a); });
+    await p.click("#t-cookies");
+    ok(await p.evaluate(() => !document.getElementById("nh-cookies").hidden && document.activeElement.id === "nh-cookies-title"), "a link to #nh-cookies opens the panel in the flow, focus on its title");
+    await p.keyboard.press("Escape");
+    ok(await p.evaluate(() => document.getElementById("nh-cookies").hidden && document.activeElement.id === "t-cookies"), "Esc hides it, focus back on the link");
+    await p.click("#t-cookies");
+    await p.check("#nh-c-media");
+    await p.click("[data-consent='save']");
+    const rec = await p.evaluate(() => JSON.parse(localStorage.getItem("nh-consent-v1")));
+    ok(rec && rec.media === true && rec.stats === false && rec.v === 1, "«שמירת הבחירה» stores the choice in this browser");
+    ok(await p.evaluate(() => document.getElementById("nh-cookies").hidden && document.activeElement.id === "t-cookies"), "saved: hidden, focus back on the link");
+    // 2. an in-page link: the browser jumps at once, the target's heading takes focus
+    await local(p, ".nh-nav a");
+    await p.evaluate(() => window.scrollTo(0, 0));
+    const y0 = await p.evaluate(() => scrollY);
+    await p.click(".nh-nav a[href='#homes']");
+    await p.waitForTimeout(150);
+    ok(await p.evaluate(() => document.activeElement && document.activeElement.id === document.getElementById("homes").getAttribute("aria-labelledby")), "menu link #homes: focus on the spread's heading");
+    ok(await p.evaluate((y) => scrollY !== y && getComputedStyle(document.documentElement).scrollBehavior !== "smooth", y0), "the page jumped there, without smooth scrolling");
+    // 3. the display switches: the masthead's plain button, the plain box, the footer's calm switch
+    await p.click(".v3-plainbtn");
+    await p.waitForTimeout(200);
+    ok(await p.evaluate(() => document.documentElement.classList.contains("nh-plainmode") && localStorage.getItem("nh-plain") === "on"), "plain language on, stored");
+    ok(await p.evaluate(() => Array.from(document.querySelectorAll("[data-plain-toggle]:not([data-plain-toggle='action'])")).every((b) => b.getAttribute("aria-pressed") === "true")
+      && document.querySelector("[data-plain-toggle='action']").getAttribute("aria-pressed") === null), "every switch says pressed; the plain box action button has no aria-pressed");
+    ok((await p.evaluate(() => document.querySelector("[data-announce]").textContent)) === "הדף מוצג עכשיו בשפה פשוטה.", "announced in the live region");
+    await p.click("[data-plain-toggle='action']");
+    ok(await p.evaluate(() => !document.documentElement.classList.contains("nh-plainmode")), "the plain box button switches back");
+    await p.click(".v3-switches.nh-on-dark [data-calm-toggle]");
+    ok(await p.evaluate(() => document.documentElement.classList.contains("nh-calm") && Array.from(document.querySelectorAll("[data-calm-toggle]")).every((b) => b.getAttribute("aria-pressed") === "true")), "calm mode from the footer's switch; every calm switch says pressed");
+    ok(await p.evaluate(() => getComputedStyle(document.querySelector(".v3-switches.nh-on-dark .v3-toggle__state"), "::before").content.includes("פועל")), "the switch says «פועל»");
+    await p.click(".v3-switches.nh-on-dark [data-calm-toggle]");
+    ok(errors.length === 0, "no script errors" + (errors.length ? ": " + errors.join("; ") : ""));
+    await ctx.close();
+  }
+  {
+    // 4. the one soft appearance: only the photo frame of a print below the first screen, once, after its image
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const p = await ctx.newPage();
+    await p.goto(url, { waitUntil: "load" });
+    await p.waitForTimeout(300);
+    const first = await p.evaluate(() => Array.from(document.querySelectorAll(".v3-print[data-reveal]")).map((f) => f.className));
+    ok(first.length > 0 && first.every((c) => !c.includes("is-shown")), `${first.length} prints; none shown yet`);
+    ok(await p.evaluate(() => Array.from(document.querySelectorAll(".v3-print[data-reveal].is-waiting figcaption")).every((c) => getComputedStyle(c).opacity === "1")), "a waiting print keeps its caption visible");
+    const h = await p.evaluate(() => document.documentElement.scrollHeight);
+    for (let y = 0; y < h; y += 300) { await p.evaluate((v) => window.scrollTo(0, v), y); await p.waitForTimeout(60); }
+    await p.waitForTimeout(800);
+    ok(await p.evaluate(() => Array.from(document.querySelectorAll(".v3-print[data-reveal]")).every((f) => f.classList.contains("is-shown") && !f.classList.contains("is-waiting"))), "after a slow scroll every print is shown");
+    ok(await p.evaluate(() => Array.from(document.querySelectorAll(".v3-print[data-reveal] > picture")).every((pic) => getComputedStyle(pic).opacity === "1" && getComputedStyle(pic).transform === "none")), "every photo frame at rest: opacity 1, no transform");
+    ok(await p.evaluate(() => document.getAnimations().length === 0), "nothing runs afterwards");
+    await ctx.close();
+    const rctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+    const r = await rctx.newPage();
+    await r.goto(url, { waitUntil: "load" });
+    await r.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight)); await r.waitForTimeout(400);
+    ok(await r.evaluate(() => !document.querySelector(".v3-print.is-waiting, .v3-print.is-shown")), "reduced motion: no print is ever hidden or animated");
+    await rctx.close();
+  }
+  {
+    // 5. the phone menu: opened only by «תפריט», Esc returns focus to it, a link of the menu does not
+    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const p = await ctx.newPage();
+    await p.goto(url, { waitUntil: "load" });
+    ok(await p.evaluate(() => !document.getElementById("nh-menu").open), "the menu is closed until asked");
+    await p.click("[data-menu-open]");
+    ok(await p.evaluate(() => document.getElementById("nh-menu").open && document.querySelector("[data-menu-open]").getAttribute("aria-expanded") === "true"), "«תפריט» opens it (aria-expanded)");
+    await p.keyboard.press("Escape");
+    await p.waitForTimeout(100);
+    ok(await p.evaluate(() => !document.getElementById("nh-menu").open && document.activeElement.matches("[data-menu-open]")), "Esc closes it, focus back on «תפריט»");
+    await local(p, "#nh-menu nav a");
+    await p.click("[data-menu-open]");
+    await p.click("#nh-menu nav a[href='#day']");
+    await p.waitForTimeout(200);
+    ok(await p.evaluate(() => !document.getElementById("nh-menu").open && !document.getElementById("nh-menu").dataset.nav
+      && document.activeElement.id === document.getElementById("day").getAttribute("aria-labelledby")), "a menu link closes it; focus on the target's heading, not on «תפריט»");
+    await p.click("[data-menu-open]");
+    await p.click("#nh-menu [data-menu-close]");
+    await p.waitForTimeout(100);
+    ok(await p.evaluate(() => !document.getElementById("nh-menu").open && document.activeElement.matches("[data-menu-open]")), "«סגירה» closes it, focus back on «תפריט»");
+    await ctx.close();
+  }
+  {
+    // 6. the visit form (nh-forms.js), as before
     const p = await browser.newPage({ viewport: { width: 1440, height: 900 } });
     const errors = [];
     p.on("pageerror", (e) => errors.push(e.message));
@@ -138,27 +251,6 @@ async function behaviour() {
       return answer ? r.fulfill(json(answer)) : r.abort();
     });
     await p.goto(url, { waitUntil: "load" });
-    ok(await p.evaluate(() => !document.getElementById("nh-cookies").hidden && document.documentElement.classList.contains("nh-has-cookies")), "first visit: the cookie banner is shown");
-    await p.click("[data-consent='settings']");
-    ok(await p.evaluate(() => !document.getElementById("nh-cookie-prefs").hidden && document.activeElement.id === "nh-c-stats"), "settings open, focus on the first choice");
-    await p.click("[data-consent='all']");
-    const rec = await p.evaluate(() => JSON.parse(localStorage.getItem("nh-consent-v1")));
-    ok(rec && rec.media && rec.stats && rec.v === 1, "consent saved in this browser");
-    ok(await p.evaluate(() => document.getElementById("nh-cookies").hidden && document.activeElement.id === "main"), "banner hidden, focus back on main");
-    await p.click(".v3-plainbtn");
-    await p.waitForTimeout(200);
-    ok(await p.evaluate(() => document.documentElement.classList.contains("nh-plainmode") && localStorage.getItem("nh-plain") === "on"), "plain language on, stored");
-    ok(await p.evaluate(() => Array.from(document.querySelectorAll("[data-plain-toggle]:not([data-plain-toggle='action'])")).every((b) => b.getAttribute("aria-pressed") === "true")
-      && document.querySelector("[data-plain-toggle='action']").getAttribute("aria-pressed") === null), "every switch says pressed; the plain box action button has no aria-pressed");
-    ok((await p.evaluate(() => document.querySelector("[data-announce]").textContent)) === "הדף מוצג עכשיו בשפה פשוטה.", "announced in the live region");
-    await p.click("[data-plain-toggle='action']");
-    ok(await p.evaluate(() => !document.documentElement.classList.contains("nh-plainmode")), "the plain box button switches back");
-    await p.click(".v3-footer-toggles [data-calm-toggle]");
-    await p.click(".v3-footer-toggles [data-motion-toggle]");
-    ok(await p.evaluate(() => document.documentElement.classList.contains("nh-calm") && document.documentElement.classList.contains("nh-reduce-motion")), "calm mode and reduced motion from the footer switches");
-    await p.click("[data-cookie-settings]");
-    ok(await p.evaluate(() => !document.getElementById("nh-cookies").hidden && document.activeElement.id === "nh-cookies-title" && document.getElementById("nh-c-media").checked), "cookie settings reopened, choices restored");
-    await p.click("[data-consent='necessary']");
     await p.click("#door button[type='submit']");
     const sum = await p.evaluate(() => { const s = document.querySelector("#door [data-error-summary]"); return { shown: !s.hidden, n: s.querySelectorAll("li").length, focus: document.activeElement === s }; });
     ok(sum.shown && sum.focus && sum.n === 3, "empty submit: the error summary, focused, three errors");
@@ -185,26 +277,6 @@ async function behaviour() {
     await p.click("#door button[type='submit']"); await p.waitForTimeout(400);
     ok(await p.evaluate(() => document.querySelector("#door [data-error-summary]").textContent.includes("משהו השתבש") && !document.querySelector("#door button[type='submit']").disabled), "network error: the settings' error message, the button enabled again");
     ok(errors.length === 0, "no script errors" + (errors.length ? ": " + errors.join("; ") : ""));
-    await p.close();
-  }
-  {
-    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
-    await ctx.addInitScript(() => localStorage.setItem("nh-consent-v1", JSON.stringify({ necessary: true, stats: false, media: false, date: "x", v: 1 })));
-    const p = await ctx.newPage();
-    await p.goto(url, { waitUntil: "load" });
-    ok(await p.evaluate(() => document.getElementById("nh-cookies").hidden), "consent stored: no banner");
-    ok(await p.evaluate(() => !document.querySelector("[data-bar]").classList.contains("is-on")), "visit bar hidden while the cover's button is on screen");
-    await p.evaluate(() => window.scrollTo(0, 1600)); await p.waitForTimeout(400);
-    ok(await p.evaluate(() => document.querySelector("[data-bar]").classList.contains("is-on") && document.querySelector("[data-bar-cta]").getAttribute("href") === "#door"), "visit bar shown after the cover, its link to this page's door");
-    await p.evaluate(() => document.getElementById("door").scrollIntoView()); await p.waitForTimeout(400);
-    ok(await p.evaluate(() => !document.querySelector("[data-bar]").classList.contains("is-on")), "visit bar hidden at the door");
-    await ctx.close();
-  }
-  {
-    const p = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-    await p.goto(`${base}/plugin/tests/out/cover--prototype.html`, { waitUntil: "load" });
-    await p.mouse.wheel(0, 700); await p.waitForTimeout(600);
-    ok(await p.evaluate(() => parseFloat(getComputedStyle(document.querySelector(".v3-room")).getPropertyValue("--t")) > 0.5), "the cover's ב thins while scrolling");
     await p.close();
   }
   return failed;

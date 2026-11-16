@@ -22,10 +22,10 @@
    "door/page"
   ],
   "plugin": {
-   "version": "0.1.0",
-   "php_sha256": "0b23f9b82fe650266660e2d5a40d4dfde808b792bd3e9f7ba19e7cb155088c07"
+   "version": "0.2.0",
+   "php_sha256": "d9d1690709089fafe406fba9ce60667c41cad84690110de8a40b3bb369565ba1"
   },
-  "inputs_sha256": "773a5ac5199bf5c35a55a62de80e2aa3bb3eff006c31296a70c525c25e233269"
+  "inputs_sha256": "f1d3284214a3fbebf3eb73956bce4395d7d650421c72522aa6a946145eff6a76"
  },
  "elementor_data": [
   {
@@ -82,7 +82,7 @@
         "caption": "פינת האוכל המשותפת.",
         "image": {
          "url": "",
-         "id": "@media:dining",
+         "id": "@media:v3-dining",
          "size": "",
          "alt": "",
          "source": "library"
@@ -96,7 +96,7 @@
         "caption": "תקרת „שמיים” — לוחות תאורה עם עננים.",
         "image": {
          "url": "",
-         "id": "@media:sky-ceiling",
+         "id": "@media:v3-sky-ceiling",
          "size": "",
          "alt": "",
          "source": "library"
@@ -110,7 +110,7 @@
         "caption": "חדר מגורים לשניים.",
         "image": {
          "url": "",
-         "id": "@media:bedroom",
+         "id": "@media:v3-bedroom",
          "size": "",
          "alt": "",
          "source": "library"
@@ -124,7 +124,7 @@
         "caption": "הסלון המשותף.",
         "image": {
          "url": "",
-         "id": "@media:living",
+         "id": "@media:v3-living",
          "size": "",
          "alt": "",
          "source": "library"
@@ -138,7 +138,7 @@
         "caption": "מסדרון האגף החדש, עם תאורת „שמיים”.",
         "image": {
          "url": "",
-         "id": "@media:sky-corridor",
+         "id": "@media:v3-sky-corridor",
          "size": "",
          "alt": "",
          "source": "library"
@@ -149,10 +149,10 @@
         "_id": "a77f497"
        },
        {
-        "caption": "החצר במעון.",
+        "caption": "פינת אוכל וסלון באגף החדש.",
         "image": {
          "url": "",
-         "id": "@media:courtyard",
+         "id": "@media:v3-lounge",
          "size": "",
          "alt": "",
          "source": "library"
@@ -210,8 +210,7 @@
       "show_who": "yes",
       "show_program": "",
       "show_message": "yes",
-      "anchor": "visit",
-      "running": "בואו לראות"
+      "anchor": "visit"
      },
      "elements": [],
      "widgetType": "nh-door"

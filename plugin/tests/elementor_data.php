@@ -19,12 +19,14 @@
  * Element ids are the harness's (md5( "{widget}/{variant}" ), 7 hex), so the site renders the same ids.
  *
  * check — SPEC: { "dir", "contexts": { "<page key>": { "page", "header_ref", "footer_ref", "tokens" } },
- * "chrome": { "header": "<file key>", "footer": "<file key>" } }. For each page context: every widget of
- * <dir>/<page key>.json and of the header and footer files, with the tokens mapped back to the harness's
+ * "chrome": { "header": "<file key>", "footer": "<file key>" } }. For each page context: every widget of ours in
+ * <dir>/<page key>.json and in the header and footer files, with the tokens mapped back to the harness's
  * values (photos → fixture attachment ids, the context's `tokens`, @home:… → home_url(…)), must render
- * exactly like its fixture variant (the chrome: like `header_ref` / `footer_ref`); then the page assembled
- * from the files must equal the run.php assembly of fixtures/pages.php with that chrome. Exit 1 on any
- * difference.
+ * exactly like its fixture variant (the chrome: like `header_ref` / `footer_ref`), on the variant's queried
+ * post; then the page assembled from the files must equal the run.php assembly of fixtures/pages.php with that
+ * chrome, on the page's queried post. Exit 1 on any difference. v3.2 (research/07 §12.6): the footer file is
+ * Elementor's own Image, Heading and Text Editor in inner containers, which the harness does not render, and one
+ * widget of ours (nh-display): only that widget takes part (the footer slot of pages.php).
  *
  * @package nevehairus-site
  */
@@ -190,8 +192,12 @@ function nh_ed_untoken( $value, array $tokens ) {
 	throw new RuntimeException( "unknown token $value" );
 }
 
+/** Elementor's own widgets a footer file may hold besides ours (the harness does not render them). */
+const NH_ED_FOOTER_WIDGETS = [ 'image', 'heading', 'text-editor' ];
+
 /**
- * A page document written by build_pages.py: its widgets [ [ widget, element id, settings ], … ].
+ * A page document written by build_pages.py: its widgets of ours [ [ widget, element id, settings ], … ], in
+ * document order. The footer's inner containers are walked and Elementor's own widgets there are left out.
  */
 function nh_ed_doc_widgets( string $dir, string $key ): array {
 	$file = rtrim( $dir, '/' ) . '/' . $key . '.json';
@@ -199,13 +205,26 @@ function nh_ed_doc_widgets( string $dir, string $key ): array {
 	if ( ! is_array( $doc ) || ! isset( $doc['elementor_data'][0]['elements'] ) || 1 !== count( $doc['elementor_data'] ) ) {
 		throw new RuntimeException( "$file: expected one top-level container with the widgets" );
 	}
-	$out = [];
-	foreach ( (array) $doc['elementor_data'][0]['elements'] as $el ) {
-		if ( 'widget' !== ( $el['elType'] ?? '' ) || 0 !== strpos( (string) ( $el['widgetType'] ?? '' ), 'nh-' ) ) {
-			throw new RuntimeException( "$file: element " . ( $el['id'] ?? '?' ) . ' is not an nh- widget' );
+	$footer = 'footer' === ( $doc['document_type'] ?? '' );
+	$out    = [];
+	$walk   = static function ( array $list ) use ( &$walk, &$out, $file, $footer ): void {
+		foreach ( $list as $el ) {
+			$type = (string) ( $el['elType'] ?? '' );
+			$wt   = (string) ( $el['widgetType'] ?? '' );
+			if ( $footer && 'container' === $type ) {
+				$walk( (array) ( $el['elements'] ?? [] ) );
+				continue;
+			}
+			if ( $footer && 'widget' === $type && in_array( $wt, NH_ED_FOOTER_WIDGETS, true ) ) {
+				continue;
+			}
+			if ( 'widget' !== $type || 0 !== strpos( $wt, 'nh-' ) ) {
+				throw new RuntimeException( "$file: element " . ( $el['id'] ?? '?' ) . ' is not an nh- widget' );
+			}
+			$out[] = [ substr( $wt, 3 ), (string) $el['id'], (array) $el['settings'] ];
 		}
-		$out[] = [ substr( (string) $el['widgetType'], 3 ), (string) $el['id'], (array) $el['settings'] ];
-	}
+	};
+	$walk( (array) $doc['elementor_data'][0]['elements'] );
 	return [ $doc, $out ];
 }
 
@@ -234,11 +253,13 @@ function nh_ed_diff( string $a, string $b ): string {
  * @param string $title   Page title.
  * @param array  $options NH settings of the request.
  * @param array  $get     $_GET of the request.
- * @param string $data    `_elementor_data` of the page (post 10).
+ * @param string $data    `_elementor_data` of the page (the queried post).
+ * @param int    $queried The post shown (pages.php `queried`, default 10).
  */
-function nh_ed_assemble( array $parts, array $header, array $footer, string $title, array $options, array $get, string $data ): string {
+function nh_ed_assemble( array $parts, array $header, array $footer, string $title, array $options, array $get, string $data, int $queried = 10 ): string {
 	nh_test_reset_request( $options, $get );
-	update_post_meta( 10, '_elementor_data', $data );
+	$GLOBALS['nh_test']['queried'] = $queried;
+	update_post_meta( $queried, '_elementor_data', $data );
 	$render = static function ( array $p ): array {
 		$widget = nh_ed_widget( $p[0], $p[1], $p[2] );
 		return [
@@ -325,8 +346,10 @@ function nh_ed_check( array $spec ): array {
 			}
 			try {
 				nh_test_reset_request( (array) $v['options'], (array) $v['get'] );
+				$GLOBALS['nh_test']['queried'] = (int) $v['queried'];
 				$a = nh_ed_widget( $id, $el_id, (array) $v['settings'] )->nh_test_render();
 				nh_test_reset_request( (array) $v['options'], (array) $v['get'] );
+				$GLOBALS['nh_test']['queried'] = (int) $v['queried'];
 				$b = nh_ed_widget( $id, $el_id, nh_ed_untoken( $el_settings, $tokens ) )->nh_test_render();
 			} catch ( Throwable $e ) {
 				$fail[] = "$where ($id/$variant): " . get_class( $e ) . ': ' . $e->getMessage();
@@ -375,7 +398,8 @@ function nh_ed_check( array $spec ): array {
 							'elements' => $data,
 						],
 					]
-				)
+				),
+				(int) ( $def['queried'] ?? 10 )
 			);
 			$mine_parts = [];
 			foreach ( $mine as [ $id, $el_id, $settings ] ) {
@@ -388,7 +412,8 @@ function nh_ed_check( array $spec ): array {
 				(string) $def['title'],
 				$options,
 				$get,
-				(string) wp_json_encode( nh_ed_untoken( $doc['elementor_data'], $tokens ) )
+				(string) wp_json_encode( nh_ed_untoken( $doc['elementor_data'], $tokens ) ),
+				(int) ( $def['queried'] ?? 10 )
 			);
 			$d = nh_ed_diff( $a, $b );
 			if ( '' !== $d ) {

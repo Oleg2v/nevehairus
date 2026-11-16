@@ -2,19 +2,17 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Fixture of the widget "homes" (package index) — SPEC.md §4.3, §11.2.
+ * Fixture of the widget "homes" (package index) — SPEC.md §4.3, §11.2; research/07 §10.2 item 2.
  *
- * default   : the widget as dropped on a page. No photos, so every room shows the calm sky (no compare target:
- *             the prototype has photos in rows 1–2).
- * prototype : the prototype's photos in rows 1–2, compared with prototype/index.html section#homes. Row 1 links to
- *             the house page as in the prototype (by default it links to #homes until the page exists), so the
- *             only differences §4.3 expects — row 1's href, and the chooser's id fit-title → homes-fit-title
- *             (ids are compared by presence only) — do not show up.
- * edge      : structure only — chooser without its question (the nav has no aria-labelledby) and with answer 4
- *             left out in plain language, intro empty, note hidden in plain mode, row 1 left out in plain language
- *             (the li is v3-full, its texts have no mode classes), row 2 without title (skipped), row 3 without
- *             anchor, with an unknown tone, no facts, no weight and a missing attachment (falls back to paper,
- *             560 and the sky).
+ * default   : the widget as dropped on a page. No photos (every room shows the calm sky) and no page links: every
+ *             row is a `div.v3-home__row` that says «דף מפורט בקרוב» (no compare target).
+ * prototype : the prototype's photos in rows 1–2 and row 1 linked to the house page, compared with
+ *             prototype/index.html section#homes: row 1 is a link, rows 2–3 are not.
+ * edge      : structure only — lead empty, note hidden in plain mode, row 1 left out in plain language (the li is
+ *             v3-full, its texts have no mode classes) with a link back to this spread (#homes: not a link), row 2
+ *             without title (skipped), row 3 without anchor, with an unknown tone, no facts and a missing
+ *             attachment (falls back to paper and the sky), the «soon» words with a plain twin.
+ * linked    : structure only — every row has a page: links with the arrow, no «soon».
  */
 return [
 	'variants' => [
@@ -39,8 +37,6 @@ return [
 					],
 				],
 			],
-			'options'     => [],
-			'get'         => [],
 			'compare'     => [
 				'page'      => 'index.html',
 				'selectors' => [ 'section#homes' ],
@@ -49,26 +45,34 @@ return [
 		],
 		'edge'      => [
 			'settings' => [
-				'fit_q'       => '',
-				'fit'         => [
-					3 => [ 'label_plain' => '-' ],
-				],
-				'intro'       => '',
-				'intro_plain' => '',
-				'note_plain'  => '-',
-				'homes'       => [
-					0 => [ 'title_plain' => '-' ],
+				'lead'            => '',
+				'lead_plain'      => '',
+				'note_plain'      => '-',
+				'soon_text_plain' => 'עוד אין דף',
+				'homes'           => [
+					0 => [
+						'title_plain' => '-',
+						'link'        => [ 'url' => '#homes' ],
+					],
 					1 => [ 'title' => '' ],
 					2 => [
 						'anchor' => '',
 						'tone'   => 'unknown',
 						'facts'  => '',
-						'weight' => '',
 						'photo'  => [
 							'id'  => 999999,
 							'url' => '',
 						],
 					],
+				],
+			],
+		],
+		'linked'    => [
+			'settings' => [
+				'homes' => [
+					0 => [ 'link' => [ 'url' => 'https://nh.test/main-home/' ] ],
+					1 => [ 'link' => [ 'url' => 'https://nh.test/sample-page/' ] ],
+					2 => [ 'link' => [ 'url' => 'https://nh.test/sample-page/' ] ],
 				],
 			],
 		],

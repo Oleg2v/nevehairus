@@ -5,7 +5,7 @@
 {{> head}}
 <title>מעון ראשי — בית לחיים | מעון נווה האירוס</title>
 <meta name="description" content="המעון הראשי של נווה האירוס בנס ציונה: בית לחיים לבוגרים ובוגרות עם מוגבלות שכלית התפתחותית, גם עם התנהגות מאתגרת או אבחנה כפולה. צוות קבוע, טיפול מקצועי, תעסוקה ופנאי.">
-<link rel="preload" as="image" type="image/avif" href="assets/img/v3-sky-room-768.avif" imagesrcset="assets/img/v3-sky-room-480.avif 480w, assets/img/v3-sky-room-768.avif 768w, assets/img/v3-sky-room-1080.avif 1080w" imagesizes="(min-width: 1024px) 22rem, 44vw" fetchpriority="high">
+<link rel="preload" as="image" type="image/avif" href="assets/img/v3-sky-room-768.avif" imagesrcset="assets/img/v3-sky-room-480.avif 480w, assets/img/v3-sky-room-768.avif 768w, assets/img/v3-sky-room-1080.avif 1080w, assets/img/v3-sky-room-1149.avif 1149w" imagesizes="(min-width: 1024px) 22rem, 44vw" fetchpriority="high">
 </head>
 <body class="v3">
 {{page current="programs"}}
@@ -14,19 +14,18 @@
 
 <main id="main" tabindex="-1">
 
-  <!-- ב׳ · COVER — the same small ב from the homes index, now the cover ================ -->
-  <section class="v3-cover v3-cover--page v3-spread" id="cover" data-header="light" data-running="מעון ראשי" aria-labelledby="page-title">
+  <!-- ב׳ · COVER — the same small ב from the homes index, now the cover (still, weight 600) ================ -->
+  <section class="v3-cover v3-cover--page v3-spread" id="cover" aria-labelledby="page-title">
     <div class="nh-container v3-cover__grid">
       <nav class="nh-crumbs v3-crumbs" aria-label="נתיב ניווט">
         <ol>
           <li><a href="index.html">דף הבית</a></li>
-          <li><a href="index.html#homes">מסגרות המגורים</a></li>
+          <li><a href="index.html#homes">הבתים שלנו</a></li>
           <li><span aria-current="page">מעון ראשי</span></li>
         </ol>
       </nav>
-      <div class="v3-rule v3-rule--draw" aria-hidden="true"></div>
       <div class="v3-cover__letter">
-        {{letterroom letter="bet" photo="v3-sky-room" sizes="(min-width: 1024px) 22rem, 44vw" priority="high" w="600" pos="55% 45%" class="v3-cover__bet" vt="home-bet-1" alt="תקרת „שמיים” באגף החדש של המעון: לוח תאורה עם עננים"}}
+        {{letterroom letter="bet" photo="v3-sky-room" sizes="(min-width: 1024px) 22rem, 44vw" priority="high" w="600" pos="55% 45%" max="352" class="v3-cover__bet" alt="תקרת „שמיים” באגף החדש של המעון: לוח תאורה עם עננים"}}
       </div>
       <div class="v3-cover__text">
         <h1 class="v3-cover__title v3-cover__title--page" id="page-title"><span class="v3-full"><span>מעון ראשי —</span> <span>בית לחיים<span class="v3-dot">.</span></span></span><span class="v3-plain">המעון הראשי בנס ציונה</span></h1>
@@ -36,13 +35,14 @@
           <p>הצוות קבוע, ומכיר את כולם.</p>
           <p>אפשר לבוא לראות את המקום.</p>
         </div>
-        <p class="v3-cover__cta"><a class="nh-btn nh-btn--primary" href="#visit"><span class="v3-full">תיאום ביקור</span><span class="v3-plain">לקבוע ביקור</span><svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></p>
+        <p class="v3-cover__cta"><a class="nh-btn nh-btn--primary" href="#visit" data-visit-cta><span class="v3-full">תיאום ביקור</span><span class="v3-plain">לקבוע ביקור</span><svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></p>
+        <p class="v3-cover__call"><span class="v3-full">או בטלפון:</span><span class="v3-plain">אפשר גם להתקשר:</span> <a href="tel:+97289403047"><span class="nh-ltr">08-9403047</span></a></p>
       </div>
     </div>
   </section>
 
   <!-- AT A GLANCE — numbers on the ruling line =========================================== -->
-  <section class="v3-glance v3-spread" id="glance" data-header="light" data-running="במבט אחד" aria-labelledby="glance-title">
+  <section class="v3-glance v3-spread" id="glance" aria-labelledby="glance-title">
     <div class="nh-container">
       <div class="v3-rule" aria-hidden="true"></div>
       <h2 class="v3-h2" id="glance-title"><span class="v3-full">בית עם צוות שמכיר אותך<span class="v3-dot">.</span></span><span class="v3-plain">צוות שמכיר אותך</span></h2>
@@ -63,26 +63,26 @@
     </div>
   </section>
 
-  <!-- GALLERY — square-cut prints you can open ============================================= -->
-  <section class="v3-inside v3-spread v3-spread--sand" id="inside" data-header="light" data-running="האגף החדש" aria-labelledby="inside-title">
+  <!-- GALLERY — six 4:3 prints of the new wing, one size, captions visible (no lightbox, research/07 §10.3 p. 4) -->
+  <section class="v3-inside v3-spread v3-spread--sand" id="inside" aria-labelledby="inside-title">
     <div class="nh-container">
       <div class="v3-rule" aria-hidden="true"></div>
       <h2 class="v3-h2" id="inside-title">האגף החדש<span class="v3-dot">.</span></h2>
-      <p class="v3-lead v3-full">את האגף החדש תכננו אדריכליות במיוחד בשביל הדיירים והדיירות: קו עיצובי נעים ורגוע, ותאורת „שמיים” בתקרה. לחצו על תמונה כדי להגדיל אותה.</p>
-      <div class="v3-lead v3-plain"><p>תמונות מהאגף החדש.</p><p>לחצו על תמונה כדי לראות אותה גדולה.</p></div>
-      <ul class="nh-gallery v3-gallery" role="list" data-lightbox>
-        <li><button type="button" data-full="{{src name="dining" w="1440"}}" data-srcset="{{srcset name="dining"}}" data-caption="פינת האוכל המשותפת.">{{pic name="dining" sizes="(min-width: 900px) 34vw, 46vw"}}<span class="nh-gallery__zoom" aria-hidden="true"><svg focusable="false"><use href="#i-expand"/></svg></span><span class="nh-sr-only">הגדלת התמונה</span></button></li>
-        <li><button type="button" data-full="{{src name="sky-ceiling" w="1440"}}" data-srcset="{{srcset name="sky-ceiling"}}" data-caption="תקרת „שמיים” — לוחות תאורה עם עננים.">{{pic name="sky-ceiling" sizes="(min-width: 900px) 28vw, 46vw"}}<span class="nh-gallery__zoom" aria-hidden="true"><svg focusable="false"><use href="#i-expand"/></svg></span><span class="nh-sr-only">הגדלת התמונה</span></button></li>
-        <li><button type="button" data-full="{{src name="bedroom" w="1440"}}" data-srcset="{{srcset name="bedroom"}}" data-caption="חדר מגורים לשניים.">{{pic name="bedroom" sizes="(min-width: 900px) 22vw, 46vw"}}<span class="nh-gallery__zoom" aria-hidden="true"><svg focusable="false"><use href="#i-expand"/></svg></span><span class="nh-sr-only">הגדלת התמונה</span></button></li>
-        <li><button type="button" data-full="{{src name="living" w="1440"}}" data-srcset="{{srcset name="living"}}" data-caption="הסלון המשותף.">{{pic name="living" sizes="(min-width: 900px) 22vw, 46vw"}}<span class="nh-gallery__zoom" aria-hidden="true"><svg focusable="false"><use href="#i-expand"/></svg></span><span class="nh-sr-only">הגדלת התמונה</span></button></li>
-        <li><button type="button" data-full="{{src name="sky-corridor" w="1080"}}" data-srcset="{{srcset name="sky-corridor"}}" data-caption="מסדרון האגף החדש, עם תאורת „שמיים”.">{{pic name="sky-corridor" sizes="(min-width: 900px) 28vw, 46vw"}}<span class="nh-gallery__zoom" aria-hidden="true"><svg focusable="false"><use href="#i-expand"/></svg></span><span class="nh-sr-only">הגדלת התמונה</span></button></li>
-        <li><button type="button" data-full="{{src name="courtyard" w="768"}}" data-srcset="{{srcset name="courtyard"}}" data-caption="החצר במעון.">{{pic name="courtyard" sizes="(min-width: 900px) 16vw, 92vw"}}<span class="nh-gallery__zoom" aria-hidden="true"><svg focusable="false"><use href="#i-expand"/></svg></span><span class="nh-sr-only">הגדלת התמונה</span></button></li>
+      <p class="v3-lead v3-full">את האגף החדש תכננו אדריכליות במיוחד בשביל הדיירים והדיירות: קו עיצובי נעים ורגוע, ותאורת „שמיים” בתקרה.</p>
+      <div class="v3-lead v3-plain"><p>תמונות מהאגף החדש.</p></div>
+      <ul class="v3-gallery" role="list">
+        <li><figure class="v3-print" data-reveal>{{pic name="v3-dining" sizes="(min-width: 64em) 27rem, (min-width: 40em) 50vw, calc(100vw - 2.5rem)" max="432"}}<figcaption>פינת האוכל המשותפת.</figcaption></figure></li>
+        <li><figure class="v3-print" data-reveal>{{pic name="v3-sky-ceiling" sizes="(min-width: 64em) 27rem, (min-width: 40em) 50vw, calc(100vw - 2.5rem)" max="432"}}<figcaption>תקרת „שמיים” — לוחות תאורה עם עננים.</figcaption></figure></li>
+        <li><figure class="v3-print" data-reveal>{{pic name="v3-bedroom" sizes="(min-width: 64em) 27rem, (min-width: 40em) 50vw, calc(100vw - 2.5rem)" max="432"}}<figcaption>חדר מגורים לשניים.</figcaption></figure></li>
+        <li><figure class="v3-print" data-reveal>{{pic name="v3-living" sizes="(min-width: 64em) 27rem, (min-width: 40em) 50vw, calc(100vw - 2.5rem)" max="432"}}<figcaption>הסלון המשותף.</figcaption></figure></li>
+        <li><figure class="v3-print" data-reveal>{{pic name="v3-sky-corridor" sizes="(min-width: 64em) 27rem, (min-width: 40em) 50vw, calc(100vw - 2.5rem)" max="432"}}<figcaption>מסדרון האגף החדש, עם תאורת „שמיים”.</figcaption></figure></li>
+        <li><figure class="v3-print" data-reveal>{{pic name="v3-lounge" sizes="(min-width: 64em) 27rem, (min-width: 40em) 50vw, calc(100vw - 2.5rem)" max="432"}}<figcaption>פינת אוכל וסלון באגף החדש.</figcaption></figure></li>
       </ul>
     </div>
   </section>
 
   <!-- WHAT'S IN THE HOME — a typographic list, no icons ======================================= -->
-  <section class="v3-features v3-spread" id="features" data-header="light" data-running="מה יש בבית" aria-labelledby="features-title">
+  <section class="v3-features v3-spread" id="features" aria-labelledby="features-title">
     <div class="nh-container">
       <div class="v3-rule" aria-hidden="true"></div>
       <h2 class="v3-h2" id="features-title"><span class="v3-full">כל מה שצריך, קרוב לבית<span class="v3-dot">.</span></span><span class="v3-plain">מה יש במעון?</span></h2>
@@ -105,7 +105,7 @@
   </section>
 
   <!-- STORIES — step by step (night) ========================================================== -->
-  <section class="v3-stories v3-spread v3-spread--night" id="stories" data-header="dark" data-running="סיפורים" aria-labelledby="stories-title">
+  <section class="v3-stories v3-spread v3-spread--night" id="stories" aria-labelledby="stories-title">
     <div class="nh-container">
       <div class="v3-rule" aria-hidden="true"></div>
       <h2 class="v3-h2" id="stories-title"><span class="v3-full">צעד צעד: שלושה סיפורים<span class="v3-dot v3-dot--citrus">.</span></span><span class="v3-plain">שלושה סיפורים</span></h2>
@@ -120,7 +120,7 @@
   </section>
 
   <!-- PLAIN ======================================================================================= -->
-  <section class="v3-plainbox-wrap v3-plainbox-wrap--page" id="plain-page" data-header="light" data-running="בשפה פשוטה" aria-labelledby="plain-page-title">
+  <section class="v3-plainbox-wrap v3-plainbox-wrap--page" id="plain-page" aria-labelledby="plain-page-title">
     <div class="nh-container">
       <div class="v3-plainbox">
         <svg class="v3-plainbox__icon" aria-hidden="true" focusable="false"><use href="#i-speech"/></svg>
@@ -142,21 +142,21 @@
     </div>
   </section>
 
-  <!-- RELATED ==================================================================================== -->
-  <section class="v3-related v3-spread" id="related" data-header="light" data-running="להמשך קריאה" aria-labelledby="related-title">
+  <!-- RELATED — only what already exists: the homes index and the crafts on the home page. When the other two
+       homes and the gallery get pages of their own, their rows come first (research/07 §10.3 p. 8) ======== -->
+  <section class="v3-related v3-spread" id="related" aria-labelledby="related-title">
     <div class="nh-container">
       <div class="v3-rule" aria-hidden="true"></div>
       <h2 class="v3-h2" id="related-title"><span class="v3-full">להמשך קריאה<span class="v3-dot">.</span></span><span class="v3-plain">עוד דפים</span></h2>
       <ul class="v3-roles" role="list">
-        <li><a href="#related"><b>אבחנה כפולה</b><span class="v3-roles__meta v3-full">מוגבלות שכלית התפתחותית לצד אבחנה נפשית — ואיך אנחנו מלווים</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
-        <li><a href="index.html#made"><b>גלריית יצירות למכירה</b><span class="v3-roles__meta v3-full">פסיפס, תכשיטים וקרמיקה — עבודות יד של דיירות ודיירי נווה האירוס</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
-        <li><a href="index.html#home-2"><b>דיור בקהילה</b><span class="v3-roles__meta v3-full">הצעד הבא: בית בלב הקהילה, בליווי צוות</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
+        <li><a href="index.html#homes"><b>שלושת הבתים</b><span class="v3-roles__meta v3-full">מי גר בכל בית ולמי הוא מתאים</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
+        <li><a href="index.html#made"><b>ידיים שיוצרות</b><span class="v3-roles__meta v3-full">פסיפס, תכשיטים וקרמיקה — עבודות יד של דיירות ודיירי נווה האירוס</span><svg aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg></a></li>
       </ul>
     </div>
   </section>
 
   <!-- ד׳ · THE DOOR — a wide ד across the spread, the visit form in its doorway ================== -->
-  <section class="v3-door v3-spread v3-spread--iris" id="visit" data-header="dark" data-running="בואו לראות" aria-labelledby="visit-title">
+  <section class="v3-door v3-spread v3-spread--iris" id="visit" aria-labelledby="visit-title">
     <div class="nh-container v3-door__grid">
       <div class="v3-rule" aria-hidden="true"></div>
       <div class="v3-door__top">
@@ -235,7 +235,5 @@
 </main>
 
 {{> footer}}
-{{> lightbox}}
-{{letterdata names="bet"}}
 </body>
 </html>

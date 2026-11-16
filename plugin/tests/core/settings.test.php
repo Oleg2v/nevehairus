@@ -1,8 +1,8 @@
 <?php
 /**
  * Core tests 6 — NH_Settings and the settings page (SPEC §11.5 item 6, §7): sanitize() drops invalid
- * e-mails, cleans URLs, clamps numbers; the getters; a smoke render of the page, the readiness list,
- * the notices and the test e-mail.
+ * e-mails, cleans URLs, clamps numbers; the getters; the one-time migration to 0.2.0 (research/07 §12.3);
+ * a smoke render of the page, the readiness list, the notices and the test e-mail.
  *
  * @package nevehairus-site
  */
@@ -23,8 +23,8 @@ return [
 				'phone_tel'          => '+972 (8) 940-3047',
 				'privacy_visit'      => "טקסט <script>x</script><a href=\"#privacy\" onclick=\"y\">קישור</a>\r\nשורה",
 				'cookie_title'       => "  <b>עוגיות</b>\n באתר ",
-				'bar_cta_plain'      => "שורה\nשנייה",
 				'unknown_key'        => 'dropped',
+				'show_bar'           => '1',
 			]
 		);
 		nh_assert_same( '', $out['visit_recipient'], 'invalid e-mail dropped' );
@@ -38,10 +38,10 @@ return [
 		nh_assert_same( '+97289403047', $out['phone_tel'] );
 		nh_assert_same( "טקסט x<a href=\"#privacy\">קישור</a>\nשורה", $out['privacy_visit'], 'inline kses, newlines kept' );
 		nh_assert_same( 'עוגיות באתר', $out['cookie_title'], 'text field' );
-		nh_assert_same( "שורה\nשנייה", $out['bar_cta_plain'] );
-		nh_assert_same( 0, $out['show_bar'], 'a missing checkbox is off' );
-		nh_assert_same( 1, NH_Settings::sanitize( [ 'show_bar' => '1' ] )['show_bar'] );
+		nh_assert_same( 0, $out['webp_subsizes'], 'a missing checkbox is off' );
+		nh_assert_same( 1, NH_Settings::sanitize( [ 'webp_subsizes' => '1' ] )['webp_subsizes'] );
 		nh_assert( ! array_key_exists( 'unknown_key', $out ), 'unknown keys dropped' );
+		nh_assert( ! array_key_exists( 'show_bar', $out ), 'a key removed in 0.2.0 is unknown now' );
 		nh_assert_same( array_keys( NH_Settings::defaults() ), array_keys( $out ), 'every key, in order' );
 		nh_assert_same( NH_Settings::defaults()['cookie_text'], $out['cookie_text'], 'missing text keys keep their default' );
 		nh_assert_same( 1, count( array_filter( $GLOBALS['nh_test']['notices'], static fn( $n ) => 'nh_visit_recipient' === $n[1] ) ), 'a settings error for the invalid address' );
@@ -62,7 +62,79 @@ return [
 		}
 		nh_assert_same( 'צריך למלא את השדה הזה.', $d['msg_required'], 'the prototype MSG verbatim' );
 		nh_assert_contains( '{contact}', $d['privacy_visit'] );
-		nh_assert_same( 1, $d['show_bar'] );
+		// v3.2 (research/07 §9, §12.3)
+		foreach ( NH_Settings::REMOVED_0_2_0 as $gone ) {
+			nh_assert( ! array_key_exists( $gone, $d ), "$gone removed" );
+		}
+		nh_assert_same( 'הגדרות עוגיות', $d['cookie_title'] );
+		nh_assert_same( 'סגירה', $d['cookie_close'] );
+		nh_assert_same( '', $d['cookie_stats'], 'no statistics: the row is not printed' );
+		nh_assert_same( 0, $d['webp_subsizes'], 'uPress optimises images itself' );
+		nh_assert_not_contains( 'סטטיסטיקה', $d['cookie_text'] );
+		nh_assert_same( "האתר שומר רק מה שחייבים.\nסרטון מ־YouTube נפתח רק אם מסכימים.\nכאן אפשר לשנות את הבחירה.", $d['cookie_text_plain'] );
+	},
+
+	'migrate(): below 0.2.0 once — removed keys go, untouched old defaults take the new ones, edits stay' => static function () {
+		$old = NH_Settings::OLD_DEFAULTS_0_1_0;
+		update_option(
+			'nh_settings',
+			[
+				'phone_display'     => '08-1111111',                         // a person's value: kept
+				'show_bar'          => 1,
+				'bar_label'         => 'תיאום ביקור מהיר',
+				'bar_cta'           => 'תיאום ביקור',
+				'bar_cta_plain'     => 'לקבוע ביקור',
+				'bar_call_label'    => 'התקשרו:',
+				'skip_label'        => 'דילוג לתוכן הראשי',
+				'cookie_more'       => 'מה זה אומר?',
+				'cookie_all'        => 'אישור הכול',
+				'cookie_necessary_only' => 'רק הכרחיות',
+				'cookie_settings'   => 'הגדרות',
+				'cookie_title'      => $old['cookie_title'],
+				'cookie_stats'      => $old['cookie_stats'],
+				'cookie_text'       => $old['cookie_text'],
+				'cookie_text_plain' => str_replace( "\n", "\r\n", $old['cookie_text_plain'] ), // saved from a textarea
+				'cookie_necessary'  => 'נוסח של עורך הדין',                  // edited: kept
+				'webp_subsizes'     => 1,
+				'consent_version'   => 3,
+			]
+		);
+		$GLOBALS['nh_test']['elementor_cache_cleared'] = 0;
+		NH_Settings::migrate();
+		$o = get_option( 'nh_settings' );
+		foreach ( NH_Settings::REMOVED_0_2_0 as $gone ) {
+			nh_assert( ! array_key_exists( $gone, $o ), "$gone removed" );
+		}
+		$d = NH_Settings::defaults();
+		nh_assert_same( '08-1111111', $o['phone_display'] );
+		nh_assert_same( 'הגדרות עוגיות', $o['cookie_title'] );
+		nh_assert_same( '', $o['cookie_stats'] );
+		nh_assert_same( $d['cookie_text'], $o['cookie_text'] );
+		nh_assert_same( $d['cookie_text_plain'], $o['cookie_text_plain'], 'CRLF from the form compared as LF' );
+		nh_assert_same( 'נוסח של עורך הדין', $o['cookie_necessary'] );
+		nh_assert_same( 0, $o['webp_subsizes'] );
+		nh_assert_same( 3, $o['consent_version'] );
+		nh_assert_same( NH_VERSION, get_option( 'nh_version' ) );
+		nh_assert_same( 1, $GLOBALS['nh_test']['elementor_cache_cleared'], 'a version change clears Elementor\'s caches' );
+		// once: a person's later choices survive the next requests
+		update_option( 'nh_settings', array_merge( $o, [ 'webp_subsizes' => 1, 'cookie_title' => 'עוגיות באתר' ] ) );
+		NH_Settings::migrate();
+		nh_assert_same( 1, get_option( 'nh_settings' )['webp_subsizes'] );
+		nh_assert_same( 'עוגיות באתר', get_option( 'nh_settings' )['cookie_title'] );
+		nh_assert_same( 1, $GLOBALS['nh_test']['elementor_cache_cleared'], 'nothing to do: no second clearing' );
+	},
+
+	'migrate(): a fresh site and a newer stored version' => static function () {
+		NH_Settings::migrate();
+		nh_assert_same( false, get_option( 'nh_settings', false ), 'no option is created' );
+		nh_assert_same( NH_VERSION, get_option( 'nh_version' ) );
+		update_option( 'nh_settings', [ 'webp_subsizes' => 1 ] );
+		update_option( 'nh_version', '9.0.0' );
+		NH_Settings::migrate();
+		nh_assert_same( [ 'webp_subsizes' => 1 ], get_option( 'nh_settings' ), 'a newer version is left alone' );
+		nh_assert_same( '9.0.0', get_option( 'nh_version' ) );
+		nh_assert_same( 5, has_action( 'init', [ 'NH_Settings', 'migrate' ] ), 'init @5, before register_setting() adds sanitize()' );
+		nh_assert_same( 10, has_action( 'init', [ 'NH_Settings', 'register' ] ) );
 	},
 
 	'get(), phone(), email_public(), recipient(), visit_url(), jobs_url(), page_url(), text()' => static function () {
@@ -108,7 +180,9 @@ return [
 		$GLOBALS['nh_test']['caps']['manage_options'] = true;
 		$html = nh_test_capture( [ 'NH_Settings_Page', 'render' ] );
 		nh_assert_contains( 'name="nh_settings[visit_recipient]"', $html );
-		nh_assert_contains( 'name="nh_settings[show_bar]" value="0">', $html, 'hidden 0 before the checkbox' );
+		nh_assert_contains( 'name="nh_settings[webp_subsizes]" value="0">', $html, 'hidden 0 before the checkbox' );
+		nh_assert_contains( 'name="nh_settings[cookie_close]"', $html );
+		nh_assert_not_contains( 'nh_settings[show_bar]', $html, 'removed in 0.2.0' );
 		nh_assert_contains( 'value="nh_test_mail"', $html );
 		nh_assert_contains( 'name="option_page" value="nh_settings"', $html );
 		$rows = NH_Settings_Page::readiness();

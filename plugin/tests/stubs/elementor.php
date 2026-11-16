@@ -403,7 +403,8 @@ class Widgets_Manager {
 }
 
 /**
- * Elementor's singleton: not in the editor, not in the preview (switch with nh_test_preview()).
+ * Elementor's singleton: not in the editor, not in the preview (switch with nh_test_preview()); the files
+ * manager counts its clear_cache() calls in $GLOBALS['nh_test']['elementor_cache_cleared'].
  */
 class Plugin {
 	/** @var Plugin */
@@ -415,7 +416,15 @@ class Plugin {
 	/** @var object */
 	public $preview;
 
+	/** @var object Core\Files\Manager (4.4.0: public property, clear_cache() public). */
+	public $files_manager;
+
 	public function __construct() {
+		$this->files_manager = new class() {
+			public function clear_cache() {
+				$GLOBALS['nh_test']['elementor_cache_cleared'] = ( $GLOBALS['nh_test']['elementor_cache_cleared'] ?? 0 ) + 1;
+			}
+		};
 		$this->editor  = new class() {
 			public $edit = false;
 

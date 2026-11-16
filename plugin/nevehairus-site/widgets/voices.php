@@ -11,11 +11,12 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * The spread opens with the quote; its H2 exists for screen readers only. The plain-language twin
- * of the quote replaces the whole blockquote (reported speech, not a quotation).
+ * The spread starts like every other (v3.2, research/07 §10.2 item 8): the ruling line and a visible H2,
+ * then the quote. The plain-language twin of the quote replaces the whole blockquote (reported speech,
+ * not a quotation).
  *
- * The video is a facade: nothing is requested from YouTube before the visitor agrees to media
- * cookies (assets/js/widgets/voices.js, through nh.consent).
+ * The video is a facade with a visible word on its button («צפו בסרטון»): nothing is requested from YouTube
+ * before the visitor agrees to media cookies (assets/js/widgets/voices.js, through nh.consent).
  */
 final class NH_Widget_Voices extends NH_Widget_Base {
 
@@ -24,9 +25,9 @@ final class NH_Widget_Voices extends NH_Widget_Base {
 	public const KEYWORDS = [ 'voices', 'quote', 'video', 'youtube', 'ציטוט', 'סרטון', 'משפחות' ];
 
 	/**
-	 * `sizes` of the poster when its own `poster_sizes` is empty.
+	 * `sizes` of the 16:9 poster when its own `poster_sizes` is empty (research/07 §8.1: at most 37.5rem).
 	 */
-	private const POSTER_SIZES = '(min-width: 1024px) 46rem, 128vw';
+	private const POSTER_SIZES = '(min-width: 64em) 37.5rem, calc(100vw - 2.5rem)';
 
 	/**
 	 * A YouTube video id; anything else means "no video".
@@ -63,13 +64,12 @@ final class NH_Widget_Voices extends NH_Widget_Base {
 			]
 		);
 
-		NH_Controls::pair(
+		NH_Controls::heading(
 			$this,
-			'title',
 			[
-				'label'   => __( 'כותרת (לקוראי מסך בלבד)', 'nevehairus-site' ),
-				'default' => 'מה אומרות המשפחות',
+				'default' => 'מה אומרות המשפחות.',
 				'plain'   => '',
+				'dot'     => 'citrus',
 			]
 		);
 
@@ -126,12 +126,23 @@ final class NH_Widget_Voices extends NH_Widget_Base {
 			]
 		);
 
+		NH_Controls::pair(
+			$this,
+			'play_label',
+			[
+				'label'   => __( 'כפתור ההפעלה: המילים על הכפתור', 'nevehairus-site' ),
+				'default' => 'צפו בסרטון',
+				'plain'   => '',
+			]
+		);
+
 		$this->add_control(
 			'play_prefix',
 			[
-				'label'       => __( 'כפתור ההפעלה: טקסט לקוראי מסך לפני שם הסרטון', 'nevehairus-site' ),
+				'label'       => __( 'כפתור ההפעלה: טקסט לקוראי מסך בין המילים על הכפתור לשם הסרטון', 'nevehairus-site' ),
 				'type'        => \Elementor\Controls_Manager::TEXT,
-				'default'     => 'צפו בסרטון:',
+				'default'     => ':',
+				'description' => __( 'קורא המסך מקריא: המילים על הכפתור, הטקסט הזה ושם הסרטון.', 'nevehairus-site' ),
 				'label_block' => true,
 			]
 		);
@@ -201,25 +212,18 @@ final class NH_Widget_Voices extends NH_Widget_Base {
 
 		$this->end_controls_section();
 
-		NH_Controls::section(
-			$this,
-			[
-				'anchor'  => 'voices',
-				'running' => 'משפחות',
-			]
-		);
+		NH_Controls::section( $this, [ 'anchor' => 'voices' ] );
 	}
 
 	/**
-	 * Markup of index.html `section#voices` (no ruling line on this spread).
+	 * Markup of index.html `section#voices`: the ruling line, the visible H2 with the quote, the video.
 	 */
 	protected function render() {
 		$s = $this->get_settings_for_display();
 
-		// The spread opens with the quote: its heading is for screen readers only (no title_dot control, no tessera).
-		$title = $this->nh_h2( $s, [ 'class' => 'nh-sr-only' ] );
+		$title = $this->nh_h2( $s );
 
-		$words = '' !== $title ? $title . "\n" : '';
+		$words  = '' !== $title ? $title . "\n" : '';
 		$words .= $this->life_quote( $s );
 
 		$html  = $this->nh_section_open(
@@ -231,6 +235,7 @@ final class NH_Widget_Voices extends NH_Widget_Base {
 			]
 		);
 		$html .= "\n" . '<div class="nh-container v3-voices__grid">' . "\n";
+		$html .= $this->nh_rule() . "\n";
 		if ( '' !== $words ) {
 			$html .= '<div class="v3-voices__words">' . "\n" . $words . '</div>' . "\n";
 		}
@@ -292,9 +297,12 @@ final class NH_Widget_Voices extends NH_Widget_Base {
 		}
 
 		$video_title = trim( self::life_text( $s, 'video_title' ) );
-		$label       = trim( trim( self::life_text( $s, 'play_prefix' ) ) . ' ' . $video_title );
-		if ( '' === $label ) {
-			$label = __( 'סרטון', 'nevehairus-site' ); // The play button must never be nameless.
+		// The visible word(s) on the button, then for screen readers the prefix and the video's title:
+		// «צפו בסרטון» + «: הורה של דייר…» (research/07 §10.2 item 8).
+		$word = NH_Text::pair( self::life_text( $s, 'play_label' ), self::life_text( $s, 'play_label_plain' ) );
+		$sr   = trim( trim( self::life_text( $s, 'play_prefix' ) ) . ' ' . $video_title );
+		if ( '' === $word && '' === $sr ) {
+			$sr = __( 'סרטון', 'nevehairus-site' ); // The play button must never be nameless.
 		}
 
 		$consent = NH_Text::block(
@@ -318,8 +326,8 @@ final class NH_Widget_Voices extends NH_Widget_Base {
 
 		$caption = NH_Text::pair( self::life_text( $s, 'caption' ), self::life_text( $s, 'caption_plain' ) );
 
-		$html  = '<figure class="v3-video-fig">' . "\n";
-		$html .= '<div' . NH_Html::attrs(
+		$html   = '<figure class="v3-video-fig">' . "\n";
+		$html  .= '<div' . NH_Html::attrs(
 			[
 				'class'      => 'nh-video v3-video',
 				'data-video' => $id,
@@ -331,8 +339,11 @@ final class NH_Widget_Voices extends NH_Widget_Base {
 			$html .= $poster . "\n";
 		}
 		$html .= '<button class="nh-video__play" type="button">'
+			. '<span class="nh-video__btn">'
 			. '<span class="nh-video__icon" aria-hidden="true">' . NH_Html::icon( 'play', '', false ) . '</span>'
-			. '<span class="nh-sr-only">' . esc_html( $label ) . '</span>'
+			. ( '' !== $word ? '<span>' . $word . '</span>' : '' )
+			. '</span>'
+			. ( '' !== $sr ? '<span class="nh-sr-only">' . esc_html( $sr ) . '</span>' : '' )
 			. '</button>' . "\n";
 		$html .= '<div class="nh-video__consent" hidden>' . "\n";
 		if ( '' !== $consent ) {

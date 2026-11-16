@@ -11,9 +11,9 @@ defined( 'ABSPATH' ) || exit;
  * jobs-page : a jobs page is set: links come from NH_Settings::jobs_url() (?role=… for the roles). Structure only.
  * edge      : structure only — an external role link (rel="noopener" + the screen-reader suffix), a role without
  *             title (skipped), a role without meta whose title is hidden in plain mode, an unresolved link token,
- *             no button, the ל at weight 500 (interpolated outline).
+ *             no button.
  */
-$nh_form = [ 'url' => 'design-system.html#form' ];
+$nh_form = [ 'url' => '/design-system.html#form' ]; // root-relative: a bare file name would read as a host (esc_url)
 
 return [
 	'variants' => [
@@ -25,8 +25,10 @@ return [
 				'selectors' => [ 'section#jobs' ],
 			],
 			'expect_diff' => [
-				'href of the five .v3-roles links (prototype design-system.html#form, here #jobs: no jobs page set)',
-				'href of the .nh-btn--primary button (prototype design-system.html#form, here #jobs: no jobs page set)',
+				// no jobs page in the settings: the five roles and the button stay in the spread (#jobs); the
+				// prototype links them to design-system.html#form
+				'^-\s+a(\.nh-btn\.nh-btn--primary)? \[href=#form\]$',
+				'^\+\s+a(\.nh-btn\.nh-btn--primary)? \[href=#jobs\]$',
 			],
 		],
 		'parity'    => [
@@ -54,7 +56,6 @@ return [
 		'edge'      => [
 			'settings' => [
 				'button' => '',
-				'weight' => 500,
 				'roles'  => [
 					0 => [ 'link' => [ 'url' => 'https://example.com/jobs/' ] ],
 					1 => [ 'title' => '' ],

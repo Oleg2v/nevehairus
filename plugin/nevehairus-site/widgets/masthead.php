@@ -1,14 +1,15 @@
 <?php
 /**
  * Widget «masthead» — the site header, placed alone in an Elementor Pro Theme Builder
- * header template (condition: entire site). SPEC.md §4.18.
+ * header template (condition: entire site). SPEC.md §4.18; research/07 §5, §6, §10.1 items 1–2.
  *
- * Reproduces prototype/src/partials/header.html L3–78 (built: index.html
- * `header.nh-header` and `dialog#nh-menu`): wordmark or logo, running head, main
- * navigation, the plain-language button, the «תצוגה» display panel, phone, visit
- * button, menu button, progress line, then the menu dialog with its own live region.
- * The skip link, the cookie banner and the global live region (header L1–2, L79)
- * are printed by the site module (NH_Site), not here.
+ * v3.2: fixed and always the same — the mark (the logo's emblem from the media library and the
+ * name as live text), at most five links, «בשפה פשוטה», the phone, «תיאום ביקור» and «תפריט»; no
+ * running head, no progress line, no display panel, nothing changes while the page scrolls. Then the
+ * phone menu: a native <dialog> opened only by «תפריט», with a visible title and a visible «סגירה»,
+ * the five links, the visit button, the call line and two switches (plain language, calm mode).
+ * Target: prototype/src/partials/header.html (built: index.html `header.nh-header`, `dialog#nh-menu`).
+ * The skip link and the global live region are printed by the theme and the site module, not here.
  *
  * @package nevehairus-site
  */
@@ -20,14 +21,22 @@ use Elementor\Repeater;
 
 /**
  * Masthead: `<div class="nh-header v3-mast">` (or `<header>`, D3) + `<dialog id="nh-menu">`.
- * Uses the fixed ids of the prototype (`nh-menu`, `v3-display-panel`, `v3-display-title`):
- * one masthead per page (SPEC §2.5).
+ * Uses the fixed ids of the prototype (`nh-menu`, `nh-menu-title`): one masthead per page (SPEC §2.5).
  */
 final class NH_Widget_Masthead extends NH_Widget_Base {
 
 	public const ID       = 'masthead';
 	public const DYNAMIC  = true; // reads NH_Settings (phone, visit URL) and the current page (aria-current).
 	public const KEYWORDS = [ 'header', 'masthead', 'menu', 'navigation', 'כותרת', 'תפריט', 'ניווט' ];
+
+	/** The menu shows at most five links (research/07 §5.1: a short menu; a submenu would be a pop-up). */
+	public const MAX_ITEMS = 5;
+
+	/** Words a button may never lack: the fallbacks when the editor empties a field. */
+	private const FALLBACK = [
+		'menu_label' => 'תפריט',
+		'menu_close' => 'סגירה',
+	];
 
 	/**
 	 * Panel title.
@@ -63,18 +72,11 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 
 		NH_Controls::pair(
 			$this,
-			'wordmark_small',
+			'name',
 			[
-				'label'   => esc_html__( 'סמליל טקסט — המילה הקטנה', 'nevehairus-site' ),
-				'default' => 'מעון',
-			]
-		);
-		NH_Controls::pair(
-			$this,
-			'wordmark',
-			[
-				'label'   => esc_html__( 'סמליל טקסט — השם', 'nevehairus-site' ),
-				'default' => 'נווה האירוס',
+				'label'       => esc_html__( 'שם האתר ליד הסמל', 'nevehairus-site' ),
+				'default'     => 'מעון נווה האירוס',
+				'description' => esc_html__( 'טקסט חי ליד הסמל. בטלפון הוא נשבר לשתי שורות ברווח האחרון: „מעון נווה / האירוס”.', 'nevehairus-site' ),
 			]
 		);
 		$this->add_control(
@@ -94,54 +96,6 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 			[
 				'label'   => esc_html__( 'כפתור „בשפה פשוטה”', 'nevehairus-site' ),
 				'default' => 'בשפה פשוטה',
-			]
-		);
-		NH_Controls::pair(
-			$this,
-			'display_label',
-			[
-				'label'   => esc_html__( 'כפתור „תצוגה”', 'nevehairus-site' ),
-				'default' => 'תצוגה',
-			]
-		);
-		NH_Controls::pair(
-			$this,
-			'display_title',
-			[
-				'label'   => esc_html__( 'חלונית התצוגה — כותרת', 'nevehairus-site' ),
-				'default' => 'הגדרות תצוגה',
-			]
-		);
-		NH_Controls::pair(
-			$this,
-			'display_note',
-			[
-				'label'   => esc_html__( 'חלונית התצוגה — הערה', 'nevehairus-site' ),
-				'default' => 'הבחירה נשמרת בדפדפן הזה.',
-			]
-		);
-		NH_Controls::pair(
-			$this,
-			'toggle_plain',
-			[
-				'label'   => esc_html__( 'מתג — שפה פשוטה', 'nevehairus-site' ),
-				'default' => 'בשפה פשוטה',
-			]
-		);
-		NH_Controls::pair(
-			$this,
-			'toggle_motion',
-			[
-				'label'   => esc_html__( 'מתג — הפחתת תנועה', 'nevehairus-site' ),
-				'default' => 'הפחתת תנועה',
-			]
-		);
-		NH_Controls::pair(
-			$this,
-			'toggle_calm',
-			[
-				'label'   => esc_html__( 'מתג — מצב רגוע', 'nevehairus-site' ),
-				'default' => 'מצב רגוע',
 			]
 		);
 
@@ -169,15 +123,26 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 			$this,
 			'cta_link',
 			[
-				'label'   => esc_html__( 'קישור הכפתור (ריק = כתובת הביקור מההגדרות)', 'nevehairus-site' ),
-				'default' => '',
+				'label'       => esc_html__( 'קישור הכפתור (ריק = כתובת הביקור מההגדרות)', 'nevehairus-site' ),
+				'default'     => '',
+				'description' => esc_html__( 'בעמוד שיש בו טופס ביקור (ד׳) הכפתור מוביל אליו בכל מקרה.', 'nevehairus-site' ),
 			]
 		);
 
+		$this->end_controls_section();
+
+		/* ---------- תפריט הטלפון ---------- */
+		$this->start_controls_section(
+			'nh_menu',
+			[
+				'label' => esc_html__( 'תפריט (טלפון וטאבלט)', 'nevehairus-site' ),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			]
+		);
 		$this->add_control(
 			'menu_label',
 			[
-				'label'       => esc_html__( 'תפריט — שם לקורא מסך', 'nevehairus-site' ),
+				'label'       => esc_html__( 'המילה על כפתור התפריט וכותרת התפריט', 'nevehairus-site' ),
 				'type'        => Controls_Manager::TEXT,
 				'default'     => 'תפריט',
 				'label_block' => true,
@@ -186,9 +151,9 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 		$this->add_control(
 			'menu_close',
 			[
-				'label'       => esc_html__( 'תפריט — כפתור הסגירה (לקורא מסך)', 'nevehairus-site' ),
+				'label'       => esc_html__( 'כפתור הסגירה של התפריט', 'nevehairus-site' ),
 				'type'        => Controls_Manager::TEXT,
-				'default'     => 'סגירת התפריט',
+				'default'     => 'סגירה',
 				'label_block' => true,
 			]
 		);
@@ -196,20 +161,52 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 			$this,
 			'menu_phone_label',
 			[
-				'label'   => esc_html__( 'תפריט — תחילית הטלפון', 'nevehairus-site' ),
-				'default' => 'טלפון:',
+				'label'   => esc_html__( 'שורת הטלפון בתפריט — המילה לפני המספר', 'nevehairus-site' ),
+				'default' => 'התקשרו:',
 			]
 		);
 		$this->add_control(
 			'menu_toggles_label',
 			[
-				'label'       => esc_html__( 'תפריט — שם קבוצת המתגים (לקורא מסך)', 'nevehairus-site' ),
+				'label'       => esc_html__( 'שם קבוצת המתגים (לקורא מסך)', 'nevehairus-site' ),
 				'type'        => Controls_Manager::TEXT,
 				'default'     => 'הגדרות תצוגה',
 				'label_block' => true,
 			]
 		);
-
+		NH_Controls::pair(
+			$this,
+			'toggle_plain',
+			[
+				'label'   => esc_html__( 'מתג — שפה פשוטה', 'nevehairus-site' ),
+				'default' => 'בשפה פשוטה',
+			]
+		);
+		NH_Controls::pair(
+			$this,
+			'toggle_calm',
+			[
+				'label'   => esc_html__( 'מתג — מצב רגוע', 'nevehairus-site' ),
+				'default' => 'מצב רגוע',
+			]
+		);
+		$this->add_control(
+			'state_on',
+			[
+				'label'       => esc_html__( 'מצב המתג — פועל', 'nevehairus-site' ),
+				'type'        => Controls_Manager::TEXT,
+				'default'     => 'פועל',
+				'description' => esc_html__( 'המילה שליד המתג כשהוא פועל (המצב עצמו נמסר לקורא המסך מהכפתור).', 'nevehairus-site' ),
+			]
+		);
+		$this->add_control(
+			'state_off',
+			[
+				'label'   => esc_html__( 'מצב המתג — כבוי', 'nevehairus-site' ),
+				'type'    => Controls_Manager::TEXT,
+				'default' => 'כבוי',
+			]
+		);
 		$this->end_controls_section();
 
 		/* ---------- תמונות ---------- */
@@ -220,13 +217,18 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			]
 		);
-		NH_Controls::image(
-			$this,
+		$this->add_control(
 			'logo',
 			[
-				'label'      => esc_html__( 'לוגו (לא חובה; מחליף את סמליל הטקסט בקישור לדף הבית)', 'nevehairus-site' ),
-				'decorative' => false,
-				'alt'        => '',
+				'label'       => esc_html__( 'סמל הלוגו (תמונה קטנה, PNG שקוף)', 'nevehairus-site' ),
+				'type'        => Controls_Manager::MEDIA,
+				'default'     => [
+					'url' => '',
+					'id'  => '',
+				],
+				'media_types' => [ 'image' ],
+				'label_block' => true,
+				'description' => esc_html__( 'רק הסמל, בלי שם: השם כתוב לידו כטקסט. הסמל דקורטיבי (בלי טקסט חלופי). בלי תמונה מוצג רק השם.', 'nevehairus-site' ),
 			]
 		);
 		$this->end_controls_section();
@@ -269,29 +271,24 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 		$item->add_control(
 			'current_ids',
 			[
-				'label'       => esc_html__( 'מסומן כעמוד הנוכחי בעמודים (מזהים)', 'nevehairus-site' ),
+				'label'       => esc_html__( 'המקטע הנוכחי בעמודים (מזהים)', 'nevehairus-site' ),
 				'type'        => Controls_Manager::TEXT,
 				'default'     => '',
 				'label_block' => true,
-				'description' => esc_html__( 'מזהי עמודים מופרדים בפסיקים, למשל 12,34. הקישור מסומן כעמוד הנוכחי בעמודים האלה ובעמודי המשנה שלהם. קישור לעמוד (בלי #) מסומן גם בלי זה.', 'nevehairus-site' ),
+				'description' => esc_html__( 'מזהי עמודים מופרדים בפסיקים, למשל 12,34. בעמודים האלה ובעמודי המשנה שלהם הקישור מסומן כמקטע שבו נמצאים (קו מתחת למילה). קישור לעמוד עצמו (בלי #) מסומן גם בלי זה.', 'nevehairus-site' ),
 			]
 		);
 		$this->add_control(
 			'nav',
 			[
-				'label'       => esc_html__( 'קישורים', 'nevehairus-site' ),
+				'label'       => esc_html__( 'קישורים (עד חמישה)', 'nevehairus-site' ),
 				'type'        => Controls_Manager::REPEATER,
 				'fields'      => $item->get_controls(),
 				'title_field' => '{{ label }}',
+				'description' => esc_html__( 'תפריט קצר: עד חמישה קישורים, עד שתי מילים בכל אחד, בלי תפריטי משנה. קישור שישי והלאה לא מוצג.', 'nevehairus-site' ),
 				'default'     => [
 					[
-						'label'       => 'מי אנחנו',
-						'label_plain' => '',
-						'link'        => [ 'url' => home_url( '/#story' ) ],
-						'current_ids' => '',
-					],
-					[
-						'label'       => 'מסגרות המגורים',
+						'label'       => 'הבתים שלנו',
 						'label_plain' => '',
 						'link'        => [ 'url' => home_url( '/#homes' ) ],
 						'current_ids' => '',
@@ -300,6 +297,12 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 						'label'       => 'החיים אצלנו',
 						'label_plain' => '',
 						'link'        => [ 'url' => home_url( '/#day' ) ],
+						'current_ids' => '',
+					],
+					[
+						'label'       => 'מי אנחנו',
+						'label_plain' => '',
+						'link'        => [ 'url' => home_url( '/#story' ) ],
 						'current_ids' => '',
 					],
 					[
@@ -344,14 +347,15 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 	}
 
 	/**
-	 * Render the masthead and the menu dialog (header L3–78).
+	 * Render the masthead and the menu dialog (header.html).
 	 */
 	protected function render() {
 		$s   = $this->get_settings_for_display();
 		$tag = ( 'header' === self::str( $s, 'html_tag' ) ) ? 'header' : 'div';
 
-		/* links of both navigations */
+		/* links of both navigations: at most five (research/07 §5.1) */
 		$items = [];
+		$extra = 0;
 		$nav   = ( isset( $s['nav'] ) && is_array( $s['nav'] ) ) ? $s['nav'] : [];
 		foreach ( $nav as $row ) {
 			if ( ! is_array( $row ) ) {
@@ -362,15 +366,18 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 			if ( '' === $label || '' === $href ) {
 				continue;
 			}
-			$items[] = [
-				'href'    => $href,
-				'label'   => $label,
-				// NH_Html::url() is escaped for output; is_current() compares the plain URL.
-				'current' => NH_Html::is_current( html_entity_decode( $href, ENT_QUOTES | ENT_HTML5, 'UTF-8' ), self::str( $row, 'current_ids' ) ),
-			];
+			if ( count( $items ) >= self::MAX_ITEMS ) {
+				++$extra;
+				continue;
+			}
+			// NH_Html::url() is escaped for output; current_state() compares the plain URL. 'page' only for a
+			// link to this very page, 'true' for the section the page belongs to (research/07 §5.3).
+			$state   = NH_Html::current_state( html_entity_decode( $href, ENT_QUOTES | ENT_HTML5, 'UTF-8' ), self::str( $row, 'current_ids' ) );
+			$items[] = '<li><a href="' . $href . '"' . ( '' !== $state ? ' aria-current="' . esc_attr( $state ) . '"' : '' ) . '>' . $label . '</a></li>';
 		}
 		$nav_label = trim( self::str( $s, 'nav_label' ) );
 		$nav_attr  = ( '' !== $nav_label ) ? ' aria-label="' . esc_attr( $nav_label ) . '"' : '';
+		$nav_list  = $items ? '<ul role="list">' . implode( '', $items ) . '</ul>' : '';
 
 		/* phone from the settings (D9) */
 		$phone   = NH_Settings::phone();
@@ -378,38 +385,24 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 		$tel     = trim( self::str( $phone, 'tel' ) );
 		$tel_url = ( '' !== $display && '' !== $tel ) ? esc_url( NH_Html::tel( $tel ) ) : '';
 
-		/* the visit button: own link, or the visit URL from the settings */
+		/* the visit button: own link, or the visit URL from the settings; data-visit-cta lets nh-core.js
+			point it at this page's door when the page has one (research/07 §5.5) */
 		$cta_label = self::pair_of( $s, 'cta_text' );
 		$cta_url   = NH_Html::url( $s['cta_link'] ?? '' );
 		if ( '' === $cta_url ) {
 			$cta_url = esc_url( NH_Settings::visit_url() );
 		}
+		$has_cta = '' !== $cta_label && '' !== $cta_url;
 
-		/* the three display switches (same markup in the panel and in the menu) */
-		$toggles = NH_Html::display_toggles(
-			[
-				'plain'  => self::pair_of( $s, 'toggle_plain' ),
-				'motion' => self::pair_of( $s, 'toggle_motion' ),
-				'calm'   => self::pair_of( $s, 'toggle_calm' ),
-			]
-		);
-
-		$menu_label = trim( self::str( $s, 'menu_label' ) );
+		$menu_label = self::word( $s, 'menu_label' );
 
 		/* ---------- header ---------- */
 		$html  = '<' . $tag . ' class="nh-header v3-mast">';
 		$html .= '<div class="nh-container nh-header__inner">';
 		$html .= $this->logo_link( $s );
 
-		// running head: filled by masthead.js with the name of the spread being read.
-		$html .= '<p class="v3-mast__running" aria-hidden="true" data-running></p>';
-
-		if ( $items ) {
-			$html .= '<nav class="nh-nav"' . $nav_attr . '><ul role="list">';
-			foreach ( $items as $it ) {
-				$html .= '<li><a href="' . $it['href'] . '"' . ( $it['current'] ? ' aria-current="page"' : '' ) . '>' . $it['label'] . '</a></li>';
-			}
-			$html .= '</ul></nav>';
+		if ( '' !== $nav_list ) {
+			$html .= '<nav class="nh-nav"' . $nav_attr . '>' . $nav_list . '</nav>';
 		}
 
 		$html .= '<div class="nh-header__actions">';
@@ -418,26 +411,6 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 			. NH_Html::icon( 'speech' )
 			. '<span>' . self::pair_of( $s, 'plain_label' ) . '</span></button>';
 
-		$html .= '<div class="v3-display">';
-		$html .= '<button class="v3-display__btn" type="button" aria-expanded="false" aria-controls="v3-display-panel" data-display-open>'
-			. NH_Html::icon( 'sliders' )
-			. '<span>' . self::pair_of( $s, 'display_label' ) . '</span></button>';
-		$panel_title = self::pair_of( $s, 'display_title' );
-		if ( '' !== $panel_title ) {
-			$html .= '<div class="v3-display__panel" id="v3-display-panel" role="group" aria-labelledby="v3-display-title" hidden>';
-			$html .= '<p class="v3-display__title" id="v3-display-title">' . $panel_title . '</p>';
-		} else {
-			// no visible title: the group is named by the button's text.
-			$name   = trim( self::str( $s, 'display_label' ) );
-			$html  .= '<div class="v3-display__panel" id="v3-display-panel" role="group"' . ( '' !== $name ? ' aria-label="' . esc_attr( $name ) . '"' : '' ) . ' hidden>';
-		}
-		$html .= $toggles;
-		$note  = self::pair_of( $s, 'display_note' );
-		if ( '' !== $note ) {
-			$html .= '<p class="v3-display__note">' . $note . '</p>';
-		}
-		$html .= '</div></div>';
-
 		if ( '' !== $tel_url ) {
 			$aria  = trim( trim( self::str( $s, 'phone_label' ) ) . ' ' . $display );
 			$html .= '<a class="nh-phone" href="' . $tel_url . '" aria-label="' . esc_attr( $aria ) . '">'
@@ -445,109 +418,151 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 				. '<span class="nh-phone__num nh-ltr">' . esc_html( $display ) . '</span></a>';
 		}
 
-		if ( '' !== $cta_label && '' !== $cta_url ) {
-			$html .= '<a class="nh-btn nh-btn--primary nh-btn--sm v3-mast__cta" href="' . $cta_url . '">' . $cta_label . '</a>';
+		if ( $has_cta ) {
+			$html .= '<a class="nh-btn nh-btn--primary nh-btn--sm v3-mast__cta" href="' . $cta_url . '" data-visit-cta>' . $cta_label . '</a>';
 		}
 
 		$html .= '<button class="nh-menu-btn" type="button" data-menu-open aria-haspopup="dialog" aria-expanded="false" aria-controls="nh-menu">'
 			. NH_Html::icon( 'menu' )
-			. '<span class="nh-sr-only">' . esc_html( $menu_label ) . '</span></button>';
+			. '<span>' . esc_html( $menu_label ) . '</span></button>';
 
 		$html .= '</div>'; // .nh-header__actions
 		$html .= '</div>'; // .nh-header__inner
-		$html .= '<div class="v3-progress" aria-hidden="true"></div>';
 		$html .= '</' . $tag . '>' . "\n";
 
-		/* ---------- menu (native <dialog>: focus trap and Esc for free) ---------- */
-		$html .= '<dialog class="nh-menu" id="nh-menu"' . ( '' !== $menu_label ? ' aria-label="' . esc_attr( $menu_label ) . '"' : '' ) . '>';
+		/* ---------- menu (native <dialog>: focus trap and Esc for free; opened only by «תפריט») ---------- */
+		$html .= '<dialog class="nh-menu" id="nh-menu" aria-labelledby="nh-menu-title">';
 		$html .= '<div class="nh-menu__inner">';
-		$html .= '<div class="nh-menu__top">' . $this->wordmark( $s, true )
+		$html .= '<div class="nh-menu__top">'
+			. '<p class="nh-menu__title" id="nh-menu-title">' . esc_html( $menu_label ) . '</p>'
 			. '<button class="nh-menu__close" type="button" data-menu-close>'
 			. NH_Html::icon( 'close' )
-			. '<span class="nh-sr-only">' . esc_html( trim( self::str( $s, 'menu_close' ) ) ) . '</span></button></div>';
+			. '<span>' . esc_html( self::word( $s, 'menu_close' ) ) . '</span></button></div>';
 
-		if ( $items ) {
-			$html .= '<nav' . $nav_attr . '><ul role="list">';
-			foreach ( $items as $it ) {
-				$html .= '<li><a href="' . $it['href'] . '">' . $it['label'] . '</a></li>';
-			}
-			$html .= '</ul></nav>';
+		$html .= '<div class="nh-menu__body">';
+		if ( '' !== $nav_list ) {
+			$html .= '<nav' . $nav_attr . '>' . $nav_list . '</nav>';
 		}
 
 		$html .= '<div class="nh-menu__meta">';
-		if ( '' !== $cta_label && '' !== $cta_url ) {
-			$html .= '<a class="nh-btn nh-btn--light" href="' . $cta_url . '">' . $cta_label . '</a>';
+		if ( $has_cta ) {
+			$html .= '<a class="nh-btn nh-btn--primary nh-menu__cta" href="' . $cta_url . '" data-visit-cta>' . $cta_label . '</a>';
 		}
 		if ( '' !== $tel_url ) {
 			$prefix = self::pair_of( $s, 'menu_phone_label' );
-			$html  .= '<a href="' . $tel_url . '">' . ( '' !== $prefix ? $prefix . ' ' : '' )
-				. '<span class="nh-ltr">' . esc_html( $display ) . '</span></a>';
+			$html  .= '<p class="nh-menu__call"><a href="' . $tel_url . '">' . ( '' !== $prefix ? $prefix . ' ' : '' )
+				. NH_Html::ltr( $display ) . '</a></p>';
 		}
 		$group = trim( self::str( $s, 'menu_toggles_label' ) );
-		$html .= '<div class="v3-menu-toggles" role="group"' . ( '' !== $group ? ' aria-label="' . esc_attr( $group ) . '"' : '' ) . '>' . $toggles . '</div>';
+		$html .= '<div class="v3-switches" role="group"' . ( '' !== $group ? ' aria-label="' . esc_attr( $group ) . '"' : '' ) . '>'
+			. NH_Html::display_toggles(
+				[
+					'plain' => self::pair_of( $s, 'toggle_plain' ),
+					'calm'  => self::pair_of( $s, 'toggle_calm' ),
+				],
+				[
+					'on'  => self::str( $s, 'state_on' ),
+					'off' => self::str( $s, 'state_off' ),
+				]
+			)
+			. '</div>';
 		// a modal dialog makes the rest of the page inert, so the menu has its own live region.
 		$html .= '<p class="nh-sr-only" role="status" aria-live="polite" data-announce-menu></p>';
 		$html .= '</div>'; // .nh-menu__meta
+		$html .= '</div>'; // .nh-menu__body
 		$html .= '</div>'; // .nh-menu__inner
 		$html .= '</dialog>';
+
+		if ( $extra > 0 ) {
+			$html .= $this->nh_admin_note( __( 'בתפריט יותר מחמישה פריטים: מוצגים חמשת הראשונים', 'nevehairus-site' ) );
+		}
 
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled from escaped parts
 	}
 
 	/**
-	 * The link to the home page: the logo from the media library when one is set, else the wordmark,
-	 * then the screen-reader suffix (« — לדף הבית»). The link always has a name: an informative logo
-	 * gets the alt override, else the media library's alt, else the wordmark text («מעון נווה האירוס»);
-	 * a logo marked decorative gets alt="" and the wordmark text goes into the visually hidden span.
+	 * The link to the home page (research/07 §6): the emblem of the logo (decorative: alt="", its width and
+	 * height from the attachment) and the name as live text in two spans, split at the last space, so the
+	 * compact masthead sets it in two lines («מעון נווה / האירוס»); then the screen-reader suffix
+	 * (« — לדף הבית»). Without an emblem only the name is shown.
 	 *
 	 * @param array $s Settings.
 	 * @return string `<a class="nh-logo" …>…</a>`.
 	 */
 	private function logo_link( array $s ): string {
-		$sr    = self::suffix( self::str( $s, 'home_sr' ) );
-		$name  = self::plain_text( self::str( $s, 'wordmark_small' ) . ' ' . self::str( $s, 'wordmark' ) );
-		$inner = '';
-		$img   = NH_Controls::image_args( $s, 'logo' );
-		$id    = (int) ( $img['photo'] ?? 0 );
-		if ( $id > 0 ) {
-			$o = [
-				'sizes'   => '16rem',
-				'loading' => 'eager', // above the fold, but never the LCP image (that is the cover photo).
-			];
-			if ( ! empty( $img['decorative'] ) ) {
-				$o['decorative'] = true;
-			} else {
-				$alt      = trim( (string) ( $img['alt'] ?? '' ) );
-				$alt      = ( '' !== $alt ) ? $alt : NH_Picture::alt( $id );
-				$o['alt'] = ( '' !== trim( $alt ) ) ? $alt : $name;
-			}
-			$inner = NH_Picture::render( $id, $o );
-			if ( '' !== $inner && ! empty( $o['decorative'] ) ) {
-				$sr = $name . $sr;
+		$mark = '';
+		$logo = ( isset( $s['logo'] ) && is_array( $s['logo'] ) ) ? $s['logo'] : [];
+		$id   = absint( $logo['id'] ?? 0 );
+		if ( $id > 0 && NH_Picture::exists( $id ) ) {
+			$src  = NH_Picture::src( $id );
+			$dims = NH_Picture::dims( $id );
+			if ( '' !== $src ) {
+				$mark = '<img class="nh-logo__mark" src="' . esc_url( $src ) . '"'
+					. ( ! empty( $dims[0] ) && ! empty( $dims[1] ) ? ' width="' . (int) $dims[0] . '" height="' . (int) $dims[1] . '"' : '' )
+					. ' alt="">';
 			}
 		}
-		if ( '' === $inner ) {
-			$inner = $this->wordmark( $s, false );
+
+		$name = self::name_html( self::str( $s, 'name' ), self::str( $s, 'name_plain' ) );
+		$sr   = self::suffix( self::str( $s, 'home_sr' ) );
+		if ( '' === $name ) {
+			// the link must keep a name: the screen-reader text carries the site's name then
+			$sr = self::plain_text( self::str( $s, 'name' ) ) . $sr;
 		}
 		$sr = ( '' !== trim( $sr ) ) ? '<span class="nh-sr-only">' . esc_html( $sr ) . '</span>' : '';
-		return '<a class="nh-logo" href="' . esc_url( home_url( '/' ) ) . '">' . $inner . $sr . '</a>';
+		return '<a class="nh-logo" href="' . esc_url( home_url( '/' ) ) . '">' . $mark . $name . $sr . '</a>';
 	}
 
 	/**
-	 * The typographic wordmark: `<span class="nh-wordmark"><small>מעון</small> נווה האירוס</span>`.
+	 * `<span class="nh-logo__name"><span>מעון נווה</span> <span>האירוס</span></span>`, by the five states of
+	 * a pair (SPEC §3.5): one element when both modes read the same, else the full and the plain name with
+	 * their mode classes.
 	 *
-	 * @param array $s      Settings.
-	 * @param bool  $hidden Decorative copy (the menu's top bar): aria-hidden.
-	 * @return string HTML, '' when both texts are empty.
+	 * @param string $full  The name.
+	 * @param string $plain Its plain twin.
+	 * @return string HTML ('' when there is no name to show).
 	 */
-	private function wordmark( array $s, bool $hidden ): string {
-		$small = self::pair_of( $s, 'wordmark_small' );
-		$name  = self::pair_of( $s, 'wordmark' );
-		if ( '' === $small && '' === $name ) {
-			return '';
+	private static function name_html( string $full, string $plain ): string {
+		$full  = self::plain_text( $full );
+		$plain = self::plain_text( $plain );
+		switch ( NH_Text::state( $full, $plain ) ) {
+			case 1:
+				return self::name_lines( $full, '' );
+			case 2:
+				return self::name_lines( $full, 'v3-full' ) . self::name_lines( $plain, 'v3-plain' );
+			case 3:
+				return self::name_lines( $full, 'v3-full' );
+			case 4:
+				return self::name_lines( $plain, 'v3-plain' );
 		}
-		$inner = ( '' !== $small ) ? '<small>' . $small . '</small>' . ( '' !== $name ? ' ' : '' ) : '';
-		return '<span class="nh-wordmark"' . ( $hidden ? ' aria-hidden="true"' : '' ) . '>' . $inner . $name . '</span>';
+		return '';
+	}
+
+	/**
+	 * The name in two spans split at its last space (one span when it is one word).
+	 *
+	 * @param string $name  Plain text.
+	 * @param string $mode  Mode class ('' = none).
+	 * @return string
+	 */
+	private static function name_lines( string $name, string $mode ): string {
+		$cut   = strrpos( $name, ' ' );
+		$inner = ( false === $cut )
+			? '<span>' . esc_html( $name ) . '</span>'
+			: '<span>' . esc_html( substr( $name, 0, $cut ) ) . '</span> <span>' . esc_html( substr( $name, $cut + 1 ) ) . '</span>';
+		return '<span class="nh-logo__name' . ( '' !== $mode ? ' ' . $mode : '' ) . '">' . $inner . '</span>';
+	}
+
+	/**
+	 * A text a button must not lack (the word on «תפריט», «סגירה»): the setting, or its fallback when emptied.
+	 *
+	 * @param array  $s   Settings.
+	 * @param string $key Control id.
+	 * @return string Plain text (escape on output).
+	 */
+	private static function word( array $s, string $key ): string {
+		$text = trim( self::str( $s, $key ) );
+		return '' !== $text ? $text : self::FALLBACK[ $key ];
 	}
 
 	/**
@@ -575,7 +590,7 @@ final class NH_Widget_Masthead extends NH_Widget_Base {
 	}
 
 	/**
-	 * Plain text of a control value (tags removed, whitespace collapsed), e.g. for an alt text.
+	 * Plain text of a control value (tags removed, whitespace collapsed), e.g. for the name of the mark.
 	 *
 	 * @param string $text Raw control value.
 	 * @return string Plain text (escape on output).

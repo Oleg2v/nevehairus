@@ -1,0 +1,11 @@
+{
+    "widget": "cover",
+    "variant": "prototype",
+    "compare": {
+        "page": "index.html",
+        "selectors": [
+            "section#cover"
+        ]
+    },
+    "expect_diff": []
+}

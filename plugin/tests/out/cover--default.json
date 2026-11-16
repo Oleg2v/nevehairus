@@ -1,0 +1,15 @@
+{
+    "widget": "cover",
+    "variant": "default",
+    "compare": {
+        "page": "index.html",
+        "selectors": [
+            "section#cover"
+        ]
+    },
+    "expect_diff": [
+        "^-\\s+picture\\.v3-room__photo$",
+        "^-\\s+(source|img) ",
+        "^\\+\\s+span\\.v3-room__field\\.v3-room__field--sky\\.v3-room__photo \\[aria-hidden=true\\]$"
+    ]
+}

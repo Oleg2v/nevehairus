@@ -4,7 +4,7 @@ Tags: elementor, hebrew, rtl, accessibility
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.2.3
+Stable tag: 0.2.4
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,13 @@ No external services, no CDN, no tracking. Fonts are served from the plugin.
 * The letter outlines in assets/letters.json are drawn from Frank Ruhl Libre (same licence).
 
 == Changelog ==
+
+= 0.2.4 =
+* A second look at the live site after 0.2.3 (the same in the prototype): a fact of a home that breaks alone on a
+  narrow phone starts its next line on the text edge («ומרפאת» lost its first letters in the clipped strip at
+  320–340px); the masthead stays one row from 360px with the emblem (it wrapped to two rows over the cover's ב and the
+  breadcrumbs at 360–371px); long button labels wrap in even lines on narrow phones; «70 שנה» keeps together in the
+  years heading; «יש על מי לסמוך.» binds only «על מי», so its tessera is never left alone on a line (1024–1035px).
 
 = 0.2.3 =
 * Detail fixes after the review of 16.11 (the same in the prototype): the door's phone number fits its column at

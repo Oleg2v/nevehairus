@@ -49,9 +49,10 @@ final class NH_Widget_Samekh extends NH_Widget_Base {
 		NH_Controls::heading(
 			$this,
 			[
-				// «על מי לסמוך» keeps together (no-break spaces): the heading breaks «יש / על מי לסמוך.», never «יש על / מי
-				// לסמוך.» (16.11)
-				'default' => "יש על\u{00A0}מי\u{00A0}לסמוך.",
+				// «על מי» keeps together (a no-break space): the heading breaks «יש / על מי לסמוך.» or «יש על מי / לסמוך.»,
+				// never «יש על / מי לסמוך.» (16.11). Not the whole «על מי לסמוך»: wider than the column at 1024–1035px, it
+				// was broken by force and left the tessera alone on a third line
+				'default' => "יש על\u{00A0}מי לסמוך.",
 				'plain'   => 'יש מי שעוזר',
 				'dot'     => '',
 			]

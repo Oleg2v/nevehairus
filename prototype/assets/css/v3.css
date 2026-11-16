@@ -159,10 +159,13 @@
 /* the facts are short items: a line breaks only between two of them (an item breaks only when it alone is wider than
    the line), and the «·» between them never ends or starts a line (16.11: «חדר / סנוזלן», «שגרה ברורה ·»). Every item
    but the first carries its «·» before it (the first has an empty place for it); the one that starts a line falls
-   into the 1em pulled out at the start and is clipped */
+   into the 1em pulled out at the start and is clipped. Every item hangs its «·» into that 1em (padding + negative
+   indent), so an item that breaks alone (narrow phones) starts its next line on the text edge, not in the clipped
+   strip (16.11: «ומרפאת» showed as «רפאת» at 320–340px) */
 .v3-home__facts, html.nh-plainmode .v3-home__facts.v3-plain { display: flex; flex-wrap: wrap; margin-inline-start: -1em; clip-path: inset(0 1em 0 0); }
 .v3-home__facts:dir(ltr) { clip-path: inset(0 0 0 1em); }
-.v3-home__fact:first-child { padding-inline-start: 1em; }
+.v3-home__fact { padding-inline-start: 1em; text-indent: -1em; }
+.v3-home__fact:first-child { text-indent: 0; }
 .v3-home__sep { display: inline-block; inline-size: 1em; text-align: center; }
 .v3-home__arrow { display: block; inline-size: 2rem; block-size: 2rem; }   /* always shown, never moves */
 .v3-home__row { grid-template-columns: 5.5rem minmax(0, 1fr); }      /* no arrow: no empty arrow column either */
@@ -510,9 +513,10 @@ html.nh-calm main img { filter: saturate(.7); }
 .v3-ds-rooms figure { margin: 0; inline-size: 10rem; }
 .v3-ds-rooms figcaption { font-size: var(--v3-fs-small); color: var(--nh-ink-2); margin-block-start: .5rem; }
 
-/* long button labels wrap on narrow phones instead of widening the page */
+/* long button labels wrap on narrow phones instead of widening the page, in even lines (16.11: «לקרוא את הדף בשפה /
+   פשוטה», «לכל המשרות ולהגשת / מועמדות» at 320px) */
 @media (max-width: 479px) {
-  .v3 .nh-btn { white-space: normal; text-align: center; line-height: 1.25; }
+  .v3 .nh-btn { white-space: normal; text-align: center; line-height: 1.25; text-wrap: balance; }
   .v3-plainbox { grid-template-columns: minmax(0, 1fr); }
 }
 

@@ -379,9 +379,10 @@ html.nh-calm :where([class*="elementor-widget-nh-"]:not(.elementor-widget-nh-mas
 }
 
 /* ---- v3.css L443–447 — plugin: without L446 (.v3-plainbox → plainbox.css) ---- */
-/* long button labels wrap on narrow phones instead of widening the page */
+/* long button labels wrap on narrow phones instead of widening the page, in even lines (16.11: «לקרוא את הדף בשפה /
+   פשוטה», «לכל המשרות ולהגשת / מועמדות» at 320px) */
 @media (max-width: 479px) {
-  .v3 .nh-btn { white-space: normal; text-align: center; line-height: 1.25; }
+  .v3 .nh-btn { white-space: normal; text-align: center; line-height: 1.25; text-wrap: balance; }
 }
 
 /* ---- v3.css L470–481 — plugin: on .v3-print only, so no other element that happens to carry data-reveal

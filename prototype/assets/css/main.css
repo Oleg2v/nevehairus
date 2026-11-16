@@ -209,10 +209,17 @@ strong { font-weight: 700; }
   .v3-plainbtn svg { display: none; }
   .nh-phone { display: none; }                                        /* in the menu and on the cover */
 }
-@media (max-width: 22.49em) {
-  .nh-logo__mark { display: none; }
+/* narrow phones up to 25em: one row from 360px with the emblem (16.11: at 360–371px the masthead wrapped to two
+   rows, 93px, over the cover's ב and the breadcrumbs): tighter gaps, a smaller emblem, 6px inside the buttons */
+@media (max-width: 24.99em) {
+  .nh-logo { gap: .375rem; }
+  .nh-logo__mark { block-size: 1.75rem; }
+  .nh-header__actions { gap: .375rem; }
   .v3-plainbtn, .nh-menu-btn { padding-inline: 6px; }
   .nh-menu__close { padding-inline: 4px; }
+}
+@media (max-width: 22.49em) {
+  .nh-logo__mark { display: none; }
 }
 
 /* ---------- Phone menu (native <dialog>, opened only by «תפריט»; research/07 §5.4) ----------

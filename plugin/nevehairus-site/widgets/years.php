@@ -51,7 +51,7 @@ final class NH_Widget_Years extends NH_Widget_Base {
 		NH_Controls::heading(
 			$this,
 			[
-				'default' => 'כמעט 70 שנה של בית.',
+				'default' => "כמעט 70\u{00A0}שנה של בית.",   // «70 שנה» keeps together (16.11: «כמעט 70 / שנה של בית.» at 320px)
 				'plain'   => 'הסיפור שלנו',
 				'dot'     => '',
 			]

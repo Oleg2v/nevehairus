@@ -128,6 +128,11 @@ CONTAINER_SETTINGS = {
     "content_width": "full",
     "flex_direction": "column",
     "flex_gap": {"column": "0", "row": "0", "isLinked": True, "unit": "px"},
+    # no wrapping at any width: Elementor's mobile default (wrap) on a column container made the widget
+    # wrappers shorter or taller than the spreads they hold (the Day spread ran into the next one on phones)
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
     "padding": {"unit": "px", "top": "0", "right": "0", "bottom": "0", "left": "0", "isLinked": True},
 }
 

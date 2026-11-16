@@ -1,0 +1,128 @@
+/* =========================================================================
+   נווה האירוס — Design tokens ("בית לחיים" direction)
+   Source of truth for colours, type, spacing, radii, motion.
+   Contrast of every text/UI pair is verified by scripts/contrast.py (WCAG AA).
+   Prefix: --nh-  (avoids clashes with Elementor/theme variables later)
+   ========================================================================= */
+
+/* Self-hosted, subset from the original OFL variable fonts (google/fonts):
+   core  = Hebrew + digits + punctuation (needed on every page, preloaded)
+   latin = Latin letters only (downloaded only if a page actually uses them) */
+@font-face {
+  font-family: "Frank Ruhl Libre";
+  src: url("../fonts/frank-ruhl-libre-core-var.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-0040, U+005B-0060, U+007B-007E, U+00A0, U+00A9, U+00AB, U+00B7, U+00BB, U+0307-0308, U+0590-05FF, U+200C-2027, U+2032-2033, U+20AA, U+2190-2193, U+25CC, U+FB1D-FB4F;
+}
+@font-face {
+  font-family: "Frank Ruhl Libre";
+  src: url("../fonts/frank-ruhl-libre-latin-var.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0041-005A, U+0061-007A, U+00C0-00FF, U+20AC, U+2122;
+}
+@font-face {
+  font-family: "Assistant";
+  src: url("../fonts/assistant-core-var.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-0040, U+005B-0060, U+007B-007E, U+00A0, U+00A9, U+00AB, U+00B7, U+00BB, U+0307-0308, U+0590-05FF, U+200C-2027, U+2032-2033, U+20AA, U+2190-2193, U+25CC, U+FB1D-FB4F;
+}
+@font-face {
+  font-family: "Assistant";
+  src: url("../fonts/assistant-latin-var.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0041-005A, U+0061-007A, U+00C0-00FF, U+20AC, U+2122;
+}
+
+:root {
+  /* ---- Colour: base -------------------------------------------------- */
+  --nh-paper:      #F7F1E7;  /* warm paper — page background            */
+  --nh-paper-2:    #EEE4D4;  /* sand — alternate sections                */
+  --nh-white:      #FFFFFF;  /* cards, form fields                       */
+  --nh-ink:        #1F2421;  /* primary text      14.03:1 on paper       */
+  --nh-ink-2:      #4F5550;  /* secondary text     6.80:1 on paper       */
+  --nh-line:       #DCD0BD;  /* decorative hairlines (not for UI borders)*/
+  --nh-field:      #857A6B;  /* input borders      3.74:1 on paper (1.4.11) */
+
+  /* ---- Colour: brand -------------------------------------------------- */
+  --nh-iris-700:   #4A2D84;  /* brand violet from the logo's iris        */
+  --nh-iris-600:   #5A3C9A;  /* hover                                    */
+  --nh-iris-100:   #ECE5F6;  /* tint                                     */
+  --nh-clay-700:   #9E4325;  /* terracotta — years, small accents (5.69:1)*/
+  --nh-clay-300:   #E3A27E;  /* decorative only                          */
+  --nh-olive-700:  #3D5832;  /* leaf — success                           */
+  --nh-olive-300:  #A9BE8F;  /* decorative only                          */
+  --nh-citrus-400: #F2B33D;  /* sun — highlighter, focus on dark          */
+  --nh-citrus-100: #FBE6B4;  /* highlighter on light                     */
+  --nh-sky-200:    #D3E6F4;  /* calm sky — sensory/autism sections       */
+  --nh-sky-500:    #5B95C9;  /* decorative only                          */
+  --nh-night:      #1C1830;  /* dark sections                            */
+  --nh-night-2:    #2B2647;  /* cards on dark                            */
+  --nh-on-night-2: #CFC8DE;  /* secondary text on dark (10.61:1)         */
+  --nh-error:      #A8261B;  /* 6.32:1 on paper                          */
+
+  /* ---- Semantic aliases ---------------------------------------------- */
+  --nh-bg: var(--nh-paper);
+  --nh-text: var(--nh-ink);
+  --nh-text-muted: var(--nh-ink-2);
+  --nh-link: var(--nh-iris-700);
+  --nh-focus: var(--nh-iris-700);
+  --nh-accent: var(--nh-clay-700);
+
+  /* ---- Typography ----------------------------------------------------- */
+  --nh-font-display: "Frank Ruhl Libre", "David", "Times New Roman", serif;
+  --nh-font-body: "Assistant", "Arial Hebrew", "Arial", system-ui, sans-serif;
+
+  /* fluid type scale (min @360px → max @1440px) */
+  --nh-fs-display: clamp(3.5rem, 1.7rem + 8vw, 9.5rem);   /* 56 → 152 */
+  --nh-fs-h1:      clamp(2.75rem, 1.9rem + 3.8vw, 5.25rem);/* 44 → 84  */
+  --nh-fs-h2:      clamp(2.125rem, 1.55rem + 2.55vw, 3.875rem); /* 34 → 62 */
+  --nh-fs-h3:      clamp(1.5rem, 1.25rem + 1.1vw, 2.25rem); /* 24 → 36 */
+  --nh-fs-h4:      clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);/* 20 → 24 */
+  --nh-fs-lead:    clamp(1.25rem, 1.12rem + 0.55vw, 1.625rem); /* 20 → 26 */
+  --nh-fs-body:    clamp(1.0625rem, 1.03rem + 0.15vw, 1.1875rem); /* 17 → 19 */
+  --nh-fs-small:   0.9375rem;  /* 15 */
+  --nh-fs-xs:      0.875rem;   /* 14 — labels only, never body copy */
+
+  --nh-lh-tight: 1.02;
+  --nh-lh-heading: 1.12;
+  --nh-lh-body: 1.68;
+
+  /* ---- Spacing (4px base) -------------------------------------------- */
+  --nh-s-1: 0.25rem;  /*  4 */
+  --nh-s-2: 0.5rem;   /*  8 */
+  --nh-s-3: 0.75rem;  /* 12 */
+  --nh-s-4: 1rem;     /* 16 */
+  --nh-s-5: 1.5rem;   /* 24 */
+  --nh-s-6: 2rem;     /* 32 */
+  --nh-s-7: 3rem;     /* 48 */
+  --nh-s-8: 4rem;     /* 64 */
+  --nh-s-9: 6rem;     /* 96 */
+  --nh-s-10: 8rem;    /* 128 */
+  --nh-section: clamp(4.5rem, 2.4rem + 8vw, 10rem);
+  --nh-gutter: clamp(1rem, 0.6rem + 3vw, 4rem);       /* page side gutter: 16px on phones */
+  --nh-max: 90rem;                                     /* 1440 */
+
+  /* ---- Shape ------------------------------------------------------------ */
+  --nh-r-sm: 0.5rem;
+  --nh-r-md: 1rem;
+  --nh-r-lg: 1.75rem;
+  --nh-r-pill: 999px;
+  --nh-shadow-1: 0 1px 2px rgb(31 36 33 / 0.06), 0 6px 18px rgb(31 36 33 / 0.06);
+  --nh-shadow-2: 0 2px 6px rgb(31 36 33 / 0.08), 0 24px 60px rgb(31 36 33 / 0.12);
+
+  /* ---- Motion (mirrored in motion.js) ---------------------------------- */
+  --nh-ease-out: cubic-bezier(0.22, 1, 0.36, 1);    /* ≈ GSAP power3.out / expo-ish */
+  --nh-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* ≈ GSAP power2.inOut */
+  --nh-dur-1: 160ms;   /* hover/focus colour */
+  --nh-dur-2: 320ms;   /* small UI */
+  --nh-dur-3: 800ms;   /* reveals */
+  --nh-dur-4: 1200ms;  /* hero / masks */
+}

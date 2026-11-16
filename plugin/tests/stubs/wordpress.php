@@ -98,7 +98,9 @@ if ( ! function_exists( 'nh_test_clean_url' ) ) {
 		if ( '' === $url ) {
 			return '';
 		}
-		if ( false === strpos( $url, ':' ) && ! in_array( $url[0], [ '/', '#', '?' ], true ) && ! preg_match( '/^[a-z0-9-]+?\.php/i', $url ) ) {
+		// WordPress prefixes http:// here; the stub keeps relative paths ("../…", "./…") because the fake
+		// media library points from plugin/tests/out/ to the prototype's photos (SPEC §11.2).
+		if ( false === strpos( $url, ':' ) && ! in_array( $url[0], [ '/', '#', '?', '.' ], true ) && ! preg_match( '/^[a-z0-9-]+?\.php/i', $url ) ) {
 			$url = 'http://' . $url;
 		}
 		if ( preg_match( '/^([a-z][a-z0-9+.-]*):/i', $url, $m ) && ! in_array( strtolower( $m[1] ), $protocols ?? wp_allowed_protocols(), true ) ) {

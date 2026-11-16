@@ -20,3 +20,7 @@ lighthouse-*.json
 
 # standalone copies for viewing without a server (scripts/build_standalone.py): large, temporary photos
 prototype/standalone/
+
+# plugin test harness output and composer vendor folder (plugin/SPEC.md §1)
+plugin/tests/out/
+plugin/vendor/

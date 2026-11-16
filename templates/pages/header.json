@@ -1,0 +1,111 @@
+{
+ "key": "header",
+ "title": "כותרת עליונה — נווה האירוס",
+ "slug": "nh-header",
+ "front_page": false,
+ "post_type": "elementor_library",
+ "document_type": "header",
+ "template": "",
+ "conditions": [
+  "include/general"
+ ],
+ "page_settings": {
+  "content_wrapper_html_tag": "div"
+ },
+ "built_from": {
+  "widgets": [
+   "masthead/prototype"
+  ],
+  "extra": {
+   "nav": {
+    "1": {
+     "current_ids": "@page-id:main-home"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "cca9563",
+   "elType": "container",
+   "settings": {
+    "container_type": "flex",
+    "content_width": "full",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "padding": {
+     "unit": "px",
+     "top": "0",
+     "right": "0",
+     "bottom": "0",
+     "left": "0",
+     "isLinked": true
+    }
+   },
+   "elements": [
+    {
+     "id": "978d85a",
+     "elType": "widget",
+     "settings": {
+      "html_tag": "header",
+      "nav": [
+       {
+        "label": "מי אנחנו",
+        "label_plain": "",
+        "link": {
+         "url": "@home:/#story"
+        },
+        "current_ids": "",
+        "_id": "6ba6630"
+       },
+       {
+        "label": "מסגרות המגורים",
+        "label_plain": "",
+        "link": {
+         "url": "@home:/#homes"
+        },
+        "current_ids": "@page-id:main-home",
+        "_id": "3a73fea"
+       },
+       {
+        "label": "החיים אצלנו",
+        "label_plain": "",
+        "link": {
+         "url": "@home:/#day"
+        },
+        "current_ids": "",
+        "_id": "b58b863"
+       },
+       {
+        "label": "דרושים",
+        "label_plain": "",
+        "link": {
+         "url": "@home:/#jobs"
+        },
+        "current_ids": "",
+        "_id": "27ccbaa"
+       },
+       {
+        "label": "יצירת קשר",
+        "label_plain": "",
+        "link": {
+         "url": "@home:/#door"
+        },
+        "current_ids": "",
+        "_id": "59ede0c"
+       }
+      ]
+     },
+     "elements": [],
+     "widgetType": "nh-masthead"
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

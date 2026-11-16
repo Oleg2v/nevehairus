@@ -1,0 +1,218 @@
+{
+ "key": "main-home",
+ "title": "מעון ראשי – בית לחיים",
+ "slug": "מעון-ראשי-בית-לחיים",
+ "front_page": false,
+ "post_type": "page",
+ "document_type": "wp-page",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "pages.php": "page-main-home",
+  "prototype": "program-main-home.html",
+  "widgets": [
+   "page-cover/prototype",
+   "glance/default",
+   "gallery/prototype",
+   "features/default",
+   "stories/default",
+   "plainbox/page",
+   "related/default",
+   "door/page"
+  ]
+ },
+ "elementor_data": [
+  {
+   "id": "5d75946",
+   "elType": "container",
+   "settings": {
+    "container_type": "flex",
+    "content_width": "full",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "padding": {
+     "unit": "px",
+     "top": "0",
+     "right": "0",
+     "bottom": "0",
+     "left": "0",
+     "isLinked": true
+    }
+   },
+   "elements": [
+    {
+     "id": "32c4d6d",
+     "elType": "widget",
+     "settings": {
+      "photo": {
+       "url": "",
+       "id": "@media:v3-sky-room",
+       "size": "",
+       "alt": "",
+       "source": "library"
+      }
+     },
+     "elements": [],
+     "widgetType": "nh-page-cover"
+    },
+    {
+     "id": "acfd4d8",
+     "elType": "widget",
+     "settings": {},
+     "elements": [],
+     "widgetType": "nh-glance"
+    },
+    {
+     "id": "645f193",
+     "elType": "widget",
+     "settings": {
+      "images": [
+       {
+        "caption": "פינת האוכל המשותפת.",
+        "image": {
+         "url": "",
+         "id": "@media:dining",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "image_decorative": "",
+        "image_alt": "",
+        "caption_plain": "",
+        "_id": "a1c943a"
+       },
+       {
+        "caption": "תקרת „שמיים” — לוחות תאורה עם עננים.",
+        "image": {
+         "url": "",
+         "id": "@media:sky-ceiling",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "image_decorative": "",
+        "image_alt": "",
+        "caption_plain": "",
+        "_id": "23dcea2"
+       },
+       {
+        "caption": "חדר מגורים לשניים.",
+        "image": {
+         "url": "",
+         "id": "@media:bedroom",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "image_decorative": "",
+        "image_alt": "",
+        "caption_plain": "",
+        "_id": "63fae3b"
+       },
+       {
+        "caption": "הסלון המשותף.",
+        "image": {
+         "url": "",
+         "id": "@media:living",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "image_decorative": "",
+        "image_alt": "",
+        "caption_plain": "",
+        "_id": "87f346d"
+       },
+       {
+        "caption": "מסדרון האגף החדש, עם תאורת „שמיים”.",
+        "image": {
+         "url": "",
+         "id": "@media:sky-corridor",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "image_decorative": "",
+        "image_alt": "",
+        "caption_plain": "",
+        "_id": "a77f497"
+       },
+       {
+        "caption": "החצר במעון.",
+        "image": {
+         "url": "",
+         "id": "@media:courtyard",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "image_decorative": "",
+        "image_alt": "",
+        "caption_plain": "",
+        "_id": "3d93c8a"
+       }
+      ]
+     },
+     "elements": [],
+     "widgetType": "nh-gallery"
+    },
+    {
+     "id": "8bb68e3",
+     "elType": "widget",
+     "settings": {},
+     "elements": [],
+     "widgetType": "nh-features"
+    },
+    {
+     "id": "d79e65e",
+     "elType": "widget",
+     "settings": {},
+     "elements": [],
+     "widgetType": "nh-stories"
+    },
+    {
+     "id": "da6c36e",
+     "elType": "widget",
+     "settings": {
+      "variant": "page",
+      "anchor": "plain-page",
+      "items": "המעון הראשי נמצא בנס ציונה.\nגרים בו גברים ונשים עם מוגבלות שכלית התפתחותית.\nהצוות קבוע, ומכיר את כולם.\nיש חדר נעים להירגע, מרפאה וחוגים.\nאפשר לבוא לבקר."
+     },
+     "elements": [],
+     "widgetType": "nh-plainbox"
+    },
+    {
+     "id": "82d78b4",
+     "elType": "widget",
+     "settings": {},
+     "elements": [],
+     "widgetType": "nh-related"
+    },
+    {
+     "id": "d2620c4",
+     "elType": "widget",
+     "settings": {
+      "title": "בואו לראות בעיניים.",
+      "lead": "השאירו פרטים ונחזור אליכם לתיאום מפגש היכרות.",
+      "success_text": "נחזור אליכם בהקדם לתיאום הביקור.",
+      "show_email": "yes",
+      "show_who": "yes",
+      "show_program": "",
+      "show_message": "yes",
+      "anchor": "visit",
+      "running": "בואו לראות"
+     },
+     "elements": [],
+     "widgetType": "nh-door"
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

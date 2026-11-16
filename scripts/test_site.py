@@ -4,6 +4,7 @@
     python3 -I scripts/test_site.py snapshot DIR           read-only: JSON copies of what later steps may change
     python3 -I scripts/test_site.py setup [--go]           step 0 of the README checklist (plan only without --go)
     python3 -I scripts/test_site.py deploy [ZIP] [--go]    install or update the nevehairus-site plugin
+    python3 -I scripts/test_site.py pages [--go]           build the two pages + Theme Builder header/footer (step 4)
     python3 -I scripts/test_site.py rekey [--go]           new key for the safe switch (rewrites only that file)
     python3 -I scripts/test_site.py safe-off               emergency: deactivate the plugin without loading it
     python3 -I scripts/test_site.py cleanup                delete one-time snippets a failed run left behind
@@ -32,6 +33,15 @@ deploy: the task request itself is made with the safe-switch key, so an older co
 the old copy, installs the zip with WordPress's Plugin_Upgrader (replace), activates the new copy (which really
 loads the new code: a fatal error there leaves it inactive), then smoke-tests the home page and the API. On any
 failure it deactivates the plugin through the safe switch and reports the real final state.
+
+pages: builds what templates/pages/*.json describe (made by scripts/build_pages.py): the home page (front page),
+the house page and the Elementor Pro Theme Builder header and footer. (a) The photos those files reference are
+uploaded once each (the largest .webp; WordPress makes the sub-sizes), titled nh:<name> with the manifest's alt
+text; a later run finds them by that title and reuses them; the name -> id map is kept in templates/media-map.json.
+(b) The photo tokens get the attachment ids and URLs. (c) One PHP step creates or updates the four posts, found by
+their post meta _nh_page_key (no other post is ever touched), writes the Elementor data and meta, regenerates the
+Theme Builder conditions, sets the front page and clears Elementor's CSS cache. (d) ezCache is purged and both pages
+are smoke-tested: HTTP 200 without PHP errors, every widget, the header and footer, no unresolved token.
 """
 import argparse
 import base64
@@ -736,6 +746,538 @@ def cmd_deploy(args):
     step(f"done: nevehairus-site {site_version} is active on {HOST}; home page and API answer normally")
 
 
+# --- pages (step 4) --------------------------------------------------------------------------------------------------
+PAGES_DIR = os.path.join(ROOT, "templates", "pages")
+PAGE_KEYS = ("home", "main-home", "header", "footer")
+MEDIA_MAP = os.path.join(ROOT, "templates", "media-map.json")
+IMG_DIR = os.path.join(ROOT, "prototype", "assets", "img")
+MEDIA_TOKEN = re.compile(r"^@media:([a-z0-9-]+)$")
+UNRESOLVED = re.compile(r"@(?:media|page|page-id|home):")
+
+# The one PHP step of `pages`. Our posts are the ones whose post meta _nh_page_key names a document; nothing else is
+# changed. The meta is what Elementor 4.4.0 writes when it saves a document (core/base/document.php: save_elements(),
+# save_template_type() — for library documents also the elementor_library_type term — save_version(); Pro adds
+# _elementor_pro_version on elementor/document/save_version) and what Pro 4.4.0's Theme Builder reads
+# (_elementor_conditions, the option elementor_pro_theme_builder_conditions rebuilt by Conditions_Cache::regenerate()).
+PAGES_PHP = r"""
+		$nh_docs   = json_decode( base64_decode( '__NH_DOCS_B64__' ), true );
+		$nh_media  = json_decode( base64_decode( '__NH_MEDIA_B64__' ), true );
+		$nh_author = __NH_AUTHOR__;
+		if ( ! is_array( $nh_docs ) || 4 !== count( $nh_docs ) || ! is_array( $nh_media ) ) {
+			throw new Exception( 'the page data did not decode' );
+		}
+		if ( ! defined( 'ELEMENTOR_VERSION' ) || ! class_exists( '\Elementor\Plugin' ) ) {
+			throw new Exception( 'Elementor is not active' );
+		}
+		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) ) {
+			throw new Exception( 'Elementor Pro is not active (the header and footer are Theme Builder templates)' );
+		}
+		if ( ! class_exists( 'NH_Plugin' ) ) {
+			throw new Exception( 'the nevehairus-site plugin is not active' );
+		}
+		$log['versions'] = array(
+			'elementor'       => ELEMENTOR_VERSION,
+			'elementor_pro'   => ELEMENTOR_PRO_VERSION,
+			'nevehairus_site' => defined( 'NH_VERSION' ) ? NH_VERSION : null,
+		);
+		$log['warnings'] = array();
+		$log['docs']     = array();
+
+		// 0. Every photo is the image attachment the upload step titled nh:<name>.
+		foreach ( $nh_media as $nh_name => $nh_att ) {
+			if ( ! wp_attachment_is_image( (int) $nh_att ) || 'nh:' . $nh_name !== get_post_field( 'post_title', (int) $nh_att, 'raw' ) ) {
+				throw new Exception( "photo $nh_name: attachment #$nh_att is not the image titled nh:$nh_name" );
+			}
+		}
+
+		// 1. Our post of each document (post meta _nh_page_key), created if there is none.
+		$nh_ids = array();
+		foreach ( $nh_docs as $nh_doc ) {
+			$nh_key  = (string) $nh_doc['key'];
+			$nh_type = (string) $nh_doc['post_type'];
+			if ( ! in_array( $nh_type, array( 'page', 'elementor_library' ), true ) ) {
+				throw new Exception( "$nh_key: unexpected post type $nh_type" );
+			}
+			$nh_found = get_posts(
+				array(
+					'post_type'        => $nh_type,
+					'post_status'      => array( 'publish', 'draft', 'pending', 'private', 'future', 'trash' ),
+					'meta_key'         => '_nh_page_key',
+					'meta_value'       => $nh_key,
+					'fields'           => 'ids',
+					'posts_per_page'   => -1,
+					'orderby'          => 'ID',
+					'order'            => 'ASC',
+					'suppress_filters' => true,
+				)
+			);
+			$nh_id  = $nh_found ? (int) $nh_found[0] : 0;
+			$nh_was = $nh_id ? get_post_status( $nh_id ) : null;
+			if ( count( $nh_found ) > 1 ) {
+				$log['warnings'][] = "$nh_key: several posts carry _nh_page_key $nh_key (" . implode( ', ', $nh_found ) . "); #$nh_id is used, the others are left as they are";
+			}
+			if ( ! $nh_id && 'page' === $nh_type ) {
+				$nh_other = get_page_by_path( (string) $nh_doc['slug'], OBJECT, 'page' );
+				if ( $nh_other ) {
+					$log['warnings'][] = "$nh_key: the slug belongs to page #{$nh_other->ID} (not ours, left as it is); WordPress gives the new page another slug";
+				}
+			}
+			if ( 'trash' === $nh_was ) {
+				wp_untrash_post( $nh_id );
+			}
+			$nh_arr = array(
+				'post_type'   => $nh_type,
+				'post_status' => 'publish',
+				'post_title'  => (string) $nh_doc['title'],
+				'post_name'   => (string) $nh_doc['slug'],
+			);
+			if ( $nh_id ) {
+				$nh_arr['ID'] = $nh_id;
+				$nh_res       = wp_update_post( wp_slash( $nh_arr ), true );
+			} else {
+				$nh_arr['post_author']    = $nh_author;
+				$nh_arr['post_content']   = '';
+				$nh_arr['comment_status'] = 'closed';
+				$nh_arr['ping_status']    = 'closed';
+				// Saved before save_post fires: Elementor's Source_Local::on_save_post() would type a library post
+				// without _elementor_template_type as 'page'.
+				$nh_arr['meta_input'] = array(
+					'_nh_page_key'             => $nh_key,
+					'_elementor_edit_mode'     => 'builder',
+					'_elementor_template_type' => (string) $nh_doc['document_type'],
+				);
+				$nh_res = wp_insert_post( wp_slash( $nh_arr ), true );
+			}
+			if ( is_wp_error( $nh_res ) || ! $nh_res ) {
+				throw new Exception( "$nh_key: " . ( is_wp_error( $nh_res ) ? $nh_res->get_error_message() : 'the post was not saved' ) );
+			}
+			$nh_ids[ $nh_key ]      = (int) $nh_res;
+			$log['docs'][ $nh_key ] = array(
+				'id'     => (int) $nh_res,
+				'type'   => $nh_type . '/' . $nh_doc['document_type'],
+				'action' => $nh_id ? ( 'trash' === $nh_was ? 'restored from the trash, updated' : 'updated' ) : 'created',
+				'was'    => $nh_was,
+			);
+		}
+
+		// 2. Settings → Reading: the home document is the front page (before the links: its permalink is then '/').
+		$log['front_before'] = array(
+			'show_on_front' => get_option( 'show_on_front' ),
+			'page_on_front' => (int) get_option( 'page_on_front' ),
+		);
+		foreach ( $nh_docs as $nh_doc ) {
+			if ( ! empty( $nh_doc['front_page'] ) ) {
+				update_option( 'page_on_front', $nh_ids[ $nh_doc['key'] ] );
+				update_option( 'show_on_front', 'page' );
+			}
+		}
+		$log['front_after'] = array(
+			'show_on_front' => get_option( 'show_on_front' ),
+			'page_on_front' => (int) get_option( 'page_on_front' ),
+		);
+
+		// 3. Tokens: @page:<key>[#x] → permalink, @page-id:<key> → post id, @home:<path> → home_url( <path> ).
+		$nh_resolve = static function ( $value ) use ( &$nh_resolve, $nh_ids ) {
+			if ( is_array( $value ) ) {
+				foreach ( $value as $k => $v ) {
+					$value[ $k ] = $nh_resolve( $v );
+				}
+				return $value;
+			}
+			if ( ! is_string( $value ) || '' === $value || '@' !== $value[0] ) {
+				return $value;
+			}
+			if ( preg_match( '/^@page:([a-z0-9-]+)(#[A-Za-z0-9_-]*)?$/', $value, $m ) && isset( $nh_ids[ $m[1] ] ) ) {
+				$url = get_permalink( $nh_ids[ $m[1] ] );
+				if ( ! is_string( $url ) || '' === $url ) {
+					throw new Exception( "no permalink for $value" );
+				}
+				return $url . ( isset( $m[2] ) ? $m[2] : '' );
+			}
+			if ( preg_match( '/^@page-id:([a-z0-9-]+)$/', $value, $m ) && isset( $nh_ids[ $m[1] ] ) ) {
+				return (string) $nh_ids[ $m[1] ];
+			}
+			if ( 0 === strpos( $value, '@home:/' ) ) {
+				return home_url( substr( $value, 6 ) );
+			}
+			throw new Exception( "unresolved token $value" );
+		};
+
+		// 4. The Elementor document of each post, as Elementor 4.4.0 saves one.
+		foreach ( $nh_docs as $nh_doc ) {
+			$nh_key  = (string) $nh_doc['key'];
+			$nh_id   = $nh_ids[ $nh_key ];
+			$nh_data = $nh_resolve( $nh_doc['elementor_data'] );
+			$nh_json = wp_json_encode( $nh_data );
+			if ( ! is_string( $nh_json ) || '' === $nh_json ) {
+				throw new Exception( "$nh_key: the Elementor data did not encode" );
+			}
+			update_post_meta( $nh_id, '_elementor_data', wp_slash( $nh_json ) );
+			update_post_meta( $nh_id, '_elementor_edit_mode', 'builder' );
+			update_post_meta( $nh_id, '_elementor_template_type', (string) $nh_doc['document_type'] );
+			update_post_meta( $nh_id, '_elementor_version', ELEMENTOR_VERSION );
+			update_post_meta( $nh_id, '_elementor_pro_version', ELEMENTOR_PRO_VERSION );
+			if ( '' !== (string) $nh_doc['template'] ) {
+				update_post_meta( $nh_id, '_wp_page_template', (string) $nh_doc['template'] );
+			}
+			if ( ! empty( $nh_doc['page_settings'] ) ) {
+				update_post_meta( $nh_id, '_elementor_page_settings', wp_slash( (array) $nh_doc['page_settings'] ) );
+			}
+			if ( 'elementor_library' === $nh_doc['post_type'] ) {
+				$nh_terms = wp_set_object_terms( $nh_id, (string) $nh_doc['document_type'], 'elementor_library_type' );
+				if ( is_wp_error( $nh_terms ) ) {
+					throw new Exception( "$nh_key: elementor_library_type: " . $nh_terms->get_error_message() );
+				}
+				update_post_meta( $nh_id, '_elementor_conditions', wp_slash( (array) $nh_doc['conditions'] ) );
+			}
+			// This post's caches (the whole Elementor cache is cleared below as well).
+			delete_post_meta( $nh_id, '_elementor_css' );
+			delete_post_meta( $nh_id, '_elementor_element_cache' );
+			delete_post_meta( $nh_id, '_elementor_page_assets' );
+			if ( json_decode( (string) get_post_meta( $nh_id, '_elementor_data', true ), true ) !== $nh_data ) {
+				$log['warnings'][] = "$nh_key: _elementor_data does not read back equal to what was written";
+			}
+			$nh_slug                         = urldecode( (string) get_post_field( 'post_name', $nh_id ) );
+			$log['docs'][ $nh_key ]['slug']  = $nh_slug;
+			$log['docs'][ $nh_key ]['url']   = get_permalink( $nh_id );
+			$log['docs'][ $nh_key ]['edit']  = admin_url( 'post.php?post=' . $nh_id . '&action=elementor' );
+			$log['docs'][ $nh_key ]['bytes'] = strlen( $nh_json );
+			if ( $nh_slug !== (string) $nh_doc['slug'] ) {
+				$log['warnings'][] = "$nh_key: the slug is $nh_slug, not {$nh_doc['slug']}";
+			}
+		}
+
+		// 5. Theme Builder: Pro reads the templates of a location from the option elementor_pro_theme_builder_conditions,
+		// which Conditions_Cache::regenerate() rebuilds from every template's _elementor_conditions.
+		$nh_tb    = class_exists( '\ElementorPro\Modules\ThemeBuilder\Module' ) ? \ElementorPro\Modules\ThemeBuilder\Module::instance() : null;
+		$nh_cm    = ( $nh_tb && method_exists( $nh_tb, 'get_conditions_manager' ) ) ? $nh_tb->get_conditions_manager() : null;
+		$nh_cache = ( $nh_cm && method_exists( $nh_cm, 'get_cache' ) ) ? $nh_cm->get_cache() : null;
+		if ( $nh_cache && method_exists( $nh_cache, 'regenerate' ) ) {
+			$nh_cache->regenerate();
+			$log['conditions'] = 'cache regenerated';
+		} else {
+			$log['conditions'] = 'cache NOT regenerated: no Conditions_Cache::regenerate() in this Elementor Pro (open the templates in Theme Builder and save their display conditions)';
+		}
+		$nh_opt = get_option( 'elementor_pro_theme_builder_conditions' );
+		foreach ( $nh_docs as $nh_doc ) {
+			if ( 'elementor_library' !== $nh_doc['post_type'] ) {
+				continue;
+			}
+			$nh_loc = (string) $nh_doc['document_type'];
+			$nh_id  = $nh_ids[ $nh_doc['key'] ];
+			$nh_all = ( is_array( $nh_opt ) && isset( $nh_opt[ $nh_loc ] ) && is_array( $nh_opt[ $nh_loc ] ) ) ? $nh_opt[ $nh_loc ] : array();
+			$log['conditions_cache'][ $nh_doc['key'] ] = isset( $nh_all[ $nh_id ] ) ? $nh_all[ $nh_id ] : 'missing';
+			$nh_others = array_diff( array_map( 'intval', array_keys( $nh_all ) ), array( $nh_id ) );
+			if ( $nh_others ) {
+				$log['warnings'][] = "$nh_loc: other Theme Builder templates have display conditions too (#" . implode( ', #', $nh_others ) . '); Pro may show one of those instead';
+			}
+		}
+
+		// 6. Elementor's CSS files and per-post CSS/asset caches (Tools → Regenerate CSS & Data does the same).
+		$nh_files = isset( \Elementor\Plugin::$instance->files_manager ) ? \Elementor\Plugin::$instance->files_manager : null;
+		if ( $nh_files && method_exists( $nh_files, 'clear_cache' ) ) {
+			$nh_files->clear_cache();
+			$log['elementor_cache'] = 'cleared';
+		} else {
+			$log['elementor_cache'] = 'not cleared: no files_manager->clear_cache() (use Elementor → Tools → Regenerate CSS & Data)';
+		}
+"""
+
+
+def load_page_docs():
+    """The four documents of templates/pages/ (scripts/build_pages.py), in PAGE_KEYS order."""
+    docs = []
+    for key in PAGE_KEYS:
+        path = os.path.join(PAGES_DIR, f"{key}.json")
+        need(os.path.isfile(path), f"no {os.path.relpath(path, ROOT)}: run python3 -I scripts/build_pages.py first")
+        with open(path, encoding="utf-8") as fh:
+            doc = json.load(fh)
+        ok = (doc.get("key") == key and doc.get("post_type") in ("page", "elementor_library")
+              and isinstance(doc.get("elementor_data"), list) and len(doc["elementor_data"]) == 1
+              and all(isinstance(doc.get(k), str) for k in ("title", "slug", "document_type", "template")))
+        need(ok, f"{os.path.relpath(path, ROOT)} is not a page document of scripts/build_pages.py")
+        docs.append(doc)
+    need(sum(1 for d in docs if d.get("front_page")) == 1, "exactly one document must be the front page")
+    return docs
+
+
+def media_tokens(value, found=None):
+    """Names of the photos referenced as {"id": "@media:<name>"} in the documents."""
+    found = set() if found is None else found
+    if isinstance(value, dict):
+        m = MEDIA_TOKEN.match(str(value.get("id", "")))
+        if m:
+            found.add(m.group(1))
+        for v in value.values():
+            media_tokens(v, found)
+    elif isinstance(value, list):
+        for v in value:
+            media_tokens(v, found)
+    return found
+
+
+def widget_types(doc):
+    return [el.get("widgetType") for el in doc["elementor_data"][0].get("elements", [])]
+
+
+def webp_size(path):
+    """(width, height) from a WebP header (VP8X, VP8L or VP8), (0, 0) if unknown."""
+    with open(path, "rb") as fh:
+        head = fh.read(30)
+    if len(head) < 30 or head[:4] != b"RIFF" or head[8:12] != b"WEBP":
+        return 0, 0
+    kind = head[12:16]
+    if kind == b"VP8X":
+        return 1 + int.from_bytes(head[24:27], "little"), 1 + int.from_bytes(head[27:30], "little")
+    if kind == b"VP8L":
+        bits = int.from_bytes(head[21:25], "little")
+        return 1 + (bits & 0x3FFF), 1 + ((bits >> 14) & 0x3FFF)
+    if kind == b"VP8 ":
+        return int.from_bytes(head[26:28], "little") & 0x3FFF, int.from_bytes(head[28:30], "little") & 0x3FFF
+    return 0, 0
+
+
+def photo_files(names):
+    """name -> the largest .webp of the photo, its size and the manifest's alt text."""
+    with open(os.path.join(IMG_DIR, "manifest.json"), encoding="utf-8") as fh:
+        manifest = json.load(fh)
+    out = {}
+    for name in sorted(names):
+        need(name in manifest, f"photo {name} is not in prototype/assets/img/manifest.json")
+        width = max(int(w) for w in manifest[name]["widths"])
+        path = os.path.join(IMG_DIR, f"{name}-{width}.webp")
+        need(os.path.isfile(path), f"missing {os.path.relpath(path, ROOT)}")
+        w, h = webp_size(path)
+        alt = (manifest[name].get("alt") or "").strip()
+        need(alt, f"photo {name} has no alt text in the manifest")
+        out[name] = {"path": path, "file": os.path.basename(path), "width": w, "height": h, "alt": alt,
+                     "bytes": os.path.getsize(path)}
+    return out
+
+
+def load_media_map():
+    if not os.path.isfile(MEDIA_MAP):
+        return {}
+    with open(MEDIA_MAP, encoding="utf-8") as fh:
+        data = json.load(fh)
+    return {str(k): int(v) for k, v in data.items()} if isinstance(data, dict) else {}
+
+
+def save_media_map(ids):
+    tmp = MEDIA_MAP + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump({k: ids[k] for k in sorted(ids)}, fh, indent=1)
+        fh.write("\n")
+    os.replace(tmp, MEDIA_MAP)
+
+
+def our_media():
+    """The attachments this script uploaded (title nh:<name>): name -> [attachments], lowest id first."""
+    items = api_all("/wp/v2/media", {"search": "nh:", "media_type": "image", "context": "edit", "orderby": "id",
+                                     "order": "asc", "_fields": "id,title,alt_text,source_url,mime_type,media_details"})
+    need(not isinstance(items, tuple), f"cannot list the media library ({items[0] if isinstance(items, tuple) else ''})")
+    out = {}
+    for item in items:
+        title = str((item.get("title") or {}).get("raw") or "").strip()
+        if title.startswith("nh:"):
+            out.setdefault(title[3:], []).append(item)
+    return out
+
+
+def pick_media(name, mine, media_map):
+    """The attachment to reuse for a photo (the one in media-map.json if it still carries the title), or None."""
+    items = mine.get(name, [])
+    for item in items:
+        if int(item["id"]) == media_map.get(name):
+            return item
+    return items[0] if items else None
+
+
+def upload_photo(name, info):
+    """Upload the photo with its title marker and alt text in the same request; WordPress makes the sub-sizes."""
+    with open(info["path"], "rb") as fh:
+        data = fh.read()
+    st, media, hdr = api("/wp/v2/media", "POST", data, query={"title": f"nh:{name}", "alt_text": info["alt"]},
+                         headers={"Content-Type": "image/webp",
+                                  "Content-Disposition": f'attachment; filename="{name}.webp"'}, timeout=300)
+    if st != 201:
+        att = str(hdr.get("x-wp-upload-attachment-id") or "").strip()
+        need(att.isdigit(), f"could not upload {info['file']} ({st} {err(media)})")
+        # the attachment exists but the sub-sizes did not finish: let WordPress finish them (as the block editor does)
+        for _ in range(3):
+            st, media, _ = api(f"/wp/v2/media/{att}/post-process", "POST", {"action": "create-image-subsizes"},
+                               timeout=300)
+            if st in (200, 201):
+                break
+        need(st in (200, 201) and isinstance(media, dict), f"{info['file']} is attachment #{att}, but its sub-sizes "
+             f"failed ({st} {err(media)})")
+    need(isinstance(media, dict) and media.get("id"), f"no attachment id for {info['file']}")
+    record({"change": f"uploaded photo {name}", "id": media["id"], "file": info["file"], "title": f"nh:{name}",
+            "alt": info["alt"]})
+    if str((media.get("title") or {}).get("raw") or "") != f"nh:{name}" or media.get("alt_text") != info["alt"]:
+        st, media, _ = api(f"/wp/v2/media/{media['id']}", "POST", {"title": f"nh:{name}", "alt_text": info["alt"]})
+        need(st == 200, f"could not set the title and alt text of #{media.get('id')} ({st} {err(media)})")
+    return media
+
+
+def resolve_media(value, atts):
+    """Photo tokens -> the attachment's id, URL and alt text (the shape Elementor stores for a library image)."""
+    if isinstance(value, dict):
+        out = {k: resolve_media(v, atts) for k, v in value.items()}
+        m = MEDIA_TOKEN.match(str(value.get("id", "")))
+        if m:
+            out.update(id=atts[m.group(1)]["id"], url=atts[m.group(1)]["url"], alt=atts[m.group(1)]["alt"])
+        return out
+    if isinstance(value, list):
+        return [resolve_media(v, atts) for v in value]
+    return value
+
+
+def pages_body(docs, media_ids, author):
+    """The PHP of the page step, with the documents and the photo ids inside (base64 JSON: no quoting issues)."""
+    def b64(obj):
+        return base64.b64encode(json.dumps(obj, ensure_ascii=False, separators=(",", ":")).encode()).decode()
+    return (PAGES_PHP.replace("__NH_DOCS_B64__", b64(docs)).replace("__NH_MEDIA_B64__", b64(media_ids))
+            .replace("__NH_AUTHOR__", str(int(author))))
+
+
+def page_problems(url, doc, chrome):
+    """What a visitor gets at url: 200 without PHP errors, every widget of the page and the chrome, the Theme Builder
+    header and footer wrapped in a div (our widgets are the landmarks), no unresolved token. -> (problems, photos)"""
+    _check_url(url)
+    st, _, body = http(url + ("&" if "?" in url else "?") + urllib.parse.urlencode(bust()))
+    html = body.decode("utf-8", "replace")
+    problems = [] if st == 200 else [f"HTTP {st}"]
+    if any(c in html for c in CRITICAL):
+        problems.append("a PHP error on the page")
+    for wt in widget_types(doc) + chrome:
+        if f"elementor-widget-{wt}" not in html:
+            problems.append(f"widget {wt} is missing")
+    for loc in ("header", "footer"):
+        m = re.search(r'<(\w+)\s[^>]*\bdata-elementor-type="' + loc + '"', html)
+        if not m:
+            problems.append(f"no Theme Builder {loc} on the page")
+        elif m.group(1) != "div":
+            problems.append(f"the Theme Builder {loc} is wrapped in <{m.group(1)}>: two {loc} landmarks with our widget")
+    if UNRESOLVED.search(html):
+        problems.append("an unresolved token (@media:/@page:/@home:) in the page")
+    return problems, len(re.findall(r'<img\s[^>]*src="[^"]*/wp-content/uploads/', html))
+
+
+PAGES_PLAN = """pages will change the test site:
+  1. photos: {upload} to upload (the largest .webp; WordPress makes the sub-sizes), titled nh:<name>, alt text from
+     the manifest; {reuse} already there (found by that title) are reused; ids kept in templates/media-map.json
+  2. create or update (found by post meta _nh_page_key; no other post is touched), as published:
+{docs}
+  3. Settings → Reading: the home page becomes the front page (now: show_on_front {sof}, page_on_front {pof})
+  4. Elementor's CSS cache is cleared, ezCache is purged, both pages are smoke-tested
+  Code Snippets is switched on for the PHP step and off again; every change goes to {log}.
+Run again with --go to apply."""
+
+
+def cmd_pages(args):
+    docs = load_page_docs()
+    files = photo_files(media_tokens(docs))
+    me = whoami(("manage_options", "upload_files", "edit_pages"))
+    st, plugins, _ = api("/wp/v2/plugins")
+    need(st == 200 and isinstance(plugins, list), f"cannot list plugins ({st} {err(plugins)})")
+    active = {p["plugin"].split("/")[0]: p for p in plugins if p.get("status") == "active"}
+    missing = [slug for slug in ("elementor", "elementor-pro", "nevehairus-site") if slug not in active]
+    step(f"signed in as user #{me['id']}; active: " + ", ".join(
+        f"{s} {active[s].get('version', '')}" for s in ("elementor", "elementor-pro", "nevehairus-site") if s in active)
+         + (f"; NOT active: {', '.join(missing)}" if missing else ""))
+    media_map = load_media_map()
+    mine = our_media()
+    reuse = {name: pick_media(name, mine, media_map) for name in files}
+    for name, info in files.items():
+        item = reuse[name]
+        what = (f"reuse #{item['id']}" if item else
+                f"upload {info['file']} ({info['width']}×{info['height']}, {info['bytes'] / 1024:.0f} KB)")
+        if item and media_map.get(name) not in (None, int(item["id"])):
+            what += f" (media-map.json said #{media_map[name]}, which is gone or renamed)"
+        if len(mine.get(name, [])) > 1:
+            what += f" ({len(mine[name])} attachments carry nh:{name}; the others stay as they are)"
+        print(f"   photo {name:14s} {what}")
+    if not args.go:
+        st_s, s, _ = api("/wp/v2/settings")
+        lines = []
+        for d in docs:
+            where = (f"/{d['slug']}/" + (" (front page)" if d.get("front_page") else "")) if d["post_type"] == "page" \
+                else f"Theme Builder {d['document_type']}, display conditions {', '.join(d.get('conditions') or [])}"
+            lines.append(f"     {d['key']:10s} {d['post_type']:18s} «{d['title']}» {where}; "
+                         f"{len(widget_types(d))} widget(s): {' '.join(widget_types(d))}")
+        print(PAGES_PLAN.format(upload=sum(1 for v in reuse.values() if not v),
+                                reuse=sum(1 for v in reuse.values() if v), docs="\n".join(lines),
+                                sof=s.get("show_on_front", "?") if st_s == 200 else f"HTTP {st_s}",
+                                pof=s.get("page_on_front", "?") if st_s == 200 else f"HTTP {st_s}", log=LOG_FILE))
+        return
+    need(not missing, f"activate first: {', '.join(missing)}")
+    before = smoke()
+    need(not before, f"the site is not healthy before building the pages: {before}")
+
+    # (a) photos: reuse ours, upload the rest; (b) their tokens -> attachment id, URL and alt text
+    atts = {}
+    for name, info in files.items():
+        item = reuse[name]
+        if item is None:
+            item = upload_photo(name, info)
+            step(f"uploaded {info['file']} as #{item['id']} (nh:{name})")
+        elif item.get("alt_text") != info["alt"]:
+            old = item.get("alt_text")
+            st_a, item, _ = api(f"/wp/v2/media/{item['id']}", "POST", {"alt_text": info["alt"]})
+            need(st_a == 200, f"could not set the alt text of photo {name} ({st_a} {err(item)})")
+            record({"change": f"alt text of photo {name} (#{item['id']})", "old": old, "new": info["alt"]})
+        size = item.get("media_details") or {}
+        if (size.get("width"), size.get("height")) != (info["width"], info["height"]):
+            print(f"!! photo {name} (#{item['id']}) is {size.get('width')}×{size.get('height')} on the site, "
+                  f"{info['width']}×{info['height']} here")
+        atts[name] = {"id": int(item["id"]), "url": str(item.get("source_url") or ""), "alt": info["alt"]}
+        media_map[name] = atts[name]["id"]
+        save_media_map(media_map)
+    step(f"photos ready: {len(atts)} (ids in {os.path.relpath(MEDIA_MAP, ROOT)})")
+    resolved = [resolve_media(d, atts) for d in docs]
+    need(not re.search(r'"@media:', json.dumps(resolved)), "a photo token is left in the data")
+
+    # (c) one PHP step: posts, Elementor data and meta, Theme Builder conditions, front page, Elementor CSS cache
+    with Helper():
+        log = run_php("pages", pages_body(resolved, {n: a["id"] for n, a in atts.items()}, me["id"]))
+    print(json.dumps(log, ensure_ascii=False, indent=1))
+    record({"change": "pages: home page, house page, Theme Builder header and footer", "log": log,
+            "photos": {n: a["id"] for n, a in atts.items()}})
+    need("exception" not in log and len(log.get("docs") or {}) == len(docs),
+         f"the page step failed: {log.get('exception') or 'not every document was written'}")
+    for w in log.get("warnings") or []:
+        print("!!", w)
+
+    # (d) caches, smoke test, the addresses
+    st_c, _, _ = api("/ezcache/v1/cache", "DELETE")
+    step(f"ezCache page cache purged ({st_c})")
+    chrome = [wt for d in docs if d["post_type"] == "elementor_library" for wt in widget_types(d)]
+    problems, report = {}, {}
+    for d in docs:
+        if d["post_type"] != "page":
+            continue
+        info = log["docs"][d["key"]]
+        found, photos = page_problems(str(info.get("url") or ""), d, chrome)
+        report[d["key"]] = {"url": info.get("url"), "id": info.get("id"), "photos": photos, "problems": found}
+        if found:
+            problems[d["key"]] = found
+    site = smoke()
+    record({"change": "pages: ezCache purged, smoke test", "ezcache": st_c, "pages": report, "site": site})
+    for key, r in report.items():
+        url = str(r["url"])
+        step(f"{key}: {url}" + (f"  ({urllib.parse.unquote(url)})" if "%" in url else "")
+             + f"  — {r['photos']} photo(s) from the media library" + (f"; PROBLEMS: {r['problems']}" if r["problems"] else ""))
+    for key in ("header", "footer"):
+        info = log["docs"].get(key) or {}
+        step(f"{key}: Theme Builder template #{info.get('id')}, conditions {log.get('conditions_cache', {}).get(key)}")
+    for key, info in log["docs"].items():
+        print(f"   edit {key}: {info.get('edit')}")
+    need(not problems and not site, f"the pages were built, but: {problems or ''} {site or ''} "
+         "(a PHP error from our widgets: `safe-off` switches the plugin off)")
+    step(f"done: both pages and the header and footer are on {HOST}")
+
+
 def main():
     ap = argparse.ArgumentParser(description="Work on the TEST site only: " + HOST,
                                  formatter_class=argparse.RawDescriptionHelpFormatter, epilog=__doc__)
@@ -744,7 +1286,7 @@ def main():
     p = sub.add_parser("snapshot")
     p.add_argument("dir")
     p.set_defaults(fn=cmd_snapshot)
-    for name, fn in (("setup", cmd_setup), ("rekey", cmd_rekey)):
+    for name, fn in (("setup", cmd_setup), ("rekey", cmd_rekey), ("pages", cmd_pages)):
         p = sub.add_parser(name)
         p.add_argument("--go", action="store_true", help="apply (without it: print the plan only)")
         p.set_defaults(fn=fn)

@@ -1,0 +1,534 @@
+{
+ "key": "home",
+ "title": "דף הבית",
+ "slug": "דף-הבית",
+ "front_page": true,
+ "post_type": "page",
+ "document_type": "wp-page",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "pages.php": "page-home",
+  "prototype": "index.html",
+  "widgets": [
+   "cover/prototype",
+   "homes/prototype",
+   "plainbox/default",
+   "day/prototype",
+   "kaf/prototype",
+   "samekh/prototype",
+   "years/prototype",
+   "voices/prototype",
+   "steps/default",
+   "lamed/default",
+   "door/default"
+  ]
+ },
+ "elementor_data": [
+  {
+   "id": "3f4d1e1",
+   "elType": "container",
+   "settings": {
+    "container_type": "flex",
+    "content_width": "full",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "padding": {
+     "unit": "px",
+     "top": "0",
+     "right": "0",
+     "bottom": "0",
+     "left": "0",
+     "isLinked": true
+    }
+   },
+   "elements": [
+    {
+     "id": "35749b2",
+     "elType": "widget",
+     "settings": {
+      "photo": {
+       "url": "",
+       "id": "@media:v3-walk",
+       "size": "",
+       "alt": "",
+       "source": "library"
+      }
+     },
+     "elements": [],
+     "widgetType": "nh-cover"
+    },
+    {
+     "id": "e17cfa7",
+     "elType": "widget",
+     "settings": {
+      "homes": [
+       {
+        "anchor": "home-1",
+        "tone": "paper",
+        "title": "מעון ראשי — בית לחיים",
+        "title_plain": "",
+        "who": "בוגרים ובוגרות עם מוגבלות שכלית התפתחותית, גם עם התנהגות מאתגרת או אבחנה כפולה.",
+        "who_plain": "בית גדול בנס ציונה.\nצוות עוזר שם כל היום.",
+        "facts": "שתי יחידות · צוות קבוע · חדר סנוזלן ומרפאת שיניים",
+        "facts_plain": "-",
+        "link": {
+         "url": "@page:main-home"
+        },
+        "photo": {
+         "url": "",
+         "id": "@media:v3-sky-room",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "photo_alt": "",
+        "photo_decorative": "yes",
+        "photo_pos": "55% 45%",
+        "weight": 600,
+        "_id": "14696d4"
+       },
+       {
+        "anchor": "home-2",
+        "tone": "sand",
+        "title": "דיור בקהילה",
+        "title_plain": "",
+        "who": "בוגרים ובוגרות עם מוגבלות שכלית התפתחותית, בדירות ובבתים בתוך העיר — עם צוות מלווה.",
+        "who_plain": "דירות ובתים בתוך העיר.\nצוות עוזר לדיירים ולדיירות.",
+        "facts": "שגרה ועצמאות · עבודה ופנאי בעיר · ליווי צמוד",
+        "facts_plain": "-",
+        "link": {
+         "url": "#homes"
+        },
+        "photo": {
+         "url": "",
+         "id": "@media:v3-villa",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "photo_alt": "",
+        "photo_decorative": "yes",
+        "photo_pos": "50% 45%",
+        "weight": 560,
+        "_id": "8d3b088"
+       },
+       {
+        "anchor": "home-3",
+        "tone": "sky",
+        "title": "דיור לצעירים על הרצף האוטיסטי",
+        "title_plain": "",
+        "who": "בית לצעירים ולצעירות, עם ליווי אישי בשגרת היום־יום.",
+        "who_plain": "בית לצעירים ולצעירות עם אוטיזם.\nהבית שקט, ויש סדר יום ברור.",
+        "facts": "סביבה רגועה · שגרה ברורה",
+        "facts_plain": "-",
+        "link": {
+         "url": "#homes"
+        },
+        "photo": {
+         "url": "",
+         "id": ""
+        },
+        "photo_alt": "",
+        "photo_decorative": "yes",
+        "photo_pos": "50% 50%",
+        "weight": 560,
+        "_id": "9f296ff"
+       }
+      ]
+     },
+     "elements": [],
+     "widgetType": "nh-homes"
+    },
+    {
+     "id": "57d0bf5",
+     "elType": "widget",
+     "settings": {},
+     "elements": [],
+     "widgetType": "nh-plainbox"
+    },
+    {
+     "id": "6cae84f",
+     "elType": "widget",
+     "settings": {
+      "moments": [
+       {
+        "verb": "יוצרים",
+        "verb_plain": "",
+        "photo": {
+         "url": "",
+         "id": "@media:v3-crafts",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "photo_alt": "",
+        "photo_decorative": "",
+        "photo_sizes": "(min-width: 1024px) 34rem, 92vw",
+        "print": "normal",
+        "caption": "עבודות פסיפס וקרמיקה ביום מכירה.",
+        "caption_plain": "",
+        "text": "סדנאות פסיפס, תכשיטים, ציור על משי, מוזיקה ותנועה — וגם תעסוקה בעיר.",
+        "text_plain": "עובדים בסדנאות: פסיפס, תכשיטים וציור.",
+        "_id": "3a98fb8"
+       },
+       {
+        "verb": "רוכבים",
+        "verb_plain": "",
+        "photo": {
+         "url": "",
+         "id": "@media:v3-riding",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "photo_alt": "",
+        "photo_decorative": "",
+        "photo_sizes": "(min-width: 1024px) 14rem, 60vw",
+        "print": "small",
+        "caption": "סוס ליד הגדר, ביום של רכיבה טיפולית.",
+        "caption_plain": "",
+        "text": "רכיבה טיפולית בחווה, ועוד חוגים מחוץ למעון.",
+        "text_plain": "רוכבים על סוסים בחווה.",
+        "_id": "a16f184"
+       },
+       {
+        "verb": "מטיילים",
+        "verb_plain": "",
+        "photo": {
+         "url": "",
+         "id": "@media:v3-orchard",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "photo_alt": "",
+        "photo_decorative": "",
+        "photo_sizes": "(min-width: 1024px) 26rem, 92vw",
+        "print": "normal",
+        "caption": "טיול בין עצי ההדר.",
+        "caption_plain": "",
+        "text": "טיולים, בתי קפה וסרטים, בעיר ובטבע.",
+        "text_plain": "יוצאים לטיולים, לבית קפה ולסרט.",
+        "_id": "b5ba685"
+       },
+       {
+        "verb": "מארחים",
+        "verb_plain": "",
+        "photo": {
+         "url": "",
+         "id": "@media:v3-villa",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "photo_alt": "",
+        "photo_decorative": "",
+        "photo_sizes": "(min-width: 1024px) 20rem, 80vw",
+        "print": "mid",
+        "caption": "פינה לשבת עם אורחים.",
+        "caption_plain": "",
+        "text": "ביקורים של משפחה וחברים, וקשר פתוח עם הצוות.",
+        "text_plain": "המשפחות והחברים באים לבקר.",
+        "_id": "2a4809c"
+       }
+      ]
+     },
+     "elements": [],
+     "widgetType": "nh-day"
+    },
+    {
+     "id": "506a3ee",
+     "elType": "widget",
+     "settings": {
+      "works": [
+       {
+        "name": "כד פסיפס כחול־ירוק",
+        "name_plain": "",
+        "photo": {
+         "url": "",
+         "id": "@media:v3-pot-b",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "photo_alt": "",
+        "photo_decorative": "yes",
+        "swatches_label": "צבעים מהכד",
+        "swatches": "#213546 כחול עמוק — שפת הכד\n#49627F כחול אבן\n#7B8DAC תכלת זכוכית",
+        "_id": "522b5ac"
+       },
+       {
+        "name": "כד פסיפס בגוני זהב",
+        "name_plain": "",
+        "photo": {
+         "url": "",
+         "id": "@media:v3-pot-a",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "photo_alt": "",
+        "photo_decorative": "yes",
+        "swatches_label": "צבעים מהכד",
+        "swatches": "#49331B חום כהה — הפס התחתון\n#6D5B44 חום חם\n#796D53 זהב עמום",
+        "_id": "af7b522"
+       },
+       {
+        "name": "כד פסיפס לבן עם פרח",
+        "name_plain": "",
+        "photo": {
+         "url": "",
+         "id": "@media:v3-pot-c",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "photo_alt": "",
+        "photo_decorative": "yes",
+        "swatches_label": "צבעים מהכד",
+        "swatches": "#413C32 חום־אפור — שפת הכד\n#9C9772 זית בהיר\n#9DA0A3 אפור אבן",
+        "_id": "e138070"
+       },
+       {
+        "name": "ינשופים, חמסות ותליונים",
+        "name_plain": "",
+        "photo": {
+         "url": "",
+         "id": "@media:v3-owls",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "photo_alt": "",
+        "photo_decorative": "yes",
+        "swatches_label": "צבעים מהינשופים",
+        "swatches": "#E0B592 אפרסק\n#7EA49A ירוק ים\n#7D5C57 חום אדמה",
+        "_id": "4e7b968"
+       }
+      ]
+     },
+     "elements": [],
+     "widgetType": "nh-kaf"
+    },
+    {
+     "id": "8ee7b2c",
+     "elType": "widget",
+     "settings": {
+      "photo": {
+       "url": "",
+       "id": "@media:v3-mandala",
+       "size": "",
+       "alt": "",
+       "source": "library"
+      },
+      "circles": [
+       {
+        "name": "הדייר או הדיירת",
+        "name_plain": "-",
+        "desc": "ובחירות משלהם בכל יום.",
+        "desc_plain": "",
+        "link": {
+         "url": ""
+        },
+        "ring": "",
+        "_id": "ead0689"
+       },
+       {
+        "name": "משפחה וחברים",
+        "name_plain": "",
+        "desc": "ביקורים, ועד הורים פעיל וקשר שוטף.",
+        "desc_plain": "-",
+        "link": {
+         "url": "#voices"
+        },
+        "ring": 0.1224,
+        "_id": "3ad079d"
+       },
+       {
+        "name": "צוות הבית",
+        "name_plain": "",
+        "desc": "אם בית ורכזות דירה, צוות קבוע.",
+        "desc_plain": "-",
+        "link": {
+         "url": "@page:main-home"
+        },
+        "ring": 0.2115,
+        "_id": "ded9441"
+       },
+       {
+        "name": "אנשי ונשות מקצוע",
+        "name_plain": "",
+        "desc": "עבודה סוציאלית, ריפוי בעיסוק, רפואה ורפואת שיניים.",
+        "desc_plain": "-",
+        "link": {
+         "url": "@page:main-home"
+        },
+        "ring": 0.2568,
+        "_id": "39973a1"
+       },
+       {
+        "name": "הקהילה בנס ציונה",
+        "name_plain": "",
+        "desc": "תעסוקה, פנאי ודיור בקהילה.",
+        "desc_plain": "-",
+        "link": {
+         "url": "#home-2"
+        },
+        "ring": 0.3384,
+        "_id": "f48e52b"
+       },
+       {
+        "name": "פיקוח משרד הרווחה והביטחון החברתי",
+        "name_plain": "משרד הרווחה בודק שהכול בסדר.",
+        "desc": "",
+        "desc_plain": "",
+        "link": {
+         "url": ""
+        },
+        "ring": 0.3927,
+        "_id": "e58c1df"
+       }
+      ]
+     },
+     "elements": [],
+     "widgetType": "nh-samekh"
+    },
+    {
+     "id": "b547c72",
+     "elType": "widget",
+     "settings": {
+      "years": [
+       {
+        "num": "1957",
+        "title": "סנטוריום נס ציונה",
+        "text": "אבן הפינה מונחת במקום שיהפוך לנווה האירוס.",
+        "photo": {
+         "url": "",
+         "id": "@media:v3-courtyard",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "photo_alt": "",
+        "photo_decorative": "",
+        "photo_sizes": "(min-width: 1024px) 18rem, 70vw",
+        "print": "small",
+        "caption": "החצר במעון, היום.",
+        "shamayim": "",
+        "shamayim_text": "",
+        "shamayim_photo": {
+         "url": "",
+         "id": ""
+        },
+        "shamayim_photo_alt": "",
+        "shamayim_photo_decorative": "yes",
+        "shamayim_photo_pos": "72% 30%",
+        "shamayim_photo_sizes": "(min-width: 1024px) 8rem, 24vw",
+        "_id": "80e6190"
+       },
+       {
+        "num": "2021",
+        "title": "אגף חדש, ובו שמיים",
+        "text": "חדרים חדשים, מרחבים משותפים ותאורת „שמיים” בתקרה — אגף שתוכנן במיוחד לצורכי הדיירים והדיירות.",
+        "photo": {
+         "url": "",
+         "id": ""
+        },
+        "photo_alt": "",
+        "photo_decorative": "",
+        "photo_sizes": "(min-width: 1024px) 18rem, 70vw",
+        "print": "normal",
+        "caption": "",
+        "shamayim": "yes",
+        "shamayim_text": "שמיי",
+        "shamayim_photo": {
+         "url": "",
+         "id": "@media:v3-sky-room",
+         "size": "",
+         "alt": "",
+         "source": "library"
+        },
+        "shamayim_photo_alt": "",
+        "shamayim_photo_decorative": "yes",
+        "shamayim_photo_pos": "72% 30%",
+        "shamayim_photo_sizes": "(min-width: 1024px) 8rem, 24vw",
+        "_id": "222a7cf"
+       },
+       {
+        "num": "היום",
+        "title": "שלושה בתים",
+        "text": "במעון, בבתים בקהילה ובמסגרת לצעירים על הרצף האוטיסטי — יותר מ־100 דיירים ודיירות. יותר מ־25,000 בקרים מאז 1957.",
+        "photo": {
+         "url": "",
+         "id": ""
+        },
+        "photo_alt": "",
+        "photo_decorative": "",
+        "photo_sizes": "(min-width: 1024px) 18rem, 70vw",
+        "print": "normal",
+        "caption": "",
+        "shamayim": "",
+        "shamayim_text": "",
+        "shamayim_photo": {
+         "url": "",
+         "id": ""
+        },
+        "shamayim_photo_alt": "",
+        "shamayim_photo_decorative": "yes",
+        "shamayim_photo_pos": "72% 30%",
+        "shamayim_photo_sizes": "(min-width: 1024px) 8rem, 24vw",
+        "_id": "2106a3e"
+       }
+      ]
+     },
+     "elements": [],
+     "widgetType": "nh-years"
+    },
+    {
+     "id": "f63f0ee",
+     "elType": "widget",
+     "settings": {
+      "poster": {
+       "url": "",
+       "id": "@media:v3-owls",
+       "size": "",
+       "alt": "",
+       "source": "library"
+      }
+     },
+     "elements": [],
+     "widgetType": "nh-voices"
+    },
+    {
+     "id": "872d95c",
+     "elType": "widget",
+     "settings": {},
+     "elements": [],
+     "widgetType": "nh-steps"
+    },
+    {
+     "id": "c67feb8",
+     "elType": "widget",
+     "settings": {},
+     "elements": [],
+     "widgetType": "nh-lamed"
+    },
+    {
+     "id": "10d2500",
+     "elType": "widget",
+     "settings": {},
+     "elements": [],
+     "widgetType": "nh-door"
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

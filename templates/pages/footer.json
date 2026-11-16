@@ -1,0 +1,58 @@
+{
+ "key": "footer",
+ "title": "כותרת תחתונה — נווה האירוס",
+ "slug": "nh-footer",
+ "front_page": false,
+ "post_type": "elementor_library",
+ "document_type": "footer",
+ "template": "",
+ "conditions": [
+  "include/general"
+ ],
+ "page_settings": {
+  "content_wrapper_html_tag": "div"
+ },
+ "built_from": {
+  "widgets": [
+   "colophon/prototype"
+  ],
+  "extra": null
+ },
+ "elementor_data": [
+  {
+   "id": "75d2dc6",
+   "elType": "container",
+   "settings": {
+    "container_type": "flex",
+    "content_width": "full",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "padding": {
+     "unit": "px",
+     "top": "0",
+     "right": "0",
+     "bottom": "0",
+     "left": "0",
+     "isLinked": true
+    }
+   },
+   "elements": [
+    {
+     "id": "629eedc",
+     "elType": "widget",
+     "settings": {
+      "html_tag": "footer"
+     },
+     "elements": [],
+     "widgetType": "nh-colophon"
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

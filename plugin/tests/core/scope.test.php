@@ -320,10 +320,16 @@ return [
 		nh_assert_same( 1, get_option( 'unrelated' ) );
 	},
 
-	'version 0.2.0: header, constant, readme' => static function () {
-		nh_assert_same( '0.2.0', NH_VERSION );
-		nh_assert_contains( ' * Version: 0.2.0', (string) file_get_contents( NH_TEST_PLUGIN . '/nevehairus-site.php' ) );
-		nh_assert_contains( 'Stable tag: 0.2.0', (string) file_get_contents( NH_TEST_PLUGIN . '/readme.txt' ) );
+	'version: header, constant and readme agree (0.2.0 or later)' => static function () {
+		nh_assert_same( true, version_compare( NH_VERSION, '0.2.0', '>=' ) );
+		nh_assert_contains( ' * Version: ' . NH_VERSION, (string) file_get_contents( NH_TEST_PLUGIN . '/nevehairus-site.php' ) );
+		nh_assert_contains( 'Stable tag: ' . NH_VERSION, (string) file_get_contents( NH_TEST_PLUGIN . '/readme.txt' ) );
+	},
+
+	'asset URLs carry the file time (a deploy never leaves a cached CSS/JS behind)' => static function () {
+		$v = NH_Assets::ver( 'assets/css/base.css' );
+		nh_assert_same( NH_VERSION . '.' . filemtime( NH_TEST_PLUGIN . '/assets/css/base.css' ), $v );
+		nh_assert_same( NH_VERSION, NH_Assets::ver( 'assets/css/no-such-file.css' ) );
 	},
 
 	'the child theme: Hello\'s CSS, skip link and title off, Google Fonts off, one skip link, main#content on Elementor\'s templates, style.css after Elementor' => static function () {

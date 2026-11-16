@@ -85,16 +85,14 @@ final class NH_Assets {
 	}
 
 	/**
-	 * Asset version: NH_VERSION, or the file's mtime when WP_DEBUG.
+	 * Asset version: NH_VERSION plus the file's mtime, so every deploy gives every changed file a new URL.
+	 * The host serves static files with a one-year cache (Cache-Control: max-age=31536000); with the plugin
+	 * version alone a browser kept an old widget CSS next to new markup (16.11: the door's ד showed full width).
 	 */
 	public static function ver( string $rel ): string {
-		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			$file = NH_DIR . ltrim( $rel, '/' );
-			if ( is_readable( $file ) ) {
-				return (string) filemtime( $file );
-			}
-		}
-		return NH_VERSION;
+		$file = NH_DIR . ltrim( $rel, '/' );
+		$time = is_readable( $file ) ? filemtime( $file ) : false;
+		return false !== $time ? NH_VERSION . '.' . $time : NH_VERSION;
 	}
 
 	/**

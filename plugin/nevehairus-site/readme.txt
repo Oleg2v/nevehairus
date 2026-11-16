@@ -4,7 +4,7 @@ Tags: elementor, hebrew, rtl, accessibility
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,10 @@ No external services, no CDN, no tracking. Fonts are served from the plugin.
 * The letter outlines in assets/letters.json are drawn from Frank Ruhl Libre (same licence).
 
 == Changelog ==
+
+= 0.2.1 =
+* Asset URLs carry the file time, so a deploy never leaves an old CSS or JS in a browser's cache.
+* The door spread: a plain ד beside the heading instead of the stretched one; containers with our widgets never wrap.
 
 = 0.2.0 =
 * v3.2 boundaries: assets and page parts only where the widgets are; nothing global; the skip link and

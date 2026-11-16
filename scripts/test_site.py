@@ -52,6 +52,8 @@ import json
 import os
 import re
 import secrets
+import shutil
+import subprocess
 import sys
 import time
 import urllib.error
@@ -1071,16 +1073,31 @@ def save_media_map(ids):
     os.replace(tmp, MEDIA_MAP)
 
 
-def our_media():
-    """The attachments this script uploaded (title nh:<name>): name -> [attachments], lowest id first."""
-    items = api_all("/wp/v2/media", {"search": "nh:", "media_type": "image", "context": "edit", "orderby": "id",
-                                     "order": "asc", "_fields": "id,title,alt_text,source_url,mime_type,media_details"})
-    need(not isinstance(items, tuple), f"cannot list the media library ({items[0] if isinstance(items, tuple) else ''})")
-    out = {}
-    for item in items:
+MEDIA_FIELDS = "id,title,alt_text,source_url,mime_type,media_details"
+
+
+def our_media(media_map):
+    """The attachments this script uploaded (title nh:<name>): name -> [attachments], lowest id first. The ids of
+    media-map.json are read one by one (so a search that misses them cannot cause a second upload); a search for
+    the title marker finds the rest."""
+    out, seen = {}, set()
+
+    def add(item):
         title = str((item.get("title") or {}).get("raw") or "").strip()
-        if title.startswith("nh:"):
+        if title.startswith("nh:") and int(item["id"]) not in seen and str(item.get("mime_type", "")).startswith("image/"):
+            seen.add(int(item["id"]))
             out.setdefault(title[3:], []).append(item)
+    for name, att in sorted(media_map.items()):
+        st, item, _ = api(f"/wp/v2/media/{att}", query={"context": "edit", "_fields": MEDIA_FIELDS})
+        if st == 200 and isinstance(item, dict) and item.get("id"):
+            add(item)
+    items = api_all("/wp/v2/media", {"search": "nh:", "media_type": "image", "context": "edit", "orderby": "id",
+                                     "order": "asc", "_fields": MEDIA_FIELDS})
+    need(not isinstance(items, tuple), f"cannot list the media library ({items[0] if isinstance(items, tuple) else ''})")
+    for item in items:
+        add(item)
+    for group in out.values():
+        group.sort(key=lambda i: int(i["id"]))
     return out
 
 
@@ -1141,6 +1158,19 @@ def pages_body(docs, media_ids, author):
             .replace("__NH_AUTHOR__", str(int(author))))
 
 
+def lint_php(label, body):
+    """php -l (local PHP CLI, if any) on the snippet exactly as run_php() wraps it — before anything is sent."""
+    exe = shutil.which("php")
+    if not exe:
+        step("no local php: the PHP step is not linted here (Code Snippets still refuses code that does not parse)")
+        return
+    code = "<?php\n" + (WRAPPER.replace("__NH_LABEL__", label).replace("__NH_TOKEN__", "0" * 32)
+                        .replace("__NH_EXPIRES__", "0").replace("__NH_BODY__", body))
+    res = subprocess.run([exe, "-l"], input=code, capture_output=True, text=True)
+    need(res.returncode == 0, f"the PHP step does not parse: {(res.stdout + res.stderr).strip()[:400]}")
+    step(f"the PHP step parses (php -l, {len(code) / 1024:.0f} KB)")
+
+
 def page_problems(url, doc, chrome):
     """What a visitor gets at url: 200 without PHP errors, every widget of the page and the chrome, the Theme Builder
     header and footer wrapped in a div (our widgets are the landmarks), no unresolved token. -> (problems, photos)"""
@@ -1187,18 +1217,22 @@ def cmd_pages(args):
         f"{s} {active[s].get('version', '')}" for s in ("elementor", "elementor-pro", "nevehairus-site") if s in active)
          + (f"; NOT active: {', '.join(missing)}" if missing else ""))
     media_map = load_media_map()
-    mine = our_media()
+    mine = our_media(media_map)
     reuse = {name: pick_media(name, mine, media_map) for name in files}
     for name, info in files.items():
         item = reuse[name]
         what = (f"reuse #{item['id']}" if item else
                 f"upload {info['file']} ({info['width']}×{info['height']}, {info['bytes'] / 1024:.0f} KB)")
-        if item and media_map.get(name) not in (None, int(item["id"])):
-            what += f" (media-map.json said #{media_map[name]}, which is gone or renamed)"
+        if media_map.get(name) is not None and (not item or int(item["id"]) != media_map[name]):
+            what += f" (media-map.json says #{media_map[name]}: no longer an image titled nh:{name})"
         if len(mine.get(name, [])) > 1:
             what += f" ({len(mine[name])} attachments carry nh:{name}; the others stay as they are)"
         print(f"   photo {name:14s} {what}")
     if not args.go:
+        known = {n: {"id": int(i["id"]) if i else 0, "url": str(i.get("source_url") or "") if i else "",
+                     "alt": files[n]["alt"]} for n, i in reuse.items()}
+        lint_php("pages", pages_body([resolve_media(d, known) for d in docs], {n: k["id"] for n, k in known.items()},
+                                     me["id"]))
         st_s, s, _ = api("/wp/v2/settings")
         lines = []
         for d in docs:
@@ -1231,6 +1265,9 @@ def cmd_pages(args):
         if (size.get("width"), size.get("height")) != (info["width"], info["height"]):
             print(f"!! photo {name} (#{item['id']}) is {size.get('width')}×{size.get('height')} on the site, "
                   f"{info['width']}×{info['height']} here")
+        if not size.get("sizes"):
+            print(f"!! photo {name} (#{item['id']}) has no sub-sizes on the site (no WebP in the server's image "
+                  "editor?): pages will use the full file without a srcset")
         atts[name] = {"id": int(item["id"]), "url": str(item.get("source_url") or ""), "alt": info["alt"]}
         media_map[name] = atts[name]["id"]
         save_media_map(media_map)
@@ -1239,8 +1276,10 @@ def cmd_pages(args):
     need(not re.search(r'"@media:', json.dumps(resolved)), "a photo token is left in the data")
 
     # (c) one PHP step: posts, Elementor data and meta, Theme Builder conditions, front page, Elementor CSS cache
+    body = pages_body(resolved, {n: a["id"] for n, a in atts.items()}, me["id"])
+    lint_php("pages", body)
     with Helper():
-        log = run_php("pages", pages_body(resolved, {n: a["id"] for n, a in atts.items()}, me["id"]))
+        log = run_php("pages", body)
     print(json.dumps(log, ensure_ascii=False, indent=1))
     record({"change": "pages: home page, house page, Theme Builder header and footer", "log": log,
             "photos": {n: a["id"] for n, a in atts.items()}})

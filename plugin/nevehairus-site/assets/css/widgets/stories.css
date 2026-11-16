@@ -1,0 +1,9 @@
+/* nevehairus-site — widget `stories` (שלושה סיפורים).
+   Verbatim from prototype v3.1: v3.css L529–534. */
+
+.v3-stories__list { list-style: none; margin: clamp(2rem, 1.5rem + 2vw, 3.5rem) 0 0; padding: 0; display: grid; gap: 2rem 3rem; }
+.v3-stories__list li { border-block-start: 1px solid rgb(247 241 231 / .35); padding-block-start: 1rem; }
+.v3-stories__n { display: block; font: 300 clamp(3.5rem, 2.5rem + 3vw, 5.5rem)/1 var(--nh-font-display); color: var(--nh-citrus-400); }
+.v3-stories__list h3 { font: 500 clamp(1.3rem, 1.15rem + .5vw, 1.6rem)/1.2 var(--nh-font-display); margin: .75rem 0 .4rem; }
+.v3-stories__list p { margin: 0; color: var(--nh-on-night-2); line-height: 1.55; max-inline-size: 36ch; }
+@media (min-width: 900px) { .v3-stories__list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

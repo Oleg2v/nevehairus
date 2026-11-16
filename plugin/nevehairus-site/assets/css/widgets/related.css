@@ -1,0 +1,5 @@
+/* nevehairus-site · widget "related" (style handle nh-w-related) — להמשך קריאה.
+   Copied verbatim from prototype/assets/css/v3.css L550–551. (.v3-roles itself lives in base.css.) */
+
+/* rows with a long description wrap; on phones the description goes under the title */
+.v3-related .v3-roles__meta { white-space: normal; }

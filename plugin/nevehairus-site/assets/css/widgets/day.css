@@ -1,0 +1,23 @@
+/* =========================================================================
+   nevehairus-site · widget `day` (handle nh-w-day)
+   Source (verbatim): prototype/assets/css/v3.css L229–233, L242–249, L462.
+   `main { counter-reset: print }` and `.v3-print*` (v3.css L234–241) are in base.css.
+   SPEC §4.5.
+   ========================================================================= */
+
+/* ---------- Day: four verbs ----------------------------------------------- */
+.v3-day__list { list-style: none; margin: clamp(2.5rem, 2rem + 3vw, 5rem) 0 0; padding: 0; display: grid; gap: clamp(3.5rem, 2rem + 5vw, 8rem); }
+.v3-moment { display: grid; gap: 1rem 3rem; align-items: end; }
+.v3-moment__verb { font: 300 clamp(4.25rem, 1.5rem + 9vw, 11rem)/.82 var(--nh-font-display); letter-spacing: 0; margin: 0; }
+.v3-moment p { font-size: 1.1875rem; line-height: 1.55; max-inline-size: 36ch; margin: 0; }
+@media (min-width: 1024px) {
+  .v3-moment { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); grid-template-areas: "verb print" "verb text"; }
+  .v3-moment__verb { grid-area: verb; align-self: center; }
+  .v3-moment > figure { grid-area: print; }
+  .v3-moment > p { grid-area: text; }
+  .v3-moment--b, .v3-moment--d { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-areas: "print verb" "text verb"; }
+  .v3-moment--b .v3-moment__verb, .v3-moment--d .v3-moment__verb { text-align: end; }
+}
+
+/* plain language: the verbs fold to a readable size */
+html.nh-plainmode .v3-moment__verb { font-size: clamp(3rem, 2rem + 4vw, 5rem); }

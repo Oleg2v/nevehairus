@@ -1,0 +1,197 @@
+/* =========================================================================
+   nevehairus-site · widget «masthead» (SPEC §4.18) — style handle nh-w-masthead
+   Copied verbatim from the prototype (assets/css/main.css, v3.css as committed
+   in 4173d31), main.css parts first, then v3.css parts, each in source order.
+   Rules that mix components are split: only the masthead's selectors are kept,
+   with the same declarations. Shared parts (.nh-btn, .v3-toggle, .nh-wordmark,
+   reduced motion, plain mode) live in base.css (SPEC §9.1).
+   ========================================================================= */
+
+/* main.css L145–205 */
+/* ---------- Header -------------------------------------------------------- */
+.nh-header {
+  position: fixed; top: 0; inset-inline: 0; z-index: 50;
+  background: rgb(247 241 231 / .9);
+  -webkit-backdrop-filter: saturate(1.3) blur(12px); backdrop-filter: saturate(1.3) blur(12px);
+  transition: box-shadow var(--nh-dur-2) ease;
+}
+.nh-header.is-scrolled { box-shadow: 0 1px 0 var(--nh-line), 0 10px 30px rgb(31 36 33 / .06); }
+.nh-header__inner { display: flex; align-items: center; gap: var(--nh-s-5); min-block-size: 4.75rem; }
+.nh-logo { display: inline-flex; align-items: center; gap: .75rem; text-decoration: none; color: var(--nh-ink); flex: none; }
+.nh-logo img { block-size: 3.25rem; inline-size: auto; }
+.nh-nav { flex: 1; display: none; }
+.nh-nav ul { display: flex; gap: clamp(.75rem, 1.6vw, 2rem); justify-content: center; }
+.nh-nav a {
+  display: inline-flex; align-items: center; min-block-size: 2.75rem; padding-inline: .25rem;
+  color: var(--nh-ink); text-decoration: none; font-weight: 600; position: relative;
+}
+.nh-nav a::after {
+  content: ""; position: absolute; inset-inline: .25rem; bottom: .45rem; block-size: 2px;
+  background: var(--nh-iris-700); transform: scaleX(0); transform-origin: right;
+  transition: transform var(--nh-dur-2) var(--nh-ease-out);
+}
+.nh-nav a:hover::after, .nh-nav a[aria-current="page"]::after { transform: scaleX(1); }
+.nh-header__actions { display: flex; align-items: center; gap: var(--nh-s-3); margin-inline-start: auto; }
+.nh-phone {
+  display: inline-flex; align-items: center; gap: .5rem; min-block-size: 2.75rem; padding-inline: .5rem;
+  color: var(--nh-ink); font-weight: 700; text-decoration: none;
+}
+.nh-phone svg { inline-size: 1.25rem; block-size: 1.25rem; color: var(--nh-iris-700); }
+.nh-phone__num { display: none; }
+.nh-menu-btn {
+  display: inline-grid; place-items: center; inline-size: 3rem; block-size: 3rem; border-radius: 50%;
+  background: var(--nh-ink); color: var(--nh-paper);
+}
+.nh-menu-btn svg { inline-size: 1.4rem; block-size: 1.4rem; }
+.nh-header .nh-btn--primary { display: none; }
+@media (min-width: 70em) {
+  .nh-nav { display: block; }
+  .nh-menu-btn { display: none; }
+  .nh-header .nh-btn--primary { display: inline-flex; }
+  .nh-phone__num { display: inline; }
+  .nh-header__actions { margin-inline-start: 0; }
+}
+
+/* Mobile menu (native <dialog>: focus trap + Esc for free) */
+.nh-menu {
+  inline-size: 100%; max-inline-size: 100%; block-size: 100dvh; max-block-size: 100dvh;
+  margin: 0; padding: 0; border: 0; background: var(--nh-night); color: var(--nh-paper);
+  --nh-focus: var(--nh-citrus-400);
+}
+.nh-menu::backdrop { background: rgb(28 24 48 / .4); }
+.nh-menu__inner { display: flex; flex-direction: column; gap: var(--nh-s-6); padding: var(--nh-s-5) var(--nh-gutter) var(--nh-s-7); min-block-size: 100%; }
+.nh-menu__top { display: flex; justify-content: space-between; align-items: center; }
+.nh-menu__close { inline-size: 3rem; block-size: 3rem; border-radius: 50%; background: var(--nh-paper); color: var(--nh-night); display: grid; place-items: center; }
+.nh-menu__close svg { inline-size: 1.3rem; block-size: 1.3rem; }
+.nh-menu nav a {
+  display: block; padding-block: .4rem; color: var(--nh-paper); text-decoration: none;
+  font-family: var(--nh-font-display); font-size: clamp(2rem, 8vw, 3rem); line-height: 1.15;
+}
+.nh-menu__meta { margin-block-start: auto; display: grid; gap: var(--nh-s-3); color: var(--nh-on-night-2); }
+.nh-menu__meta a:not(.nh-btn) { color: var(--nh-citrus-400); }
+
+/* main.css L419–424, the .nh-menu-btn selector of L421 */
+/* ---------- Forced colours (Windows high contrast) ----------------------------- */
+@media (forced-colors: active) {
+  .nh-menu-btn { border: 2px solid ButtonText; }
+}
+
+/* main.css L426–430, the .nh-header and .nh-menu selectors of L428 */
+/* ---------- Print ----------------------------------------------------------- */
+@media print {
+  .nh-header, .nh-menu { display: none !important; }
+}
+
+/* v3.css L30–79 */
+/* ---------- Masthead ------------------------------------------------------ */
+.v3-mast { background: var(--nh-paper); box-shadow: 0 1px 0 rgb(31 36 33 / .9); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.v3-mast .nh-header__inner { min-block-size: var(--v3-mast); gap: clamp(.75rem, .5rem + 1vw, 1.5rem); }
+.v3-mast[data-theme="dark"] { background: var(--nh-night); color: var(--nh-paper); box-shadow: 0 1px 0 rgb(247 241 231 / .28); }
+.v3-mast[data-theme="dark"] .nh-logo, .v3-mast[data-theme="dark"] .nh-nav a, .v3-mast[data-theme="dark"] .nh-phone,
+.v3-mast[data-theme="dark"] .v3-plainbtn, .v3-mast[data-theme="dark"] .v3-display__btn, .v3-mast[data-theme="dark"] .nh-menu-btn { color: var(--nh-paper); }
+.v3-mast[data-theme="dark"] .nh-phone svg { color: var(--nh-citrus-400); }
+.v3-mast[data-theme="dark"] { --nh-focus: var(--nh-citrus-400); }
+.v3-mast[data-theme="dark"] .v3-mast__cta { --_bg: var(--nh-citrus-400); --_fg: var(--nh-ink); }
+/* running head: the name of the spread being read, set under the wordmark. It is out of the
+   flex row, so it can never push the navigation or the actions to a second line. */
+.v3-mast__running { display: none; margin: 0; }
+@media (min-width: 70em) {
+  .v3-mast .nh-header__inner { position: relative; }
+  .v3-mast__running { display: block; position: absolute; inset-inline-start: 0; inset-block-end: .5rem; max-inline-size: 15rem;
+    font: 600 .75rem/1 var(--nh-font-body); color: inherit; opacity: .8; white-space: nowrap; overflow: hidden; pointer-events: none; }
+  .v3-mast .nh-logo { transform: translateY(-.45rem); }
+}
+@media (max-width: 89.99em) { .v3-mast .nh-phone__num { display: none; } }
+.v3-mast .nh-nav ul { gap: clamp(.9rem, 1.4vw, 1.75rem); }
+.v3-mast .nh-menu-btn { border-radius: 2px; }
+.v3-progress { position: absolute; inset-inline: 0; inset-block-end: -1px; block-size: 2px; background: var(--nh-iris-700); transform: scaleX(0); transform-origin: right; pointer-events: none; }
+.v3-mast[data-theme="dark"] .v3-progress { background: var(--nh-citrus-400); }
+@supports (animation-timeline: scroll()) {
+  .v3-progress { animation: v3-progress linear both; animation-timeline: scroll(root block); }
+}
+@keyframes v3-progress { to { transform: scaleX(1); } }
+
+/* plain-language button and the display panel */
+.v3-plainbtn, .v3-display__btn {
+  display: inline-flex; align-items: center; gap: .45rem; min-block-size: 2.75rem; padding-inline: .7rem;
+  font: 700 .9375rem/1.1 var(--nh-font-body); color: var(--nh-ink); white-space: nowrap; border-radius: 2px;
+  box-shadow: inset 0 0 0 1.5px currentColor;
+}
+.v3-plainbtn svg, .v3-display__btn svg { inline-size: 1.15rem; block-size: 1.15rem; flex: none; }
+.v3-plainbtn[aria-pressed="true"] { background: var(--nh-olive-700); color: var(--nh-paper) !important; box-shadow: none; }
+.v3-display__btn { box-shadow: none; padding-inline: .5rem; }
+.v3-display { position: relative; display: none; }
+@media (min-width: 70em) { .v3-display { display: block; } }
+@media (max-width: 69.99em) { .v3-mast .nh-phone__num { display: none; } .v3-mast .v3-mast__cta { display: none; } }
+@media (max-width: 420px) { .v3-plainbtn { font-size: .8125rem; padding-inline: .5rem; gap: .3rem; } .v3-plainbtn svg { display: none; } }
+.v3-display__panel {
+  position: absolute; inset-block-start: calc(100% + .75rem); inset-inline-end: 0; z-index: 70;
+  inline-size: 17rem; padding: 1rem 1.1rem .9rem; background: var(--nh-paper); color: var(--nh-ink);
+  box-shadow: 0 0 0 1px var(--nh-ink), 0 24px 48px -16px rgb(28 24 48 / .35);
+  display: grid; gap: .15rem; --nh-focus: var(--nh-iris-700);
+}
+.v3-display__panel[hidden] { display: none; }
+.v3-display__title { font: 400 1.25rem/1.2 var(--nh-font-display); margin: 0 0 .4rem; }
+.v3-display__note { font-size: .875rem; color: var(--nh-ink-2); margin: .4rem 0 0; }
+
+/* v3.css L465–468, line L468 */
+/* ---------- Calm mode ------------------------------------------------------------ */
+html.nh-calm .v3-progress { display: none; }
+
+/* v3.css L477–488: the .v3-progress selector of L484, L485 and L486 */
+/* ---------- Forced colours ------------------------------------------------------- */
+@media (forced-colors: active) {
+  .v3-progress { background: CanvasText; }
+  .v3-plainbtn, .v3-display__btn { border: 1.5px solid ButtonText; }
+  .v3-plainbtn[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText !important; border-color: Highlight; }
+}
+
+/* v3.css L537–548 */
+/* ---------- Narrow masthead: everything fits in 360px, targets stay 44px ------------ */
+.v3-mast .nh-menu-btn, .v3-mast .nh-phone { flex: none; min-inline-size: 2.75rem; min-block-size: 2.75rem; justify-content: center; }
+.v3-mast .nh-logo { min-inline-size: 0; }
+@media (max-width: 69.99em) {
+  .v3-mast .nh-header__inner { gap: .5rem; }
+  .v3-mast .nh-header__actions { gap: .4rem; }
+}
+@media (max-width: 480px) {
+  .v3-mast .nh-wordmark { font-size: 1.3rem; gap: .3rem; }
+  .v3-mast .nh-wordmark::before { inline-size: .5rem; block-size: .5rem; margin-inline-end: .2rem; }
+  .v3-mast .nh-wordmark small { font-size: .6875rem; }
+}
+
+/* v3.css L568–580 */
+/* ---------- Masthead at awkward widths -------------------------------------------- */
+.v3-mast .nh-nav a { white-space: nowrap; }
+@media (max-width: 379px) {
+  .v3-mast .nh-phone { display: none; }               /* still in the menu and the visit bar */
+  .v3-mast .nh-wordmark { font-size: 1.15rem; }
+  .v3-plainbtn { font-size: .78rem; padding-inline: .45rem; }
+}
+@media (min-width: 70em) and (max-width: 79.99em) {
+  .v3-mast .nh-nav ul { gap: .85rem; }
+  .v3-mast .nh-phone__num { display: none; }
+  .v3-display__btn span { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .v3-display__btn { padding-inline: .6rem; }
+}
+
+/* v3.css L591–593 (the wordmark in the masthead; .nh-wordmark itself is in base.css) */
+.nh-header .nh-logo { color: var(--nh-ink); }
+.nh-header[data-theme="dark"] .nh-logo { color: var(--nh-paper); }
+.nh-header[data-theme="dark"] .nh-wordmark::before { background: var(--nh-citrus-400); }
+
+/* v3.css L624–626 */
+/* WCAG 1.4.12: with user text-spacing the masthead wraps instead of pushing buttons off screen */
+.v3-mast .nh-header__inner { flex-wrap: wrap; row-gap: .25rem; }
+.v3-mast .nh-header__actions { flex-wrap: wrap; justify-content: flex-end; row-gap: .25rem; }
+
+/* v3.css L632–638, the .v3-mast rule of L636 */
+/* short screens (landscape phones, 400% zoom): the masthead scrolls away with the page and the visit
+   bar is not shown — the visit button is on the cover and in the door */
+@media (max-height: 30em) {
+  .v3-mast { position: absolute; }
+}
+
+/* Porting addition (no prototype source; WordPress only): for signed-in users the admin bar sits at
+   the top of the viewport, so the fixed masthead starts under it. Visitors never get .admin-bar. */
+body.admin-bar .nh-header { top: var(--wp-admin--admin-bar--height, 32px); }

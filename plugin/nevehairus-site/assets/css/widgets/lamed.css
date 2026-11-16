@@ -1,0 +1,23 @@
+/* nevehairus-site · widget "lamed" (style handle nh-w-lamed) — ל׳ · דרושים.
+   Copied verbatim from prototype/assets/css/v3.css, in source order: L130; L369–371; L380–386; from L459 the
+   .v3-lamed__letter selector; L620–622. (.v3-roles and the shared two-column grid live in base.css.) */
+
+.v3-lamed__letter .v3-letter { position: static; display: block; block-size: auto; }
+
+/* ---------- ל׳ · Jobs: the one letter allowed to rise above the line ------------ */
+.v3-lamed { overflow: visible; z-index: 1; }
+.v3-lamed__letter { position: relative; inline-size: min(46vw, 13rem); margin-block-start: calc(-1 * min(18vh, 9rem)); }
+@media (min-width: 64em) {
+  .v3-lamed__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); }
+  .v3-lamed__grid > .v3-rule { grid-row: 1; }                     /* the ל stands on top of it */
+  .v3-lamed__text { grid-column: 1; grid-row: 2; }
+  .v3-lamed__letter { grid-column: 2; grid-row: 1 / span 2; position: relative; z-index: 1; justify-self: end; inline-size: 100%; max-inline-size: 19rem;
+    margin-block-start: calc(-1 * min(26vh, 14rem)); }
+}
+
+/* plain-language mode: the big letter is folded away (v3.css L459, this widget's selector) */
+html.nh-plainmode .v3-lamed__letter { display: none !important; }
+
+/* plain mode: where the big letter is folded away, its spread becomes one column */
+html.nh-plainmode .v3-lamed__grid { grid-template-columns: minmax(0, 1fr); }
+html.nh-plainmode .v3-lamed__text { grid-column: auto; grid-row: auto; }

@@ -1,0 +1,19 @@
+/* nevehairus-site · widget "steps" (style handle nh-w-steps) — צעד צעד.
+   Copied verbatim from prototype/assets/css/v3.css, in source order: L356–367; from L459 the .v3-steps__word
+   selector. */
+
+/* ---------- Steps: צעד צעד --------------------------------------------------- */
+.v3-steps { padding-block-end: clamp(9rem, 6rem + 10vw, 16rem); }
+.v3-steps__list { list-style: none; margin: clamp(2.5rem, 2rem + 2vw, 4rem) 0 0; padding: 0; display: grid; gap: 2.5rem 2rem; }
+.v3-steps__word { display: block; font: 800 clamp(3rem, 2rem + 3.5vw, 5.75rem)/.9 var(--nh-font-display); color: rgb(28 24 48 / .13); letter-spacing: 0; margin-block-end: .5rem; }
+.v3-steps__word::before { content: attr(data-word); }   /* pure decoration, drawn as generated content */
+.v3-steps__list h3 { font: 500 clamp(1.35rem, 1.2rem + .5vw, 1.7rem)/1.2 var(--nh-font-display); margin: 0 0 .4rem; }
+.v3-steps__n { color: var(--nh-clay-700); font-weight: 400; }
+.v3-steps__list p { font-size: 1.0625rem; line-height: 1.55; color: var(--nh-ink-2); margin: 0; max-inline-size: 30ch; }
+@media (min-width: 900px) {
+  .v3-steps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .v3-steps__list > li:nth-child(even) { margin-block-start: 3.5rem; }
+}
+
+/* plain-language mode: the decorative word is folded away (v3.css L459, this widget's selector) */
+html.nh-plainmode .v3-steps__word { display: none !important; }

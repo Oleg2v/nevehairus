@@ -1,0 +1,11 @@
+/* =========================================================================
+   nevehairus-site · widget "jobs-form" (טופס הגשת מועמדות) — SPEC §4.20, D6
+   Verbatim from prototype/assets/css/main.css L297–299 (commit 4173d31), plus one new rule.
+   The fields, checks, alerts and notes are in forms.css; the spread and the ruling line in base.css.
+   ========================================================================= */
+
+/* two columns: text beside the jobs application form (design-system page) */
+.nh-jobs__grid { display: grid; gap: var(--nh-s-8); }
+@media (min-width: 1024px) { .nh-jobs__grid { grid-template-columns: 5fr 7fr; } }
+/* new (SPEC §4.20): in the v3 spread the intro and the form both hang from the ruling line */
+.v3-jobsform .nh-jobs__grid { align-items: start; }

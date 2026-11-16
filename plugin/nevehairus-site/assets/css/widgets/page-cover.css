@@ -1,0 +1,23 @@
+/* nevehairus-site — widget `page-cover` (ב׳ · שער עמוד).
+   Verbatim from prototype v3.1: main.css L301–305 (breadcrumbs), v3.css L493–501 (inner-page cover).
+   Loaded after nh-w-cover (the cover's CSS), whose rules it refines. */
+
+/* ---------- Breadcrumbs ------------------------------------------------------ */
+.nh-crumbs ol { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; font-size: var(--nh-fs-small); font-weight: 600; color: var(--nh-ink-2); }
+.nh-crumbs li + li::before { content: "/"; margin-inline-end: .5rem; color: var(--nh-ink-2); }
+.nh-crumbs a { color: var(--nh-ink-2); }
+.nh-crumbs [aria-current="page"] { color: var(--nh-ink); }
+
+/* ---------- Inner page (programme): the same letters ------------------------------- */
+.v3-crumbs { grid-column: 1 / -1; margin-block-end: .25rem; }
+.v3-crumbs ol { margin: 0; }
+.v3-cover__title--page { font-size: clamp(3rem, 1.4rem + 5.4vw, 7.25rem); line-height: .96; letter-spacing: 0; }
+@media (max-width: 47.99em) { .v3-cover__title--page { font-size: clamp(1.9rem, 1rem + 4vw, 3rem); } }   /* beside the ב on phones: two lines, not four */
+@media (min-width: 1024px) {
+  .v3-cover--page { min-block-size: auto; }
+  .v3-cover--page { --cover-h: min(calc(100svh - var(--v3-mast) - 11rem), 34rem); }
+}
+
+/* porting change (SPEC D11): the page-transition name is set per post by script (home-bet-{id}),
+   the shared animation in base.css targets the class */
+.v3-cover--page .v3-room { view-transition-class: nh-bet; }

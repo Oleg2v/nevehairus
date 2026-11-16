@@ -1,0 +1,22 @@
+/* =========================================================================
+   nevehairus-site · widget `plainbox` (handle nh-w-plainbox)
+   Source (verbatim): prototype/assets/css/v3.css L219–227, L535, and from L582–585
+   the `.v3-plainbox` rule of `@media (max-width: 479px)` (the `.v3 .nh-btn` rule is in base.css).
+   SPEC §4.4.
+   ========================================================================= */
+
+/* ---------- Plain-language box ------------------------------------------- */
+.v3-plainbox-wrap { padding-block: 0 clamp(4rem, 2.5rem + 4vw, 7rem); }
+.v3-plainbox { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.25rem 1.5rem; padding: clamp(1.5rem, 1rem + 2vw, 3rem); background: var(--nh-paper-2); box-shadow: inset 6px 0 0 var(--nh-olive-700); }
+.v3-plainbox__icon { inline-size: 2.5rem; block-size: 2.5rem; color: var(--nh-olive-700); }
+.v3-plainbox h2 { font: 400 clamp(1.75rem, 1.4rem + 1vw, 2.4rem)/1.1 var(--nh-font-display); margin: 0 0 1rem; }
+.v3-plainbox ul { list-style: none; margin: 0 0 1.5rem; padding: 0; display: grid; gap: .35rem; }
+.v3-plainbox li, .v3-plainbox p { font-size: 1.375rem; line-height: 1.55; }
+.v3-plainbox__btn { --_bg: var(--nh-olive-700); --_fg: var(--nh-paper); }
+.v3-plainbox__btn:hover { --_bg: var(--nh-ink); }
+.v3-plainbox-wrap--page { padding-block: clamp(4rem, 2.5rem + 4vw, 7rem); }
+
+/* the box drops its icon column on narrow phones */
+@media (max-width: 479px) {
+  .v3-plainbox { grid-template-columns: minmax(0, 1fr); }
+}

@@ -105,7 +105,7 @@ plugin/
 │   │       ├── nh-core.js                    core · window.nh: helpers, display modes, cookies, visit bar, widget hook
 │   │       ├── nh-forms.js                   core · validation, AJAX submit, token refresh, server-state focus
 │   │       └── widgets/<id>.js               owner of widget <id> (only widgets that need JS)
-│   └── languages/                            core · empty (Domain Path)
+│   └── languages/index.php                   core · "silence is golden" (keeps the Domain Path folder in git)
 └── tests/                                    not shipped
     ├── bootstrap.php                         core · error→exception, stubs, plugin load, fixtures loader
     ├── stubs/wordpress.php                   core · fake WordPress API (in-memory options, transients, media, mail, hooks)
@@ -258,7 +258,8 @@ final class NH_Controls {
 - `pair()` args: `label` (required), `default` (string), `plain` (default of the twin), `type` (`'text'` → TEXT, `'textarea'` → TEXTAREA; default `'text'`), `rows`, `condition`. The twin `{id}_plain` is always a TEXTAREA (rows 3) labelled `{label} — בשפה פשוטה`, with `description` = `PLAIN_HELP` and the same `condition`. Both get `label_block => true`.
 - `heading()` args: `default`, `plain`, `dot` (default `''`), `label` (default `כותרת`).
 - `image()` args: `label`, `decorative` (bool default for `{id}_decorative`), `alt` (default for `{id}_alt`, usually `''` = use the media library's alt), `pos` (if set, adds `{id}_pos` TEXT with this default), `sizes` (if set, adds `{id}_sizes` TEXT with this default). The MEDIA default is `['url' => '', 'id' => '']` — no placeholder image.
-- `section()` args: `anchor`, `running`, `running_plain` (default `''`). Labels: `עוגן (id באנגלית)`, `שם המקטע בכותרת העליונה`.
+- `section()` args: `anchor`, `running`, `running_plain` (default `''`). It opens and closes its own controls section (`nh_section`, label `מקטע`). Labels: `עוגן (id באנגלית)`, `שם המקטע בכותרת העליונה`.
+- `heading()`, `pair()`, `image()`, `link()`, `lines()` add controls into the section that is currently open; the widget opens/closes its sections itself.
 
 ### 3.5 `NH_Text` — plain-language twins
 
@@ -506,6 +507,63 @@ An icon that does not exist in Elementor's icon font is cosmetic; use `eicon-app
 - No inline `style` except the CSS custom properties of rooms (`NH_Letters::room()`) and swatches (`--c:#RRGGBB` after `sanitize_hex_color()`).
 - `DYNAMIC = true` for widgets that read settings or the request (masthead, colophon, door, jobs-form, lamed); everything else `false` (Elementor may cache the output).
 
+**Reference skeleton** (shape only — `widgets/cover.php` in the core package is the complete reference; long defaults shortened here with `…`):
+```php
+<?php
+defined( 'ABSPATH' ) || exit;
+
+final class NH_Widget_Steps extends NH_Widget_Base {
+	public const ID       = 'steps';
+	public const KEYWORDS = [ 'steps', 'צעד' ];
+
+	public function get_title() { return __( 'צעד צעד', 'nevehairus-site' ); }
+	public function get_icon() { return 'eicon-editor-list-ol'; }
+
+	protected function register_controls() {
+		$this->start_controls_section( 'nh_content', [ 'label' => __( 'תוכן', 'nevehairus-site' ) ] );
+		NH_Controls::heading( $this, [ 'default' => 'צעד צעד: ארבעה צעדים הביתה.', 'plain' => 'איך מגיעים לגור אצלנו?' ] );
+		NH_Controls::pair( $this, 'lead', [ 'label' => __( 'פתיח', 'nevehairus-site' ), 'type' => 'textarea', 'default' => '…', 'plain' => 'יש ארבעה צעדים.' ] );
+		$this->add_control( 'word', [ 'label' => __( 'מילת הרקע', 'nevehairus-site' ), 'type' => \Elementor\Controls_Manager::TEXT, 'default' => 'צעד' ] );
+		$this->end_controls_section();
+
+		$this->start_controls_section( 'nh_list', [ 'label' => __( 'צעדים', 'nevehairus-site' ) ] );
+		$r = new \Elementor\Repeater();
+		NH_Controls::pair( $r, 'title', [ 'label' => __( 'כותרת', 'nevehairus-site' ) ] );
+		NH_Controls::pair( $r, 'text', [ 'label' => __( 'טקסט', 'nevehairus-site' ), 'type' => 'textarea' ] );
+		$this->add_control( 'steps', [
+			'type'        => \Elementor\Controls_Manager::REPEATER,
+			'fields'      => $r->get_controls(),
+			'title_field' => '{{{ title }}}',
+			'default'     => [ [ 'title' => 'שיחה ראשונה', 'title_plain' => '', 'text' => '…', 'text_plain' => 'מדברים איתנו בטלפון.' ] /* , … */ ],
+		] );
+		$this->end_controls_section();
+
+		NH_Controls::section( $this, [ 'anchor' => 'start', 'running' => 'צעד צעד' ] ); // opens and closes its own controls section
+	}
+
+	protected function render() {
+		$s     = $this->get_settings_for_display();
+		$items = '';
+		$k     = 0;
+		foreach ( (array) $s['steps'] as $it ) {
+			if ( '' === trim( (string) ( $it['title'] ?? '' ) ) ) {
+				continue;
+			}
+			++$k;
+			$items .= '<li><span class="v3-steps__word" aria-hidden="true" data-word="' . esc_attr( $s['word'] ) . '"></span>'
+				. '<h3><span class="v3-steps__n">' . $k . '</span> ' . NH_Text::pair( $it['title'], $it['title_plain'] ) . '</h3>'
+				. NH_Text::block( $it['text'], $it['text_plain'], [ 'plain_tag' => 'p', 'plain_lines' => null ] ) . '</li>';
+		}
+		$html = $this->nh_section_open( $s, [ 'class' => 'v3-steps v3-spread' ] )
+			. '<div class="nh-container">' . $this->nh_rule() . $this->nh_h2( $s )
+			. $this->nh_lead( $s, [ 'plain_tag' => 'p', 'plain_class' => 'v3-lead', 'plain_lines' => null ] )
+			. ( $items ? '<ol class="v3-steps__list" role="list">' . $items . '</ol>' : '' )
+			. '</div>' . $this->nh_section_close();
+		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled from escaped parts
+	}
+}
+```
+
 The tables below give, per widget: constants, controls (id · type · default · twin default), repeaters, markup, CSS, JS, notes and the fixture. Section-control defaults are written as `anchor / running`.
 
 ---
@@ -544,7 +602,7 @@ Markup (target: built `index.html` `section#cover`):
 </section>
 {NH_Letters::data_script(['bet'])}
 ```
-H1 rule: the H1 always has the `v3-full` / `v3-plain` structure (the CSS lays out the line spans inside `.v3-full`); if `title_plain` is empty, the plain span repeats `title_1 title_2` as text. A line whose text is empty is omitted (one-line titles).
+H1 rule: the H1 always has the `v3-full` / `v3-plain` structure (the CSS lays out the line spans inside `.v3-full`); if `title_plain` is empty (or `-` — the page heading is never hidden), the plain span repeats `title_1 title_2` as text without tesserae. A line whose text is empty is omitted (one-line titles).
 
 CSS `cover.css`: v3.css L132–161, L163–191, L452–458, L463. (L162 goes to base.)
 JS `cover.js`: v3.js L116–173 inside `nh.widget('cover', '.v3-cover', …)` with a page-level guard (only the first cover on the page morphs). Reads `#nh-letters`; works for the page cover too (`v3-cover--page` check stays, the page cover's `--t` starts at its own weight).
@@ -668,7 +726,7 @@ Constants: `ID 'day'`. Section class `v3-day v3-spread`. Section controls: `day`
 |---|---|---|---|
 | `title` + dot | heading | `החיים קורים כאן.` · `''` | `מה עושים ביום?` |
 | `lead` | pair, textarea | `יום רגיל בנווה האירוס בארבע מילים — וכל אחד ואחת בקצב שלהם.` | `-` |
-| `moments` | REPEATER: `verb` (pair), `photo` (image, `_sizes`), `print` (SELECT `normal|small|mid`), `caption` (pair), `text` (pair, textarea) | 4 items below | |
+| `moments` | REPEATER: `verb` (pair), `photo` (image, `_sizes`), `print` (SELECT `normal\|small\|mid`), `caption` (pair), `text` (pair, textarea) | 4 items below | |
 
 | # | verb | photo · print · sizes | caption | text / text_plain |
 |---|---|---|---|---|
@@ -1169,7 +1227,7 @@ Constants: `ID 'masthead'`, `DYNAMIC true`. Not a spread: no section controls. P
 
 | control | type | default | `_plain` |
 |---|---|---|---|
-| `html_tag` | SELECT `div|header` | `div` (D3) | |
+| `html_tag` | SELECT `div\|header` | `div` (D3) | |
 | `wordmark_small` / `wordmark` | pair / pair | `מעון` / `נווה האירוס` | '' |
 | `logo` | image (optional; replaces the wordmark when set; alt from media or `מעון נווה האירוס`) | — | |
 | `home_sr` | TEXT (screen-reader suffix of the logo link) | ` — לדף הבית` | |
@@ -1203,7 +1261,7 @@ Constants: `ID 'colophon'`, `DYNAMIC true`. Root: `<div class="nh-footer nh-on-d
 | `phone_label` / `fax_label` / `email_label` | pair ×3 | `טלפון:` / `פקס:` / `מזכירות:` | |
 | `facebook_label` / `external_sr` | pair / TEXT | `נווה האירוס בפייסבוק` / ` (נפתח באתר חיצוני)` | |
 | `info_title` | pair | `מידע ונגישות` | |
-| `info` | REPEATER: `type` (SELECT `link|cookies`), `label` (pair), `link` (URL, link tokens allowed) | link `הצהרת נגישות` `#accessibility`; link `מדיניות פרטיות` `#privacy`; cookies `הגדרות עוגיות`; link `מפת אתר` `#sitemap`; link `מפרט כניסות נגישות (PDF)` `#entrances` | |
+| `info` | REPEATER: `type` (SELECT `link\|cookies`), `label` (pair), `link` (URL, link tokens allowed) | link `הצהרת נגישות` `#accessibility`; link `מדיניות פרטיות` `#privacy`; cookies `הגדרות עוגיות`; link `מפת אתר` `#sitemap`; link `מפרט כניסות נגישות (PDF)` `#entrances` | |
 | `toggles_label` + 3 toggle labels | TEXT + pair ×3 | `הגדרות תצוגה` + as masthead | |
 | `credits` | pair, textarea (inline HTML; newlines become spaces — one paragraph, no `<br>`) | footer L46–49 verbatim, joined by single spaces: `<b>קולופון.</b> גופנים: <span lang="en" dir="ltr">Frank Ruhl Libre</span> (יאנק יונטף) ו־<span lang="en" dir="ltr">Assistant</span> (בן נתן ו־<span lang="en" dir="ltr">Adobe</span>), ברישיון <span lang="en" dir="ltr">SIL OFL</span>. האותיות: חמש אותיות שהשמות שלהן הם מילים של בית — ב׳ (בית), כ׳ (כף), ס׳ (סמך), ל׳ (למד) ו־ד׳ (דלת) — משמשות כאן כאדריכלות, ובתוכן יש חדרים. הכדים, המנדלה והינשופים בעמוד — עבודות יד של דיירות ודיירי נווה האירוס. הצילומים זמניים, מתוך האתר הקיים, ללא פנים מזוהות.` | '' |
 | `copyright` | pair | `מעון נווה האירוס. כל הזכויות שמורות.` | '' |
@@ -1621,7 +1679,7 @@ Checked against `elementor/4.4.0/assets/css/frontend.min.css`, `includes/base/wi
 
 1. **Load order.** All our styles depend (directly or through `nh-base`) on `elementor-frontend`, so they print after Elementor's CSS; equal specificity then goes to us.
 2. **`a` and `img` inside Elementor.** Elementor sets `.elementor a { box-shadow: none; text-decoration: none }` and `.elementor img { height: auto; max-width: 100%; border: none; border-radius: 0; box-shadow: none }` (specificity 0,1,1). Any of our rules that sets `box-shadow`, `text-decoration`, `height`/`block-size`, `border` or `max-width` on an `a` or an `img` must have specificity ≥ (0,1,1): e.g. `.v3-room__photo img` (fine as is), but `.nh-btn--ghost` → `a.nh-btn--ghost, button.nh-btn--ghost` and `.nh-btn--ink` → `a.nh-btn--ink, button.nh-btn--ink` (base.css items 7 and 13).
-3. **No margins on `figure`.** Elementor resets `figure { margin: 0 }` with specificity (0,4,1). Use `padding`, `gap` or `justify-self` instead (the two cases: `.v3-samekh__art`, `.v3-year .v3-print`, §4.7, §4.8).
+3. **No margins on `figure`.** Elementor resets figure margins with `.elementor-widget:not(.elementor-widget-text-editor):not(.elementor-widget-theme-post-content) figure { margin: 0 }` — specificity (0,3,1), stronger than our component selectors. Use `padding`, `gap` or `justify-self` instead (the two cases: `.v3-samekh__art`, `.v3-year .v3-print`, §4.7, §4.8).
 4. **No reliance on DOM structure** between `main` and our sections (Elementor inserts `div.elementor > div.e-con…`). Query by our classes and data attributes (`[data-running]`, `[data-header]`, `.v3-door`), never `main > section`.
 5. **No `overflow` on containers.** The ל rises into the previous spread and the cover pins with `position: sticky`; containers must keep `overflow: visible` and must not use transforms/motion effects.
 6. **No Elementor style controls** in our widgets and no `selectors`: the design is fixed by the prototype.
@@ -1693,6 +1751,8 @@ With `$overrides = []` this is exactly the output an editor sees after dropping 
 
 ### 11.5 Core unit tests (`plugin/tests/core/*.test.php`)
 
+Files: `letters.test.php`, `text.test.php`, `picture.test.php`, `forms.test.php`, `site.test.php`, `settings.test.php` (items 1–6 below, in this order). Each file returns a list of named closures; `run.php` runs them and reports failures.
+
 1. **Letters parity:** every `{{letterroom …}}`, `{{letter …}}` and `{{doorway}}` in `prototype/src/*.html` → the PHP call with the same arguments (photo names → fixture ids) equals the built prototype output (same markup; numbers ± 0.001; URLs by basename).
 2. `NH_Text`: the five states for `pair()` and `block()` (table-driven), `dot()` variants and the "only the final dot" rule, `lines()`, kses allowlist, link tokens, `tokens()` (`{phone}`, `{email}`, `{contact}`, `{year}`) with and without the public e-mail.
 3. `NH_Picture`: output for a fixture image (AVIF source present), decorative, alt override, priority, missing attachment → `''`.
@@ -1708,7 +1768,7 @@ Every package works only in its own files (§1) and reads the core API (§3) as 
 
 | id | widgets | files created |
 |---|---|---|
-| core | cover | everything marked "core" in §1: `nevehairus-site.php`, `uninstall.php`, `readme.txt`, `includes/*` (13 class files), `assets/css/{tokens,base,letters,forms}.css`, `assets/css/widgets/cover.css`, `assets/js/{nh-core,nh-forms}.js`, `assets/js/widgets/cover.js`, `assets/letters.json`, `assets/fonts/*`, `languages/`, `widgets/cover.php`, `plugin/tests/{bootstrap.php,run.php,render.php,compare.py,shots.mjs}`, `plugin/tests/stubs/*`, `plugin/tests/fixtures/{media.php,pages.php}`, `plugin/tests/fixtures/widgets/cover.php`, `plugin/tests/core/*.test.php`, `plugin/composer.json`, `scripts/build_plugin.py`, `plugin/dist/nevehairus-site.zip`, `.gitignore` line |
+| core | cover | everything marked "core" in §1: `nevehairus-site.php`, `uninstall.php`, `readme.txt`, `includes/*` (13 class files), `assets/css/{tokens,base,letters,forms}.css`, `assets/css/widgets/cover.css`, `assets/js/{nh-core,nh-forms}.js`, `assets/js/widgets/cover.js`, `assets/letters.json`, `assets/fonts/*` (4 woff2 + 2 OFL texts), `languages/index.php`, `widgets/cover.php`, `plugin/tests/{bootstrap.php,run.php,render.php,compare.py,shots.mjs}`, `plugin/tests/stubs/{wordpress,elementor}.php`, `plugin/tests/fixtures/{media.php,pages.php}`, `plugin/tests/fixtures/widgets/cover.php`, `plugin/tests/core/{letters,text,picture,forms,site,settings}.test.php`, `plugin/composer.json`, `scripts/build_plugin.py`, `plugin/dist/nevehairus-site.zip`, `.gitignore` line |
 | chrome | masthead, colophon | `widgets/{masthead,colophon}.php`, `assets/css/widgets/{masthead,colophon}.css`, `assets/js/widgets/masthead.js`, `plugin/tests/fixtures/widgets/{masthead,colophon}.php` |
 | index | homes, steps, lamed, related | `widgets/{homes,steps,lamed,related}.php`, `assets/css/widgets/{homes,steps,lamed,related}.css`, `assets/js/widgets/homes.js`, `plugin/tests/fixtures/widgets/{homes,steps,lamed,related}.php` |
 | crafts | kaf, samekh, years | `widgets/{kaf,samekh,years}.php`, `assets/css/widgets/{kaf,samekh,years}.css`, `assets/js/widgets/{kaf,samekh}.js`, `plugin/tests/fixtures/widgets/{kaf,samekh,years}.php` |

@@ -1,0 +1,43 @@
+/* nevehairus-site · widget "homes" (style handle nh-w-homes) — the homes index.
+   Copied verbatim from prototype/assets/css/v3.css, in source order: L193–217; from L445 the third selector only;
+   L449; from L471–475 the .v3-home__link::before and .v3-home__arrow selectors (both forms). Porting addition:
+   the row's ב carries the view-transition class of the journey "homes index → that home's page" (SPEC D11). */
+
+/* ---------- Homes index ---------------------------------------------------- */
+.v3-fit { display: flex; flex-wrap: wrap; align-items: baseline; gap: .75rem 1.75rem; margin-block-end: clamp(2.5rem, 2rem + 2vw, 4rem); }
+.v3-fit__q { font: 400 clamp(1.4rem, 1.2rem + .6vw, 1.75rem)/1.2 var(--nh-font-display); margin: 0; }
+.v3-fit ul { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin: 0; padding: 0; }
+.v3-fit a { font-weight: 600; color: var(--nh-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .35em; display: inline-block; padding-block: .3rem; }
+.v3-fit a:hover { text-decoration-thickness: 2px; color: var(--nh-iris-700); }
+.v3-homes__list { list-style: none; margin: 2rem 0 0; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
+.v3-home { border-block-end: 1px solid rgb(31 36 33 / .45); }
+.v3-home--paper { --field: var(--nh-paper-2); }
+.v3-home--sand { --field: var(--nh-citrus-100); }
+.v3-home--sky { --field: var(--nh-sky-200); }
+.v3-home__link { position: relative; isolation: isolate; display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 1.25rem; align-items: center; padding-block: 1.5rem; color: var(--nh-ink); text-decoration: none; }
+.v3-home__link::before { content: ""; position: absolute; inset: 0 calc(-1 * var(--nh-gutter)); z-index: -1; background: var(--field); transform: scaleX(0); transform-origin: right; transition: transform .55s var(--nh-ease-out); }
+.v3-home__link:hover::before, .v3-home__link:focus-visible::before { transform: scaleX(1); }
+.v3-home__link:focus-visible { outline-offset: -3px; }
+.v3-home__bet { inline-size: 100%; }
+.v3-home__title { display: block; font: 300 clamp(1.9rem, 1.2rem + 2.6vw, 4rem)/1.04 var(--nh-font-display); letter-spacing: 0; }
+.v3-home__who { display: block; font-size: 1.0625rem; line-height: 1.5; color: var(--nh-ink-2); margin-block-start: .5rem; max-inline-size: 54ch; }
+.v3-home__facts { display: block; font-weight: 700; font-size: .9375rem; margin-block-start: .6rem; }
+.v3-home__arrow { display: none; inline-size: 2.25rem; block-size: 2.25rem; transition: transform .35s var(--nh-ease-out); }
+.v3-home__link:hover .v3-home__arrow, .v3-home__link:focus-visible .v3-home__arrow { transform: translateX(-8px); }
+@media (min-width: 900px) {
+  .v3-home__link { grid-template-columns: 9.5rem minmax(0, 1fr) auto; gap: 2.5rem; padding-block: 2rem; }
+  .v3-home__arrow { display: block; }
+}
+
+/* plain-language mode (v3.css L445, third selector; L449) */
+html.nh-plainmode .v3-home__who.v3-plain { font-size: 1.375rem; line-height: 1.6; margin: 0 0 .3rem; color: inherit; max-inline-size: 36ch; }
+html.nh-plainmode .v3-home__who.v3-plain > span { display: block; }
+
+/* reduced motion, OS or on-site (v3.css L470–475, this widget's selectors) */
+html.nh-reduce-motion .v3-home__link::before, html.nh-reduce-motion .v3-home__arrow { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .v3-home__link::before, .v3-home__arrow { transition: none; }
+}
+
+/* page transition: the small ב grows into the house page's cover ב (the name is set by homes.js, D11) */
+.v3-home__bet { view-transition-class: nh-bet; }

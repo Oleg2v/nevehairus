@@ -1,0 +1,60 @@
+/* =========================================================================
+   nevehairus-site · widget "door" (ד׳ · הדלת וטופס ביקור) — SPEC §4.12
+   Verbatim from prototype/assets/css/v3.css (commit 4173d31):
+   - L388–433  the wide ד, the form in its doorway, the contact, the opening lintel;
+   - L484      from the forced-colours group, the selectors .v3-door__bar, .v3-door__leg.
+   Elsewhere: the shared grid .v3-door__grid (v3.css L252–253) is in base.css, the ink of the
+   letter (.v3-letter__ink) in letters.css, the fields, alerts and notes in forms.css.
+   ========================================================================= */
+
+/* ---------- ד׳ · The door (iris) ----------------------------------------------
+   The ד is drawn wide, as scribes stretch letters to fill a line: its head (the end of the lintel and
+   the leg) at the start, its flag at the far end, a bar between them. The visit form stands in the
+   doorway. Once, when the door is reached, the lintel extends from 60% to the full width. --k is the
+   scale of one font unit (Frank Ruhl Libre, wght 300). */
+.v3-door { overflow: clip; }
+.v3-door__top { max-inline-size: 46rem; }
+.v3-door__way { position: relative; --k: .4px; --open: 1; padding-block-start: calc(122 * var(--k) + 2rem); padding-inline-start: calc(95 * var(--k) + 1rem); }
+.v3-door__frame { position: absolute; inset: 0 0 calc(-1 * clamp(4.5rem, 2.5rem + 6vw, 9rem)); pointer-events: none; }
+.v3-door__head, .v3-door__cap { position: absolute; inset-block-start: 0; display: block; overflow: hidden; }   /* each shows only its own part of the glyph */
+.v3-door__head { inset-inline-start: 0; inline-size: calc(160 * var(--k)); block-size: calc(540 * var(--k)); }
+.v3-door__cap { inset-inline-end: calc((1 - var(--open)) * (100% - 235 * var(--k))); inline-size: calc(75 * var(--k)); block-size: calc(122 * var(--k)); }
+.v3-door__bar { position: absolute; inset-block-start: calc(36 * var(--k)); block-size: calc(86 * var(--k)); background: var(--v3-ink);
+  inset-inline-start: calc(160 * var(--k) - 1px); inset-inline-end: calc((1 - var(--open)) * (100% - 235 * var(--k)) + 75 * var(--k) - 1px); }
+/* the leg runs on down to the floor of the spread */
+.v3-door__leg { position: absolute; inset-inline-start: calc(51 * var(--k)); inline-size: calc(44 * var(--k)); inset-block: calc(520 * var(--k)) 0; background: var(--v3-ink); }
+.v3-door__in { display: grid; gap: 2rem; }
+.v3-door__form { background: var(--nh-paper); color: var(--nh-ink); padding: clamp(1.5rem, 1rem + 2vw, 2.75rem); max-inline-size: 42rem;
+  --nh-focus: var(--nh-iris-700); --nh-link: var(--nh-iris-700); --nh-text: var(--nh-ink); --nh-text-muted: var(--nh-ink-2); }
+.v3-door__form h3 { font: 400 clamp(1.6rem, 1.3rem + 1vw, 2.2rem)/1.1 var(--nh-font-display); margin: 0 0 1.25rem; }
+.v3-door__form .nh-btn--primary { --_bg: var(--nh-iris-700); --_fg: var(--nh-white); }
+.v3-door__label { font-weight: 700; margin: 0; color: var(--v3-iris-text); }
+.v3-door__phone { margin: .25rem 0 .5rem; font: 300 clamp(2.5rem, 1.8rem + 2.4vw, 4rem)/1 var(--nh-font-display); }
+.v3-door__phone a { color: var(--nh-white); text-decoration: none; }
+.v3-door__phone a:hover { color: var(--nh-citrus-400); }
+.v3-door__addr { font-size: 1.0625rem; margin: 0; color: var(--v3-iris-text); }
+.v3-door__addr a { color: var(--nh-white); }
+@media (max-width: 23.99em) {   /* the narrowest phones: the lintel only, the form gets the whole width */
+  .v3-door__way { padding-inline-start: 0; }
+  .v3-door__head { clip-path: inset(0 0 calc(100% - 122 * var(--k)) 0); }
+  .v3-door__leg { display: none; }
+}
+@media (min-width: 45em) {
+  .v3-door__way { --k: .62px; padding-block-start: calc(122 * var(--k) + 2.5rem); padding-inline-start: calc(95 * var(--k) + 2rem); }
+}
+@media (min-width: 64em) {
+  .v3-door__way { --k: .95px; }
+  .v3-door__in { grid-template-columns: minmax(0, 42rem) minmax(0, 1fr); align-items: start; column-gap: clamp(2rem, 1rem + 3vw, 5rem); }
+  .v3-door__contact { padding-block-start: 1rem; }
+}
+/* the door opens: once, when it is reached, the lintel extends toward the far end */
+@property --open { syntax: "<number>"; inherits: true; initial-value: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  html.v3-ready:not(.nh-reduce-motion):not(.nh-calm) .v3-door__way { --open: .6; transition: --open .9s var(--nh-ease-in-out); }
+  html.v3-ready:not(.nh-reduce-motion):not(.nh-calm) .v3-door__way.is-open { --open: 1; }
+}
+
+/* ---------- Forced colours (v3.css L478–487: the door's selectors of L484) ---- */
+@media (forced-colors: active) {
+  .v3-door__bar, .v3-door__leg { background: CanvasText; }
+}

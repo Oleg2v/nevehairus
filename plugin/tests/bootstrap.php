@@ -312,3 +312,31 @@ function nh_test_write( string $name, string $content ): string {
 	file_put_contents( $path, $content );
 	return $path;
 }
+
+/* ---------- Assertions (core/*.test.php) ----------------------------------------------------------- */
+
+/**
+ * Assertion helpers for core/*.test.php.
+ */
+function nh_assert( bool $ok, string $message = 'assertion failed' ): void {
+	if ( ! $ok ) {
+		throw new RuntimeException( $message );
+	}
+}
+function nh_assert_same( $expected, $actual, string $message = '' ): void {
+	if ( $expected !== $actual ) {
+		$e = is_string( $expected ) ? $expected : var_export( $expected, true );
+		$a = is_string( $actual ) ? $actual : var_export( $actual, true );
+		throw new RuntimeException( ( '' !== $message ? $message . ': ' : '' ) . "expected\n    " . $e . "\n  got\n    " . $a );
+	}
+}
+function nh_assert_contains( string $needle, string $haystack, string $message = '' ): void {
+	if ( false === strpos( $haystack, $needle ) ) {
+		throw new RuntimeException( ( '' !== $message ? $message . ': ' : '' ) . "missing\n    " . $needle . "\n  in\n    " . substr( $haystack, 0, 2000 ) );
+	}
+}
+function nh_assert_not_contains( string $needle, string $haystack, string $message = '' ): void {
+	if ( false !== strpos( $haystack, $needle ) ) {
+		throw new RuntimeException( ( '' !== $message ? $message . ': ' : '' ) . "unexpected\n    " . $needle );
+	}
+}

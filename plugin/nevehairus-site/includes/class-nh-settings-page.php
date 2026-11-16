@@ -334,6 +334,6 @@ final class NH_Settings_Page {
 			$result = $ok ? 'ok' : 'fail';
 		}
 		wp_safe_redirect( add_query_arg( 'nh_test', $result, admin_url( 'options-general.php?page=' . self::SLUG ) ) );
-		exit;
+		NH_Forms::halt();
 	}
 }

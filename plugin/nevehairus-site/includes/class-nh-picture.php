@@ -48,8 +48,8 @@ final class NH_Picture {
 			$alt = self::alt( $id );
 		}
 
-		$srcset = self::srcset( $id );
-		$avif   = self::avif_srcset( $id );
+		$srcset    = self::srcset( $id );
+		$avif      = self::avif_srcset( $id );
 		[ $w, $h ] = self::dims( $id );
 
 		$html = '<picture' . ( '' !== $class ? ' class="' . esc_attr( $class ) . '"' : '' ) . '>';
@@ -142,9 +142,10 @@ final class NH_Picture {
 		$sizes = '' !== trim( $sizes ) ? trim( $sizes ) : '100vw';
 		$avif  = self::candidates( $id, 'image/avif' );
 		if ( $avif && 'image/avif' !== get_post_mime_type( $id ) ) {
-			$type = ' type="image/avif"';
-			$href = self::pick( $avif, self::width_of( $id, self::img_src( $id ) ) ?: 768 );
-			$set  = self::avif_srcset( $id );
+			$type  = ' type="image/avif"';
+			$width = self::width_of( $id, self::img_src( $id ) );
+			$href  = self::pick( $avif, $width > 0 ? $width : 768 );
+			$set   = self::avif_srcset( $id );
 		} else {
 			$type = '';
 			$href = self::img_src( $id );

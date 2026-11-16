@@ -301,8 +301,8 @@ final class NH_Text {
 	/**
 	 * `<tag attrs class="…">inner</tag>` (attributes first, as the prototype's `<ul role="list" class="v3-full">`).
 	 */
-	private static function wrap( string $tag, string $class, array $attrs, string $inner ): string {
-		$attrs['class'] = '' !== $class ? $class : null;
+	private static function wrap( string $tag, string $classes, array $attrs, string $inner ): string {
+		$attrs['class'] = '' !== $classes ? $classes : null;
 		return '<' . $tag . NH_Html::attrs( $attrs ) . '>' . $inner . '</' . $tag . '>';
 	}
 

@@ -178,7 +178,7 @@ final class NH_Forms {
 			'nh_return'   => esc_url_raw( $return_url ),
 			'nh_js'       => '0',
 		];
-		$out = '';
+		$out    = '';
 		foreach ( $fields as $name => $value ) {
 			$out .= '<input type="hidden" name="' . $name . '" value="' . esc_attr( $value ) . '">';
 		}
@@ -267,7 +267,7 @@ final class NH_Forms {
 		if ( ! in_array( $f['input'], [ 'select', 'textarea' ], true ) ) {
 			$attrs['type'] = $f['input'];
 		}
-		$attrs += (array) ( $f['attrs'] ?? [] );
+		$attrs                    += (array) ( $f['attrs'] ?? [] );
 		$attrs['required']         = $req;
 		$attrs['aria-invalid']     = '' !== $error ? 'true' : null;
 		$attrs['aria-describedby'] = $described ? implode( ' ', $described ) : null;
@@ -491,7 +491,7 @@ final class NH_Forms {
 	/**
 	 * Steps 2–10 of the handler: returns [ status, errors ]. The CV temp file is deleted before returning.
 	 */
-	private static function process( string $type, string $return ): array {
+	private static function process( string $type, string $return_url ): array {
 		$tmp = '';
 		try {
 			// phpcs:disable WordPress.Security.NonceVerification.Missing -- verified below, in the order of SPEC §6.2
@@ -536,7 +536,7 @@ final class NH_Forms {
 				return [ 'off', [] ];
 			}
 			// 8–10. Mail (with the CV attached from the temp file).
-			return [ self::send( $type, $to, $values, $return, $file ) ? 'sent' : 'error', [] ];
+			return [ self::send( $type, $to, $values, $return_url, $file ) ? 'sent' : 'error', [] ];
 			// phpcs:enable
 		} finally {
 			if ( '' !== $tmp && is_file( $tmp ) ) {
@@ -606,7 +606,9 @@ final class NH_Forms {
 		}
 		$err  = isset( $_FILES['cv']['error'] ) ? (int) $_FILES['cv']['error'] : UPLOAD_ERR_NO_FILE;
 		$size = isset( $_FILES['cv']['size'] ) ? (int) $_FILES['cv']['size'] : 0;
-		$name = isset( $_FILES['cv']['name'] ) && is_string( $_FILES['cv']['name'] ) ? sanitize_file_name( wp_unslash( $_FILES['cv']['name'] ) ) : '';
+		$name = isset( $_FILES['cv']['name'] ) && is_string( $_FILES['cv']['name'] ) ? wp_unslash( $_FILES['cv']['name'] ) : '';
+		// Only the extension of the visitor's file name matters (the mail uses a clean name of its own).
+		$ext = strtolower( (string) pathinfo( $name, PATHINFO_EXTENSION ) );
 		// phpcs:enable
 		if ( UPLOAD_ERR_NO_FILE === $err ) {
 			return null;
@@ -616,11 +618,11 @@ final class NH_Forms {
 			return null;
 		}
 		$uploaded = '' !== $tmp && (bool) apply_filters( 'nh_forms_is_uploaded_file', is_uploaded_file( $tmp ), $tmp );
-		if ( UPLOAD_ERR_OK !== $err || ! $uploaded || '' === $name ) {
+		if ( UPLOAD_ERR_OK !== $err || ! $uploaded || ! isset( self::CV_MIMES[ $ext ] ) ) {
 			$errors['cv'] = 'file_type';
 			return null;
 		}
-		$check = wp_check_filetype_and_ext( $tmp, $name, self::CV_MIMES );
+		$check = wp_check_filetype_and_ext( $tmp, 'cv.' . $ext, self::CV_MIMES );
 		$ext   = strtolower( (string) ( $check['ext'] ?? '' ) );
 		if ( '' === $ext || ! isset( self::CV_MIMES[ $ext ] ) || empty( $check['type'] ) ) {
 			$errors['cv'] = 'file_type';
@@ -638,10 +640,10 @@ final class NH_Forms {
 	 * @param string     $type   Form type.
 	 * @param string     $to     Recipient.
 	 * @param array      $values Sanitised values.
-	 * @param string     $return Page URL.
+	 * @param string     $return_url Page URL.
 	 * @param array|null $file   CV.
 	 */
-	private static function send( string $type, string $to, array $values, string $return, ?array $file ): bool {
+	private static function send( string $type, string $to, array $values, string $return_url, ?array $file ): bool {
 		$site    = wp_specialchars_decode( (string) get_bloginfo( 'name' ), ENT_QUOTES );
 		$subject = 'visit' === $type
 			? sprintf( 'בקשה לביקור — %s', $site )
@@ -670,7 +672,7 @@ final class NH_Forms {
 			$lines[] = 'textarea' === $f['input'] ? $label . ":\n" . $v : $label . ': ' . $v;
 		}
 		$lines[] = '';
-		$lines[] = 'עמוד: ' . $return;
+		$lines[] = 'עמוד: ' . $return_url;
 		$lines[] = 'נשלח: ' . wp_date( 'Y-m-d H:i' );
 
 		$headers = [ 'Content-Type: text/plain; charset=UTF-8' ];
@@ -697,7 +699,7 @@ final class NH_Forms {
 	/**
 	 * Step 11: JSON for nh-forms.js, else a 303 redirect back with the status.
 	 */
-	private static function respond( string $status, array $errors, string $instance, string $return, bool $js ): void {
+	private static function respond( string $status, array $errors, string $instance, string $return_url, bool $js ): void {
 		if ( $js ) {
 			wp_send_json(
 				[
@@ -720,7 +722,7 @@ final class NH_Forms {
 			}
 			$args['nh_err'] = implode( ',', $pairs );
 		}
-		wp_safe_redirect( add_query_arg( $args, $return ), 303 );
+		wp_safe_redirect( add_query_arg( $args, $return_url ), 303 );
 		self::halt();
 	}
 

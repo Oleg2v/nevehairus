@@ -161,7 +161,7 @@ if ( ! function_exists( 'wp_kses_allowed_html' ) ) {
 if ( ! function_exists( 'wp_kses' ) ) {
 	/**
 	 * kses over DOMDocument: allowed tags keep their allowed attributes (href with an allowed protocol),
-	 * other tags are removed and their text kept; comments and script/style contents are dropped.
+	 * other tags are removed and their text kept (as WordPress does); comments are dropped.
 	 */
 	function wp_kses( $content, $allowed_html, $allowed_protocols = [] ) {
 		$content = (string) $content;
@@ -206,10 +206,7 @@ if ( ! function_exists( 'nh_test_kses_children' ) ) {
 			if ( XML_ELEMENT_NODE !== $child->nodeType ) {
 				continue;
 			}
-			$tag = strtolower( $child->nodeName );
-			if ( in_array( $tag, [ 'script', 'style' ], true ) ) {
-				continue;
-			}
+			$tag   = strtolower( $child->nodeName );
 			$inner = nh_test_kses_children( $child, $allowed, $protocols );
 			if ( ! isset( $allowed[ $tag ] ) ) {
 				$out .= $inner;
@@ -302,8 +299,10 @@ if ( ! function_exists( 'sanitize_hex_color' ) ) {
 }
 if ( ! function_exists( 'sanitize_file_name' ) ) {
 	function sanitize_file_name( $filename ) {
-		$filename = (string) preg_replace( '/[^A-Za-z0-9._-]+/', '-', (string) $filename );
-		return trim( (string) preg_replace( '/-+/', '-', $filename ), '.-_' );
+		// As WordPress: special characters removed, whitespace → dashes, letters of any script kept.
+		$filename = str_replace( [ '?', '[', ']', '/', '\\', '=', '<', '>', ':', ';', ',', "'", '"', '&', '$', '#', '*', '(', ')', '|', '~', '`', '!', '{', '}', '%', '+', chr( 0 ) ], '', (string) $filename );
+		$filename = (string) preg_replace( '/[\r\n\t -]+/', '-', $filename );
+		return trim( $filename, '.-_' );
 	}
 }
 if ( ! function_exists( 'sanitize_email' ) ) {

@@ -1,0 +1,30 @@
+/* =========================================================================
+   נווה האירוס — letters and rooms (plugin nevehairus-site, core package).
+   Copied verbatim from prototype/assets/css/v3.css (v3.1, commit 4173d31) in the
+   order of plugin/SPEC.md §9.2. Every block names its source lines; porting changes
+   are marked "plugin:". RTL-first: logical properties only (inline-start = right).
+   ========================================================================= */
+
+/* ---- v3.css L118–129 ---- */
+/* ---------- A letter with a room ------------------------------------------ */
+.v3-room { position: relative; inline-size: 100%; aspect-ratio: var(--asp); }
+.v3-room__photo {
+  position: absolute; left: var(--fx); top: var(--fy); width: var(--fw); height: var(--fh); overflow: hidden; display: block; margin: 0;
+  clip-path: inset(
+    calc(var(--at) + (var(--bt) - var(--at)) * var(--t)) calc(var(--ar) + (var(--br) - var(--ar)) * var(--t))
+    calc(var(--ab) + (var(--bb) - var(--ab)) * var(--t)) calc(var(--al) + (var(--bl) - var(--al)) * var(--t)));
+}
+.v3-room__photo img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: var(--pos); }
+.v3-room__field--sky { background: linear-gradient(180deg, #8FC0E6 0%, #BFDDF2 45%, #E3F0F8 100%); }
+.v3-letter { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; overflow: visible; pointer-events: none; }
+.v3-letter__ink { fill: var(--v3-ink); }
+
+/* ---- v3.css L280–282 — (whole mode: a resident's work shown whole inside the room) ---- */
+.v3-room__photo--whole { clip-path: var(--clip); background: #C9C9C5; }          /* the work table's own grey */
+.v3-room__work { position: absolute; left: var(--wl); top: var(--wt); width: var(--ww); height: var(--wh); }
+.v3-room__work img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
+
+/* ---- v3.css L479 — (forced colours) ---- */
+@media (forced-colors: active) {
+  .v3-letter__ink { fill: CanvasText; }
+}

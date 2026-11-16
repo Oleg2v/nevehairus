@@ -64,10 +64,10 @@ final class NH_Site {
 		wp_print_inline_script_tag(
 			self::prepaint_js(),
 			[
-				'id'                => 'nh-prepaint',
-				'data-no-optimize'  => '1',
-				'data-no-defer'     => '1',
-				'data-cfasync'      => 'false',
+				'id'               => 'nh-prepaint',
+				'data-no-optimize' => '1',
+				'data-no-defer'    => '1',
+				'data-cfasync'     => 'false',
 			]
 		);
 	}
@@ -270,7 +270,7 @@ final class NH_Site {
 		}
 		if ( '' !== $phone['tel'] ) {
 			$label = trim( trim( (string) NH_Settings::get( 'bar_call_label' ) ) . ' ' . $phone['display'] );
-			$out  .= '<a class="nh-btn nh-btn--ghost" href="' . esc_url( NH_Html::tel( $phone['tel'] ) ) . '" aria-label="' . esc_attr( $label ) . '">'
+			$out  .= "\n" . '<a class="nh-btn nh-btn--ghost" href="' . esc_url( NH_Html::tel( $phone['tel'] ) ) . '" aria-label="' . esc_attr( $label ) . '">'
 				. NH_Html::icon( 'phone', 'nh-btn__icon' ) . '</a>';
 		}
 		return $out . '</aside>';

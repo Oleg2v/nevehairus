@@ -1,0 +1,21 @@
+{
+  "name": "koranga/nevehairus-site-dev",
+  "description": "Development tools of the nevehairus-site plugin (PHPCS with WordPress and PHP 8.0 compatibility rules). Never shipped: the plugin itself has no Composer dependencies.",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.13",
+    "wp-coding-standards/wpcs": "^3.1",
+    "phpcompatibility/phpcompatibility-wp": "^2.1",
+    "phpcompatibility/php-compatibility": "^9.3 || 10.0.0-alpha1"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "sort-packages": true
+  },
+  "scripts": {
+    "check": "python3 -I ../scripts/build_plugin.py check --phpcs"
+  }
+}

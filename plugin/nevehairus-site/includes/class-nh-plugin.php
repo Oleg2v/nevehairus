@@ -188,12 +188,12 @@ final class NH_Plugin {
 	/**
 	 * Remembers why a widget file was skipped and, with WP_DEBUG, reports it.
 	 */
-	private static function skip( string $id, string $class, string $reason ): void {
+	private static function skip( string $id, string $class_name, string $reason ): void {
 		self::$skipped[ $id ] = $reason;
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG && function_exists( '_doing_it_wrong' ) ) {
 			_doing_it_wrong(
 				__CLASS__ . '::widgets',
-				esc_html( sprintf( 'Widget "%1$s" (%2$s) was not registered: %3$s.', $id, $class, $reason ) ),
+				esc_html( sprintf( 'Widget "%1$s" (%2$s) was not registered: %3$s.', $id, $class_name, $reason ) ),
 				'0.1.0'
 			);
 		}

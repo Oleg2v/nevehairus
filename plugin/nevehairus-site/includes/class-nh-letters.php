@@ -162,7 +162,7 @@ final class NH_Letters {
 		if ( null === $e || empty( $e['800']['room'] ) || empty( $e['300']['room'] ) ) {
 			return [];
 		}
-		$o = self::options( $o );
+		$o                     = self::options( $o );
 		[ $fx, $fy, $fw, $fh ] = self::frame( $name, $o['frame'] );
 
 		$open = in_array( $name, self::OPEN_LEFT, true );
@@ -177,11 +177,11 @@ final class NH_Letters {
 		$i8   = self::insets( $r8, $ux, $uy, $ur, $ub, $uw, $uh );
 		$i3   = self::insets( $r3, $ux, $uy, $ur, $ub, $uw, $uh );
 
-		$v          = [];
-		$v['--fx']  = self::f( ( $ux - $fx ) / $fw * 100, 3 ) . '%';
-		$v['--fy']  = self::f( ( $uy - $fy ) / $fh * 100, 3 ) . '%';
-		$v['--fw']  = self::f( $uw / $fw * 100, 3 ) . '%';
-		$v['--fh']  = self::f( $uh / $fh * 100, 3 ) . '%';
+		$v         = [];
+		$v['--fx'] = self::f( ( $ux - $fx ) / $fw * 100, 3 ) . '%';
+		$v['--fy'] = self::f( ( $uy - $fy ) / $fh * 100, 3 ) . '%';
+		$v['--fw'] = self::f( $uw / $fw * 100, 3 ) . '%';
+		$v['--fh'] = self::f( $uh / $fh * 100, 3 ) . '%';
 		foreach ( [ 't', 'r', 'b', 'l' ] as $k => $side ) {
 			$v[ '--a' . $side ] = self::f( $i8[ $k ], 3 ) . '%';
 		}
@@ -382,9 +382,9 @@ final class NH_Letters {
 			$o
 		);
 
-		$pos  = trim( (string) $o['pos'] );
-		$work = is_array( $o['work'] ) ? array_values( $o['work'] ) : preg_split( '/\s+/', trim( (string) $o['work'] ) );
-		$work = [
+		$pos   = trim( (string) $o['pos'] );
+		$work  = is_array( $o['work'] ) ? array_values( $o['work'] ) : preg_split( '/\s+/', trim( (string) $o['work'] ) );
+		$work  = [
 			isset( $work[0] ) && is_numeric( $work[0] ) ? (float) $work[0] : 0.5,
 			isset( $work[1] ) && is_numeric( $work[1] ) ? (float) $work[1] : 0.5,
 			isset( $work[2] ) && is_numeric( $work[2] ) && (float) $work[2] > 0 ? (float) $work[2] : 0.48,

@@ -1,0 +1,403 @@
+/* =========================================================================
+   נווה האירוס — base styles, site-wide (plugin nevehairus-site, core package).
+   Copied verbatim from prototype/assets/css/main.css and v3.css (v3.1, commit 4173d31) in the
+   order of plugin/SPEC.md §9.1. Every block names its source lines; porting changes
+   are marked "plugin:". RTL-first: logical properties only (inline-start = right).
+   ========================================================================= */
+
+/* ---- main.css L6–33 ---- */
+/* ---------- Reset ------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-block-start: 6rem; }
+/* 2.4.11 focus not obscured: the banner's height (set by site.js) beats the visit bar's padding (v3.css html.nh-has-bar),
+   and while the banner shows, the footer gets room so its last links can scroll above it */
+html.nh-has-cookies, html.nh-has-cookies.nh-has-bar { scroll-padding-block-end: calc(var(--nh-cookie-h, 13rem) + 1rem); }
+html.nh-has-cookies .nh-footer { padding-block-end: calc(var(--nh-cookie-h, 13rem) + 2rem); }
+body {
+  min-height: 100vh;
+  background: var(--nh-bg);
+  color: var(--nh-text);
+  font-family: var(--nh-font-body);
+  font-size: var(--nh-fs-body);
+  line-height: var(--nh-lh-body);
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+img, picture, svg, video, iframe { display: block; max-width: 100%; }
+img { height: auto; }
+input, button, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; padding: 0; }
+p, li, dd, figcaption, blockquote { text-wrap: pretty; overflow-wrap: break-word; }
+h1, h2, h3, h4 { text-wrap: balance; overflow-wrap: break-word; }
+:where(ul[role="list"], ol[role="list"]) { list-style: none; padding: 0; } /* zero specificity: components may add padding */
+[hidden] { display: none !important; }
+
+/* ---- main.css L35–40 ---- */
+@media (prefers-reduced-motion: no-preference) {
+  /* smooth only for in-page links (focus is inside the page); a link from another page lands at once */
+  html:focus-within { scroll-behavior: smooth; }
+  html.nh-reduce-motion, html.nh-calm { scroll-behavior: auto; }
+  @view-transition { navigation: auto; }
+}
+
+/* ---- main.css L51–64 ---- */
+/* ---------- Accessibility helpers --------------------------------------- */
+.nh-sr-only {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+.nh-skip {
+  position: absolute; z-index: 200; inset-inline-start: var(--nh-s-4); top: -10rem;
+  background: var(--nh-ink); color: var(--nh-paper); padding: .85rem 1.25rem;
+  border-radius: var(--nh-r-sm); font-weight: 700; text-decoration: none;
+}
+.nh-skip:focus { top: var(--nh-s-4); }
+:focus-visible { outline: 3px solid var(--nh-focus); outline-offset: 3px; }
+:focus:not(:focus-visible) { outline: none; }
+.nh-ltr { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+
+/* ---- main.css L66–90 ---- */
+/* ---------- Typography --------------------------------------------------- */
+h1, h2, h3, .nh-display {
+  font-family: var(--nh-font-display);
+  font-weight: 500;
+  line-height: var(--nh-lh-heading);
+  letter-spacing: 0;   /* Hebrew display type is not tightened (v3.1) */
+}
+h4 { font-family: var(--nh-font-display); font-weight: 600; font-size: var(--nh-fs-h4); line-height: 1.3; }
+.nh-h1 { font-size: var(--nh-fs-h1); line-height: 1.04; }
+.nh-h2 { font-size: var(--nh-fs-h2); line-height: 1.08; }
+.nh-h3 { font-size: var(--nh-fs-h3); line-height: 1.18; }
+.nh-lead { font-size: var(--nh-fs-lead); line-height: 1.55; color: var(--nh-text); max-width: 38ch; }
+.nh-muted { color: var(--nh-text-muted); }
+.nh-small { font-size: var(--nh-fs-small); }
+.nh-eyebrow {
+  display: inline-flex; align-items: center; gap: .75rem;
+  font-family: var(--nh-font-body); font-weight: 700; font-size: 1rem; letter-spacing: .02em;
+  color: var(--nh-accent);
+}
+.nh-eyebrow::before { content: ""; inline-size: 2rem; block-size: 2px; background: currentColor; }
+.nh-prose > * + * { margin-block-start: 1em; }
+.nh-prose { max-width: 62ch; }
+a { color: var(--nh-link); text-decoration-thickness: 1px; text-underline-offset: .2em; }
+a:hover { text-decoration-thickness: 2px; }
+strong { font-weight: 700; }
+
+/* ---- plugin (new): Elementor / Hello compatibility and editor-only notes (SPEC §9.1 row 32, §10.1) ----
+   Placed right after the typography on purpose: these rules have the specificity of Elementor's own
+   (`.elementor a` = 0,1,1) and win over them by load order, but every component rule below with the same
+   specificity (e.g. `.v3-roles a { text-decoration: none }`) must still win over them. */
+/* a note only editors see: a missing setting, an unresolved link (NH_Html::admin_note) */
+.nh-admin-note { margin-block: .75rem; padding: .5rem .75rem; border: 1px dashed var(--nh-field); background: var(--nh-paper); color: var(--nh-ink); font: 600 .875rem/1.45 var(--nh-font-body); max-inline-size: 60ch; }
+
+/* Elementor containers that hold our full-bleed spreads add no padding, gap or width limit */
+.e-con:has(> [class*="elementor-widget-nh-"]),
+.e-con:has(> .e-con-inner > [class*="elementor-widget-nh-"]) {
+  --padding-top: 0px; --padding-right: 0px; --padding-bottom: 0px; --padding-left: 0px;
+  --gap: 0px; --row-gap: 0px; --column-gap: 0px; --content-width: 100%; --min-height: 0px;
+}
+/* no widget spacing between spreads (frontend.css: .elementor-widget:not(:last-child) { margin-block-end: var(--kit-widget-spacing, 20px) }) */
+.elementor-widget[class*="elementor-widget-nh-"]:not(:last-child) { margin-block-end: 0; }
+/* frontend.css: `.elementor a { text-decoration: none; box-shadow: none }` (0,1,1) — keep underlines on plain links (1.4.1) */
+.elementor a:where(:not([class])) { text-decoration: underline; }
+
+/* ---- main.css L99–114 ---- */
+/* ---------- Layout ------------------------------------------------------- */
+.nh-container { width: min(100% - 2 * var(--nh-gutter), var(--nh-max)); margin-inline: auto; }
+.nh-section { padding-block: var(--nh-section); position: relative; }
+.nh-section--sand { background: var(--nh-paper-2); }
+.nh-section--white { background: var(--nh-white); }
+.nh-section--sky { background: var(--nh-sky-200); }
+.nh-section--night, .nh-on-dark {
+  background: var(--nh-night); color: var(--nh-paper);
+  --nh-text: var(--nh-paper); --nh-text-muted: var(--nh-on-night-2);
+  --nh-link: var(--nh-citrus-400); --nh-focus: var(--nh-citrus-400); --nh-accent: var(--nh-citrus-400);
+}
+.nh-section__head { display: grid; gap: var(--nh-s-5); margin-block-end: clamp(2.5rem, 1.5rem + 3vw, 4.5rem); }
+@media (min-width: 1024px) {
+  .nh-section__head--split { grid-template-columns: 7fr 5fr; align-items: end; column-gap: var(--nh-s-8); }
+}
+.nh-stack > * + * { margin-block-start: var(--nh-s-5); }
+
+/* ---- main.css L116–143 ---- */
+/* ---------- Buttons & links ---------------------------------------------- */
+.nh-btn {
+  --_bg: transparent; --_fg: var(--nh-text);
+  display: inline-flex; align-items: center; justify-content: center; gap: .65em;
+  min-block-size: 3.25rem; padding: .8em 1.5em; border-radius: var(--nh-r-pill);
+  background: var(--_bg); color: var(--_fg);
+  font-family: var(--nh-font-body); font-weight: 700; font-size: 1.0625rem; line-height: 1.2;
+  text-decoration: none; white-space: nowrap;
+  transition: background-color var(--nh-dur-1) ease, color var(--nh-dur-1) ease, box-shadow var(--nh-dur-1) ease, transform var(--nh-dur-2) var(--nh-ease-out);
+}
+.nh-btn:hover { text-decoration: none; }
+.nh-btn--primary { --_bg: var(--nh-iris-700); --_fg: var(--nh-white); }
+.nh-btn--primary:hover { --_bg: var(--nh-iris-600); }
+/* plugin: element selectors beat Elementor's `.elementor a { box-shadow: none }` (0,1,1) — SPEC §10.2 */
+a.nh-btn--ghost, button.nh-btn--ghost { box-shadow: inset 0 0 0 1.5px currentColor; }
+.nh-btn--ghost:hover { --_bg: var(--nh-ink); --_fg: var(--nh-paper); box-shadow: inset 0 0 0 1.5px var(--nh-ink); }
+.nh-on-dark .nh-btn--ghost:hover, .nh-section--night .nh-btn--ghost:hover { --_bg: var(--nh-paper); --_fg: var(--nh-night); box-shadow: none; }
+.nh-btn--light { --_bg: var(--nh-white); --_fg: var(--nh-iris-700); }
+.nh-btn--light:hover { --_bg: var(--nh-citrus-100); --_fg: var(--nh-ink); }
+.nh-btn--sm { min-block-size: 2.75rem; padding: .55em 1.1em; font-size: 1rem; }
+.nh-btn__icon { inline-size: 1.15em; block-size: 1.15em; flex: none; transition: transform var(--nh-dur-2) var(--nh-ease-out); }
+.nh-btn:hover .nh-btn__icon--fwd, .nh-link-arrow:hover .nh-btn__icon--fwd { transform: translateX(-4px); }
+.nh-link-arrow {
+  display: inline-flex; align-items: center; gap: .5em; font-weight: 700; text-decoration: none;
+  color: var(--nh-link); min-block-size: 2.75rem;
+}
+.nh-link-arrow span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .25em; }
+.nh-link-arrow:hover span { text-decoration-thickness: 2px; }
+.nh-btn-row { display: flex; flex-wrap: wrap; gap: var(--nh-s-3); align-items: center; }
+
+/* ---- main.css L244–263 ---- */
+/* ---------- Cookie banner ---------------------------------------------------- */
+.nh-cookies {
+  position: fixed; z-index: 80; inset-block-end: var(--nh-s-4); inset-inline: var(--nh-s-4);
+  max-inline-size: 34rem; margin-inline-start: auto; /* sits at the inline-end (left) */
+  background: var(--nh-white); color: var(--nh-ink); border-radius: var(--nh-r-lg); box-shadow: var(--nh-shadow-2);
+  padding: var(--nh-s-5); display: grid; gap: var(--nh-s-4); border: 1px solid var(--nh-line);
+  max-block-size: calc(100dvh - 2rem); overflow-y: auto; overscroll-behavior: contain;
+}
+.nh-cookies__more { display: none; justify-self: start; min-block-size: 2.75rem; align-items: center; font-weight: 700; color: var(--nh-iris-700); text-decoration: underline; text-underline-offset: .2em; }
+/* short or narrow screens: the explanation folds away so the closed banner stays small */
+@media (max-height: 34em), (max-width: 30em) {
+  .nh-cookies { inset-block-end: .5rem; inset-inline: .5rem; padding: var(--nh-s-4); gap: var(--nh-s-3); }
+  .nh-cookies__more { display: inline-flex; }
+  .nh-cookies:not(.is-more) .nh-cookies__text { display: none; }
+}
+.nh-cookies h2 { font-size: 1.25rem; }
+.nh-cookies p { font-size: var(--nh-fs-small); color: var(--nh-ink-2); }
+.nh-cookies__text .v3-plain p { font-size: 1.125rem; color: var(--nh-ink); margin-block-end: .25rem; }
+.nh-cookies__prefs { display: grid; gap: var(--nh-s-3); border-block: 1px solid var(--nh-line); padding-block: var(--nh-s-4); }
+.nh-cookies .nh-btn { min-block-size: 2.75rem; padding: .5em 1.1em; font-size: 1rem; }
+
+/* ---- main.css L410–417 ---- */
+/* ---------- Reduced motion: OS setting OR on-site toggle ------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+}
+html.nh-reduce-motion *, html.nh-reduce-motion *::before, html.nh-reduce-motion *::after,
+html.nh-calm *, html.nh-calm *::before, html.nh-calm *::after {
+  animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important;
+}
+
+/* ---- main.css L419–424 — plugin: only .nh-btn (.nh-menu-btn → masthead, .nh-lightbox__btn → gallery; v1 parts not ported) ---- */
+/* ---------- Forced colours (Windows high contrast) ----------------------------- */
+@media (forced-colors: active) {
+  .nh-btn { border: 2px solid ButtonText; }
+}
+
+/* ---- main.css L426–430 — plugin: .nh-cookies and the dark sections only (.nh-header, .nh-menu → masthead; .nh-video → voices) ---- */
+/* ---------- Print ----------------------------------------------------------- */
+@media print {
+  .nh-cookies { display: none !important; }
+  .nh-section--night, .nh-on-dark { background: none !important; color: #000 !important; }
+}
+
+/* ---- v3.css L1–8 — (the v3 header) ---- */
+/* =========================================================================
+   v3 «אותיות שגרים בהן» — letters you can live in
+   Paper; a ruling line (שרטוט) that every spread hangs from; five Hebrew letters
+   whose names are words of home (ב בית, כ כף, ס סמך, ל למד, ד דלת) used as
+   architecture: their counters are rooms where life is shown.
+   Rules (research/06): text never moves, only the letters do; no JS pinning;
+   photos live only inside the rooms; no arches, chips, stickers or eyebrow labels.
+   ========================================================================= */
+
+/* ---- v3.css L10–22 ---- */
+:root {
+  --v3-ink: #1C1830;                       /* the letters */
+  --v3-iris-text: #E2DAF0;                 /* secondary text on iris (7.76:1) */
+  --v3-toggle-dark: #8F84A6;               /* toggle track on night (4.92:1) */
+}
+.v3 {
+  --v3-mast: 4.5rem;
+  --v3-poster: clamp(4.25rem, 1rem + 10.2vw, max(9.5rem, min(14rem, 12vh)));
+  --v3-h2: clamp(2.6rem, 1.4rem + 3.8vw, 5.25rem);
+  --v3-lead: clamp(1.2rem, 1.06rem + .5vw, 1.5rem);
+  background: var(--nh-paper);
+}
+@media (max-width: 69.99em) { .v3 { --v3-mast: 3.75rem; } }
+
+/* ---- v3.css L24–28 ---- */
+/* ---------- Buttons: square, like a printed form ------------------------- */
+.v3 .nh-btn { border-radius: 2px; min-block-size: 3.5rem; padding-inline: 1.6em; }
+.v3 .nh-btn--sm { min-block-size: 2.75rem; padding-inline: 1.1em; }
+/* plugin: element selectors beat Elementor's `.elementor a { box-shadow: none }` (0,1,1) — SPEC §10.2 */
+a.nh-btn--ink, button.nh-btn--ink { box-shadow: inset 0 0 0 1.5px var(--nh-ink); --_fg: var(--nh-ink); }
+.nh-btn--ink:hover { --_bg: var(--nh-ink); --_fg: var(--nh-citrus-400); }
+
+/* ---- v3.css L80–92 ---- */
+.v3-toggle {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; inline-size: 100%;
+  min-block-size: 2.75rem; padding-inline: .25rem; font: 600 1rem/1.2 var(--nh-font-body); color: inherit; text-align: start;
+}
+.v3-toggle i { position: relative; flex: none; inline-size: 2.6rem; block-size: 1.5rem; border-radius: .75rem; background: var(--nh-field); transition: background-color .2s ease; }
+.v3-toggle i::after { content: ""; position: absolute; inset-block-start: 3px; inset-inline-start: 3px; inline-size: calc(1.5rem - 6px); block-size: calc(1.5rem - 6px); border-radius: 50%; background: var(--nh-white); transition: transform .2s var(--nh-ease-out); }
+.v3-toggle[aria-pressed="true"] i { background: var(--nh-olive-700); }
+.v3-toggle[aria-pressed="true"] i::after { transform: translateX(-1.1rem); }
+.v3-menu-toggles, .v3-footer-toggles { display: grid; gap: .1rem; max-inline-size: 18rem; }
+.v3-footer-toggles { margin-block-start: 1rem; }
+.nh-on-dark .v3-toggle i { background: var(--v3-toggle-dark); }
+.nh-on-dark .v3-toggle[aria-pressed="true"] i { background: var(--nh-citrus-400); }
+.nh-on-dark .v3-toggle[aria-pressed="true"] i::after { background: var(--nh-ink); }
+
+/* ---- v3.css L94–104 ---- */
+/* ---------- Spreads and the ruling line ---------------------------------- */
+.v3-spread { position: relative; padding-block: clamp(4.5rem, 2.5rem + 6vw, 9rem); }
+.v3-spread--sand { background: var(--nh-paper-2); }
+.v3-spread--citrus { background: var(--nh-citrus-400); color: var(--nh-ink); --nh-focus: var(--nh-ink); --nh-link: var(--nh-ink); --nh-text-muted: var(--nh-ink); --v3-ink: var(--nh-ink); }
+.v3-spread--iris { background: var(--nh-iris-700); color: var(--nh-white); --nh-focus: var(--nh-citrus-400); --nh-link: var(--nh-white); --nh-text: var(--nh-white); --nh-text-muted: var(--v3-iris-text); --v3-ink: var(--nh-paper); }
+.v3-spread--night { background: var(--nh-night); color: var(--nh-paper); --nh-focus: var(--nh-citrus-400); --nh-link: var(--nh-citrus-400); --nh-text: var(--nh-paper); --nh-text-muted: var(--nh-on-night-2); --v3-ink: var(--nh-paper); }
+.v3-rule { position: relative; block-size: 1px; background: currentColor; margin-block-end: clamp(2rem, 1.2rem + 2vw, 3.5rem); }
+.v3-h2 { font: 300 var(--v3-h2)/1 var(--nh-font-display); letter-spacing: 0; margin: 0 0 1.25rem; text-wrap: balance; }
+.v3-lead { font-size: var(--v3-lead); line-height: 1.5; max-inline-size: 38ch; margin: 0 0 1.5rem; color: var(--nh-text-muted, var(--nh-ink-2)); }
+.v3-note { font-size: .9375rem; color: var(--nh-ink-2); margin-block-start: 1rem; }
+.v3-credit { font-size: .9375rem; font-weight: 600; }
+
+/* ---- v3.css L106–116 ---- */
+/* the full stop of the headlines is drawn as one square glazed tessera */
+.v3-dot { position: relative; color: transparent; }
+.v3-dot::before {
+  /* Frank Ruhl Libre: descent .334em, the period sits at x .085–.177em of its advance */
+  content: ""; position: absolute; left: .065em; bottom: .334em; inline-size: .12em; block-size: .12em;
+  background: var(--nh-iris-700); transform: rotate(-4deg); border-radius: .015em;
+  box-shadow: inset .018em .018em 0 rgb(255 255 255 / .28), inset -.02em -.02em 0 rgb(0 0 0 / .18);
+}
+.v3-dot--clay::before { background: var(--nh-clay-700); transform: rotate(5deg); }
+.v3-dot--ink::before { background: var(--nh-ink); }
+.v3-dot--citrus::before { background: var(--nh-citrus-400); }
+
+/* ---- v3.css L162 ---- */
+@media (min-width: 112.5em) { .v3 { --nh-max: 110rem; } }
+
+/* ---- v3.css L234–241 ---- */
+main { counter-reset: print; }
+.v3-print { margin: 0; max-inline-size: 34rem; counter-increment: print; }
+.v3-print picture { display: block; box-shadow: 0 0 0 1px var(--v3-ink); }
+.v3-print img { display: block; inline-size: 100%; block-size: auto; }
+.v3-print figcaption { font-size: .875rem; line-height: 1.4; color: var(--nh-text-muted, var(--nh-ink-2)); margin-block-start: .65rem; }
+.v3-print figcaption::before { content: counter(print) " · "; content: counter(print) " · " / ""; font-weight: 700; color: var(--nh-text, var(--nh-ink)); }
+.v3-print--small { max-inline-size: 14rem; }
+.v3-print--mid { max-inline-size: 20rem; }
+
+/* ---- v3.css L252–253 — shared two-column grids (kaf, samekh, lamed, door, voices) ---- */
+.v3-kaf__grid, .v3-samekh__grid, .v3-lamed__grid, .v3-door__grid, .v3-voices__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem clamp(2rem, 1rem + 4vw, 6rem); }
+.v3-kaf__grid > .v3-rule, .v3-samekh__grid > .v3-rule, .v3-lamed__grid > .v3-rule, .v3-door__grid > .v3-rule, .v3-voices__grid > .v3-rule { grid-column: 1 / -1; margin-block-end: 0; }
+
+/* ---- v3.css L335–340 ---- */
+/* ---------- Voices (night) -------------------------------------------------- */
+.v3-quote { margin: 0; }
+.v3-quote p { position: relative; font: 300 clamp(1.9rem, 1.2rem + 2.3vw, 3.4rem)/1.2 var(--nh-font-display); letter-spacing: 0; margin: 0; max-inline-size: 24ch; }
+.v3-quote p::before { content: "״"; position: absolute; inset-inline-end: 100%; margin-inline-end: .12em; color: var(--nh-citrus-400); }
+.v3-quote footer { margin-block-start: 1.25rem; font-size: 1.0625rem; color: var(--nh-on-night-2); }
+.v3-quote cite { font-style: normal; }
+
+/* ---- v3.css L372–379 ---- */
+.v3-roles { list-style: none; margin: 1.5rem 0 2rem; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
+.v3-roles li { border-block-end: 1px solid rgb(31 36 33 / .4); }
+.v3-roles a { display: grid; grid-template-columns: minmax(0, 1fr) auto 1.5rem; gap: 1rem; align-items: baseline; padding-block: 1.1rem; color: var(--nh-ink); text-decoration: none; }
+.v3-roles b { font: 500 clamp(1.2rem, 1.05rem + .5vw, 1.55rem)/1.25 var(--nh-font-display); }
+.v3-roles__meta { font-size: .9375rem; color: var(--nh-ink-2); white-space: nowrap; }
+.v3-roles svg { inline-size: 1.25rem; block-size: 1.25rem; transition: transform .3s var(--nh-ease-out); align-self: center; }
+.v3-roles a:hover b, .v3-roles a:focus-visible b { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 1px; }
+.v3-roles a:hover svg, .v3-roles a:focus-visible svg { transform: translateX(-8px); }
+
+/* ---- v3.css L550–557 — plugin: without L551 (.v3-related → related.css) ---- */
+/* rows with a long description wrap; on phones the description goes under the title */
+@media (max-width: 640px) {
+  .v3-roles a { grid-template-columns: minmax(0, 1fr) 1.5rem; row-gap: .25rem; }
+  .v3-roles b { grid-column: 1; grid-row: 1; }
+  .v3-roles__meta { grid-column: 1; grid-row: 2; white-space: normal; }
+  .v3-roles svg { grid-column: 2; grid-row: 1 / span 2; }
+}
+
+/* ---- v3.css L439 ---- */
+.v3-bar { --nh-focus: var(--nh-citrus-400); }
+
+/* ---- v3.css L490–491 ---- */
+/* the visit bar steps aside while a form field is being filled in */
+.v2-bar.is-typing { transform: translateY(160%) !important; visibility: hidden !important; }
+
+/* ---- v3.css L598–610 ---- */
+/* ---------- Mobile visit bar (moved from v2; square, solid, no blur) ---------------- */
+.v2-bar { position: fixed; z-index: 45; inset-inline: .75rem; inset-block-end: calc(.75rem + env(safe-area-inset-bottom, 0px));
+  display: none; grid-template-columns: 1fr auto; gap: .5rem; padding: .5rem; border-radius: 4px; background: var(--nh-night);
+  box-shadow: 0 10px 30px rgb(0 0 0 / .25);
+  transform: translateY(160%); visibility: hidden; transition: transform .45s var(--nh-ease-out), visibility 0s linear .45s; --nh-focus: var(--nh-citrus-400); }
+.v2-bar .nh-btn { min-block-size: 3rem; padding-block: .5em; }
+.v2-bar .nh-btn--primary { --_bg: var(--nh-citrus-400); --_fg: var(--nh-ink); }
+.v2-bar .nh-btn--ghost { color: var(--nh-paper); }
+@media (max-width: 69.99em) { .v2-bar { display: grid; } }
+.v2-bar.is-on { transform: none; visibility: visible; transition: transform .45s var(--nh-ease-out), visibility 0s; }
+html.nh-has-bar { scroll-padding-block-end: 6rem; }
+html.nh-has-cookies .v2-bar { display: none !important; }   /* while the cookie banner is up it would sit over the bar's buttons */
+@media (min-width: 70em) { html.nh-has-bar { scroll-padding-block-end: 0; } }
+
+/* ---- v3.css L441–448, 451 — plugin: L445 without its third selector (.v3-home__who → homes.css) ---- */
+/* ---------- Plain-language mode (whole page) ------------------------------- */
+html:not(.nh-plainmode) .v3-plain { display: none !important; }
+html.nh-plainmode .v3-plain { display: block; }
+html.nh-plainmode .v3-full { display: none !important; }
+html.nh-plainmode main p.v3-plain, html.nh-plainmode main .v3-plain p { font-size: 1.375rem; line-height: 1.6; margin: 0 0 .3rem; color: inherit; max-inline-size: 36ch; }
+html.nh-plainmode main { font-size: 1.1875rem; }
+html.nh-plainmode :is(h1, h2, h3, b, label) > .v3-plain { display: inline; }
+html.nh-plainmode .nh-btn > .v3-plain { display: inline; }
+html.nh-plainmode .v3-plain--after { margin-block-start: 1.5rem; }
+
+/* ---- v3.css L465–467 ---- */
+/* ---------- Calm mode ------------------------------------------------------------ */
+html.nh-calm .v3-spread--citrus { background: var(--nh-paper-2); }
+html.nh-calm .v3 img, html.nh-calm.v3 img, html.nh-calm main img { filter: saturate(.7); }
+
+/* ---- v3.css L470–475 — plugin: base selectors only (.v3-home__* → homes, .v3-kaf__palm → kaf) ---- */
+/* ---------- Reduced motion (OS or on-site) ---------------------------------------- */
+html.nh-reduce-motion .v3-toggle i, html.nh-reduce-motion .v3-toggle i::after, html.nh-reduce-motion .v3-roles svg { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .v3-toggle i, .v3-toggle i::after, .v3-roles svg { transition: none; }
+}
+
+/* ---- v3.css L477–488 — plugin: base selectors only (.v3-letter__ink → letters; .v3-progress, .v3-plainbtn, .v3-display__btn → masthead; .v3-door__* → door) ---- */
+/* ---------- Forced colours ------------------------------------------------------- */
+@media (forced-colors: active) {
+  .v3-toggle i { forced-color-adjust: none; background: Canvas; border: 1px solid CanvasText; }
+  .v3-toggle[aria-pressed="true"] i { background: Highlight; }
+  .v3-dot { color: inherit; }
+  .v3-dot::before { display: none; }
+  .v3-rule { background: CanvasText; }
+  .v3-print picture { outline: 1px solid CanvasText; }
+}
+
+/* ---- v3.css L581–583 — plugin: without L584 (.v3-plainbox → plainbox.css) ---- */
+/* long button labels wrap on narrow phones instead of widening the page */
+@media (max-width: 479px) {
+  .v3 .nh-btn { white-space: normal; text-align: center; line-height: 1.25; }
+}
+
+/* ---- v3.css L587–590 ---- */
+/* ---------- Wordmark (temporary typographic logo; moved from v2) ----------------- */
+.nh-wordmark { display: inline-flex; align-items: baseline; gap: .45rem; font: 500 1.6rem/1 var(--nh-font-display); letter-spacing: 0; color: currentColor; white-space: nowrap; }
+.nh-wordmark::before { content: ""; inline-size: .62rem; block-size: .62rem; background: var(--nh-iris-700); transform: rotate(45deg) translateY(-.12em); border-radius: 2px; box-shadow: .5rem .5rem 0 -.08rem #BBA957; margin-inline-end: .35rem; }
+.nh-wordmark small { font: 700 .75rem/1 var(--nh-font-body); letter-spacing: .08em; }
+
+/* ---- v3.css L612–615 — plugin: generalised to every page-transition name of class nh-bet (D11) ---- */
+/* ---------- Page transitions: the homes-index ב grows into the page cover ב ---------- */
+::view-transition-group(*.nh-bet) { animation-duration: .6s; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
+html.nh-reduce-motion::view-transition-group(*), html.nh-reduce-motion::view-transition-old(*), html.nh-reduce-motion::view-transition-new(*),
+html.nh-calm::view-transition-group(*), html.nh-calm::view-transition-old(*), html.nh-calm::view-transition-new(*) { animation: none !important; }
+
+/* ---- v3.css L632–638 — plugin: without .v3-mast (→ masthead.css) ---- */
+/* short screens (landscape phones, 400% zoom): the masthead scrolls away with the page and the visit
+   bar is not shown — the visit button is on the cover and in the door */
+@media (max-height: 30em) {
+  .v2-bar { display: none !important; }
+  html { scroll-padding-block: 1rem; }
+}
+
+/* ---- v3.css L644–645 ---- */
+/* the cookie banner keeps its place above a page transition */
+.nh-cookies { view-transition-name: nh-cookies; }

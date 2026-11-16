@@ -21,7 +21,8 @@ width, height, action, data-vt, data-src, data-srcset, data-avif, data-name, dat
 data-caption-plain, data-count, data-running-plain are compared by presence only ([name]); href keeps
 only its #fragment, or becomes URL; style keeps its custom properties sorted, numbers to 2 decimals,
 and two lines that differ only in numbers within ±0.01 are equal. Ignored: input[type=hidden], script,
-.nh-admin-note, comments. Whitespace-only text counts only between two inline elements or texts.
+.nh-admin-note, comments. Whitespace-only text counts only in running text: between two inline
+elements or texts, inside an element that has non-whitespace text of its own.
 
 Exit 0 when every differing line ("-" prototype, "+" plugin) matches one of the fixture's expect_diff
 regular expressions (re.search); 1 otherwise; 2 on usage or missing files.
@@ -178,13 +179,16 @@ def lines_of(node, depth=0, out=None):
     attrs = [a for a in (norm_attr(k, v) for k, v in sorted(node.attrs.items())) if a]
     out.append("  " * depth + node.tag + cls + ("" if not attrs else " " + " ".join(attrs)))
     kids = [c for c in node.children if not ignored(c)]
+    # a space between two elements matters only in running text (the element has text of its own);
+    # between blocks, flex/grid items or an icon and its label it is formatting
+    running = any(c.tag is None and c.text.strip() for c in kids)
     for i, c in enumerate(kids):
         prev = kids[i - 1] if i > 0 else None
         nxt = kids[i + 1] if i + 1 < len(kids) else None
         if c.tag is None:
             t = re.sub(r"\s+", " ", c.text)
             if not t.strip():
-                if is_inline(prev) and is_inline(nxt):
+                if running and is_inline(prev) and is_inline(nxt):
                     out.append("  " * (depth + 1) + '" "')
                 continue
             if not is_inline(prev):
@@ -289,6 +293,14 @@ def prototype_letters():
             if attrs.get("extra"):
                 extra = open(os.path.join(PROTO, "src", "partials", attrs["extra"] + ".html"), encoding="utf-8").read().strip()
             items.append({"page": os.path.basename(page), "kind": kind, "attrs": attrs, "extra": extra, "html": out})
+    # synthetic: every letter at in-between weights and both frames (the interpolation of lerp_d())
+    for name, e in build.letters.items():
+        if not isinstance(e, dict):
+            continue
+        for wt in ("301", "333", "450", "555", "667", "799"):
+            for frame in ("800", "300"):
+                attrs = {"name": name, "w": wt, "frame": frame}
+                items.append({"page": "synthetic", "kind": "letter", "attrs": attrs, "extra": "", "html": build.letter_svg(dict(attrs))})
     json.dump(items, sys.stdout, ensure_ascii=False)
     return 0
 

@@ -58,7 +58,7 @@ final class NH_Html {
 	 * `<tag attrs>inner</tag>` (void elements without closing tag). `$inner` is trusted HTML.
 	 */
 	public static function tag( string $tag, array $a, string $inner ): string {
-		$tag = preg_match( '/^[a-z][a-z0-9-]*$/', $tag ) ? $tag : 'span';
+		$tag  = preg_match( '/^[a-z][a-z0-9-]*$/', $tag ) ? $tag : 'span';
 		$open = '<' . $tag . self::attrs( $a ) . '>';
 		return in_array( $tag, self::VOID, true ) ? $open : $open . $inner . '</' . $tag . '>';
 	}

@@ -1,0 +1,81 @@
+/* =========================================================================
+   נווה האירוס — widget cover (ב׳ · שער דף הבית) (plugin nevehairus-site, core package).
+   Copied verbatim from prototype/assets/css/v3.css (v3.1, commit 4173d31) in the
+   order of plugin/SPEC.md §4.1. Every block names its source lines; porting changes
+   are marked "plugin:". RTL-first: logical properties only (inline-start = right).
+   ========================================================================= */
+
+/* ---- v3.css L132–161 — (L162 → base.css) ---- */
+/* ---------- ב׳ · Cover -----------------------------------------------------
+   Phones: the ב beside the words, lead and button under both (the button is on the first screen).
+   Tablets and up: two columns. Desktop (and tall enough): the cover is 150svh and the ב is pinned
+   while it thins from 800 to 300, so the whole morph happens on screen; the text does not move. */
+.v3-cover { padding-block: calc(var(--v3-mast) + clamp(1.25rem, .75rem + 2vw, 3.5rem)) clamp(3rem, 2rem + 4vw, 6rem); }
+.v3-cover__grid { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "rule rule" "letter title" "lead lead" "plain plain" "cta cta"; gap: 1.25rem 1rem; align-items: end; }
+.v3-cover__grid > .v3-rule { grid-area: rule; margin-block-end: 0; }
+.v3-cover--page .v3-cover__grid { grid-template-areas: "crumbs crumbs" "rule rule" "letter title" "lead lead" "plain plain" "cta cta"; }
+.v3-cover__grid > .v3-crumbs { grid-area: crumbs; }
+.v3-cover__letter { grid-area: letter; position: relative; inline-size: min(44vw, 13rem); }
+.v3-cover__text { display: contents; }
+.v3-cover__title { grid-area: title; font: 300 clamp(2.5rem, 1.1rem + 6.8vw, 4.25rem)/.88 var(--nh-font-display); letter-spacing: 0; margin: 0; padding-block-end: .12em; }
+.v3-cover__title > .v3-full { display: block; }
+.v3-cover__title .v3-full > span { display: block; }
+.v3-cover__lead { grid-area: lead; font-size: var(--v3-lead); line-height: 1.45; max-inline-size: 30ch; margin: 0; color: var(--nh-ink-2); }
+.v3-cover__plain { grid-area: plain; }
+.v3-cover__cta { grid-area: cta; margin: 0; }
+@media (min-width: 48em) {
+  .v3-cover { --cover-h: 58svh; }
+  .v3-cover__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-areas: none; column-gap: clamp(2rem, 1rem + 4vw, 6rem); row-gap: 0; align-items: start; }
+  .v3-cover__grid > .v3-rule, .v3-cover__grid > .v3-crumbs { grid-area: auto; grid-column: 1 / -1; }
+  .v3-cover__letter { grid-area: auto; inline-size: min(100%, calc(var(--cover-h) * 432.4 / 597)); margin-block-start: 1.5rem; }
+  .v3-cover__text { display: block; padding-block-start: clamp(1.5rem, 1rem + 2vw, 3rem); }
+  .v3-cover__title { font-size: var(--v3-poster); line-height: .86; margin: 0 0 1.25rem; padding: 0; }
+  .v3-cover__lead { margin: 0 0 1.75rem; }
+  .v3-cover__plain { margin-block-end: 1.75rem; }
+}
+@media (min-width: 64em) {
+  .v3-cover { --cover-h: min(calc(100svh - var(--v3-mast) - 7rem), 62rem); }
+}
+
+/* ---- v3.css L163–191 ---- */
+/* tall portrait tablets: the letter takes the wider column, so the first screen is not half empty */
+@media (min-width: 48em) and (max-width: 79.99em) and (orientation: portrait) {
+  .v3-cover__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  .v3-cover { --cover-h: 70svh; }
+}
+/* pinned only when the ב actually moves: not with reduced motion, calm mode or plain language
+   (then the cover is one screen and nothing waits for the scroll) */
+@media (prefers-reduced-motion: no-preference) and (min-width: 64em) and (min-height: 43.75em) {
+  html:not(.nh-reduce-motion):not(.nh-calm):not(.nh-plainmode) .v3-cover:not(.v3-cover--page) .v3-cover__grid { grid-template-rows: auto 1fr;
+    min-block-size: calc(150svh - var(--v3-mast) - clamp(1.25rem, .75rem + 2vw, 3.5rem) - clamp(3rem, 2rem + 4vw, 6rem)); }
+  html:not(.nh-reduce-motion):not(.nh-calm):not(.nh-plainmode) .v3-cover:not(.v3-cover--page) :is(.v3-cover__letter, .v3-cover__text) {
+    position: sticky; inset-block-start: calc(var(--v3-mast) + 1.5rem); align-self: start; }
+}
+/* load: the rule is drawn right → left, a paper cover slides off the letter
+   in reading direction, the photo settles. Text is painted final on frame one. */
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.nh-reduce-motion):not(.nh-calm) .v3-rule--draw { transform-origin: right; animation: v3-draw .6s var(--nh-ease-out) both .05s; }
+  html:not(.nh-reduce-motion):not(.nh-calm):not(.nh-vt-in) .v3-cover .v3-room__photo img { animation: v3-settle 1.8s var(--nh-ease-out) both .2s; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 1024px) {
+  html:not(.nh-reduce-motion):not(.nh-calm):not(.nh-vt-in) .v3-cover__letter::after {
+    content: ""; position: absolute; inset: -2px -4px; background: var(--nh-paper); transform-origin: left; z-index: 2;
+    transform: scaleX(0);                                   /* at rest the paper is gone: if animations never run, the ב shows */
+    animation: v3-unveil 1s var(--nh-ease-in-out) backwards .25s;
+  }
+}
+@keyframes v3-draw { from { transform: scaleX(0); } }
+@keyframes v3-settle { from { transform: scale(1.06); } }
+@keyframes v3-unveil { from { transform: none; } }
+
+/* ---- v3.css L452–458 — (plain mode) ---- */
+/* the cover: the ב folds into a chapter mark beside the words, the button under them */
+html.nh-plainmode .v3-cover__title { font-size: clamp(2.25rem, 1.5rem + 2.5vw, 3.75rem); line-height: 1.1; }
+html.nh-plainmode main .v3-cover__plain p { font-size: 1.5rem; }
+@media (min-width: 48em) {
+  html.nh-plainmode .v3-cover__grid { grid-template-columns: auto minmax(0, 1fr); min-block-size: 0; align-items: start; }
+  html.nh-plainmode .v3-cover__letter { position: relative; inline-size: calc(min(48svh, 22rem) * 432.4 / 597); }
+}
+
+/* ---- v3.css L463 ---- */
+html.nh-plainmode .v3-cover__text { padding-block-start: 1rem; }

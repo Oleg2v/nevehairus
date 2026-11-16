@@ -2,7 +2,7 @@
 /**
  * The stub harness (SPEC §11.2):
  *
- *     php plugin/tests/run.php [--widget=<id>] [--no-pages] [--no-core] [--verbose]
+ *     php plugin/tests/run.php [--widget=<id>] [--no-pages] [--no-core] [--core-only] [--suite=<name>] [--verbose]
  *
  * For every discovered widget and every variant of its fixture (a widget without a fixture gets the
  * `default` variant): build the settings, render, assert (no PHP error, non-empty, well-formed, unique
@@ -16,9 +16,10 @@
 
 require __DIR__ . '/bootstrap.php';
 
-$opts    = getopt( '', [ 'widget:', 'no-pages', 'no-core', 'verbose' ] );
+$opts    = getopt( '', [ 'widget:', 'no-pages', 'no-core', 'core-only', 'suite:', 'verbose' ] );
 $only    = isset( $opts['widget'] ) ? (string) $opts['widget'] : null;
 $verbose = isset( $opts['verbose'] );
+$core_only = isset( $opts['core-only'] ) || isset( $opts['suite'] );
 
 /** Ids that may be referenced from outside a widget (site module and masthead, SPEC §2.5). */
 const NH_TEST_GLOBAL_IDS = [ 'main', 'content', 'nh-menu', 'v3-display-panel', 'v3-display-title', 'nh-cookies', 'nh-cookies-title', 'nh-cookies-text', 'nh-cookie-prefs', 'nh-c-stats', 'nh-c-media', 'nh-lightbox' ];
@@ -155,36 +156,35 @@ function nh_test_assert( string $id, array $render ): array {
 		}
 	}
 
-	// Spread widgets (they have the section controls): root attributes and the labelled heading.
+	// The controls section "מקטע" is the last one (SPEC §4.0).
 	$widget   = $render['widget'];
 	$sections = $widget->nh_test_sections();
-	if ( isset( $sections['nh_section'] ) ) {
-		if ( 'nh_section' !== array_key_last( $sections ) ) {
-			$f[] = 'the controls section "מקטע" (NH_Controls::section) must be the last one';
+	if ( isset( $sections['nh_section'] ) && 'nh_section' !== array_key_last( $sections ) ) {
+		$f[] = 'the controls section "מקטע" (NH_Controls::section) must be the last one';
+	}
+	// Spread widgets (the root is a <section>): data-header, data-running and the labelled heading.
+	$first = null;
+	foreach ( $root->childNodes as $n ) {
+		if ( XML_ELEMENT_NODE === $n->nodeType ) {
+			$first = $n;
+			break;
 		}
-		$first = null;
-		foreach ( $root->childNodes as $n ) {
-			if ( XML_ELEMENT_NODE === $n->nodeType ) {
-				$first = $n;
-				break;
+	}
+	if ( null === $first ) {
+		$f[] = 'no root element';
+	} elseif ( 'section' === $first->nodeName ) {
+		foreach ( [ 'data-header', 'data-running' ] as $a ) {
+			if ( ! $first->hasAttribute( $a ) ) {
+				$f[] = "root <section> without $a";
 			}
 		}
-		if ( null === $first ) {
-			$f[] = 'no root element';
+		$lb = $first->getAttribute( 'aria-labelledby' );
+		if ( '' === $lb ) {
+			$f[] = 'root <section> without aria-labelledby';
 		} else {
-			foreach ( [ 'data-header', 'data-running' ] as $a ) {
-				if ( ! $first->hasAttribute( $a ) ) {
-					$f[] = "root <{$first->nodeName}> without $a";
-				}
-			}
-			$lb = $first->getAttribute( 'aria-labelledby' );
-			if ( '' === $lb ) {
-				$f[] = "root <{$first->nodeName}> without aria-labelledby";
-			} else {
-				$h = $xp->query( './/*[@id="' . $lb . '"]', $first )->item( 0 );
-				if ( null === $h || ! preg_match( '/^h[1-6]$/', $h->nodeName ) ) {
-					$f[] = "aria-labelledby=\"$lb\" does not point to a heading inside the spread";
-				}
+			$h = $xp->query( './/*[@id="' . $lb . '"]', $first )->item( 0 );
+			if ( null === $h || ! preg_match( '/^h[1-6]$/', $h->nodeName ) ) {
+				$f[] = "aria-labelledby=\"$lb\" does not point to a heading inside the spread";
 			}
 		}
 	}
@@ -201,7 +201,7 @@ foreach ( NH_Plugin::skipped() as $id => $reason ) {
 }
 $count = 0;
 foreach ( NH_Plugin::widget_ids_on_disk() as $id ) {
-	if ( ( null !== $only && $only !== $id ) || ! isset( $registered[ $id ] ) ) {
+	if ( $core_only || ( null !== $only && $only !== $id ) || ! isset( $registered[ $id ] ) ) {
 		continue;
 	}
 	$fixture = nh_test_fixture( $id );
@@ -249,11 +249,13 @@ foreach ( NH_Plugin::widget_ids_on_disk() as $id ) {
 		}
 	}
 }
-echo "widgets: $count render(s)" . ( $only ? " of $only" : '' ) . "\n";
+if ( ! $core_only ) {
+	echo "widgets: $count render(s)" . ( $only ? " of $only" : '' ) . "\n";
+}
 
 /* ---------- 2. Assembled pages ---------------------------------------------------------------------- */
 
-if ( null === $only && ! isset( $opts['no-pages'] ) ) {
+if ( null === $only && ! $core_only && ! isset( $opts['no-pages'] ) ) {
 	$pages = require NH_TEST_DIR . '/fixtures/pages.php';
 	foreach ( $pages as $name => $def ) {
 		try {
@@ -329,35 +331,9 @@ if ( null === $only && ! isset( $opts['no-pages'] ) ) {
 
 /* ---------- 3. Core unit tests ------------------------------------------------------------------------ */
 
-/**
- * Assertion helpers for core/*.test.php.
- */
-function nh_assert( bool $ok, string $message = 'assertion failed' ): void {
-	if ( ! $ok ) {
-		throw new RuntimeException( $message );
-	}
-}
-function nh_assert_same( $expected, $actual, string $message = '' ): void {
-	if ( $expected !== $actual ) {
-		$e = is_string( $expected ) ? $expected : var_export( $expected, true );
-		$a = is_string( $actual ) ? $actual : var_export( $actual, true );
-		throw new RuntimeException( ( '' !== $message ? $message . ': ' : '' ) . "expected\n    " . $e . "\n  got\n    " . $a );
-	}
-}
-function nh_assert_contains( string $needle, string $haystack, string $message = '' ): void {
-	if ( false === strpos( $haystack, $needle ) ) {
-		throw new RuntimeException( ( '' !== $message ? $message . ': ' : '' ) . "missing\n    " . $needle . "\n  in\n    " . substr( $haystack, 0, 2000 ) );
-	}
-}
-function nh_assert_not_contains( string $needle, string $haystack, string $message = '' ): void {
-	if ( false !== strpos( $haystack, $needle ) ) {
-		throw new RuntimeException( ( '' !== $message ? $message . ': ' : '' ) . "unexpected\n    " . $needle );
-	}
-}
-
 if ( null === $only && ! isset( $opts['no-core'] ) ) {
 	$passed = 0;
-	foreach ( [ 'letters', 'text', 'picture', 'forms', 'site', 'settings' ] as $suite ) {
+	foreach ( isset( $opts['suite'] ) ? [ (string) $opts['suite'] ] : [ 'letters', 'text', 'picture', 'forms', 'site', 'settings' ] as $suite ) {
 		$file = NH_TEST_DIR . '/core/' . $suite . '.test.php';
 		if ( ! is_file( $file ) ) {
 			$fail( "core/$suite", 'test file missing' );

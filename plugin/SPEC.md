@@ -105,7 +105,8 @@ plugin/
 │   │       ├── nh-core.js                    core · window.nh: helpers, display modes, cookies, visit bar, widget hook
 │   │       ├── nh-forms.js                   core · validation, AJAX submit, token refresh, server-state focus
 │   │       └── widgets/<id>.js               owner of widget <id> (only widgets that need JS)
-│   └── languages/index.php                   core · "silence is golden" (keeps the Domain Path folder in git)
+│   ├── languages/index.php                   core · "silence is golden" (keeps the Domain Path folder in git)
+│   └── README-dev.md                         core · developer notes: build, add a widget, run the harness (not in the zip)
 └── tests/                                    not shipped
     ├── bootstrap.php                         core · error→exception, stubs, plugin load, fixtures loader
     ├── stubs/wordpress.php                   core · fake WordPress API (in-memory options, transients, media, mail, hooks)
@@ -117,8 +118,8 @@ plugin/
     ├── run.php                               core · lint-free render of every widget/variant + generic assertions + out/ pages
     ├── render.php                            core · render one widget/variant to stdout or out/
     ├── compare.py                            core · structural diff of a widget's output vs the prototype block
-    ├── shots.mjs                             core · optional: Playwright screenshots, assembled page vs prototype, pixel diff
-    └── out/                                  generated, git-ignored
+    ├── shots.mjs                             core · optional: Playwright screenshots, assembled page vs prototype, pixel diff; --behaviour: the core scripts in a browser
+    └── out/                                  generated, git-ignored: <id>--<variant>.html (+ .json for compare.py), page-*.html, shots/
 scripts/build_plugin.py                       core · sync | check | zip
 ```
 
@@ -176,7 +177,7 @@ All core classes are `final` with `public static` methods unless stated. They ne
 
 Plugin header: `Plugin Name: נווה האירוס — אתר`, `Description: Elementor widgets and site module for the v3.1 design.`, `Version: 0.1.0`, `Requires at least: 7.0`, `Requires PHP: 8.0`, `Author: קורנגה`, `Author URI: https://koranga.co.il/`, `Text Domain: nevehairus-site`, `Domain Path: /languages`, `License: GPL-2.0-or-later`, `Elementor tested up to: 4.4.0`, `Elementor Pro tested up to: 4.4.0`.
 
-Constants: `NH_VERSION = '0.1.0'`, `NH_FILE`, `NH_DIR` (`plugin_dir_path`, trailing slash), `NH_URL` (`plugin_dir_url`), `NH_MIN_ELEMENTOR = '3.24.0'`. The file requires all `includes/class-nh-*.php` and calls `NH_Plugin::boot()` on `plugins_loaded`.
+Constants: `NH_VERSION = '0.1.0'`, `NH_FILE`, `NH_DIR` (`plugin_dir_path`, trailing slash), `NH_URL` (`plugin_dir_url`), `NH_MIN_ELEMENTOR = '3.24.0'`. The file requires all `includes/class-nh-*.php` **except `class-nh-widget-base.php`** and calls `NH_Plugin::boot()` on `plugins_loaded`. *(Core, 16.11: `NH_Widget_Base` extends `\Elementor\Widget_Base`, so requiring it without Elementor is fatal; `NH_Plugin::widgets()` requires it, and only when that class exists. The main file stays PHP 7 parseable: on PHP < 8.0 it shows an admin notice and loads nothing; a second copy of the plugin returns early when `NH_VERSION` is defined.)*
 
 ```php
 final class NH_Plugin {
@@ -188,7 +189,7 @@ final class NH_Plugin {
 ```
 `boot()` hooks: `init` → `load_plugin_textdomain`; `NH_Settings::init()`, `NH_Site::init()`, `NH_Forms::init()`, `NH_Compat::init()`, `NH_Assets::init()`; if `is_admin()` → `NH_Settings_Page::init()`; if `elementor_ok()` → `elementor/elements/categories_registered` (category `nevehairus`, title `נווה האירוס`, icon `eicon-apps`) and `elementor/widgets/register` (register one instance per discovered class: `$manager->register( new $class() )`). If Elementor is missing or too old: an admin notice (Hebrew) and no widgets; the site module still loads.
 
-Discovery (normative): `glob( NH_DIR . 'widgets/*.php' )`, sorted; skip names starting with `_` or not matching `^[a-z][a-z0-9-]*$`; `require_once` the file; class name = `'NH_Widget_' . str_replace( ' ', '_', ucwords( str_replace( '-', ' ', $id ) ) )`; register only if the class exists, extends `NH_Widget_Base` and `$class::ID === $id`; otherwise skip and, when `WP_DEBUG`, `_doing_it_wrong()`. A widget file may `require_once __DIR__ . '/other.php'` only to extend another widget class (none does in this version).
+Discovery (normative): `glob( NH_DIR . 'widgets/*.php' )`, sorted; skip names starting with `_` or not matching `^[a-z][a-z0-9-]*$`; `require_once` the file; class name = `'NH_Widget_' . str_replace( ' ', '_', ucwords( str_replace( '-', ' ', $id ) ) )`; register only if the class exists, extends `NH_Widget_Base` and `$class::ID === $id`; otherwise skip and, when `WP_DEBUG`, `_doing_it_wrong()`. A widget file may `require_once __DIR__ . '/other.php'` only to extend another widget class (none does in this version). *(Core: the `require_once` is wrapped in `try … catch ( \Throwable )`, so a widget file with a parse error is skipped instead of taking the site down; `NH_Plugin::skipped(): array` (id ⇒ reason) lists skipped files — shown in the settings page's readiness list and failed by `run.php`. Further public members: `CATEGORY = 'nevehairus'`, `class_name( $id )`, and the hook callbacks `load_textdomain()`, `register_category()`, `register_widgets()`, `elementor_notice()`.)*
 
 ### 3.2 `NH_Assets`
 
@@ -203,7 +204,7 @@ final class NH_Assets {
 	public static function widget_script( string $id ): ?string;
 }
 ```
-`nhData` is printed with `wp_add_inline_script( 'nh-core', 'window.nhData=' . wp_json_encode( NH_Site::js_data(), JSON_HEX_TAG | JSON_HEX_AMP ) . ';', 'before' )`.
+`nhData` is printed with `wp_add_inline_script( 'nh-core', 'window.nhData=' . wp_json_encode( NH_Site::js_data(), JSON_HEX_TAG | JSON_HEX_AMP ) . ';', 'before' )`. *(Core: `init()` hooks the public callback `enqueue()` = `register()` + `enqueue_site()`. Widget handles come from globbing `assets/css/widgets/*.css` and `assets/js/widgets/*.js`, independent of the widget files.)*
 
 ### 3.3 `NH_Widget_Base`
 
@@ -235,7 +236,8 @@ abstract class NH_Widget_Base extends \Elementor\Widget_Base {
 ```
 - `nh_uid( 'title' )` → `"{anchor}-title"` when the `anchor` setting is non-empty (sanitised), else `"nh-{$this->get_id()}-title"`.
 - `nh_section_open( $s, $o )` options: `class` (string, required, e.g. `'v3-homes v3-spread'`), `tone` (`''|'sand'|'citrus'|'iris'|'night'` → adds `v3-spread--{tone}`), `header` (`'light'|'dark'`, default: `dark` for `iris`/`night`, else `light`), `labelledby` (suffix, default `'title'`; `null` = no attribute), `tag` (default `'section'`), `attrs` (extra attributes). Output attribute order: `class`, `id` (anchor; omitted if empty), `data-header`, `data-running`, `data-running-plain` (only if set), `aria-labelledby`, extra attrs. Example: `<section class="v3-cover v3-spread" id="cover" data-header="light" data-running="בית. לחיים." aria-labelledby="cover-title">`.
-- `nh_h2( $s, $o )` options: `class` (default `'v3-h2'`; `''` for the plain box), `prefix` (control prefix, default `'title'`), `tag` (default `'h2'`). Uses `title`, `title_plain`, `title_dot`.
+- `nh_h2( $s, $o )` options: `class` (default `'v3-h2'`; `''` for the plain box), `prefix` (control prefix, default `'title'`), `tag` (default `'h2'`), `id` *(core addition: the `nh_uid()` suffix, default `'title'`)*. Uses `title`, `title_plain`, `title_dot` (no tessera when the widget has no `title_dot` control). Returns `''` when the title pair is in state 5.
+- *(Core: `data-running-plain` is also omitted when `running_plain` is `-`.)*
 - `nh_lead( $s, $o )` passes `$o` to `NH_Text::block()` with defaults `full_tag p`, `full_class v3-lead`, `plain_tag div`, `plain_class ''`, `plain_lines p` and reads `lead`/`lead_plain` (or `$o['prefix']`).
 - `nh_admin_note()` returns `<p class="nh-admin-note" role="note">{text}</p>` only if `current_user_can( 'edit_posts' )`, else `''`. Used for: form recipient missing, jobs page not set, unresolved link tokens.
 
@@ -257,7 +259,7 @@ final class NH_Controls {
 `$target` is the widget or an `\Elementor\Repeater` (both have `add_control()`).
 - `pair()` args: `label` (required), `default` (string), `plain` (default of the twin), `type` (`'text'` → TEXT, `'textarea'` → TEXTAREA; default `'text'`), `rows`, `condition`. The twin `{id}_plain` is always a TEXTAREA (rows 3) labelled `{label} — בשפה פשוטה`, with `description` = `PLAIN_HELP` and the same `condition`. Both get `label_block => true`.
 - `heading()` args: `default`, `plain`, `dot` (default `''`), `label` (default `כותרת`).
-- `image()` args: `label`, `decorative` (bool default for `{id}_decorative`), `alt` (default for `{id}_alt`, usually `''` = use the media library's alt), `pos` (if set, adds `{id}_pos` TEXT with this default), `sizes` (if set, adds `{id}_sizes` TEXT with this default). The MEDIA default is `['url' => '', 'id' => '']` — no placeholder image.
+- `image()` args: `label`, `decorative` (bool default for `{id}_decorative`), `alt` (default for `{id}_alt`, usually `''` = use the media library's alt), `pos` (if set, adds `{id}_pos` TEXT with this default), `sizes` (if set, adds `{id}_sizes` TEXT with this default), `condition`. The MEDIA default is `['url' => '', 'id' => '']` — no placeholder image. *(Core: `{id}_alt` has `condition => [ '{id}_decorative!' => 'yes' ]`: it is hidden for a decorative image and then reads `null`. In general **a control whose condition is not met reads as `null`** from `get_settings_for_display()` (Elementor's own behaviour; the stub does the same), so read settings with a string/array cast, as `widgets/cover.php` does. `pair()` and `link()` also accept `description`.)*
 - `section()` args: `anchor`, `running`, `running_plain` (default `''`). It opens and closes its own controls section (`nh_section`, label `מקטע`). Labels: `עוגן (id באנגלית)`, `שם המקטע בכותרת העליונה`.
 - `heading()`, `pair()`, `image()`, `link()`, `lines()` add controls into the section that is currently open; the widget opens/closes its sections itself.
 
@@ -273,8 +275,13 @@ final class NH_Text {
 	public static function dot( string $html, ?string $variant ): string;      // final "." → tessera
 	public static function kses_inline(): array;
 	public static function tokens( string $html ): string;             // {phone} {email} {year} → markup (see below)
+	// core additions (16.11):
+	public static function state( string $full, string $plain = '' ): int;     // 1–5, the table below (skip an element on 5)
+	public static function link_tokens( string $html ): string;                // resolves #privacy, #accessibility, … in href="…"
+	public static function unresolved_tokens( string $html ): array;           // [ '#accessibility', … ] still unresolved (for nh_admin_note)
 }
 ```
+`esc( $text, 'inline' )` joins the non-empty lines with `<br>` (empty lines are dropped, every line is trimmed).
 
 **The five states** (normative for `pair()` and `block()`; `F` = full text, `P` = plain twin, both trimmed):
 
@@ -319,8 +326,15 @@ final class NH_Html {
 	public static function post_id( string $url ): int;        // url_to_postid() for same-host URLs without a fragment, else 0
 	public static function is_current( string $url, string $ids_csv = '' ): bool;
 	public static function display_toggles( array $labels ): string; // the three .v3-toggle buttons
+	// core additions (16.11):
+	public const ICONS  = [ 'phone', 'menu', 'close', 'arrow-fwd', 'arrow-back', 'play', 'expand', 'speech', 'sliders' ];
+	public const TOKENS = [ '#privacy', '#accessibility', '#sitemap', '#entrances', '#jobs-page' ];
+	public static function resolve_token( string $href ): string; // a link token → its URL from the settings; anything else unchanged
+	public static function admin_note( string $text ): string;    // <p class="nh-admin-note" role="note">…</p> for edit_posts users, else ''
 }
 ```
+- `display_toggles()` labels are **HTML** — normally `NH_Text::pair()` output (filtered again with the inline allowlist) — or a `[ full, plain ]` array, which is passed to `NH_Text::pair()`.
+- `nh_admin_note()` (widgets) and `NH_Forms::recipient_note()` both use `NH_Html::admin_note()`.
 - `icon( 'arrow-fwd', 'nh-btn__icon nh-btn__icon--fwd' )` → `<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg>`. With `$class === ''` the `class` attribute is omitted (the arrows in `.v3-roles` rows); `icon( 'arrow-fwd', 'v3-home__arrow' )` for the homes rows. With `$aria_hidden = false` only `focusable="false"` is written — used where the parent is already `aria-hidden` (`.nh-video__icon`, `.nh-gallery__zoom`), exactly as in the prototype. Icon names: `phone menu close arrow-fwd arrow-back play expand speech sliders` (the sprite, §5.3).
 - `is_current( $url, $ids )`: true if the queried post or one of its ancestors is in `$ids` (comma-separated post IDs), or if `$url` has no fragment and `post_id( $url )` is the queried post or an ancestor. URLs with a `#fragment` never match by URL (the home page's nav anchors are not "current", as in the prototype).
 - `display_toggles( [ 'plain' => …, 'motion' => …, 'calm' => … ] )` → exactly (one per line in the prototype, header L28–30):
@@ -350,6 +364,7 @@ final class NH_Letters {
   - Output: `<div class="v3-room v3-room--{name}[ {class}]" style="{vars}" data-room="{name}"{attrs}>{photo}{svg($name, $weight, frame)}{extra (cover mode)}</div>`.
 - `doorway()` = `doorway()` (L167–180), byte-identical: `<div class="v3-door__frame" aria-hidden="true" data-door>` + head svg (`viewBox="250 180 160 540"`) + `<span class="v3-door__bar"></span>` + cap svg (`viewBox="25 180 75 122"`) + `<span class="v3-door__leg"></span></div>`; both svgs `preserveAspectRatio="none" aria-hidden="true" focusable="false"` with the dalet-300 path.
 - `data_script( [ 'bet' ] )` = `letter_data()` (L183–190): `<script type="application/json" id="nh-letters">{"bet":{"c":[…],"a":[…],"b":[…]}}</script>` (`JSON_UNESCAPED_SLASHES | JSON_PRESERVE_ZERO_FRACTION`). Returns the script **once per request** (static guard); later calls return `''`.
+- *(Core, 16.11: the weight is clamped to 300–800 and rounded to a whole unit; `data_script()` sets `serialize_precision = -1` while encoding (hosts with the old value 17 would print `61.200000000000003`); `names()` lists the letters. The port is exact: every letter directive of `prototype/src/*.html` — and every letter at six in-between weights — gives the build script's markup with **no** numeric tolerance, PHP's `sprintf` rounding equals Python's on all values involved.)*
 
 ### 3.8 `NH_Picture` — images from attachment IDs
 
@@ -369,7 +384,7 @@ final class NH_Picture {
 ```html
 <picture class="{class}">[<source type="image/avif" srcset="{avif_srcset}" sizes="{sizes}">]<img src="{src: medium_large → large → full}" srcset="{srcset}" sizes="{sizes}" width="{w}" height="{h}" alt="{alt}" loading="{loading}" decoding="async"[ fetchpriority="high"]></picture>
 ```
-Always a `<picture>` wrapper (CSS targets `picture`). Never add WordPress classes (`wp-image-*`, `attachment-*`). No `srcset`/`sizes` if WordPress returns none. AVIF alternates are read from `wp_get_attachment_metadata( $id )['sizes'][ $size ]['sources']['image/avif']['file']` and `['sources']['image/avif']` for the full size.
+Always a `<picture>` wrapper (CSS targets `picture`). Never add WordPress classes (`wp-image-*`, `attachment-*`). No `srcset`/`sizes` if WordPress returns none. AVIF alternates are read from `wp_get_attachment_metadata( $id )['sizes'][ $size ]['sources']['image/avif']['file']` and `['sources']['image/avif']` for the full size. *(Core: candidates keep only sizes with the full size's aspect ratio (as `wp_image_matches_ratio()`) up to `max_srcset_image_width`; an `alt` of `''` means the media library's alt, like `null` — use `decorative` for `alt=""`; the AVIF preload's `href` is the AVIF candidate of the `<img src>` width.)*
 
 ### 3.9 `NH_Settings`
 
@@ -389,6 +404,7 @@ final class NH_Settings {
 	public static function text( string $key ): string;      // a settings text with NH_Text::tokens() applied, kses'd
 }
 ```
+*(Core: `types()` gives the type of every key (text, textarea, html, email, url, tel, page, bool, int) for `sanitize()` and the settings page; `register()` is the `init` callback of `init()`; `text()` keeps newlines (callers split lines) and resolves link tokens too; `page_url()` also accepts `'jobs'`/`'jobs-page'`; `phone()` falls back to the digits of `phone_display` when `phone_tel` is empty; a page setting resolves only to a **published** page.)*
 
 ### 3.10 `NH_Site` (details in §5)
 
@@ -409,6 +425,7 @@ final class NH_Site {
 	public static function is_preview(): bool;                    // Elementor editor preview
 }
 ```
+*(Core: public hook callbacks `body_class()`, `page_settings()`, `no_cache_for_form_states()`, `remember_template()`. `footer_once()` called after the footer has run prints the part at once. Only the sprite and the banner fall back to `wp_footer` (D1) — a skip link at the end of the page would be useless. In an Elementor editor re-render (an AJAX request, no footer) queued parts are not printed: the gallery's lightbox is absent in the editor only.)*
 
 ### 3.11 `NH_Forms` (details in §6)
 
@@ -430,6 +447,13 @@ final class NH_Forms {
 	public static function recipient_note( string $type ): string;                 // admin-only note when no recipient
 	public static function handle(): void;                                         // admin-post callbacks
 	public static function token(): void;                                          // admin-ajax: fresh nonce + time token
+	// core additions (16.11):
+	public const STATUSES = [ 'sent', 'invalid', 'expired', 'limited', 'off', 'error' ];
+	public const CODES    = [ 'required', 'email', 'tel', 'consent', 'file_type', 'file_size' ];
+	public const MAX_FILE = 5242880;
+	public static function halt(): void;                    // do_action( 'nh_forms_halt' ) then exit (the test harness throws there)
+	public static function message( string $status ): string;   // the settings text of a status ('' for sent)
+	public static function missing_recipient_text(): string;    // the sentence of recipient_note() and of the admin notice
 }
 ```
 
@@ -605,8 +629,9 @@ Markup (target: built `index.html` `section#cover`):
 H1 rule: the H1 always has the `v3-full` / `v3-plain` structure (the CSS lays out the line spans inside `.v3-full`); if `title_plain` is empty (or `-` — the page heading is never hidden), the plain span repeats `title_1 title_2` as text without tesserae. A line whose text is empty is omitted (one-line titles).
 
 CSS `cover.css`: v3.css L132–161, L163–191, L452–458, L463. (L162 goes to base.)
-JS `cover.js`: v3.js L116–173 inside `nh.widget('cover', '.v3-cover', …)` with a page-level guard (only the first cover on the page morphs). Reads `#nh-letters`; works for the page cover too (`v3-cover--page` check stays, the page cover's `--t` starts at its own weight).
-Fixture: `default`; `prototype` = photo `v3-walk`, compare `index.html` `section#cover`. Expected differences: none besides §11.4 normalisation.
+JS `cover.js`: v3.js L116–173 inside `nh.widget('cover', '.v3-cover', …)` with a page-level guard (only the first cover on the page morphs). Reads `#nh-letters`; works for the page cover too (`v3-cover--page` check stays, the page cover's `--t` starts at its own weight). *(Core: cover.js registers the same init under both names, `nh.widget('cover', …)` and `nh.widget('page-cover', …)`, so the editor's re-render of a page cover also restarts the morph; when the editor replaces the morphing cover, the old instance is stopped. The page-cover package needs no JS of its own — only `SCRIPT_DEPS ['nh-w-cover']`.)*
+*(Core: an empty `cta_link` renders no button; `NH_Widget_Cover::SIZES` holds the default `sizes`.)*
+Fixture: `default` (no photo: the sky field, compared with its expected differences); `prototype` = photo `v3-walk`, compare `index.html` `section#cover` — **result: 0 differing lines**; `states`, `no-button` (edge cases, structure only).
 
 ### 4.2 `page-cover` — package residence
 
@@ -1437,10 +1462,10 @@ Handler `NH_Forms::handle()` (hooked to `admin_post_nh_visit`, `admin_post_nopri
 3. **Nonce** `wp_verify_nonce( $_POST['_nh_nonce'], "nh_form_{$type}" )` fails → `expired`.
 4. **Signed time trap**: signature mismatch (`hash_equals`) → `expired`; `time() − nh_t < 3` s → respond `sent` without sending; `time() − nh_t > 2 days` → `expired`.
 5. **Rate limit** by hashed IP: key `nh_rl_` + first 32 hex chars of `hash_hmac( 'sha256', $ip, wp_salt( 'auth' ) )`, `$ip = $_SERVER['REMOTE_ADDR']` (filter `nh_client_ip`); 5 accepted attempts per 10 minutes (filters `nh_rate_limit`, `nh_rate_window`); over the limit → `limited`; otherwise increment with `set_transient( $key, $n + 1, $window )`. Only the counter is stored.
-6. **Sanitise and validate** (`sanitize_text_field`, `sanitize_textarea_field`, `sanitize_email`, length limits, rules in §6.1) → errors `{ key: code }` with codes `required|email|tel|consent|file_type|file_size` → `invalid`.
+6. **Sanitise and validate** (`sanitize_text_field`, `sanitize_textarea_field`, `sanitize_email`, length limits, rules in §6.1) → errors `{ key: code }` with codes `required|email|tel|consent|file_type|file_size` → `invalid`. *(Core: there is no error code for length, and the client checks none: over-long values are cut to the limit server side. The tel rule is applied to the digits of the value, as site.js.)*
 7. **Recipient** `NH_Settings::recipient( $type )` empty → `off` (nothing is sent).
 8. **Mail**: `wp_mail( $to, $subject, $body, $headers, $attachments )`. Subject: `בקשה לביקור — {site name}` / `מועמדות: {role} — {site name}`. Body: plain text, one `label: value` line per filled field (labels fixed in the schema, Hebrew), then the page URL and `wp_date()`; `keep` as `כן/לא`. Headers: `Content-Type: text/plain; charset=UTF-8`; `Reply-To: {name} <{email}>` when the e-mail is valid; From name from settings `mail_from_name` (filter `wp_mail_from_name` only during this call); the From address stays WordPress's default.
-9. **CV**: only after `is_uploaded_file()` and the checks; attached directly from PHP's upload temp file under a clean display name — `[ sanitize_file_name( 'cv-' . wp_date( 'Y-m-d' ) . '.' . $ext ) => $_FILES['cv']['tmp_name'] ]` (WordPress 7.1 uses string keys as attachment names; checked in `pluggable.php`); `wp_delete_file()` of the temp file in a `finally` block. **Never** call `wp_handle_upload()`, `media_handle_upload()`, `wp_insert_attachment()` or move the file into `uploads`.
+9. **CV**: only after `is_uploaded_file()` and the checks; attached directly from PHP's upload temp file under a clean display name — `[ sanitize_file_name( 'cv-' . wp_date( 'Y-m-d' ) . '.' . $ext ) => $_FILES['cv']['tmp_name'] ]` (WordPress 7.1 uses string keys as attachment names; checked in `pluggable.php`); `wp_delete_file()` of the temp file in a `finally` block. **Never** call `wp_handle_upload()`, `media_handle_upload()`, `wp_insert_attachment()` or move the file into `uploads`. *(Core: the real-type check runs `wp_check_filetype_and_ext( $tmp, 'cv.' . $ext, … )` with the lower-cased extension of the visitor's file name — the name itself is never used; `is_uploaded_file()` goes through the filter `nh_forms_is_uploaded_file` (the harness's only way to simulate an upload); the temp file is deleted before the response is sent, on every path, including rejected requests.)*
 10. `wp_mail()` true → `sent`; false → `error`.
 11. **Respond**: if `nh_js=1` → `wp_send_json( [ 'ok' => bool, 'status' => …, 'errors' => {…}, 'message' => settings text for the status ] )`; else `wp_safe_redirect( add_query_arg( [ 'nh_form' => $instance, 'nh_status' => $status, 'nh_err' => 'name:required,phone:tel' ], $return ) )` with status 303 and `exit` (in tests: `NH_Forms::halt()` throws instead of exiting). `nh_return` is validated with `wp_validate_redirect( $url, home_url( '/' ) )`. Values typed by the visitor are never put in the URL, a log or the database.
 
@@ -1457,13 +1482,14 @@ Admin notice: when a recipient is empty, users with `manage_options` see a notic
 - `success()` → `<div class="nh-alert nh-alert--success" data-success tabindex="-1" role="status" hidden><h3>{title pair}</h3><p>{text pair}</p></div>`; not `hidden` when the state is `sent`.
 - `honeypot( $p )` → `<div class="nh-hp" aria-hidden="true"><label for="{p}-website">אתר</label><input id="{p}-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>`.
 - `privacy_note( 'visit' )` → `<p class="nh-form__note v3-full">{privacy_visit with tokens}</p><div class="nh-form__note v3-plain"><p>…</p>…</div>` (privacy-note.html); jobs → one `<p class="nh-form__note">` unless a plain twin is set.
+- *(Core, 16.11 — details the text above left open:)* the server error `<p class="nh-error">` is the **last child** of `.nh-field` / `.nh-check` (after the hint), exactly where `setError()` appends it; a textarea or file field gets `aria-describedby` only when it has a hint (the jobs message field has none, ds L329); for the statuses `expired`/`limited`/`off`/`error` the summary's `h3` is `msg_summary` and its single `<li>` holds the settings message (HTML with the `{phone}` link); `success()` omits the `<h3>`/`<p>` whose pair is empty; the option given as `selected` (jobs-form: `$_GET['role']`) is compared with the option text.
 
 ### 6.4 `nh-forms.js` (porting map)
 
 site.js L339–455, changed:
 - messages from `nh.data.forms.msg`; `labelText()` reads the visible variant of a label with twins (`.v3-plain` in plain mode, `.v3-full` otherwise) and ignores `.nh-req`;
 - on the first `focusin` inside a form: fetch `nh.data.ajax?action=nh_form_token&type=…` once and update `_nh_nonce`, `nh_t`, `nh_s`;
-- valid submit: set `nh_js=1`, disable the submit button, `fetch( form.action, { method: 'POST', body: new FormData( form ), credentials: 'same-origin', headers: { Accept: 'application/json' } } )`; `ok` → `form.reset()`, show `[data-success]` and focus it (the prototype's success path); `invalid` → map `errors` to `setError()` + summary (as client errors); other statuses → summary with the server `message`, focused; network error → status `error`;
+- valid submit: set `nh_js=1`, disable the submit button, `fetch( form.getAttribute( 'action' ), { method: 'POST', body: new FormData( form ), credentials: 'same-origin', headers: { Accept: 'application/json' } } )` — **not `form.action`**: the hidden input named `action` (admin-post.php needs it) shadows that DOM property, so `form.action` is the input element (found by the browser check, core 16.11; the same holds for any widget script that reads a form's properties); `ok` → `form.reset()`, show `[data-success]` and focus it (the prototype's success path); `invalid` → map `errors` to `setError()` + summary (as client errors); other statuses → summary with the server `message`, focused; network error → status `error`;
 - on load: focus a visible `[data-success]` or `[data-error-summary]` (server state after a redirect);
 - unchanged: errors only on submit, cleared on `input`/`change` when valid, never on blur; honeypot ignored client side; file checks; `novalidate`.
 
@@ -1629,6 +1655,8 @@ Every line of `main.css`, `v3.css`, `site.js`, `v3.js` has exactly one destinati
 | 31 | v3.css L644–645 | `.nh-cookies { view-transition-name: nh-cookies; }` |
 | 32 | new | `.nh-admin-note` (dashed 1px border, small text, paper background) and the Elementor/Hello compatibility block (§10.1) |
 
+**Changed by the core (16.11): row 32 is printed right after row 5**, not last. `.elementor a:where(:not([class])) { text-decoration: underline }` has the specificity of Elementor's `.elementor a` (0,1,1) and must win over it (it does: base.css loads after Elementor's CSS), but it has the same specificity as the component rules below it — `.v3-roles a { text-decoration: none }` (row 21) and others — and as the last rule it beat them: every row of the ל list and of the related links was underlined (found in the screenshot comparison). Printed after the typography, it beats Elementor and loses to every component rule. Widget CSS files load after base.css and are not affected. In base.css every block names its source lines (`/* ---- v3.css L372–379 ---- */`) and porting changes are marked `plugin:`.
+
 ### 9.2 Other core CSS
 
 - `letters.css`: v3.css L118–129 (`.v3-room`, `.v3-room__photo`, `.v3-room__photo img`, `.v3-room__field--sky`, `.v3-letter`, `.v3-letter__ink`), L280–282 (`.v3-room__photo--whole`, `.v3-room__work`, `.v3-room__work img`), from L479 `.v3-letter__ink { fill: CanvasText; }` (forced colours).
@@ -1675,6 +1703,8 @@ Checked against `elementor/4.4.0/assets/css/frontend.min.css`, `includes/base/wi
 /* frontend.css: `.elementor a { text-decoration: none; box-shadow: none }` (0,1,1) — keep underlines on plain links (1.4.1) */
 .elementor a:where(:not([class])) { text-decoration: underline; }
 ```
+These rules sit in base.css right after the typography (§9.1, row 32 note): before every component rule of base.css, after Elementor's CSS. A widget rule that removes the underline of a class-less link (`.v3-x a { text-decoration: none }`, 0,1,1) wins because widget CSS loads after base.css.
+
 ### 10.2 Rules every CSS author follows
 
 1. **Load order.** All our styles depend (directly or through `nh-base`) on `elementor-frontend`, so they print after Elementor's CSS; equal specificity then goes to us.
@@ -1706,6 +1736,7 @@ python3 -I scripts/build_plugin.py zip     # sync, check, then plugin/dist/neveh
 - **sync** copies, byte for byte: `prototype/assets/fonts/*.woff2` and `OFL-*.txt` → `assets/fonts/`; `prototype/assets/letters.json` → `assets/letters.json`; `prototype/assets/css/tokens.css` → `assets/css/tokens.css`. The copies are committed, so the plugin folder is complete in git.
 - **check** fails (exit 1) on: a synced file that differs from its source; a `widgets/*.php` whose id, class name or `ID` constant break §3.1; a PHP file without the `ABSPATH` guard; PHP ≥ 8.1 syntax (regex for `readonly `, `enum `, `: never`, `(...)` callables, typed `const`); forbidden patterns anywhere in `plugin/nevehairus-site/` — e-mail addresses (except `@example.com`, `@example.test`, `.invalid`), `assets/img/`, `gsap`, `fonts.googleapis`, `fonts.gstatic`, `<script src="http`, `cdn.`; `php -l` errors (plugin and `plugin/tests`); `node --check` errors (if `node` exists); a non-zero exit of `php plugin/tests/run.php`; `Version:` header ≠ `NH_VERSION`. Optional `--phpcs`: runs `plugin/vendor/bin/phpcs --standard=WordPress-Extra plugin/nevehairus-site` when `composer install` (dev tools in `plugin/composer.json`) has been run.
 - **zip** writes `plugin/dist/nevehairus-site.zip` deterministically: top folder `nevehairus-site/`, entries sorted, fixed timestamp 1980-01-01, mode 0644 (dirs 0755), excluding `.DS_Store`, `*.map`, `Thumbs.db`. Prints file count, size and SHA-256. The zip is committed.
+- *(Core, 16.11:)* the synced copies are exempt from the content patterns (they are checked byte for byte against the prototype instead; `tokens.css` compares its easing curves with GSAP's in two comments), the OFL licence texts from the e-mail pattern; the PHP 8.1+ regexes run on the code with comments and strings removed and also catch `new` in initializers, `final const` and functions added after 8.0 (`array_is_list`, `json_validate`, …); `README-dev.md` is not zipped; `--no-harness` skips run.php; `--phpcs` runs WordPress-Extra **without** `Universal.Arrays.DisallowShortArraySyntax` (this spec's convention) and `WordPress.Files.FileName` (`widgets/<id>.php` is this spec's convention), warnings do not fail, plus PHPCompatibilityWP with `testVersion 8.0-`. The PHP 8.0 claim is verified by PHPCompatibility: the core passes clean.
 
 ### 11.2 Stub harness (`plugin/tests/`, PHP 8.3 CLI, no Composer, no WordPress)
 
@@ -1732,6 +1763,13 @@ return [
 ```
 - `run.php [--widget=<id>]`: for every discovered widget and every variant (a widget without a fixture file gets the `default` variant only): build settings, render, then assert (fail = exit 1): no PHP error; non-empty output; well-formed HTML (`DOMDocument` with libxml errors, ignoring "unknown tag" warnings for HTML5 elements); unique ids; every `for`, `aria-labelledby`, `aria-describedby`, `aria-controls` resolves inside the output (or to the documented global ids); every `img` has `alt`; every `svg` without a role has `aria-hidden="true"` and `focusable="false"`; no `style` attribute other than CSS custom properties (`--…`); no forbidden pattern (§11.1); spread widgets have `data-header` and `data-running` on the root and `aria-labelledby` pointing to a heading inside; no `v3-full`/`v3-plain` element is empty. It writes `out/<id>--<variant>.html` (a full page: `lang="he" dir="rtl" class="js"`, `body.v3`, sprite, `main#main`, the widget, the site parts, `tokens.css` + `base.css` + `letters.css`/`forms.css` + the widget CSS, `nh-core.js` + widget JS, `window.nhData`) and two assembled pages `out/page-home.html` and `out/page-main-home.html` from `fixtures/pages.php` (masthead, the spreads in prototype order with their `prototype` variants, colophon, site parts). Then it runs `core/*.test.php`.
 - `render.php <id> [variant] [--plain]` prints one render (with `--plain` the page has `html.nh-plainmode`).
+- *(Core, 16.11 — how the harness behaves, for fixture authors:)*
+  - Hook order as on a real site: `elementor/loaded` (Elementor is included before us), `plugins_loaded`, `init`, the two Elementor registration hooks, `wp_enqueue_scripts`. Each render is a fresh request (`nh_test_reset_request()`): options, transients, `$_GET`/`$_POST`, the user's capabilities, the queried post (10) and the plugin's per-request statics are reset; hooks, handles and media stay.
+  - The stub `Widget_Base` refuses what §2.2 forbids: controls outside a section, a section on another tab than content, a duplicate control id, a type outside the subset, `selectors`, `dynamic`, a URL control without `'options' => false`. Controls whose `condition` is not met read as `null` (as in Elementor). Missing repeater fields get their field defaults.
+  - Assertions, refined: a widget is a *spread* when its root element is a `<section>` (the colophon and masthead use the section controls for their running head but are not spreads); an `svg` may also rely on an `aria-hidden` ancestor (`NH_Html::icon( …, false )`); the forbidden-pattern scan ignores the fixture photos' base path; links without `href` are reported as warnings; the controls section «מקטע» must be the last one.
+  - The stub `esc_url()` keeps relative paths starting with `.` (WordPress would prefix `http://`; real attachment URLs are absolute), `wp_kses()` keeps the text of removed tags as WordPress does, `sanitize_file_name()` keeps letters of any script, and the fake media library's full size is the original upload (manifest width × height) while its file is the largest derivative.
+  - Options: `run.php --widget=<id> | --core-only | --suite=<name> | --no-pages | --no-core | --verbose`; `render.php <id> [variant] [--page] [--plain] [--out]`. Each render also writes `out/<id>--<variant>.json` (its compare target) for compare.py. Assertion helpers for core tests (`nh_assert()`, `nh_assert_same()`, `nh_assert_contains()`, `nh_assert_not_contains()`) live in bootstrap.php.
+  - `fixtures/pages.php`: per page `title`, `prototype`, `header` and `footer` ([ id, variant ]) and `widgets` (a list of [ id, variant ]; a missing variant falls back to `prototype`, then `default`; a missing widget becomes an HTML comment). The options and `$_GET` of all chosen variants are merged; the page's `_elementor_data` is built from the list, so the head's cover preload is exercised too.
 
 ### 11.3 How a widget is rendered with its default settings
 
@@ -1747,13 +1785,15 @@ With `$overrides = []` this is exactly the output an editor sees after dropping 
 
 `python3 -I plugin/tests/compare.py <id> [variant]` reads `out/<id>--<variant>.html` and the built prototype page named in the fixture, selects the target elements, and compares normalised trees: tag names; class **sets**; attributes except `id`, `for`, `aria-labelledby`, `aria-describedby`, `aria-controls` (presence only), `src`/`srcset`/`sizes`/`width`/`height` (presence only), `href` (fragment only, or "URL"), `action`, `style` (custom properties compared numerically ± 0.01), `data-vt`, `data-src`, `data-srcset`, `data-avif`, `data-name`, `data-work`, `data-full`, `data-caption-plain`, `data-count`, `data-running-plain`; ignored elements: `input[type=hidden]`, `script`, `.nh-admin-note`; text with collapsed whitespace. The normalised tree is printed one node per line (`tag.class.class [attr=value] …` for elements, `"text"` for text, indented by depth); `compare.py` prints the unified diff of the two trees and exits 0 when every differing line matches one of the fixture's `expect_diff` regular expressions. The "expected differences" listed per widget in §4 are what those expressions must cover — nothing more.
 
-`shots.mjs` (optional, Node 22 + the globally installed Playwright 1.63 and `/usr/bin/google-chrome`): serves the repository on a local port, opens `out/page-home.html` and `prototype/index.html` (and the house page pair) at 1440×900 and 390×844, normal / `?plain=1` / reduced motion, with consent pre-set in `localStorage`, takes full-page screenshots into `out/shots/`, computes the share of differing pixels in the browser (canvas) and writes `out/shots/report.json`. Target: < 1 % per pair; any difference above that is explained in the package report.
+*(Core, 16.11 — the exact format, so fixture authors can write the expressions.)* One line per node, two spaces of indent per depth. An element: `tag` + `.class` for each class, **sorted**, then its attributes sorted by name: `[name=value]`, or `[name]` for the presence-only ones and for empty values; `href` becomes `[href=#fragment]` or `[href=URL]`; `style` becomes `[style=--a:1.00%;--b:2.00%…]` (properties sorted, numbers with two decimals; two lines that differ only by numbers within ±0.01 are equal). A text node: its JSON string, whitespace collapsed and trimmed next to non-inline neighbours. A **whitespace-only** text node is kept (as `" "`) only in running text: between two inline elements/texts inside an element that also has text of its own — formatting whitespace between blocks, flex/grid items or an icon and its label is not compared. Diff lines start with `-` (prototype) or `+` (plugin) followed by the indented node, e.g. `-          img [alt=…] [decoding=async] …`; `expect_diff` entries are Python regular expressions matched with `re.search` (an invalid expression — prose — fails the compare with a message; patterns that match nothing are reported). A selector that finds nothing in the plugin output is retried without its tag (`header.nh-header` → `.nh-header`), so a changed root tag shows as one diff line. More: `compare.py <id> --all` (every variant with a target), `compare.py --tree FILE [SELECTOR]` (print a normalised tree), `compare.py --prototype-letters` (the build script's letter output, for the parity test).
+
+`shots.mjs` (optional, Node 22 + the globally installed Playwright 1.63 and `/usr/bin/google-chrome`): serves the repository on a local port, opens `out/page-home.html` and `prototype/index.html` (and the house page pair) at 1440×900 and 390×844, normal / `?plain=1` / reduced motion, with consent pre-set in `localStorage`, takes full-page screenshots into `out/shots/`, computes the share of differing pixels in the browser (canvas) and writes `out/shots/report.json`. Target: < 1 % per pair; any difference above that is explained in the package report. *(Core: before each shot the page is walked once and every image is decoded (lazy images otherwise race the screenshot); `node plugin/tests/shots.mjs --behaviour` runs 25 checks of the core scripts on `out/page-home.html` in Chrome — consent and focus return, the display switches and announcements, validation, the token refresh, the server answers mocked (invalid, sent, limited, network error), the visit bar, the cover morph. First results, all 20 widgets assembled: desktop 0.01–0.04 % on both pages in all three modes; phone plain 0.04–0.06 %; phone normal/reduced 1.8 % / 2.7 % only because the test settings' public e-mail is shorter than the prototype's address — the privacy note under the door form is one line shorter and everything below moves up 25 px.)*
 
 ### 11.5 Core unit tests (`plugin/tests/core/*.test.php`)
 
 Files: `letters.test.php`, `text.test.php`, `picture.test.php`, `forms.test.php`, `site.test.php`, `settings.test.php` (items 1–6 below, in this order). Each file returns a list of named closures; `run.php` runs them and reports failures.
 
-1. **Letters parity:** every `{{letterroom …}}`, `{{letter …}}` and `{{doorway}}` in `prototype/src/*.html` → the PHP call with the same arguments (photo names → fixture ids) equals the built prototype output (same markup; numbers ± 0.001; URLs by basename).
+1. **Letters parity:** every `{{letterroom …}}`, `{{letter …}}` and `{{doorway}}` in `prototype/src/*.html` → the PHP call with the same arguments (photo names → fixture ids) equals the built prototype output (same markup; numbers ± 0.001; URLs by basename). *(Core: the expected output comes from the build script itself (`compare.py --prototype-letters`), plus every letter at six in-between weights in both frames; the `<img>` `width`/`height` are compared by presence (the fake library's full size is the original upload, the build script writes its largest derivative: same aspect ratio). Result: equal without any numeric tolerance.)*
 2. `NH_Text`: the five states for `pair()` and `block()` (table-driven), `dot()` variants and the "only the final dot" rule, `lines()`, kses allowlist, link tokens, `tokens()` (`{phone}`, `{email}`, `{contact}`, `{year}`) with and without the public e-mail.
 3. `NH_Picture`: output for a fixture image (AVIF source present), decorative, alt override, priority, missing attachment → `''`.
 4. `NH_Forms::handle()`: honeypot → `sent` and no mail; bad nonce → `expired`; too fast → `sent`, no mail; stale → `expired`; 6th request in 10 min → `limited`; invalid fields → `invalid` with the right codes; empty recipient → `off`, no mail; success → one mail with the right headers; CV → attached under `cv-YYYY-MM-DD.pdf`, temp file deleted, media functions never called; nothing written to options except the `nh_rl_*` transient.
@@ -1768,7 +1808,7 @@ Every package works only in its own files (§1) and reads the core API (§3) as 
 
 | id | widgets | files created |
 |---|---|---|
-| core | cover | everything marked "core" in §1: `nevehairus-site.php`, `uninstall.php`, `readme.txt`, `includes/*` (13 class files), `assets/css/{tokens,base,letters,forms}.css`, `assets/css/widgets/cover.css`, `assets/js/{nh-core,nh-forms}.js`, `assets/js/widgets/cover.js`, `assets/letters.json`, `assets/fonts/*` (4 woff2 + 2 OFL texts), `languages/index.php`, `widgets/cover.php`, `plugin/tests/{bootstrap.php,run.php,render.php,compare.py,shots.mjs}`, `plugin/tests/stubs/{wordpress,elementor}.php`, `plugin/tests/fixtures/{media.php,pages.php}`, `plugin/tests/fixtures/widgets/cover.php`, `plugin/tests/core/{letters,text,picture,forms,site,settings}.test.php`, `plugin/composer.json`, `scripts/build_plugin.py`, `plugin/dist/nevehairus-site.zip`, `.gitignore` line |
+| core | cover | everything marked "core" in §1: `nevehairus-site.php`, `uninstall.php`, `readme.txt`, `README-dev.md`, `includes/*` (13 class files), `assets/css/{tokens,base,letters,forms}.css`, `assets/css/widgets/cover.css`, `assets/js/{nh-core,nh-forms}.js`, `assets/js/widgets/cover.js`, `assets/letters.json`, `assets/fonts/*` (4 woff2 + 2 OFL texts), `languages/index.php`, `widgets/cover.php`, `plugin/tests/{bootstrap.php,run.php,render.php,compare.py,shots.mjs}`, `plugin/tests/stubs/{wordpress,elementor}.php`, `plugin/tests/fixtures/{media.php,pages.php}`, `plugin/tests/fixtures/widgets/cover.php`, `plugin/tests/core/{letters,text,picture,forms,site,settings}.test.php`, `plugin/composer.json`, `scripts/build_plugin.py`, `plugin/dist/nevehairus-site.zip`, `.gitignore` line |
 | chrome | masthead, colophon | `widgets/{masthead,colophon}.php`, `assets/css/widgets/{masthead,colophon}.css`, `assets/js/widgets/masthead.js`, `plugin/tests/fixtures/widgets/{masthead,colophon}.php` |
 | index | homes, steps, lamed, related | `widgets/{homes,steps,lamed,related}.php`, `assets/css/widgets/{homes,steps,lamed,related}.css`, `assets/js/widgets/homes.js`, `plugin/tests/fixtures/widgets/{homes,steps,lamed,related}.php` |
 | crafts | kaf, samekh, years | `widgets/{kaf,samekh,years}.php`, `assets/css/widgets/{kaf,samekh,years}.css`, `assets/js/widgets/{kaf,samekh}.js`, `plugin/tests/fixtures/widgets/{kaf,samekh,years}.php` |
@@ -1797,3 +1837,25 @@ Every package works only in its own files (§1) and reads the core API (§3) as 
 4. Will there be site statistics? If not, the cookie banner drops the «סטטיסטיקה» category.
 5. Calm mode as the default on the autism home page — confirm.
 6. Until launch, keep the footer line «אב־טיפוס לעיון פנימי · …»?
+
+---
+
+## 14. Core package — what changed in this spec, and what it means for the widget packages (16.11.2026)
+
+The core is in place (§12 row "core"); every change it made to this spec is marked *(Core …)* in the section it concerns. In short:
+
+| what | where | does a widget package need to act? |
+|---|---|---|
+| `class-nh-widget-base.php` is loaded by `NH_Plugin::widgets()`, only with Elementor; a broken widget file is skipped (`NH_Plugin::skipped()`), not fatal | §3.1 | no |
+| A control whose `condition` is not met reads as **`null`** (Elementor's behaviour, now also the stub's); `{id}_alt` of an image is hidden when the image is decorative | §3.4 | read settings with a cast (`(string) ( $s[ $k ] ?? '' )`) — every package already does |
+| New helpers: `NH_Text::state()`, `link_tokens()`, `unresolved_tokens()`; `NH_Html::resolve_token()`, `admin_note()`, `ICONS`, `TOKENS`; `NH_Forms::halt()`, `message()`, `STATUSES`, `CODES`, `MAX_FILE`; `nh_h2()` option `id` | §3.3–3.11 | optional |
+| `display_toggles()` takes HTML labels (`NH_Text::pair()` output) or `[ full, plain ]` | §3.6 | no (chrome already passes pair output) |
+| The compat rules of base.css moved up (row 32 after row 5): plain links in components were underlined | §9.1, §10.1 | no — but remove any workaround added for underlined `.v3-roles` / class-less links |
+| `nh-forms.js` posts to `form.getAttribute('action')`: `form.action` is shadowed by the hidden input named `action` | §6.4 | any widget script reading a form's properties: use attributes |
+| `cover.js` also registers under `page-cover`; the page cover needs only `SCRIPT_DEPS ['nh-w-cover']` | §4.1 | residence: no own morph script |
+| Over-long form values are cut server side; the CV is checked as `cv.<ext>`; `is_uploaded_file()` behind `nh_forms_is_uploaded_file` | §6.2 | no |
+| compare.py: exact line format; `expect_diff` entries **must be regular expressions** (prose fails); whitespace-only text compared only in running text; selector retried without its tag | §11.4 | write the fixtures' `expect_diff` as regexes against the printed lines (`compare.py <id> --all` shows them) |
+| Harness: spreads = widgets whose root is a `<section>`; svg may rely on an `aria-hidden` parent; links without `href` are warnings; the «מקטע» section must be last; URL controls must have `'options' => false` | §11.2 | fix what run.php reports |
+| Build: synced files exempt from content patterns; `README-dev.md` not zipped; `--no-harness`; `--phpcs` without the short-array and file-name sniffs | §11.1 | no |
+
+**State of the other packages' work in progress, as the core harness saw it (16.11, 07:40):** all 19 widget files load and register; `php plugin/tests/run.php` passes for all 73 renders (one warning: `related/edge` renders a link without `href`); both assembled pages build with all 23 slots. `compare.py` with no unexpected difference: cover, plainbox, day, years, steps, glance, gallery, features, stories, related, page-cover, kaf, homes. Still to express as `expect_diff` regexes (the differences themselves are the documented expected ones): door (its entries are prose, not regexes), masthead (root tag `div`, D3), colophon (root tag; e-mail item), samekh (external-link `rel`/screen-reader suffix on the items 3–4 links), voices (the moved `style` of `.nh-btn-row`), lamed (role and button hrefs).

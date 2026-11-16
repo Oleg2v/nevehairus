@@ -1,0 +1,43 @@
+/* =========================================================================
+   נווה האירוס — forms (plugin nevehairus-site, core package).
+   Copied verbatim from prototype/assets/css/main.css and v3.css (v3.1, commit 4173d31) in the
+   order of plugin/SPEC.md §6.5. Every block names its source lines; porting changes
+   are marked "plugin:". RTL-first: logical properties only (inline-start = right).
+   ========================================================================= */
+
+/* ---- main.css L265–296 ---- */
+/* ---------- Forms ------------------------------------------------------------ */
+.nh-form { display: grid; gap: var(--nh-s-5); }
+.nh-form__row { display: grid; gap: var(--nh-s-5); }
+@media (min-width: 720px) { .nh-form__row--2 { grid-template-columns: 1fr 1fr; } }
+.nh-field { display: grid; gap: .45rem; }
+.nh-label { font-weight: 700; }
+.nh-label .nh-req { color: var(--nh-error); margin-inline-start: .15rem; }
+.nh-hint { font-size: var(--nh-fs-small); color: var(--nh-ink-2); }
+.nh-input, .nh-select, .nh-textarea {
+  inline-size: 100%; min-block-size: 3.25rem; padding: .75rem 1rem; border: 1.5px solid var(--nh-field);
+  border-radius: var(--nh-r-sm); background: var(--nh-white); color: var(--nh-ink); line-height: 1.4;
+  transition: border-color var(--nh-dur-1), box-shadow var(--nh-dur-1);
+}
+.nh-textarea { min-block-size: 8rem; resize: vertical; }
+.nh-input:hover, .nh-select:hover, .nh-textarea:hover { border-color: var(--nh-ink); }
+.nh-input:focus-visible, .nh-select:focus-visible, .nh-textarea:focus-visible { outline: 3px solid var(--nh-iris-700); outline-offset: 2px; border-color: var(--nh-iris-700); }
+.nh-input[aria-invalid="true"], .nh-select[aria-invalid="true"], .nh-textarea[aria-invalid="true"] { border-color: var(--nh-error); border-width: 2px; }
+.nh-input[type="file"] { padding: .6rem; }
+.nh-error { color: var(--nh-error); font-weight: 600; font-size: var(--nh-fs-small); display: flex; gap: .4rem; align-items: center; }
+.nh-error svg { inline-size: 1.05rem; block-size: 1.05rem; flex: none; }
+.nh-check { display: flex; gap: .75rem; align-items: flex-start; }
+.nh-check input { inline-size: 1.5rem; block-size: 1.5rem; flex: none; margin-block-start: .15rem; accent-color: var(--nh-iris-700); }
+.nh-hp { position: absolute !important; inset-inline-start: -10000px; inline-size: 1px; block-size: 1px; overflow: hidden; }
+.nh-alert { border-radius: var(--nh-r-md); padding: var(--nh-s-4) var(--nh-s-5); border: 2px solid; }
+.nh-alert--error { border-color: var(--nh-error); background: #FBEDEB; color: var(--nh-ink); }
+.nh-alert--error h3 { color: var(--nh-error); font-family: var(--nh-font-body); font-size: 1.125rem; font-weight: 700; }
+.nh-alert--error ul { margin-block-start: .5rem; padding-inline-start: 1.25rem; }
+.nh-alert--error a { color: var(--nh-error); font-weight: 600; }
+.nh-alert--success { border-color: var(--nh-olive-700); background: #EEF3E8; }
+.nh-alert--success h3 { color: var(--nh-olive-700); font-family: var(--nh-font-body); font-size: 1.125rem; font-weight: 700; }
+.nh-form__note { font-size: var(--nh-fs-small); color: var(--nh-ink-2); }
+
+/* ---- v3.css L450, 460 — (plain-language form notes and hints) ---- */
+html.nh-plainmode .nh-form__note.v3-plain, html.nh-plainmode .nh-form__note.v3-plain p { font-size: 1.25rem; line-height: 1.55; color: var(--nh-ink); max-inline-size: 40ch; }
+html.nh-plainmode .nh-hint > .v3-plain { display: inline; }

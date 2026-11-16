@@ -257,6 +257,7 @@ html.nh-plainmode .v3-kaf__cap { margin-block-start: 1.5rem; }
 .v3-video img { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; object-fit: cover; opacity: 1; }
 .v3-video .nh-video__play { place-content: end start; justify-items: start; padding: 1rem; background: none; }
 .v3-video .nh-video__consent { position: relative; inset: auto; place-content: center; }
+.v3-video .nh-btn-row { justify-content: center; }   /* §10.2 item 8: the consent buttons under the centred question */
 .v3-video__cap { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-on-night-2); margin-block-start: .85rem; max-inline-size: 44ch; }
 @media (min-width: 64em) { .v3-voices__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; } }
 .v3-quote--page { margin-block-start: clamp(2.5rem, 2rem + 2vw, 4rem); padding-block-start: 1.5rem; border-block-start: 1.5px solid var(--nh-ink); }

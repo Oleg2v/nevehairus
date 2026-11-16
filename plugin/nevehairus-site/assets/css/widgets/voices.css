@@ -9,9 +9,9 @@
    from 64em; and from the forced-colours block the frame of the paper button. Only the button's
    background changes on hover and focus (150ms); nothing moves.
    `.v3-quote` and `.v3-voices__grid` (one column) are in base.css.
-   Porting changes (SPEC §4.9): the prototype's inline style="justify-content:center" on the
-   consent buttons' `.nh-btn-row` is a rule here; the quote's signature gets the line height of the
-   prototype's `.v3-quote footer` (1.5), which base.css does not set (scoped to this widget).
+   Porting change (SPEC §4.9): the prototype's inline style="justify-content:center" on the
+   consent buttons' `.nh-btn-row` is a rule here (research/07 §10.2 item 8: moved to CSS; the v3.2
+   prototype dropped the style without the rule, so its two buttons stand at the start edge).
    ========================================================================= */
 
 /* ---------- Video facade (privacy: no YouTube request before consent) --------- */
@@ -47,9 +47,6 @@
 .v3-video .nh-video__consent { position: relative; inset: auto; place-content: center; }
 .v3-video__cap { font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-on-night-2); margin-block-start: .85rem; max-inline-size: 44ch; }
 @media (min-width: 64em) { .v3-voices__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; } }
-
-/* porting change: the prototype's `.v3-quote footer` has line-height 1.5 (base.css sets only its size) */
-.v3-voices .v3-quote footer { line-height: 1.5; }
 
 /* porting change: was style="justify-content:center" on the consent buttons' row */
 .v3-video .nh-btn-row { justify-content: center; }

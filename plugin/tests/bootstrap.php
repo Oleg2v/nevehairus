@@ -246,10 +246,16 @@ function nh_test_resolve( string $kind, array $handles ): array {
 /**
  * A full test page around rendered widgets, as the site prints it with the child theme: `html[lang=he]
  * [dir=rtl]`, the head of the site module, the CSS of every widget (tokens, base, …) then the theme's
- * style.css (printed after them on the site), the body class of NH_Site with the body-open parts, the
- * theme's skip link and main#content with the widgets inside Elementor-like wrappers, the footer parts,
- * nhData and the scripts. The queried post (10) holds the widgets in its `_elementor_data` (written here
- * when it does not already), so NH_Site::uses_widgets() sees a page that uses them.
+ * style.css (printed after them on the site), the body class of NH_Site and Elementor's page classes with the
+ * body-open parts, the theme's skip link, the Theme Builder header, main#content with the widgets inside
+ * Elementor-like wrappers, the Theme Builder footer, the footer parts (the cookie panel follows the footer),
+ * nhData and the scripts. The queried post holds the widgets in its `_elementor_data` (written here when it
+ * does not already), so NH_Site::uses_widgets() sees a page that uses them.
+ *
+ * The footer stands in for the site's (research/07 §12.6: Elementor's own Image, Heading and Text Editor
+ * widgets, which the harness does not render): `footer.elementor-location-footer` with one Text Editor list
+ * holding «הגדרות עוגיות» (`href="#nh-cookies"`, as templates/pages/footer.json writes it), then the footer
+ * part (the display widget). The header is in Pro's location wrapper (`div`, D3).
  *
  * @param array  $parts   [ [ 'id' => widget id, 'html' => …, 'widget' => obj ] ] in page order.
  * @param array  $o       title, plain (bool), header (part, outside main), footer (part, outside main).
@@ -312,16 +318,23 @@ function nh_test_page( array $parts, array $o = [] ): string {
 	$open   = nh_test_capture( [ 'NH_Site', 'body_open' ] );
 	$footer = nh_test_capture( [ 'NH_Site', 'footer' ] );
 	$class  = $o['plain'] ? ' class="nh-plainmode"' : '';
-	$bodyc  = implode( ' ', NH_Site::body_class( [] ) );
+	// the body classes Elementor prints on a page built with it: the child theme's fallback layout for pages that
+	// are not Elementor's (`body:not([class*="elementor-page-"]) .site-main`, a 50rem column) must not apply here
+	$bodyc  = implode( ' ', NH_Site::body_class( [ 'elementor-default', 'elementor-page', 'elementor-page-' . $queried ] ) );
 
 	return "<!doctype html>\n<html lang=\"he\" dir=\"rtl\"" . $class . ">\n<head>\n<meta charset=\"utf-8\">\n"
 		. "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"robots\" content=\"noindex, nofollow\">\n"
 		. '<title>' . esc_html( $o['title'] ) . "</title>\n" . $head . $css . "</head>\n<body class=\"" . esc_attr( $bodyc ) . "\">\n" . $open
 		. "<a class=\"nh-skip\" href=\"#content\">דילוג לתוכן הראשי</a>\n"
-		. ( $o['header'] ? $wrap( $o['header'] ) : '' )
-		. "<main id=\"content\" class=\"site-main\" tabindex=\"-1\">\n<div class=\"elementor elementor-10\" data-elementor-type=\"wp-page\">\n<div class=\"elementor-element e-con-full e-flex e-con e-parent\" data-element_type=\"container\">\n"
+		. ( $o['header'] ? "<div data-elementor-type=\"header\" class=\"elementor elementor-location-header\">\n" . $wrap( $o['header'] ) . "</div>\n" : '' )
+		. "<main id=\"content\" class=\"site-main\" tabindex=\"-1\">\n<div class=\"elementor elementor-" . $queried . "\" data-elementor-type=\"wp-page\">\n<div class=\"elementor-element e-con-full e-flex e-con e-parent\" data-element_type=\"container\">\n"
 		. $body . "</div>\n</div>\n</main>\n"
-		. ( $o['footer'] ? $wrap( $o['footer'] ) : '' )
+		. ( $o['footer']
+			? "<footer data-elementor-type=\"footer\" class=\"elementor elementor-location-footer\">\n"
+				. "<div class=\"elementor-element elementor-widget elementor-widget-text-editor\" data-element_type=\"widget\" data-widget_type=\"text-editor.default\">\n"
+				. "<ul class=\"nh-footer-links\"><li><a href=\"#nh-cookies\">הגדרות עוגיות</a></li></ul>\n</div>\n"
+				. $wrap( $o['footer'] ) . "</footer>\n"
+			: '' )
 		. $footer . $js . "</body>\n</html>\n";
 }
 

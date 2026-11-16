@@ -4,8 +4,10 @@
    sending with fetch to admin-post.php (JSON answer), a fresh nonce/time token on the
    first focus (pages may come from a full-page cache), and focus on the state the
    server rendered after a submission without JavaScript (SPEC §6.4).
-   Ported from prototype/assets/js/site.js L339–455 (v3.1). Errors appear only on submit
-   and are cleared on input/change when valid — never on blur.
+   Ported from prototype/assets/js/site.js section 5 «Forms» (v3.2 L174–290; the same code as
+   v3.1 L339–455). Errors appear only on submit and are cleared on input/change when valid —
+   never on blur, so nothing jumps under the pointer. Nothing here moves or animates, and it
+   listens to no scroll (research/07 §4, §7.5): focus moves to the summary or the thank-you.
    ========================================================================= */
 (() => {
   "use strict";

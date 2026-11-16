@@ -18,6 +18,13 @@ final class NH_Widget_Related extends NH_Widget_Base {
 	public const ID       = 'related';
 	public const KEYWORDS = [ 'related', 'links', 'להמשך קריאה', 'קישורים' ];
 
+	/**
+	 * Never in Elementor's element cache (SPEC §3.3): render() reads the current post (a row back to this page is
+	 * left out), the current user (the editors' note about a left-out row) and the settings (link tokens). Cached
+	 * once while an editor looks at the page, that note would be shown to every visitor until the cache expires.
+	 */
+	public const DYNAMIC = true;
+
 	public function get_title() {
 		return __( 'להמשך קריאה', 'nevehairus-site' );
 	}

@@ -1,7 +1,8 @@
 /* =========================================================================
    nevehairus-site · widget "jobs-form" (טופס הגשת מועמדות) — SPEC §4.20, D6
-   Verbatim from prototype/assets/css/main.css L297–299 (commit 4173d31), plus one new rule.
-   The fields, checks, alerts and notes are in forms.css; the spread and the ruling line in base.css.
+   Verbatim from prototype/assets/css/main.css (v3.2) L360–362 (unchanged since v3.1), plus one new rule.
+   The fields, checks, alerts and notes are in forms.css (research/07 §7.5); the spread, the ruling
+   line, the H2 and the lead in base.css.
    ========================================================================= */
 
 /* two columns: text beside the jobs application form (design-system page) */

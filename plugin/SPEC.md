@@ -76,7 +76,7 @@ plugin/
 │   │   ├── class-nh-controls.php             core · control helpers: text pairs, images, links, headings, section
 │   │   ├── class-nh-text.php                 core · plain-language pairs/blocks, lines, tessera dot, kses, link tokens
 │   │   ├── class-nh-html.php                 core · attributes, icons, URLs, LTR spans, phone links, aria-current, toggles
-│   │   ├── class-nh-letters.php              core · letters.json: svg(), path(), room(), doorway(), data_script()
+│   │   ├── class-nh-letters.php              core · letters.json: svg(), path(), room(), doorway() (v3.2: no data_script())
 │   │   ├── class-nh-picture.php              core · <picture>/<img> from attachment IDs, srcset, preload
 │   │   ├── class-nh-settings.php             core · option nh_settings: defaults, get(), resolved URLs, phone, tokens
 │   │   ├── class-nh-settings-page.php        core · Settings → נווה האירוס (admin only), test e-mail, admin notices
@@ -97,12 +97,12 @@ plugin/
 │   │   ├── fonts/                            core · copied verbatim: 4 × *.woff2 + OFL-Assistant.txt + OFL-FrankRuhlLibre.txt
 │   │   ├── css/
 │   │   │   ├── tokens.css                    core · copied verbatim from prototype/assets/css/tokens.css (font URLs ../fonts/ still resolve)
-│   │   │   ├── base.css                      core · site-wide: reset, type, buttons, spreads, dot, print, roles, quote, toggles, cookies, visit bar, modes, compat
+│   │   │   ├── base.css                      core · our widgets only (v3.2): reset, type, buttons, spreads, dot, print + reveal, roles, quote, toggles, cookie panel, modes, compat
 │   │   │   ├── letters.css                   core · letter + room (+ whole mode)
 │   │   │   ├── forms.css                     core · fields, checks, alerts, honeypot, form notes
 │   │   │   └── widgets/<id>.css              owner of widget <id> (one file per widget that needs CSS)
 │   │   └── js/
-│   │       ├── nh-core.js                    core · window.nh: helpers, display modes, cookies, visit bar, widget hook
+│   │       ├── nh-core.js                    core · window.nh: helpers, display modes, the reveal, cookie panel, visit buttons, anchors, widget hook
 │   │       ├── nh-forms.js                   core · validation, AJAX submit, token refresh, server-state focus
 │   │       └── widgets/<id>.js               owner of widget <id> (only widgets that need JS)
 │   ├── languages/index.php                   core · "silence is golden" (keeps the Domain Path folder in git)
@@ -323,10 +323,11 @@ final class NH_Html {
 	public static function ltr( string $text ): string;        // <span class="nh-ltr">{text}</span>
 	public static function tel( string $tel ): string;         // 'tel:' + [+0-9] only
 	public static function post_id( string $url ): int;        // url_to_postid() for same-host URLs without a fragment, else 0
-	public static function is_current( string $url, string $ids_csv = '' ): bool;
+	public static function is_current( string $url, string $ids_csv = '' ): bool;   // '' !== current_state()
+	public static function current_state( string $url, string $ids_csv = '' ): string; // v3.2: 'page' | 'true' | '' (research/07 §5.3, §12.3)
 	public static function display_toggles( array $labels, array $states = [] ): string; // v3.2: the switches whose key is in $labels (plain, calm)
 	// core additions (16.11):
-	public const ICONS  = [ 'phone', 'menu', 'close', 'arrow-fwd', 'arrow-back', 'play', 'expand', 'speech', 'sliders' ];
+	public const ICONS  = [ 'phone', 'menu', 'close', 'arrow-fwd', 'play', 'speech' ];   // v3.2 (P1): the six the pages use
 	public const TOKENS = [ '#privacy', '#accessibility', '#sitemap', '#entrances', '#jobs-page' ];
 	public static function resolve_token( string $href ): string; // a link token → its URL from the settings; anything else unchanged
 	public static function admin_note( string $text ): string;    // <p class="nh-admin-note" role="note">…</p> for edit_posts users, else ''
@@ -334,7 +335,7 @@ final class NH_Html {
 ```
 - `display_toggles()` labels are **HTML** — normally `NH_Text::pair()` output (filtered again with the inline allowlist) — or a `[ full, plain ]` array, which is passed to `NH_Text::pair()`.
 - `nh_admin_note()` (widgets) and `NH_Forms::recipient_note()` both use `NH_Html::admin_note()`.
-- `icon( 'arrow-fwd', 'nh-btn__icon nh-btn__icon--fwd' )` → `<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg>`. With `$class === ''` the `class` attribute is omitted (the arrows in `.v3-roles` rows); `icon( 'arrow-fwd', 'v3-home__arrow' )` for the homes rows. With `$aria_hidden = false` only `focusable="false"` is written — used where the parent is already `aria-hidden` (`.nh-video__icon`, `.nh-gallery__zoom`), exactly as in the prototype. Icon names: `phone menu close arrow-fwd arrow-back play expand speech sliders` (the sprite, §5.3).
+- `icon( 'arrow-fwd', 'nh-btn__icon nh-btn__icon--fwd' )` → `<svg class="nh-btn__icon nh-btn__icon--fwd" aria-hidden="true" focusable="false"><use href="#i-arrow-fwd"/></svg>`. With `$class === ''` the `class` attribute is omitted (the arrows in `.v3-roles` rows); `icon( 'arrow-fwd', 'v3-home__arrow' )` for the homes rows. With `$aria_hidden = false` only `focusable="false"` is written — used where the parent is already `aria-hidden` (`.nh-video__icon`), exactly as in the prototype. Icon names: `phone menu close arrow-fwd play speech` (the sprite, §5.3; v3.2, P1 16.11: `arrow-back`, `expand` and `sliders` are gone with the lightbox and the display panel — no widget used them).
 - `is_current( $url, $ids )`: true if the queried post or one of its ancestors is in `$ids` (comma-separated post IDs), or if `$url` has no fragment and `post_id( $url )` is the queried post or an ancestor. URLs with a `#fragment` never match by URL (the home page's nav anchors are not "current", as in the prototype).
 - *(v3.2, B2 16.11: a switch is printed only when its key is in `$labels`, always in the order plain, calm — the menu passes both, the display widget may pass only `calm`; `motion` is ignored; each switch is `<button type="button" class="v3-toggle" data-{plain|calm}-toggle aria-pressed="false"><span class="v3-toggle__label">{label}</span><span class="v3-toggle__state" aria-hidden="true" data-on="{on}" data-off="{off}"></span><i aria-hidden="true"></i></button>`, research/07 §7.3. The v3.1 form below is history.)*
 - `display_toggles( [ 'plain' => …, 'motion' => …, 'calm' => … ] )` → exactly (one per line in the prototype, header L28–30):
@@ -351,7 +352,6 @@ final class NH_Letters {
 	public static function svg( string $name, float $weight = 800, array $o = [] ): string;
 	public static function room( string $name, array $o = [] ): string;
 	public static function doorway(): string;
-	public static function data_script( array $names = [ 'bet' ] ): string;
 	public static function geometry( string $name, array $o = [] ): array;  // the CSS custom properties of room(), for tests
 	public static function num( float $v ): string;                          // Python "{:g}" (PHP sprintf('%g') matches for these values)
 }
@@ -363,8 +363,8 @@ final class NH_Letters {
   - Photo markup: cover mode → `NH_Picture::render( $photo, [ 'class' => 'v3-room__photo', 'sizes', 'loading' => priority ? 'eager' : 'lazy', 'priority', 'alt', 'decorative' ] )`; whole mode → `<div class="v3-room__photo v3-room__photo--whole"><div class="v3-room__work">{picture class v3-room__img, loading lazy}{extra}</div></div>`; no photo and `field` → `<span class="v3-room__photo v3-room__field v3-room__field--{field}" aria-hidden="true"></span>`.
   - Output: `<div class="v3-room v3-room--{name}[ {class}]" style="{vars}" data-room="{name}"{attrs}>{photo}{svg($name, $weight, frame)}{extra (cover mode)}</div>`.
 - `doorway()` = `doorway()` (L167–180), byte-identical: `<div class="v3-door__frame" aria-hidden="true" data-door>` + head svg (`viewBox="250 180 160 540"`) + `<span class="v3-door__bar"></span>` + cap svg (`viewBox="25 180 75 122"`) + `<span class="v3-door__leg"></span></div>`; both svgs `preserveAspectRatio="none" aria-hidden="true" focusable="false"` with the dalet-300 path.
-- `data_script( [ 'bet' ] )` = `letter_data()` (L183–190): `<script type="application/json" id="nh-letters">{"bet":{"c":[…],"a":[…],"b":[…]}}</script>` (`JSON_UNESCAPED_SLASHES | JSON_PRESERVE_ZERO_FRACTION`). Returns the script **once per request** (static guard); later calls return `''`.
-- *(Core, 16.11: the weight is clamped to 300–800 and rounded to a whole unit; `data_script()` sets `serialize_precision = -1` while encoding (hosts with the old value 17 would print `61.200000000000003`); `names()` lists the letters. The port is exact: every letter directive of `prototype/src/*.html` — and every letter at six in-between weights — gives the build script's markup with **no** numeric tolerance, PHP's `sprintf` rounding equals Python's on all values involved.)*
+- *(v3.2, P1 16.11: `data_script()` — the cover morph's `#nh-letters`, the build script's `letter_data()` — is removed: every letter stands still at one weight (research/07 §4.4 item 11) and no page prints it; nothing called it after B2.)*
+- *(Core, 16.11: the weight is clamped to 300–800 and rounded to a whole unit; `names()` lists the letters. The port is exact: every letter directive of `prototype/src/*.html` — and every letter at six in-between weights — gives the build script's markup with **no** numeric tolerance, PHP's `sprintf` rounding equals Python's on all values involved.)*
 
 ### 3.8 `NH_Picture` — images from attachment IDs
 
@@ -411,21 +411,24 @@ final class NH_Settings {
 ```php
 final class NH_Site {
 	public static function init(): void;
-	public static function head(): void;                          // wp_head @1
+	public static function uses_widgets(): bool;                  // v3.2: this request shows a widget of ours (research/07 §12.2)
+	public static function has_widget( int $post_id ): bool;      // raw _elementor_data holds "widgetType":"nh-…"
+	public static function chrome_documents(): array;             // post ids of Pro's header/footer shown on this request
+	public static function head(): void;                          // wp_head @1 (only when uses_widgets())
 	public static function prepaint_js(): string;                  // the inline script (§5.2)
-	public static function body_open(): void;                     // wp_body_open @5: sprite, skip link, cookie banner
-	public static function footer(): void;                        // wp_footer @5: fallbacks, visit bar, live region, footer_once parts
-	public static function footer_once( string $key, callable $printer ): void; // print $printer() once in wp_footer
-	public static function main_open(): void;  public static function main_close(): void;
-	public static function sprite(): string;  public static function skip_link(): string;
-	public static function cookie_banner(): string;  public static function visit_bar(): string;  public static function live_region(): string;
+	public static function body_class( $classes );                // `v3` (only when uses_widgets())
+	public static function body_open(): void;                     // wp_body_open @5: the sprite (only when uses_widgets())
+	public static function footer(): void;                        // wp_footer @5: sprite fallback, cookie panel, live region (only when uses_widgets())
+	public static function sprite(): string;
+	public static function cookie_panel(): string;               // research/07 §9 (hidden; never shows itself)
+	public static function live_region(): string;
 	public static function cover_preload(): string;               // preload for the first nh-cover/nh-page-cover photo of the queried post
 	public static function calm_default(): bool;                  // Elementor page setting nh_calm_default
 	public static function js_data(): array;                      // window.nhData
 	public static function is_preview(): bool;                    // Elementor editor preview
 }
 ```
-*(Core: public hook callbacks `body_class()`, `page_settings()`, `no_cache_for_form_states()`, `remember_template()`. `footer_once()` called after the footer has run prints the part at once. Only the sprite and the banner fall back to `wp_footer` (D1) — a skip link at the end of the page would be useless. In an Elementor editor re-render (an AJAX request, no footer) queued parts are not printed: the gallery's lightbox is absent in the editor only.)*
+*(Core: public hook callbacks `body_class()`, `page_settings()`, `no_cache_for_form_states()`. Only the sprite falls back to `wp_footer` (D1). v3.2: the skip link, `main`, the template memory and the visit bar are gone (B1: the child theme's, or removed); `cookie_banner()` is `cookie_panel()`; `footer_once()` and its queue are removed (P1 16.11: no widget queues a part any more — the lightbox is gone).)*
 
 ### 3.11 `NH_Forms` (details in §6)
 
@@ -459,23 +462,26 @@ final class NH_Forms {
 
 ### 3.12 Core JavaScript: `window.nh` (`assets/js/nh-core.js`)
 
+*(v3.2 — B1, B2, P1 16.11; research/07 §4, §5.5, §9, §12.3.)*
 ```js
 window.nh = {
   data,                         // window.nhData (§5.6)
-  store: { get(k), set(k, v) }, // localStorage with try/catch (site.js L17-20)
+  store: { get(k), set(k, v) }, // localStorage with try/catch
   osReduced(),                  // matchMedia('(prefers-reduced-motion: reduce)')
-  motionOK(),                   // !nh-reduce-motion && !nh-calm && !osReduced()   (v3.js L22-23)
-  announce(msg),                // speaks through dialog[open] [data-announce-menu] or [data-announce] (v3.js L24-30)
-  once(target, cls, rootMargin),// adds cls when first seen (v3.js L176-184); target = selector or element(s)
+  motionOK(),                   // !nh-reduce-motion && !nh-calm && !osReduced()   (v3.js «1», v3.2)
+  announce(msg),                // speaks through dialog[open] [data-announce-menu] or [data-announce]
+  reveal(),                     // the one appearance of figure.v3-print[data-reveal] > picture (research/07 §4.2); runs on start
   widget(name, selector, init), // see below
-  consent: { read(), save({ stats, media }), showBanner(), hideBanner(), openSettings() },
-  syncToggles(),                // aria-pressed of all [data-plain-toggle]:not([data-plain-toggle=action]), [data-calm-toggle], [data-motion-toggle]
-  keepPlace(change),            // v3.js L40-60
+  consent: { read(), save({ stats, media }), openSettings(source), hideBanner() },   // hideBanner hides the panel (voices.js calls it)
+  syncToggles(),                // aria-pressed of all [data-plain-toggle]:not([data-plain-toggle=action]) and [data-calm-toggle]
+  keepPlace(change),            // v3.js «1»: the place of reading by :is(.v3-spread, .v3-plainbox-wrap) :is(h1, h2, h3, li, p, figure)
 };
 ```
-`nh.widget( name, selector, init )`: calls `init( el )` once for every element matching `selector` (a) in `document` when the script runs (scripts are deferred, the DOM is parsed), and (b) inside `$scope[0]` on Elementor's `frontend/element_ready/nh-{name}.default` hook (added on `elementor/frontend/init` or immediately if `elementorFrontend.hooks` exists), then calls `nh.syncToggles()`. A `WeakSet` prevents double initialisation. Widget scripts must not run page-wide logic twice (guard with a module-level flag where the prototype logic is page-wide, e.g. the cover morph).
+`nh.widget( name, selector, init )`: calls `init( el )` once for every element matching `selector` (a) in `document` when the script runs (scripts are deferred, the DOM is parsed), and (b) inside `$scope[0]` on Elementor's `frontend/element_ready/nh-{name}.default` hook (added on `elementor/frontend/init` or immediately if `elementorFrontend.hooks` exists), then calls `nh.syncToggles()`. A `WeakSet` prevents double initialisation. Widget scripts must not run page-wide logic twice. v3.2: nothing in a widget script moves anything (§8, research/07 §4).
 
-Events (on `document`): `nh:motionchange` (`detail.reduce`), `nh:displaychange`, `nh:consent` (`detail` = consent record). Storage keys: `localStorage` `nh-motion` (`reduce|full`), `nh-calm` (`on|off`), `nh-plain` (`on|off`), `nh-consent-v1` (JSON `{necessary, stats, media, date, v}`); `sessionStorage` `nh-vt`. URL parameter `?plain=1|0`. Classes on `<html>`: `js`, `nh-plainmode`, `nh-calm`, `nh-reduce-motion`, `nh-vt-in`, `v3-ready`, `nh-has-cookies`, `nh-has-bar`; on `<body>`: `v3`.
+Also on start, without an API: the visit buttons (`a[data-visit-cta]` → `#{id}` of this page's first `.v3-door[id]`), focus on the target's heading after an in-page link (same origin, path and query; a link inside a dialog after its `close`) and on a load with `#…` (after `load`), the cookie panel (`[data-cookie-settings]` or any link of this page to `#nh-cookies`), a photo that cannot be shown (`.v3-room` → `.is-sky`, a print or its gallery cell `hidden`, the masthead's emblem `hidden`; P1, the prototype's v3.js «3»), `[data-year]`.
+
+Events (on `document`): `nh:displaychange`, `nh:consent` (`detail` = consent record). Storage keys: `localStorage` `nh-calm` (`on|off`), `nh-plain` (`on|off`), `nh-consent-v1` (JSON `{necessary, stats, media, date, v}`), and `nh-motion` = `reduce` is still read by the pre-paint script (the switch of v3.1 is gone). URL parameter `?plain=1|0`. Classes on `<html>`: `nh-plainmode`, `nh-calm`, `nh-reduce-motion`, `v3-ready`; on `<body>`: `v3`. Gone in v3.2: `once()`, `showBanner()`, `nh:motionchange`, `[data-motion-toggle]`, `sessionStorage` `nh-vt`, the classes `js`, `nh-vt-in`, `nh-has-cookies`, `nh-has-bar`.
 
 `assets/js/nh-forms.js` exposes `nh.forms.bind( form )` and binds every `form[data-validate]` on load and on Elementor's `frontend/element_ready/global` hook (§6.4).
 
@@ -633,7 +639,7 @@ Markup (target: built `index.html` `section#cover`):
 ```
 H1 rule: the H1 always has the `v3-full` / `v3-plain` structure (the CSS lays out the line spans inside `.v3-full`); if `title_plain` is empty (or `-` — the page heading is never hidden), the plain span repeats `title_1 title_2` as text without tesserae. A line whose text is empty is omitted (one-line titles). `data-visit-cta`: nh-core.js points the button at this page's `.v3-door[id]` when there is one (research/07 §5.5).
 
-CSS `cover.css`: v3.css L132–161, L163–191 (v3.1) without the pinning, the drawn rule, the paper «curtain», the settling photo and their `@keyframes` (v3.2: removed by B2), the grid has no row for a rule and a row for `.v3-cover__call`; L452–458, L463. The v3.2 layout and type scale (research/07 §10.2 item 1) are ported with the markup (§15 B4).
+CSS `cover.css` *(v3.2, P1 16.11: ported verbatim from the rebuilt prototype)*: v3.css L99–132 — the cover of both pages in one block (the page cover loads this file too, D5): one screen, D-L title (`var(--v3-fw-dl) var(--v3-fs-dl)/.92`: 300 from 48em, 400 below), lead at the lead step in ink, «או בטלפון» UI 18/600 with a 44px link, phones `"letter title" "lead lead" "plain plain" "cta cta" "call call"` (letter `min(44vw, 13rem)`), the page cover stacked `"crumbs" "letter" "title" …` (letter `min(52vw, 10rem)`), from 48em two columns `5fr 6fr` centred with `--cover-h: min(100svh − mast − 13rem, 44rem)`, the house page from 64em `min(100svh − mast − 11rem, 34rem)`; then L350 (second selector: `.v3-cover__call > .v3-plain` inline) and L354–361 (plain mode: title D-M 400, plain paragraphs at the plain step, the ב as a chapter mark from 48em). Porting change: L356 without `main` (§10.2 rule 4). No pinning, drawn rule, curtain, settling photo or `@keyframes`; the v3.1 portrait-tablet rule is gone with the prototype's.
 JS: none (`cover.js` deleted in v3.2).
 *(Core: an empty `cta_link` renders no button; `NH_Widget_Cover::SIZES` holds the default `sizes`.)*
 Fixture: `default` (no photo: the sky field, compared with its expected differences); `prototype` = photo `v3-walk`, compare `index.html` `section#cover` — **result: 0 differing lines**; `states`, `no-button`, `no-phone` (edge cases, structure only).
@@ -658,7 +664,7 @@ Markup (target `program-main-home.html` `section#cover`): as `cover`, with
 - H1 class `v3-cover__title v3-cover__title--page`;
 - the button with `data-visit-cta` and the line `.v3-cover__call`, as the cover.
 
-CSS `page-cover.css`: main.css L301–305 (`.nh-crumbs`), v3.css L493–501; v3.2: no `view-transition-class` (D11 is gone). The crumbs of research/07 §10.3 item 2 («‹», silent) are ported with the markup (§15 B4).
+CSS `page-cover.css` *(v3.2, P1 16.11)*: main.css L364–371 (the crumbs: 600 at 16px in ink-2, underlined links 1px → 2px with a 44px target, the separator `content: "‹" / ""` — silent, the current page in ink), v3.css L391–392 (`.v3-crumbs` in the cover's grid). The page cover's own layout is part of the cover's block in cover.css (STYLE_DEPS `nh-w-cover`, D5); no `view-transition-class` (D11 is gone).
 JS: none.
 Fixture: `prototype` = photo `v3-sky-room` on the house page (queried post 11), compare `program-main-home.html` `section#cover`: 0 differing lines (crumb hrefs normalised).
 
@@ -716,11 +722,13 @@ Markup (target `index.html` `section#homes`):
 ```
 A link back to the spread itself (`#{anchor}` of the widget or of the row) counts as no link. For the prototype's third row (no photo) the room has no `decorative` image — the sky field `span` is already `aria-hidden`.
 
-CSS `homes.css`: v3.css L193–217 (v3.1) without the chooser; the row fills at once (the `::before` changes `opacity` in 150ms, no «curtain»), the arrow never moves, no `view-transition-class`; `.v3-home__row` is laid out like `.v3-home__link`; L445 third selector only; L449. The v3.2 sizes are ported with the markup (§15 B4).
+CSS `homes.css` *(v3.2, B4 16.11)*: v3.css (v3.2) L134–156; from L347–348 the selector `.v3-home__who.v3-plain` only; L351 — research/07 §10.2 item 2: the name D-S 400 (`--v3-fs-ds`/1.12), underlined 2px (offset .2em) while a link row is hovered or focused, when its own backdrop (`::before`, the tone's `--field`) shows at once — `opacity` 0 → 1 in 150ms, no «curtain»; «who» the body step in ink; the facts the small step 700 in ink-2; rows divided by the hairline `--v3-hair`; link rows and `div.v3-home__row` share one grid, `5.5rem 1fr 2rem` (from 56.25em `9.5rem 1fr 2.25rem`, gap 2.5rem, rows 2rem); the arrow is always shown (2rem, from 56.25em 2.25rem) and never moves; no `view-transition-class`. Plain mode: the «who» lines at `--v3-fs-plain`, one per line. The note under the list (`.v3-note`, 16px ink-2) is base.css's.
 JS: none (`homes.js` deleted in v3.2).
 Fixture: `prototype` = photos `v3-sky-room`, `v3-villa`, row 1 linked to the house page; compare `index.html` `section#homes`: 0 differing lines. `edge`, `linked` (structure only).
 
 ### 4.4 `plainbox` — package life
+
+*(v3.2, B4 16.11: research/07 §10.2 item 3 — CSS only: the sizes of the nine-step scale, the olive bar a border.)*
 
 Constants: `ID 'plainbox'`. Section: class `v3-plainbox-wrap` (+ ` v3-plainbox-wrap--page` when `variant = page`), **no** `v3-spread`. Section controls: `plain` / `בשפה פשוטה`.
 
@@ -749,13 +757,13 @@ Markup (target `index.html` `section#plain`):
 </section>
 ```
 The button is an action button: **no `aria-pressed`**; core JS handles `[data-plain-toggle]` clicks by delegation.
-CSS `plainbox.css`: v3.css L219–227, L535, and from L582–585 the rule `.v3-plainbox { grid-template-columns: minmax(0, 1fr); }` inside `@media (max-width: 479px)`.
+CSS `plainbox.css`: the v3.2 prototype's v3.css block «Plain-language box», `.v3-plainbox-wrap--page` (block «A home's page») and, from `@media (max-width: 479px)`, the rule `.v3-plainbox { grid-template-columns: minmax(0, 1fr); }` (that block's `.v3 .nh-btn` rule is in base.css). v3.2 (research/07 §7.1, §7.5): the heading D-S 400 (`400 var(--v3-fs-ds)/1.12`), the items and the paragraph `var(--v3-fs-plain)`/1.6, the olive bar `border-inline-end: 6px solid var(--nh-olive-700)` instead of an inset box-shadow (still on the left); the button olive, ink on hover (§7.2). *(B4, P3 16.11: computed styles and pixels of `section#plain` and `section#plain-page` equal the prototype's at 320–1440 px, normal and plain.)*
 JS: none.
 Fixture: `default` compare `index.html` `section#plain`; variant `page` compare `program-main-home.html` `section#plain-page`.
 
 ### 4.5 `day` — package life
 
-*(v3.2, B2 16.11: research/07 §10.2 item 4, §4.2, §8.1.)*
+*(v3.2, B2 16.11: research/07 §10.2 item 4, §4.2, §8.1. B4 16.11: the v3.2 grid and type.)*
 
 Constants: `ID 'day'`, `SIZES '(max-width: 23em) calc(100vw - 2.5rem), 21rem'`. Section class `v3-day v3-spread`. Section control: anchor `day`.
 
@@ -794,7 +802,7 @@ Markup (target `index.html` `section#day`):
 </section>
 ```
 v3.2: no zigzag (no `v3-moment--a…d`), one print size; `data-reveal`: the print's photo frame may appear softly once (nh-core.js `nh.reveal()`, research/07 §4.2).
-CSS `day.css`: v3.css L229–233, L242–249, L462 (v3.1); the v3.2 grid (4 / 2 / 1 columns) and the D-M verbs are ported with the markup (§15 B4). (`.v3 { counter-reset: print }` and `.v3-print` with the reveal are in base.)
+CSS `day.css`: the v3.2 prototype's v3.css block «Day: four verbs»: `.v3-day__list` a grid of one column, two from 40em, four from 64em (gap `3rem 2rem`, `2rem` above it); `.v3-moment` a flex column (gap `1rem`); the verb D-M 400 (`400 var(--v3-fs-dm)/1`), the still typographic moment of the spread; the sentence `var(--v3-fs-body)`/1.65, at most 34ch. The v3.1 zigzag and the plain-mode size of the verbs are gone. (`.v3 { counter-reset: print }` and `.v3-print` with the reveal are in base.) *(B4, P3 16.11: computed styles and pixels equal the prototype's at 360–1920 px, normal and plain.)*
 JS: none.
 Fixture: `prototype` = photos `v3-crafts`, `v3-riding`, `v3-orchard`, `v3-villa-print`; compare `section#day`: 0 differing lines.
 
@@ -832,7 +840,7 @@ Markup (target `index.html` `section#made`):
 </section>
 ```
 The button is printed only with a link, and never with a link back to this spread (`#made`, `#{anchor}`, or this page with that fragment): editors then see `nh_admin_note( 'הכפתור מוביל לאותו מקטע ולכן לא מוצג' )` (research/07 §3 item 21; on staging there is no gallery page yet, §16 item 8). An external link gets `rel="noopener"` and the screen-reader suffix.
-CSS `kaf.css`: the prototype's v3.2 «כ׳ · Crafts in the palm» block (`.v3-kaf__letter`, `.v3-kaf__cap`, the two columns from 64em with the base cut by the spread's edge, the text column's bottom padding `var(--v3-pad)`) and the plain-mode letter size. (The grid and the honey ground are in base.css.)
+CSS `kaf.css`: the prototype's v3.2 «כ׳ · Crafts in the palm» block (`.v3-kaf__letter`, `.v3-kaf__cap`, the two columns from 64em with the base cut by the spread's edge, the text column's bottom padding `var(--v3-pad)`) and the plain-mode letter size. (The grid and the honey ground are in base.css.) *(B4, P3 16.11: unchanged — its computed styles and pixels already equal the prototype's at 360–1920 px, normal and plain.)*
 JS: none (`kaf.js` deleted in v3.2).
 Fixture: `prototype` = photo `v3-pot-b`; compare `section#made`: 0 differing lines. `button`, `self-link`, `edge` (structure only).
 
@@ -879,13 +887,13 @@ Markup (target `index.html` `section#support`):
   </div>
 </section>
 ```
-CSS `samekh.css`: v3.css L273–279, L283–309 (v3.1) without the rings, the glint, the links' rules and the `:has()` ring rules; porting change `.v3-samekh__art { margin: 0; justify-self: center; }` (Elementor resets `figure` margins). The v3.2 sizes are ported with the markup (§15 B4).
+CSS `samekh.css`: the v3.2 prototype's v3.css block «ס׳ · Circles of support» (its `.v3-room__photo--whole` and `.v3-room__work` are in letters.css): the intro at most 34rem; the art `min(84vw, 28rem)`, its caption the small step (`var(--v3-fs-small)`/1.5, ink-2, centred); the circles under a 1.5px ink line, rows of `.85rem` with a `var(--v3-hair)` line, the names H3 (`500 var(--v3-fs-h3)/1.25`), the descriptions `var(--v3-fs-body)`/1.5 in ink; three columns from 64em (`1fr 26rem 1fr`, the middle `22rem` below 80em). No rings, glint or link rules. Porting change `.v3-samekh__art { margin: 0; justify-self: center; }` (Elementor resets `figure` margins; the figure is a grid item, so it stands in the same place). *(B4, P3 16.11: computed styles and pixels equal the prototype's at 360–1440 px, normal and plain, except that change.)*
 JS: none (`samekh.js` deleted in v3.2).
 Fixture: `prototype` = photo `v3-mandala`; compare `section#support`: 0 differing lines.
 
 ### 4.8 `years` — package crafts
 
-*(v3.2, B2 16.11: research/07 §10.2 item 7.)*
+*(v3.2, B2 16.11: research/07 §10.2 item 7. B4 16.11: three equal columns, «1957» D-L, the numbers on one bottom line.)*
 
 Constants: `ID 'years'`, `STYLE_DEPS ['nh-letters']`, `SIZES '(max-width: 23em) calc(100vw - 2.5rem), 21rem'`. Section class `v3-years v3-spread`, tone `sand`. v3.2: **the ruling line first**. Section control: anchor `story`.
 
@@ -923,7 +931,7 @@ Markup (target `index.html` `section#story`):
 </section>
 ```
 The `v3-shamayim` block is a `div` (never inside a `<p>`: the parser would close the paragraph — prototype README).
-CSS `years.css`: v3.css L311–333 (v3.1) without the cloud drift (v3.2), its `.v3-year--first` rules as `.v3-year:first-child` until the v3.2 layout (three equal columns, «1957» D-L, the numbers on one baseline) is ported with the markup (§15 B4); from L459 the selector `.v3-shamayim`. Porting change: `.v3-year .v3-print { padding-block-start: 1.25rem; }` (figure margins are reset by Elementor, §10).
+CSS `years.css`: the v3.2 prototype's v3.css block «Years» and, from its plain-mode block, `html.nh-plainmode .v3-shamayim { display: none !important; }`: the numbers D-M 400 (`400 var(--v3-fs-dm)/1`, −.03em, lining figures; a word such as «היום» without tracking), the first one D-L by `.v3-year:first-child` (`var(--v3-fs-dl)`, weight `var(--v3-fw-dl)`, line height .92 — no class of its own); one column, from 64em three equal columns (`repeat(3, minmax(0, 1fr))`) in which every number is a flex row `calc(var(--v3-fs-dl) * .92)` high, aligned to its bottom, so the three numbers share one bottom line and the H3 under them line up; H3 `500 var(--v3-fs-h3)/1.25`; the text `var(--v3-fs-body)`/1.65, ink-2, at most 38ch; «שמיים» D-M 400 with its still ם window. Porting change: `.v3-year .v3-print { padding-block-start: 1.25rem; }` (figure margins are reset by Elementor, §10; the figure has no ground and only its picture moves when it appears, so the print stands where the prototype's does). *(B4, P3 16.11: computed styles and pixels equal the prototype's at 360–1920 px, normal and plain, except that change; the caption's number counts the page's prints — «5 ·» on the home page, «1 ·» on a page of this widget alone.)*
 JS: none.
 Fixture: `prototype` = photos `v3-courtyard`, `v3-sky-room`; compare `section#story`: 0 differing lines.
 
@@ -974,9 +982,9 @@ Markup (target `index.html` `section#voices`):
   </div>
 </section>
 ```
-Porting change: the prototype's inline `style="justify-content:center"` on `.nh-btn-row` moved to CSS (`.v3-video .nh-btn-row { justify-content: center; }`).
-CSS `voices.css`: main.css L216–228 (`.nh-video…`) without the round icon, its `scale` and the shifted 2rem svg; the v3.2 button `.nh-video__btn` (paper, icon + word, `--nh-citrus-100` on hover and focus, 150ms) and the explicit 1.25rem `.nh-video__icon` (an svg without a size grows to 300×150; research/07 §10.2 item 8, §18 item 6); `.v3-video` 16:9, at most 37.5rem, the button at the bottom start; the caption 16px; from L428 the `.nh-video` print rule; the `.nh-btn-row` rule above.
-JS `voices.js`: site.js L218–250 in `nh.widget('voices', '[data-video]', …)`, unchanged (it needs `nh.consent.hideBanner`, kept by nh-core.js, research/07 §9).
+Porting changes: the prototype's inline `style="justify-content:center"` on `.nh-btn-row` moved to CSS (`.v3-video .nh-btn-row { justify-content: center; }`, research/07 §10.2 item 8; *B4, P3 16.11:* the v3.2 prototype dropped the inline style without adding that rule, so there the two buttons of the open consent question stand at the start edge under the centred question — the plugin keeps them centred as the spec says, see §14).
+CSS `voices.css`: the v3.2 prototype's main.css block «Video facade» (`.nh-video…`, the paper button `.nh-video__btn` with the icon and the word, `--nh-citrus-100` on hover and focus, 150ms, and the explicit 1.25rem `.nh-video__icon` — an svg without a size grows to 300×150; research/07 §10.2 item 8, §18 item 6) and its print rule for `.nh-video`; then v3.css block «Voices»: `.v3-video` a grid, 16:9, at most 37.5rem, `overflow: clip`; the poster absolute; the play button at the bottom start (`place-content: end start; justify-items: start`); the consent question in the flow (`position: relative; inset: auto`), so on a phone, where 16:9 is too low for the question and its two buttons, the box grows to hold it (195 → 264 px at 390) and is 16:9 again after «לא עכשיו»; the caption 16px; two columns 7fr 5fr from 64em; from the forced-colours block the button's frame; the porting change above. *(B4, P3 16.11: computed styles and pixels equal the prototype's at 360–1440 px, normal and plain, the question closed; open, they differ only by the centred buttons.)*
+JS `voices.js`: the v3.2 prototype's site.js «Video facade» in `nh.widget('voices', '[data-video]', …)` (it needs `nh.consent.hideBanner`, kept by nh-core.js, research/07 §9). *(B4, P3 16.11: as in the v3.2 prototype the iframe gets `allow="…; fullscreen"` and no legacy `allowfullscreen` — Chrome warns in the console when both are set.)*
 Fixture: `prototype` = poster `v3-owls`; compare `section#voices`: 0 differing lines. `states`, `no-word`, `no-video` (structure only).
 
 ### 4.10 `steps` — package index
@@ -1013,7 +1021,7 @@ Markup (target `index.html` `section#start`):
   </div>
 </section>
 ```
-CSS `steps.css`: v3.css L356–367 (v3.1) without the word, the staircase and the extra bottom padding; the v3.2 sizes (the number D-M in clay) are ported with the markup (§15 B4).
+CSS `steps.css` *(v3.2, B4 16.11)*: v3.css (v3.2) L267–273 — research/07 §10.2 item 9: the list 2rem under the lead, one column, 4 equal columns from 56.25em; the number `.v3-steps__n` on a line of its own, D-M 400 in `--nh-clay-700`, −0.03em, lining figures, .5rem above the title; the H3 the H3 step (500/1.25); the text the body step (1.65) in ink-2, at most 30ch. No word «צעד», no staircase, no extra bottom padding.
 JS: none. Fixture: `default` compare `section#start`: 0 differing lines.
 
 ### 4.11 `lamed` — package index
@@ -1026,6 +1034,7 @@ Constants: `ID 'lamed'`, `STYLE_DEPS ['nh-letters']`, `DYNAMIC true`, `WEIGHT 60
 | `lead` | pair, textarea | `מחפשים אנשים שרוצים להשפיע ולהיות חלק מבית: צוות קבוע, ואפשרויות ללמוד ולהתפתח מקצועית.` | `מחפשים עובדים ועובדות.⏎יש עבודה במעון ובבתים בעיר.` |
 | `roles` | REPEATER: `title` (pair), `meta` (pair), `link` (URL; empty = `NH_Settings::jobs_url( title )`) | below | |
 | `button` + `button_link` | pair + URL (empty = `NH_Settings::jobs_url()`) | `לכל המשרות ולהגשת מועמדות` · '' | `לראות את כל העבודות` |
+| `external_sr` | TEXT (screen-reader words after a role or button link that leaves the site, which also gets `rel="noopener"`) | `(נפתח באתר חיצוני)` | |
 
 | # | title / title_plain | meta |
 |---|---|---|
@@ -1053,13 +1062,13 @@ Markup (target `index.html` `section#jobs`):
 </section>
 ```
 Note `<b>` contains the `v3-full`/`v3-plain` spans (unlike samekh's two `<b>`), as in the prototype.
-CSS `lamed.css`: v3.css L130, L369–371, L380–386; from L459 the selector `.v3-lamed__letter`; L620–622. (`.v3-roles` is in base.)
+CSS `lamed.css` *(v3.2, B4 16.11)*: v3.css (v3.2) L275–294 without the `.v3-roles` rules (L280–287: base.css, shared with `related`); from L362 the selector `.v3-lamed__letter`; L366–367 — research/07 §10.2 item 10: the ל is not shown under 64em; from 64em the grid `7fr 4fr`, and the ל (`block-size: 16rem`, its svg static at full height, `justify-self: end`) stands on the rule at the far end and rises only `-4rem` (the smallest `--v3-pad`), inside its own top padding, never into the spread before it; plain mode folds it away and the spread becomes one column. Plus one porting rule: `.v3-lamed .v3-roles a { text-decoration: none; }` — the row links have no class, and the child theme's `.site-main a:where(:not([class]))` (0,1,1, printed after base.css) would otherwise underline every row.
 JS: none.
-Fixture: `default` (settings `jobs_page` = 0) compare `section#jobs`. Expected differences: role and button hrefs (prototype `design-system.html#form`).
+Fixture: `default` (settings `jobs_page` = 0) compare `section#jobs`. Expected differences: role and button hrefs (prototype `design-system.html#form`). `parity` (the prototype's links on the roles and the button): 0 differing lines; `jobs-page`, `edge` structure only.
 
 ### 4.12 `door` — package door (visit form front end)
 
-Constants: `ID 'door'`, `STYLE_DEPS ['nh-forms']`, `SCRIPT_DEPS ['nh-forms']`, `DYNAMIC true`. Section class `v3-door v3-spread`, tone `iris`. Section controls: `door` / `בואו להכיר`. One widget serves both prototype doors: the home page (short form) is the default; the house page (full form) is the same widget with other settings (fixture variant `page`).
+Constants: `ID 'door'`, `STYLE_DEPS ['nh-letters', 'nh-forms']` (the ink of the ד, `.v3-letter__ink`, is letters.css's), `SCRIPT_DEPS ['nh-forms']`, `DYNAMIC true`. Section class `v3-door v3-spread`, tone `iris`. Section control: anchor `door` (variant `page`: `visit`). One widget serves both prototype doors: the home page (short form) is the default; the house page (full form) is the same widget with other settings (fixture variant `page`).
 
 | control | type | default (home) | `_plain` | house page (variant `page`) |
 |---|---|---|---|---|
@@ -1078,7 +1087,7 @@ Constants: `ID 'door'`, `STYLE_DEPS ['nh-forms']`, `SCRIPT_DEPS ['nh-forms']`, `
 | `consent_error_label` | TEXT (`data-error-label`) | `אישור מדיניות הפרטיות` | | |
 | `submit` | pair | `שליחת הבקשה` | '' | |
 | `show_contact` + `contact_label` + `call_label` | SWITCHER + pair + TEXT | on · `או בטלפון` · `התקשרו:` | '' | |
-| section | | `door` / `בואו להכיר` | | `visit` / `בואו לראות` |
+| section (anchor) | | `door` | | `visit` |
 
 The first line of an options list is the empty-value option (`<option value="">…</option>`); other lines render as `<option>{text}</option>` (value = text, as in the prototype). The privacy notice under the consent comes from settings (`NH_Forms::privacy_note('visit')`, §7), so both doors always show the same notice.
 
@@ -1120,13 +1129,13 @@ Markup (target `index.html` `section#door`; variant `page` → `program-main-hom
 ```
 The exact field, summary, alert and note markup is defined by `NH_Forms` (§6.3) — the widget only passes texts and switches.
 
-CSS `door.css`: v3.css L388–433; from L484 the selectors `.v3-door__bar, .v3-door__leg` (`@media (forced-colors: active) { … background: CanvasText; }`).
+CSS `door.css` *(v3.2, B4 16.11)*: v3.css (v3.2) L296–336; from L383 the selectors `.v3-door__bar, .v3-door__leg` (`@media (forced-colors: active) { … background: CanvasText; }`) — research/07 §10.2 item 11: the ד drawn open (`--open: 1`, nothing moves); under 45em (`max-width: 44.99em`) only the lintel, and the form takes the whole width; the form's title the H3 step (500/1.25); the phone D-M 400, underlined 2px (offset .12em), only its colour changes on hover (150ms); the address the body step (1.65) in `--v3-iris-text`. Plus one porting rule: `.v3-door .v3-door__phone a { text-underline-offset: .12em; }` — the phone link has no class, and the child theme's `.site-main a:where(:not([class]))` (printed after) sets the offset of every plain link to .2em. The fields, checks, alerts and notes are forms.css's (§6.5; research/07 §7.5).
 JS: none *(v3.2, B2 16.11: `door.js` deleted — the ד is drawn open, `--open: 1`; door.css lost its `@property --open` and the lintel's transition, research/07 §10.2 item 11)*. Validation and sending are in `nh-forms.js`.
-Fixture: `default` compare `index.html` `section#door`; variant `page` (settings from the right-hand column) compare `program-main-home.html` `section#visit`. Expected differences: form `action`, hidden inputs, field ids (`c-*`/`v-*` → `door-*`/`visit-*`), the success text without the prototype's "(באב־הטיפוס הטופס אינו נשלח.)", the contact e-mail link (setting empty in tests).
+Fixture: `default` compare `index.html` `section#door`; variant `page` (settings from the right-hand column) compare `program-main-home.html` `section#visit`. Expected differences (regexes in the fixture): `data-nh-form="visit"` on the form, the success text without the prototype's "(באב־הטיפוס הטופס אינו נשלח.)", and — the public e-mail is empty in the tests — the privacy note naming the phone instead of the e-mail and no e-mail link after the address (form `action`, hidden inputs and field ids, `c-*`/`v-*` → `door-*`/`visit-*`, are not compared, §11.4). `sent`, `invalid`, `email`, `twins`, `bare` structure only.
 
 ### 4.13 `glance` — package residence
 
-Constants: `ID 'glance'`. Section class `v3-glance v3-spread`. Section controls: `glance` / `במבט אחד`.
+Constants: `ID 'glance'`. Section class `v3-glance v3-spread`. Section control: anchor `glance`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
@@ -1148,7 +1157,7 @@ Markup (target `program-main-home.html` `section#glance`):
   </div>
 </section>
 ```
-CSS `glance.css`: v3.css L502–514. JS: none. Fixture: `default` compare `section#glance`.
+CSS `glance.css` *(v3.2, P1 16.11; research/07 §10.3 item 3)*: v3.css L393–405 — the numbers D-M 400, −0.03em, `lining-nums tabular-nums`; their labels at the small step (16px, ink-2); the facts' answers at the body step; hairlines `--v3-hair`; four columns from 64em. JS: none. Fixture: `default` compare `section#glance`.
 
 ### 4.14 `gallery` — package residence
 
@@ -1178,13 +1187,13 @@ Markup (target `program-main-home.html` `section#inside`):
   </div>
 </section>
 ```
-CSS `gallery.css`: the prototype's v3.2 «Gallery» block: `.v3-gallery` grid of 1 / 2 (from 40em) / 3 (from 64em) columns, `.v3-gallery .v3-print { max-inline-size: none; }`. (The print — 4:3, numbered caption, the soft appearance — is in base.css.)
+CSS `gallery.css`: v3.css L406–410 (v3.2): `.v3-gallery` grid of 1 / 2 (from 40em) / 3 (from 64em) columns, gap 2rem, `.v3-gallery .v3-print { max-inline-size: none; }`. (The print — 4:3, numbered caption, the soft appearance — is in base.css.) Without its photo a print's cell is hidden by nh-core.js, so the grid closes up (research/07 §8.3 item 4).
 JS: none (`gallery.js` deleted in v3.2).
 Fixture: `prototype` = the six photos; compare `section#inside`: 0 differing lines. `states` (structure only).
 
 ### 4.15 `features` — package residence
 
-Constants: `ID 'features'`. Section class `v3-features v3-spread`. Section controls: `features` / `מה יש בבית`.
+Constants: `ID 'features'`. Section class `v3-features v3-spread`. Section control: anchor `features`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
@@ -1207,11 +1216,11 @@ Markup (target `program-main-home.html` `section#features`):
   </div>
 </section>
 ```
-CSS `features.css`: v3.css L351–354, L524–528. (`.v3-quote` is in base.) JS: none. Fixture: `default` compare `section#features`.
+CSS `features.css` *(v3.2, P1 16.11; research/07 §10.3 item 5)*: v3.css L262–265 (`.v3-quote--page`: the iris mark, the ink-2 signature, 34ch; the quote itself — D-S 400 with its hanging mark — is `.v3-quote` in base.css), L411–415 (the list: H3 names `500 var(--v3-fs-h3)/1.25`, body text in ink-2, three columns from 56.25em). JS: none. Fixture: `default` compare `section#features`.
 
 ### 4.16 `stories` — package residence
 
-Constants: `ID 'stories'`. Section class `v3-stories v3-spread`, tone `night`. Section controls: `stories` / `סיפורים`.
+Constants: `ID 'stories'`. Section class `v3-stories v3-spread`, tone `night`. Section control: anchor `stories`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
@@ -1226,13 +1235,13 @@ Constants: `ID 'stories'`. Section class `v3-stories v3-spread`, tone `night`. S
 | 3 | `מעבר לשער` | `דייר שחשש במשך שנים לצאת משטח המעון יוצא היום לטיולי יום, בליווי צמוד של רכזת הדירה.` / `דייר פחד לצאת מהמעון במשך שנים.⏎היום הוא יוצא לטיולים.⏎רכזת הדירה הולכת איתו.` |
 
 Markup: `<section class="v3-stories v3-spread v3-spread--night" …>` › `nh-container` › rule, `{nh_h2}`, `{nh_lead plain_class=v3-lead}`, `<ol class="v3-stories__list" role="list">[each]<li><span class="v3-stories__n" aria-hidden="true">{n}</span><h3>{pair:title}</h3>{block:text full_tag=p plain_tag=div}</li>[/each]</ol>` (target `program-main-home.html` `section#stories`).
-CSS `stories.css`: v3.css L529–534. JS: none. Fixture: `default` compare `section#stories`.
+CSS `stories.css` *(v3.2, P1 16.11; research/07 §10.3 item 6)*: v3.css L416–421 — the numbers D-M 400 in citrus (−0.03em, lining), H3 names, body text in `--nh-on-night-2`, three columns from 56.25em. JS: none. Fixture: `default` compare `section#stories`.
 
 ### 4.17 `related` — package index
 
 *(v3.2, B2 16.11: research/07 §10.3 item 8, §3 item 21: a row leads only to something that exists elsewhere.)*
 
-Constants: `ID 'related'`. Section class `v3-related v3-spread`. Section control: anchor `related`.
+Constants: `ID 'related'`, `DYNAMIC true` *(B4 16.11, §3.3: render() reads the current post — a row back to this page is left out —, the current user — the editors' note — and the settings — link tokens; in Elementor's element cache, a note cached while an editor looked at the page would be shown to every visitor until the cache expires)*. Section class `v3-related v3-spread`. Section control: anchor `related`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
@@ -1245,7 +1254,7 @@ Removed in v3.2: the rows «אבחנה כפולה» (a link to itself), «גלר
 A row is printed only with a link to another page or to a section of another page: a row without a link, with a bare fragment (`#…`, a section of this page, or a link token whose page is not set) or with a link to the page it is on (`url_to_postid()` of the link without its fragment = `get_the_ID()`) is left out, and editors see `nh_admin_note( 'השורה „…” לא מוצגת: אין לה קישור, או שהיא מקשרת לעמוד הזה עצמו.' )` after the list.
 
 Markup (target `program-main-home.html` `section#related`): section › container › rule, `{nh_h2}`, `<ul class="v3-roles" role="list">[each]<li><a href="{link}"><b>{pair:title}</b>{pair:meta tag=span class=v3-roles__meta bare=false}{icon:arrow-fwd}</a></li>[/each]</ul>`.
-CSS `related.css`: v3.css L550–551 (`.v3-related .v3-roles__meta { white-space: normal; }`); the arrows of `.v3-roles` never move (base.css). JS: none.
+CSS `related.css` *(v3.2, B4 16.11)*: v3.css (v3.2) L424–425 (`.v3-related .v3-roles__meta { white-space: normal; }`); the rows themselves (`.v3-roles`, v3.css L280–287, and their phone layout L426–431) are base.css's: still arrows, the title underlined 2px on hover and focus, the ring inside the row. Plus one porting rule: `.v3-related .v3-roles a { text-decoration: none; }` — as in `lamed`, the child theme's `.site-main a:where(:not([class]))` would otherwise underline every row. JS: none.
 Fixture: `default` on the house page (queried post 11) compare `section#related`: 0 differing lines; `edge`, `home` (structure only). `build_pages.py` writes the links as `@page:home#homes`, `@page:home#made`.
 
 ### 4.18 `masthead` — package chrome (Theme Builder header)
@@ -1310,8 +1319,8 @@ Markup = `partials/header.html` (target: built `index.html` `header.nh-header` a
 - The name: `name` split at its last space into two `span`s (the compact masthead shows them as two lines); with a plain twin, one `.nh-logo__name.v3-full` and one `.v3-plain`. Without any name the link keeps the site's name in its screen-reader text. `menu_label` / `menu_close` fall back to `תפריט` / `סגירה` when emptied (a button must have a name).
 - The skip link (the child theme), the cookie panel and the global live region (the site module) are not printed here.
 
-CSS `masthead.css`: the prototype's «v3.2 masthead» and «Phone menu» blocks (main.css), then v3.css's 1.4.12 wrap and the `max-height: 30em` rule (`.v3-mast { position: absolute; }`), the masthead's selectors of the forced-colours and print groups, `.nh-menu .v3-switches`, `html:has(.v3-mast)` scroll padding, the admin-bar offset. Porting change: the emblem's selector is `.nh-logo .nh-logo__mark` (0,2,0), to beat Elementor's `.elementor img { height: auto }`. Breakpoints: the full menu from 80em, the phone number from 90em, the compact mark below 40em, no emblem below 22.5em.
-JS `masthead.js`: the menu only (site.js «1. Phone menu»): «תפריט» opens it, Esc and «סגירה» close it and focus returns to «תפריט»; a link of the menu or its visit button sets `menu.dataset.nav`, closes it, and the close handler then leaves focus to nh-core.js (the target's heading, research/07 §5.4–5.5).
+CSS `masthead.css` *(v3.2; source lines added by P1 16.11)*: main.css L133–213 («v3.2 masthead») and L215–252 («Phone menu»), the menu's switch group (v3.css L55, as `.nh-menu .v3-switches`), the masthead's selectors of the forced-colours and print groups (main.css L439–440, L447; v3.css L384–385), v3.css L454–456 (1.4.12 wrap) and L462–465 (`max-height: 30em`: `.v3-mast { position: absolute; }`), the scroll padding of main.css L9–10 / v3.css L466 as `html:has(.v3-mast)`, the admin-bar offset. Porting change: the emblem's selector is `.nh-logo .nh-logo__mark` (0,2,0), to beat Elementor's `.elementor img { height: auto }`. Breakpoints: the full menu from 80em, the phone number from 90em, the compact mark below 40em, no emblem below 22.5em.
+JS `masthead.js`: the menu only (v3.2 site.js «1. Phone menu», L22–45): «תפריט» opens it, Esc and «סגירה» close it and focus returns to «תפריט»; a link of the menu or its visit button sets `menu.dataset.nav`, closes it, and the close handler then leaves focus to nh-core.js (the target's heading, research/07 §5.4–5.5).
 Fixture: `default` compare `index.html` `header.nh-header`, `dialog#nh-menu` (expected: the root tag `div`, no emblem chosen); `prototype` (root `header`, the emblem) and `house` (queried post 11, `current_ids` 11 on «הבתים שלנו») — 0 differing lines; `page`, `plain`, `six`, `sparse`, `cta-link` (structure only).
 
 ### 4.19 `colophon` — removed in v3.2
@@ -1320,7 +1329,7 @@ Fixture: `default` compare `index.html` `header.nh-header`, `dialog#nh-menu` (ex
 
 ### 4.20 `jobs-form` — package door
 
-Constants: `ID 'jobs-form'`, `STYLE_DEPS ['nh-forms']`, `SCRIPT_DEPS ['nh-forms']`, `DYNAMIC true`. Section class `v3-jobsform v3-spread` (D6). Section controls: `form` / `דרושים`.
+Constants: `ID 'jobs-form'`, `STYLE_DEPS ['nh-forms']`, `SCRIPT_DEPS ['nh-forms']`, `DYNAMIC true`. Section class `v3-jobsform v3-spread` (D6). Section control: anchor `form`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
@@ -1359,9 +1368,9 @@ Markup (ds L291–338 with v3 chrome):
   </div>
 </section>
 ```
-CSS `jobs-form.css`: main.css L297–299 (`.nh-jobs__grid`), plus `.v3-jobsform .nh-jobs__grid { align-items: start; }` (new, small).
+CSS `jobs-form.css`: main.css (v3.2) L360–362 (`.nh-jobs__grid`, unchanged since v3.1), plus `.v3-jobsform .nh-jobs__grid { align-items: start; }` (new, small). The fields are forms.css's (§6.5; research/07 §7.5).
 JS: none (`nh-forms.js`).
-Fixture: `default` (no compare target: structure checked by run.php); variant `role` with `$_GET['role']` set to role 2 → that option is `selected`.
+Fixture: `default` compares its form with `design-system.html` `section#form form.nh-form` *(B4 16.11; the sample's chrome — eyebrow, developer notes — is not the widget's)*; expected differences (regexes): `data-nh-form="jobs"` (§6.4), role 1 of the ל spread (D6), the consent's `data-error-label` (⊕), the privacy notice from the settings (`{contact}` names the phone while the public e-mail is empty; the sample's hidden draft note is not in it). Variant `role` with `$_GET['role']` set to role 2 → that option is `selected`; `sent`, `invalid`, `off`, `twins` structure only.
 
 ### 4.21 `display` — package chrome (v3.2, B2 16.11)
 
@@ -1525,7 +1534,7 @@ Admin notice: when a recipient is empty, users with `manage_options` see a notic
 
 ### 6.4 `nh-forms.js` (porting map)
 
-site.js L339–455, changed:
+site.js L339–455 (v3.1; v3.2: section 5 «Forms», L174–290, the same code), changed:
 - messages from `nh.data.forms.msg`; `labelText()` reads the visible variant of a label with twins (`.v3-plain` in plain mode, `.v3-full` otherwise) and ignores `.nh-req`;
 - on the first `focusin` inside a form: fetch `nh.data.ajax?action=nh_form_token&type=…` once and update `_nh_nonce`, `nh_t`, `nh_s`;
 - valid submit: set `nh_js=1`, disable the submit button, `fetch( form.getAttribute( 'action' ), { method: 'POST', body: new FormData( form ), credentials: 'same-origin', headers: { Accept: 'application/json' } } )` — **not `form.action`**: the hidden input named `action` (admin-post.php needs it) shadows that DOM property, so `form.action` is the input element (found by the browser check, core 16.11; the same holds for any widget script that reads a form's properties); `ok` → `form.reset()`, show `[data-success]` and focus it (the prototype's success path); `invalid` → map `errors` to `setError()` + summary (as client errors); other statuses → summary with the server `message`, focused; network error → status `error`;
@@ -1534,7 +1543,7 @@ site.js L339–455, changed:
 
 ### 6.5 `forms.css`
 
-main.css L265–296 (forms, checks, honeypot, alerts, notes); v3.css L450 and L460 (plain-mode form notes and hints). Plus `.nh-admin-note` styling lives in base.css.
+main.css L265–296 (forms, checks, honeypot, alerts, notes); v3.css L450 and L460 (plain-mode form notes and hints). Plus `.nh-admin-note` styling lives in base.css. *(v3.2, B4 16.11: main.css (v3.2) L324–358, v3.css L352 and L363 — research/07 §7.5, §4.1: fields 56px (`min-block-size: 3.5rem`) with a 2px `--nh-field` (#4F5550) frame, radius 2px, the body step; only `border-color` changes, in 150ms (hover ink; focus iris with a 3px ring 3px off; invalid `--nh-error`); labels UI 18/700, line-height 1.3; check boxes 32px without margin, the label .2rem lower, the whole label the target; hints, notes and errors the 16px step; alerts radius 2px; the submit button full width under 40em (`max-width: 39.99em`). Loaded only with a widget that has a form (door, jobs-form).)*
 
 ---
 
@@ -1970,3 +1979,31 @@ The core is in place (§12 row "core"); every change it made to this spec is mar
 | Harness: `style` only on `.v3-room`; fixture keys `queried`, `empty`; pages.php without the colophon, with `display` in the footer slot and `queried` 11 for the house page; `NH_TEST_GLOBAL_IDS` trimmed; compare.py descendant selectors and `--prototype-letter-data`; `letters.test.php` compares `data_script()` with the build script's `letter_data()`; `site.test.php` uses the masthead for the script handle; door and lamed `expect_diff` are regexes now (compare clean) | §11.2, §11.4, §11.5 | no |
 | `shots.mjs --behaviour`: the v3.2 checks (41, passing in Chrome) | §11.4 | no |
 | Step 4 (`scripts/build_pages.py`, `templates/pages/*.json`): the header is the masthead `prototype` variant with the emblem `@media:logo-emblem` and `current_ids` on «הבתים שלנו»; the footer is Elementor's Image (the emblem), Heading and Text Editor in inner containers (grid 5fr 3fr 4fr / 2 / 1) plus `nh-display`, its template HTML Tag `footer`; `lint()` allows those only in the footer; the render check compares the masthead and `nh-display`; `scripts/test_site.py pages` uploads the emblem PNG (`nh:logo-emblem`, alt `''`), resolves the footer's link tokens and `@nh:email` from the plugin's settings on deploy and checks each template's wrapper | D3, §10.3; 07 §11.2 item 5, §12.6 | no |
+
+**v3.2 — the widgets follow the finished prototype (B4, package P3: `kaf`, `samekh`, `years`, `plainbox`, `day`, `voices`; 16.11.2026; [research/07](../research/07-calm-v3.2.md) §7, §10.2, §15 column B step 4).** The markup of the six already matched the rebuilt prototype after B2 (compare.py: 0 differing lines, `expect_diff` empty, attribute values such as `sizes` and ids equal too); B4 ports their CSS and one line of JS. Checked beyond compare.py in Chrome: the computed styles and boxes of every element of the six sections, and pixel diffs of the sections, equal the prototype's at 360–1920 px in normal and plain mode — apart from the porting changes named in §4 (the ס figure's `justify-self`, the courtyard print's padding, the centred buttons of the video's consent question). One line per behaviour change.
+
+| what changed | where | does the next package need to act? |
+|---|---|---|
+| `day`: the verbs D-M 400 (38 → 64 px) in a grid of 1 / 2 (40em) / 4 (64em) columns; each cell a flex column verb → print → sentence (`--v3-fs-body`, ≤ 34ch); no zigzag, no plain-mode size of the verbs | §4.5; 07 §10.2 item 4 | no |
+| `years`: three equal columns from 64em; «1957» D-L (44 → 112 px, weight 300 from 48em) by `:first-child`, 2021 and היום D-M; from 64em the numbers stand in rows of one height on one bottom line, so the H3 line up; H3, text and «שמיים» on the nine-step scale | §4.8; 07 §10.2 item 7 | no |
+| `samekh`: the circles' names H3 500 (22 → 28 px), their descriptions the body step in ink, the mandala's caption 16px, the row lines `--v3-hair` | §4.7; 07 §10.2 item 6 | no |
+| `plainbox`: the heading D-S 400, the items and the paragraph the plain-language step (22 → 24 px, lh 1.6); the olive bar a 6px border instead of an inset box-shadow | §4.4; 07 §10.2 item 3, §7.5 | no |
+| `voices`: the film box is a grid with `overflow: clip` and the consent question stands in its flow (it was an absolute layer that scrolled inside the 16:9 box), so on a phone the box grows to hold the question and is 16:9 again after «לא עכשיו»; the play button's row starts at the bottom start (`justify-items: start`) | §4.9; 07 §10.2 item 8, §18 (A2 item 3) | no |
+| `voices`: the open consent question keeps its two buttons centred (`.v3-video .nh-btn-row { justify-content: center; }`, the move of the inline style that research/07 §10.2 item 8 asks for); the v3.2 prototype dropped the inline style without adding the rule and shows them at the start edge | §4.9; 07 §10.2 item 8 | track A or the integrator: add the rule to the prototype's v3.css (or drop it here); until then the two differ in that one state |
+| `voices.js`: the iframe has no legacy `allowfullscreen`, only `allow="…; fullscreen"`, as in the v3.2 prototype (Chrome warned in the console when both were set) | §4.9; 07 §17.8 | no |
+| `kaf`: no change — its v3.2 CSS came with B2 and matches | §4.6 | no |
+| How it was checked: `out/<id>--<variant>.html` against `prototype/index.html` / `program-main-home.html` and the six sections inside `out/page-home.html` / `page-main-home.html`, with the body classes Elementor prints on its pages (`elementor-page elementor-page-{id}`: without them the child theme's 50rem fallback for pages not built with Elementor narrows the spreads; the core's test page now prints them) | §11.2 | no |
+
+**v3.2 — the widgets follow the finished prototype (B4, package P2: `homes`, `steps`, `lamed`, `related`, `door`, `jobs-form`, with `forms.css` and `nh-forms.js`; 16.11.2026; [research/07](../research/07-calm-v3.2.md) §4.1, §7.5, §10.2 items 2, 9–11, §10.3 items 8–9, §13).** The markup is B2's (compare.py clean for every compared variant); the CSS is the v3.2 prototype's, block by block. Checked beyond compare.py in Chrome against the prototype: the computed styles and boxes of every element of `section#homes`, `#start`, `#jobs`, `#door` (index.html) and `#related`, `#visit` (program-main-home.html) at 320–1920 px, normal and plain mode, plus hover, keyboard focus, forced colours and the declared transitions — equal, except where the test settings differ from the prototype (no public e-mail: the door's privacy note names the phone and is one line shorter on phones, the address has no e-mail link). One line per behaviour change.
+
+| what changed | where | does the next package need to act? |
+|---|---|---|
+| `homes`: the name D-S 400, underlined 2px while a link row is hovered or focused (its backdrop still shows at once, `opacity` 150ms); «who» the body step in ink; the facts 16/700 in ink-2; `--v3-hair` between rows; a third grid column for the arrow, which is always shown (2rem, from 56.25em 2.25rem) — link rows and rows without a page alike; plain-mode «who» at `--v3-fs-plain` | §4.3; 07 §10.2 item 2 | no |
+| `steps`: the number D-M 400 in clay on a line of its own above the title (H3 step), the texts the body step in ink-2; 4 columns from 56.25em (was 900px) | §4.10; 07 §10.2 item 9 | no |
+| `lamed`: the ל is not shown under 64em; from 64em it is 16rem tall at the far end and rises only −4rem, inside its own top padding (v3.1: up to −14rem, into the spread before it) | §4.11; 07 §10.2 item 10 | no |
+| `door`: the form's title the H3 step (500); the phone D-M 400, underlined 2px, its colour changes on hover in 150ms; the address the body step; the lintel-only phone layout up to 44.99em (was 23.99em) | §4.12; 07 §10.2 item 11 | no |
+| `forms.css` (door, jobs-form): fields 56px with a 2px `--nh-field` frame (was 1.5px, 2px only when invalid), radius 2px, the body step; labels UI 18/700; check boxes 32px without margin, the label .2rem lower; hints, notes and errors 16px; alerts radius 2px; the focus ring 3px off the field (was 2px); the submit button full width under 40em | §6.5; 07 §7.5 | no |
+| Porting rules against the child theme's `.site-main a:where(:not([class]))` (0,1,1, printed after the plugin's CSS), which underlined every row link of `.v3-roles` and moved the door phone's underline to .2em: `.v3-lamed .v3-roles a`, `.v3-related .v3-roles a { text-decoration: none }`, `.v3-door .v3-door__phone a { text-underline-offset: .12em }` | §4.11, §4.12, §4.17 | integrator: if the theme's rule leaves the plugin's widgets alone (e.g. `.site-main a:where(:not([class]):not([class*="elementor-widget-nh-"] a))`), these three rules can go |
+| `jobs-form`: the fixture's `default` compares the form with `design-system.html` `section#form form.nh-form` (regex `expect_diff`: `data-nh-form`, role 1, the consent's error label, the privacy notice of the settings) | §4.20 | no |
+| `nh-forms.js`: header comment only — the v3.2 prototype's form code (site.js section 5) is v3.1's | §6.4 | no |
+| `related` is `DYNAMIC` (was static): its render reads the current post, the current user (the editors' note about a left-out row) and the settings (link tokens), §3.3 — Elementor's element cache would otherwise keep a note an editor saw and show it to visitors | §4.17, §3.3 | integrator: §4.0 lists the dynamic widgets; `kaf` (static) prints an editors' note too (its button to its own spread) |

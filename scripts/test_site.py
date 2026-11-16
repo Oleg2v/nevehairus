@@ -8,12 +8,17 @@
     python3 -I scripts/test_site.py rekey [--go]           new key for the safe switch (rewrites only that file)
     python3 -I scripts/test_site.py safe-off               emergency: deactivate the plugin without loading it
     python3 -I scripts/test_site.py cleanup                delete one-time snippets a failed run left behind
+    python3 -I scripts/test_site.py health [--no-browser]  read-only: plugins unchanged, Elementor/Pro + licence,
+                                                           every public page without PHP errors, browser console
 
 Safety rules built in:
   * every request, including redirects, must stay on https://HOST; anything else stops the script;
   * the API key is never in this file or its output: the session's network proxy adds it to requests to HOST;
   * the safe-switch key and the one-time task token travel in request headers, never in URLs (no keys in logs);
-  * nothing is deleted except what the script itself created (its snippet, its temporary zip uploads);
+  * nothing is deleted except what the script itself created (its snippet, its temporary zip uploads); but note that
+    Elementor empties its own CSS file cache (uploads/elementor/css and the per-post CSS/asset meta) whenever any
+    plugin is switched on or off, so switching Code Snippets on and off does that too; Elementor rebuilds it on the
+    next page view;
   * every changed value is read first and written to the local change log (LOG_FILE, outside the repo).
 
 Why some steps run PHP: core REST cannot install an uploaded plugin or theme zip, set "discourage search
@@ -34,19 +39,23 @@ the old copy, installs the zip with WordPress's Plugin_Upgrader (replace), activ
 loads the new code: a fatal error there leaves it inactive), then smoke-tests the home page and the API. On any
 failure it deactivates the plugin through the safe switch and reports the real final state.
 
-pages: builds what templates/pages/*.json describe (made by scripts/build_pages.py): the home page (front page),
-the house page and the Elementor Pro Theme Builder header and footer. (a) The photos those files reference are
-uploaded once each (the largest .webp; WordPress makes the sub-sizes), titled nh:<name> with the manifest's alt
-text; a later run finds them by that title and reuses them; the name -> id map is kept in templates/media-map.json.
-(b) The photo tokens get the attachment ids and URLs. (c) One PHP step creates or updates the four posts, found by
-their post meta _nh_page_key (no other post is ever touched), writes the Elementor data and meta, regenerates the
-Theme Builder conditions, sets the front page and clears Elementor's CSS cache. (d) ezCache is purged and both pages
-are smoke-tested: HTTP 200 without PHP errors, every widget, the header and footer, no unresolved token.
+pages: builds what templates/pages/*.json describe (made by scripts/build_pages.py; refused unless they were built
+from this tree's plugin, fixtures and builder, and, with a local PHP, unless their render check passes): the home
+page (front page), the house page and the Elementor Pro Theme Builder header and footer. (a) The photos those files
+reference are uploaded once each (the largest .webp; WordPress makes the sub-sizes), titled nh:<name> with the
+manifest's alt text; a later run finds them by that title and reuses them; the name -> id map is kept in
+templates/media-map.json. (b) The photo tokens get the attachment ids and URLs. (c) One PHP step, acting as the
+signed-in user, first checks that the plugin's PHP on the site is the one the files were built against and that
+Elementor's Container feature is on; then it creates (as drafts) or updates the four posts, found by their post meta
+_nh_page_key (no other post is ever touched), writes the Elementor data and meta, publishes them, regenerates the
+Theme Builder conditions and sets the front page last; its answer carries every old value. (d) ezCache is purged and
+both pages are smoke-tested: HTTP 200 without PHP errors, every widget, the header and footer, no unresolved token.
 """
 import argparse
 import base64
 import hashlib
 import http.client
+import importlib.util
 import io
 import json
 import os
@@ -467,6 +476,74 @@ def cmd_rekey(args):
     step(f"safe switch works with the new key ({KEY_FILE})")
 
 
+HEALTH_LAST = os.path.join(CONF, "test-site-health-last.json")
+
+
+def cmd_health(args):
+    """Read-only check after any change (agent off, plugin installed): plugins unchanged, Elementor and Pro
+    active with a valid licence, every public page answers without PHP errors, browser console clean."""
+    me = whoami()
+    report, bad = {}, []
+    st, plugins, _ = api("/wp/v2/plugins")
+    need(st == 200, f"cannot list plugins ({st})")
+    now = {p["plugin"]: [p["status"], p.get("version")] for p in plugins}
+    report["plugins"] = now
+    prev = json.load(open(HEALTH_LAST, encoding="utf-8")).get("plugins") if os.path.isfile(HEALTH_LAST) else None
+    if prev is not None:
+        changed = {k: (prev.get(k), now.get(k)) for k in set(prev) | set(now) if prev.get(k) != now.get(k)}
+        report["plugins_changed_since_last_check"] = changed
+    for slug in ("elementor/elementor", "elementor-pro/elementor-pro"):
+        if now.get(slug, [None])[0] != "active":
+            bad.append(f"{slug} is {now.get(slug)}")
+    st, lic, _ = api("/elementor-pro/v1/license/get-license-status")
+    st_f, feats, _ = api("/elementor-pro/v1/license/tier-features")
+    report["pro_licence"] = {"status": lic if st == 200 else f"HTTP {st}",
+                             "features": len(feats.get("features", [])) if st_f == 200 and isinstance(feats, dict) else f"HTTP {st_f}"}
+    if not (st == 200 and isinstance(lic, dict) and lic.get("isExpired") is False):
+        bad.append(f"Pro licence: {report['pro_licence']}")
+    urls = [BASE]
+    for route in ("/wp/v2/pages", "/wp/v2/posts"):
+        items = api_all(route, {"status": "publish"})
+        urls += [i["link"] for i in (items if isinstance(items, list) else [])]
+    urls += [url_for(query={"s": "nh"}), url_for(path=f"nh-health-404-{secrets.token_hex(3)}/"), url_for(path="feed/"),
+             url_for(path="wp-json/"), url_for(path="wp-login.php")]
+    pages = {}
+    for u in dict.fromkeys(urls):
+        _check_url(u)
+        st, _, body = http(u + ("&" if "?" in u else "?") + urllib.parse.urlencode(bust()))
+        php = [c for c in CRITICAL if c.encode() in body]
+        pages[u] = st if not php else f"{st} + {php}"
+        expected = 404 if "nh-health-404" in u else 200
+        if st != expected or php:
+            bad.append(f"{u} -> {pages[u]}")
+    report["pages"] = pages
+    st_a, hdr, _ = http(url_for(path="wp-admin/"), follow=False)
+    report["wp_admin"] = f"{st_a} -> {hdr.get('location', '')[:60]}"
+    if not args.no_browser:
+        browse = [u for u in dict.fromkeys(urls) if "wp-json" not in u and "feed/" not in u and "wp-login" not in u]
+        import subprocess
+        try:
+            out = subprocess.run(["node", os.path.join(ROOT, "scripts", "console_check.mjs"), *browse],
+                                 capture_output=True, text=True, timeout=600)
+            data = json.loads(out.stdout or "{}")
+        except Exception as e:  # noqa: BLE001
+            data = {"error": f"{type(e).__name__}: {e}"}
+        for k, v in data.items():          # the deliberate 404 page reports its own 404: expected, not a problem
+            if isinstance(v, dict) and "nh-health-404" in k:
+                v["console"] = [c for c in v["console"] if "status of 404" not in c]
+                v["failed"] = [f for f in v["failed"] if "nh-health-404" not in f]
+        noisy = {k: v for k, v in data.items() if isinstance(v, dict) and (v["console"] or v["pageErrors"] or v["failed"])}
+        report["browser"] = noisy or ("clean" if data and "error" not in data else data)
+        for k, v in noisy.items():
+            bad.append(f"browser {k}: {len(v['console'])} console, {len(v['pageErrors'])} errors, {len(v['failed'])} failed")
+    report["not_checked_here"] = ["the Elementor editor (needs a wp-admin browser login)", "PHP error logs (uPress panel)"]
+    print(json.dumps(report, ensure_ascii=False, indent=1))
+    with open(HEALTH_LAST, "w", encoding="utf-8") as fh:
+        json.dump(report, fh, ensure_ascii=False, indent=1)
+    record({"change": "health check (read-only)", "ok": not bad, "problems": bad})
+    step(f"signed in as user #{me['id']}; {'ALL OK' if not bad else f'{len(bad)} problem(s): ' + '; '.join(bad)}")
+
+
 def cmd_cleanup(_args):
     """Delete for good any one-time snippet this script left behind (names start with 'nevehairus:')."""
     whoami(("manage_options",))
@@ -756,11 +833,15 @@ IMG_DIR = os.path.join(ROOT, "prototype", "assets", "img")
 MEDIA_TOKEN = re.compile(r"^@media:([a-z0-9-]+)$")
 UNRESOLVED = re.compile(r"@(?:media|page|page-id|home):")
 
-# The one PHP step of `pages`. Our posts are the ones whose post meta _nh_page_key names a document; nothing else is
-# changed. The meta is what Elementor 4.4.0 writes when it saves a document (core/base/document.php: save_elements(),
-# save_template_type() — for library documents also the elementor_library_type term — save_version(); Pro adds
-# _elementor_pro_version on elementor/document/save_version) and what Pro 4.4.0's Theme Builder reads
-# (_elementor_conditions, the option elementor_pro_theme_builder_conditions rebuilt by Conditions_Cache::regenerate()).
+# The one PHP step of `pages`. Our posts are the ones whose post meta _nh_page_key names a document; besides them it
+# changes only Settings → Reading (the front page) and the Theme Builder conditions cache, which Pro rebuilds from every
+# template's own conditions. The meta is what Elementor 4.4.0 writes when it saves a document (core/base/document.php:
+# save_elements(), save_template_type() — for library documents also the elementor_library_type term —
+# save_version(); Pro adds _elementor_pro_version on elementor/document/save_version) and what Pro 4.4.0's Theme
+# Builder reads (_elementor_conditions, the option elementor_pro_theme_builder_conditions rebuilt by
+# Conditions_Cache::regenerate()). Order: every check before the first write; a new post is a draft until its data is
+# written; the front page is switched after all that, so a step that throws leaves the front page as it was (a post
+# that is already published gets its new data in place, as Elementor's own save does). The answer has every old value.
 PAGES_PHP = r"""
 		$nh_docs   = json_decode( base64_decode( '__NH_DOCS_B64__' ), true );
 		$nh_media  = json_decode( base64_decode( '__NH_MEDIA_B64__' ), true );
@@ -768,22 +849,66 @@ PAGES_PHP = r"""
 		if ( ! is_array( $nh_docs ) || 4 !== count( $nh_docs ) || ! is_array( $nh_media ) ) {
 			throw new Exception( 'the page data did not decode' );
 		}
+
+		// The snippet runs on wp_loaded, before WordPress accepts the application password (it does so only once
+		// REST_REQUEST is defined, at parse_request), so the request has no user: act as the user the script signed
+		// in as, so that kses, capabilities and Elementor's meta sanitizers treat the writes as that user's own save.
+		wp_set_current_user( $nh_author );
+		$log['user'] = array(
+			'id'              => get_current_user_id(),
+			'unfiltered_html' => current_user_can( 'unfiltered_html' ),
+		);
+		if ( get_current_user_id() !== $nh_author || ! current_user_can( 'edit_pages' ) ) {
+			throw new Exception( "user #$nh_author does not exist or cannot edit pages" );
+		}
 		if ( ! defined( 'ELEMENTOR_VERSION' ) || ! class_exists( '\Elementor\Plugin' ) ) {
 			throw new Exception( 'Elementor is not active' );
 		}
 		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) ) {
 			throw new Exception( 'Elementor Pro is not active (the header and footer are Theme Builder templates)' );
 		}
-		if ( ! class_exists( 'NH_Plugin' ) ) {
+		if ( ! class_exists( 'NH_Plugin' ) || ! defined( 'NH_DIR' ) ) {
 			throw new Exception( 'the nevehairus-site plugin is not active' );
 		}
 		$log['versions'] = array(
+			'wordpress'       => get_bloginfo( 'version' ),
 			'elementor'       => ELEMENTOR_VERSION,
 			'elementor_pro'   => ELEMENTOR_PRO_VERSION,
 			'nevehairus_site' => defined( 'NH_VERSION' ) ? NH_VERSION : null,
 		);
-		$log['warnings'] = array();
-		$log['docs']     = array();
+
+		// Each page is one container, and Elementor 4.4.0 registers the container element only while its Container
+		// feature is active (managers/elements.php; off by default on a site first installed before Elementor 3.16):
+		// without it the pages would render empty.
+		$nh_exp = isset( \Elementor\Plugin::$instance->experiments ) ? \Elementor\Plugin::$instance->experiments : null;
+		if ( ! $nh_exp || ! $nh_exp->is_feature_active( 'container' ) ) {
+			throw new Exception( 'the Elementor feature Container is not active (Elementor settings, Features): the pages are made of containers' );
+		}
+
+		// The plugin on the site must be the one templates/pages/*.json were built against (build_pages.py writes the
+		// sha256 of its PHP files into built_from; files_sha256() there is this computation): Elementor ignores keys
+		// it does not know, and a repeater stored whole keeps the rows of the plugin it was built with.
+		$nh_dir   = rtrim( str_replace( '\\', '/', NH_DIR ), '/' );
+		$nh_files = array();
+		foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $nh_dir, FilesystemIterator::SKIP_DOTS ) ) as $nh_file ) {
+			$nh_rel = substr( str_replace( '\\', '/', $nh_file->getPathname() ), strlen( $nh_dir ) + 1 );
+			if ( $nh_file->isFile() && '.php' === substr( $nh_rel, -4 ) && ! preg_match( '#(^|/)(\.|__pycache__/)#', $nh_rel ) ) {
+				$nh_files[ $nh_rel ] = hash_file( 'sha256', $nh_file->getPathname() );
+			}
+		}
+		ksort( $nh_files, SORT_STRING );
+		$nh_lines = '';
+		foreach ( $nh_files as $nh_rel => $nh_hash ) {
+			$nh_lines .= $nh_rel . "\t" . $nh_hash . "\n";
+		}
+		$nh_built      = isset( $nh_docs[0]['built_from']['plugin']['php_sha256'] ) ? (string) $nh_docs[0]['built_from']['plugin']['php_sha256'] : '';
+		$log['plugin'] = array(
+			'php_files'  => count( $nh_files ),
+			'php_sha256' => hash( 'sha256', $nh_lines ),
+		);
+		if ( $log['plugin']['php_sha256'] !== $nh_built ) {
+			throw new Exception( 'the PHP of nevehairus-site on the site is not the one templates/pages/*.json were built against (sha256 ' . substr( $nh_built, 0, 12 ) . '…): deploy the plugin of this tree, or rebuild the pages' );
+		}
 
 		// 0. Every photo is the image attachment the upload step titled nh:<name>.
 		foreach ( $nh_media as $nh_name => $nh_att ) {
@@ -792,7 +917,18 @@ PAGES_PHP = r"""
 			}
 		}
 
-		// 1. Our post of each document (post meta _nh_page_key), created if there is none.
+		// The old values of what this step may change (our own posts: in step 1).
+		$log['before']   = array(
+			'show_on_front'            => get_option( 'show_on_front' ),
+			'page_on_front'            => (int) get_option( 'page_on_front' ),
+			'theme_builder_conditions' => get_option( 'elementor_pro_theme_builder_conditions' ),
+			'docs'                     => array(),
+		);
+		$log['warnings'] = array();
+		$log['docs']     = array();
+
+		// 1. Our post of each document (post meta _nh_page_key); a new one is a draft until step 4. Its slug is the one
+		// publishing gives it (WordPress makes a draft's slug unique only on publishing), so the links of step 2 hold.
 		$nh_ids = array();
 		foreach ( $nh_docs as $nh_doc ) {
 			$nh_key  = (string) $nh_doc['key'];
@@ -824,19 +960,32 @@ PAGES_PHP = r"""
 					$log['warnings'][] = "$nh_key: the slug belongs to page #{$nh_other->ID} (not ours, left as it is); WordPress gives the new page another slug";
 				}
 			}
+			if ( $nh_id ) {
+				$log['before']['docs'][ $nh_key ] = array(
+					'id'         => $nh_id,
+					'status'     => $nh_was,
+					'title'      => get_post_field( 'post_title', $nh_id, 'raw' ),
+					'slug'       => urldecode( (string) get_post_field( 'post_name', $nh_id, 'raw' ) ),
+					'template'   => get_post_meta( $nh_id, '_wp_page_template', true ),
+					'type'       => get_post_meta( $nh_id, '_elementor_template_type', true ),
+					'settings'   => get_post_meta( $nh_id, '_elementor_page_settings', true ),
+					'conditions' => get_post_meta( $nh_id, '_elementor_conditions', true ),
+					'data'       => get_post_meta( $nh_id, '_elementor_data', true ),
+				);
+			}
 			if ( 'trash' === $nh_was ) {
-				wp_untrash_post( $nh_id );
+				wp_untrash_post( $nh_id );   // WordPress restores it as a draft
 			}
 			$nh_arr = array(
-				'post_type'   => $nh_type,
-				'post_status' => 'publish',
-				'post_title'  => (string) $nh_doc['title'],
-				'post_name'   => (string) $nh_doc['slug'],
+				'post_type'  => $nh_type,
+				'post_title' => (string) $nh_doc['title'],
+				'post_name'  => wp_unique_post_slug( sanitize_title( (string) $nh_doc['slug'] ), $nh_id, 'publish', $nh_type, 0 ),
 			);
 			if ( $nh_id ) {
 				$nh_arr['ID'] = $nh_id;
 				$nh_res       = wp_update_post( wp_slash( $nh_arr ), true );
 			} else {
+				$nh_arr['post_status']    = 'draft';
 				$nh_arr['post_author']    = $nh_author;
 				$nh_arr['post_content']   = '';
 				$nh_arr['comment_status'] = 'closed';
@@ -862,24 +1011,19 @@ PAGES_PHP = r"""
 			);
 		}
 
-		// 2. Settings → Reading: the home document is the front page (before the links: its permalink is then '/').
-		$log['front_before'] = array(
-			'show_on_front' => get_option( 'show_on_front' ),
-			'page_on_front' => (int) get_option( 'page_on_front' ),
-		);
+		// 2. The links of our pages: the front-page document's is home_url( '/' ) (it becomes the front page in step 6),
+		// any other page's the permalink it has once published (the sample permalink: its slug is already final).
+		// Step 7 checks them against the real permalinks.
+		$nh_links = array();
 		foreach ( $nh_docs as $nh_doc ) {
-			if ( ! empty( $nh_doc['front_page'] ) ) {
-				update_option( 'page_on_front', $nh_ids[ $nh_doc['key'] ] );
-				update_option( 'show_on_front', 'page' );
+			if ( 'page' === $nh_doc['post_type'] ) {
+				$nh_links[ $nh_doc['key'] ] = empty( $nh_doc['front_page'] ) ? get_page_link( $nh_ids[ $nh_doc['key'] ], false, true ) : home_url( '/' );
 			}
 		}
-		$log['front_after'] = array(
-			'show_on_front' => get_option( 'show_on_front' ),
-			'page_on_front' => (int) get_option( 'page_on_front' ),
-		);
 
-		// 3. Tokens: @page:<key>[#x] → permalink, @page-id:<key> → post id, @home:<path> → home_url( <path> ).
-		$nh_resolve = static function ( $value ) use ( &$nh_resolve, $nh_ids ) {
+		// 3. Tokens: @page:<key>[#x] → the link of step 2, @page-id:<key> → post id, @home:<path> → home_url( <path> );
+		// then the Elementor document of each post, as Elementor 4.4.0 saves one.
+		$nh_resolve = static function ( $value ) use ( &$nh_resolve, &$nh_links, $nh_ids ) {
 			if ( is_array( $value ) ) {
 				foreach ( $value as $k => $v ) {
 					$value[ $k ] = $nh_resolve( $v );
@@ -889,12 +1033,11 @@ PAGES_PHP = r"""
 			if ( ! is_string( $value ) || '' === $value || '@' !== $value[0] ) {
 				return $value;
 			}
-			if ( preg_match( '/^@page:([a-z0-9-]+)(#[A-Za-z0-9_-]*)?$/', $value, $m ) && isset( $nh_ids[ $m[1] ] ) ) {
-				$url = get_permalink( $nh_ids[ $m[1] ] );
-				if ( ! is_string( $url ) || '' === $url ) {
+			if ( preg_match( '/^@page:([a-z0-9-]+)(#[A-Za-z0-9_-]*)?$/', $value, $m ) && isset( $nh_links[ $m[1] ] ) ) {
+				if ( ! is_string( $nh_links[ $m[1] ] ) || '' === $nh_links[ $m[1] ] ) {
 					throw new Exception( "no permalink for $value" );
 				}
-				return $url . ( isset( $m[2] ) ? $m[2] : '' );
+				return $nh_links[ $m[1] ] . ( isset( $m[2] ) ? $m[2] : '' );
 			}
 			if ( preg_match( '/^@page-id:([a-z0-9-]+)$/', $value, $m ) && isset( $nh_ids[ $m[1] ] ) ) {
 				return (string) $nh_ids[ $m[1] ];
@@ -904,9 +1047,7 @@ PAGES_PHP = r"""
 			}
 			throw new Exception( "unresolved token $value" );
 		};
-
-		// 4. The Elementor document of each post, as Elementor 4.4.0 saves one.
-		foreach ( $nh_docs as $nh_doc ) {
+		$nh_write = static function ( $nh_doc ) use ( $nh_resolve, $nh_ids ) {
 			$nh_key  = (string) $nh_doc['key'];
 			$nh_id   = $nh_ids[ $nh_key ];
 			$nh_data = $nh_resolve( $nh_doc['elementor_data'] );
@@ -932,25 +1073,35 @@ PAGES_PHP = r"""
 				}
 				update_post_meta( $nh_id, '_elementor_conditions', wp_slash( (array) $nh_doc['conditions'] ) );
 			}
-			// This post's caches (the whole Elementor cache is cleared below as well).
+			// This post's CSS and asset caches: Elementor rebuilds them on the next view.
 			delete_post_meta( $nh_id, '_elementor_css' );
 			delete_post_meta( $nh_id, '_elementor_element_cache' );
 			delete_post_meta( $nh_id, '_elementor_page_assets' );
 			if ( json_decode( (string) get_post_meta( $nh_id, '_elementor_data', true ), true ) !== $nh_data ) {
-				$log['warnings'][] = "$nh_key: _elementor_data does not read back equal to what was written";
+				return "$nh_key: _elementor_data does not read back equal to what was written";
 			}
-			$nh_slug                         = urldecode( (string) get_post_field( 'post_name', $nh_id ) );
-			$log['docs'][ $nh_key ]['slug']  = $nh_slug;
-			$log['docs'][ $nh_key ]['url']   = get_permalink( $nh_id );
-			$log['docs'][ $nh_key ]['edit']  = admin_url( 'post.php?post=' . $nh_id . '&action=elementor' );
-			$log['docs'][ $nh_key ]['bytes'] = strlen( $nh_json );
-			if ( $nh_slug !== (string) $nh_doc['slug'] ) {
-				$log['warnings'][] = "$nh_key: the slug is $nh_slug, not {$nh_doc['slug']}";
+			return '';
+		};
+		foreach ( $nh_docs as $nh_doc ) {
+			$nh_warn = $nh_write( $nh_doc );
+			if ( '' !== $nh_warn ) {
+				$log['warnings'][] = $nh_warn;
+			}
+		}
+
+		// 4. Publish (the front page is still the old one).
+		foreach ( $nh_docs as $nh_doc ) {
+			$nh_id = $nh_ids[ $nh_doc['key'] ];
+			if ( 'publish' !== get_post_status( $nh_id ) ) {
+				$nh_res = wp_update_post( wp_slash( array( 'ID' => $nh_id, 'post_status' => 'publish' ) ), true );
+				if ( is_wp_error( $nh_res ) || ! $nh_res ) {
+					throw new Exception( $nh_doc['key'] . ': not published: ' . ( is_wp_error( $nh_res ) ? $nh_res->get_error_message() : 'the post was not saved' ) );
+				}
 			}
 		}
 
 		// 5. Theme Builder: Pro reads the templates of a location from the option elementor_pro_theme_builder_conditions,
-		// which Conditions_Cache::regenerate() rebuilds from every template's _elementor_conditions.
+		// which Conditions_Cache::regenerate() rebuilds from every template's _elementor_conditions (old value: before).
 		$nh_tb    = class_exists( '\ElementorPro\Modules\ThemeBuilder\Module' ) ? \ElementorPro\Modules\ThemeBuilder\Module::instance() : null;
 		$nh_cm    = ( $nh_tb && method_exists( $nh_tb, 'get_conditions_manager' ) ) ? $nh_tb->get_conditions_manager() : null;
 		$nh_cache = ( $nh_cm && method_exists( $nh_cm, 'get_cache' ) ) ? $nh_cm->get_cache() : null;
@@ -975,19 +1126,70 @@ PAGES_PHP = r"""
 			}
 		}
 
-		// 6. Elementor's CSS files and per-post CSS/asset caches (Tools → Regenerate CSS & Data does the same).
-		$nh_files = isset( \Elementor\Plugin::$instance->files_manager ) ? \Elementor\Plugin::$instance->files_manager : null;
-		if ( $nh_files && method_exists( $nh_files, 'clear_cache' ) ) {
-			$nh_files->clear_cache();
-			$log['elementor_cache'] = 'cleared';
-		} else {
-			$log['elementor_cache'] = 'not cleared: no files_manager->clear_cache() (use Elementor → Tools → Regenerate CSS & Data)';
+		// 6. Settings → Reading, once the posts, their data and the conditions are in place: the home document becomes
+		// the front page.
+		foreach ( $nh_docs as $nh_doc ) {
+			if ( ! empty( $nh_doc['front_page'] ) ) {
+				update_option( 'page_on_front', $nh_ids[ $nh_doc['key'] ] );
+				update_option( 'show_on_front', 'page' );
+			}
+		}
+		$log['front_after'] = array(
+			'show_on_front' => get_option( 'show_on_front' ),
+			'page_on_front' => (int) get_option( 'page_on_front' ),
+		);
+
+		// 7. The links as they are now: one that is not the link step 2 used (WordPress changed a slug on publishing):
+		// the data is written again with the real one.
+		$nh_moved = array();
+		foreach ( $nh_links as $nh_key => $nh_url ) {
+			$nh_now = get_permalink( $nh_ids[ $nh_key ] );
+			if ( $nh_now !== $nh_url ) {
+				$nh_moved[ $nh_key ]  = array( $nh_url, $nh_now );
+				$nh_links[ $nh_key ] = $nh_now;
+			}
+		}
+		if ( $nh_moved ) {
+			$log['warnings'][] = 'a link was not the expected one, so the data was written again: ' . wp_json_encode( $nh_moved, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+			foreach ( $nh_docs as $nh_doc ) {
+				$nh_warn = $nh_write( $nh_doc );
+				if ( '' !== $nh_warn ) {
+					$log['warnings'][] = $nh_warn;
+				}
+			}
+		}
+
+		// 8. Where each post is now; an old _elementor_data equal to the new one is not repeated in the answer.
+		foreach ( $nh_docs as $nh_doc ) {
+			$nh_key  = (string) $nh_doc['key'];
+			$nh_id   = $nh_ids[ $nh_key ];
+			$nh_now  = (string) get_post_meta( $nh_id, '_elementor_data', true );
+			$nh_slug = urldecode( (string) get_post_field( 'post_name', $nh_id ) );
+			$log['docs'][ $nh_key ]['status'] = get_post_status( $nh_id );
+			$log['docs'][ $nh_key ]['slug']   = $nh_slug;
+			$log['docs'][ $nh_key ]['url']    = get_permalink( $nh_id );
+			$log['docs'][ $nh_key ]['edit']   = admin_url( 'post.php?post=' . $nh_id . '&action=elementor' );
+			$log['docs'][ $nh_key ]['bytes']  = strlen( $nh_now );
+			if ( $nh_slug !== (string) $nh_doc['slug'] ) {
+				$log['warnings'][] = "$nh_key: the slug is $nh_slug, not {$nh_doc['slug']}";
+			}
+			if ( isset( $log['before']['docs'][ $nh_key ]['data'] ) && $log['before']['docs'][ $nh_key ]['data'] === $nh_now ) {
+				$log['before']['docs'][ $nh_key ]['data'] = '(the same as now)';
+			}
 		}
 """
 
 
+def build_pages_module():
+    """scripts/build_pages.py as a module: its hashes of the inputs and its render check (it never talks to a server)."""
+    spec = importlib.util.spec_from_file_location("nh_build_pages", os.path.join(ROOT, "scripts", "build_pages.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def load_page_docs():
-    """The four documents of templates/pages/ (scripts/build_pages.py), in PAGE_KEYS order."""
+    """The four documents of templates/pages/ (scripts/build_pages.py), in PAGE_KEYS order, built from this tree."""
     docs = []
     for key in PAGE_KEYS:
         path = os.path.join(PAGES_DIR, f"{key}.json")
@@ -1000,7 +1202,29 @@ def load_page_docs():
         need(ok, f"{os.path.relpath(path, ROOT)} is not a page document of scripts/build_pages.py")
         docs.append(doc)
     need(sum(1 for d in docs if d.get("front_page")) == 1, "exactly one document must be the front page")
+    # What they were built from (plugin version and PHP hash, every input): the same for all four, and this tree's.
+    built = [{k: (d.get("built_from") or {}).get(k) for k in ("plugin", "inputs_sha256")} for d in docs]
+    need(all(b == built[0] for b in built) and isinstance(built[0]["plugin"], dict)
+         and built[0]["plugin"].get("php_sha256") and built[0]["inputs_sha256"],
+         "templates/pages/*.json do not all name the plugin and inputs they were built from: "
+         "run python3 -I scripts/build_pages.py")
+    need(built[0] == build_pages_module().source_info(),
+         "templates/pages/*.json were built from another version of the plugin, its fixtures or scripts/build_pages.py "
+         "than this tree has: run python3 -I scripts/build_pages.py")
     return docs
+
+
+def render_check():
+    """The render check of templates/pages/*.json (build_pages.py check, needs a local PHP CLI): its summary line,
+    or None without PHP. Stops on any difference."""
+    if not shutil.which("php"):
+        return None
+    bp = build_pages_module()
+    res = bp.php("check", bp.CHECK)
+    out = (res.stdout + res.stderr).strip()
+    need(res.returncode == 0, "the render check of templates/pages/*.json fails (python3 -I scripts/build_pages.py "
+         "check):\n" + "\n".join(line for line in out.splitlines() if not line.startswith("ok "))[-2000:])
+    return out.splitlines()[-1] if out else "passed"
 
 
 def media_tokens(value, found=None):
@@ -1110,27 +1334,31 @@ def pick_media(name, mine, media_map):
     return items[0] if items else None
 
 
-def upload_photo(name, info):
-    """Upload the photo with its title marker and alt text in the same request; WordPress makes the sub-sizes."""
+def upload_photo(name, info, media_map):
+    """Upload the photo with its title marker and alt text in the same request; WordPress makes the sub-sizes. The
+    attachment goes to the change log and media-map.json as soon as WordPress names its id, before anything can fail."""
     with open(info["path"], "rb") as fh:
         data = fh.read()
     st, media, hdr = api("/wp/v2/media", "POST", data, query={"title": f"nh:{name}", "alt_text": info["alt"]},
                          headers={"Content-Type": "image/webp",
                                   "Content-Disposition": f'attachment; filename="{name}.webp"'}, timeout=300)
+    att = str((media.get("id") if st == 201 and isinstance(media, dict) else None)
+              or hdr.get("x-wp-upload-attachment-id") or "").strip()
+    need(att.isdigit() and int(att) > 0, f"could not upload {info['file']} ({st} {err(media)})")
+    att = int(att)
+    record({"change": f"uploaded photo {name}", "id": att, "file": info["file"], "title": f"nh:{name}",
+            "alt": info["alt"], **({} if st == 201 else {"upload_answer": st, "note": "sub-sizes made by post-process"})})
+    media_map[name] = att
+    save_media_map(media_map)
     if st != 201:
-        att = str(hdr.get("x-wp-upload-attachment-id") or "").strip()
-        need(att.isdigit(), f"could not upload {info['file']} ({st} {err(media)})")
         # the attachment exists but the sub-sizes did not finish: let WordPress finish them (as the block editor does)
         for _ in range(3):
             st, media, _ = api(f"/wp/v2/media/{att}/post-process", "POST", {"action": "create-image-subsizes"},
                                timeout=300)
             if st in (200, 201):
                 break
-        need(st in (200, 201) and isinstance(media, dict), f"{info['file']} is attachment #{att}, but its sub-sizes "
-             f"failed ({st} {err(media)})")
-    need(isinstance(media, dict) and media.get("id"), f"no attachment id for {info['file']}")
-    record({"change": f"uploaded photo {name}", "id": media["id"], "file": info["file"], "title": f"nh:{name}",
-            "alt": info["alt"]})
+        need(st in (200, 201) and isinstance(media, dict) and media.get("id"), f"{info['file']} is attachment #{att} "
+             f"(recorded; a later run reuses it), but its sub-sizes failed ({st} {err(media)})")
     if str((media.get("title") or {}).get("raw") or "") != f"nh:{name}" or media.get("alt_text") != info["alt"]:
         st, media, _ = api(f"/wp/v2/media/{media['id']}", "POST", {"title": f"nh:{name}", "alt_text": info["alt"]})
         need(st == 200, f"could not set the title and alt text of #{media.get('id')} ({st} {err(media)})")
@@ -1197,25 +1425,38 @@ def page_problems(url, doc, chrome):
 PAGES_PLAN = """pages will change the test site:
   1. photos: {upload} to upload (the largest .webp; WordPress makes the sub-sizes), titled nh:<name>, alt text from
      the manifest; {reuse} already there (found by that title) are reused; ids kept in templates/media-map.json
-  2. create or update (found by post meta _nh_page_key; no other post is touched), as published:
+  2. one PHP step, as user #{user}. It stops before writing anything unless the plugin's PHP on the site is the one
+     these files were built against (sha256 {sha}…) and Elementor's Container feature is on. Then it creates (as
+     drafts) or updates the posts found by post meta _nh_page_key (no other post is touched):
 {docs}
+     writes their Elementor data, publishes them, rebuilds Pro's Theme Builder conditions cache, and then
   3. Settings → Reading: the home page becomes the front page (now: show_on_front {sof}, page_on_front {pof})
-  4. Elementor's CSS cache is cleared, ezCache is purged, both pages are smoke-tested
-  Code Snippets is switched on for the PHP step and off again; every change goes to {log}.
+  4. ezCache is purged and both pages are smoke-tested
+  Every old value goes to {log} (the posts' old Elementor data too). Code Snippets is switched on for the PHP step
+  and off again; Elementor empties its CSS file cache on both switches and rebuilds it on the next page view.
 Run again with --go to apply."""
 
 
 def cmd_pages(args):
     docs = load_page_docs()
+    built = docs[0]["built_from"]["plugin"]
+    render = render_check()
     files = photo_files(media_tokens(docs))
     me = whoami(("manage_options", "upload_files", "edit_pages"))
     st, plugins, _ = api("/wp/v2/plugins")
     need(st == 200 and isinstance(plugins, list), f"cannot list plugins ({st} {err(plugins)})")
     active = {p["plugin"].split("/")[0]: p for p in plugins if p.get("status") == "active"}
     missing = [slug for slug in ("elementor", "elementor-pro", "nevehairus-site") if slug not in active]
+    site_version = (active.get("nevehairus-site") or {}).get("version")
     step(f"signed in as user #{me['id']}; active: " + ", ".join(
         f"{s} {active[s].get('version', '')}" for s in ("elementor", "elementor-pro", "nevehairus-site") if s in active)
          + (f"; NOT active: {', '.join(missing)}" if missing else ""))
+    step(f"templates/pages/*.json: built from this tree for nevehairus-site {built['version']} (PHP sha256 "
+         f"{built['php_sha256'][:12]}…); render check: {render or 'not run (no local php)'}")
+    wrong_version = bool(site_version) and site_version != built["version"]
+    if wrong_version:
+        print(f"!! the site runs nevehairus-site {site_version}, these files were built for {built['version']}: "
+              "deploy this tree's plugin first (python3 -I scripts/build_plugin.py zip; test_site.py deploy --go)")
     media_map = load_media_map()
     mine = our_media(media_map)
     reuse = {name: pick_media(name, mine, media_map) for name in files}
@@ -1242,19 +1483,25 @@ def cmd_pages(args):
                          f"{len(widget_types(d))} widget(s): {' '.join(widget_types(d))}")
         print(PAGES_PLAN.format(upload=sum(1 for v in reuse.values() if not v),
                                 reuse=sum(1 for v in reuse.values() if v), docs="\n".join(lines),
+                                user=me["id"], sha=built["php_sha256"][:12],
                                 sof=s.get("show_on_front", "?") if st_s == 200 else f"HTTP {st_s}",
                                 pof=s.get("page_on_front", "?") if st_s == 200 else f"HTTP {st_s}", log=LOG_FILE))
         return
     need(not missing, f"activate first: {', '.join(missing)}")
+    need(not wrong_version, f"the site runs nevehairus-site {site_version}, not {built['version']}: deploy first")
     before = smoke()
     need(not before, f"the site is not healthy before building the pages: {before}")
+    st_s, s, _ = api("/wp/v2/settings")
+    need(st_s == 200 and isinstance(s, dict), f"cannot read the settings ({st_s} {err(s)})")
+    record({"change": "pages: values before (Settings → Reading)", "show_on_front": s.get("show_on_front"),
+            "page_on_front": s.get("page_on_front")})
 
     # (a) photos: reuse ours, upload the rest; (b) their tokens -> attachment id, URL and alt text
     atts = {}
     for name, info in files.items():
         item = reuse[name]
         if item is None:
-            item = upload_photo(name, info)
+            item = upload_photo(name, info, media_map)
             step(f"uploaded {info['file']} as #{item['id']} (nh:{name})")
         elif item.get("alt_text") != info["alt"]:
             old = item.get("alt_text")
@@ -1275,14 +1522,23 @@ def cmd_pages(args):
     resolved = [resolve_media(d, atts) for d in docs]
     need(not re.search(r'"@media:', json.dumps(resolved)), "a photo token is left in the data")
 
-    # (c) one PHP step: posts, Elementor data and meta, Theme Builder conditions, front page, Elementor CSS cache
+    # (c) one PHP step: checks, posts, Elementor data and meta, publishing, Theme Builder conditions, front page
     body = pages_body(resolved, {n: a["id"] for n, a in atts.items()}, me["id"])
     lint_php("pages", body)
     with Helper():
-        log = run_php("pages", body)
-    print(json.dumps(log, ensure_ascii=False, indent=1))
-    record({"change": "pages: home page, house page, Theme Builder header and footer", "log": log,
-            "photos": {n: a["id"] for n, a in atts.items()}})
+        try:
+            log = run_php("pages", body)
+        except SystemExit as e:
+            record({"change": "pages: the PHP step failed or did not answer; what it changed is not known here (posts "
+                    "it made carry _nh_page_key, so the next run finds and updates them)", "error": str(e)})
+            raise
+    record({"change": "pages: home page, house page, Theme Builder header and footer (old values: log.before)",
+            "log": log, "photos": {n: a["id"] for n, a in atts.items()}})
+    shown = json.loads(json.dumps(log))
+    for old in ((shown.get("before") or {}).get("docs") or {}).values():
+        if isinstance(old, dict) and isinstance(old.get("data"), str) and len(old["data"]) > 40:
+            old["data"] = f"({len(old['data'])} bytes: in the change log)"
+    print(json.dumps(shown, ensure_ascii=False, indent=1))
     need("exception" not in log and len(log.get("docs") or {}) == len(docs),
          f"the page step failed: {log.get('exception') or 'not every document was written'}")
     for w in log.get("warnings") or []:
@@ -1335,6 +1591,9 @@ def main():
     p.set_defaults(fn=cmd_deploy)
     sub.add_parser("safe-off").set_defaults(fn=cmd_safe_off)
     sub.add_parser("cleanup").set_defaults(fn=cmd_cleanup)
+    p = sub.add_parser("health")
+    p.add_argument("--no-browser", action="store_true", help="skip the Chromium console check")
+    p.set_defaults(fn=cmd_health)
     args = ap.parse_args()
     args.fn(args)
 

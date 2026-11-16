@@ -28,7 +28,7 @@
 .v3-room__work { position: absolute; left: var(--wl); top: var(--wt); width: var(--ww); height: var(--wh); }
 .v3-room__work img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
 
-/* ---- v3.css L376 — (forced colours) ---- */
+/* ---- v3.css L377 — (forced colours) ---- */
 @media (forced-colors: active) {
   .v3-letter__ink { fill: CanvasText; }
 }

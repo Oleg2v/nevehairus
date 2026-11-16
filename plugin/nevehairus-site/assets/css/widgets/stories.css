@@ -1,11 +1,11 @@
 /* =========================================================================
    nevehairus-site — widget `stories` (שלושה סיפורים).
-   v3.2 (research/07 §10.3 item 6): copied verbatim from prototype/assets/css/v3.css (v3.2) L416–421:
+   v3.2 (research/07 §10.3 item 6): copied verbatim from prototype/assets/css/v3.css (v3.2) L417–422:
    the numbers D-M 400 in citrus on night (lining, −0.03em), H3 names, body text in --nh-on-night-2,
    three columns from 56.25em.
    ========================================================================= */
 
-/* ---- v3.css L416–421 ---- */
+/* ---- v3.css L417–422 ---- */
 .v3-stories__list { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 2rem 3rem; }
 .v3-stories__list li { border-block-start: 1px solid rgb(247 241 231 / .3); padding-block-start: 1rem; }
 .v3-stories__n { display: block; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); color: var(--nh-citrus-400); letter-spacing: -.03em; font-variant-numeric: lining-nums; }

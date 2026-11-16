@@ -1,12 +1,12 @@
 /* =========================================================================
    nevehairus-site — widget `gallery` («האגף החדש.»).
    v3.2 (research/07 §10.3 item 4, §4.4 item 20): copied verbatim from prototype/assets/css/v3.css
-   (v3.2) L406–410: an even grid of six 4:3 prints of one size with visible captions, 3 / 2 / 1
+   (v3.2) L407–411: an even grid of six 4:3 prints of one size with visible captions, 3 / 2 / 1
    columns; no mosaic, no zoom on hover, no lightbox. The print itself (the 4:3 frame, the numbered
    caption, the one soft appearance) is in base.css.
    ========================================================================= */
 
-/* ---- v3.css L406–410 ---- */
+/* ---- v3.css L407–411 ---- */
 /* the new wing: six 4:3 prints of one size, 3 / 2 / 1 columns, captions visible; no lightbox (§10.3 p. 4) */
 .v3-gallery { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 2rem; grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 40em) { .v3-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

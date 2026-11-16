@@ -293,7 +293,7 @@ html:is(.nh-reduce-motion, .nh-calm) :where([class*="elementor-widget-nh-"], .nh
 .v3-quote footer { margin-block-start: 1.25rem; font-size: var(--v3-fs-small); line-height: 1.5; color: var(--nh-on-night-2); }
 .v3-quote cite { font-style: normal; }
 
-/* ---- v3.css L280–287 — the row links (lamed, related): the arrow stands still ---- */
+/* ---- v3.css L281–288 — the row links (lamed, related): the arrow stands still ---- */
 .v3-roles { list-style: none; margin: 2rem 0; padding: 0; border-block-start: 1.5px solid var(--nh-ink); }
 .v3-roles li { border-block-end: 1px solid var(--v3-hair); }
 .v3-roles a { display: grid; grid-template-columns: minmax(0, 1fr) auto 1.5rem; gap: 1rem; align-items: baseline; min-block-size: 4rem; padding-block: 1.1rem; color: var(--nh-ink); text-decoration: none; }
@@ -303,7 +303,7 @@ html:is(.nh-reduce-motion, .nh-calm) :where([class*="elementor-widget-nh-"], .nh
 .v3-roles svg { inline-size: 1.25rem; block-size: 1.25rem; align-self: center; }
 .v3-roles a:is(:hover, :focus-visible) b { text-decoration: underline; text-underline-offset: .2em; text-decoration-thickness: 2px; }
 
-/* ---- v3.css L424–431 — plugin: without L425 (.v3-related → related.css) ---- */
+/* ---- v3.css L425–432 — plugin: without L426 (.v3-related → related.css) ---- */
 /* rows with a long description wrap; on phones the description goes under the title */
 @media (max-width: 40em) {
   .v3-roles a { grid-template-columns: minmax(0, 1fr) 1.5rem; row-gap: .25rem; }
@@ -312,7 +312,7 @@ html:is(.nh-reduce-motion, .nh-calm) :where([class*="elementor-widget-nh-"], .nh
   .v3-roles svg { grid-column: 2; grid-row: 1 / span 2; }
 }
 
-/* ---- v3.css L342–353 — plugin: the general rules; `main` → our widgets (the masthead and the footer's switches
+/* ---- v3.css L343–354 — plugin: the general rules; `main` → our widgets (the masthead and the footer's switches
    hold no plain paragraph); the selectors of one widget are its CSS's (.v3-home__who → homes, .nh-form__note →
    forms, .v3-cover__call → cover) ---- */
 /* ---------- Plain-language mode (whole page) -----------------------------------------------------------------------
@@ -326,14 +326,14 @@ html.nh-plainmode :is(h1, h2, h3, b, label) > .v3-plain { display: inline; }
 html.nh-plainmode .nh-btn > .v3-plain { display: inline; }
 html.nh-plainmode .v3-plain--after { margin-block-start: 1.5rem; }
 
-/* ---- v3.css L369–372 — plugin: the photos of our widgets, not the masthead's emblem (the prototype reaches
+/* ---- v3.css L370–373 — plugin: the photos of our widgets, not the masthead's emblem (the prototype reaches
    `main img`: the logo is never recoloured, research/07 §6) ---- */
 /* ---------- Calm mode (§4.3): no optional motion (the appearance is off, see the end of this file) and softer
    colours — the honey spread becomes sand, the photos lose some saturation (photos only: not the logo) ---------- */
 html.nh-calm .v3-spread--citrus { background: var(--nh-paper-2); }
 html.nh-calm :where([class*="elementor-widget-nh-"]:not(.elementor-widget-nh-masthead)) img { filter: saturate(.7); }
 
-/* ---- v3.css L374–388 — plugin: the base selectors (.v3-letter__ink → letters.css; .v3-plainbtn → masthead.css;
+/* ---- v3.css L375–389 — plugin: the base selectors (.v3-letter__ink → letters.css; .v3-plainbtn → masthead.css;
    .v3-door__bar, .v3-door__leg → door.css; .nh-video__btn → voices.css) ---- */
 /* ---------- Forced colours ------------------------------------------------------- */
 @media (forced-colors: active) {
@@ -347,13 +347,13 @@ html.nh-calm :where([class*="elementor-widget-nh-"]:not(.elementor-widget-nh-mas
   .v3-print picture { outline: 1px solid CanvasText; }
 }
 
-/* ---- v3.css L442–446 — plugin: without L445 (.v3-plainbox → plainbox.css) ---- */
+/* ---- v3.css L443–447 — plugin: without L446 (.v3-plainbox → plainbox.css) ---- */
 /* long button labels wrap on narrow phones instead of widening the page */
 @media (max-width: 479px) {
   .v3 .nh-btn { white-space: normal; text-align: center; line-height: 1.25; }
 }
 
-/* ---- v3.css L469–480 — plugin: on .v3-print only, so no other element that happens to carry data-reveal
+/* ---- v3.css L470–481 — plugin: on .v3-print only, so no other element that happens to carry data-reveal
    (e.g. Foundation's Reveal) is ever touched; nh-core.js reveal() does the same ---- */
 /* v3.2: the one allowed reveal — a print photo appears once, softly, when it is on screen and loaded.
    Hidden only by script, only below the first screen, only when motion is allowed.
@@ -370,6 +370,6 @@ html:is(.nh-calm, .nh-reduce-motion) .v3-print[data-reveal].is-shown > picture {
 
 /* Not ported (SPEC §9.3): main.css L77–82 (.nh-hl), L254–273 (video → voices.css), L275–310 (the footer: Elementor's
    own widgets, research/07 §12.6), L324–362 (forms → forms.css, jobs grid → jobs-form.css), L364–371 (crumbs →
-   page-cover.css), L373–425 (v1 inner page, design-system helpers, accordion); v3.css L338–340 (colophon), L433–440
-   (design system), L448–452 (.nh-wordmark, design system only), L454–467 (masthead.css), L458–460 (.v3-dev,
-   the footer); the widgets' own blocks are in their files. */
+   page-cover.css), L373–425 (v1 inner page, design-system helpers, accordion); v3.css L339–341 (colophon), L434–441
+   (design system), L449–453 (.nh-wordmark, design system only), L455–457 and L463–468 (masthead.css), L459–461
+   (.v3-dev, the footer); the widgets' own blocks are in their files. */

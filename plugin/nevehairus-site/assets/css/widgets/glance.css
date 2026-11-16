@@ -1,11 +1,11 @@
 /* =========================================================================
    nevehairus-site — widget `glance` (במבט אחד · מספרים ועובדות).
-   v3.2 (research/07 §10.3 item 3): copied verbatim from prototype/assets/css/v3.css (v3.2) L393–405:
+   v3.2 (research/07 §10.3 item 3): copied verbatim from prototype/assets/css/v3.css (v3.2) L394–406:
    the numbers D-M 400 (lining, tabular, −0.03em) on the ruling line, their labels at the small step,
    the facts' answers at the body step; hairlines in --v3-hair.
    ========================================================================= */
 
-/* ---- v3.css L393–405 ---- */
+/* ---- v3.css L394–406 ---- */
 .v3-stats { list-style: none; margin: 2rem 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-block-start: 1.5px solid var(--nh-ink); }
 .v3-stats li { padding-block: 1.25rem; padding-inline-end: 1rem; border-block-end: 1px solid var(--v3-hair); }
 .v3-stats b { display: block; font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); letter-spacing: -.03em; font-variant-numeric: lining-nums tabular-nums; }

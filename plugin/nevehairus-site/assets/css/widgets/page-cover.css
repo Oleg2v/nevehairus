@@ -2,7 +2,7 @@
    nevehairus-site — widget `page-cover` (ב׳ · שער עמוד).
    v3.2 (research/07 §5.3 item 2, §10.3 items 1–2): copied verbatim from the prototype (v3.2):
    main.css L364–371 (the breadcrumbs: 16px, links in ink-2 and underlined, 44px targets, the silent
-   separator «‹»), then v3.css L391–392 (the crumbs inside the cover's grid). The page cover's layout
+   separator «‹»), then v3.css L392–393 (the crumbs inside the cover's grid). The page cover's layout
    (stacked on phones, a smaller letter from 64em) is part of the cover's block in cover.css, which
    this widget loads first (STYLE_DEPS nh-w-cover, decision D5). No page transition (D11 is gone).
    ========================================================================= */
@@ -17,6 +17,6 @@
 .nh-crumbs a:hover { color: var(--nh-ink); text-decoration-thickness: 2px; }
 .nh-crumbs [aria-current="page"] { color: var(--nh-ink); }
 
-/* ---- v3.css L391–392 ---- */
+/* ---- v3.css L392–393 ---- */
 .v3-crumbs { grid-column: 1 / -1; margin-block-end: .25rem; }
 .v3-crumbs ol { margin: 0; }

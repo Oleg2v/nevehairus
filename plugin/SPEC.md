@@ -156,7 +156,7 @@ Control value shapes: SWITCHER `'yes'|''`; MEDIA `['id' => int|'', 'url' => stri
 - Core style handles: `nh-tokens` (`assets/css/tokens.css`), `nh-base` (`assets/css/base.css`, deps `nh-tokens` + `elementor-frontend` when that handle is registered), `nh-letters` (deps `nh-base`), `nh-forms` (deps `nh-base`).
 - Core script handles: `nh-core` (`assets/js/nh-core.js`, no deps), `nh-forms` (deps `nh-core`). All scripts are registered with `[ 'in_footer' => true, 'strategy' => 'defer' ]`.
 - Widget handles are **registered by convention** by `NH_Assets`: every `assets/css/widgets/<id>.css` → style `nh-w-<id>` (deps `nh-base`); every `assets/js/widgets/<id>.js` → script `nh-w-<id>` (deps `nh-core`). Version = `NH_VERSION` (or `filemtime()` when `WP_DEBUG`).
-- `nh-tokens`, `nh-base`, `nh-core` are enqueued on every front-end page. Everything else is enqueued only through widgets' `get_style_depends()` / `get_script_depends()`.
+- *(v3.2, B1: research/07 §12.1)* Nothing is enqueued on a page that does not use our widgets. `nh-tokens`, `nh-base`, `nh-core` (with `window.nhData`) come with every widget (`get_style_depends()` = `nh-base` + `STYLE_DEPS` + `nh-w-<id>`, `get_script_depends()` = `nh-core` + `SCRIPT_DEPS` + `nh-w-<id>`), and `NH_Assets::enqueue_site()` enqueues the three only when `NH_Site::uses_widgets()` (so the core CSS is in `<head>` on such pages, also when the widget is in the Theme Builder header or footer).
 - A widget declares extra dependencies with `public const STYLE_DEPS = [ … ];` and `public const SCRIPT_DEPS = [ … ];` (handles; order matters: they are listed before the widget's own handle). Allowed extra handles: `nh-letters`, `nh-forms`, and `nh-w-cover` (page-cover only).
 - CSS is copied from the prototype **verbatim** in the source order given in §9 (main.css parts first, then v3.css parts), except the explicit porting changes listed per widget and in §10. No preprocessors, no minification in the plugin (uPress compresses).
 - JS is plain ES2020 in an IIFE, `"use strict"`, no globals except `window.nh` (core). Widget scripts start with `nh.widget( '<id>', '<root selector>', ( el ) => { … } )` and query **inside `el`** only (§3.12).
@@ -639,7 +639,7 @@ Markup (target: built `index.html` `section#cover`):
 ```
 H1 rule: the H1 always has the `v3-full` / `v3-plain` structure (the CSS lays out the line spans inside `.v3-full`); if `title_plain` is empty (or `-` — the page heading is never hidden), the plain span repeats `title_1 title_2` as text without tesserae. A line whose text is empty is omitted (one-line titles). `data-visit-cta`: nh-core.js points the button at this page's `.v3-door[id]` when there is one (research/07 §5.5).
 
-CSS `cover.css` *(v3.2, P1 16.11: ported verbatim from the rebuilt prototype)*: v3.css L99–132 — the cover of both pages in one block (the page cover loads this file too, D5): one screen, D-L title (`var(--v3-fw-dl) var(--v3-fs-dl)/.92`: 300 from 48em, 400 below), lead at the lead step in ink, «או בטלפון» UI 18/600 with a 44px link, phones `"letter title" "lead lead" "plain plain" "cta cta" "call call"` (letter `min(44vw, 13rem)`), the page cover stacked `"crumbs" "letter" "title" …` (letter `min(52vw, 10rem)`), from 48em two columns `5fr 6fr` centred with `--cover-h: min(100svh − mast − 13rem, 44rem)`, the house page from 64em `min(100svh − mast − 11rem, 34rem)`; then L350 (second selector: `.v3-cover__call > .v3-plain` inline) and L354–361 (plain mode: title D-M 400, plain paragraphs at the plain step, the ב as a chapter mark from 48em). Porting change: L356 without `main` (§10.2 rule 4). No pinning, drawn rule, curtain, settling photo or `@keyframes`; the v3.1 portrait-tablet rule is gone with the prototype's.
+CSS `cover.css` *(v3.2, P1 16.11: ported verbatim from the rebuilt prototype)*: v3.css L99–132 — the cover of both pages in one block (the page cover loads this file too, D5): one screen, D-L title (`var(--v3-fw-dl) var(--v3-fs-dl)/.92`: 300 from 48em, 400 below), lead at the lead step in ink, «או בטלפון» UI 18/600 with a 44px link, phones `"letter title" "lead lead" "plain plain" "cta cta" "call call"` (letter `min(44vw, 13rem)`), the page cover stacked `"crumbs" "letter" "title" …` (letter `min(52vw, 10rem)`), from 48em two columns `5fr 6fr` centred with `--cover-h: min(100svh − mast − 13rem, 44rem)`, the house page from 64em `min(100svh − mast − 11rem, 34rem)`; then L351 (second selector: `.v3-cover__call > .v3-plain` inline) and L355–362 (plain mode: title D-M 400, plain paragraphs at the plain step, the ב as a chapter mark from 48em). Porting change: L357 without `main` (§10.2 rule 4). No pinning, drawn rule, curtain, settling photo or `@keyframes`; the v3.1 portrait-tablet rule is gone with the prototype's.
 JS: none (`cover.js` deleted in v3.2).
 *(Core: an empty `cta_link` renders no button; `NH_Widget_Cover::SIZES` holds the default `sizes`.)*
 Fixture: `default` (no photo: the sky field, compared with its expected differences); `prototype` = photo `v3-walk`, compare `index.html` `section#cover` — **result: 0 differing lines**; `states`, `no-button`, `no-phone` (edge cases, structure only).
@@ -664,7 +664,7 @@ Markup (target `program-main-home.html` `section#cover`): as `cover`, with
 - H1 class `v3-cover__title v3-cover__title--page`;
 - the button with `data-visit-cta` and the line `.v3-cover__call`, as the cover.
 
-CSS `page-cover.css` *(v3.2, P1 16.11)*: main.css L364–371 (the crumbs: 600 at 16px in ink-2, underlined links 1px → 2px with a 44px target, the separator `content: "‹" / ""` — silent, the current page in ink), v3.css L391–392 (`.v3-crumbs` in the cover's grid). The page cover's own layout is part of the cover's block in cover.css (STYLE_DEPS `nh-w-cover`, D5); no `view-transition-class` (D11 is gone).
+CSS `page-cover.css` *(v3.2, P1 16.11)*: main.css L364–371 (the crumbs: 600 at 16px in ink-2, underlined links 1px → 2px with a 44px target, the separator `content: "‹" / ""` — silent, the current page in ink), v3.css L392–393 (`.v3-crumbs` in the cover's grid). The page cover's own layout is part of the cover's block in cover.css (STYLE_DEPS `nh-w-cover`, D5); no `view-transition-class` (D11 is gone).
 JS: none.
 Fixture: `prototype` = photo `v3-sky-room` on the house page (queried post 11), compare `program-main-home.html` `section#cover`: 0 differing lines (crumb hrefs normalised).
 
@@ -1157,7 +1157,7 @@ Markup (target `program-main-home.html` `section#glance`):
   </div>
 </section>
 ```
-CSS `glance.css` *(v3.2, P1 16.11; research/07 §10.3 item 3)*: v3.css L393–405 — the numbers D-M 400, −0.03em, `lining-nums tabular-nums`; their labels at the small step (16px, ink-2); the facts' answers at the body step; hairlines `--v3-hair`; four columns from 64em. JS: none. Fixture: `default` compare `section#glance`.
+CSS `glance.css` *(v3.2, P1 16.11; research/07 §10.3 item 3)*: v3.css L394–406 — the numbers D-M 400, −0.03em, `lining-nums tabular-nums`; their labels at the small step (16px, ink-2); the facts' answers at the body step; hairlines `--v3-hair`; four columns from 64em. JS: none. Fixture: `default` compare `section#glance`.
 
 ### 4.14 `gallery` — package residence
 
@@ -1187,7 +1187,7 @@ Markup (target `program-main-home.html` `section#inside`):
   </div>
 </section>
 ```
-CSS `gallery.css`: v3.css L406–410 (v3.2): `.v3-gallery` grid of 1 / 2 (from 40em) / 3 (from 64em) columns, gap 2rem, `.v3-gallery .v3-print { max-inline-size: none; }`. (The print — 4:3, numbered caption, the soft appearance — is in base.css.) Without its photo a print's cell is hidden by nh-core.js, so the grid closes up (research/07 §8.3 item 4).
+CSS `gallery.css`: v3.css L407–411 (v3.2): `.v3-gallery` grid of 1 / 2 (from 40em) / 3 (from 64em) columns, gap 2rem, `.v3-gallery .v3-print { max-inline-size: none; }`. (The print — 4:3, numbered caption, the soft appearance — is in base.css.) Without its photo a print's cell is hidden by nh-core.js, so the grid closes up (research/07 §8.3 item 4).
 JS: none (`gallery.js` deleted in v3.2).
 Fixture: `prototype` = the six photos; compare `section#inside`: 0 differing lines. `states` (structure only).
 
@@ -1216,7 +1216,7 @@ Markup (target `program-main-home.html` `section#features`):
   </div>
 </section>
 ```
-CSS `features.css` *(v3.2, P1 16.11; research/07 §10.3 item 5)*: v3.css L262–265 (`.v3-quote--page`: the iris mark, the ink-2 signature, 34ch; the quote itself — D-S 400 with its hanging mark — is `.v3-quote` in base.css), L411–415 (the list: H3 names `500 var(--v3-fs-h3)/1.25`, body text in ink-2, three columns from 56.25em). JS: none. Fixture: `default` compare `section#features`.
+CSS `features.css` *(v3.2, P1 16.11; research/07 §10.3 item 5)*: v3.css L263–266 (`.v3-quote--page`: the iris mark, the ink-2 signature, 34ch; the quote itself — D-S 400 with its hanging mark — is `.v3-quote` in base.css), L412–416 (the list: H3 names `500 var(--v3-fs-h3)/1.25`, body text in ink-2, three columns from 56.25em). JS: none. Fixture: `default` compare `section#features`.
 
 ### 4.16 `stories` — package residence
 
@@ -1235,7 +1235,7 @@ Constants: `ID 'stories'`. Section class `v3-stories v3-spread`, tone `night`. S
 | 3 | `מעבר לשער` | `דייר שחשש במשך שנים לצאת משטח המעון יוצא היום לטיולי יום, בליווי צמוד של רכזת הדירה.` / `דייר פחד לצאת מהמעון במשך שנים.⏎היום הוא יוצא לטיולים.⏎רכזת הדירה הולכת איתו.` |
 
 Markup: `<section class="v3-stories v3-spread v3-spread--night" …>` › `nh-container` › rule, `{nh_h2}`, `{nh_lead plain_class=v3-lead}`, `<ol class="v3-stories__list" role="list">[each]<li><span class="v3-stories__n" aria-hidden="true">{n}</span><h3>{pair:title}</h3>{block:text full_tag=p plain_tag=div}</li>[/each]</ol>` (target `program-main-home.html` `section#stories`).
-CSS `stories.css` *(v3.2, P1 16.11; research/07 §10.3 item 6)*: v3.css L416–421 — the numbers D-M 400 in citrus (−0.03em, lining), H3 names, body text in `--nh-on-night-2`, three columns from 56.25em. JS: none. Fixture: `default` compare `section#stories`.
+CSS `stories.css` *(v3.2, P1 16.11; research/07 §10.3 item 6)*: v3.css L417–422 — the numbers D-M 400 in citrus (−0.03em, lining), H3 names, body text in `--nh-on-night-2`, three columns from 56.25em. JS: none. Fixture: `default` compare `section#stories`.
 
 ### 4.17 `related` — package index
 
@@ -1319,7 +1319,7 @@ Markup = `partials/header.html` (target: built `index.html` `header.nh-header` a
 - The name: `name` split at its last space into two `span`s (the compact masthead shows them as two lines); with a plain twin, one `.nh-logo__name.v3-full` and one `.v3-plain`. Without any name the link keeps the site's name in its screen-reader text. `menu_label` / `menu_close` fall back to `תפריט` / `סגירה` when emptied (a button must have a name).
 - The skip link (the child theme), the cookie panel and the global live region (the site module) are not printed here.
 
-CSS `masthead.css` *(v3.2; source lines added by P1 16.11)*: main.css L133–213 («v3.2 masthead») and L215–252 («Phone menu»), the menu's switch group (v3.css L55, as `.nh-menu .v3-switches`), the masthead's selectors of the forced-colours and print groups (main.css L439–440, L447; v3.css L384–385), v3.css L454–456 (1.4.12 wrap) and L462–465 (`max-height: 30em`: `.v3-mast { position: absolute; }`), the scroll padding of main.css L9–10 / v3.css L466 as `html:has(.v3-mast)`, the admin-bar offset. Porting change: the emblem's selector is `.nh-logo .nh-logo__mark` (0,2,0), to beat Elementor's `.elementor img { height: auto }`. Breakpoints: the full menu from 80em, the phone number from 90em, the compact mark below 40em, no emblem below 22.5em.
+CSS `masthead.css` *(v3.2; source lines added by P1 16.11)*: main.css L133–213 («v3.2 masthead») and L215–252 («Phone menu»), the menu's switch group (v3.css L55, as `.nh-menu .v3-switches`), the masthead's selectors of the forced-colours and print groups (main.css L439–440, L447; v3.css L385–386), v3.css L455–457 (1.4.12 wrap) and L463–466 (`max-height: 30em`: `.v3-mast { position: absolute; }`), the scroll padding of main.css L9–10 / v3.css L467 as `html:has(.v3-mast)`, the admin-bar offset. Porting change: the emblem's selector is `.nh-logo .nh-logo__mark` (0,2,0), to beat Elementor's `.elementor img { height: auto }`. Breakpoints: the full menu from 80em, the phone number from 90em, the compact mark below 40em, no emblem below 22.5em.
 JS `masthead.js`: the menu only (v3.2 site.js «1. Phone menu», L22–45): «תפריט» opens it, Esc and «סגירה» close it and focus returns to «תפריט»; a link of the menu or its visit button sets `menu.dataset.nav`, closes it, and the close handler then leaves focus to nh-core.js (the target's heading, research/07 §5.4–5.5).
 Fixture: `default` compare `index.html` `header.nh-header`, `dialog#nh-menu` (expected: the root tag `div`, no emblem chosen); `prototype` (root `header`, the emblem) and `house` (queried post 11, `current_ids` 11 on «הבתים שלנו») — 0 differing lines; `page`, `plain`, `six`, `sparse`, `cta-link` (structure only).
 
@@ -1398,63 +1398,62 @@ Fixture: `default` (as the footer uses it); `prototype` compare `index.html` `fo
 
 ### 5.1 Hooks
 
+*(v3.2 — B1, P1 16.11; research/07 §12.1–12.3. Every part below is printed only when `NH_Site::uses_widgets()`: the requested post, or the Theme Builder header or footer shown on the request, holds one of our widgets, or it is the Elementor preview. The skip link, `main`, Hello's filters and Elementor's Google Fonts are the child theme's.)*
+
 | hook | priority | what |
 |---|---|---|
 | `wp_head` | 1 | `NH_Site::head()`: `<meta name="color-scheme" content="light">`, `<meta name="theme-color" content="#F7F1E7">`, the two font preloads, the cover image preload, the pre-paint script — in this order, before WordPress prints styles (8) and scripts (9) |
 | `body_class` | 10 | add `v3` |
-| `wp_body_open` | 5 | `NH_Site::body_open()`: sprite, skip link, cookie banner (D1). Not in the Elementor preview: the banner |
-| `elementor/page_templates/header-footer/before_content` | 10 | `NH_Site::main_open()`: `<main id="main" class="nh-main" tabindex="-1">` (D2) |
-| `elementor/page_templates/header-footer/after_content` | 10 | `NH_Site::main_close()`: `</main>` |
-| `wp_footer` | 5 | `NH_Site::footer()`: fallback sprite + banner if `wp_body_open` did not run; visit bar (if enabled, not in preview); global live region; queued `footer_once()` parts (lightbox) |
-| `wp_enqueue_scripts` | 20 | `NH_Assets` (§3.2) |
+| `wp_body_open` | 5 | `NH_Site::body_open()`: the sprite (D1) |
+| `wp_footer` | 5 | `NH_Site::footer()`: the sprite if `wp_body_open` did not run; the cookie-settings panel (not in the Elementor preview) — in the flow right after the footer; the global live region |
+| `wp_enqueue_scripts` | 20 | `NH_Assets::enqueue()`: `register()` always, `enqueue_site()` only when `uses_widgets()` (§3.2) |
 | `elementor/documents/register_controls` | 10 | page setting `nh_calm_default` (SWITCHER `מצב רגוע כברירת מחדל בעמוד הזה`, section `נווה האירוס`, tab settings) on page/post documents |
 | `template_redirect` | 10 | when `$_GET['nh_status']` is present: `nocache_headers()` and `define( 'DONOTCACHEPAGE', true )` |
-| `template_include` | `PHP_INT_MAX` | remember the final template file (decides the skip-link target, §5.3); returns it unchanged |
-| `hello_elementor_enqueue_style`, `hello_elementor_enqueue_theme_style`, `hello_elementor_enable_skip_link` | 20 | `__return_false` (`NH_Compat`, D4) |
-| `hello_elementor_page_title` | 20 | `__return_false` on pages built with Elementor |
-| `elementor/frontend/print_google_fonts` | 10 | `__return_false` |
-| `image_editor_output_format` | 10 | if setting `webp_subsizes`: map `image/jpeg` and `image/png` to `image/webp` (WordPress falls back by itself when the server cannot write WebP) |
+| `init` | 5 | `NH_Settings::migrate()` (once per version change; then Elementor's caches are cleared) |
+| `image_editor_output_format` | 10 | only while the setting `webp_subsizes` is on (default off): map `image/jpeg` and `image/png` to `image/webp` |
+| activation / deactivation | — | `NH_Plugin::activate()` / `deactivate()`: Elementor's `files_manager->clear_cache()` (no cached HTML of our widgets outlives the plugin) |
 
 ### 5.2 Head
 
-Font preloads (prototype head L7–8): `<link rel="preload" href="{NH_URL}assets/fonts/frank-ruhl-libre-core-var.woff2" as="font" type="font/woff2" crossorigin>` and the same for `assistant-core-var.woff2`. No `?ver=` (the URL must equal the one in `tokens.css`).
+Font preloads (prototype head): `<link rel="preload" href="{NH_URL}assets/fonts/frank-ruhl-libre-core-var.woff2" as="font" type="font/woff2" crossorigin>` and the same for `assistant-core-var.woff2`. No `?ver=` (the URL must equal the one in `tokens.css`).
 
 Cover preload (`cover_preload()`): on singular pages, read `_elementor_data` of the queried post, walk the element tree depth-first, take the first element with `widgetType` `nh-cover` or `nh-page-cover`, its `settings.photo.id` and `settings.photo_sizes` (or the widget's default sizes); print `NH_Picture::preload( $id, $sizes )` = `<link rel="preload" as="image"[ type="image/avif"] href="{src}" imagesrcset="{avif or img srcset}" imagesizes="{sizes}" fetchpriority="high">`. Nothing if not found. Never fatal on malformed data.
 
-Pre-paint script = prototype head L10–31 printed with `wp_print_inline_script_tag( $js, [ 'id' => 'nh-prepaint', 'data-no-optimize' => '1', 'data-no-defer' => '1', 'data-cfasync' => 'false' ] )` (exclude it from "defer/combine JS" in caching plugins). Changes from the prototype:
+Pre-paint script = the prototype's head script (v3.2: `nh-reduce-motion` from `nh-motion`, `nh-calm`, `?plain=1|0` before `nh-plain`) printed with `wp_print_inline_script_tag( $js, [ 'id' => 'nh-prepaint', 'data-no-optimize' => '1', 'data-no-defer' => '1', 'data-cfasync' => 'false' ] )` (exclude it from "defer/combine JS" in caching plugins). Changes from the prototype:
 1. the first line also skips stored modes inside the Elementor preview (`/[?&]elementor-preview=/.test(location.search)`): editors see the full text by default;
-2. calm default: `var cd = {true|false};` printed from `NH_Site::calm_default()`; `if (get("nh-calm") === "on" || (get("nh-calm") === null && cd)) h.classList.add("nh-calm");`
-3. `pagereveal`: the stored name is applied only to `.v3-cover--page .v3-room[data-vt]` whose `data-vt` equals the stored value (unique names, D11).
+2. calm default: `var cd = {true|false};` printed from `NH_Site::calm_default()`; `if (get("nh-calm") === "on" || (get("nh-calm") === null && cd)) h.classList.add("nh-calm");`.
 
-Everything else is verbatim (`js` class, `nh-reduce-motion` from `nh-motion`, `?plain=1|0` before `nh-plain`, `nh-vt-in`).
+No `js` class, no `pagereveal` / `nh-vt-in` (v3.2: no page transitions, research/07 §4.4 item 2, §12.3).
 
-The scripts `nh-core.js` and widget scripts are deferred footer scripts (§2.4); the prototype's `<script src=… defer>` lines in head L32–33 are not reproduced.
+The scripts `nh-core.js` and widget scripts are deferred footer scripts (§2.4); the prototype's `<script src=… defer>` lines are not reproduced.
 
 ### 5.3 Body open
 
-1. **Sprite** = `partials/sprite.html` reduced to the nine symbols v3 uses: `i-phone`, `i-menu`, `i-close`, `i-arrow-fwd`, `i-arrow-back`, `i-play`, `i-expand`, `i-speech`, `i-sliders` (paths verbatim, same wrapper `svg` with `style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"`).
-2. **Skip link**: `<a class="nh-skip" href="#main">{settings skip_label}</a>`. The target is decided before the body is printed: `NH_Site` hooks `template_include` at `PHP_INT_MAX` (returns the template unchanged and remembers it); if the final template is Elementor's `header-footer.php` (Full Width, where `main_open()` will print `main#main`) the target is `#main`, otherwise `#content` (Hello's `main`). Safety net in `nh-core.js`: if the target does not exist, point the link at the first `main` (adding `id="main"` and `tabindex="-1"` when missing).
-3. **Cookie banner** = `partials/cookies.html` with texts from settings (§7), `hidden` by default, `href="#privacy"` resolved. When the setting `cookie_stats` is empty, the statistics checkbox row is not rendered. Not printed in the Elementor preview.
+1. **Sprite** = `partials/sprite.html` reduced to the six symbols the v3.2 pages use (`NH_Html::ICONS`): `i-phone`, `i-menu`, `i-close`, `i-arrow-fwd`, `i-play`, `i-speech` (paths verbatim, same wrapper `svg` with `style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"`). *(P1 16.11: `i-arrow-back`, `i-expand`, `i-sliders` removed — no widget used them since the lightbox and the display panel went.)*
+2. *(v3.2: the skip link is the child theme's, `wp_body_open` @5 → `#content`; the cookie banner is gone — the panel is in the footer, §5.4.)*
 
 ### 5.4 Footer
 
-1. **Visit bar** = footer L60–63: `<aside class="v2-bar v3-bar" data-bar aria-label="{bar_label}">` + CTA `<a class="nh-btn nh-btn--primary" href="{visit_url}" data-bar-cta>{pair bar_cta}{icon:arrow-fwd nh-btn__icon nh-btn__icon--fwd}</a>` + call button `<a class="nh-btn nh-btn--ghost" href="{tel}" aria-label="{bar_call_label} {display}">{icon:phone nh-btn__icon}</a>`. Only if `show_bar`.
-2. **Global live region** = header L79: `<p class="nh-sr-only" role="status" aria-live="polite" data-announce></p>`.
-3. Parts queued by widgets with `footer_once()` (the lightbox), in queue order.
+1. **Cookie-settings panel** = `partials/cookies.html` (research/07 §9) with the texts from the settings (§7), `hidden` — it never shows itself; `«הגדרות עוגיות»` (`[data-cookie-settings]` or any link of the page to `#nh-cookies`, e.g. the footer's Text Editor) opens it. `href="#privacy"` resolved. Without a statistics text (`cookie_stats`, default `''`) the statistics row is not rendered. Not printed in the Elementor preview.
+2. **Global live region** = header: `<p class="nh-sr-only" role="status" aria-live="polite" data-announce></p>`.
+3. *(v3.2: no visit bar; no parts queued by widgets — `footer_once()` is removed, P1 16.11.)*
 
 ### 5.5 `nh-core.js` contents (porting map)
 
-| feature | from | notes |
-|---|---|---|
-| helpers `store`, `osReduced`, `motionOK`, `announce`, `v3-ready` class | v3.js L14–30, site.js L17–23 | |
-| motion toggle `[data-motion-toggle]` | site.js L25–40 | **delegated** click on `document`; drop L35–36 (GSAP loader) |
-| plain + calm toggles, `sync`, `keepPlace`, URL `plain` param, announcements | v3.js L32–81 | delegated; announcement texts from `nh.data.i18n` |
-| cookie consent (banner, «מה זה אומר?», settings, focus return) | site.js L152–216 | `[data-cookie-settings]` delegated; focus returns to `#main`, else the first `main` (gets `tabindex="-1"` if missing), else `h1`; banner shown when no record or `record.v < nh.data.consent.v` |
-| visit bar | site.js L108–133, v3.js L235–241 | the bar's CTA becomes `#{id}` of the first `.v3-door[id]` on the page if any; hidden while any `.v3-door`, `.nh-footer` or `[data-bar-hide]` is in view; appears after `.v3-cover__cta a` has scrolled above the viewport (fallback 0.9 screen) |
-| `[data-year]` | site.js L457–458 | |
-| `nh.once`, `nh.widget`, `nh.consent`, `nh.syncToggles`, `nh.keepPlace` | v3.js L176–184 + new | §3.12 |
+*(v3.2, P1 16.11: from the rebuilt prototype — site.js and v3.js as numbered in their v3.2 headers.)*
 
-Not ported: site.js L42–57 (v1 story), L97–106 (v1 colour bloom), L252–280 (v1 day track).
+| feature | from (v3.2 prototype) | notes |
+|---|---|---|
+| helpers `store`, `osReduced`, `motionOK`, `announce`, `v3-ready` class | v3.js L12–26, site.js L17–20 | |
+| plain + calm switches, `sync`, `keepPlace`, URL `plain` param, announcements | v3.js «1» L28–76 | **delegated** clicks on `document` (widgets added later work too); announcement texts from `nh.data.i18n`; keepPlace by `:is(.v3-spread, .v3-plainbox-wrap) :is(h1, h2, h3, li, p, figure)`; the focused control is kept when it is in `main`, `footer` or `.nh-footer` |
+| the one appearance `nh.reveal()` | v3.js «2» L78–107 | on `.v3-print[data-reveal]` only (not any `[data-reveal]`, B1); off with reduced motion, calm mode, the old `nh-reduce-motion`, without `IntersectionObserver` and in the Elementor preview |
+| a photo that cannot be shown | v3.js «3» L109–122 | P1: `.v3-room` → `.is-sky`; a print (or its `.v3-gallery > li`) `hidden`; `img.nh-logo__mark` `hidden`, the name stays; the footer's logo is Elementor's own widget (not ours) |
+| the visit buttons, in-page anchors | site.js «2» L47–82 | `a[data-visit-cta]` → `#{id}` of the first `.v3-door[id]`; "same page" by origin, path **and** query; a link in a dialog focuses after the dialog's `close`; a load with `#…` focuses after `load`, unless the visitor moved focus (B1) |
+| cookie settings | site.js «3» L84–139 | the panel opens from `[data-cookie-settings]` or any link of this page to `#nh-cookies`; Save / Close / Esc hide it and return focus to the link (else `main`, else `h1`); `read()` ignores a record older than `nh.data.consent.v`; `hideBanner` kept for voices.js |
+| `[data-year]` | site.js «6» L293 | |
+| `nh.widget`, `nh.consent`, `nh.syncToggles`, `nh.keepPlace`, `nh.reveal` | new | §3.12 |
+
+Elsewhere: site.js «1» (the phone menu) → `masthead.js`; «4» (the video facade) → `voices.js`; «5» (forms) → `nh-forms.js`. Not ported: nothing else is left in the v3.2 site.js / v3.js (v3.2 removed the v1 handlers, the motion switch, the visit bar, the banner's self-show, the morph, the palm swap, the rings, the door's lintel and the lightbox).
 
 ### 5.6 `window.nhData` (`NH_Site::js_data()`)
 
@@ -1616,7 +1615,7 @@ The page also shows a read-only **readiness list** (no writes): recipients set, 
 
 ## 8. Accessibility, RTL, motion and calm rules (every widget keeps them)
 
-These are the prototype's rules (DESIGN-SYSTEM §0, §2, §6; STORYBOARD "Общие правила движения"; prototype README "Проверки v3.1"). A widget that breaks one of them is not done.
+These are the prototype's rules (DESIGN-SYSTEM §0, §2, §6; STORYBOARD "Общие правила движения"; prototype README "Проверки"), as v3.2 «calm» left them (research/07 §4, §7, §17; items 7, 9, 10, 12, 14, 19–28 rewritten by P1, 16.11). A widget that breaks one of them is not done.
 
 **Structure and semantics**
 1. One `h1` per page (the cover). Each spread is a `section` with `aria-labelledby` pointing to its heading; the heading may be `nh-sr-only` (voices). Inside a spread: `h2` for the spread, `h3` for items (verbs, years, steps, stories, features, form title).
@@ -1625,42 +1624,41 @@ These are the prototype's rules (DESIGN-SYSTEM §0, §2, §6; STORYBOARD "Общ
 4. Images: alt from the media library, or the widget's alt override; decorative images `alt=""`. Rooms and prints keep `aspect-ratio`/`width`/`height` so nothing shifts (CLS 0).
 5. Links in running text are underlined (1.4.1); a link's name says where it goes; external links say "(נפתח באתר חיצוני)" to screen readers. No `target="_blank"`.
 6. Buttons that switch a state are `aria-pressed` with a constant label (masthead, panel, menu, footer toggles); the plain box button is an action with a changing label and **no** `aria-pressed`.
-7. Disclosure (display panel): `aria-expanded`/`aria-controls`, focus moves in, Esc and outside click close, focus returns. Menu and lightbox are native `<dialog>` (`showModal`) with focus return; the menu has its own live region because a modal makes the page inert.
+7. The phone menu is a native `<dialog>` (`showModal`), opened only by «תפריט» (`aria-expanded`, `aria-controls`); Esc and «סגירה» close it and focus returns to «תפריט»; a link of the menu closes it and focus goes to the target's heading instead (research/07 §5.4); the menu has its own live region because a modal makes the page inert. *(v3.2: no display panel, no lightbox.)*
 8. Forms: visible labels, `autocomplete`, required marked with a visible `*` (`aria-hidden`) plus the explanation sentence; errors only after submit, then an error summary that receives focus and links to fields, inline errors with `aria-invalid` + `aria-describedby`; nothing jumps on blur; honeypot hidden from everyone (`aria-hidden`, `tabindex="-1"`, off-screen); the consent box is required; the §11 privacy notice sits at the form.
-9. Live announcements (`role="status"`) for display-mode changes; the gallery announces "תמונה n מתוך m" + alt.
+9. Live announcements (`role="status"`) for display-mode changes. *(v3.2: the gallery has no lightbox and announces nothing.)*
 
 **Keyboard and focus**
-10. Every interactive element is reachable in DOM order; skip link first, cookie banner second (first visit).
+10. Every interactive element is reachable in DOM order; the skip link (the child theme's) first. Nothing opens by itself: the cookie panel comes after the footer and only from «הגדרות עוגיות» (research/07 §9). After an in-page link (and on a load with `#…`) focus moves to the target's heading (research/07 §5.5).
 11. Focus is always visible: `:focus-visible { outline: 3px solid var(--nh-focus); outline-offset: 3px }`; on dark/iris/night spreads `--nh-focus` is citrus. Never `outline: none` without a replacement.
-12. Focus is not obscured (2.4.11): `scroll-padding` for the fixed masthead, the visit bar and the cookie banner (main.css L9–13, v3.css L608–610, L632–638) stays.
+12. Focus is not obscured (2.4.11): `html:has(.v3-mast) { scroll-padding-block-start: 6rem }` for the fixed masthead, `1rem` on short screens where the masthead scrolls away (masthead.css; main.css L9–10, v3.css L463–468). *(v3.2: no visit bar, no floating banner.)*
 13. Targets ≥ 44 px (2.5.8): buttons and toggles keep `min-block-size` 2.75rem+.
 
 **RTL and Hebrew**
-14. `lang="he" dir="rtl"` from WordPress; CSS uses logical properties only (`inline-start` = right). Arrows: "forward" points left (`i-arrow-fwd`), hover moves `translateX(-…)`.
+14. `lang="he" dir="rtl"` from WordPress; CSS uses logical properties only (`inline-start` = right). Arrows: "forward" points left (`i-arrow-fwd`) and never moves (v3.2).
 15. Phones, e-mails, `100+`, Latin names are isolated (`.nh-ltr` or `lang="en" dir="ltr"`), phone inputs `dir="ltr"`.
 16. No negative letter-spacing on Hebrew headings; `−0.03em` only on numbers (`v3-year__num`, `v3-stats b`). No italics in Hebrew.
 
 **Text, contrast, zoom**
 17. Only colour pairs from DESIGN-SYSTEM §2 (44 pairs, all AA). Inside a toned spread use the variables (`--nh-text`, `--nh-text-muted`, `--nh-link`, `--nh-focus`, `--v3-ink`), never fixed colours.
 18. No horizontal scroll at 320–2560 px; content reflows at 400% zoom; text spacing overrides (1.4.12) do not clip; breakpoints of the masthead are in `em`.
-19. Forced colours: letters `CanvasText`, rules and door parts `CanvasText`, tessera falls back to a normal ".", toggles keep borders (v3.css L477–488, main.css L419–424).
+19. Forced colours: letters `CanvasText`, rules and door parts `CanvasText`, tessera falls back to a normal ".", toggles keep borders, buttons and «תפריט» get a frame, the current section keeps its bar (v3.2: v3.css L375–389, main.css L437–443).
 
-**Motion (STORYBOARD)**
+**Motion (v3.2: research/07 §4, §17.1; the STORYBOARD's v3.2 tables)**
 
-*(v3.2, B2 16.11: items 20–25 describe v3.1 and are superseded by research/07 §4 — the only motion is the one soft appearance of `figure.v3-print[data-reveal] > picture` (§4.2), hover/focus colour changes and accordions; nothing is pinned (no `position: sticky`), nothing runs on a timer or follows scroll, «הפחתת תנועה» is gone; `build_plugin.py check` rejects the forbidden patterns. To be rewritten in step B5.)*
-20. **Text never moves.** Only letters, lines and photos inside rooms move. No reveals, no split text.
-21. No JS pinning or scroll hijacking. The only pin is CSS `position: sticky` on the home cover (≥ 64em × 43.75em, 150svh) and only when motion is on and plain mode is off.
-22. No infinite loops (2.2.2): time-based motion only for the cover entrance (≤ 1.8 s), the mandala glint (once, 1.7 s) and the door lintel (once, 0.9 s); everything else follows scroll.
-23. Three ways to stop motion, all equivalent: OS `prefers-reduced-motion`, «הפחתת תנועה» (`html.nh-reduce-motion`), «מצב רגוע» (`html.nh-calm`). CSS: main.css L410–417 and v3.css L470–475; JS: every animation checks `nh.motionOK()`; the cover morph listens to `nh:motionchange` / `nh:displaychange`; view transitions are off under reduce/calm (v3.css L614–615, main.css L35–40).
-24. Calm mode also: citrus spread → sand, photos `saturate(.7)`, no progress line, no hover transitions, no smooth scrolling (v3.css L465–468). Pages can default to calm (`nh_calm_default`).
-25. Doors and other "closed until JS" states are closed only when `html.v3-ready` is set (v3.css L431–432): without JS everything is open.
+20. **Nothing moves by itself.** The only motion is: colour on hover and focus — `color`, `background-color`, `border-color`, `text-decoration-color`, and the index rows' backdrop `opacity`, at most 150 ms `ease` (the 1 → 2 px underline changes at once); the **one soft appearance** of a print's photo frame; the `+` of a native `<details>` accordion (200 ms; no widget has one). `transform`, size and position never change on hover or focus; arrows never move; the focus ring has no transition; switches, the menu, the cookie panel and the video's consent open and close at once.
+21. **The one appearance** (research/07 §4.2): `figure.v3-print[data-reveal] > picture` (never the caption, text, headings, letters, the cover, forms, buttons, the video, the mandala or the palm): `opacity 0 → 1` and `translateY(8px) → none`, 320 ms `var(--nh-ease-out)`, once (`unobserve`), when ≥ 15 % of the print is on screen **and** its image has loaded (`load`/`error`, safety 2500 ms). A print on or above the screen at the observer's first report is never hidden; nothing is hidden without JS, without `IntersectionObserver` or in the Elementor preview. CSS in base.css (`.v3-print[data-reveal]` only), JS `nh.reveal()` in nh-core.js. A widget's print carries `data-reveal`; no widget script animates anything.
+22. **Forbidden everywhere** (research/07 §1.2, §4.4): pinning (`position: sticky`, scroll-driven pins), scroll listeners and scroll hijacking, `requestAnimationFrame` loops, `ResizeObserver`, timers that move things, smooth scrolling (`scroll-behavior: smooth`, animated scroll to anchors — an anchor is reached at once, research/07 §5.5), view transitions, `@keyframes`, `animation-timeline`, `@property`, parallax, carousels, cursor effects, split or animated letters, counters, infinite loops, self-opening popups or banners, a second fixed layer (the masthead is the only one). `build_plugin.py check` refuses them in the plugin's CSS and JS; `shots.mjs --behaviour` measures what really runs (§11.4).
+23. **Ways to stop the appearance**, all equivalent: OS `prefers-reduced-motion`, «מצב רגוע» (`html.nh-calm`), and the v3.1 choice still found in some visitors' storage (`nh-motion` = `reduce` → `html.nh-reduce-motion`, set by the pre-paint script; the switch itself is gone). CSS: base.css (main.css L427–435 scoped to our parts, and the reveal block shows anything still waiting at once without a transition); JS: `nh.motionOK()`.
+24. **Calm mode** also: the honey spread (`--citrus`) → sand, our photos `saturate(.7)` (not the masthead's emblem: the logo is never recoloured), no appearance. Pages can default to calm (`nh_calm_default`). The masthead never changes while the page scrolls (no shadow, theme, running head or progress line).
+25. Without JS everything is shown: no state is "closed until JS" in v3.2 (the door is drawn open, `--open: 1`); `html.v3-ready` only marks that nh-core.js ran.
 
 **Plain language**
 26. `html.nh-plainmode` set before first paint (pre-paint script, `?plain=1`, stored choice); `.v3-plain` hidden unless plain mode, `.v3-full` hidden in plain mode (v3.css L442–444). The place of reading is kept when switching (`keepPlace`).
-27. Big letters fold in plain mode (cover ב beside the words; ל, steps word, שמיים, swatches hidden; kaf letter smaller) — those rules live in the widgets' CSS (§4).
+27. Big letters fold in plain mode (the cover's ב beside the words, its title at D-M; ל and שמיים hidden; the כ smaller) — those rules live in the widgets' CSS (§4). Plain mode adds no sizes (research/07 §7.1): its texts are at the plain step.
 
 **Performance**
-28. The cover photo is the LCP element: `loading="eager" fetchpriority="high"`, preloaded in head; never animate its opacity. Everything else lazy. Scripts deferred; no layout reads during load (the prototype uses IntersectionObserver/ResizeObserver and measures in rAF).
+28. The cover photo is the LCP element: `loading="eager" fetchpriority="high"`, preloaded in head; it never appears softly. Everything else lazy, with `width`/`height` (CLS 0). Scripts deferred; one `IntersectionObserver` (the reveal), no `ResizeObserver`, no scroll listener, no layout reads in loops. A photo that cannot be shown leaves no hole (nh-core.js: the room shows its sky, a print or its gallery cell is hidden, research/07 §8.3 item 4).
 
 ---
 
@@ -1668,74 +1666,61 @@ These are the prototype's rules (DESIGN-SYSTEM §0, §2, §6; STORYBOARD "Общ
 
 Every line of `main.css`, `v3.css`, `site.js`, `v3.js` has exactly one destination or is listed as not ported. "→ widget" refers to the CSS/JS lines in §4.
 
-*(v3.2, B2 16.11: this map is the v3.1 one. Motion, view transitions, the visit bar, the running head, `.nh-wordmark` and the colophon are gone (the §14 tables of B1 and B2 list what changed); the map is redone against the v3.2 prototype with the markup port (step B4) and the documents (step B5).)*
+*(v3.2, P1 16.11: redone against the rebuilt v3.2 prototype; line numbers are those of `prototype/assets/css/main.css`, `v3.css` and `assets/js/site.js`, `v3.js` as rebuilt by track A on 16.11 (research/07 §15 A1–A4), v3.css with the line the integrator added at L260 (`.v3-video .nh-btn-row`, commit 6d887f7). The v3.1 map is in git history. Every block of base.css and letters.css names these lines in its comment.)*
 
-### 9.1 `base.css` (core; site-wide), in this order
+### 9.1 `base.css` (core; our widgets only — research/07 §12.4), in this order
 
 | # | source | content |
 |---|---|---|
-| 1 | main.css L6–33 | reset (includes L9 `html` scroll padding and L10–13 cookie-banner scroll padding) |
-| 2 | — | (no separate row: L10–13 are part of row 1) |
-| 3 | main.css L35–40 | smooth in-page scrolling, `@view-transition` |
-| 4 | main.css L51–64 | `.nh-sr-only`, `.nh-skip`, focus, `.nh-ltr` |
-| 5 | main.css L66–90 | typography (`h1–h4`, `.nh-h1…`, `.nh-lead`, `.nh-muted`, `.nh-small`, `.nh-eyebrow`, `.nh-prose`, `a`, `strong`) |
-| 6 | main.css L99–114 | layout (`.nh-container`, `.nh-section*`, `.nh-on-dark`, `.nh-section__head`, `.nh-stack`) |
-| 7 | main.css L116–143 | buttons and arrow links (with the §10 specificity change for `a.nh-btn--ghost`) |
-| 8 | main.css L244–263 | cookie banner |
-| 9 | main.css L410–417 | reduced motion (OS and on-site) |
-| 10 | main.css L419–424 | forced colours: only `.nh-btn` (drop `.nh-round-btn`, `.nh-arch`, `.nh-frame`, `.nh-hl`; `.nh-menu-btn` → masthead, `.nh-lightbox__btn` → gallery) |
-| 11 | main.css L426–430 | print: `.nh-cookies` and `.nh-section--night, .nh-on-dark` rules only (`.nh-header, .nh-menu` → masthead, `.nh-video` → voices; drop `.nh-day__controls`, `.nh-cta`, `body::after`) |
-| 12 | v3.css L10–22 | v3 tokens, `.v3` variables, mast height |
-| 13 | v3.css L24–28 | square buttons, `.nh-btn--ink` (with the §10 specificity change) |
-| 14 | v3.css L80–92 | `.v3-toggle`, `.v3-menu-toggles`, `.v3-footer-toggles`, on-dark toggles |
-| 15 | v3.css L94–104 | spreads, tones, `.v3-rule`, `.v3-h2`, `.v3-lead`, `.v3-note`, `.v3-credit` |
-| 16 | v3.css L106–116 | `.v3-dot` tessera |
-| 17 | v3.css L162 | `@media (min-width: 112.5em) { .v3 { --nh-max: 110rem; } }` |
-| 18 | v3.css L234–241 | `main { counter-reset: print }`, `.v3-print*` |
-| 19 | v3.css L252–253 | shared two-column grids (kaf, samekh, lamed, door, voices) |
-| 20 | v3.css L336–340 | `.v3-quote` |
-| 21 | v3.css L372–379, L552–557 | `.v3-roles` (lamed, related) |
-| 22 | v3.css L439, L490–491, L598–610 | visit bar (`.v3-bar`, `.v2-bar`, `.is-typing`, `html.nh-has-bar`, cookie interplay) |
-| 23 | v3.css L441–444, L445 (first two selectors), L446–448, L451 | plain mode, general rules |
-| 24 | v3.css L465–467 | calm mode, general rules |
-| 25 | v3.css L470–475 | reduced-motion transitions: `.v3-toggle i`, `.v3-toggle i::after`, `.v3-roles svg` only |
-| 26 | v3.css L477–488 | forced colours, base selectors only: `.v3-toggle i`, `.v3-toggle[aria-pressed="true"] i`, `.v3-dot`, `.v3-dot::before`, `.v3-rule` (from the L484 group), `.v3-print picture` (`.v3-letter__ink` → letters.css; `.v3-progress`, `.v3-plainbtn`, `.v3-display__btn` → masthead; `.v3-door__bar`, `.v3-door__leg` → door) |
-| 27 | v3.css L581–583 | `.v3 .nh-btn` wraps on narrow phones (`.v3-plainbox` part → plainbox) |
-| 28 | v3.css L587–590 | `.nh-wordmark` |
-| 29 | v3.css L612–615 | page transitions, generalised: `::view-transition-group(*.nh-bet) { animation-duration: .6s; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }` + the reduce/calm `animation: none` rules |
-| 30 | v3.css L632–638 | short screens: `.v2-bar { display: none !important }` and `html { scroll-padding-block: 1rem }` (`.v3-mast` → masthead) |
-| 31 | v3.css L644–645 | `.nh-cookies { view-transition-name: nh-cookies; }` |
-| 32 | new | `.nh-admin-note` (dashed 1px border, small text, paper background) and the Elementor/Hello compatibility block (§10.1) |
-
-**Changed by the core (16.11): row 32 is printed right after row 5**, not last. `.elementor a:where(:not([class])) { text-decoration: underline }` has the specificity of Elementor's `.elementor a` (0,1,1) and must win over it (it does: base.css loads after Elementor's CSS), but it has the same specificity as the component rules below it — `.v3-roles a { text-decoration: none }` (row 21) and others — and as the last rule it beat them: every row of the ל list and of the related links was underlined (found in the screenshot comparison). Printed after the typography, it beats Elementor and loses to every component rule. Widget CSS files load after base.css and are not affected. In base.css every block names its source lines (`/* ---- v3.css L372–379 ---- */`) and porting changes are marked `plugin:`.
+| 1 | main.css L6–30 | reset, every element rule scoped with `:where([class*="elementor-widget-nh-"], .nh-cookies)` (zero specificity); what `body` gives the prototype's page (L11–22: font, size, `var(--nh-lh-body)`, weight, colour) is given to our parts; `html`/`body` themselves, `scroll-padding` (L9–10 → masthead.css) are not ours |
+| 2 | main.css L32–33 | (v3.2: no smooth scrolling, no page transitions — nothing to port) |
+| 3 | main.css L35–49 | `.nh-sr-only`, the focus rings (scoped), `.nh-ltr` (inline); `.nh-skip` → the child theme |
+| 4 | main.css L51–75 | typography (`h1–h4` scoped, `.nh-h1…`, `.nh-lead`, `.nh-muted`, `.nh-small`, `.nh-eyebrow`, `.nh-prose`, `a`/`strong` scoped) |
+| 5 | new | `.nh-admin-note` and the Elementor compatibility block (§10.1) — right after the typography (§10.1) |
+| 6 | main.css L84–99 | layout (`.nh-container`, `.nh-section*`, `.nh-on-dark`, `.nh-section__head`, `.nh-stack`) |
+| 7 | main.css L101–131 | buttons (§7.2 of research/07: one radius, a 2px border frame through `--_bd`, colour transitions 150 ms, still arrows) and arrow links |
+| 8 | main.css L312–322 | the cookie-settings panel (in the flow after the footer, aligned to the container's start edge); plugin: its check rows lay themselves out (main.css L346–347: forms.css is not loaded without a form) |
+| 9 | main.css L427–435 | reduced motion: the OS setting, calm mode and the old `nh-reduce-motion` — scoped to our parts (the system-wide rule is the theme's) |
+| 10 | main.css L437–443 | forced colours: `.nh-btn` (`.nh-menu-btn` and the nav bar → masthead; `.nh-round-btn`, `.nh-arch`, `.nh-frame`, `.nh-hl` not ported) |
+| 11 | main.css L445–449 | print: `.nh-cookies`, `.nh-section--night, .nh-on-dark` (`.nh-header, .nh-menu` → masthead, `.nh-video` → voices; `.nh-cta` not ported) |
+| 12 | v3.css L1–11 | the header comment |
+| 13 | v3.css L13–38 | `--v3-ink`, `--v3-iris-text`, `--v3-toggle-dark`; the nine-step type scale, `--v3-pad`, `--v3-hair`, `--v3-mast` and `counter-reset: print` on `.v3`; plugin: no `background` on `.v3` (the theme paints the page) |
+| 14 | v3.css L40–58 | the switches (`.v3-toggle`, its state words, the square track and thumb, on dark); plugin: the groups (`.v3-switches`, L55) → masthead.css / display.css; sizes keep a fallback |
+| 15 | v3.css L60–70 | spreads and tones (citrus = «honey»), `.v3-rule`, `.v3-h2`, `.v3-lead`, `.v3-note` |
+| 16 | v3.css L72–82 | `.v3-dot` tessera |
+| 17 | v3.css L179–186 | the print: 4:3, ≤ 21rem, ink frame, numbered caption |
+| 18 | v3.css L191–192 | the shared two-column grids (kaf, samekh, lamed, door, voices) |
+| 19 | v3.css L249–253 | `.v3-quote` (voices; features adds `--page`) |
+| 20 | v3.css L281–288 | `.v3-roles` (lamed, related): still arrows, rows ≥ 64px, the title underlined 2px on hover/focus |
+| 21 | v3.css L425–432 | the rows on phones (`max-width: 40em`); L426 (`.v3-related …`) → related |
+| 22 | v3.css L343–354 | plain mode, general rules (`main` → our widgets; `.nh-cookies .v3-plain p`); the selectors of one widget go to its CSS (`.v3-cover__call` → cover, `.v3-home__who` → homes, `.nh-form__note` → forms) |
+| 23 | v3.css L370–373 | calm mode: honey → sand; `saturate(.7)` on our widgets' photos except the masthead's emblem (the prototype's `main img`) |
+| 24 | v3.css L375–389 | forced colours, base selectors: switches, tessera, `.v3-rule`, `.v3-print picture` (`.v3-letter__ink` → letters; `.v3-plainbtn` → masthead; `.v3-door__bar/__leg` → door; `.nh-video__btn` → voices) |
+| 25 | v3.css L443–447 | long button labels wrap on narrow phones (`.v3 .nh-btn`; `.v3-plainbox` → plainbox) |
+| 26 | v3.css L470–481 | the one appearance (research/07 §4.2) — plugin: on `.v3-print[data-reveal]` only |
 
 ### 9.2 Other core CSS
 
-- `letters.css`: v3.css L118–129 (`.v3-room`, `.v3-room__photo`, `.v3-room__photo img`, `.v3-room__field--sky`, `.v3-letter`, `.v3-letter__ink`), L280–282 (`.v3-room__photo--whole`, `.v3-room__work`, `.v3-room__work img`), from L479 `.v3-letter__ink { fill: CanvasText; }` (forced colours).
-- `forms.css`: §6.5.
-- `tokens.css`: verbatim copy (no edits).
+- `letters.css`: v3.css L84–97 (`.v3-room`, `.v3-room__photo`, its `img`, the quiet sky `.v3-room__field--sky` **and** `.v3-room.is-sky` with its `img` at opacity 0 — a room whose photo cannot be shown; `.v3-letter`, `.v3-letter__ink`), L210–212 (`.v3-room__photo--whole`, `.v3-room__work`, its `img`), L377 (`.v3-letter__ink { fill: CanvasText; }`, forced colours).
+- `forms.css`: §6.5 (package door).
+- `tokens.css`: verbatim copy (no edits; `build_plugin.py sync`).
+- Widget CSS (§4; v3.css unless named, plus each widget's plain-mode selectors of L343–368): cover L99–132, L351, L355–362; page-cover main.css L364–371, v3.css L392–393; homes L134–156; plainbox L158–167, L423, L446; day L169–177; kaf L188–201 (without L191–192 → base); samekh L203–223 (without L210–212 → letters); years L225–242; voices main.css L254–273, v3.css L244–266 (without L249–253 → base, L263–266 → features), L388; steps L268–274; lamed L276–295 (without L281–288 → base); door L297–337, L384; glance L394–406; gallery L407–411; features L263–266, L412–416; stories L417–422; related L426; masthead main.css L133–252, L439–440, L447, v3.css L55, L385–386, L455–457, L463–468.
 
 ### 9.3 Not ported (stay in the prototype)
 
-main.css L42–49 (paper grain; v3 switched it off — and v3.css L640–642 with it), L92–97 (`.nh-hl`), L207–214 (`.nh-motion-toggle`), L307–324 and L344–354 (`.nh-page-hero`, `.nh-glance`, `.nh-features`, `.nh-feature`, `.nh-steps`, `.nh-related` — v1 inner page), L379–401 (design-system page helpers), L402–408 (`.nh-accordion`, no widget uses it); v3.css L559–566 (design-system page), L617–618 (empty comment); all of `legacy-v1.css`; `site.css` (generated). JS: site.js L35–36, L42–57, L97–106, L252–280; the design-system page script.
+main.css L77–82 (`.nh-hl`), L275–310 (the footer: on the site it is Elementor's own widgets, research/07 §12.6; the child theme styles its links), L324–362 (forms → forms.css, jobs grid → jobs-form.css: package door), L373–395 (`.nh-page-hero`, `.nh-glance`, `.nh-features`, `.nh-steps` — v1 inner page), L396–418 (design-system page helpers), L419–425 (`.nh-accordion`: no widget has one); v3.css L339–341 (colophon credits), L434–441 (design-system letters), L449–453 (`.nh-wordmark`, design-system only), L459–461 (`.v3-dev`, the footer's credit); all of `legacy-v1.css`; `site.css` (generated). JS: the design-system page script; nothing else is left in the v3.2 `site.js` / `v3.js` (§9.4).
 
 ### 9.4 JS destinations
 
-| source | destination |
+| source (v3.2 prototype) | destination |
 |---|---|
-| head.html L10–31 | pre-paint script (§5.2) |
-| site.js L12–23, L25–40, L108–133, L152–216, L457–458; v3.js L14–30, L32–81, L176–184, L235–241 | `nh-core.js` |
-| site.js L339–455 | `nh-forms.js` |
-| v3.js L116–173 | `cover.js` |
-| site.js L59–95, L135–150; v3.js L83–114 | `masthead.js` |
-| v3.js L226–233 | `homes.js` |
-| v3.js L188–224 | `kaf.js` |
-| v3.js L185 | `samekh.js` |
-| v3.js L186 | `door.js` |
-| site.js L218–250 | `voices.js` |
-| site.js L282–337 | `gallery.js` |
+| head (the pre-paint script) | `NH_Site::prepaint_js()` (§5.2) |
+| site.js L17–20, «2» L47–82, «3» L84–139, «6» L292–293; v3.js L12–26, «1» L28–76, «2» L78–107, «3» L109–122 | `nh-core.js` (§5.5) |
+| site.js «1» L22–45 (the phone menu) | `masthead.js` |
+| site.js «4» L141–172 (the video facade) | `voices.js` |
+| site.js «5» L174–290 (forms) | `nh-forms.js` (§6.4) |
 
-*(v3.2, B2 16.11, research/07 §4.4, §11.1, §13: `cover.js`, `homes.js`, `kaf.js`, `samekh.js`, `door.js` and `gallery.js` are deleted with what they moved; `masthead.js` keeps only the menu (prototype site.js «1. Phone menu», with `menu.dataset.nav`); `voices.js` is unchanged; nh-core.js has no `nh.once` any more. The build check refuses a `"scroll"` listener, `ResizeObserver` and view transitions in the plugin's scripts.)*
+*(v3.2, B2 16.11, research/07 §4.4, §11.1, §13: `cover.js`, `homes.js`, `kaf.js`, `samekh.js`, `door.js` and `gallery.js` are deleted with what they moved; nh-core.js has no `nh.once` any more. The build check refuses a `"scroll"` listener, `ResizeObserver` and view transitions in the plugin's scripts.)*
 
 ---
 
@@ -1822,7 +1807,7 @@ return [
   - Hook order as on a real site: `elementor/loaded` (Elementor is included before us), `plugins_loaded`, `init`, the two Elementor registration hooks, `wp_enqueue_scripts`. Each render is a fresh request (`nh_test_reset_request()`): options, transients, `$_GET`/`$_POST`, the user's capabilities, the queried post (10) and the plugin's per-request statics are reset; hooks, handles and media stay.
   - The stub `Widget_Base` refuses what §2.2 forbids: controls outside a section, a section on another tab than content, a duplicate control id, a type outside the subset, `selectors`, `dynamic`, a URL control without `'options' => false`. Controls whose `condition` is not met read as `null` (as in Elementor). Missing repeater fields get their field defaults.
   - Assertions, refined: a widget is a *spread* when its root element is a `<section>` (the colophon and masthead use the section controls for their running head but are not spreads); an `svg` may also rely on an `aria-hidden` ancestor (`NH_Html::icon( …, false )`); the forbidden-pattern scan ignores the fixture photos' base path; links without `href` are reported as warnings; the controls section «מקטע» must be the last one.
-  - *(v3.2, B2 16.11:)* a `style` attribute is allowed only on a letter's room (`.v3-room`, research/07 §13 «Стенд»: no swatches any more); a spread root with `data-header` / `data-running` fails (B1); the global ids are the theme's `main#content`, the masthead's `nh-menu` / `nh-menu-title` and the cookie panel's; a fixture variant may set `'queried' => <post id>` (the post being shown: 10 = the home page, 11 = «מעון ראשי», 12 = the jobs page; default 10) and `'empty' => true` (the settings leave nothing to show: the render must be empty, e.g. `display/none`); `fixtures/pages.php` may set `queried` per page (the house page is 11). The assembled pages have the masthead in the header slot and, in the footer slot, the `display` widget — the one widget of ours in the footer of Elementor's own widgets.
+  - *(v3.2, B2 16.11:)* a `style` attribute is allowed only on a letter's room (`.v3-room`, research/07 §13 «Стенд»: no swatches any more); a spread root with `data-header` / `data-running` fails (B1); the global ids (`NH_TEST_GLOBAL_IDS`, P1 16.11) are those printed outside any widget on every page that uses ours: the theme's `content` and the cookie panel's `nh-cookies`, `nh-cookies-title`, `nh-c-media`, `nh-c-stats` (no `main`: there is no `main#main`; the masthead's `nh-menu` / `nh-menu-title` are inside its own render, so a masthead whose button points at a menu it did not print fails); a fixture variant may set `'queried' => <post id>` (the post being shown: 10 = the home page, 11 = «מעון ראשי», 12 = the jobs page; default 10) and `'empty' => true` (the settings leave nothing to show: the render must be empty, e.g. `display/none`); `fixtures/pages.php` may set `queried` per page (the house page is 11). The assembled pages have the masthead in the header slot and, in the footer slot, the `display` widget — the one widget of ours in the footer of Elementor's own widgets. *(P1 16.11:)* every test page's `body` has Elementor's page classes (`elementor-default elementor-page elementor-page-{queried}`, as on a page built with Elementor — without them the child theme's layout for other pages, `body:not([class*="elementor-page-"]) .site-main`, squeezed `main` to 50rem); the header slot is in Pro's location wrapper (`div.elementor-location-header`), the footer slot in `footer.elementor-location-footer` together with a stand-in of the site's Text Editor list holding «הגדרות עוגיות» (`href="#nh-cookies"`, as templates/pages/footer.json), so the panel is opened from the footer as on the site.
   - The stub `esc_url()` keeps relative paths starting with `.` (WordPress would prefix `http://`; real attachment URLs are absolute), `wp_kses()` keeps the text of removed tags as WordPress does, `sanitize_file_name()` keeps letters of any script, and the fake media library's full size is the original upload (manifest width × height) while its file is the largest derivative.
   - Options: `run.php --widget=<id> | --core-only | --suite=<name> | --no-pages | --no-core | --verbose`; `render.php <id> [variant] [--page] [--plain] [--out]`. Each render also writes `out/<id>--<variant>.json` (its compare target) for compare.py. Assertion helpers for core tests (`nh_assert()`, `nh_assert_same()`, `nh_assert_contains()`, `nh_assert_not_contains()`) live in bootstrap.php.
   - `fixtures/pages.php`: per page `title`, `prototype`, `header` and `footer` ([ id, variant ]) and `widgets` (a list of [ id, variant ]; a missing variant falls back to `prototype`, then `default`; a missing widget becomes an HTML comment). The options and `$_GET` of all chosen variants are merged; the page's `_elementor_data` is built from the list, so the head's cover preload is exercised too.
@@ -1841,9 +1826,9 @@ With `$overrides = []` this is exactly the output an editor sees after dropping 
 
 `python3 -I plugin/tests/compare.py <id> [variant]` reads `out/<id>--<variant>.html` and the built prototype page named in the fixture, selects the target elements, and compares normalised trees: tag names; class **sets**; attributes except `id`, `for`, `aria-labelledby`, `aria-describedby`, `aria-controls` (presence only), `src`/`srcset`/`sizes`/`width`/`height` (presence only), `href` (fragment only, or "URL"), `action`, `style` (custom properties compared numerically ± 0.01), `data-vt`, `data-src`, `data-srcset`, `data-avif`, `data-name`, `data-work`, `data-full`, `data-caption-plain`, `data-count`, `data-running-plain`; ignored elements: `input[type=hidden]`, `script`, `.nh-admin-note`; text with collapsed whitespace. The normalised tree is printed one node per line (`tag.class.class [attr=value] …` for elements, `"text"` for text, indented by depth); `compare.py` prints the unified diff of the two trees and exits 0 when every differing line matches one of the fixture's `expect_diff` regular expressions. The "expected differences" listed per widget in §4 are what those expressions must cover — nothing more.
 
-*(Core, 16.11 — the exact format, so fixture authors can write the expressions.)* One line per node, two spaces of indent per depth. An element: `tag` + `.class` for each class, **sorted**, then its attributes sorted by name: `[name=value]`, or `[name]` for the presence-only ones and for empty values; `href` becomes `[href=#fragment]` or `[href=URL]`; `style` becomes `[style=--a:1.00%;--b:2.00%…]` (properties sorted, numbers with two decimals; two lines that differ only by numbers within ±0.01 are equal). A text node: its JSON string, whitespace collapsed and trimmed next to non-inline neighbours. A **whitespace-only** text node is kept (as `" "`) only in running text: between two inline elements/texts inside an element that also has text of its own — formatting whitespace between blocks, flex/grid items or an icon and its label is not compared. Diff lines start with `-` (prototype) or `+` (plugin) followed by the indented node, e.g. `-          img [alt=…] [decoding=async] …`; `expect_diff` entries are Python regular expressions matched with `re.search` (an invalid expression — prose — fails the compare with a message; patterns that match nothing are reported). A selector that finds nothing in the plugin output is retried without its tag (`header.nh-header` → `.nh-header`), so a changed root tag shows as one diff line. *(v3.2, B2 16.11: a selector may be a descendant selector of such parts, `footer.nh-footer .v3-switches`; in the plugin output, which has no surroundings, it falls back to its last part. `compare.py --prototype-letter-data [NAMES]` prints the build script's `letter_data()`, for the core test of `NH_Letters::data_script()` now that no page prints `#nh-letters`.)* More: `compare.py <id> --all` (every variant with a target), `compare.py --tree FILE [SELECTOR]` (print a normalised tree), `compare.py --prototype-letters` (the build script's letter output, for the parity test).
+*(Core, 16.11 — the exact format, so fixture authors can write the expressions.)* One line per node, two spaces of indent per depth. An element: `tag` + `.class` for each class, **sorted**, then its attributes sorted by name: `[name=value]`, or `[name]` for the presence-only ones and for empty values; `href` becomes `[href=#fragment]` or `[href=URL]`; `style` becomes `[style=--a:1.00%;--b:2.00%…]` (properties sorted, numbers with two decimals; two lines that differ only by numbers within ±0.01 are equal). A text node: its JSON string, whitespace collapsed and trimmed next to non-inline neighbours. A **whitespace-only** text node is kept (as `" "`) only in running text: between two inline elements/texts inside an element that also has text of its own — formatting whitespace between blocks, flex/grid items or an icon and its label is not compared. Diff lines start with `-` (prototype) or `+` (plugin) followed by the indented node, e.g. `-          img [alt=…] [decoding=async] …`; `expect_diff` entries are Python regular expressions matched with `re.search` (an invalid expression — prose — fails the compare with a message; patterns that match nothing are reported). A selector that finds nothing in the plugin output is retried without its tag (`header.nh-header` → `.nh-header`), so a changed root tag shows as one diff line. *(v3.2, B2 16.11: a selector may be a descendant selector of such parts, `footer.nh-footer .v3-switches`; in the plugin output, which has no surroundings, it falls back to its last part. (P1 16.11: `--prototype-letter-data` is gone with `NH_Letters::data_script()`.))* More: `compare.py <id> --all` (every variant with a target), `compare.py --tree FILE [SELECTOR]` (print a normalised tree), `compare.py --prototype-letters` (the build script's letter output, for the parity test).
 
-`shots.mjs` (optional, Node 22 + the globally installed Playwright 1.63 and `/usr/bin/google-chrome`): serves the repository on a local port, opens `out/page-home.html` and `prototype/index.html` (and the house page pair) at 1440×900 and 390×844, normal / `?plain=1` / reduced motion, with consent pre-set in `localStorage`, takes full-page screenshots into `out/shots/`, computes the share of differing pixels in the browser (canvas) and writes `out/shots/report.json`. Target: < 1 % per pair; any difference above that is explained in the package report. *(v3.2, B2 16.11: `--behaviour` now runs 41 checks on `out/page-home.html` in Chrome: nothing opens or moves by itself (`document.getAnimations()` empty), no `scroll`/`resize` listener on window or document (CDP), every `[data-visit-cta]` leads to `#door`, no running head / progress line / display panel / visit bar, the cookie panel (a link to `#nh-cookies` opens it in the flow with focus on its title; Esc and Save hide it and return focus; the choice is stored), focus on the target's heading after an in-page link and after a link of the phone menu (not on «תפריט»), the menu (opened only by «תפריט»; Esc and «סגירה» return focus), the one soft appearance (prints below the first screen wait, captions never hidden, every print shown after a slow scroll, nothing runs afterwards, nothing hidden with reduced motion), the display switches and announcements, and the visit form as before. The morph, the visit bar and the banner's self-show are no longer tested: they are gone.)* *(Core: before each shot the page is walked once and every image is decoded (lazy images otherwise race the screenshot); `node plugin/tests/shots.mjs --behaviour` runs 25 checks of the core scripts on `out/page-home.html` in Chrome — consent and focus return, the display switches and announcements, validation, the token refresh, the server answers mocked (invalid, sent, limited, network error), the visit bar, the cover morph. First results, all 20 widgets assembled: desktop 0.01–0.04 % on both pages in all three modes; phone plain 0.04–0.06 %; phone normal/reduced 1.8 % / 2.7 % only because the test settings' public e-mail is shorter than the prototype's address — the privacy note under the door form is one line shorter and everything below moves up 25 px.)*
+`shots.mjs` (optional, Node 22 + the globally installed Playwright 1.63 and `/usr/bin/google-chrome`): serves the repository on a local port, opens `out/page-home.html` and `prototype/index.html` (and the house page pair) at 1440×900 and 390×844, normal / `?plain=1` / reduced motion, with consent pre-set in `localStorage`, takes full-page screenshots into `out/shots/`, computes the share of differing pixels in the browser (canvas) and writes `out/shots/report.json`. Target: < 1 % per pair; any difference above that is explained in the package report. *(v3.2, B2 16.11: `--behaviour` now runs 41 checks on `out/page-home.html` in Chrome: nothing opens or moves by itself (`document.getAnimations()` empty), no `scroll`/`resize` listener on window or document (CDP), every `[data-visit-cta]` leads to `#door`, no running head / progress line / display panel / visit bar, the cookie panel (a link to `#nh-cookies` opens it in the flow with focus on its title; Esc and Save hide it and return focus; the choice is stored), focus on the target's heading after an in-page link and after a link of the phone menu (not on «תפריט»), the menu (opened only by «תפריט»; Esc and «סגירה» return focus), the one soft appearance (prints below the first screen wait, captions never hidden, every print shown after a slow scroll, nothing runs afterwards, nothing hidden with reduced motion), the display switches and announcements, and the visit form as before. The morph, the visit bar and the banner's self-show are no longer tested: they are gone.)* *(P1 16.11: 57 checks — added: no morph data, page-transition names, rings or palm swap; the cookie panel opened by the footer's own link (no data attribute), in the flow right after the footer with no shadow or animation, closed by Esc, «סגירה» and Save, the stored choice shown when opened again; the appearance never in calm mode and never for a print on screen after a reload mid-page; **what really moves** — `transitionrun`/`animationstart` recorded while every link and button is hovered, 60 Tab stops and a scroll down and up: every run is a colour (or opacity) of ≤ 150 ms or the photo frame's appearance (320 ms), no animation (research/07 §17.1); a landing with `#homes` focuses its H2; on the house page every visit button leads to `#visit` and «הבתים שלנו» is the current section; images off — the cover's room shows its sky, the gallery's cells are hidden, the emblem goes and the name stays. The screenshots hide both footers before comparing: the prototype's is its own markup, the site's is Elementor's own widgets.)* *(Core: before each shot the page is walked once and every image is decoded (lazy images otherwise race the screenshot); `node plugin/tests/shots.mjs --behaviour` runs 25 checks of the core scripts on `out/page-home.html` in Chrome — consent and focus return, the display switches and announcements, validation, the token refresh, the server answers mocked (invalid, sent, limited, network error), the visit bar, the cover morph. First results, all 20 widgets assembled: desktop 0.01–0.04 % on both pages in all three modes; phone plain 0.04–0.06 %; phone normal/reduced 1.8 % / 2.7 % only because the test settings' public e-mail is shorter than the prototype's address — the privacy note under the door form is one line shorter and everything below moves up 25 px.)*
 
 ### 11.5 Core unit tests (`plugin/tests/core/*.test.php`)
 
@@ -1853,7 +1838,7 @@ Files: `letters.test.php`, `text.test.php`, `picture.test.php`, `forms.test.php`
 2. `NH_Text`: the five states for `pair()` and `block()` (table-driven), `dot()` variants and the "only the final dot" rule, `lines()`, kses allowlist, link tokens, `tokens()` (`{phone}`, `{email}`, `{contact}`, `{year}`) with and without the public e-mail.
 3. `NH_Picture`: output for a fixture image (AVIF source present), decorative, alt override, priority, missing attachment → `''`.
 4. `NH_Forms::handle()`: honeypot → `sent` and no mail; bad nonce → `expired`; too fast → `sent`, no mail; stale → `expired`; 6th request in 10 min → `limited`; invalid fields → `invalid` with the right codes; empty recipient → `off`, no mail; success → one mail with the right headers; CV → attached under `cv-YYYY-MM-DD.pdf`, temp file deleted, media functions never called; nothing written to options except the `nh_rl_*` transient.
-5. `NH_Site`: head output order (meta, preloads, script), pre-paint script contains the storage keys, `?plain` handling and `pagereveal`; body-open output = sprite + skip link (`#main` vs `#content`) + hidden banner; footer output = bar + live region + queued parts; preview mode prints no banner.
+5. `NH_Site`: head output order (meta, preloads, script), pre-paint script contains the storage keys and `?plain` handling (v3.2: no `pagereveal`, no `js` class); body-open output = the sprite only (the six symbols of `NH_Html::ICONS`); footer output = sprite fallback + the hidden cookie panel + live region, nothing on a page without our widgets; preview mode prints no panel; `skip_link`, `main_*`, `visit_bar`, `cookie_banner` and `footer_once` do not exist (`core/scope.test.php`: what is printed where).
 6. `NH_Settings::sanitize()`: invalid e-mails dropped, URLs cleaned, numbers clamped.
 
 ---
@@ -2007,3 +1992,20 @@ The core is in place (§12 row "core"); every change it made to this spec is mar
 | `jobs-form`: the fixture's `default` compares the form with `design-system.html` `section#form form.nh-form` (regex `expect_diff`: `data-nh-form`, role 1, the consent's error label, the privacy notice of the settings) | §4.20 | no |
 | `nh-forms.js`: header comment only — the v3.2 prototype's form code (site.js section 5) is v3.1's | §6.4 | no |
 | `related` is `DYNAMIC` (was static): its render reads the current post, the current user (the editors' note about a left-out row) and the settings (link tokens), §3.3 — Elementor's element cache would otherwise keep a note an editor saw and show it to visitors | §4.17, §3.3 | integrator: §4.0 lists the dynamic widgets; `kaf` (static) prints an editors' note too (its button to its own spread) |
+
+**v3.2 — the core and the chrome follow the finished prototype (B4, package P1: `cover`, `page-cover`, `masthead`, `glance`, `gallery`, `features`, `stories`, the core and the harness; 16.11.2026; [research/07](../research/07-calm-v3.2.md) §4, §7, §8.3, §10.1–10.3, §12, §17).** The markup of the seven already matched the rebuilt prototype after B2 (compare.py: 0 differing lines; attribute values compared by presence — `sizes` — checked equal too); B4 ports their CSS and re-ports the core's base.css and letters.css block by block against the v3.2 main.css / v3.css, with source lines in every block comment (§9). Checked beyond compare.py in Chrome against the prototype: the computed styles, pseudo-elements and boxes of every element of `header.nh-header`, `dialog#nh-menu` (open), `section#cover` and `section#nh-cookies` (open) on index.html and of `header.nh-header`, `section#cover`, `#glance`, `#inside`, `#features`, `#stories` on program-main-home.html, at 320, 390, 768, 1024, 1280, 1440 and 1920 px in normal and plain mode, plus hover, motion allowed and forced colours at 390 and 1440 px — equal; full-page screenshots (footers excluded) differ by 0.01–0.03 % on desktop and in plain mode on phones, 0.9–1.2 % on phones in normal mode only below the door form (the test settings' privacy note, package P2). One line per behaviour change.
+
+| what changed | where | does the next package need to act? |
+|---|---|---|
+| `cover` / `page-cover` (cover.css = v3.css L99–132, L351, L355–362): one screen; the title D-L (`var(--v3-fw-dl)`: 300 from 48em, 400 below) at `.92`; the lead at the lead step in ink, 36ch; «או בטלפון» UI 18/600 with a 44px link; phones: letter beside the title (`min(44vw, 13rem)`), the house page stacked under its crumbs (`min(52vw, 10rem)`); from 48em `5fr 6fr` centred, the letter `--cover-h: min(100svh − mast − 13rem, 44rem)` tall (house page from 64em `… − 11rem, 34rem`); plain mode: the title D-M 400, the ב a chapter mark. The v3.1 portrait-tablet rule and `padding-block-end: .12em` are gone with the prototype's | §4.1, §4.2; 07 §10.2 item 1, §10.3 item 1 | no |
+| `page-cover` crumbs (main.css L364–371): 16px/600 in ink-2, links underlined 1px → 2px with 44px targets, the separator «‹» silent (`content: "‹" / ""`), the current page in ink | §4.2; 07 §5.3, §10.3 item 2 | no |
+| `glance`, `features`, `stories`: the v3.2 steps — numbers D-M 400 (lining, −0.03em; glance tabular too), feature and story names H3 500, texts at the body step (ink-2, on night `--nh-on-night-2`), labels and quote signature 16px, `--v3-hair` lines; the house page's quote keeps D-S 400 (base.css) with the iris mark | §4.13, §4.15, §4.16; 07 §10.3 items 3, 5, 6 | no |
+| base.css re-ported (v3.2 lines in every block): the switches' knob on night is white when off and ink only when on (B1 had ink always), the state word at line-height 1.2, the label `flex: 1`; the buttons' frame through `--_bd` (as the prototype); the cookie panel aligned to the container's start edge (`margin-inline: max(gutter, (100% − max) / 2) auto`, A1), its texts at line-height 1.6 without the 60ch cap; `.v3-quote footer` line-height 1.5; `.v3-roles` margin `2rem 0` (was `1.5rem 0 2rem`), its meta at line-height 1.5, the phone layout below 40em (was 640px); `.nh-eyebrow` letter-spacing 0; forced colours: the knob 2px from the top | §9.1 | P2/P3: the shared rules their widgets use (`.v3-roles`, `.v3-quote`, the switches, the print) now equal the prototype's — a style check run before this change should be run again |
+| base.css: our parts inherit `line-height: var(--nh-lh-body)` (1.68, the prototype's `body`) — research/07 §12.4 writes 1.65; the prototype is the target (texts without a line-height of their own, e.g. the facts' terms) | §9.1 row 1 | no |
+| base.css: the aliases `--v3-poster` / `--v3-lead` (B1, for cover.css) and `.v3-credit` (no widget, not in the v3.2 prototype) removed | §9.1 | no |
+| Calm mode: `saturate(.7)` on our widgets' photos but not on the masthead's emblem (the prototype's `main img`; research/07 §6: the logo is never recoloured) | §8 item 24, §9.1 | no |
+| A photo that cannot be shown (images off, a missing file; the prototype's v3.js «3», research/07 §8.3 item 4): nh-core.js gives the room `.is-sky` (letters.css: the quiet sky, its `img` at opacity 0), hides a print — in the gallery its cell, so the grid closes up — and hides the masthead's emblem (the name stays). At once, no motion | §3.12, §5.5, §9.2 | no |
+| Removed, nothing calls them (B2's list): `NH_Html::ICONS` `arrow-back`, `expand`, `sliders` and their sprite symbols (six symbols left); `NH_Site::footer_once()` with its queue — `footer()` now prints nothing on a page without our widgets; `NH_Letters::data_script()`; `compare.py --prototype-letter-data` | §3.6, §3.7, §3.10, §5.3, §5.4, §11.4 | a widget that needs another icon adds it to `NH_Html::ICONS` and the sprite (core) |
+| Harness: `NH_TEST_GLOBAL_IDS` = the theme's `content` and the cookie panel's ids (no `main`, no `nh-menu*`); test pages carry Elementor's page body classes (the theme's fallback layout squeezed `main` to 50rem in the assembled pages and their screenshots), Pro's header/footer location wrappers and, in the footer, the site's «הגדרות עוגיות» link (a stand-in of its Text Editor list) | §11.2 | no |
+| `shots.mjs`: `--behaviour` 57 checks (the cookie panel from the footer's own link, Esc / «סגירה» / Save, no morph data, the appearance never in calm mode or for a print on screen after a reload, `transitionrun`/`animationstart` while hovering every link and button, tabbing and scrolling — colours ≤ 150 ms and the 320 ms appearance only, a landing with `#homes`, the house page's `#visit` and current section, images off); the screenshots hide both footers (the site's is Elementor's own widgets) | §11.4 | no |
+| SPEC: §3.6, §3.7, §3.10, §3.12, §5.1–5.5, §8 (motion and the stale accessibility items), §9 (the map against the v3.2 prototype), §11 brought to v3.2 | — | no |

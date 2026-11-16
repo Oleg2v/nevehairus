@@ -73,10 +73,12 @@ php plugin/tests/run.php --verbose            # one line per render / test
 php plugin/tests/render.php homes prototype   # print one render (add --page for the full page, --plain for plain mode)
 python3 -I plugin/tests/compare.py homes prototype   # structural diff of one variant
 python3 -I plugin/tests/compare.py homes --all       # every variant that has a compare target
-node plugin/tests/shots.mjs                   # optional: screenshots of out/page-*.html vs the prototype
-node plugin/tests/shots.mjs --behaviour       # the core scripts in Chrome: nothing opens or moves by itself, the
-                                              # soft appearance of prints, the cookie panel, the visit buttons,
-                                              # focus after anchors and menu links, the menu, the switches, the form
+node plugin/tests/shots.mjs                   # optional: screenshots of out/page-*.html vs the prototype (footers hidden)
+node plugin/tests/shots.mjs --behaviour       # the scripts in Chrome (57 checks): nothing opens or moves by itself, what
+                                              # really moves on hover, Tab and scroll (colours ≤ 150 ms, the one soft
+                                              # appearance of prints), the cookie panel from the footer's link, the visit
+                                              # buttons, focus after anchors, menu links and a landing with #…, the menu,
+                                              # the switches, photos that cannot be shown, the form
 ```
 
 What run.php checks for every render (a failure exits 1): no PHP notice/warning/exception; output not
@@ -95,9 +97,12 @@ It writes, under `plugin/tests/out/` (git-ignored):
   `python3 -m http.server 8080` and http://localhost:8080/plugin/tests/out/cover--prototype.html;
 - `<id>--<variant>.json`: the compare target of the variant (read by compare.py);
 - `page-home.html`, `page-main-home.html`: the two prototype pages assembled from the widgets
-  (fixtures/pages.php), to look at and to screenshot: the masthead, the spreads, and in the footer slot
-  the `display` widget (v3.2: the site's footer is Elementor's own widgets, which the harness does not
-  render; scripts/build_pages.py builds it).
+  (fixtures/pages.php), to look at and to screenshot: the masthead (in Pro's header wrapper), the spreads
+  in `main#content`, and in the footer slot (`footer.elementor-location-footer`) a stand-in of the site's
+  Text Editor list with «הגדרות עוגיות» (`href="#nh-cookies"`) and the `display` widget (v3.2: the site's
+  footer is Elementor's own widgets, which the harness does not render; scripts/build_pages.py builds it).
+  Every test page has Elementor's page body classes (`elementor-page elementor-page-{id}`), as a page built
+  with Elementor does: without them the child theme's layout for other pages narrows `main` to 50rem.
 
 ### Reading compare.py
 
@@ -189,10 +194,18 @@ compare.py reports patterns that match nothing, so stale expectations are easy t
 - **Link tokens.** `#privacy`, `#accessibility`, `#sitemap`, `#entrances`, `#jobs-page` in a URL control
   or in inline text are resolved from the settings by `NH_Html::url()` / `NH_Text::esc()`; when a page
   is not set they stay in-page anchors — add `$this->nh_admin_note( … )` for editors if it matters.
-- **Once per page.** `NH_Letters::data_script()` prints its script once per request;
-  `NH_Site::footer_once( $key, $fn )` prints a part once in the footer. On a re-render in the Elementor
-  editor (an AJAX request) there is no footer: such parts are absent in the editor only. v3.2: no widget
-  uses either any more (no morph, no lightbox).
+- **Nothing per page.** v3.2: no widget prints anything once per page any more — the morph data
+  (`NH_Letters::data_script()`) and the footer queue (`NH_Site::footer_once()`) are removed with the morph
+  and the lightbox. The page parts (sprite, cookie panel, live region) are the site module's and print only
+  where our widgets are (`NH_Site::uses_widgets()`).
+- **Icons.** The sprite holds the six icons the pages use (`NH_Html::ICONS`: phone, menu, close, arrow-fwd,
+  play, speech). A new icon goes into `NH_Html::ICONS` and `NH_Site::sprite()` (core), paths from
+  `prototype/src/partials/sprite.html`.
+- **Photos that cannot be shown.** nh-core.js handles them for every widget (research/07 §8.3 item 4): a
+  room shows its sky (`.is-sky`), a print — or its `.v3-gallery > li` — is hidden, the emblem is hidden.
+  Use the prototype's classes (`.v3-room`, `figure.v3-print`) and nothing more is needed.
+- **CSS source lines.** base.css, letters.css and the widgets' CSS name the lines of the v3.2 prototype's
+  main.css / v3.css in every block comment (`/* ---- v3.css L99–132 ---- */`); SPEC §9 is the map.
 - **One weight per letter.** v3.2: the letters stand still, each in one weight for good — a `WEIGHT`
   constant in the widget (ב 600, כ 440, ס 380, ל 600), never a control.
 - **Links lead somewhere else.** v3.2 (research/07 §3 item 21): a link leads only to a page that exists or

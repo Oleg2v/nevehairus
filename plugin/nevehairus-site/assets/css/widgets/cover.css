@@ -44,10 +44,10 @@
 /* a home's page: a smaller letter, so its cover stays one screen with the crumbs above it (as in v3.1) */
 @media (min-width: 64em) { .v3-cover--page { --cover-h: min(calc(100svh - var(--v3-mast) - 11rem), 34rem); } }
 
-/* ---- v3.css L350 (its second selector; the first, .nh-btn > .v3-plain, is base.css's) ---- */
+/* ---- v3.css L351 (its second selector; the first, .nh-btn > .v3-plain, is base.css's) ---- */
 html.nh-plainmode .v3-cover__call > .v3-plain { display: inline; }
 
-/* ---- v3.css L354–361 — plugin: L356 without `main` (no reliance on the theme's DOM, SPEC §10.2 rule 4) ---- */
+/* ---- v3.css L355–362 — plugin: L357 without `main` (no reliance on the theme's DOM, SPEC §10.2 rule 4) ---- */
 /* the cover: the ב folds into a chapter mark beside the words, the button under them */
 html.nh-plainmode .v3-cover__title { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); }
 html.nh-plainmode .v3-cover__plain p { font-size: var(--v3-fs-plain); }

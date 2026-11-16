@@ -26,9 +26,9 @@
   ],
   "plugin": {
    "version": "0.2.0",
-   "php_sha256": "d9d1690709089fafe406fba9ce60667c41cad84690110de8a40b3bb369565ba1"
+   "php_sha256": "f0486ef09ee499f73a2772bead7c6fc8f61905919e01cca96e3dd1c702b0da42"
   },
-  "inputs_sha256": "f1d3284214a3fbebf3eb73956bce4395d7d650421c72522aa6a946145eff6a76"
+  "inputs_sha256": "03e0f79fd2856e7f36c5fd8a8d813f610f6fad6b5d2ad7a0f476ba492ef99176"
  },
  "elementor_data": [
   {

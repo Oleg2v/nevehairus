@@ -2,7 +2,7 @@
 Theme Name:   Hello Elementor Child — נווה האירוס
 Description:  Child theme of Hello Elementor for the site of מעון נווה האירוס. It holds what applies to the whole site (page ground and type, focus ring, link underlines, the skip link, main#content, Hello's CSS off); the design of the pages lives in the nevehairus-site plugin.
 Template:     hello-elementor
-Version:      1.1.0
+Version:      1.1.1
 Requires PHP: 8.0
 License:      GPL-2.0-or-later
 Text Domain:  hello-elementor-child
@@ -41,7 +41,9 @@ body {
    Links without a class only, as text-decoration-line: `.site-main` also wraps the plugin's
    widgets, whose buttons and row links (classed) must not be underlined, and the shorthand
    would reset the widgets' own underline thickness. */
-.elementor a:where(:not([class])), .site-main a:where(:not([class])) { text-decoration-line: underline; text-underline-offset: .2em; }
+.elementor a:where(:not([class])):not([class*="elementor-widget-nh-"] a),
+.site-main a:where(:not([class])):not([class*="elementor-widget-nh-"] a) { text-decoration-line: underline; text-underline-offset: .2em; }
+/* The nevehairus-site widgets style their own links (some without classes); the rule above leaves them alone. */
 
 /* ---------- The skip link (functions.php prints it on wp_body_open) -------------- */
 .nh-skip {

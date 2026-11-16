@@ -1347,7 +1347,7 @@ def upload_photo(name, info, media_map):
     need(att.isdigit() and int(att) > 0, f"could not upload {info['file']} ({st} {err(media)})")
     att = int(att)
     record({"change": f"uploaded photo {name}", "id": att, "file": info["file"], "title": f"nh:{name}",
-            "alt": info["alt"], **({} if st == 201 else {"upload_answer": st, "note": "sub-sizes made by post-process"})})
+            "alt": info["alt"], **({} if st == 201 else {"upload_answer": st})})
     media_map[name] = att
     save_media_map(media_map)
     if st != 201:
@@ -1452,7 +1452,7 @@ def cmd_pages(args):
         f"{s} {active[s].get('version', '')}" for s in ("elementor", "elementor-pro", "nevehairus-site") if s in active)
          + (f"; NOT active: {', '.join(missing)}" if missing else ""))
     step(f"templates/pages/*.json: built from this tree for nevehairus-site {built['version']} (PHP sha256 "
-         f"{built['php_sha256'][:12]}…); render check: {render or 'not run (no local php)'}")
+         f"{built['php_sha256'][:12]}…); {render or 'render check not run (no local php)'}")
     wrong_version = bool(site_version) and site_version != built["version"]
     if wrong_version:
         print(f"!! the site runs nevehairus-site {site_version}, these files were built for {built['version']}: "

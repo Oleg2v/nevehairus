@@ -295,21 +295,12 @@ html.nh-plainmode .v3-kaf__cap { margin-block-start: 1.5rem; }
 }
 
 /* ---------- ד׳ · The door (iris; v3.2, §10.2 p. 11) ---------------------------------------------------------------------
-   The ד is drawn wide and open, as scribes stretch letters to fill a line: its head (the end of the lintel and
-   the leg) at the start, its flag at the far end, a bar between them; the visit form stands in the doorway.
-   Nothing moves: --open is always 1. Under 45em only the lintel is drawn and the form takes the whole width.
-   --k is the scale of one font unit (Frank Ruhl Libre, wght 300). */
+   v3.2 (16.11, after the first look on a phone): no stretched ד any more — on phones only its lintel was left and
+   read as a crooked strip. A plain, still ד stands beside the heading on wide screens, as the ל does in the jobs
+   spread; phones show none. The visit form and the contact sit below. */
 .v3-door { overflow: clip; }
 .v3-door__top { max-inline-size: 46rem; }
-.v3-door__way { position: relative; --k: .4px; --open: 1; padding-block-start: calc(122 * var(--k) + 2rem); padding-inline-start: calc(95 * var(--k) + 1rem); }
-.v3-door__frame { position: absolute; inset: 0 0 calc(-1 * clamp(4.5rem, 2.5rem + 6vw, 9rem)); pointer-events: none; }
-.v3-door__head, .v3-door__cap { position: absolute; inset-block-start: 0; display: block; overflow: hidden; }   /* each shows only its own part of the glyph */
-.v3-door__head { inset-inline-start: 0; inline-size: calc(160 * var(--k)); block-size: calc(540 * var(--k)); }
-.v3-door__cap { inset-inline-end: calc((1 - var(--open)) * (100% - 235 * var(--k))); inline-size: calc(75 * var(--k)); block-size: calc(122 * var(--k)); }
-.v3-door__bar { position: absolute; inset-block-start: calc(36 * var(--k)); block-size: calc(86 * var(--k)); background: var(--v3-ink);
-  inset-inline-start: calc(160 * var(--k) - 1px); inset-inline-end: calc((1 - var(--open)) * (100% - 235 * var(--k)) + 75 * var(--k) - 1px); }
-/* the leg runs on down to the floor of the spread */
-.v3-door__leg { position: absolute; inset-inline-start: calc(51 * var(--k)); inline-size: calc(44 * var(--k)); inset-block: calc(520 * var(--k)) 0; background: var(--v3-ink); }
+.v3-door__letter { display: none; }
 .v3-door__in { display: grid; gap: 2rem; }
 .v3-door__form { background: var(--nh-paper); color: var(--nh-ink); padding: clamp(1.5rem, 1rem + 2vw, 2.75rem); max-inline-size: 42rem;
   --nh-focus: var(--nh-iris-700); --nh-link: var(--nh-iris-700); --nh-text: var(--nh-ink); --nh-text-muted: var(--nh-ink-2); }
@@ -322,16 +313,13 @@ html.nh-plainmode .v3-kaf__cap { margin-block-start: 1.5rem; }
 .v3-door__phone a:hover { color: var(--nh-citrus-400); }
 .v3-door__addr { font-size: var(--v3-fs-body); line-height: 1.65; margin: 0; color: var(--v3-iris-text); }
 .v3-door__addr a { color: var(--nh-white); }
-@media (max-width: 44.99em) {   /* phones: the lintel only, the form gets the whole width */
-  .v3-door__way { padding-inline-start: 0; }
-  .v3-door__head { clip-path: inset(0 0 calc(100% - 122 * var(--k)) 0); }
-  .v3-door__leg { display: none; }
-}
-@media (min-width: 45em) {
-  .v3-door__way { --k: .62px; padding-block-start: calc(122 * var(--k) + 2.5rem); padding-inline-start: calc(95 * var(--k) + 2rem); }
-}
 @media (min-width: 64em) {
-  .v3-door__way { --k: .95px; }
+  .v3-door__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); }
+  .v3-door__grid > .v3-rule { grid-row: 1; }
+  .v3-door__top { grid-column: 1; grid-row: 2; }
+  .v3-door__letter { display: block; grid-column: 2; grid-row: 1 / span 2; justify-self: end; block-size: 16rem; margin-block-start: -4rem; }
+  .v3-door__letter .v3-letter { position: static; block-size: 100%; inline-size: auto; }
+  .v3-door__way { grid-column: 1 / -1; }
   .v3-door__in { grid-template-columns: minmax(0, 42rem) minmax(0, 1fr); align-items: start; column-gap: clamp(2rem, 1rem + 3vw, 5rem); }
   .v3-door__contact { padding-block-start: 1rem; }
 }
@@ -360,11 +348,13 @@ html.nh-plainmode main .v3-cover__plain p { font-size: var(--v3-fs-plain); }
   html.nh-plainmode .v3-cover__letter { position: relative; inline-size: calc(min(48svh, 22rem) * 432.4 / 597); }
   html.nh-plainmode .v3-cover__text { padding-block-start: 1rem; }
 }
-html.nh-plainmode .v3-lamed__letter, html.nh-plainmode .v3-shamayim { display: none !important; }
+html.nh-plainmode .v3-lamed__letter, html.nh-plainmode .v3-door__letter, html.nh-plainmode .v3-shamayim { display: none !important; }
 html.nh-plainmode .nh-hint > .v3-plain { display: inline; }
 html.nh-plainmode .v3-kaf__letter { max-inline-size: 18rem; }
 /* plain mode: where the big letter is folded away, its spread becomes one column */
 html.nh-plainmode .v3-lamed__grid { grid-template-columns: minmax(0, 1fr); }
+html.nh-plainmode .v3-door__grid { grid-template-columns: minmax(0, 1fr); }
+html.nh-plainmode .v3-door__top { grid-column: auto; grid-row: auto; }
 html.nh-plainmode .v3-lamed__text { grid-column: auto; grid-row: auto; }
 
 /* ---------- Calm mode (§4.3): no optional motion (the appearance is off, see the end of this file) and softer
@@ -381,7 +371,7 @@ html.nh-calm main img { filter: saturate(.7); }
   .v3-toggle[aria-pressed="true"] i::after { background: HighlightText; }
   .v3-dot { color: inherit; }
   .v3-dot::before { display: none; }
-  .v3-rule, .v3-door__bar, .v3-door__leg { background: CanvasText; }
+  .v3-rule { background: CanvasText; }
   .v3-plainbtn { border-color: ButtonText; }
   .v3-plainbtn[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText !important; border-color: Highlight; }
   .v3-print picture { outline: 1px solid CanvasText; }

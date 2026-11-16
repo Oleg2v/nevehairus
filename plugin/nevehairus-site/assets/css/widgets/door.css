@@ -1,31 +1,21 @@
 /* =========================================================================
    nevehairus-site · widget "door" (ד׳ · הדלת וטופס ביקור) — SPEC §4.12
    Verbatim from prototype/assets/css/v3.css (v3.2):
-   - L296–336  the wide ד drawn open (--open is always 1, nothing moves), the visit form in its doorway, the
-               contact beside it: the form's title is the H3 step, the phone D-M and underlined 2px (a link looks
-               like one), the address the body step; under 45em only the lintel, the form takes the whole width
-               (research/07 §10.2 item 11, §4.4 item 17);
-   - L383      from the forced-colours group, the selectors .v3-door__bar, .v3-door__leg.
+   - the door spread: a plain, still ד beside the heading on wide screens (none on phones, none in plain
+               language), the visit form below with the contact beside it: the form's title is the H3 step, the
+               phone D-M and underlined 2px (a link looks like one), the address the body step.
+               v3.2 change of 16.11: the stretched ד is gone (on phones only its lintel was left, a crooked strip).
    Elsewhere: the shared grid .v3-door__grid (v3.css L191–192) is in base.css, the ink of the letter
    (.v3-letter__ink) in letters.css, the fields, alerts and notes in forms.css (§7.5).
    ========================================================================= */
 
 /* ---------- ד׳ · The door (iris; v3.2, §10.2 p. 11) ---------------------------------------------------------------------
-   The ד is drawn wide and open, as scribes stretch letters to fill a line: its head (the end of the lintel and
-   the leg) at the start, its flag at the far end, a bar between them; the visit form stands in the doorway.
-   Nothing moves: --open is always 1. Under 45em only the lintel is drawn and the form takes the whole width.
-   --k is the scale of one font unit (Frank Ruhl Libre, wght 300). */
+   A plain ד (Frank Ruhl Libre, wght 600) stands beside the heading on wide screens, as the ל does in the jobs
+   spread. Nothing moves. */
 .v3-door { overflow: clip; }
 .v3-door__top { max-inline-size: 46rem; }
-.v3-door__way { position: relative; --k: .4px; --open: 1; padding-block-start: calc(122 * var(--k) + 2rem); padding-inline-start: calc(95 * var(--k) + 1rem); }
-.v3-door__frame { position: absolute; inset: 0 0 calc(-1 * clamp(4.5rem, 2.5rem + 6vw, 9rem)); pointer-events: none; }
-.v3-door__head, .v3-door__cap { position: absolute; inset-block-start: 0; display: block; overflow: hidden; }   /* each shows only its own part of the glyph */
-.v3-door__head { inset-inline-start: 0; inline-size: calc(160 * var(--k)); block-size: calc(540 * var(--k)); }
-.v3-door__cap { inset-inline-end: calc((1 - var(--open)) * (100% - 235 * var(--k))); inline-size: calc(75 * var(--k)); block-size: calc(122 * var(--k)); }
-.v3-door__bar { position: absolute; inset-block-start: calc(36 * var(--k)); block-size: calc(86 * var(--k)); background: var(--v3-ink);
-  inset-inline-start: calc(160 * var(--k) - 1px); inset-inline-end: calc((1 - var(--open)) * (100% - 235 * var(--k)) + 75 * var(--k) - 1px); }
-/* the leg runs on down to the floor of the spread */
-.v3-door__leg { position: absolute; inset-inline-start: calc(51 * var(--k)); inline-size: calc(44 * var(--k)); inset-block: calc(520 * var(--k)) 0; background: var(--v3-ink); }
+/* v3.2 (16.11): no stretched ד; a plain one beside the heading on wide screens, none on phones (prototype v3.css). */
+.v3-door__letter { display: none; }
 .v3-door__in { display: grid; gap: 2rem; }
 .v3-door__form { background: var(--nh-paper); color: var(--nh-ink); padding: clamp(1.5rem, 1rem + 2vw, 2.75rem); max-inline-size: 42rem;
   --nh-focus: var(--nh-iris-700); --nh-link: var(--nh-iris-700); --nh-text: var(--nh-ink); --nh-text-muted: var(--nh-ink-2); }
@@ -41,21 +31,18 @@
 .v3-door .v3-door__phone a { text-underline-offset: .12em; }
 .v3-door__addr { font-size: var(--v3-fs-body); line-height: 1.65; margin: 0; color: var(--v3-iris-text); }
 .v3-door__addr a { color: var(--nh-white); }
-@media (max-width: 44.99em) {   /* phones: the lintel only, the form gets the whole width */
-  .v3-door__way { padding-inline-start: 0; }
-  .v3-door__head { clip-path: inset(0 0 calc(100% - 122 * var(--k)) 0); }
-  .v3-door__leg { display: none; }
-}
-@media (min-width: 45em) {
-  .v3-door__way { --k: .62px; padding-block-start: calc(122 * var(--k) + 2.5rem); padding-inline-start: calc(95 * var(--k) + 2rem); }
-}
 @media (min-width: 64em) {
-  .v3-door__way { --k: .95px; }
+  .v3-door__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); }
+  .v3-door__grid > .v3-rule { grid-row: 1; }
+  .v3-door__top { grid-column: 1; grid-row: 2; }
+  .v3-door__letter { display: block; grid-column: 2; grid-row: 1 / span 2; justify-self: end; block-size: 16rem; margin-block-start: -4rem; }
+  .v3-door__letter .v3-letter { position: static; block-size: 100%; inline-size: auto; }
+  .v3-door__way { grid-column: 1 / -1; }
   .v3-door__in { grid-template-columns: minmax(0, 42rem) minmax(0, 1fr); align-items: start; column-gap: clamp(2rem, 1rem + 3vw, 5rem); }
   .v3-door__contact { padding-block-start: 1rem; }
 }
 
-/* ---------- Forced colours (v3.css L374–388: the door's selectors of L383) ---- */
-@media (forced-colors: active) {
-  .v3-door__bar, .v3-door__leg { background: CanvasText; }
-}
+/* ---------- Plain language: no letter, one column (v3.css, html.nh-plainmode rules) ---- */
+html.nh-plainmode .v3-door__letter { display: none !important; }
+html.nh-plainmode .v3-door__grid { grid-template-columns: minmax(0, 1fr); }
+html.nh-plainmode .v3-door__top { grid-column: auto; grid-row: auto; }

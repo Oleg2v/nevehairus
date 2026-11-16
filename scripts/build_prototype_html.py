@@ -179,22 +179,6 @@ def letter_room(attrs):
             f'{pic}{letter_svg({"name": name, "w": w, "frame": attrs.get("frame", "800")})}{extra}</div>')
 
 
-def doorway(attrs):
-    """{{doorway}} -> the ד of the door spread, stretched across the spread like the scribes' wide letters:
-    its head (the end of the lintel and the leg) at the start, its flag at the far end, a bar between them
-    that grows once when the door opens, and the leg carried down to the floor of the spread.
-    Numbers are measured from Frank Ruhl Libre at wght 300 (letters.json, box x25 y180 w385 h584):
-    lintel y 216-302 and straight from x 80 to 300; leg x 315-359; flag up to y 180 at the far end."""
-    d = letters["dalet"]["300"]["d"]
-    svg = ('<svg class="v3-door__{cls}" viewBox="{vb}" preserveAspectRatio="none" aria-hidden="true" focusable="false">'
-           f'<path class="v3-letter__ink" d="{d}"/></svg>')
-    return ('<div class="v3-door__frame" aria-hidden="true" data-door>'
-            + svg.format(cls="head", vb="250 180 160 540")
-            + '<span class="v3-door__bar"></span>'
-            + svg.format(cls="cap", vb="25 180 75 122")
-            + '<span class="v3-door__leg"></span></div>')
-
-
 def letter_data(attrs):
     """{{letterdata names="bet"}} -> inline JSON with the interpolation template."""
     out = {}
@@ -231,7 +215,6 @@ def build_page(fname):
     text = re.sub(r"\{\{letterdata ([^}]*)\}\}", lambda m: letter_data(dict(ATTR.findall(m.group(1)))), text)
     text = re.sub(r"\{\{imgdata ([^}]*)\}\}", lambda m: img_data(dict(ATTR.findall(m.group(1)))), text)
     text = re.sub(r"\{\{letter ([^}]*)\}\}", lambda m: letter_svg(dict(ATTR.findall(m.group(1)))), text)
-    text = re.sub(r"\{\{doorway\}\}", lambda m: doorway({}), text)
     text = re.sub(
         r"\{\{srcset ([^}]*)\}\}",
         lambda m: ", ".join(

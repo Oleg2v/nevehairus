@@ -341,8 +341,8 @@ final class NH_Widget_Door extends NH_Widget_Base {
 			. '<div class="nh-container v3-door__grid">'
 			. $this->nh_rule()
 			. ( '' !== $top ? '<div class="v3-door__top">' . $top . '</div>' : '' )
+			. '<div class="v3-door__letter" aria-hidden="true">' . NH_Letters::svg( 'dalet', 600 ) . '</div>' // v3.2: a plain ד, wide screens only
 			. '<div class="v3-door__way">'
-			. NH_Letters::doorway()
 			. '<div class="v3-door__in">'
 			. '<div class="v3-door__form">' . $box . '</div>'
 			. $this->door_contact( $s )

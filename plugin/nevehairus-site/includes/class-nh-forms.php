@@ -214,11 +214,13 @@ final class NH_Forms {
 		}
 		$errors = [];
 		if ( 'invalid' === $status && isset( $_GET['nh_err'] ) && is_string( $_GET['nh_err'] ) ) {
+			// only the forms' own field keys: a crafted link must not put words of its own in the error summary
+			$keys = array_keys( self::schema( 'visit' ) + self::schema( 'jobs' ) );
 			foreach ( explode( ',', wp_unslash( $_GET['nh_err'] ) ) as $pair ) {
 				$parts = explode( ':', $pair, 2 );
 				$key   = $parts[0];
 				$code  = $parts[1] ?? '';
-				if ( preg_match( '/^[a-z_]{1,20}$/', $key ) && in_array( $code, self::CODES, true ) ) {
+				if ( in_array( $key, $keys, true ) && in_array( $code, self::CODES, true ) ) {
 					$errors[ $key ] = $code;
 				}
 			}
@@ -496,7 +498,7 @@ final class NH_Forms {
 		try {
 			// phpcs:disable WordPress.Security.NonceVerification.Missing -- verified below, in the order of SPEC §6.2
 			if ( isset( $_FILES['cv']['tmp_name'] ) && is_string( $_FILES['cv']['tmp_name'] ) ) {
-				$tmp = $_FILES['cv']['tmp_name']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- a server path, checked with is_uploaded_file()
+				$tmp = $_FILES['cv']['tmp_name']; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- a server path: used (attached, deleted) only after is_uploaded_file()
 			}
 
 			// 2. Honeypot: bots see success, nothing is sent.
@@ -539,7 +541,9 @@ final class NH_Forms {
 			return [ self::send( $type, $to, $values, $return_url, $file ) ? 'sent' : 'error', [] ];
 			// phpcs:enable
 		} finally {
-			if ( '' !== $tmp && is_file( $tmp ) ) {
+			// Only PHP's own upload temp file is deleted (PHP would delete it at the end of the request anyway);
+			// a path that is not an upload is never touched.
+			if ( '' !== $tmp && is_file( $tmp ) && (bool) apply_filters( 'nh_forms_is_uploaded_file', is_uploaded_file( $tmp ), $tmp ) ) {
 				wp_delete_file( $tmp );
 			}
 		}
@@ -728,12 +732,12 @@ final class NH_Forms {
 
 	/**
 	 * Rate limit: 5 accepted attempts per 10 minutes per salted IP hash (filters nh_rate_limit,
-	 * nh_rate_window, nh_client_ip).
+	 * nh_rate_window, nh_client_ip); an IPv6 client counts by its /64 network (rate_ip()).
 	 */
 	private static function rate_ok(): bool {
 		$ip     = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 		$ip     = (string) apply_filters( 'nh_client_ip', $ip );
-		$key    = 'nh_rl_' . substr( hash_hmac( 'sha256', $ip, wp_salt( 'auth' ) ), 0, 32 );
+		$key    = 'nh_rl_' . substr( hash_hmac( 'sha256', self::rate_ip( $ip ), wp_salt( 'auth' ) ), 0, 32 );
 		$limit  = max( 1, (int) apply_filters( 'nh_rate_limit', 5 ) );
 		$window = max( 60, (int) apply_filters( 'nh_rate_window', 10 * MINUTE_IN_SECONDS ) );
 		$n      = (int) get_transient( $key );
@@ -742,6 +746,24 @@ final class NH_Forms {
 		}
 		set_transient( $key, $n + 1, $window );
 		return true;
+	}
+
+	/**
+	 * What a rate-limit bucket is keyed by: an IPv6 address by its /64 network (one client can rotate
+	 * through the addresses of its /64), an IPv4-mapped IPv6 address by its IPv4 address, anything else as is.
+	 */
+	private static function rate_ip( string $ip ): string {
+		if ( false === filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
+			return $ip;
+		}
+		$bin = (string) inet_pton( $ip );
+		if ( 16 !== strlen( $bin ) ) {
+			return $ip;
+		}
+		if ( str_repeat( "\0", 10 ) . "\xff\xff" === substr( $bin, 0, 12 ) ) {
+			return (string) inet_ntop( substr( $bin, 12 ) );
+		}
+		return (string) inet_ntop( substr( $bin, 0, 8 ) . str_repeat( "\0", 8 ) ) . '/64';
 	}
 
 	/**

@@ -648,27 +648,38 @@ final class NH_Widget_Colophon extends NH_Widget_Base {
 	 * @param string $label  Label HTML (NH_Text::pair()).
 	 * @param string $ext_sr Screen-reader suffix of external links.
 	 * @param string $name   Plain label for the editors' note.
+	 * @param bool   $note   Append the editors' note (a `<p>`): false where the link sits inside a `<p>`.
 	 * @return string HTML.
 	 */
-	private function link( string $href, string $label, string $ext_sr, string $name ): string {
+	private function link( string $href, string $label, string $ext_sr, string $name, bool $note = true ): string {
 		$external = NH_Html::is_external( html_entity_decode( $href, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) );
 		$out      = '<a href="' . $href . '"' . ( $external ? ' rel="noopener"' : '' ) . '>' . $label;
 		if ( $external && '' !== $ext_sr ) {
 			$out .= '<span class="nh-sr-only">' . esc_html( $ext_sr ) . '</span>';
 		}
 		$out .= '</a>';
+		return $note ? $out . $this->token_note( $href, $name ) : $out;
+	}
 
-		if ( in_array( $href, self::TOKENS, true ) ) {
-			$name  = self::plain_text( $name );
-			$out  .= $this->nh_admin_note(
-				'#privacy' === $href
-					/* translators: %s: the link text. */
-					? sprintf( __( 'הקישור „%s” עדיין לא מחובר: יש לבחור עמוד מדיניות פרטיות בהגדרות ← פרטיות.', 'nevehairus-site' ), $name )
-					/* translators: %s: the link text. */
-					: sprintf( __( 'הקישור „%s” עדיין לא מחובר: יש לבחור את היעד בהגדרות ← נווה האירוס.', 'nevehairus-site' ), $name )
-			);
+	/**
+	 * The editors-only note of a link token that is still unresolved ('' otherwise, and for visitors).
+	 *
+	 * @param string $href Escaped URL.
+	 * @param string $name Plain label of the link.
+	 * @return string `<p class="nh-admin-note">…</p>` or ''.
+	 */
+	private function token_note( string $href, string $name ): string {
+		if ( ! in_array( $href, self::TOKENS, true ) ) {
+			return '';
 		}
-		return $out;
+		$name = self::plain_text( $name );
+		return $this->nh_admin_note(
+			'#privacy' === $href
+				/* translators: %s: the link text. */
+				? sprintf( __( 'הקישור „%s” עדיין לא מחובר: יש לבחור עמוד מדיניות פרטיות בהגדרות ← פרטיות.', 'nevehairus-site' ), $name )
+				/* translators: %s: the link text. */
+				: sprintf( __( 'הקישור „%s” עדיין לא מחובר: יש לבחור את היעד בהגדרות ← נווה האירוס.', 'nevehairus-site' ), $name )
+		);
 	}
 
 	/**
@@ -714,7 +725,9 @@ final class NH_Widget_Colophon extends NH_Widget_Base {
 		if ( '' === $href ) {
 			return '<p class="v3-dev">' . $lead . $inner . '</p>';
 		}
-		return '<p class="v3-dev">' . $lead . $this->link( $href, $inner, $ext_sr, '' ) . '</p>';
+		// the editors' note is a paragraph of its own: it follows the credit instead of breaking it
+		return '<p class="v3-dev">' . $lead . $this->link( $href, $inner, $ext_sr, '', false ) . '</p>'
+			. $this->token_note( $href, self::str( $s, 'dev_name' ) );
 	}
 
 	/**

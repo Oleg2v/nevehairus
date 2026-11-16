@@ -122,6 +122,20 @@ return [
 		nh_assert_same( [ 'הגדרות' ], array_map( 'wp_strip_all_tags', NH_Settings_Page::action_links( [] ) ) );
 	},
 
+	'readiness(): discovers the widget files itself (Elementor builds no widget list on that screen)' => static function () {
+		$widgets = new ReflectionProperty( 'NH_Plugin', 'widgets' );
+		$widgets->setAccessible( true );
+		$before = $widgets->getValue();
+		nh_assert( is_array( $before ) && count( $before ) > 0, 'the harness registered the widgets' );
+		$widgets->setValue( null, null ); // as on options-general.php?page=nevehairus: nothing discovered yet
+		try {
+			NH_Settings_Page::readiness();
+			nh_assert_same( $before, $widgets->getValue(), 'readiness() ran the discovery, so NH_Plugin::skipped() is filled' );
+		} finally {
+			$widgets->setValue( null, $before );
+		}
+	},
+
 	'notices: missing recipients on the four screens, for admins only' => static function () {
 		$GLOBALS['nh_test']['caps']['manage_options'] = true;
 		foreach ( [ 'dashboard', 'plugins', 'edit-page', 'settings_page_nevehairus' ] as $screen ) {

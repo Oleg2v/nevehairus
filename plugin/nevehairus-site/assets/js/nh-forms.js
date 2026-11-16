@@ -17,6 +17,12 @@
   const ICON_ERR =
     '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v6M12 16.5v.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
   const CODES = { required: "required", email: "email", tel: "tel", consent: "consent", file_type: "fileType", file_size: "fileSize" };
+  /* The server takes a form that arrives less than 3 s after its time token for a bot: it answers "sent" and
+     sends nothing (NH_Forms::MIN_AGE). A person who autofills and sends right after the first focus (when a
+     fresh token is fetched) would lose the enquiry without knowing, so a post never leaves earlier than
+     this after the token in the form reached the page (3 s + a margin). */
+  const TOKEN_AGE = 3500;
+  const now = () => w.performance.now();
 
   // the visible variant of a label with twins (plain mode: .v3-plain, else .v3-full), without the asterisk
   const labelText = (form, el) => {
@@ -109,6 +115,8 @@
       if (el) { e.preventDefault(); el.focus(); }
     });
 
+    // when the time token now in the form reached the page: the page's own token is at least as old as this
+    let minted = now();
     // a fresh nonce and time token on the first focus: the page itself may come from a cache
     let fresh = false;
     form.addEventListener("focusin", () => {
@@ -120,6 +128,7 @@
         .then((j) => {
           if (!j || !j.nonce) return;
           setField("_nh_nonce", j.nonce); setField("nh_t", j.t); setField("nh_s", j.s);
+          minted = now();
         })
         .catch(() => { fresh = false; });
     });
@@ -166,25 +175,31 @@
       if (btn) btn.disabled = true;
       // the attribute, not form.action: the hidden input named "action" (admin-post.php) shadows that property
       const url = new URL(form.getAttribute("action") || "", w.location.href).href;
-      w.fetch(url, { method: "POST", body: new FormData(form), credentials: "same-origin", headers: { Accept: "application/json" } })
-        .then((r) => r.json())
-        .then((res) => {
-          if (res && res.ok) { done(); return; }
-          if (res && res.status === "invalid" && res.errors) {
-            const errs = [];
-            Object.keys(res.errors).forEach((key) => {
-              const el = form.querySelector("[name='" + key + "']");
-              if (!el || !el.id) return;
-              const m = M(CODES[res.errors[key]] || "required");
-              setError(el, m);
-              errs.push({ el, m });
-            });
-            if (errs.length) { showErrors(errs); return; }
-          }
-          showStatus(res && res.message);
-        })
-        .catch(() => showStatus(M("error")))
-        .finally(() => { if (btn) btn.disabled = false; setField("nh_js", "0"); });
+      const post = () => {
+        // a token younger than TOKEN_AGE: wait (again, if a fresh token arrived in the meantime)
+        const wait = minted + TOKEN_AGE - now();
+        if (wait > 0) { w.setTimeout(post, wait); return; }
+        w.fetch(url, { method: "POST", body: new FormData(form), credentials: "same-origin", headers: { Accept: "application/json" } })
+          .then((r) => r.json())
+          .then((res) => {
+            if (res && res.ok) { done(); return; }
+            if (res && res.status === "invalid" && res.errors) {
+              const errs = [];
+              Object.keys(res.errors).forEach((key) => {
+                const el = form.querySelector("[name='" + key + "']");
+                if (!el || !el.id) return;
+                const m = M(CODES[res.errors[key]] || "required");
+                setError(el, m);
+                errs.push({ el, m });
+              });
+              if (errs.length) { showErrors(errs); return; }
+            }
+            showStatus(res && res.message);
+          })
+          .catch(() => showStatus(M("error")))
+          .finally(() => { if (btn) btn.disabled = false; setField("nh_js", "0"); });
+      };
+      post();
     };
 
     form.addEventListener("submit", (ev) => {

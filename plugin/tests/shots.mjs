@@ -130,10 +130,11 @@ async function behaviour() {
     const p = await browser.newPage({ viewport: { width: 1440, height: 900 } });
     const errors = [];
     p.on("pageerror", (e) => errors.push(e.message));
-    let answer = null, posted = "", tokens = 0;
-    await p.route("https://nh.test/wp-admin/admin-ajax.php?**", (r) => { tokens++; r.fulfill(json({ nonce: "fresh-nonce", t: 1763000000, s: "fresh-sig" })); });
+    let answer = null, posted = "", tokens = 0, tokenAt = 0, postAt = 0;
+    await p.route("https://nh.test/wp-admin/admin-ajax.php?**", (r) => { tokens++; tokenAt = Date.now(); r.fulfill(json({ nonce: "fresh-nonce", t: 1763000000, s: "fresh-sig" })); });
     await p.route("https://nh.test/wp-admin/admin-post.php", (r) => {
       posted = (r.request().postDataBuffer() || Buffer.alloc(0)).toString("utf8");
+      postAt = Date.now();
       return answer ? r.fulfill(json(answer)) : r.abort();
     });
     await p.goto(url, { waitUntil: "load" });
@@ -168,6 +169,10 @@ async function behaviour() {
     const fill = async () => { await p.fill("#door-name", "דנה"); await p.fill("#door-phone", "0501234567"); await p.check("#door-consent"); };
     answer = { ok: false, status: "invalid", errors: { phone: "tel" }, message: "" };
     await fill(); await p.click("#door button[type='submit']"); await p.waitForTimeout(400);
+    ok(posted === "" && await p.evaluate(() => document.querySelector("#door button[type='submit']").disabled), "sent right after the fresh token: the post waits (the server drops a form younger than 3 s), the button disabled");
+    for (let i = 0; i < 60 && !posted; i++) await p.waitForTimeout(100);
+    await p.waitForTimeout(400);
+    ok(postAt - tokenAt >= 3400, `the post left ${postAt - tokenAt} ms after the fresh token (at least 3.5 s)`);
     ok(/name="action"\r\n\r\nnh_visit/.test(posted) && /name="nh_js"\r\n\r\n1/.test(posted), "posted to admin-post.php (action=nh_visit, nh_js=1)");
     ok(await p.evaluate(() => document.getElementById("door-phone").getAttribute("aria-invalid") === "true"), "server 'invalid' mapped to the field");
     answer = { ok: true, status: "sent", errors: {}, message: "" };

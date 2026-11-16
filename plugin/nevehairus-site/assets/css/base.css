@@ -89,7 +89,9 @@ strong { font-weight: 700; }
 /* ---- plugin (new): Elementor / Hello compatibility and editor-only notes (SPEC §9.1 row 32, §10.1) ----
    Placed right after the typography on purpose: these rules have the specificity of Elementor's own
    (`.elementor a` = 0,1,1) and win over them by load order, but every component rule below with the same
-   specificity (e.g. `.v3-roles a { text-decoration: none }`) must still win over them. */
+   specificity (e.g. `.v3-roles a { text-decoration: none }`) must still win over them. The fallback for
+   content that is not a spread (last two rules) uses no class of ours, and its spacing rule has zero
+   specificity: it comes after `* { margin: 0 }` and loses to any rule that sets a margin. */
 /* a note only editors see: a missing setting, an unresolved link (NH_Html::admin_note) */
 .nh-admin-note { margin-block: .75rem; padding: .5rem .75rem; border: 1px dashed var(--nh-field); background: var(--nh-paper); color: var(--nh-ink); font: 600 .875rem/1.45 var(--nh-font-body); max-inline-size: 60ch; }
 
@@ -103,6 +105,13 @@ strong { font-weight: 700; }
 .elementor-widget[class*="elementor-widget-nh-"]:not(:last-child) { margin-block-end: 0; }
 /* frontend.css: `.elementor a { text-decoration: none; box-shadow: none }` (0,1,1) — keep underlines on plain links (1.4.1) */
 .elementor a:where(:not([class])) { text-decoration: underline; }
+/* content that is not one of our spreads. Hello's reset.css and theme.css stay off on every page (D4: the
+   masthead, the colophon and the cookie banner are on every page too), so Hello's default templates (404,
+   search, archive, a page or post written in the block editor — the privacy policy) get their container
+   here (theme.css: `body:not([class*=elementor-page-]) .site-main`), and that content and Elementor's Text
+   Editor get back the spacing between paragraphs, headings and lists that `* { margin: 0 }` removes */
+body:not([class*="elementor-page-"]) .site-main { width: min(100% - 2 * var(--nh-gutter), 50rem); margin-inline: auto; padding-block: var(--nh-s-6) var(--nh-s-8); }
+:where(body:not([class*="elementor-page-"]) .site-main, .page-content, .entry-content, .elementor-widget-text-editor, .elementor-widget-text-editor > .elementor-widget-container, .elementor-widget-theme-post-content, .elementor-widget-theme-post-content > .elementor-widget-container) > * + * { margin-block-start: 1em; }
 
 /* ---- main.css L99–114 ---- */
 /* ---------- Layout ------------------------------------------------------- */

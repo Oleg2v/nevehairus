@@ -271,6 +271,11 @@ final class NH_Settings_Page {
 		}
 		$add( __( 'פריסת ברירת המחדל של Elementor: Elementor Full Width', 'nevehairus-site' ), 'elementor_header_footer' === $layout, $layout );
 
+		// Widget files are discovered when Elementor builds its widget list, which a request for this page does
+		// not do: discover them here (the same files and checks as on any Elementor page), so a skipped one shows.
+		if ( NH_Plugin::elementor_ok() ) {
+			NH_Plugin::widgets();
+		}
 		foreach ( NH_Plugin::skipped() as $id => $reason ) {
 			/* translators: %s: widget id */
 			$add( sprintf( __( 'ווידג׳ט %s', 'nevehairus-site' ), $id ), false, $reason );

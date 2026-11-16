@@ -13,6 +13,7 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Elementor tested up to: 4.4.0
  * Elementor Pro tested up to: 4.4.0
+ * Update URI: false
  *
  * @package nevehairus-site
  */

@@ -108,6 +108,36 @@ return [
 		nh_assert_same( 'off', nh_test_submit()['json']['status'], 'another visitor is not limited' );
 	},
 
+	'IPv6: one bucket per /64 network; an IPv4-mapped address counts as its IPv4 address' => static function () {
+		update_option( 'nh_settings', [ 'visit_recipient' => '' ] );
+		for ( $i = 1; $i <= 5; $i++ ) {
+			$_SERVER['REMOTE_ADDR'] = '2001:db8:1:2::' . dechex( $i * 4099 ); // one client, a new address each time
+			nh_test_post( 'visit', NH_TEST_VISIT );
+			nh_assert_same( 'off', nh_test_submit()['json']['status'], "request $i" );
+		}
+		$_SERVER['REMOTE_ADDR'] = '2001:db8:1:2:aaaa:bbbb:cccc:dddd';
+		nh_test_post( 'visit', NH_TEST_VISIT );
+		nh_assert_same( 'limited', nh_test_submit()['json']['status'], 'the same /64' );
+		$_SERVER['REMOTE_ADDR'] = '2001:db8:1:3::1';
+		nh_test_post( 'visit', NH_TEST_VISIT );
+		nh_assert_same( 'off', nh_test_submit()['json']['status'], 'another /64' );
+		nh_assert_same( 2, count( $GLOBALS['nh_test']['transients'] ), 'two buckets' );
+
+		$GLOBALS['nh_test']['transients'] = [];
+		for ( $i = 1; $i <= 5; $i++ ) {
+			$_SERVER['REMOTE_ADDR'] = 0 === $i % 2 ? '::ffff:192.0.2.10' : '192.0.2.10';
+			nh_test_post( 'visit', NH_TEST_VISIT );
+			nh_test_submit();
+		}
+		$_SERVER['REMOTE_ADDR'] = '::ffff:192.0.2.10';
+		nh_test_post( 'visit', NH_TEST_VISIT );
+		nh_assert_same( 'limited', nh_test_submit()['json']['status'], 'IPv4 and IPv4-mapped share one bucket' );
+		nh_assert_same( 1, count( $GLOBALS['nh_test']['transients'] ) );
+		$_SERVER['REMOTE_ADDR'] = '::ffff:192.0.2.11';
+		nh_test_post( 'visit', NH_TEST_VISIT );
+		nh_assert_same( 'off', nh_test_submit()['json']['status'], 'another IPv4-mapped address is another visitor' );
+	},
+
 	'invalid fields → "invalid" with the right codes (server rules = client rules)' => static function () {
 		update_option( 'nh_settings', [ 'visit_recipient' => 'office@example.test' ] );
 		nh_test_post(
@@ -225,7 +255,7 @@ return [
 		nh_assert_same( [ $tmp ], $GLOBALS['nh_test']['deleted'] );
 	},
 
-	'a CV that is not a real PDF, too large, or not an upload → "invalid"' => static function () {
+	'a CV that is not a real PDF, too large, or not an upload → "invalid"; a path that is not an upload is never deleted' => static function () {
 		update_option( 'nh_settings', [ 'jobs_recipient' => 'jobs@example.test' ] );
 		$job = [
 			'role'    => 'טבח/ית',
@@ -260,9 +290,29 @@ return [
 			$r = nh_test_submit();
 			remove_filter( 'nh_forms_is_uploaded_file', $cb );
 			nh_assert_same( [ 'cv' => $code ], $r['json']['errors'], "case $i" );
-			nh_assert( ! file_exists( $tmp ), "case $i: temp file deleted" );
+			if ( $uploaded ) {
+				nh_assert( ! file_exists( $tmp ), "case $i: temp file deleted" );
+			} else {
+				nh_assert( file_exists( $tmp ), "case $i: not an upload, left alone" );
+				unlink( $tmp ); // phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
+			}
 		}
 		nh_assert_same( [], $GLOBALS['nh_test']['mails'] );
+		// a request that fails before the CV is looked at (here: the nonce) touches no file that is not an upload
+		$other = tempnam( sys_get_temp_dir(), 'nhcv' );
+		$_FILES = [
+			'cv' => [
+				'name'     => 'cv.pdf',
+				'type'     => 'application/pdf',
+				'tmp_name' => $other,
+				'error'    => UPLOAD_ERR_OK,
+				'size'     => 0,
+			],
+		];
+		nh_test_post( 'jobs', $job, 30, [ '_nh_nonce' => 'forged' ] );
+		nh_assert_same( 'expired', nh_test_submit()['json']['status'] );
+		nh_assert( file_exists( $other ), 'a path that is not an upload is left alone, whatever the answer' );
+		unlink( $other ); // phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 	},
 
 	'without JS: 303 back to the page with the status, never the typed values' => static function () {
@@ -380,6 +430,16 @@ return [
 			$state
 		);
 		nh_assert_same( '', NH_Forms::state( 'zzz' )['status'], 'another instance' );
+		$_GET['nh_err'] = 'call_this_number:required,name:required,scam_offer_here:email,cv:file_type';
+		nh_assert_same(
+			[
+				'name' => 'required',
+				'cv'   => 'file_type',
+			],
+			NH_Forms::state( 'a1b2c3d' )['errors'],
+			'only field keys of the forms: a crafted link cannot put its own words in the summary'
+		);
+		$_GET['nh_err'] = 'name:required,phone:tel,evil:<x>,email:bogus';
 		$s = NH_Forms::summary( $state, [ 'name' => 'שם מלא', 'phone' => 'טלפון' ], 'door' );
 		nh_assert_same(
 			'<div class="nh-alert nh-alert--error" data-error-summary tabindex="-1"><h3>נמצאו 2 שגיאות בטופס:</h3><ul><li><a href="#door-name">שם מלא — צריך למלא את השדה הזה.</a></li><li><a href="#door-phone">טלפון — מספר הטלפון לא תקין: צריך 9 או 10 ספרות, ובהתחלה 0.</a></li></ul></div>',

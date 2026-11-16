@@ -4,7 +4,7 @@ Tags: elementor, hebrew, rtl, accessibility
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.2.1
+Stable tag: 0.2.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,14 @@ No external services, no CDN, no tracking. Fonts are served from the plugin.
 * The letter outlines in assets/letters.json are drawn from Frank Ruhl Libre (same licence).
 
 == Changelog ==
+
+= 0.2.2 =
+* Our photos keep valid markup on the site: no attribute twice after the content filters of WordPress and
+  Elementor (loading, fetchpriority), and their own sizes (no "auto").
+* The widget «כ׳ · ידיים שיוצרות» is never served from Elementor's element cache (it reads the page and the user).
+* A page whose content does not start with a cover (a policy, a post, search, 404) starts below the fixed masthead.
+* Plain language on a page without a plain version says so instead of announcing a change; the video's «כן»
+  is described by its consent question for screen readers.
 
 = 0.2.1 =
 * Asset URLs carry the file time, so a deploy never leaves an old CSS or JS in a browser's cache.

@@ -78,7 +78,9 @@ PROTOTYPE_PAGES = {"index.html": "home", "program-main-home.html": "main-home"} 
 # Our pages: key -> fixtures/pages.php entry, WordPress title and slug (content/redirects.csv keeps the slugs)
 PAGES = {
     "home": {"fixture": "page-home", "title": "דף הבית", "slug": "דף-הבית", "front_page": True},
-    "main-home": {"fixture": "page-main-home", "title": "מעון ראשי – בית לחיים", "slug": "מעון-ראשי-בית-לחיים",
+    # the title as the prototype's <title> and research/07 §5.3 item 4 (the child theme's separator «|» and the site's
+    # name follow it: «מעון ראשי — בית לחיים | מעון נווה האירוס»); the slug is the old site's
+    "main-home": {"fixture": "page-main-home", "title": "מעון ראשי — בית לחיים", "slug": "מעון-ראשי-בית-לחיים",
                   "front_page": False},
 }
 
@@ -146,6 +148,9 @@ TEXT_TOKENS_OK = {"@nh:email"}
 # colours of tokens.css written out (the footer must not need the plugin's CSS variables).
 NIGHT, PAPER, ON_NIGHT_2, CITRUS = "#1C1830", "#F7F1E7", "#CFC8DE", "#F2B33D"
 DISPLAY, BODY = "Frank Ruhl Libre", "Assistant"
+# tokens.css --nh-gutter (the side gutter of the page) and v3.css --v3-fs-lead (the lead step), written out
+GUTTER = "clamp(1rem, .6rem + 3vw, 4rem)"
+LEAD = "clamp(1.25rem, 1.157rem + .381vw, 1.5rem)"
 SR_EXTERNAL = '<span class="elementor-screen-only"> (נפתח באתר חיצוני)</span>'   # Elementor's own class: no plugin CSS needed
 FOOTER_TEXT = {
     "about": "<p>בית לאנשים עם מוגבלות שכלית התפתחותית בנס ציונה, מאז 1957. בפיקוח משרד הרווחה והביטחון החברתי.</p>",
@@ -179,7 +184,10 @@ FOOTER_TEXT = {
                  'ל׳ ו־ד׳ — משמשות כאן כאדריכלות. הכדים, המנדלה והינשופים — עבודות יד של דיירות ודיירי נווה האירוס. '
                  'הצילומים זמניים, ללא פנים מזוהות.</p>'),
     "copyright": "<p>© מעון נווה האירוס. כל הזכויות שמורות.</p>",   # the static fallback of the dynamic year
-    "credit": ('<p>עיצוב ופיתוח: <a href="https://koranga.co.il/" rel="noopener">קורנגה' + SR_EXTERNAL + '</a></p>'),
+    # the agency's credit: bold, underlined in the link's own colour, citrus on hover (the class: the child theme's
+    # .nh-footer-credit, research/07 §10.1 item 3; the hover colour: the widget's link_hover_color)
+    "credit": ('<p class="nh-footer-credit">עיצוב ופיתוח: <a href="https://koranga.co.il/" rel="noopener">קורנגה'
+               + SR_EXTERNAL + '</a></p>'),
 }
 
 
@@ -287,11 +295,26 @@ def gap(column, row):
 
 
 def typography(family, size_rem, weight, line_height):
-    """Elementor's typography group, set in the widget (rem: the text follows the visitor's font size)."""
+    """Elementor's typography group, set in the widget (rem: the text follows the visitor's font size; a string is a
+    custom CSS value, e.g. the lead step's clamp(), which Elementor 4.4.0 prints as it is: unit `custom`)."""
+    size = ({"unit": "custom", "size": size_rem, "sizes": []} if isinstance(size_rem, str)
+            else {"unit": "rem", "size": size_rem, "sizes": []})
     return {"typography_typography": "custom", "typography_font_family": family,
-            "typography_font_size": {"unit": "rem", "size": size_rem, "sizes": []},
+            "typography_font_size": size,
             "typography_font_weight": str(weight),
             "typography_line_height": {"unit": "em", "size": line_height, "sizes": []}}
+
+
+def max_width(measure):
+    """Advanced → Width: Custom, as a measure (`34ch`): Elementor 4.4.0 prints `width: …; max-width: …` on the widget,
+    and its own `max-width: 100%` for a widget in a container wins on a narrower column — the prototype's
+    `max-inline-size`."""
+    return {"_element_width": "initial", "_element_custom_width": {"unit": "custom", "size": measure, "sizes": []}}
+
+
+def margin_top(px_value):
+    """Advanced → Margin, the top only (an optimized widget: on the widget's own element)."""
+    return {"_margin": {"unit": "px", "top": str(px_value), "right": "0", "bottom": "0", "left": "0", "isLinked": False}}
 
 
 def el_widget(name, widget_type, settings):
@@ -304,10 +327,11 @@ def el_container(name, settings, elements, inner=True):
             "isInner": inner}
 
 
-def text_editor(name, html, color=ON_NIGHT_2, **extra):
-    """A Text Editor in the footer: 16px Assistant, links in paper (the theme underlines them, 44px rows)."""
+def text_editor(name, html, color=ON_NIGHT_2, line_height=1.5, **extra):
+    """A Text Editor in the footer: 16px Assistant, links in paper (the theme underlines them, 44px rows; the theme
+    also takes the browser's margins off the first and last paragraph: the containers' gaps space the footer)."""
     return el_widget(name, "text-editor", {"editor": html, "text_color": color, "link_color": PAPER,
-                                           **typography(BODY, 1, 400, 1.5), **extra})
+                                           **typography(BODY, 1, 400, line_height), **extra})
 
 
 def footer_heading(name, title):
@@ -331,23 +355,35 @@ def year_line():
 def footer_data(display):
     """The footer's Elementor data: one boxed container on night (1440px, the prototype's .nh-container), a grid
     of three columns, the colophon, and a bottom row (© year, the agency's credit). `display` is the nh-display
-    element of the dump."""
+    element of the dump. The spacing is the prototype's (main.css «Footer», v3.css .v3-colophon__credits): the
+    mark — the emblem beside the name, one row of at least 44px —, the 34ch sentence, 12px between them; the
+    columns' headings 8px above their lists, the switch 12px below; the colophon 40px under the grid, 104ch wide,
+    line height 1.6; the side gutter of every spread, clamp(1rem, .6rem + 3vw, 4rem)."""
     emblem = el_widget("emblem", "image", {
         "image": {"url": "", "id": "@media:logo-emblem", "size": "", "alt": "", "source": "library"},
         "image_size": "full", "align": "start",
         # 36px high straight on night, no plate (research/07 §6); 105×74 → 51px wide
         "width": {"unit": "px", "size": 51, "sizes": []}, "height": {"unit": "px", "size": 36, "sizes": []}})
+    # the name in paper, the lead step (20 → 24px, research/07 §7.1: «название … в подвале»)
     name = el_widget("name", "heading", {"title": "מעון נווה האירוס", "header_size": "p", "title_color": PAPER,
-                                         **typography(DISPLAY, 1.5, 500, 1.15)})
+                                         **typography(DISPLAY, LEAD, 500, 1.15)})
+    # the mark: the emblem and the name in one row, as the prototype's .nh-footer__logo (a 44px row, gap .625rem)
+    mark = el_container("mark", {
+        "container_type": "flex", "content_width": "full", "flex_direction": "row", "flex_align_items": "center",
+        "flex_gap": gap(10, 10), "flex_wrap": "nowrap", "flex_wrap_tablet": "nowrap", "flex_wrap_mobile": "nowrap",
+        "min_height": {"unit": "px", "size": 44, "sizes": []}, "padding": px(0, 0, 0, 0)}, [emblem, name])
     column = {"container_type": "flex", "content_width": "full", "flex_direction": "column", "flex_gap": gap(0, 12),
               "padding": px(0, 0, 0, 0)}
+    links = {**column, "flex_gap": gap(0, 8)}   # the prototype's h2 { margin-block-end: .5rem }
     brand = el_container("col-brand", {**column, "grid_column_tablet": "2", "grid_column_mobile": "1"},
-                         [emblem, name, text_editor("about", FOOTER_TEXT["about"]),
+                         [mark, text_editor("about", FOOTER_TEXT["about"], **max_width("34ch")),
                           text_editor("contacts", FOOTER_TEXT["contacts"])])
-    nav = el_container("col-nav", dict(column), [footer_heading("nav-title", "ניווט"),
-                                                 text_editor("nav", FOOTER_TEXT["nav"])])
-    info = el_container("col-info", dict(column), [footer_heading("info-title", "מידע ונגישות"),
-                                                   text_editor("info", FOOTER_TEXT["info"]), display])
+    nav = el_container("col-nav", dict(links), [footer_heading("nav-title", "ניווט"),
+                                                text_editor("nav", FOOTER_TEXT["nav"])])
+    # the switch 12px under the list (the prototype's .nh-footer .v3-switches { margin-block-start: .75rem }): 8 + 4
+    display = {**display, "settings": {**display["settings"], **margin_top(4)}}
+    info = el_container("col-info", dict(links), [footer_heading("info-title", "מידע ונגישות"),
+                                                  text_editor("info", FOOTER_TEXT["info"]), display])
     grid = el_container("grid", {
         "container_type": "grid", "content_width": "full",
         "grid_columns_grid": {"unit": "custom", "size": "5fr 3fr 4fr", "sizes": []},
@@ -359,15 +395,18 @@ def footer_data(display):
         "container_type": "flex", "content_width": "full", "flex_direction": "row", "flex_wrap": "wrap",
         "flex_justify_content": "space-between", "flex_gap": gap(32, 4), "padding": px(20, 0, 0, 0),
         "border_border": "solid", "border_width": px(1, 0, 0, 0), "border_color": "rgba(247, 241, 231, 0.3)"},
-        [year_line(), text_editor("credit", FOOTER_TEXT["credit"])])
+        [year_line(), text_editor("credit", FOOTER_TEXT["credit"], link_hover_color=CITRUS)])
+    # the colophon: 104ch, line height 1.6, 40px under the grid (the container's 32px gap + 8)
+    colophon = text_editor("colophon", FOOTER_TEXT["colophon"], line_height=1.6, **max_width("104ch"), **margin_top(8))
     outer = {
         "container_type": "flex", "content_width": "boxed", "boxed_width": {"unit": "px", "size": 1440, "sizes": []},
         "flex_direction": "column", "flex_gap": gap(0, 32),
         "background_background": "classic", "background_color": NIGHT,
-        # the prototype's .nh-footer: 4rem above, 2rem below; the side gutter of .nh-container (16 → 64px)
-        "padding": px(64, 48, 32, 48), "padding_tablet": px(64, 32, 32, 32), "padding_mobile": px(64, 16, 32, 16)}
-    return [el_container("outer", outer, [grid, text_editor("colophon", FOOTER_TEXT["colophon"]), bottom],
-                         inner=False)]
+        # the prototype's .nh-footer: 4rem above, 2rem below; the side gutter of .nh-container and of every spread
+        # (--nh-gutter, 16 → 64px), one fluid value at every width, so the footer's edges line up with the page's
+        "padding": {"unit": "custom", "top": "4rem", "right": GUTTER, "bottom": "2rem", "left": GUTTER,
+                    "isLinked": False}}
+    return [el_container("outer", outer, [grid, colophon, bottom], inner=False)]
 
 
 def build():

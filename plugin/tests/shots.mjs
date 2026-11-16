@@ -199,6 +199,18 @@ async function behaviour() {
     await p.waitForTimeout(150);
     ok(await p.evaluate(() => document.activeElement && document.activeElement.id === document.getElementById("homes").getAttribute("aria-labelledby")), "menu link #homes: focus on the spread's heading");
     ok(await p.evaluate((y) => scrollY !== y && getComputedStyle(document.documentElement).scrollBehavior !== "smooth", y0), "the page jumped there, without smooth scrolling");
+    // the assembled page carries Elementor 4.4.0's own `html { scroll-behavior: smooth }` (its frontend.min.css, printed
+    // first on the site): the child theme's :root rule must win, and a jump must land within one frame
+    ok(await p.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior === "auto"
+      && Array.from(document.styleSheets).some((s) => s.ownerNode && s.ownerNode.id === "elementor-frontend-stub-css")), "Elementor's smooth scrolling is on the page, the theme turns it off (scroll-behavior: auto)");
+    const jump = await p.evaluate(() => new Promise((resolve) => {
+      window.scrollTo(0, 0);
+      requestAnimationFrame(() => {
+        document.querySelector(".nh-nav a[href='#door']").click();
+        requestAnimationFrame(() => { const first = scrollY; setTimeout(() => resolve({ first, last: scrollY }), 400); });
+      });
+    }));
+    ok(jump.first > 1000 && jump.first === jump.last, `#door: the whole jump in one frame (${jump.first} → ${jump.last})`);
     // 3. the display switches: the masthead's plain button, the plain box, the footer's calm switch
     await p.click(".v3-plainbtn");
     await p.waitForTimeout(200);
@@ -329,6 +341,42 @@ async function behaviour() {
     ok(await p.evaluate(() => Array.from(document.querySelectorAll(".v3-gallery > li")).every((li) => li.hidden && getComputedStyle(li).display === "none")), "images off: the gallery's cells are not shown (the grid closes up)");
     ok(await p.evaluate(() => { const e = document.querySelector("img.nh-logo__mark"); const n = document.querySelector(".nh-logo__name"); return (!e || e.hidden) && n && n.getBoundingClientRect().width > 0; }), "images off: the emblem goes, the name stays");
     ok(await p.evaluate(() => document.getAnimations().length === 0), "images off: nothing moves");
+    await ctx.close();
+  }
+  {
+    // 4e. 0.2.2: the video's «כן» is described by its question (full or plain wording on screen); plain language on a
+    // page without plain text says so; a page that does not start with a cover starts below the fixed masthead
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const p = await ctx.newPage();
+    const errors = [];
+    p.on("pageerror", (e) => errors.push(e.message));
+    await p.goto(url, { waitUntil: "load" });
+    await p.click(".nh-video__play");
+    const ask = await p.evaluate(() => {
+      const yes = document.activeElement, id = yes.getAttribute("aria-describedby") || "", q = id && document.getElementById(id);
+      return { yes: yes.matches("[data-video-load]"), q: q ? q.textContent.trim() : "", full: !!(q && q.matches(".nh-video__consent > .v3-full")) };
+    });
+    ok(ask.yes && ask.full && ask.q.includes("YouTube"), `the consent question: focus on «כן», described by the question on screen («${ask.q.slice(0, 40)}…»)`);
+    await p.click(".v3-plainbtn");
+    ok(await p.evaluate(() => { const q = document.getElementById(document.querySelector("[data-video-load]").getAttribute("aria-describedby")); return !!q && q.matches(".v3-plain") && q.getClientRects().length > 0; }), "plain language on: «כן» is described by the plain wording");
+    await p.click(".v3-plainbtn");
+    await p.click("[data-video-cancel]");
+    // a page without plain text: switching plain language on announces that, not a change
+    await p.evaluate(() => document.querySelectorAll("main .v3-plain").forEach((el) => el.remove()));
+    await p.click(".v3-plainbtn");
+    await p.waitForTimeout(200);
+    ok((await p.evaluate(() => document.querySelector("[data-announce]").textContent)) === "שפה פשוטה פועלת. לדף הזה אין עדיין נוסח בשפה פשוטה."
+      && await p.evaluate(() => document.documentElement.classList.contains("nh-plainmode")), "a page without plain text: «…אין עדיין נוסח בשפה פשוטה», the choice is still on");
+    await p.click(".v3-plainbtn");
+    // no cover: main#content starts below the masthead (72px at 1440) with the theme's 2rem
+    const pad = await p.evaluate(() => {
+      const main = document.getElementById("content"), before = parseFloat(getComputedStyle(main).paddingTop);
+      document.querySelectorAll(".v3-cover").forEach((el) => el.closest(".elementor-element").remove());
+      const header = document.querySelector(".nh-header").getBoundingClientRect();
+      return { before, after: parseFloat(getComputedStyle(main).paddingTop), mast: header.height };
+    });
+    ok(pad.before === 0 && Math.abs(pad.after - (72 + 32)) < 0.5 && pad.after > pad.mast, `no cover: main#content's top padding ${pad.after}px clears the ${pad.mast}px masthead (with a cover: ${pad.before}px)`);
+    ok(errors.length === 0, "no script errors" + (errors.length ? ": " + errors.join("; ") : ""));
     await ctx.close();
   }
   {

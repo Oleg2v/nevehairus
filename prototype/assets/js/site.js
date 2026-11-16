@@ -139,10 +139,22 @@
   }
 
   /* ---------- 4. Video facade (privacy: no YouTube request before consent) */
+  let asked = 0;   // ids of the consent questions' wordings (full and plain each get their own)
   d.querySelectorAll("[data-video]").forEach((box) => {
     const id = box.dataset.video;
     const play = box.querySelector(".nh-video__play");
     const ask = box.querySelector(".nh-video__consent");
+    const yes = ask && ask.querySelector("[data-video-load]");
+    // focus goes straight to «כן»: it is described by the question it answers, in the wording on screen (full or
+    // plain language — the hidden twin is never named), so a screen reader says what the visitor agrees to
+    const describe = () => {
+      if (!yes || ask.hidden) return;
+      const q = Array.from(ask.children).find((el) => !el.matches(".nh-btn-row") && el.getClientRects().length > 0);
+      if (!q) { yes.removeAttribute("aria-describedby"); return; }
+      if (!q.id) q.id = "nh-video-ask-" + (++asked);
+      yes.setAttribute("aria-describedby", q.id);
+    };
+    d.addEventListener("nh:displaychange", describe);
     const load = () => {
       const f = d.createElement("iframe");
       f.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(id) + "?autoplay=1&rel=0";
@@ -157,7 +169,8 @@
       const c = readConsent();
       if (c && c.media) return load();
       ask.hidden = false;
-      ask.querySelector("[data-video-load]").focus();
+      describe();
+      yes.focus();
     });
     ask && ask.querySelector("[data-video-load]").addEventListener("click", () => {
       const c = readConsent() || {};

@@ -378,12 +378,15 @@ final class NH_Picture {
 	public static function dims( int $id ): array;             // [ width, height ] of 'full'
 	public static function alt( int $id ): string;             // _wp_attachment_image_alt
 	public static function preload( int $id, string $sizes ): string; // <link rel="preload" as="image" … fetchpriority="high">
+	public const MARK = 'data-nh-pic';                         // 0.2.2: render()'s marker of its <img>
+	public static function content_img_tag( $tag );            // 0.2.2: `wp_content_img_tag` @20, see below
 }
 ```
 `render( $id, $o )` options: `sizes` (default `100vw`), `class` (on `<picture>`), `loading` (`lazy`|`eager`, default `lazy`), `priority` (bool → `fetchpriority="high"`), `alt` (`?string`), `decorative` (bool → `alt=""`). Returns `''` if the attachment is not an image. Output, attribute order as the prototype (`picture()`, build script L37–56):
 ```html
 <picture class="{class}">[<source type="image/avif" srcset="{avif_srcset}" sizes="{sizes}">]<img src="{src: medium_large → large → full}" srcset="{srcset}" sizes="{sizes}" width="{w}" height="{h}" alt="{alt}" loading="{loading}" decoding="async"[ fetchpriority="high"]></picture>
 ```
+*(0.2.2: the `<img>` starts with the marker `data-nh-pic` — `<img data-nh-pic src=…` — and `content_img_tag()`, hooked by `NH_Plugin::boot()` on `wp_content_img_tag` @20, takes it away again in the_content, where Elementor prints a page. That filter runs after WordPress adds `auto, ` to a lazy image's `sizes` (6.7+) and after Elementor 4.4.0's «Optimized Image Loading» (@10), which puts `loading` / `fetchpriority` in front of a tag even when the tag has them: duplicate attributes are invalid markup (WCAG 2.0 4.1.1, kept by ת"י 5568). For a marked tag only, every attribute is kept once, at its last occurrence (render()'s place: those filters prepend theirs), the `auto, ` is taken out of `sizes` (render()'s sizes follow the layout, research/07 §17.6) and the marker goes; an attribute another filter added once stays; any other tag is returned as it came. Outside the_content (the editor, the stub harness) the marker stays: compare.py and the letters parity test ignore it.)*
 Always a `<picture>` wrapper (CSS targets `picture`). Never add WordPress classes (`wp-image-*`, `attachment-*`). No `srcset`/`sizes` if WordPress returns none. AVIF alternates are read from `wp_get_attachment_metadata( $id )['sizes'][ $size ]['sources']['image/avif']['file']` and `['sources']['image/avif']` for the full size. *(Core: candidates keep only sizes with the full size's aspect ratio (as `wp_image_matches_ratio()`) up to `max_srcset_image_width`; an `alt` of `''` means the media library's alt, like `null` — use `decorative` for `alt=""`; the AVIF preload's `href` is the AVIF candidate of the `<img src>` width.)*
 
 ### 3.9 `NH_Settings`
@@ -535,7 +538,7 @@ An icon that does not exist in Elementor's icon font is cosmetic; use `eicon-app
 - Heading ids come from `nh_uid()`; `aria-labelledby` of the section points to the spread's heading (H1 for covers, H2 otherwise).
 - Numbers with symbols (`100+`), phone numbers and e-mail addresses inside RTL text are wrapped in `<span class="nh-ltr">` exactly where the prototype does; Latin words inside Hebrew text keep their `<span lang="en" dir="ltr">` (colophon).
 - No inline `style` except the CSS custom properties of rooms (`NH_Letters::room()`) *(v3.2: the swatches are gone; run.php allows a `style` attribute only on `.v3-room`)*.
-- `DYNAMIC = true` for widgets that read settings or the request (masthead, cover and page-cover — the phone line —, door, jobs-form, lamed); everything else `false` (Elementor may cache the output). *(v3.2: the colophon is gone; the gallery queues nothing and is static.)*
+- `DYNAMIC = true` for widgets that read settings or the request (masthead, cover and page-cover — the phone line —, door, jobs-form, lamed); everything else `false` (Elementor may cache the output). *(v3.2: the colophon is gone; the gallery queues nothing and is static. 0.2.2: `related` and `kaf` are DYNAMIC too — both read the current post, the current user (an editors' note) and the settings (link tokens). While the plugin is not loaded the child theme switches Elementor's element cache off on the front end (theme 1.1.2), so the HTML of a static widget is never printed from the cache without the plugin's CSS and JS.)*
 - *(v3.2, B2 16.11, research/07 §4, §13: no widget script animates anything. The widget scripts left are `masthead.js` (the phone menu) and `voices.js` (the video facade); the one soft appearance of prints is `nh.reveal()` in nh-core.js, on `figure.v3-print[data-reveal]`. A print a widget prints carries `data-reveal`; every letter keeps one weight (`WEIGHT` constants: ב 600, כ 440, ס 380, ל 600).)*
 
 **Reference skeleton** (shape only — `widgets/cover.php` in the core package is the complete reference; long defaults shortened here with `…`):
@@ -811,7 +814,7 @@ Fixture: `prototype` = photos `v3-crafts`, `v3-riding`, `v3-orchard`, `v3-villa-
 *(v3.2, B2 16.11: research/07 §10.2 item 5, §13. One still work in the palm of a still כ (weight 440) and a visible
 caption; no list of works, no colour swatches, no crossfade; the honey ground; the ruling line first.)*
 
-Constants: `ID 'kaf'`, `STYLE_DEPS ['nh-letters']`, `WEIGHT 440`, `SIZES '(min-width: 64em) 28rem, 70vw'`. Section class `v3-kaf v3-spread`, tone `citrus` («honey», base.css). Section control: anchor `made`.
+Constants: `ID 'kaf'`, `STYLE_DEPS ['nh-letters']`, `DYNAMIC true` *(0.2.2, §3.3: render() reads the current post — a button to this very spread is left out —, the current user — the editors' note about it — and the settings — the button's link tokens; cached once while an editor looked at the page, the note would be shown to visitors)*, `WEIGHT 440`, `SIZES '(min-width: 64em) 28rem, 70vw'`. Section class `v3-kaf v3-spread`, tone `citrus` («honey», base.css). Section control: anchor `made`.
 
 | control | type | default | `_plain` |
 |---|---|---|---|
@@ -956,7 +959,7 @@ Constants: `ID 'voices'`. Section class `v3-voices v3-spread`, tone `night`. Sec
 | `load_label` / `cancel_label` | pair / pair | `כן, לטעון את הסרטון` / `לא עכשיו` | '' / '' |
 | `caption` | pair | `סרטון: הורה של דייר מספר על נווה האירוס. בתמונה: ינשופים, עבודת יד של דיירות ודיירי נווה האירוס.` | '' |
 
-Changed in v3.2: `title` (was a pair for an `nh-sr-only` H2) is the spread's heading with its tessera; `play_prefix` (was `צפו בסרטון:` before the title) is only the screen-reader text after the visible `play_label`; `running` removed.
+Changed in v3.2: `title` (was a pair for an `nh-sr-only` H2) is the spread's heading with its tessera; `play_prefix` (was `צפו בסרטון:` before the title) is only the screen-reader text after the visible `play_label`; `running` removed. *(0.2.2: when the question opens, `voices.js` gives «כן» `aria-describedby` pointing at the question's wording on screen — the full `p` or the plain `div`, an id given at run time, renewed on `nh:displaychange` — so a screen reader, whose focus lands straight on «כן», hears what it agrees to; the prototype's site.js does the same.)*
 
 Markup (target `index.html` `section#voices`):
 ```html
@@ -1319,7 +1322,7 @@ Markup = `partials/header.html` (target: built `index.html` `header.nh-header` a
 - The name: `name` split at its last space into two `span`s (the compact masthead shows them as two lines); with a plain twin, one `.nh-logo__name.v3-full` and one `.v3-plain`. Without any name the link keeps the site's name in its screen-reader text. `menu_label` / `menu_close` fall back to `תפריט` / `סגירה` when emptied (a button must have a name).
 - The skip link (the child theme), the cookie panel and the global live region (the site module) are not printed here.
 
-CSS `masthead.css` *(v3.2; source lines added by P1 16.11)*: main.css L133–213 («v3.2 masthead») and L215–252 («Phone menu»), the menu's switch group (v3.css L55, as `.nh-menu .v3-switches`), the masthead's selectors of the forced-colours and print groups (main.css L439–440, L447; v3.css L385–386), v3.css L455–457 (1.4.12 wrap) and L463–466 (`max-height: 30em`: `.v3-mast { position: absolute; }`), the scroll padding of main.css L9–10 / v3.css L467 as `html:has(.v3-mast)`, the admin-bar offset. Porting changes: the emblem's selector is `.nh-logo .nh-logo__mark` (0,2,0), to beat Elementor's `.elementor img { height: auto }`; *(P1 16.11)* `.nh-nav li > a { text-decoration-line: none }` (0,1,2), because the child theme's `.elementor a:where(:not([class]))` (0,1,1, printed after the plugin's CSS; Pro wraps the header template in `div.elementor.elementor-location-header`) underlined the five class-less links over `.nh-nav a` (0,1,1) — the hover rule (0,2,1) still underlines them on hover. The menu's links (`.nh-menu nav a`, 0,1,2) already won. Breakpoints: the full menu from 80em, the phone number from 90em, the compact mark below 40em, no emblem below 22.5em.
+CSS `masthead.css` *(v3.2; source lines added by P1 16.11)*: main.css L133–213 («v3.2 masthead») and L215–252 («Phone menu»), the menu's switch group (v3.css L55, as `.nh-menu .v3-switches`), the masthead's selectors of the forced-colours and print groups (main.css L439–440, L447; v3.css L385–386), v3.css L455–457 (1.4.12 wrap) and L463–466 (`max-height: 30em`: `.v3-mast { position: absolute; }`), the scroll padding of main.css L9–10 / v3.css L467 as `html:has(.v3-mast)`, the admin-bar offset, *(0.2.2, WordPress only)* the room under the fixed masthead on a page whose content does not start with a cover (`body:has(.v3-mast):not(:has(.v3-cover)) #content { padding-block-start: calc(var(--v3-mast, 3.75rem) + 2rem) }`: Hello's templates — a page from the block editor such as the privacy policy or the accessibility statement, a post, search, archives, 404 — or a page of other widgets; the covers keep their own room). Porting changes: the emblem's selector is `.nh-logo .nh-logo__mark` (0,2,0), to beat Elementor's `.elementor img { height: auto }`; *(P1 16.11)* `.nh-nav li > a { text-decoration-line: none }` (0,1,2), because the child theme's `.elementor a:where(:not([class]))` (0,1,1, printed after the plugin's CSS; Pro wraps the header template in `div.elementor.elementor-location-header`) underlined the five class-less links over `.nh-nav a` (0,1,1) — the hover rule (0,2,1) still underlines them on hover. The menu's links (`.nh-menu nav a`, 0,1,2) already won. Breakpoints: the full menu from 80em, the phone number from 90em, the compact mark below 40em, no emblem below 22.5em.
 JS `masthead.js`: the menu only (v3.2 site.js «1. Phone menu», L22–45): «תפריט» opens it, Esc and «סגירה» close it and focus returns to «תפריט»; a link of the menu or its visit button sets `menu.dataset.nav`, closes it, and the close handler then leaves focus to nh-core.js (the target's heading, research/07 §5.4–5.5).
 Fixture: `default` compare `index.html` `header.nh-header`, `dialog#nh-menu` (expected: the root tag `div`, no emblem chosen); `prototype` (root `header`, the emblem) and `house` (queried post 11, `current_ids` 11 on «הבתים שלנו») — 0 differing lines; `page`, `plain`, `six`, `sparse`, `cta-link` (structure only).
 
@@ -1465,15 +1468,15 @@ Elsewhere: site.js «1» (the phone menu) → `masthead.js`; «4» (the video fa
   "consent": { "key": "nh-consent-v1", "v": 1 },
   "i18n": {
     "plainOn": "הדף מוצג עכשיו בשפה פשוטה.", "plainOff": "הדף מוצג עכשיו בקריאה רגילה.",
+    "plainNone": "שפה פשוטה פועלת. לדף הזה אין עדיין נוסח בשפה פשוטה.",
     "calmOn": "מצב רגוע פעיל: בלי תנועה ועם צבעים רכים יותר.", "calmOff": "מצב רגוע כבוי.",
-    "motionOn": "התנועה באתר מופחתת.", "motionOff": "התנועה באתר חזרה.",
     "videoTitle": "סרטון"
   },
   "forms": { "msg": { "required": "…", "email": "…", "tel": "…", "consent": "…", "fileSize": "…", "fileType": "…",
                        "summaryOne": "…", "summaryMany": "…", "expired": "…", "limited": "…", "off": "…", "error": "…" } }
 }
 ```
-The `i18n` strings are screen-reader announcements (prototype v3.js L71, L78, L80; site.js L226), wrapped in `__()`. The form messages come from settings (§7).
+The `i18n` strings are screen-reader announcements (prototype v3.js L71, L78, L80; site.js L226), wrapped in `__()`. The form messages come from settings (§7). *(0.2.2: `plainNone` ⊕ — turning plain language on where `main` holds no `.v3-plain` text (a page outside our widgets: a policy, a post, search, 404) announces that this page has no plain version yet instead of «הדף מוצג עכשיו בשפה פשוטה.»; the choice is still stored. The `motionOn`/`motionOff` strings are gone since 0.2.0.)*
 
 ---
 

@@ -18,6 +18,14 @@ final class NH_Widget_Kaf extends NH_Widget_Base {
 
 	public const STYLE_DEPS = [ 'nh-letters' ];
 
+	/**
+	 * Never in Elementor's element cache (SPEC §3.3): render() reads the current post (a button to this very spread
+	 * is left out), the current user (the editors' note about it) and the settings (the button's link tokens).
+	 * Cached once while an editor looks at the page, that note would be shown to every visitor until the cache
+	 * expires; cached by a visitor first, editors would never see it.
+	 */
+	public const DYNAMIC = true;
+
 	public const KEYWORDS = [ 'kaf', 'crafts', 'works', 'palm', 'כ', 'כף', 'יצירות', 'עבודות יד', 'פסיפס' ];
 
 	/** The one weight of the כ (v3.2: every letter keeps one weight for good). */

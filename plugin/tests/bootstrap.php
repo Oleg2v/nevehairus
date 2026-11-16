@@ -313,6 +313,9 @@ function nh_test_page( array $parts, array $o = [] ): string {
 		$memo->setValue( null, null );
 	}
 	$css .= '<link rel="stylesheet" id="nh-child-css" href="../../../theme/hello-elementor-child/style.css">' . "\n";
+	// Elementor 4.4.0's frontend.min.css, printed first on the site, turns smooth scrolling on for the whole page; the
+	// child theme turns it off (shots.mjs --behaviour checks that a jump to an anchor stays instant)
+	$css = '<style id="elementor-frontend-stub-css">@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}</style>' . "\n" . $css;
 
 	$head   = nh_test_capture( [ 'NH_Site', 'head' ] );
 	$open   = nh_test_capture( [ 'NH_Site', 'body_open' ] );

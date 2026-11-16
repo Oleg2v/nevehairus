@@ -39,6 +39,8 @@ final class NH_Plugin {
 		NH_Forms::init();
 		NH_Compat::init();
 		NH_Assets::init();
+		// our own images only (NH_Picture::MARK): no attribute twice after the content filters of WordPress and Elementor
+		add_filter( 'wp_content_img_tag', [ 'NH_Picture', 'content_img_tag' ], 20 );
 		if ( is_admin() ) {
 			NH_Settings_Page::init();
 		}

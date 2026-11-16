@@ -33,6 +33,7 @@ function nh_test_letter_items(): array {
  * Normalised HTML for parity: URLs by basename, img width/height by presence.
  */
 function nh_test_letters_norm( string $html ): string {
+	$html = str_replace( ' ' . NH_Picture::MARK, '', $html ); // the plugin's marker of its own img, gone in the_content
 	$html = (string) preg_replace( '~[^\s"\',]*/([\w.-]+\.(?:webp|avif|jpe?g|png))~', '$1', $html );
 	return (string) preg_replace( '~ width="\d+" height="\d+"~', ' width="#" height="#"', $html );
 }

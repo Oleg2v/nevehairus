@@ -356,6 +356,8 @@ final class NH_Site {
 			'i18n'     => [
 				'plainOn'    => __( 'הדף מוצג עכשיו בשפה פשוטה.', 'nevehairus-site' ),
 				'plainOff'   => __( 'הדף מוצג עכשיו בקריאה רגילה.', 'nevehairus-site' ),
+				// v3.2 (⊕, to be shown to the client): a page without a plain-language version does not change
+				'plainNone'  => __( 'שפה פשוטה פועלת. לדף הזה אין עדיין נוסח בשפה פשוטה.', 'nevehairus-site' ),
 				'calmOn'     => __( 'מצב רגוע פעיל: בלי תנועה ועם צבעים רכים יותר.', 'nevehairus-site' ),
 				'calmOff'    => __( 'מצב רגוע כבוי.', 'nevehairus-site' ),
 				'videoTitle' => __( 'סרטון', 'nevehairus-site' ),

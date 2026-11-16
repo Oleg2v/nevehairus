@@ -174,3 +174,10 @@ html:has(.v3-mast) { scroll-padding-block-start: 6rem; }
 /* plugin (no prototype source; WordPress only): for signed-in users the admin bar sits at the top of the
    viewport, so the fixed masthead starts under it. Visitors never get .admin-bar. */
 body.admin-bar .nh-header { top: var(--wp-admin--admin-bar--height, 32px); }
+
+/* plugin (no prototype source; WordPress only): the masthead is in the header of every page, but only our covers
+   keep room for it (cover.css: padding-block-start from --v3-mast). A page whose content does not start with one —
+   Hello's templates (a page written in the block editor such as the privacy policy or the accessibility statement,
+   a post, search, archives, 404) or a page of other widgets — starts below the fixed masthead, with the child
+   theme's 2rem under it. main#content is Hello's and the child theme's; (1,2,1) beats the theme's padding-block. */
+body:has(.v3-mast):not(:has(.v3-cover)) #content { padding-block-start: calc(var(--v3-mast, 3.75rem) + 2rem); }

@@ -33,7 +33,7 @@ return [
 		$base = NH_TEST_MEDIA_BASE . 'v3-walk-';
 		$want = '<picture class="v3-room__photo">'
 			. '<source type="image/avif" srcset="' . nh_test_picture_set( 'v3-walk', 'avif' ) . '" sizes="(min-width: 1024px) 30rem, 44vw">'
-			. '<img src="' . $base . '768.webp" srcset="' . nh_test_picture_set( 'v3-walk', 'webp' ) . '" sizes="(min-width: 1024px) 30rem, 44vw" width="1224" height="1571" alt="' . esc_attr( NH_Picture::alt( $id ) ) . '" loading="lazy" decoding="async">'
+			. '<img data-nh-pic src="' . $base . '768.webp" srcset="' . nh_test_picture_set( 'v3-walk', 'webp' ) . '" sizes="(min-width: 1024px) 30rem, 44vw" width="1224" height="1571" alt="' . esc_attr( NH_Picture::alt( $id ) ) . '" loading="lazy" decoding="async">'
 			. '</picture>';
 		nh_assert_same(
 			$want,
@@ -57,6 +57,31 @@ return [
 		nh_assert_contains( 'sizes="100vw"', $p, 'default sizes' );
 		nh_assert( 0 === strpos( $p, '<picture><source' ), 'no class attribute without a class' );
 		nh_assert_contains( 'loading="lazy"', NH_Picture::render( $id, [ 'loading' => 'bogus' ] ) );
+	},
+
+	'content_img_tag(): our image as render() printed it after the_content (no attribute twice, no auto sizes, no marker); others untouched' => static function () {
+		$id   = nh_test_media_id( 'v3-villa' );
+		$mine = NH_Picture::render( $id, [ 'sizes' => '9.5rem' ] );
+		nh_assert( 1 === preg_match( '~<img [^>]+>~', $mine, $m ), 'render() prints one img' );
+		$img   = $m[0];
+		$clean = str_replace( ' ' . NH_Picture::MARK, '', $img );
+		nh_assert_same( 20, has_filter( 'wp_content_img_tag', [ 'NH_Picture', 'content_img_tag' ] ), 'hooked after Elementor\'s Optimized Image Loading (10)' );
+		nh_assert_same( $clean, NH_Picture::content_img_tag( $img ), 'untouched by other filters: only the marker goes' );
+		// WordPress 6.7+ (auto sizes of a lazy image), then Elementor 4.4.0 (loading put in front again)
+		$filtered = '<img loading="lazy"' . substr( str_replace( 'sizes="9.5rem"', 'sizes="auto, 9.5rem"', $img ), 4 );
+		nh_assert_same( 2, substr_count( $filtered, 'loading="lazy"' ), 'the content filters\' output, as on the site' );
+		nh_assert_same( $clean, NH_Picture::content_img_tag( $filtered ), 'one loading, the sizes of render(), no marker, render()\'s order' );
+		// the cover: fetchpriority put in front again; an attribute another filter added once stays
+		$cover    = NH_Picture::render( $id, [ 'priority' => true, 'loading' => 'eager', 'sizes' => '44vw' ] );
+		nh_assert( 1 === preg_match( '~<img [^>]+>~', $cover, $c ) );
+		$filtered = '<img fetchpriority="high" data-extra="1"' . substr( $c[0], 4 );
+		$out      = NH_Picture::content_img_tag( $filtered );
+		nh_assert_same( 1, substr_count( $out, 'fetchpriority=' ), 'fetchpriority once' );
+		nh_assert_same( '<img data-extra="1"' . substr( str_replace( ' ' . NH_Picture::MARK, '', $c[0] ), 4 ), $out );
+		// not ours: as it came, duplicates and all
+		$theirs = '<img loading="lazy" src="https://nh.test/x.webp" sizes="auto, 50vw" width="10" height="10" alt="" loading="lazy">';
+		nh_assert_same( $theirs, NH_Picture::content_img_tag( $theirs ) );
+		nh_assert_same( 7, NH_Picture::content_img_tag( 7 ), 'not a string: as it came' );
 	},
 
 	'render(): a missing or non-image attachment gives nothing' => static function () {

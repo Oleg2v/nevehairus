@@ -1,7 +1,9 @@
 // Browser check of the TEST site: opens each URL in Chromium (desktop 1440x900 and phone 390x844) and reports
 // console errors and warnings, uncaught page errors and failed requests. Read-only: it only loads pages.
 //   node scripts/console_check.mjs https://nevehairus.ussl.co.il/ https://nevehairus.ussl.co.il/hello-world/ ...
-// Prints one JSON object: { "<url> @<viewport>": { status, console: [...], pageErrors: [...], failed: [...] } }.
+// Prints one JSON object: { "<url> @<viewport>": { status, console: [...], pageErrors: [...], failed: [...], motion: [...] } }.
+// motion: what research/07 forbids that a page's CSS can switch on by itself, e.g. Elementor 4.4.0's
+// `html { scroll-behavior: smooth }` (§5.5: a jump to an anchor is instant; the child theme turns it off).
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
@@ -22,7 +24,7 @@ for (const [vpName, viewport] of Object.entries(viewports)) {
   const ctx = await browser.newContext({ viewport, locale: 'he-IL' });
   for (const url of urls) {
     const page = await ctx.newPage();
-    const rec = { status: null, console: [], pageErrors: [], failed: [] };
+    const rec = { status: null, console: [], pageErrors: [], failed: [], motion: [] };
     page.on('console', (m) => {
       if (m.type() === 'error' || m.type() === 'warning') rec.console.push(`${m.type()}: ${m.text().slice(0, 300)}`);
     });
@@ -35,6 +37,8 @@ for (const [vpName, viewport] of Object.entries(viewports)) {
       const res = await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
       rec.status = res ? res.status() : null;
       await page.waitForTimeout(1500);
+      const scroll = await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior);
+      if (scroll !== 'auto') rec.motion.push(`html scroll-behavior: ${scroll} (an in-page jump would glide)`);
     } catch (e) {
       rec.pageErrors.push(`navigation: ${String(e).slice(0, 200)}`);
     }

@@ -33,7 +33,9 @@ over HTTP with a real pretty URL and reverted if it fails), Hello Elementor from
 the child theme from theme/hello-elementor-child (if missing), activated; ezCache development mode on and the
 page cache purged; the must-use "safe switch" wp-content/mu-plugins/nh-safe-switch.php: a request with the
 header X-NH-Safe-Key loads the site without the nevehairus-site plugin, and with ?nh_safe_off=1 also deactivates
-it. Its key lives only in KEY_FILE (outside the repo); `rekey` makes a new one when a new session lost it.
+it (and empties Elementor's caches, as a real deactivation would); a request through it never reads or writes
+Elementor's element cache. Its key lives only in KEY_FILE (outside the repo); `rekey` makes a new one when a new
+session lost it, and is also how a changed switch reaches the site.
 
 deploy: the task request itself is made with the safe-switch key, so an older copy is not loaded; it deactivates
 the old copy, installs the zip with WordPress's Plugin_Upgrader (replace), activates the new copy (which really
@@ -409,10 +411,27 @@ if ( isset( $_SERVER['HTTP_X_NH_SAFE_KEY'] ) && is_string( $_SERVER['HTTP_X_NH_S
 		$nh_safe_active = (array) get_option( 'active_plugins', array() );
 		if ( in_array( $nh_safe_file, $nh_safe_active, true ) ) {
 			update_option( 'active_plugins', array_values( array_diff( $nh_safe_active, array( $nh_safe_file ) ) ) );
+			// as WordPress's own deactivation would (Elementor's deactivated_plugin hook): Elementor empties its caches,
+			// the element cache among them, which keeps the plugin's widget HTML for every visitor
+			add_action( 'init', static function () {
+				try {
+					if ( class_exists( '\Elementor\Plugin' ) && isset( \Elementor\Plugin::$instance->files_manager ) ) {
+						\Elementor\Plugin::$instance->files_manager->clear_cache();
+					}
+				} catch ( \Throwable $e ) {
+					// the switch answers even when Elementor cannot
+				}
+			}, 99 );
 		}
 	}
 	add_filter( 'option_active_plugins', static function ( $plugins ) use ( $nh_safe_file ) {
 		return array_values( array_diff( (array) $plugins, array( $nh_safe_file ) ) );
+	} );
+	// Elementor's element cache is shared with every visitor: a request without the plugin neither prints the widget
+	// HTML cached with it nor caches a page rendered without it (the child theme does the same from 1.1.2; this also
+	// covers nh_safe_theme). Not in the admin, whose settings page shows the stored value.
+	add_filter( 'pre_option_elementor_element_cache_ttl', static function ( $pre ) {
+		return is_admin() ? $pre : 'disable';
 	} );
 	if ( isset( $_GET['nh_safe_theme'] ) ) {   // load a stock theme for this request, if the child or Hello breaks
 		add_filter( 'pre_option_template', static function () { return 'twentytwentyfive'; } );
@@ -544,10 +563,12 @@ def cmd_health(args):
             if isinstance(v, dict) and "nh-health-404" in k:
                 v["console"] = [c for c in v["console"] if "status of 404" not in c]
                 v["failed"] = [f for f in v["failed"] if "nh-health-404" not in f]
-        noisy = {k: v for k, v in data.items() if isinstance(v, dict) and (v["console"] or v["pageErrors"] or v["failed"])}
+        noisy = {k: v for k, v in data.items()
+                 if isinstance(v, dict) and (v["console"] or v["pageErrors"] or v["failed"] or v.get("motion"))}
         report["browser"] = noisy or ("clean" if data and "error" not in data else data)
         for k, v in noisy.items():
-            bad.append(f"browser {k}: {len(v['console'])} console, {len(v['pageErrors'])} errors, {len(v['failed'])} failed")
+            bad.append(f"browser {k}: {len(v['console'])} console, {len(v['pageErrors'])} errors, {len(v['failed'])} failed"
+                       + (f", {'; '.join(v['motion'])}" if v.get("motion") else ""))
     report["not_checked_here"] = ["the Elementor editor (needs a wp-admin browser login)", "PHP error logs (uPress panel)"]
     print(json.dumps(report, ensure_ascii=False, indent=1))
     with open(HEALTH_LAST, "w", encoding="utf-8") as fh:

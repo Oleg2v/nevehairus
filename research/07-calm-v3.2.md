@@ -10,7 +10,7 @@
 > - ширины строк шапки в настоящих шрифтах (§5.2) и сама шапка в Chromium на 320–1279 px (§5.2);
 > - ширины глаголов «Дня» и чисел «Годов» в настоящих шрифтах (§10.2 п. 4, 7);
 > - контраст всех новых пар (§7.4);
-> - Elementor 4.4.0 (`frontend.min.css`, `frontend.js`, исходники PHP): зависимости виджетов записываются в `_elementor_page_assets`; `.e-con` и обёртки виджетов объявляют свои `transition`; `.elementor a { text-decoration: none }`; анимированной прокрутки к якорю в ядре нет; кэш элементов включён по умолчанию, `Files\Manager::clear_cache()` его стирает;
+> - Elementor 4.4.0 (`frontend.min.css`, `frontend.js`, исходники PHP): зависимости виджетов записываются в `_elementor_page_assets`; `.e-con` и обёртки виджетов объявляют свои `transition`; `.elementor a { text-decoration: none }`; анимированной прокрутки к якорю в `frontend.js` нет, **но `frontend.min.css` включает её для всего сайта** — `@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth } }` (поправка 16.11 после проверки живого сайта: тема 1.1.2 ставит `:root { scroll-behavior: auto }`, §12.5); кэш элементов включён по умолчанию, `Files\Manager::clear_cache()` его стирает;
 > - Elementor Pro 4.4.0 (сборка PRO Elements 4.4.0): `Conditions_Manager::get_documents_for_location()`; `Locations_Manager::enqueue_styles()` на `wp_enqueue_scripts` ставит ресурсы шапки и подвала в `<head>`;
 > - край эмблемы логотипа на тёмном фоне (§6).
 >
@@ -346,7 +346,7 @@ reveal();
   - **Ссылка из меню телефона:** фокус ставится после события `close` диалога (`menu.addEventListener("close", …, { once: true })`), иначе его перебьёт возврат на «תפריט» (§5.4).
   - **При загрузке с `location.hash`** (переход с другой страницы) — то же самое один раз на старте.
   - Исключения: ссылка пропуска (её цель `main` и так получает фокус) и `#nh-cookies` (§9).
-  - **На staging** `id` целей задаются только контролом `anchor` наших виджетов (он ставится на `section` с `aria-labelledby`), а не полем «CSS ID» Elementor: «CSS ID» попадает на обёртку `.elementor-element`, у которой нет `aria-labelledby`, и фокус уйдёт не туда. Анимированной прокрутки к якорю в ядре Elementor 4.4.0 нет (в `frontend.js` только `anchor-scroll-margin` для закреплённых элементов Pro). Мгновенность всё равно проверяется (§17.8).
+  - **На staging** `id` целей задаются только контролом `anchor` наших виджетов (он ставится на `section` с `aria-labelledby`), а не полем «CSS ID» Elementor: «CSS ID» попадает на обёртку `.elementor-element`, у которой нет `aria-labelledby`, и фокус уйдёт не туда. В `frontend.js` Elementor 4.4.0 анимированной прокрутки к якорю нет (только `anchor-scroll-margin` для закреплённых элементов Pro), **но его `frontend.min.css` включает плавную прокрутку на всём сайте**: `@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth } }` — переход к якорю, панель cookies и почти каждая остановка Tab «плыли», и в «מצב רגוע» тоже (найдено проверкой живого сайта 16.11). Дочерняя тема 1.1.2 ставит `:root { scroll-behavior: auto; }` (0,1,0 сильнее `html` Elementor при любом порядке файлов, §12.5). Мгновенность проверяется (§17.8).
 
 ---
 
@@ -1285,6 +1285,8 @@ reveal();
 - `add_filter( 'hello_elementor_enable_skip_link', '__return_false' );`
 - `hello_elementor_page_title` → `false` у записей с `_elementor_edit_mode = builder` (перенос `NH_Compat::page_title()`);
 - `add_filter( 'elementor/frontend/print_google_fonts', '__return_false' );`
+- *(1.1.2)* `pre_option_elementor_element_cache_ttl` → `'disable'` на сайте (не в админке), пока плагин не может зарегистрировать виджеты (класса `NH_Plugin` нет — плагин выключен или пропущен, — или `NH_Plugin::elementor_ok()` ложно): кэш элементов общий для всех посетителей и хранит готовый HTML статичных виджетов плагина. Аварийный выключатель стенда пропускает плагин, не выключая его (хук отключения не срабатывает), и без этого фильтра страницы печатали бы этот HTML без стилей, а страница, отрисованная без плагина, попадала бы в кэш для всех;
+- *(1.1.2)* `document_title_separator` → «|», как в `<title>` прототипа (§5.3 п. 4);
 - `wp_body_open` @5: `<a class="nh-skip" href="#content">דילוג לתוכן הראשי</a>`;
 - `elementor/page_templates/header-footer/before_content` и `…/after_content`, **а также** `elementor/page_templates/canvas/before_content` и `…/after_content`: `<main id="content" class="site-main" tabindex="-1">` … `</main>`. Canvas тоже вызывает `wp_body_open()` (ссылка пропуска там печатается), а `fixSkip()` из плагина удаляется, поэтому без `main` на Canvas ссылка была бы мёртвой. Цель ссылки пропуска одна на всех шаблонах: шаблоны Hello (single, archive, search, 404) тоже дают `main#content`;
 - `wp_enqueue_scripts` @20: `style.css` дочерней темы **с зависимостью `elementor-frontend`**, если хэндл зарегистрирован (Elementor регистрирует его на @5): `wp_enqueue_style( 'nh-child', get_stylesheet_uri(), wp_style_is( 'elementor-frontend', 'registered' ) ? [ 'elementor-frontend' ] : [], $ver )`. Без зависимости тема печатается раньше Elementor, и `.elementor a { text-decoration: none }` (та же специфичность 0,1,1) выигрывает порядком: ссылки подвала и Text Editor теряют подчёркивание. В строках контактов ссылка и текст одного цвета — это нарушение 1.4.1. Плагин решал это той же зависимостью (`class-nh-assets.php` L36–37).
@@ -1298,6 +1300,7 @@ reveal();
 - стили `.nh-skip` (из `main.css` L56–61, радиус 2 px);
 - контейнер и отступы для страниц не из Elementor — бывшее правило `body:not([class*="elementor-page-"]) .site-main …` и правило `> * + *`;
 - `@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; scroll-behavior: auto !important; } }`;
+- `:root { scroll-behavior: auto; }` — без условий: Elementor 4.4.0 сам включает `scroll-behavior: smooth` для `html` при `prefers-reduced-motion: no-preference` (§5.5; добавлено в 1.1.2);
 - подвал: `.elementor-location-footer a:where(:not(.elementor-button)) { color: inherit; text-decoration: underline; text-decoration-color: rgb(247 241 231 / .6); }`, строки ссылок ≥ 44 px.
 
 Шрифты (`@font-face`) остаются в `tokens.css` плагина: одна копия файлов, без двойной загрузки. Без плагина тема показывает системные ивритские шрифты — это допустимая деградация.
@@ -1324,7 +1327,7 @@ reveal();
 - ни одной PHP-ошибки;
 - все страницы отдают 200;
 - Elementor и редактор работают;
-- кэш Elementor очищен хуком отключения (§12.3, `NH_Plugin`), поэтому ни один наш виджет не выводится из кэша элементов без стилей;
+- кэш Elementor очищен хуком отключения (§12.3, `NH_Plugin`), а пока плагин не загружен, тема не пользуется кэшем элементов (§12.5, 1.1.2), поэтому ни один наш виджет не выводится из кэша без стилей;
 - CSS Hello по-прежнему выключен (тема) — вид страниц не из Elementor не меняется;
 - подвал на месте: навигация, контакты, הצהרת נגישות;
 - место шапки пустое без ошибок;
@@ -1513,7 +1516,7 @@ reveal();
 | 1 | `nh_chrome` на staging не заполнится | **Принято**, и проще, чем предлагалось | `test_site.py` пишет `_elementor_data` через `update_post_meta()` (L1058), `after_save` не срабатывает. Флага больше нет совсем: «оболочка» проверяется на запросе через `get_documents_for_location()` и поиск `"widgetType":"nh-` (§12.2). В QA добавлена страница без наших виджетов (§17.8) |
 | 2 | Сборка прототипа падает | **Принято** | `build_page()` открывает партиалы через `open()` и собирает все `src/*.html`; в design-system `{{> lightbox}}` (L342), sticky у `.nh-ds-nav` (`main.css` L400). Эти правки DS перенесены в A4 (§11.4, §15) |
 | 3 | Шапка в две строки на 360–389 px | **Принято**, проверено своей моделью | Первая редакция: 93 px на 360–389; с правкой: 61 px на 320–639, эмблема с 360. Две строки названия задаёт разметка (два `span`, `nowrap`), а не `max-inline-size: 3.4em`: у 3.4em запас 1.2 px, а в плагине имя редактируется (§5.2, §6, §7.2, §10.1) |
-| 4 | Фокус после якоря не сработает | **Принято** | Проверка «та же страница» по `origin`/`pathname`/`hash`, при загрузке с `hash`, флаг меню вместо возврата на «תפריט» (§5.4, §5.5). Довод про анимацию прокрутки Elementor в 4.4.0 не подтвердился (в `frontend.js` её нет), но правило «`id` только контролом `anchor`» оставлено по другой причине: CSS ID попадает на обёртку без `aria-labelledby` |
+| 4 | Фокус после якоря не сработает | **Принято** | Проверка «та же страница» по `origin`/`pathname`/`hash`, при загрузке с `hash`, флаг меню вместо возврата на «תפריט» (§5.4, §5.5). Довод про анимацию прокрутки Elementor в 4.4.0 тогда не подтвердился (в `frontend.js` её нет; *поправка 16.11: она есть в `frontend.min.css`, `html { scroll-behavior: smooth }`, — тема её выключает, §5.5, §12.5*), но правило «`id` только контролом `anchor`» оставлено по другой причине: CSS ID попадает на обёртку без `aria-labelledby` |
 | 5 | Видео сломается без `hideBanner` | **Принято** | Имя сохраняется в `site.js` и в `nh.consent` (§9, §12.3) |
 | 6 | Кнопка видео раздуется | **Принято** | Явный размер `.nh-video__icon` в прототипе и `voices.css` (§10.2 п. 8, §4.4 п. 21) |
 | 7 | Подписи участвуют в появлении | **Принято** | Движется только `figure > picture`; `NH_Picture` всегда выводит `<picture>` (§4.2, §17.1) |

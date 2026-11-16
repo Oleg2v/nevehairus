@@ -13,8 +13,50 @@ defined( 'ABSPATH' ) || exit;
 final class NH_Picture {
 
 	/**
-	 * `<picture class>[<source type="image/avif" srcset sizes>]<img src srcset sizes width height alt loading
-	 * decoding="async"[ fetchpriority="high"]></picture>` (attribute order of the prototype's picture()).
+	 * The marker of render()'s `<img>` (its first attribute). content_img_tag() knows our images by it in
+	 * the_content and takes it away again, so the page's markup is the prototype's.
+	 */
+	public const MARK = 'data-nh-pic';
+
+	/**
+	 * `wp_content_img_tag` @20, after Elementor's «Optimized Image Loading» (@10): WordPress's content filter
+	 * (the_content, where Elementor prints a page) adds `auto, ` to the sizes of a lazy image (WordPress 6.7+), and
+	 * Elementor 4.4.0 puts `loading` and `fetchpriority` in front of the tag again even when the tag has them —
+	 * `<img loading="lazy" … loading="lazy">`. Duplicate attributes are invalid markup (WCAG 2.0 4.1.1, which
+	 * ת"י 5568 keeps). For our own images only (the marker): every attribute stays once, where render() printed it
+	 * (its last occurrence: those filters prepend theirs; browsers read the first, the values are the same), the
+	 * `auto, ` render() did not write goes (the sizes follow the layout, research/07 §17.6), the marker goes.
+	 * An attribute another filter added once stays. Any other tag is returned as it came.
+	 *
+	 * @param mixed $tag An `<img>` tag of the content.
+	 * @return mixed
+	 */
+	public static function content_img_tag( $tag ) {
+		if ( ! is_string( $tag ) || false === strpos( $tag, ' ' . self::MARK ) || 1 !== preg_match( '~^<img(\s.*?)\s*/?>$~is', $tag, $m ) ) {
+			return $tag;
+		}
+		preg_match_all( '~\s+([^\s"\'<>/=]+)(?:\s*=\s*("[^"]*"|\'[^\']*\'|[^\s"\'=<>`]+))?~', $m[1], $found, PREG_SET_ORDER );
+		$seen = [];
+		$keep = [];
+		foreach ( array_reverse( $found ) as $a ) {
+			$name = strtolower( $a[1] );
+			if ( isset( $seen[ $name ] ) || self::MARK === $name ) {
+				continue;
+			}
+			$seen[ $name ] = true;
+			$value         = $a[2] ?? null;
+			if ( 'sizes' === $name && null !== $value ) {
+				$value = (string) preg_replace( '~^(["\']?)\s*auto\s*,\s*~i', '$1', $value );
+			}
+			$keep[] = ' ' . $a[1] . ( null !== $value ? '=' . $value : '' );
+		}
+		return '<img' . implode( '', array_reverse( $keep ) ) . '>';
+	}
+
+	/**
+	 * `<picture class>[<source type="image/avif" srcset sizes>]<img data-nh-pic src srcset sizes width height alt
+	 * loading decoding="async"[ fetchpriority="high"]></picture>` (attribute order of the prototype's picture(); the
+	 * marker is taken away again in the_content, content_img_tag()).
 	 * Options: sizes ('100vw'), class, loading ('lazy'|'eager'), priority (bool), alt (?string: null or ''
 	 * = the media library's alt), decorative (bool → alt=""). '' if the attachment is not an image.
 	 *
@@ -56,7 +98,7 @@ final class NH_Picture {
 		if ( '' !== $avif ) {
 			$html .= '<source type="image/avif" srcset="' . esc_attr( $avif ) . '" sizes="' . esc_attr( $sizes ) . '">';
 		}
-		$html .= '<img src="' . esc_url( self::img_src( $id ) ) . '"';
+		$html .= '<img ' . self::MARK . ' src="' . esc_url( self::img_src( $id ) ) . '"';
 		if ( '' !== $srcset ) {
 			$html .= ' srcset="' . esc_attr( $srcset ) . '" sizes="' . esc_attr( $sizes ) . '"';
 		}

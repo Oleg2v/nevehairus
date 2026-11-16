@@ -18,7 +18,8 @@ node per line:
     "text"                                    a text node, whitespace collapsed
     (indented by two spaces per depth)
 
-Normalisation: attributes id, for, aria-labelledby, aria-describedby, aria-controls, src, srcset, sizes,
+Normalisation: data-nh-pic (NH_Picture's marker of its img, taken away on the site in the_content) is dropped;
+attributes id, for, aria-labelledby, aria-describedby, aria-controls, src, srcset, sizes,
 width, height, action, data-vt, data-src, data-srcset, data-avif, data-name, data-work, data-full,
 data-caption-plain, data-count, data-running-plain are compared by presence only ([name]); href keeps
 only its #fragment, or becomes URL; style keeps its custom properties sorted, numbers to 2 decimals,
@@ -182,7 +183,7 @@ def norm_style(v):
 def norm_attr(k, v):
     if k in PRESENCE:
         return f"[{k}]"
-    if k == "class":
+    if k in ("class", "data-nh-pic"):   # data-nh-pic: NH_Picture's marker of its img, taken away in the_content
         return None
     if k == "href":
         return "[href=" + (v[v.index("#"):] if "#" in v else ("URL" if v else "")) + "]"

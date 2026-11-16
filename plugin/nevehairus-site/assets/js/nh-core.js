@@ -119,7 +119,10 @@
       if (url.searchParams.has("plain")) { url.searchParams.set("plain", on ? "1" : "0"); history.replaceState(null, "", url); }
     } catch (e) { /* old browsers */ }
     syncToggles(); changed();
-    announce(on ? i18n.plainOn : i18n.plainOff);
+    // a page with no plain-language text (outside our widgets: a policy, a post, search, 404) does not change, so
+    // it must not be announced as changed; the choice is kept for the pages that have it
+    const none = on && !d.querySelector("main .v3-plain") && i18n.plainNone;
+    announce(none || (on ? i18n.plainOn : i18n.plainOff));
   };
   const toggleCalm = () => {
     const on = !html.classList.contains("nh-calm");

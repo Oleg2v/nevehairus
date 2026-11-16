@@ -242,8 +242,9 @@ return [
 		nh_assert_same( 'https://nh.test/wp-admin/admin-ajax.php', $d['ajax'] );
 		nh_assert_same( 'https://nh.test/#door', $d['visitUrl'] );
 		nh_assert_same( [ 'key' => 'nh-consent-v1', 'v' => 1 ], $d['consent'] );
-		nh_assert_same( [ 'plainOn', 'plainOff', 'calmOn', 'calmOff', 'videoTitle' ], array_keys( $d['i18n'] ), 'no motionOn / motionOff (§12.3)' );
+		nh_assert_same( [ 'plainOn', 'plainOff', 'plainNone', 'calmOn', 'calmOff', 'videoTitle' ], array_keys( $d['i18n'] ), 'no motionOn / motionOff (§12.3)' );
 		nh_assert_same( 'הדף מוצג עכשיו בשפה פשוטה.', $d['i18n']['plainOn'] );
+		nh_assert_same( 'שפה פשוטה פועלת. לדף הזה אין עדיין נוסח בשפה פשוטה.', $d['i18n']['plainNone'], 'a page without plain text is not announced as changed' );
 		nh_assert_same( 'נמצאו {n} שגיאות בטופס:', $d['forms']['msg']['summaryMany'] );
 		nh_assert_contains( 'tel:+97289403047', $d['forms']['msg']['limited'] );
 		nh_assert_same( [ 'required', 'email', 'tel', 'consent', 'fileSize', 'fileType', 'summary', 'summaryOne', 'summaryMany', 'expired', 'limited', 'off', 'error' ], array_keys( $d['forms']['msg'] ) );

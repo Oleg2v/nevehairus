@@ -64,7 +64,10 @@
       if (url.searchParams.has("plain")) { url.searchParams.set("plain", on ? "1" : "0"); history.replaceState(null, "", url); }
     } catch (e) { /* old browsers */ }
     sync(); changed();
-    announce(on ? "הדף מוצג עכשיו בשפה פשוטה." : "הדף מוצג עכשיו בקריאה רגילה.");
+    // a page with no plain-language text does not change, so it must not be announced as changed (the plugin's
+    // pages outside its widgets; both pages here have it)
+    const none = on && !d.querySelector("main .v3-plain") && "שפה פשוטה פועלת. לדף הזה אין עדיין נוסח בשפה פשוטה.";
+    announce(none || (on ? "הדף מוצג עכשיו בשפה פשוטה." : "הדף מוצג עכשיו בקריאה רגילה."));
   }));
   d.querySelectorAll("[data-calm-toggle]").forEach((b) => b.addEventListener("click", () => {
     const on = !html.classList.contains("nh-calm");

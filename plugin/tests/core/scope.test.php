@@ -354,6 +354,16 @@ return [
 		nh_assert( true === apply_filters( 'hello_elementor_page_title', true ), 'a page not built with Elementor keeps Hello\'s title' );
 		update_post_meta( 10, '_elementor_edit_mode', 'builder' );
 		nh_assert( false === apply_filters( 'hello_elementor_page_title', true ), 'built with Elementor: the cover is the H1' );
+		$GLOBALS['nh_test']['is_singular'] = false;
+		nh_assert( true === apply_filters( 'hello_elementor_page_title', true ), 'search and archives keep their H1, even when the first result is built with Elementor' );
+		$GLOBALS['nh_test']['is_singular'] = true;
+		nh_assert_same( '|', apply_filters( 'document_title_separator', '-' ), 'the title separator of the prototype' );
+		// Elementor's element cache: off on the front end while the plugin cannot register its widgets, untouched otherwise
+		nh_assert( NH_Plugin::elementor_ok() && false === apply_filters( 'pre_option_elementor_element_cache_ttl', false ), 'the widgets registered: the stored cache setting is used' );
+		nh_assert_same( '12', nh_child_element_cache( '12' ), 'a stored value is passed through' );
+		$cache = $GLOBALS['nh_test']['hooks']['pre_option_elementor_element_cache_ttl'][10][0][0] ?? null;
+		nh_assert_same( 'nh_child_element_cache', $cache, 'the theme hooks the cache setting' );
+		nh_assert_contains( "class_exists( 'NH_Plugin', false )", (string) file_get_contents( NH_TEST_ROOT . '/theme/hello-elementor-child/functions.php' ), 'without the plugin class (switched off or skipped) the cache is off' );
 		nh_assert_same( '<a class="nh-skip" href="#content">דילוג לתוכן הראשי</a>', nh_test_capture( 'nh_child_skip_link' ) );
 		nh_assert_same( 5, has_action( 'wp_body_open', 'nh_child_skip_link' ) );
 		foreach ( [ 'header-footer', 'canvas' ] as $t ) {
@@ -373,8 +383,9 @@ return [
 			unset( $GLOBALS['nh_test']['styles']['nh-child'], $GLOBALS['nh_test']['styles']['elementor-frontend'] );
 		}
 		$css = (string) file_get_contents( NH_TEST_ROOT . '/theme/hello-elementor-child/style.css' );
-		foreach ( [ 'Template:     hello-elementor', '.nh-skip', 'overflow-x: clip', '.elementor-location-footer a', 'prefers-reduced-motion: reduce', ':where(:focus-visible)', '.site-main a:where(:not([class]))' ] as $needle ) {
+		foreach ( [ 'Template:     hello-elementor', '.nh-skip', 'overflow-x: clip', '.elementor-location-footer a', 'prefers-reduced-motion: reduce', ':where(:focus-visible)', '.site-main a:where(:not([class]))', ':root { scroll-behavior: auto; }', ':where(.comment-form, .search-form, .post-password-form)', '.nh-footer-credit a[href]' ] as $needle ) {
 			nh_assert_contains( $needle, $css );
 		}
+		nh_assert( ! preg_match( '/scroll-behavior:\s*smooth/', (string) preg_replace( '~/\*.*?\*/~s', '', $css ) ), 'the theme never scrolls smoothly' );
 	},
 ];

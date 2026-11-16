@@ -24,10 +24,10 @@
    }
   },
   "plugin": {
-   "version": "0.2.1",
-   "php_sha256": "309c664850635d301def7bb8c29650a499aa62d49196144ce09a4db6a9fdb9dc"
+   "version": "0.2.2",
+   "php_sha256": "72e6297e1e8a6375c1858439940c78d293c2a354dfd38762fab5ad03b3c14b82"
   },
-  "inputs_sha256": "7a96567771b04f5c771ad0d7cb920f414109e267cedca072248d8adf5eb74d60"
+  "inputs_sha256": "b3345f9da9c4a4de1aa3d19a6d58a1e66322b28a64f6b91709b1a8fae57b3fec"
  },
  "elementor_data": [
   {

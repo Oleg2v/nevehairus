@@ -21,10 +21,10 @@
   ],
   "extra": null,
   "plugin": {
-   "version": "0.2.1",
-   "php_sha256": "309c664850635d301def7bb8c29650a499aa62d49196144ce09a4db6a9fdb9dc"
+   "version": "0.2.2",
+   "php_sha256": "72e6297e1e8a6375c1858439940c78d293c2a354dfd38762fab5ad03b3c14b82"
   },
-  "inputs_sha256": "7a96567771b04f5c771ad0d7cb920f414109e267cedca072248d8adf5eb74d60"
+  "inputs_sha256": "b3345f9da9c4a4de1aa3d19a6d58a1e66322b28a64f6b91709b1a8fae57b3fec"
  },
  "elementor_data": [
   {
@@ -48,27 +48,11 @@
     "background_background": "classic",
     "background_color": "#1C1830",
     "padding": {
-     "unit": "px",
-     "top": "64",
-     "right": "48",
-     "bottom": "32",
-     "left": "48",
-     "isLinked": false
-    },
-    "padding_tablet": {
-     "unit": "px",
-     "top": "64",
-     "right": "32",
-     "bottom": "32",
-     "left": "32",
-     "isLinked": false
-    },
-    "padding_mobile": {
-     "unit": "px",
-     "top": "64",
-     "right": "16",
-     "bottom": "32",
-     "left": "16",
+     "unit": "custom",
+     "top": "4rem",
+     "right": "clamp(1rem, .6rem + 3vw, 4rem)",
+     "bottom": "2rem",
+     "left": "clamp(1rem, .6rem + 3vw, 4rem)",
      "isLinked": false
     }
    },
@@ -141,55 +125,90 @@
        },
        "elements": [
         {
-         "id": "908dc15",
-         "elType": "widget",
+         "id": "bb01572",
+         "elType": "container",
          "settings": {
-          "image": {
-           "url": "",
-           "id": "@media:logo-emblem",
-           "size": "",
-           "alt": "",
-           "source": "library"
+          "container_type": "flex",
+          "content_width": "full",
+          "flex_direction": "row",
+          "flex_align_items": "center",
+          "flex_gap": {
+           "column": "10",
+           "row": "10",
+           "isLinked": false,
+           "unit": "px"
           },
-          "image_size": "full",
-          "align": "start",
-          "width": {
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "min_height": {
            "unit": "px",
-           "size": 51,
+           "size": 44,
            "sizes": []
           },
-          "height": {
+          "padding": {
            "unit": "px",
-           "size": 36,
-           "sizes": []
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": false
           }
          },
-         "elements": [],
-         "widgetType": "image"
-        },
-        {
-         "id": "3ccb8af",
-         "elType": "widget",
-         "settings": {
-          "title": "מעון נווה האירוס",
-          "header_size": "p",
-          "title_color": "#F7F1E7",
-          "typography_typography": "custom",
-          "typography_font_family": "Frank Ruhl Libre",
-          "typography_font_size": {
-           "unit": "rem",
-           "size": 1.5,
-           "sizes": []
+         "elements": [
+          {
+           "id": "908dc15",
+           "elType": "widget",
+           "settings": {
+            "image": {
+             "url": "",
+             "id": "@media:logo-emblem",
+             "size": "",
+             "alt": "",
+             "source": "library"
+            },
+            "image_size": "full",
+            "align": "start",
+            "width": {
+             "unit": "px",
+             "size": 51,
+             "sizes": []
+            },
+            "height": {
+             "unit": "px",
+             "size": 36,
+             "sizes": []
+            }
+           },
+           "elements": [],
+           "widgetType": "image"
           },
-          "typography_font_weight": "500",
-          "typography_line_height": {
-           "unit": "em",
-           "size": 1.15,
-           "sizes": []
+          {
+           "id": "3ccb8af",
+           "elType": "widget",
+           "settings": {
+            "title": "מעון נווה האירוס",
+            "header_size": "p",
+            "title_color": "#F7F1E7",
+            "typography_typography": "custom",
+            "typography_font_family": "Frank Ruhl Libre",
+            "typography_font_size": {
+             "unit": "custom",
+             "size": "clamp(1.25rem, 1.157rem + .381vw, 1.5rem)",
+             "sizes": []
+            },
+            "typography_font_weight": "500",
+            "typography_line_height": {
+             "unit": "em",
+             "size": 1.15,
+             "sizes": []
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
           }
-         },
-         "elements": [],
-         "widgetType": "heading"
+         ],
+         "isInner": true
         },
         {
          "id": "9c7061f",
@@ -209,6 +228,12 @@
           "typography_line_height": {
            "unit": "em",
            "size": 1.5,
+           "sizes": []
+          },
+          "_element_width": "initial",
+          "_element_custom_width": {
+           "unit": "custom",
+           "size": "34ch",
            "sizes": []
           }
          },
@@ -251,7 +276,7 @@
         "flex_direction": "column",
         "flex_gap": {
          "column": "0",
-         "row": "12",
+         "row": "8",
          "isLinked": false,
          "unit": "px"
         },
@@ -325,7 +350,7 @@
         "flex_direction": "column",
         "flex_gap": {
          "column": "0",
-         "row": "12",
+         "row": "8",
          "isLinked": false,
          "unit": "px"
         },
@@ -390,7 +415,16 @@
         {
          "id": "2ef5896",
          "elType": "widget",
-         "settings": {},
+         "settings": {
+          "_margin": {
+           "unit": "px",
+           "top": "4",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": false
+          }
+         },
          "elements": [],
          "widgetType": "nh-display"
         }
@@ -417,8 +451,22 @@
       "typography_font_weight": "400",
       "typography_line_height": {
        "unit": "em",
-       "size": 1.5,
+       "size": 1.6,
        "sizes": []
+      },
+      "_element_width": "initial",
+      "_element_custom_width": {
+       "unit": "custom",
+       "size": "104ch",
+       "sizes": []
+      },
+      "_margin": {
+       "unit": "px",
+       "top": "8",
+       "right": "0",
+       "bottom": "0",
+       "left": "0",
+       "isLinked": false
       }
      },
      "elements": [],
@@ -490,7 +538,7 @@
        "id": "0ccd70c",
        "elType": "widget",
        "settings": {
-        "editor": "<p>עיצוב ופיתוח: <a href=\"https://koranga.co.il/\" rel=\"noopener\">קורנגה<span class=\"elementor-screen-only\"> (נפתח באתר חיצוני)</span></a></p>",
+        "editor": "<p class=\"nh-footer-credit\">עיצוב ופיתוח: <a href=\"https://koranga.co.il/\" rel=\"noopener\">קורנגה<span class=\"elementor-screen-only\"> (נפתח באתר חיצוני)</span></a></p>",
         "text_color": "#CFC8DE",
         "link_color": "#F7F1E7",
         "typography_typography": "custom",
@@ -505,7 +553,8 @@
          "unit": "em",
          "size": 1.5,
          "sizes": []
-        }
+        },
+        "link_hover_color": "#F2B33D"
        },
        "elements": [],
        "widgetType": "text-editor"

@@ -5,6 +5,7 @@
     python3 -I scripts/test_site.py setup [--go]           step 0 of the README checklist (plan only without --go)
     python3 -I scripts/test_site.py deploy [ZIP] [--go]    install or update the nevehairus-site plugin
     python3 -I scripts/test_site.py pages [--go]           build the two pages + Theme Builder header/footer (step 4)
+    python3 -I scripts/test_site.py theme [--go]           replace the child theme with theme/hello-elementor-child
     python3 -I scripts/test_site.py rekey [--go]           new key for the safe switch (rewrites only that file)
     python3 -I scripts/test_site.py safe-off               emergency: deactivate the plugin without loading it
     python3 -I scripts/test_site.py cleanup                delete one-time snippets a failed run left behind
@@ -123,7 +124,11 @@ def url_for(route=None, query=None, path=""):
 def http(url, method="GET", data=None, headers=None, timeout=120, follow=True):
     """Return (status, headers with lower-case names, body). Status 0 = network error; never raises for HTTP."""
     _check_url(url)
-    req = urllib.request.Request(url, data=data, method=method, headers=dict(headers or {}))
+    headers = dict(headers or {})
+    if SAFE_MODE.get("key"):             # recovery: stock theme and no nevehairus-site for this request
+        headers["X-NH-Safe-Key"] = SAFE_MODE["key"]
+        url += ("&" if "?" in url else "?") + "nh_safe_theme=1"
+    req = urllib.request.Request(url, data=data, method=method, headers=headers)
     try:
         with (_FOLLOW if follow else _STAY).open(req, timeout=timeout) as r:
             return r.status, {k.lower(): v for k, v in r.headers.items()}, r.read()
@@ -649,11 +654,93 @@ REVERT_PERMALINKS_PHP = r"""
 
 
 def child_zip():
+    """The child theme as a zip (all files, sub-folders included); its PHP files must pass php -l first."""
+    import subprocess
+    files = sorted(os.path.join(d, f) for d, _, fs in os.walk(CHILD_DIR) for f in fs)
+    for f in files:
+        if f.endswith(".php"):
+            r = subprocess.run(["php", "-l", f], capture_output=True, text=True)
+            need(r.returncode == 0, f"php -l failed for {os.path.relpath(f, ROOT)}: {r.stdout.strip()[:200]}")
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
-        for name in sorted(os.listdir(CHILD_DIR)):
-            z.write(os.path.join(CHILD_DIR, name), f"hello-elementor-child/{name}")
+        for f in files:
+            z.write(f, "hello-elementor-child/" + os.path.relpath(f, CHILD_DIR).replace(os.sep, "/"))
     return buf.getvalue()
+
+
+def child_version():
+    m = re.search(r"^Version:\s*(\S+)", open(os.path.join(CHILD_DIR, "style.css"), encoding="utf-8").read(), re.M)
+    return m.group(1) if m else ""
+
+
+THEME_PHP = r"""
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/misc.php';
+		require_once ABSPATH . 'wp-admin/includes/theme.php';
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		$zip = $att ? get_attached_file( $att[0] ) : '';
+		if ( ! $zip || ! file_exists( $zip ) ) {
+			throw new Exception( 'zip not found' );
+		}
+		$old             = wp_get_theme( 'hello-elementor-child' );
+		$log['before']   = $old->exists() ? $old->get( 'Version' ) : 'absent';
+		$skin            = new WP_Ajax_Upgrader_Skin();
+		$res             = ( new Theme_Upgrader( $skin ) )->install( $zip, array( 'overwrite_package' => true ) );
+		$log['install']  = is_wp_error( $res ) ? $res->get_error_message() : $res;
+		$log['errors']   = $skin->get_error_messages();
+		wp_clean_themes_cache();
+		$new               = wp_get_theme( 'hello-elementor-child' );
+		$log['version']    = $new->exists() ? $new->get( 'Version' ) : 'absent';
+		$log['theme_errors'] = ( $new->exists() && $new->errors() ) ? $new->errors()->get_error_message() : '';
+		$log['stylesheet'] = get_stylesheet();
+"""
+
+SWITCH_THEME_PHP = r"""
+		switch_theme( '__NH_THEME__' );
+		$log['stylesheet'] = get_stylesheet();
+"""
+
+SAFE_MODE = {"key": None}   # when set, every request loads a stock theme and no nevehairus-site (recovery)
+
+
+def cmd_theme(args):
+    """Replace the child theme on the site with theme/hello-elementor-child (same folder name, overwrite).
+    If the site breaks afterwards, switch to the parent theme Hello Elementor through the safe switch."""
+    me = whoami(("manage_options", "install_themes", "switch_themes", "upload_files"))
+    st, t, _ = api("/wp/v2/themes/hello-elementor-child")
+    on_site = t.get("version") if st == 200 else "absent"
+    step(f"signed in as user #{me['id']}; child theme on the site: {on_site}; in the repo: {child_version()}")
+    if not args.go:
+        print("theme will upload theme/hello-elementor-child as a temporary zip, replace the installed copy (overwrite), "
+              "smoke-test the site and, if it breaks, switch to Hello Elementor with the safe switch. Run with --go.")
+        return
+    key = read_key()
+    need(safe_switch_works(key), "the safe switch does not answer to the saved key: run `rekey --go` first")
+    need(not smoke(), f"the site is not healthy before the theme update: {smoke()}")
+    data = child_zip()
+    failure = None
+    try:
+        with Helper():
+            log = run_php("update child theme", THEME_PHP, uploads=[(data, f"hello-elementor-child-{secrets.token_hex(4)}.zip")])
+        print(json.dumps(log, ensure_ascii=False, indent=1))
+        record({"change": f"child theme {log.get('before')} -> {log.get('version')}", "log": log})
+        if log.get("install") is not True or log.get("theme_errors"):
+            failure = f"install: {log.get('install')} {log.get('theme_errors')}"
+    except BaseException as e:  # noqa: BLE001
+        failure = f"theme step: {e}"
+    api("/ezcache/v1/cache", "DELETE")
+    problems = smoke()
+    if failure or problems:
+        step(f"FAILED ({failure or ''} {problems or ''}); switching to Hello Elementor through the safe switch")
+        SAFE_MODE["key"] = key
+        try:
+            with Helper():
+                rv = run_php("switch to Hello Elementor", SWITCH_THEME_PHP.replace("__NH_THEME__", "hello-elementor"))
+            record({"change": "theme rolled back to hello-elementor", "log": rv})
+        finally:
+            SAFE_MODE["key"] = None
+        raise SystemExit(f"STOP: theme update failed; site now: {smoke() or 'healthy'} (active: {settings_state()['active_theme']})")
+    step(f"done: child theme {child_version()} active; home page and API answer normally")
 
 
 def pretty_urls_work():
@@ -1671,6 +1758,9 @@ def main():
     p.set_defaults(fn=cmd_deploy)
     sub.add_parser("safe-off").set_defaults(fn=cmd_safe_off)
     sub.add_parser("cleanup").set_defaults(fn=cmd_cleanup)
+    p = sub.add_parser("theme")
+    p.add_argument("--go", action="store_true", help="apply (without it: print the plan only)")
+    p.set_defaults(fn=cmd_theme)
     p = sub.add_parser("health")
     p.add_argument("--no-browser", action="store_true", help="skip the Chromium console check")
     p.set_defaults(fn=cmd_health)

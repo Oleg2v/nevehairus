@@ -2759,12 +2759,36 @@ def v4_menu_apply(wanted):
         step(f"menu nh-main #{menu['id']}: already as menu.json ({len(items)} items)")
         return menu["id"]
     if not menu:
-        st, menu, _ = api("/wp/v2/menus", "POST", {"name": "תפריט ראשי", "slug": "nh-main"})
-        need(st in (200, 201) and isinstance(menu, dict) and menu.get("id"), f"could not create the menu ({st} {err(menu)})")
-        record({"change": "v4: created menu «תפריט ראשי»", "id": menu["id"], "slug": menu.get("slug")})
+        # WordPress's REST menus endpoint ignores "slug" (the term gets the encoded Hebrew name), so the slug is set by a
+        # one-time PHP step. A menu of the same name without that slug (an interrupted run made it) is taken over.
+        _, _, menus = v4_menu_state()
+        menu = next((m for m in menus if m.get("name") == "תפריט ראשי"), None)
+        if menu:
+            step(f"menu «תפריט ראשי» #{menu['id']} found with the slug {urllib.parse.unquote(menu.get('slug') or '')}; it becomes nh-main")
+        else:
+            st, menu, _ = api("/wp/v2/menus", "POST", {"name": "תפריט ראשי"})
+            need(st in (200, 201) and isinstance(menu, dict) and menu.get("id"), f"could not create the menu ({st} {err(menu)})")
+            record({"change": "v4: created menu «תפריט ראשי»", "id": menu["id"], "slug": menu.get("slug")})
         if menu.get("slug") != "nh-main":
-            st, menu, _ = api(f"/wp/v2/menus/{menu['id']}", "POST", {"slug": "nh-main"})
-            need(st == 200 and menu.get("slug") == "nh-main", f"the menu's slug is not nh-main ({st} {err(menu)})")
+            record({"change": f"v4: menu #{menu['id']}: slug set to nh-main", "before": menu.get("slug")})
+            with Helper():
+                res = run_php("v4 menu slug", f"""
+		$nh_res = wp_update_term( {int(menu['id'])}, 'nav_menu', array( 'slug' => 'nh-main' ) );
+		if ( is_wp_error( $nh_res ) ) {{
+			throw new Exception( 'the menu slug: ' . $nh_res->get_error_message() );
+		}}
+		$log['slug'] = get_term( {int(menu['id'])}, 'nav_menu' )->slug;
+""")
+            need(res.get("slug") == "nh-main", f"the menu's slug is not nh-main ({res})")
+            menu, items, _ = v4_menu_state()
+            need(menu and menu.get("slug") == "nh-main", "the menu nh-main does not read back over REST")
+            if items:
+                record({"change": f"v4: menu nh-main #{menu['id']}: old items (replaced)",
+                        "items": [{k: i.get(k) for k in ("id", "title", "type", "object", "object_id", "url", "parent",
+                                                         "menu_order")} for i in items]})
+                for i in items:
+                    st, res, _ = api(f"/wp/v2/menu-items/{i['id']}", "DELETE", query={"force": "true"})
+                    need(st == 200, f"could not delete menu item #{i['id']} ({st} {err(res)})")
     else:
         record({"change": f"v4: menu nh-main #{menu['id']}: old items (replaced)",
                 "items": [{k: i.get(k) for k in ("id", "title", "type", "object", "object_id", "url", "parent",

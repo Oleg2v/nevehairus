@@ -210,6 +210,9 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
     z-index: 100;
   }
 }
+/* in the Elementor editor the header scrolls with the page: stuck on top it covered the top of the content being
+   edited, and a click on the banner's heading hit the header (17.11) */
+body.elementor-editor-active .elementor-location-header { position: static !important; }
 /* a jump to an anchor or to a focused control lands below the sticky header (v4.js measures it) */
 html:has(.e-con.nh-header) { scroll-padding-top: calc(var(--nh4-sticky-h, 0px) + var(--wp-admin--admin-bar--height, 0px)); }
 
@@ -360,10 +363,10 @@ html.nh-a11y-switching body :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-fl
 @media (max-width: 767px) {
   /* the page's end stays clear of the two buttons (12 + 56 + 8 + 52 + 8px) */
   body:has(.nh-float) { padding-block-end: calc(136px + env(safe-area-inset-bottom, 0px)); }
-  /* on a v4 page the purple footer band runs on into that room (no white strip under it); the band is always
-     taller than 136px on phones, so its shadow copy fills the room exactly */
-  body:has(.nh-float) .e-con.nh-footer-v4 { box-shadow: 0 calc(136px + env(safe-area-inset-bottom, 0px)) 0 0 #4A2D84; }
-  html.nh-a11y-contrast body:has(.nh-float) .e-con.nh-footer-v4 { box-shadow: 0 calc(136px + env(safe-area-inset-bottom, 0px)) 0 0 #000000 !important; }
+  /* on a v4 page that room is the purple footer band's own bottom padding, so the band reaches the end of the page
+     (17.11: a shadow copy of the band, shorter than the room, left a white strip between the two) */
+  body:has(.nh-float):has(.e-con.nh-footer-v4) { padding-block-end: 0; }
+  body:has(.nh-float) .e-con.nh-footer-v4 { padding-block-end: calc(1.5rem + 136px + env(safe-area-inset-bottom, 0px)) !important; }
 }
 
 .nh-a11y { position: relative; }

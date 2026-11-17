@@ -7,7 +7,7 @@
     "hero.title and hero.sub are not HTML text on the live site. They are printed inside two slides of the live banner slider: banner-1.jpg (media 1027) and banner2.jpg (media 1026). The other two slides are the new wing's sky-lit corridor (media 1223, caption «תאורת שמיים באגף החדש») and its lounge (media 1224, caption «סלון וחלל ציבורי באגף החדש»).",
     "The live banner has no buttons. hero.cta_contact and header.contact use the live menu label «צור קשר»; hero.cta_phone and header.phone use the number from the live contacts block (טלפון: 08-9403047).",
     "Suspected typo, kept: pro.body paragraph 1 (about.body paragraph 1 in v4) has a space before the colon: «המשפחות : שטיינהרט».",
-    "Corrected at Oleg's request (17.11): pro.body paragraph 3 «תרפואיטית» → «תרפויטית» (the live site still has «תרפואיטית»). Suspected typo, still kept: «יחודו» in the same paragraph (the same sentence spells «ייחודית» with two yods).",
+    "Corrected at Oleg's request (17.11): pro.body paragraph 3 «תרפואיטית» → «תרפויטית» and «יחודו» → «ייחודו» (with two yods, as «ייחודית» in the same sentence); the live site still has both.",
     "Kept as on live: life.body paragraph 1 (about.body paragraph 4 in v4: «המעון מקיים כל העת תערוכות אמנות…») has no final period.",
     "Corrected at Oleg's request (17.11): life.body paragraph 2 «חדר סנוזילן» → «חדר סנוזלן», as in the heading «חדר סנוזלן בנוה האירוס» (the live site still has «סנוזילן»). Inconsistent spelling still as on live: «נווה האירוס» in most texts vs «נוה האירוס» in snoezelen.title and the YouTube titles.",
     "Suspected missing word, kept: snoezelen.intro starts «חדר הוא סביבה…» (probably «חדר סנוזלן הוא…»); snoezelen.credit «חדר הוקם…» reads the same way (probably «החדר הוקם…»).",
@@ -291,10 +291,10 @@
     },
     "pro.body": {
       "kind": "html",
-      "full": "<p>אבן הפינה למעון \"נווה האירוס\" הונחה בשנת 1957 ע\"י המשפחות : שטיינהרט, רשו וקוגן.</p><p>במתכונתו הנוכחית מאז 1985 בפיקוח מלא של משרד הרווחה - האגף לטיפול באדם עם מוגבלות שכלית התפתחותית.</p><p>יחודו של המעון בשיטות טיפול מתקדמות, יחס אישי ודואג לכל חניך ופעילות תרפויטית ייחודית.</p>",
+      "full": "<p>אבן הפינה למעון \"נווה האירוס\" הונחה בשנת 1957 ע\"י המשפחות : שטיינהרט, רשו וקוגן.</p><p>במתכונתו הנוכחית מאז 1985 בפיקוח מלא של משרד הרווחה - האגף לטיפול באדם עם מוגבלות שכלית התפתחותית.</p><p>ייחודו של המעון בשיטות טיפול מתקדמות, יחס אישי ודואג לכל חניך ופעילות תרפויטית ייחודית.</p>",
       "plain": "<p>בשנת 1957 כמה משפחות התחילו להקים את נווה האירוס.</p><p>משנת 1985 המעון עובד כמו היום.</p><p>משרד הרווחה מפקח על המעון באופן מלא. מי שמפקח הוא האגף שמטפל באנשים עם מוגבלות שכלית התפתחותית.</p><p>מה מיוחד במעון?</p><ul><li>יש שיטות טיפול מתקדמות.</li><li>דואגים לכל דייר ודיירת באופן אישי.</li><li>יש פעילות טיפולית מיוחדת.</li></ul>",
       "plain_status": "draft",
-      "source": "live home, «קצת עלינו» rich text module 59536e52147b3: paragraphs 1–3, verbatim except the typo corrected 17.11 (see notes) (spec 10 §1.5); in v4 they were part of about.body"
+      "source": "live home, «קצת עלינו» rich text module 59536e52147b3: paragraphs 1–3, verbatim except the typos corrected 17.11 (see notes) (spec 10 §1.5); in v4 they were part of about.body"
     },
     "videos.title": {
       "kind": "h2",

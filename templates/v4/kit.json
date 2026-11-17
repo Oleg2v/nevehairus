@@ -5,7 +5,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "04120d77d6c77b7823843f8205fb8f73c4d31a6c5c44743e57ebc0a7eff872f4"
+  "inputs_sha256": "8da225074f516a604b2a210474b800db88b6479038db1ffcc7edc4beec8378c7"
  },
  "system_colors": [
   {

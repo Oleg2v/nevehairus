@@ -127,7 +127,8 @@ PLAIN_TITLE = "שפה פשוטה — טיוטה"                      # the Navi
 FACEBOOK = "https://www.facebook.com/neveirus/"
 YOUTUBE = "https://www.youtube.com/watch?v="
 # spec 10 §1.10. Oleg 17.11: no WhatsApp button until the home confirms a WhatsApp number (the live site lists none, and
-# 08-9403047 is a landline). To bring the button back: the number here as "https://wa.me/972…", then `v4 --go`.
+# 08-9403047 is a landline). To bring the button back: the number here as "https://wa.me/972…", then
+# `python3 -I scripts/build_v4.py` (the templates) and `python3 -I scripts/test_site.py v4 --go` (the site).
 WHATSAPP = ""
 OFF_BLOCKS = set() if WHATSAPP else {"contact.whatsapp"}   # blocks of home.json kept, but not built while switched off
 PHONE_TEL = "tel:089403047"
@@ -446,16 +447,20 @@ class Builder:
             "whatsapp": dict(background_color="green-700", button_text_color="white", hover_color="white"),
         }[style]
         if style in ("outline", "outline-light"):
-            s.update(border_border="solid", border_width=dims(2))
+            # the 2px border inside the solid buttons' height (49.5px): 2px less padding above and below (review 17.11)
+            s.update(border_border="solid", border_width=dims(2),
+                     text_padding=padding or dims("calc(.75rem - 2px)", "1.5rem"))
         if style == "outline-light":
             s["background_color"] = "rgba(255, 255, 255, 0)"     # transparent: the photo shows through
         if style == "text":
             s["text_padding"] = dims(".75rem", ".5rem")
         if style == "soft":
-            s["text_padding"] = dims(".8125rem")
+            s["text_padding"] = dims("calc(.8125rem + .5px)")      # 44px high, as the menu toggle beside it
         if compact:                                               # ≤1024: the header's row is narrow
-            s["text_padding_tablet"] = dims(".625rem", ".875rem")
-            s["text_padding_mobile"] = dims(".5rem")   # the one row of a 360px phone: logo, this, phone, menu
+            # 44px high with its 2px border, as the phone icon and the menu toggle beside it (review 17.11)
+            pad_block = "calc(.5rem - .75px)" if style in ("outline", "outline-light") else ".625rem"
+            s["text_padding_tablet"] = dims(pad_block, ".875rem")
+            s["text_padding_mobile"] = dims(pad_block, ".5rem")   # the one row of a 360px phone: logo, this, phone, menu
         w = self.widget(path, "button", styled(s, {"typography_typography": "accent"}, **colors))
         if block:
             self.use(block, "full", w, "text")
@@ -489,7 +494,7 @@ class Builder:
         link, so it is decorative (its SVG is aria-hidden). mobile = the glyph's px on phones (Elementor has no phone
         value for the padding: the theme sizes the circle there)."""
         s = {"selected_icon": value, "view": "stacked", "shape": "circle", "align": align, "size": size(px),
-             "icon_padding": size(padding_px)}
+             "icon_padding": padding_px if isinstance(padding_px, dict) else size(padding_px)}
         if mobile:
             s["size_mobile"] = size(mobile)
         if classes:
@@ -626,8 +631,9 @@ class Builder:
                 self.heading_block(f"card{n}.title", f"{p}/body/title", "h3", "card-title", "ink", "nh-card__title",
                                    url=url)
                 + self.text_editor_block(f"card{n}.sub", f"{p}/body/sub", "nh-card__sub", typo="small", color="ink-2")
-                + [self.icon_widget(f"{p}/body/arrow", icon("arrow-left"), "nh-card__arrow", 18, 11, "purple-700",
-                                    "white", align="end", title="חץ (קישוט)", mobile=14)])
+                # the circle is the widget's own: 18px + 2 × .6111em = 40px, on phones 14px → about 31px (review 17.11)
+                + [self.icon_widget(f"{p}/body/arrow", icon("arrow-left"), "nh-card__arrow", 18, size("0.6111em"),
+                                    "purple-700", "white", align="end", title="חץ (קישוט)", mobile=14)])
             card = self.container(p, styled({
                 **flex("column", 0, 0), "padding": ZERO, "overflow": "hidden",
                 "background_background": "classic", "border_border": "solid", "border_width": dims(1),
@@ -820,14 +826,15 @@ class Builder:
 
     def contacts(self):
         """The footer's first part, small (10 §1.11; Oleg 17.11): in each column a row with the icon (24px: 14 + 2 × 5)
-        and the title (1rem), then the text at 14px (Kit «טקסט זעיר»); small gaps; 4 columns, 2 on tablets and phones;
-        white on night. The H2 «פרטי קשר» stays visually hidden (a heading for screen readers only)."""
+        and the title (1rem), aligned to the title's first line, then the text at 14px (Kit «טקסט זעיר»); small gaps;
+        4 columns, 2 on tablets and phones; white on night. These settings are the look: the theme only adds what
+        Elementor has no control for. The H2 «פרטי קשר» stays visually hidden (a heading for screen readers only)."""
         self.doc = "contacts"
         white = ("white", "white")
         columns = []
         for name, icon_name in self.CONTACTS:
             p = f"contacts/grid/{name}"
-            head = self.container(f"{p}/head", {**flex("row", 8, 8, flex_align_items="center"), "padding": ZERO,
+            head = self.container(f"{p}/head", {**flex("row", 8, 8, flex_align_items="flex-start"), "padding": ZERO,
                                                 "css_classes": "nh-contact__head"},
                                   [self.icon_widget(f"{p}/head/icon", icon(icon_name), "", 14, 5, "purple-700",
                                                     "white")]
@@ -855,10 +862,10 @@ class Builder:
         white = ("white", "white")
         template = self.widget("footer/contacts", "template", {"template_id": "@page-id:contacts",
                                                                 "_title": "פרטי קשר — תבנית משותפת"})
-        copyright_ = self.text_editor_block("footer.copyright", "footer/bottom/copyright", typo="small", color="white",
-                                            links=white, align_mobile="center")
-        links = self.text_editor_block("footer.links", "footer/bottom/links", typo="small", color="white", links=white,
-                                       align_mobile="center")
+        copyright_ = self.text_editor_block("footer.copyright", "footer/bottom/copyright", typo="text-tiny",
+                                            color="white", links=white, align_mobile="center")
+        links = self.text_editor_block("footer.links", "footer/bottom/links", typo="text-tiny", color="white",
+                                       links=white, align_mobile="center")
         bottom = self.container("footer/bottom", {
             **flex("row", 8, 24, wrap="wrap", flex_direction_mobile="column", flex_justify_content="space-between",
                    flex_align_items="center", flex_justify_content_mobile="center"),

@@ -18,7 +18,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "759cefab53df5896f064e34661a815a7f75eaf12412778430b7a1b8a4251d07d",
+  "inputs_sha256": "04120d77d6c77b7823843f8205fb8f73c4d31a6c5c44743e57ebc0a7eff872f4",
   "widgets": [
    "template",
    "text-editor"
@@ -158,7 +158,7 @@
          "text_color": "globals/colors?id=3efe2c1",
          "link_color": "globals/colors?id=3efe2c1",
          "link_hover_color": "globals/colors?id=3efe2c1",
-         "typography_typography": "globals/typography?id=504434a"
+         "typography_typography": "globals/typography?id=bcfc16b"
         }
        },
        "elements": [],
@@ -177,7 +177,7 @@
          "text_color": "globals/colors?id=3efe2c1",
          "link_color": "globals/colors?id=3efe2c1",
          "link_hover_color": "globals/colors?id=3efe2c1",
-         "typography_typography": "globals/typography?id=504434a"
+         "typography_typography": "globals/typography?id=bcfc16b"
         }
        },
        "elements": [],

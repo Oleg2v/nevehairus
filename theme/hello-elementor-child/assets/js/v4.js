@@ -350,10 +350,15 @@
               });
             });
           }
-          // the keyboard reaches a block that is still hidden (Tab, find in page): shown at once
+          // the keyboard reaches a block that is still hidden (Tab, find in page): shown at once, without the fade
+          // (1.3.3: the focus ring must not fade in with the block; the transition is off for this one change)
           d.addEventListener("focusin", (e) => {
             for (let el = e.target; el && el !== d.body; el = el.parentElement) {
-              if (pending.has(el)) show(el);
+              if (!pending.has(el)) continue;
+              const block = el;
+              block.style.setProperty("transition", "none", "important");
+              show(block);
+              w.requestAnimationFrame(() => w.requestAnimationFrame(() => block.style.removeProperty("transition")));
             }
           });
           w.addEventListener("beforeprint", showAll);

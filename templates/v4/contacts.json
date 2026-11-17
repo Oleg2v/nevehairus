@@ -14,7 +14,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "759cefab53df5896f064e34661a815a7f75eaf12412778430b7a1b8a4251d07d",
+  "inputs_sha256": "04120d77d6c77b7823843f8205fb8f73c4d31a6c5c44743e57ebc0a7eff872f4",
   "widgets": [
    "heading",
    "icon",
@@ -234,7 +234,7 @@
           "flex_wrap": "nowrap",
           "flex_wrap_tablet": "nowrap",
           "flex_wrap_mobile": "nowrap",
-          "flex_align_items": "center",
+          "flex_align_items": "flex-start",
           "padding": {
            "unit": "px",
            "top": "0",
@@ -318,7 +318,7 @@
          "id": "cea369a",
          "elType": "widget",
          "settings": {
-          "editor": "<p>מעון נווה האירוס ת.ד. 28 נס ציונה 70450</p><p><a href=\"@media:pdf-entrances\">מפרט כניסות נגישות (PDF)</a></p>",
+          "editor": "<p>מעון נווה האירוס<br>ת.ד.&nbsp;28 נס&nbsp;ציונה 70450</p><p><a href=\"@media:pdf-entrances\">מפרט כניסות נגישות (PDF)</a></p>",
           "text_color": "#FFFFFF",
           "link_color": "#FFFFFF",
           "link_hover_color": "#FFFFFF",
@@ -380,7 +380,7 @@
           "flex_wrap": "nowrap",
           "flex_wrap_tablet": "nowrap",
           "flex_wrap_mobile": "nowrap",
-          "flex_align_items": "center",
+          "flex_align_items": "flex-start",
           "padding": {
            "unit": "px",
            "top": "0",
@@ -508,7 +508,7 @@
           "flex_wrap": "nowrap",
           "flex_wrap_tablet": "nowrap",
           "flex_wrap_mobile": "nowrap",
-          "flex_align_items": "center",
+          "flex_align_items": "flex-start",
           "padding": {
            "unit": "px",
            "top": "0",
@@ -592,7 +592,7 @@
          "id": "afafc46",
          "elType": "widget",
          "settings": {
-          "editor": "<p>דוד אליהו - מנהל המעון<br><a href=\"mailto:irus1@nevehairus.com\">irus1@nevehairus.com</a></p><p>גל שטיינהרט - נציג הבעלים<br><a href=\"mailto:galsh@inter.net.il\">galsh@inter.net.il</a></p>",
+          "editor": "<p>דוד אליהו - מנהל המעון<br><a href=\"mailto:irus1@nevehairus.com\">irus1<wbr>@nevehairus.com</a></p><p>גל שטיינהרט - נציג הבעלים<br><a href=\"mailto:galsh@inter.net.il\">galsh<wbr>@inter.net.il</a></p>",
           "text_color": "#FFFFFF",
           "link_color": "#FFFFFF",
           "link_hover_color": "#FFFFFF",
@@ -654,7 +654,7 @@
           "flex_wrap": "nowrap",
           "flex_wrap_tablet": "nowrap",
           "flex_wrap_mobile": "nowrap",
-          "flex_align_items": "center",
+          "flex_align_items": "flex-start",
           "padding": {
            "unit": "px",
            "top": "0",

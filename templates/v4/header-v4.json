@@ -18,7 +18,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "759cefab53df5896f064e34661a815a7f75eaf12412778430b7a1b8a4251d07d",
+  "inputs_sha256": "04120d77d6c77b7823843f8205fb8f73c4d31a6c5c44743e57ebc0a7eff872f4",
   "widgets": [
    "button",
    "image",
@@ -285,9 +285,9 @@
           },
           "text_padding": {
            "unit": "custom",
-           "top": ".75rem",
+           "top": "calc(.75rem - 2px)",
            "right": "1.5rem",
-           "bottom": ".75rem",
+           "bottom": "calc(.75rem - 2px)",
            "left": "1.5rem",
            "isLinked": false
           },
@@ -303,19 +303,19 @@
           },
           "text_padding_tablet": {
            "unit": "custom",
-           "top": ".625rem",
+           "top": "calc(.5rem - .75px)",
            "right": ".875rem",
-           "bottom": ".625rem",
+           "bottom": "calc(.5rem - .75px)",
            "left": ".875rem",
            "isLinked": false
           },
           "text_padding_mobile": {
            "unit": "custom",
-           "top": ".5rem",
+           "top": "calc(.5rem - .75px)",
            "right": ".5rem",
-           "bottom": ".5rem",
+           "bottom": "calc(.5rem - .75px)",
            "left": ".5rem",
-           "isLinked": true
+           "isLinked": false
           },
           "background_color": "#FFFFFF",
           "button_text_color": "#4A2D84",
@@ -415,10 +415,10 @@
           },
           "text_padding": {
            "unit": "custom",
-           "top": ".8125rem",
-           "right": ".8125rem",
-           "bottom": ".8125rem",
-           "left": ".8125rem",
+           "top": "calc(.8125rem + .5px)",
+           "right": "calc(.8125rem + .5px)",
+           "bottom": "calc(.8125rem + .5px)",
+           "left": "calc(.8125rem + .5px)",
            "isLinked": true
           },
           "selected_icon": {

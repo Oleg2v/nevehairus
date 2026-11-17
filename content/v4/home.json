@@ -34,8 +34,9 @@
     "Titles Oleg gave for v4.1 (spec 10 §0), not live copy: life.title «החיים בנווה האירוס», pro.title «מקצועיות, ניסיון ויחס אישי», the item labels pro.item1–pro.item4 «ניסיון של עשרות שנים», «תוכניות טיפול אישיות», «צוות מקצועי ומסור», «קשר רציף עם המשפחות», and contact.title «נשמח שתבואו להכיר אותנו». They restate the live texts and add no fact: decades follow from 1957 (pro.body); special.lead speaks of «תכנית הטיפול האישית» for each resident and of teams «שעברו הכשרות מקצועיות»; special.rest of «לב רחב וסבלנות אין קץ» and «להיות בקשר רציף עם המשפחות».",
     "pro.year1.label and pro.year2.label are words of the live sentences in their order, shortened as spec 10 §1.5 gives them; pro.year1.num and pro.year2.num are the years of those sentences (static numbers, no counters). Shown under «1985», label 2 may read as if the ministry's full supervision began in 1985; the live sentence dates only the home's current form («במתכונתו הנוכחית מאז 1985») and states the supervision without a date. The plain twins do not date the supervision (pro.year2.label's twin leaves it out; pro.body's twin says it in the present tense). Worth confirming with the home.",
     "contact.sub is the live sentence «נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.» from the end of «מעון לבעלי צרכים מיוחדים» (spec 10 §1.10), verbatim; the page shows it twice: in the contact band and at the end of the folded special.rest.",
-    "contact.whatsapp: the live site lists no WhatsApp number, and 08-9403047 is a landline. Oleg 17.11: the WhatsApp button is off until the home confirms a WhatsApp number (WHATSAPP in scripts/build_v4.py is empty, so the block is kept but not built; set the number there as https://wa.me/972… and run v4 --go to bring the button back). contact.phone is the live number (tel:089403047).",
-    "hero.cta_contact: in v4.1 the button links to #contact, the contact band, until the contact page exists (spec 10 §1.1); its label is unchanged."
+    "contact.whatsapp: the live site lists no WhatsApp number, and 08-9403047 is a landline. Oleg 17.11: the WhatsApp button is off until the home confirms a WhatsApp number (WHATSAPP in scripts/build_v4.py is empty, so the block is kept but not built; to bring the button back: set the number there as https://wa.me/972…, run python3 -I scripts/build_v4.py, then python3 -I scripts/test_site.py v4 --go). contact.phone is the live number (tel:089403047).",
+    "hero.cta_contact: in v4.1 the button links to #contact, the contact band, until the contact page exists (spec 10 §1.1); its label is unchanged.",
+    "Typography only, no words changed (review 17.11): contacts.email.body has <wbr> before the @ of each visible address, so a narrow column breaks a line there and never inside the domain (the mailto: links are unchanged); contacts.address.body puts the P.O. box on a second line (<br>) and keeps «ת.ד. 28» and «נס ציונה» whole (&nbsp;)."
   ],
   "menu": [
     {
@@ -223,7 +224,7 @@
       "full": "<p>המעון מקיים כל העת תערוכות אמנות ופעילויות מרשימות בתחומים שונים</p><p>במעון ניתן למצוא חדר סנוזלן מתקדם בעל ציוד חדשני, מרפאת שיניים מתקדמת ומשוכללת, מועדון מתקדם לרווחת החניכים, חדרים נוחים ומאובזרים ועוד.</p>",
       "plain": "<p>במעון יש כל הזמן תערוכות אמנות ופעילויות בנושאים שונים.</p><p>מה יש במעון? למשל:</p><ul><li>חדר סנוזלן מתקדם.</li><li>מרפאת שיניים מתקדמת.</li><li>מועדון לדיירים ולדיירות.</li><li>חדרים נוחים.</li></ul>",
       "plain_status": "draft",
-      "source": "live home, «קצת עלינו» rich text module 59536e52147b3: paragraphs 4–5, verbatim (spec 10 §1.4); in v4 they were part of about.body"
+      "source": "live home, «קצת עלינו» rich text module 59536e52147b3: paragraphs 4–5, verbatim except the typo corrected 17.11 (see notes) (spec 10 §1.4); in v4 they were part of about.body"
     },
     "pro.title": {
       "kind": "h2",
@@ -293,7 +294,7 @@
       "full": "<p>אבן הפינה למעון \"נווה האירוס\" הונחה בשנת 1957 ע\"י המשפחות : שטיינהרט, רשו וקוגן.</p><p>במתכונתו הנוכחית מאז 1985 בפיקוח מלא של משרד הרווחה - האגף לטיפול באדם עם מוגבלות שכלית התפתחותית.</p><p>יחודו של המעון בשיטות טיפול מתקדמות, יחס אישי ודואג לכל חניך ופעילות תרפויטית ייחודית.</p>",
       "plain": "<p>בשנת 1957 כמה משפחות התחילו להקים את נווה האירוס.</p><p>משנת 1985 המעון עובד כמו היום.</p><p>משרד הרווחה מפקח על המעון באופן מלא. מי שמפקח הוא האגף שמטפל באנשים עם מוגבלות שכלית התפתחותית.</p><p>מה מיוחד במעון?</p><ul><li>יש שיטות טיפול מתקדמות.</li><li>דואגים לכל דייר ודיירת באופן אישי.</li><li>יש פעילות טיפולית מיוחדת.</li></ul>",
       "plain_status": "draft",
-      "source": "live home, «קצת עלינו» rich text module 59536e52147b3: paragraphs 1–3, verbatim (spec 10 §1.5); in v4 they were part of about.body"
+      "source": "live home, «קצת עלינו» rich text module 59536e52147b3: paragraphs 1–3, verbatim except the typo corrected 17.11 (see notes) (spec 10 §1.5); in v4 they were part of about.body"
     },
     "videos.title": {
       "kind": "h2",
@@ -335,7 +336,7 @@
       "full": "<p>שלום רב, שמי לילה ורבל, בני בן ה- 30 מתגורר בנווה האירוס מזה 11 שנה עקב בעיות התנהגות קשות, כגון אלימות פיזית. אני רוצה לציין לטובה את השינוי העצום שבוצע במוסד בשנתיים האחרונות וזאת עקב..</p>",
       "plain": "<p>האמא כותבת שהבן שלה בן 30, ושהוא גר בנווה האירוס כבר 11 שנים.</p><p>היא כותבת שבמעון היה שינוי גדול וטוב ב־2 השנים האחרונות.</p>",
       "plain_status": "draft",
-      "source": "live home, call-to-action module 5b3db9d1bc5a1: its text (two spans glued, no space after «שלום רב,»)"
+      "source": "live home, call-to-action module 5b3db9d1bc5a1: its text (on live two spans are glued, no space after «שלום רב,»; the space added 17.11, see notes)"
     },
     "testimonials.more": {
       "kind": "button",
@@ -430,7 +431,7 @@
     },
     "contacts.address.body": {
       "kind": "html",
-      "full": "<p>מעון נווה האירוס ת.ד. 28 נס ציונה 70450</p><p><a href=\"@media:pdf-entrances\">מפרט כניסות נגישות (PDF)</a></p>",
+      "full": "<p>מעון נווה האירוס<br>ת.ד.&nbsp;28 נס&nbsp;ציונה 70450</p><p><a href=\"@media:pdf-entrances\">מפרט כניסות נגישות (PDF)</a></p>",
       "plain": null,
       "plain_status": null,
       "source": "live contacts block, rich text module 5983185a72588; the PDF link text gets « (PDF)»"
@@ -458,7 +459,7 @@
     },
     "contacts.email.body": {
       "kind": "html",
-      "full": "<p>דוד אליהו - מנהל המעון<br><a href=\"mailto:irus1@nevehairus.com\">irus1@nevehairus.com</a></p><p>גל שטיינהרט - נציג הבעלים<br><a href=\"mailto:galsh@inter.net.il\">galsh@inter.net.il</a></p>",
+      "full": "<p>דוד אליהו - מנהל המעון<br><a href=\"mailto:irus1@nevehairus.com\">irus1<wbr>@nevehairus.com</a></p><p>גל שטיינהרט - נציג הבעלים<br><a href=\"mailto:galsh@inter.net.il\">galsh<wbr>@inter.net.il</a></p>",
       "plain": null,
       "plain_status": null,
       "source": "live contacts block, rich text module 5983185a7269b (plain text on live; mailto links added)"

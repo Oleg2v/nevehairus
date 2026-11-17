@@ -14,7 +14,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "759cefab53df5896f064e34661a815a7f75eaf12412778430b7a1b8a4251d07d",
+  "inputs_sha256": "04120d77d6c77b7823843f8205fb8f73c4d31a6c5c44743e57ebc0a7eff872f4",
   "widgets": [
    "button",
    "heading",
@@ -670,9 +670,9 @@
           },
           "text_padding": {
            "unit": "custom",
-           "top": ".75rem",
+           "top": "calc(.75rem - 2px)",
            "right": "1.5rem",
-           "bottom": ".75rem",
+           "bottom": "calc(.75rem - 2px)",
            "left": "1.5rem",
            "isLinked": false
           },
@@ -1106,8 +1106,8 @@
                "sizes": []
               },
               "icon_padding": {
-               "unit": "px",
-               "size": 11,
+               "unit": "em",
+               "size": 0.6111,
                "sizes": []
               },
               "size_mobile": {
@@ -1330,8 +1330,8 @@
                "sizes": []
               },
               "icon_padding": {
-               "unit": "px",
-               "size": 11,
+               "unit": "em",
+               "size": 0.6111,
                "sizes": []
               },
               "size_mobile": {
@@ -1554,8 +1554,8 @@
                "sizes": []
               },
               "icon_padding": {
-               "unit": "px",
-               "size": 11,
+               "unit": "em",
+               "size": 0.6111,
                "sizes": []
               },
               "size_mobile": {
@@ -1758,8 +1758,8 @@
                "sizes": []
               },
               "icon_padding": {
-               "unit": "px",
-               "size": 11,
+               "unit": "em",
+               "size": 0.6111,
                "sizes": []
               },
               "size_mobile": {

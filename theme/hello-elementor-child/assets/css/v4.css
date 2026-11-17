@@ -313,33 +313,16 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
   outline-offset: 2px;
 }
 /* v4.1: the round arrow at the inline end (an Icon widget, decorative: no link, its SVG is aria-hidden) at the foot
-   of the card; purple-700, purple-800 with the card's hover */
+   of the card; purple-700, purple-800 with the card's hover. 1.3.3: its circle and colours are the widget's own
+   settings (Size 18px, 14px on phones; Padding .6111em: 40px, about 31px on phones), so an edit in Elementor shows;
+   here only its place in the card and the card's hover colour, which has no control of its own */
 .elementor-element.elementor-widget-icon.nh-card__arrow {
   align-self: flex-end;
   margin-block-start: auto;
   line-height: 0;
 }
 .elementor-element.elementor-widget-icon.nh-card__arrow .elementor-icon-wrapper { line-height: 0; }
-.elementor .elementor-element.elementor-widget-icon.nh-card__arrow .elementor-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border-radius: 50%;
-  background-color: #4A2D84;
-  color: #FFFFFF;
-  fill: #FFFFFF;
-  font-size: 18px;
-}
-.elementor .elementor-element.elementor-widget-icon.nh-card__arrow .elementor-icon svg { width: 18px; height: 18px; fill: currentColor; }
 .elementor .elementor-element.e-con.nh-card:is(:hover, :focus-within) .nh-card__arrow .elementor-icon { background-color: #3A2269; }
-/* 1.3.2 (Oleg 17.11): two cards in a row on phones, so a smaller arrow there (32px, as the widget's phone setting) */
-@media (max-width: 767px) {
-  .elementor .elementor-element.elementor-widget-icon.nh-card__arrow .elementor-icon { width: 32px; height: 32px; font-size: 14px; }
-  .elementor .elementor-element.elementor-widget-icon.nh-card__arrow .elementor-icon svg { width: 14px; height: 14px; }
-}
 
 /* ---------- v4.1 «מקצועיות, ניסיון ויחס אישי» (§1.5): Icon Boxes with the icon
    in a purple-50 circle and the label as H3; the years in large static numbers
@@ -631,6 +614,11 @@ html:has(.e-con.nh-header) { scroll-padding-top: calc(var(--nh4-header-h, 0px) +
   text-underline-offset: .35em;
 }
 /* sub-menus: white, a 1px line border, radius 8px, no shadow */
+/* 1.3.3: from 1025 to 1099px the seven items (958px with 20px on each side) did not fit the row (the window minus
+   80px), and «צור קשר» dropped alone to a second row over the photo: 16px there */
+@media (min-width: 1025px) and (max-width: 1099px) {
+  .elementor-location-header .e-con.nh-header .elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item { padding-inline: 16px; }
+}
 .elementor-location-header .e-con.nh-header .elementor-nav-menu--main .elementor-nav-menu ul {
   background-color: #FFFFFF;
   border: 1px solid #D9DCE3;
@@ -813,61 +801,58 @@ body.elementor-editor-active .e-con.nh-plain::after {
   background-color: transparent;
   background-image: none;
 }
-/* the grid: 4 columns, 2 on tablets and phones; 12px between the rows, 24px between the columns (16px on phones).
-   Above the theme's own rules for the v3.2 footer's grid (style.css: 5fr 3fr 4fr from 64em, the first column across
-   from 40em) */
-.elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.e-grid:has(> .nh-contact) {
-  --e-con-grid-template-columns: repeat(4, minmax(0, 1fr));
-  --e-con-grid-template-rows: auto;
-  --row-gap: 12px;
-  --column-gap: 24px;
-  --gap: 12px 24px;
-}
-.elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.e-grid:has(> .nh-contact) > .e-con { grid-column: auto; }
-@media (max-width: 1024px) {
-  .elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.e-grid:has(> .nh-contact) { --e-con-grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
+/* the grid of the contacts: 4 columns, 2 on tablets and phones, gaps 12px / 24px (16px between the columns on phones)
+   are the template's own settings. 1.3.3: style.css's v3.2 footer grid (5fr 3fr 4fr from 64em, the first column across
+   from 40em) no longer reaches it (:not(.nh-footer-v4 *)), so an edit in Elementor shows. One column only where two
+   are too narrow: on a phone with the biggest text («גודל טקסט», step 2) or narrower than 360px, so the e-mail
+   addresses and the column titles keep whole */
 @media (max-width: 767px) {
-  .elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.e-grid:has(> .nh-contact) { --column-gap: 16px; --gap: 12px 16px; }
+  html.nh-a11y-text-2 .elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.e-grid:has(> .nh-contact) { --e-con-grid-template-columns: repeat(1, minmax(0, 1fr)); }
 }
-/* a column, small (1.3.2, Oleg 17.11: «half size»): a row with the icon (a 24px circle: 14 + 2 × 5) and the title
-   (1rem), then the text at 14px; 4px between them; all white; long e-mail addresses wrap inside their column */
-.elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.nh-contact { --row-gap: 4px; --gap: 4px 0px; min-width: 0; }
-.elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.nh-contact__head {
-  --flex-wrap: nowrap;
-  --column-gap: 8px;
-  --gap: 0px 8px;
-  --align-items: center;
-  min-width: 0;
+@media (max-width: 359px) {
+  .elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.e-grid:has(> .nh-contact) { --e-con-grid-template-columns: repeat(1, minmax(0, 1fr)); }
 }
+/* a column (1.3.2–1.3.3, Oleg 17.11: «half size»): a row with the icon (a 24px circle: 14 + 2 × 5) and the title
+   (1rem) at its first line, then the text at 14px. All of that is the template's settings and the Kit's («כותרת קטנה»,
+   «טקסט זעיר»); the theme adds only what Elementor has no control for, and :where() fallbacks below any Elementor value */
+.elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con:is(.nh-contact, .nh-contact__head) { min-width: 0; }
 .elementor-location-footer .e-con.nh-footer-v4 .nh-contact__head .elementor-widget-icon .elementor-icon-wrapper { line-height: 0; }
-.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-element .elementor-icon {
-  font-size: 14px;
-  padding: 5px;
-}
-.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-element .elementor-icon svg { width: 14px; height: 14px; }
-.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-element .elementor-heading-title {
-  font-size: 1rem;
-  line-height: 1.3;
-  color: #FFFFFF;
-}
-.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-element.elementor-widget-text-editor {
-  font-size: .875rem;
-  line-height: 1.5;
-  color: #FFFFFF;
-  overflow-wrap: anywhere;
-}
-.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-element.elementor-widget-text-editor a[href] { color: #FFFFFF; }
-.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-element.elementor-widget-text-editor :is(p + p) { margin-block-start: .25em; }
+.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-widget-text-editor { overflow-wrap: anywhere; }
+/* the paragraphs: no browser margin (the first one kept 1em, so two groups of one column stood as far apart as two
+   rows of the grid); .5em between two paragraphs of a column */
+.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-widget-text-editor p { margin-block: 0; }
+.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-widget-text-editor p + p { margin-block-start: .5em; }
+:where(.elementor-location-footer .nh-footer-v4 .nh-contact) .elementor-heading-title { font-size: 1rem; line-height: 1.3; color: #FFFFFF; }
+:where(.elementor-location-footer .nh-footer-v4 .nh-contact .elementor-widget-text-editor) { font-size: .875rem; line-height: 1.5; color: #FFFFFF; }
+:where(.elementor-location-footer .nh-footer-v4 .nh-contact .elementor-widget-text-editor) a[href] { color: #FFFFFF; }
+/* keyboard focus on a phone number or an e-mail address inside a line of text: a 2px ring on the text itself, so it
+   does not hide the colon of «טלפון:» or touch the lines around it (as style.css does in the v3.2 footer) */
+.elementor-location-footer .e-con.nh-footer-v4 .nh-contact a:is([href^="tel:"], [href^="mailto:"]):focus-visible { outline-width: 2px; outline-offset: 0; }
 /* 1.3.3: from 768px the floating «נגישות» button (fixed, 24px from the inline end and the bottom, 52px) covered the
    end of the bottom row («מפת אתר») when the page is scrolled to its end, wherever the content column comes closer
    than 96px (24 + 52 + room, and a classic scrollbar's width) to the window's edge (768–1440px). The row keeps that
-   room free at its inline end; from about 1512px the column is clear of the button and the padding is 0. */
+   room free at its inline end; from about 1512px the column is clear of the button and Elementor's own padding stays.
+   In RTL the inline end is --padding-left */
 @media (min-width: 768px) {
-  .elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.nh-footer__bottom { padding-inline-end: max(0px, calc(96px - max(32px, (100vw - 1320px) / 2))) !important; }
+  .elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.nh-footer__bottom { padding-inline-end: max(var(--padding-left, 0px), calc(96px - max(32px, (100vw - 1320px) / 2))); }
 }
 @media (min-width: 1025px) {
-  .elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.nh-footer__bottom { padding-inline-end: max(0px, calc(96px - max(40px, (100vw - 1320px) / 2))) !important; }
+  .elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.nh-footer__bottom { padding-inline-end: max(var(--padding-left, 0px), calc(96px - max(40px, (100vw - 1320px) / 2))); }
+}
+/* on phones the three links of the bottom row wrap as whole links, without the dots between them (a dot could be left
+   alone at the end of a line, 360px with the biggest text) */
+@media (max-width: 767px) {
+  .elementor-location-footer .e-con.nh-footer-v4 .nh-footer__bottom .elementor-widget-text-editor p:has(> span[aria-hidden="true"]) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .25rem 1rem;
+  }
+  .elementor-location-footer .e-con.nh-footer-v4 .nh-footer__bottom .elementor-widget-text-editor p > span[aria-hidden="true"] { display: none; }
+}
+/* with the biggest text on a phone the cards stand one in a row (two would leave one or two words per line) */
+@media (max-width: 767px) {
+  html.nh-a11y-text-2 .nh-sec--specialties .elementor-element.e-con.e-grid:has(> .nh-card) { --e-con-grid-template-columns: repeat(1, minmax(0, 1fr)); }
 }
 
 /* =========================================================================
@@ -983,7 +968,14 @@ html.nh-a11y-still *::after {
   /* on a v4 page that room is the v4 footer's own bottom padding, so the footer reaches the end of the page
      (17.11: a shadow copy of the band, shorter than the room, left a white strip between the two) */
   body:has(.nh-float):has(.e-con.nh-footer-v4) { padding-block-end: 0; }
-  body:has(.nh-float) .e-con.nh-footer-v4 { padding-block-end: calc(1.5rem + 136px + env(safe-area-inset-bottom, 0px)) !important; }
+  /* 1.3.3: Elementor puts a boxed container's own padding (1.5rem) on its inner box, so only the 136px here: 160px
+     under the bottom row in all, not 184 */
+  body:has(.nh-float) .e-con.nh-footer-v4 { padding-block-end: calc(136px + env(safe-area-inset-bottom, 0px)) !important; }
+}
+/* 1.3.3: keyboard focus never lands under the two buttons: a focused link is scrolled above them (not on a screen too
+   low for that, where the header would cover it instead) */
+@media (max-width: 767px) and (min-height: 480px) {
+  html:has(.e-con.nh-footer-v4) { scroll-padding-block-end: calc(136px + env(safe-area-inset-bottom, 0px)); }
 }
 
 .nh-a11y { position: relative; }

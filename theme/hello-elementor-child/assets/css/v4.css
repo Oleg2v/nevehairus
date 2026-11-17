@@ -123,13 +123,17 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
    corner. `::after`, not `::before`: on an Elementor container `::before` is the
    background overlay's own box. Behind the text (isolation + z-index -1) ---------- */
 .elementor-element.e-con.nh-quote { position: relative; isolation: isolate; }
+/* the large decorative «”» stands in a row of its own above the card's heading, at the inline start: placed in the
+   corner, it sat on the heading's first word (17.11, phones: «אמא», «נווה») */
 .elementor-element.e-con.nh-quote::after {
   content: "\201D";
-  position: absolute;
-  inset-block-start: -.5rem;
-  inset-inline-start: .75rem;
-  z-index: -1;
-  font: 700 6rem/1 "Assistant", "Arial Hebrew", Arial, sans-serif;
+  order: -1;                 /* the container is a flex column: first, above the heading */
+  align-self: flex-start;    /* the inline start (right in RTL) */
+  display: block;
+  block-size: 2.25rem;
+  margin-block: -.5rem 0;
+  overflow: visible;
+  font: 700 5rem/1 "Assistant", "Arial Hebrew", Arial, sans-serif;
   color: #4A2D84;
   opacity: .25;
   pointer-events: none;

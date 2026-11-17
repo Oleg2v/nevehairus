@@ -80,7 +80,8 @@ only when they differ; no theme location; (4) the active Kit's system_colors, cu
 custom_typography replaced whole by kit.json (Theme Style untouched); (5) the documents home (page #32: data, meta
 and template; its title, slug and status stay), header-v4 and footer-v4 (Theme Builder, condition
 include/singular/front_page; the v3.2 header #34 and footer #35 keep include/general and stay on the other pages)
-and contacts (a saved template the home inserts with the Template widget), found by _nh_page_key, created as drafts,
+and contacts (a saved template; since v4.1, research/10 §1.11, the footer inserts it with the Template widget, the
+home no longer does), found by _nh_page_key, created as drafts,
 written as Elementor saves them, published, conditions cache rebuilt, Elementor's CSS cache emptied; (6) ezCache
 purged and the home page smoke-tested: 200, no PHP error, every widget type and section id, the v4 header in
 <header> and footer in <footer>, no unresolved token, no request in the HTML to another host than ours or YouTube.
@@ -89,7 +90,8 @@ purged and the home page smoke-tested: 200, no PHP error, every widget type and 
 --render-check: one read-only PHP step builds every document's elements with Elementor's API in memory
 (create_element_instance + print_element, under output buffering), with the tokens resolved to the real posts where
 they exist and to placeholder ids/URLs where not, the Kit's globals of kit.json and the menu of menu.json present
-for that request only through filters; it checks every setting against the controls of its element (with the style
+for that request only through filters, and the footer's Template widget printing contacts.json's elements in place
+of the template stored on the site (a filter too); it checks every setting against the controls of its element (with the style
 controls and options, as the editor has them), collects PHP warnings, notices and exceptions, and returns the HTML
 and the CSS Elementor generates for it, saved to DIR (default $NH_V4_RENDER_DIR or ~/.config/nevehairus/v4-render).
 """
@@ -1804,7 +1806,9 @@ V4_KEYS = ("home", "header-v4", "footer-v4", "contacts")
 V4_MEDIA_MAP = os.path.join(V4_DIR, "media-map.json")
 V4_BACKUP_LABEL = "v3.2 (17.11.2026)"                 # as the backup made on 17.11 (backups/2026-11-17-v3.2/)
 V4_BACKUP_TITLE = "דף הבית — גיבוי v3.2 (17.11.2026)"
-V4_SECTIONS = ("hero", "specialties", "about", "testimonials", "special-needs", "contacts", "snoezelen")
+# the element ids the home page shows (research/10 §1): its sections and, in the footer, the contacts block
+V4_SECTIONS = ("hero", "specialties", "life", "pro", "videos", "testimonials", "snoezelen", "special-needs", "contact",
+               "contacts")
 V4_RENDER_DIR = os.environ.get("NH_V4_RENDER_DIR") or os.path.join(CONF, "v4-render")
 V4_UNRESOLVED = re.compile(r"@(?:media|page|page-id|home):")
 V4_HOSTS_OK = {HOST, "youtube.com", "www.youtube.com", "youtube-nocookie.com", "www.youtube-nocookie.com"}
@@ -2171,6 +2175,24 @@ V4_RENDER_PHP = r"""
 			$file->nh_data = $data;
 			return (string) $file->get_content();
 		};
+		// The Template widget (v4.1: the footer's contacts block) prints the template stored on the site: for this
+		// request it prints contacts.json's elements instead, as the site will have them after --go (nothing is saved).
+		$log['template_widget'] = 'the contacts template is not on the site yet: the Template widget prints nothing';
+		if ( $log['found']['contacts'] ) {
+			$nh_tpl_id   = (int) $log['found']['contacts'];
+			$nh_tpl_data = null;
+			foreach ( $nh_docs as $nh_doc ) {
+				if ( 'contacts' === $nh_doc['key'] ) {
+					$nh_tpl_data = $nh_resolve( $nh_doc['elementor_data'] );
+				}
+			}
+			if ( is_array( $nh_tpl_data ) ) {
+				add_filter( 'elementor/frontend/builder_content_data', static function ( $data, $post_id ) use ( $nh_tpl_id, $nh_tpl_data ) {
+					return ( (int) $post_id === $nh_tpl_id ) ? $nh_tpl_data : $data;
+				}, 99, 2 );
+				$log['template_widget'] = "the Template widget prints contacts.json in place of #$nh_tpl_id's stored data";
+			}
+		}
 		$nh_home_doc = $log['found']['home'] ? $nh_el->documents->get( $log['found']['home'] ) : null;
 		if ( $nh_home_doc ) {
 			$nh_el->documents->switch_to_document( $nh_home_doc );
@@ -3080,28 +3102,40 @@ def v4_kit_css(kit):
             + "\n    ".join(mobile) + "\n  }\n}\n")
 
 
-def v4_preview_page(out_dir, log, docs, kit):
-    """One HTML page for a look in a browser: the v4 header, the home with the contacts template in the Template
-    widget's place, the footer; Elementor's and Pro's frontend CSS (inlined from the test site), the Kit's variables
-    and the CSS Elementor generated for these elements, the child theme's CSS and fonts of this tree (file://), and
-    the media files of templates/v4/media in place of the placeholders. Without Elementor's JS: the menu's dropdown
-    and the videos do not open there."""
-    ids = log.get("ids") or {}
-    parts = {d["key"]: (log["docs"].get(d["key"]) or {}) for d in docs}
-    contacts = parts["contacts"].get("html") or ""
+def v4_slot_templates(html, data, contacts_html, contacts_id):
+    """A Template widget that printed nothing (its template is not on the site yet) gets the template rendered on its
+    own, as the first child of its container (v4.1: the footer's contacts block opens the footer), only on the
+    preview page."""
     wrap = ('<div data-elementor-type="container" data-elementor-id="{id}" class="elementor elementor-{id}" '
             'data-elementor-post-type="elementor_library">{html}</div>')
-    home_html = parts["home"].get("html") or ""
-    slot = [el["id"] for el in docs[0]["elementor_data"] if "nh-slot" in str(el["settings"].get("css_classes"))]
-    tpl = [el["id"] for el in walk_v4(docs[0]["elementor_data"]) if el.get("widgetType") == "template"]
-    if slot and tpl and contacts and f'data-id="{tpl[0]}"' not in home_html:
-        # the Template widget printed nothing (the template is not on the site yet): its place gets the template
-        widget = ('<div class="elementor-element elementor-element-{0} elementor-widget elementor-widget-template" '
-                  'data-id="{0}" data-element_type="widget" data-e-type="widget" data-widget_type="template.default">'
-                  '<div class="elementor-template">{1}</div></div>').format(
-                      tpl[0], wrap.format(id=ids.get("contacts"), html=contacts))
-        home_html = re.sub(r'(<div\b[^>]*\bdata-id="' + slot[0] + r'"[^>]*>)', lambda m: m.group(1) + widget,
-                           home_html, count=1)
+    for parent in walk_v4(data):
+        for child in parent.get("elements") or []:
+            if child.get("widgetType") != "template" or f'data-id="{child["id"]}"' in html or not contacts_html:
+                continue
+            widget = ('<div class="elementor-element elementor-element-{0} elementor-widget elementor-widget-template" '
+                      'data-id="{0}" data-element_type="widget" data-e-type="widget" data-widget_type="template.default">'
+                      '<div class="elementor-template">{1}</div></div>').format(
+                          child["id"], wrap.format(id=contacts_id, html=contacts_html))
+            m = re.search(r'<div\b[^>]*\bdata-id="' + parent["id"] + r'"[^>]*>\s*(<div class="e-con-inner">)?', html)
+            if m:
+                html = html[:m.end()] + widget + html[m.end():]
+    return html
+
+
+def v4_preview_page(out_dir, log, docs, kit):
+    """One HTML page for a look in a browser: the v4 header, the home, the footer with the contacts template in the
+    Template widget's place; Elementor's and Pro's frontend CSS (inlined from the test site), the Kit's variables
+    and the CSS Elementor generated for these elements, the child theme's CSS and fonts of this tree (file://), and
+    the media files of templates/v4/media in place of the placeholders. Without Elementor's JS and the theme's: the
+    menu's dropdown and the videos do not open there, and the header stays solid (no html.nh-js)."""
+    ids = log.get("ids") or {}
+    parts = {d["key"]: (log["docs"].get(d["key"]) or {}) for d in docs}
+    by_key = {d["key"]: d for d in docs}
+    contacts = parts["contacts"].get("html") or ""
+    home_html = v4_slot_templates(parts["home"].get("html") or "", by_key["home"]["elementor_data"], contacts,
+                                  ids.get("contacts"))
+    footer_html = v4_slot_templates(parts["footer-v4"].get("html") or "", by_key["footer-v4"]["elementor_data"],
+                                    contacts, ids.get("contacts"))
     css = "\n".join((parts[k].get("css") or "") for k in V4_KEYS)
     el = f"https://{HOST}/wp-content/plugins/elementor/assets/css/"
     pro = f"https://{HOST}/wp-content/plugins/elementor-pro/assets/css/"
@@ -3150,7 +3184,7 @@ def v4_preview_page(out_dir, log, docs, kit):
 </div>
 </main>
 <footer data-elementor-type="footer" data-elementor-id="{ids.get('footer-v4')}" class="elementor elementor-{ids.get('footer-v4')} elementor-location-footer" data-elementor-post-type="elementor_library">
-{parts['footer-v4'].get('html') or ''}
+{footer_html}
 </footer>
 </body></html>
 """
@@ -3239,7 +3273,7 @@ def v4_render_check(me, docs, kit, menu, files, state, out):
              f"CSS {r['css_bytes'] / 1024:.0f} KB; {len(r['problems'])} setting problem(s), {len(r['warnings'])} warning(s), "
              f"{len(r['deprecations'])} deprecation(s)" + (f"; not printed (by design): {r['not_printed']}" if r['not_printed'] else ""))
     step(f"controls: {log.get('controls')}, {log.get('options_checked')} values checked against their options; "
-         f"menu: {log.get('menu')}; found on the site: "
+         f"menu: {log.get('menu')}; {log.get('template_widget')}; found on the site: "
          + ", ".join(f"{k} #{v}" if v else f"{k} (placeholder #{log['ids'][k]})" for k, v in (log.get('found') or {}).items()))
     step(f"saved: {out_dir}/{{{','.join(V4_KEYS)}}}.html and .css, report.json, page.html (preview: {preview})")
     need(not bad, "the render check found problems:\n  " + "\n  ".join(bad[:40]))

@@ -1,6 +1,7 @@
 /* =========================================================================
-   v4 — the calm design of the pages built from Elementor's own widgets
-   (research/09-v4-home-spec.md §5.2–§5.5). Child theme 1.2.0.
+   v4 — the design of the pages built from Elementor's own widgets
+   (research/09-v4-home-spec.md §5.2–§5.5) and its second pass, v4.1, «more
+   life» (research/10-v4.1-home-spec.md §1–§3). Child theme 1.3.0.
 
    Printed on every page after Elementor's frontend CSS and the theme's style.css,
    but every rule is scoped, so the v3.2 pages built with the plugin's widgets
@@ -9,16 +10,34 @@
      nh-framed, nh-checklist, nh-credit, nh-video__cap, nh-more, nh-cover-img,
      nh-ratio-4x3, nh-full / nh-plain, nh-plain-toggle, nh-visually-hidden,
      nh-footer-v4;
+   - v4.1 classes: nh-hero with nh-hero__img (its photo; the focal point from
+     --nh-hero-focus / --nh-focus: "x% y%", or the classes nh-fx-0…100 and
+     nh-fy-0…100 in steps of 5) and nh-hero__content, nh-reveal, nh-card__arrow,
+     nh-ratio-16x9, nh-pro__item, nh-year__num / nh-year__label, nh-video,
+     nh-quote--band, nh-phone-frame, nh-btn-phone / nh-btn-whatsapp, and the
+     section classes nh-sec--life, nh-sec--testimonials, nh-sec--contact;
    - the v4 header by its root container `.e-con.nh-header` (the plugin's
      masthead on the v3.2 pages has a `.nh-header` too, never on a container);
    - the theme's own floating buttons (.nh-float, functions.php) and the html
-     classes of the accessibility menu (nh-a11y-*), which work on every page.
+     classes the theme's scripts set: nh-a11y-* (the accessibility menu), nh-js
+     (scripts run: the head script), nh-header-solid and nh-reveal-on (v4.js).
+
+   The v4.1 full-screen hero is recognised by its photo, .nh-hero__img: a v4
+   page (two halves, .nh-cover-img) keeps its v4 look and its sticky header, so
+   the theme and the pages can be deployed in either order.
 
    Colours (§1): purple-700 #4A2D84, purple-800 #3A2269, purple-50 #F3F0F9,
-   green-500 #8CC05C (decoration only), ink #1F2421, ink-2 #4F5550,
-   line #D9DCE3; call green #2E7D32 (hover #1B5E20); high-contrast yellow
-   #FFE600 on black. Every text and UI pair is at least 4.5:1 (UI 3:1); the
-   table is in theme/README.md.
+   sky-500 #5BBDEB and green-500 #8CC05C (decoration only), ink #1F2421,
+   ink-2 #4F5550, line #D9DCE3; v4.1: night #1C1830, green-700 #2F6B2A (hover
+   #24521F); call green #2E7D32 (hover #1B5E20); high-contrast yellow #FFE600
+   on black. Every text and UI pair is at least 4.5:1 (UI 3:1); the table is in
+   theme/README.md.
+
+   Motion (research/10 §3): only the hero photo's slow zoom, the blocks that
+   fade in once, the cards' lift and the header's change of colour — and none
+   of it under prefers-reduced-motion, with «עצירת אנימציות»
+   (html.nh-a11y-still), in the Elementor editor or in print. Elementor's own
+   transitions stay off in the v4 areas. Nothing is hidden without the script.
 
    Specificity: Elementor writes each element's settings as `.elementor-<doc>
    .elementor-element.elementor-element-<id> …` (0,3,0 and up), and its widgets'
@@ -71,7 +90,22 @@ body:where(:has(.e-con.nh-sec)) { background-color: #FFFFFF; }
    in a card the card clips the photo (overflow: hidden), so its bottom corners stay square */
 .elementor-element.nh-ratio-4x3:where(:not(.nh-card *)) img { border-radius: 12px; }
 
-/* the hero photo fills its half; on phones it is 4:3 above the text */
+/* v4.1: a wide photo, 16:9 (research/10 §1.4: the life photo, edge to edge, so no radius). In the «life» section
+   every photo is 16:9 even without the class */
+.elementor-element.nh-ratio-16x9 img,
+.elementor-element.e-con.nh-sec--life .elementor-widget-image img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 0;
+}
+:is(.elementor-element.nh-ratio-16x9, .elementor-element.e-con.nh-sec--life .elementor-widget-image) :is(a, picture) { display: block; width: 100%; }
+.elementor-element.e-con.nh-sec--life .elementor-widget-image { width: 100%; }
+
+/* the v4 hero photo fills its half; on phones it is 4:3 above the text */
 .elementor-element.nh-cover-img {
   position: relative;
   align-self: stretch;
@@ -91,12 +125,170 @@ body:where(:has(.e-con.nh-sec)) { background-color: #FFFFFF; }
   .elementor-element.nh-cover-img { flex: 0 0 auto; width: 100%; min-height: 0; aspect-ratio: 4 / 3; }
 }
 
-/* ---------- Cards (§4.2): one tab stop, the whole card clickable ---------- */
-.elementor-element.e-con.nh-card {
+/* =========================================================================
+   v4.1 hero (research/10 §1.1): the photo fills the whole screen, edge to edge,
+   on every width (the small viewport height on phones: the text never sits
+   under the browser's bars); two shades, the container's own ::before (top,
+   for the floating header) and ::after (bottom, for the text); the text and
+   the buttons at the bottom. The photo zooms in slowly, once (§3, below)
+   ========================================================================= */
+.elementor-element.e-con.nh-hero:has(.nh-hero__img) {
   position: relative;
+  isolation: isolate;                  /* the photo (0), the shades (1) and the text (2) stack inside the hero */
+  overflow: hidden;                    /* the zoomed photo stays inside */
+  min-height: 100vh;
+  min-height: 100svh;
+  flex-direction: column;
+  justify-content: flex-end;           /* the text at the bottom */
+  padding-block-start: calc(var(--nh4-header-h, 8.5rem) + 1rem);   /* a tall text never slides under the header */
+  background-color: #1C1830;           /* night, until the photo is there */
+}
+@media (max-width: 1024px) {
+  .elementor-element.e-con.nh-hero:has(.nh-hero__img) { padding-block-start: calc(var(--nh4-header-h, 4.75rem) + 1rem); }
+}
+.elementor-element.e-con.nh-hero .elementor-element.nh-hero__img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  margin: 0;
   overflow: hidden;
 }
-.elementor-element.e-con.nh-card:is(:hover, :focus-within) { border-color: #3A2269; }
+.elementor-element.e-con.nh-hero .elementor-element.nh-hero__img :is(a, picture) { display: block; width: 100%; height: 100%; }
+.elementor-element.e-con.nh-hero .elementor-element.nh-hero__img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  border-radius: 0;
+  object-fit: cover;
+}
+/* the focal point: one for both the landscape and the portrait crop. Low specificity, so the Image widget's own
+   «Object Position» setting wins where it is set; the zoom grows from the same point */
+.nh-hero__img img {
+  object-position: var(--nh-hero-focus, var(--nh-focus, var(--nh-focus-x, 50%) var(--nh-focus-y, 50%)));
+  transform-origin: var(--nh-hero-focus, var(--nh-focus, var(--nh-focus-x, 50%) var(--nh-focus-y, 50%)));
+}
+.nh-fx-0 { --nh-focus-x: 0%; } .nh-fx-5 { --nh-focus-x: 5%; } .nh-fx-10 { --nh-focus-x: 10%; } .nh-fx-15 { --nh-focus-x: 15%; } .nh-fx-20 { --nh-focus-x: 20%; } .nh-fx-25 { --nh-focus-x: 25%; } .nh-fx-30 { --nh-focus-x: 30%; }
+.nh-fx-35 { --nh-focus-x: 35%; } .nh-fx-40 { --nh-focus-x: 40%; } .nh-fx-45 { --nh-focus-x: 45%; } .nh-fx-50 { --nh-focus-x: 50%; } .nh-fx-55 { --nh-focus-x: 55%; } .nh-fx-60 { --nh-focus-x: 60%; } .nh-fx-65 { --nh-focus-x: 65%; }
+.nh-fx-70 { --nh-focus-x: 70%; } .nh-fx-75 { --nh-focus-x: 75%; } .nh-fx-80 { --nh-focus-x: 80%; } .nh-fx-85 { --nh-focus-x: 85%; } .nh-fx-90 { --nh-focus-x: 90%; } .nh-fx-95 { --nh-focus-x: 95%; } .nh-fx-100 { --nh-focus-x: 100%; }
+.nh-fy-0 { --nh-focus-y: 0%; } .nh-fy-5 { --nh-focus-y: 5%; } .nh-fy-10 { --nh-focus-y: 10%; } .nh-fy-15 { --nh-focus-y: 15%; } .nh-fy-20 { --nh-focus-y: 20%; } .nh-fy-25 { --nh-focus-y: 25%; } .nh-fy-30 { --nh-focus-y: 30%; }
+.nh-fy-35 { --nh-focus-y: 35%; } .nh-fy-40 { --nh-focus-y: 40%; } .nh-fy-45 { --nh-focus-y: 45%; } .nh-fy-50 { --nh-focus-y: 50%; } .nh-fy-55 { --nh-focus-y: 55%; } .nh-fy-60 { --nh-focus-y: 60%; } .nh-fy-65 { --nh-focus-y: 65%; }
+.nh-fy-70 { --nh-focus-y: 70%; } .nh-fy-75 { --nh-focus-y: 75%; } .nh-fy-80 { --nh-focus-y: 80%; } .nh-fy-85 { --nh-focus-y: 85%; } .nh-fy-90 { --nh-focus-y: 90%; } .nh-fy-95 { --nh-focus-y: 95%; } .nh-fy-100 { --nh-focus-y: 100%; }
+
+/* the shades: decorative, CSS only. ::before is the container's background overlay in Elementor (empty unless an
+   overlay is set); here it is the top shade */
+.elementor-element.e-con.nh-hero:has(.nh-hero__img)::before,
+.elementor-element.e-con.nh-hero:has(.nh-hero__img)::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  display: block;
+  width: auto;
+  border: 0;
+  border-radius: 0;
+  opacity: 1;
+  mix-blend-mode: normal;
+  pointer-events: none;
+  transition: none;
+}
+/* top: under the floating header. The spec's .55 → 0 over 160px left the second row of the desktop header (the
+   menu, 85–138px down) on 15% of shade: 2.5:1 over the bright sky ceiling of the chosen photo. So the shade holds
+   about 60% night under the whole header, whatever its height (v4.js measures it; text size 130% makes it taller),
+   then fades out over 4rem: white on a white pixel under it is 4.8:1 */
+.elementor-element.e-con.nh-hero:has(.nh-hero__img)::before {
+  top: 0;
+  bottom: auto;
+  height: calc(var(--nh4-header-h, 8.5rem) + 4rem);
+  min-height: 160px;
+  background: linear-gradient(to bottom, rgba(28, 24, 48, .64), rgba(28, 24, 48, .6) var(--nh4-header-h, 8.5rem), rgba(28, 24, 48, 0));
+}
+/* bottom: an ambient shade over the lower part of the photo … */
+.elementor-element.e-con.nh-hero:has(.nh-hero__img)::after {
+  top: 0;
+  bottom: 0;
+  height: auto;
+  background: linear-gradient(to top, rgba(28, 24, 48, .6), rgba(28, 24, 48, .25) 35%, rgba(28, 24, 48, 0) 70%);
+}
+/* the text: above the photo and the shades, at the bottom (12% of the screen's height under it, 9% on phones) */
+.elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content {
+  position: relative;
+  z-index: 2;
+  --padding-bottom: 12vh;
+}
+/* … and one that follows the text: it fades in over 6rem and is full from 2rem above the text (the glyphs of the
+   H1 rise above its line box) down to the bottom, 60% night behind every line: white keeps 4.58:1 even on a white
+   pixel of any photo, on any screen shape (the spec's percentages of the hero's height left the H1 of a short, wide
+   screen above the shade: 3.1:1 at 1280x720, 4.1:1 on a phone held sideways). Together, about 84% at the bottom, as
+   the spec's .88, and the photo stays clear above the text */
+.elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -8rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: block;
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  opacity: 1;
+  mix-blend-mode: normal;
+  pointer-events: none;
+  transition: none;
+  background: linear-gradient(to bottom, rgba(28, 24, 48, 0), rgba(28, 24, 48, .6) 6rem, rgba(28, 24, 48, .6));
+}
+@supports (height: 1svh) {
+  .elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content { --padding-bottom: 12svh; }
+}
+@media (max-width: 767px) {
+  .elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content { --padding-bottom: 9vh; }
+  @supports (height: 1svh) {
+    .elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content { --padding-bottom: 9svh; }
+  }
+  /* with the text enlarged (115%, 130%) the buttons grow towards the floating «נגישות» and call buttons at the inline
+     end: the text then keeps above them (12 + 56 + 8 + 52px, and a little air) */
+  html:is(.nh-a11y-text-1, .nh-a11y-text-2) .elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content { --padding-bottom: max(9vh, calc(136px + env(safe-area-inset-bottom, 0px))); }
+}
+/* so on the narrowest phones (≤380px), at any size: there the two buttons reach the floating ones */
+@media (max-width: 380px) {
+  .elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content { --padding-bottom: max(9vh, calc(136px + env(safe-area-inset-bottom, 0px))); }
+}
+/* white text (a fallback: the widgets' own colour settings win; Elementor's global default, the Kit's purple, does
+   not), with a soft shadow; the H1 large (clamp(2.25rem, 1.5rem + 3vw, 4rem)), the subline 1.375rem */
+:where(.e-con.nh-hero:has(.nh-hero__img)) .elementor-element.elementor-widget-heading .elementor-heading-title,
+:where(.e-con.nh-hero:has(.nh-hero__img)) .elementor-element.elementor-widget-text-editor { color: #FFFFFF; }
+:where(.e-con.nh-hero:has(.nh-hero__img)) :is(.elementor-heading-title, .elementor-widget-text-editor) { text-shadow: 0 1px 3px rgba(28, 24, 48, .45); }
+:where(.e-con.nh-hero:has(.nh-hero__img)) .elementor-element.elementor-widget-heading h1.elementor-heading-title {
+  font-size: clamp(2.25rem, 1.5rem + 3vw, 4rem);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+:where(.e-con.nh-hero:has(.nh-hero__img)) .elementor-element.elementor-widget-heading p.elementor-heading-title { font-size: 1.375rem; line-height: 1.4; }
+
+/* ---------- Cards (§4.2; v4.1 §1.3): one tab stop, the whole card clickable;
+   white, 1px line, radius 16px (the card's settings), a faint shadow; on hover and
+   keyboard focus the card lifts 6px (motion, below), its shadow deepens, the photo
+   grows 6% inside its frame, the title and the arrow turn purple-800 ---------- */
+.elementor-element.e-con.nh-card {
+  position: relative;
+  isolation: isolate;          /* the corners clip the zoomed photo (Safari too) */
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(28, 24, 48, .06);
+}
+.elementor .elementor-element.e-con.nh-card:is(:hover, :focus-within) {
+  border-color: #3A2269;
+  box-shadow: 0 16px 32px rgba(28, 24, 48, .14);
+}
+/* the photo's frame */
+.elementor-element.e-con.nh-card .elementor-element.nh-card__img { overflow: hidden; }
 /* the title link: no underline at rest (the card is the affordance), underlined with the card's hover */
 .elementor-element.e-con.nh-card .nh-card__title a { color: inherit; text-decoration-line: none; }
 .elementor-element.e-con.nh-card:is(:hover, :focus-within) .nh-card__title :is(.elementor-heading-title, a) { color: #3A2269; }
@@ -118,6 +310,126 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
   outline: 3px solid #4A2D84;
   outline-offset: 2px;
 }
+/* v4.1: the round arrow at the inline end (an Icon widget, decorative: no link, its SVG is aria-hidden) at the foot
+   of the card; purple-700, purple-800 with the card's hover */
+.elementor-element.elementor-widget-icon.nh-card__arrow {
+  align-self: flex-end;
+  margin-block-start: auto;
+  line-height: 0;
+}
+.elementor-element.elementor-widget-icon.nh-card__arrow .elementor-icon-wrapper { line-height: 0; }
+.elementor .elementor-element.elementor-widget-icon.nh-card__arrow .elementor-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: #4A2D84;
+  color: #FFFFFF;
+  fill: #FFFFFF;
+  font-size: 18px;
+}
+.elementor .elementor-element.elementor-widget-icon.nh-card__arrow .elementor-icon svg { width: 18px; height: 18px; fill: currentColor; }
+.elementor .elementor-element.e-con.nh-card:is(:hover, :focus-within) .nh-card__arrow .elementor-icon { background-color: #3A2269; }
+
+/* ---------- v4.1 «מקצועיות, ניסיון ויחס אישי» (§1.5): Icon Boxes with the icon
+   in a purple-50 circle and the label as H3; the years in large static numbers
+   (fallbacks: the widgets' own settings win) ---------- */
+.elementor-element.elementor-widget-icon-box.nh-pro__item .elementor-icon-box-wrapper { gap: 1rem; }
+.elementor-element.elementor-widget-icon-box.nh-pro__item .elementor-icon-box-icon { margin: 0; }
+.elementor .elementor-element.elementor-widget-icon-box.nh-pro__item .elementor-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  padding: 0;
+  border-radius: 50%;
+  background-color: #F3F0F9;
+  color: #4A2D84;
+  fill: #4A2D84;
+  font-size: 2rem;
+}
+.elementor .elementor-element.elementor-widget-icon-box.nh-pro__item .elementor-icon svg { width: 1em; height: 1em; }
+.elementor-element.elementor-widget-icon-box.nh-pro__item .elementor-icon-box-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #1F2421;
+}
+.elementor-element.elementor-widget-icon-box.nh-pro__item .elementor-icon-box-title :is(a, span) { color: inherit; }
+/* the years: «1957», «1985» — large, purple-700, lining figures; no counter */
+.elementor-element.elementor-widget-heading.nh-year__num .elementor-heading-title {
+  font-size: clamp(3rem, 2rem + 4vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1;
+  color: #4A2D84;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.elementor-element.nh-year__label:is(.elementor-widget-text-editor, .elementor-widget-heading) { color: #1F2421; }
+.elementor-element.nh-year__label.elementor-widget-heading .elementor-heading-title { color: #1F2421; font-size: 1.125rem; font-weight: 600; line-height: 1.4; }
+
+/* ---------- v4.1 videos (§1.6) and the Snoezelen phone (§1.8): radius 16px, a
+   large round play button — Elementor's play icon, white, on an 80px purple
+   disc (its purple ring) — that shows on any thumbnail ---------- */
+.elementor-element:is(.elementor-widget-video.nh-video, .nh-video .elementor-widget-video) { border-radius: 16px; }
+.elementor-element:is(.elementor-widget-video.nh-video, .nh-video .elementor-widget-video) :is(.elementor-wrapper, .elementor-custom-embed-image-overlay) { border-radius: 16px; }
+.elementor .elementor-element:is(.elementor-widget-video.nh-video, .nh-video .elementor-widget-video, .elementor-widget-video.nh-phone-frame) .elementor-custom-embed-play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #4A2D84;
+  box-shadow: 0 6px 20px rgba(28, 24, 48, .35);
+}
+.elementor .elementor-element:is(.elementor-widget-video.nh-video, .nh-video .elementor-widget-video, .elementor-widget-video.nh-phone-frame) .elementor-custom-embed-play svg {
+  width: 64px;
+  height: 64px;
+  fill: #FFFFFF;
+  opacity: 1;
+  filter: none;
+}
+.elementor .elementor-element:is(.elementor-widget-video.nh-video, .nh-video .elementor-widget-video, .elementor-widget-video.nh-phone-frame) .elementor-custom-embed-image-overlay:hover .elementor-custom-embed-play,
+.elementor .elementor-element:is(.elementor-widget-video.nh-video, .nh-video .elementor-widget-video, .elementor-widget-video.nh-phone-frame) .elementor-custom-embed-play:focus-visible { background-color: #3A2269; }
+/* keyboard focus on a photo: a white ring with a night halo, seen on light and dark thumbnails alike */
+.elementor .elementor-element:is(.elementor-widget-video.nh-video, .nh-video .elementor-widget-video, .elementor-widget-video.nh-phone-frame) .elementor-custom-embed-play:focus-visible {
+  outline: 3px solid #FFFFFF;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 8px #1C1830;
+}
+
+/* the Snoezelen short in a phone (CSS only): a 12px ink bezel (as padding, so the video keeps its own clipping),
+   radius 44px, the screen 32px, a small speaker bar in the top bezel, a soft shadow; 9:16, at most 300px wide */
+.elementor .e-con .elementor-element.elementor-widget-video.nh-phone-frame {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  margin-inline: auto;
+  padding: 12px;
+  border-radius: 44px;
+  background-color: #1F2421;
+  box-shadow: 0 24px 48px -16px rgba(28, 24, 48, .45), 0 4px 12px rgba(28, 24, 48, .12);
+}
+.elementor-element.elementor-widget-video.nh-phone-frame::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 4px;
+  left: 50%;
+  width: 56px;
+  height: 4px;
+  margin-left: -28px;
+  border-radius: 2px;
+  background-color: #4F5550;
+  pointer-events: none;
+}
+.elementor-element.elementor-widget-video.nh-phone-frame :is(.elementor-wrapper, .elementor-custom-embed-image-overlay) { border-radius: 32px; }
+.elementor-element.elementor-widget-video.nh-phone-frame .elementor-wrapper { overflow: hidden; aspect-ratio: var(--video-aspect-ratio, 9 / 16); }
 
 /* ---------- The quote card (§4.4): a large decorative ” in its top inline-start
    corner. `::after`, not `::before`: on an Elementor container `::before` is the
@@ -138,6 +450,26 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
   opacity: .25;
   pointer-events: none;
 }
+/* v4.1 (§1.7): the testimonial on a full-width purple-700 band: centred, white text, the large «”» sky-500 at 50%
+   in its own row above the quote, the excerpt 1.375rem/1.6 (fallbacks: the widgets' own settings win) */
+.elementor-element.e-con.nh-quote--band { position: relative; isolation: isolate; text-align: center; }
+.elementor-element.e-con.nh-quote--band::after {
+  content: "\201D";
+  order: -1;
+  align-self: center;
+  display: block;
+  block-size: 3.25rem;
+  margin-block: -.25rem 0;
+  overflow: visible;
+  font: 700 7rem/1 "Assistant", "Arial Hebrew", Arial, sans-serif;
+  color: #5BBDEB;
+  opacity: .5;
+  pointer-events: none;
+}
+:where(.e-con.nh-quote--band, .e-con.nh-sec--testimonials) .elementor-element.elementor-widget-heading .elementor-heading-title,
+:where(.e-con.nh-quote--band, .e-con.nh-sec--testimonials) .elementor-element.elementor-widget-text-editor { color: #FFFFFF; }
+:where(.e-con.nh-quote--band) .elementor-element.elementor-widget-text-editor { font-size: 1.375rem; line-height: 1.6; }
+.e-con:is(.nh-quote--band, .nh-sec--testimonials) .elementor-widget-text-editor a { color: #FFFFFF; }
 
 /* ---------- The framed box (§4.5): the inline-start border, a fallback the
    container's own border setting overrides ---------- */
@@ -161,8 +493,9 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
 }
 
 /* ---------- Captions and the credit line (fallbacks: the widgets' typography and
-   colour settings win) ---------- */
+   colour settings win). v4.1: the video captions 1.125rem ---------- */
 .elementor-widget-text-editor:is(.nh-credit, .nh-video__cap) { font-size: 1rem; line-height: 1.5; color: #4F5550; }
+.elementor-widget-text-editor.nh-video__cap { font-size: 1.125rem; }
 .elementor-widget-text-editor.nh-credit { font-style: italic; }
 
 /* ---------- «להמשך קריאה» (§4.5): the accordion's summary as a clear button-like
@@ -186,6 +519,26 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
   text-underline-offset: .3em;
 }
 
+/* ---------- v4.1 «נשמח שתבואו להכיר אותנו» (§1.10): two large buttons, the phone
+   purple-700, WhatsApp green-700 #2F6B2A (white on it 6.5:1), white text and icons
+   (fallbacks above Elementor's global button colour, the Kit's light green; the
+   buttons' own settings win) ---------- */
+.elementor-element.elementor-widget-button:is(.nh-btn-phone, .nh-btn-whatsapp) .elementor-button {
+  min-height: 3.5rem;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #FFFFFF;
+  fill: #FFFFFF;
+}
+.elementor-element.elementor-widget-button:is(.nh-btn-phone, .nh-btn-whatsapp) .elementor-button-icon svg { width: 1.25em; height: 1.25em; fill: currentColor; }
+.elementor-element.elementor-widget-button.nh-btn-phone .elementor-button { background-color: #4A2D84; }
+.elementor-element.elementor-widget-button.nh-btn-phone .elementor-button:is(:hover, :focus) { background-color: #3A2269; color: #FFFFFF; }
+.elementor-element.elementor-widget-button.nh-btn-whatsapp .elementor-button { background-color: #2F6B2A; }
+.elementor-element.elementor-widget-button.nh-btn-whatsapp .elementor-button:is(:hover, :focus) { background-color: #24521F; color: #FFFFFF; }
+
 /* ---------- Links in text (WCAG 1.4.1): underlined, purple, thicker on hover ---------- */
 .nh-sec .elementor-widget-text-editor a {
   color: #4A2D84;
@@ -194,13 +547,17 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
   text-underline-offset: .2em;
 }
 .nh-sec .elementor-widget-text-editor a:hover { color: #3A2269; text-decoration-thickness: 2px; }
+/* on the testimonial band: white (above) */
+.e-con:is(.nh-quote--band, .nh-sec--testimonials) .elementor-widget-text-editor a:hover { color: #FFFFFF; }
 
-/* ---------- Focus: a 3px purple ring in the v4 areas, white on purple ---------- */
+/* ---------- Focus: a 3px purple ring in the v4 areas, white on purple and on the
+   photo ---------- */
 .nh-sec :focus-visible,
 .e-con.nh-header :focus-visible,
 .nh-float :focus-visible { outline: 3px solid #4A2D84; outline-offset: 2px; }
 .nh-hero__text :focus-visible,
 .nh-footer-v4 :focus-visible { outline: 3px solid #FFFFFF; outline-offset: 2px; }
+.e-con:is(.nh-hero, .nh-quote--band, .nh-sec--testimonials) :focus-visible { outline: 3px solid #FFFFFF; outline-offset: 2px; }
 /* the footer band's links are underlined (WCAG 1.4.1): Elementor's `.elementor a` takes the underline away */
 .nh-footer-v4 a { text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
 .nh-footer-v4 a:hover { text-decoration-thickness: 2px; }
@@ -214,11 +571,43 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
     z-index: 100;
   }
 }
+/* v4.1 (research/10 §2): on a page with the full-screen hero the header floats over it, fixed at the top on every
+   width, under WordPress's admin bar (v4.js follows the bar where it scrolls away with the page, ≤600px: --nh4-top).
+   Solid — white (the header's own setting), with a soft shadow — unless the transparent state below applies. Not in
+   the Elementor editor, not in print */
+@media screen {
+  body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:has(.e-con.nh-header) {
+    position: fixed;
+    top: var(--nh4-top, var(--wp-admin--admin-bar--height, 0px));
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+  body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header .e-con.nh-header { box-shadow: 0 2px 16px rgba(28, 24, 48, .10); }
+}
 /* in the Elementor editor the header scrolls with the page: stuck on top it covered the top of the content being
    edited, and a click on the banner's heading hit the header (17.11) */
 body.elementor-editor-active .elementor-location-header { position: static !important; }
-/* a jump to an anchor or to a focused control lands below the sticky header (v4.js measures it) */
-html:has(.e-con.nh-header) { scroll-padding-top: calc(var(--nh4-sticky-h, 0px) + var(--wp-admin--admin-bar--height, 0px)); }
+/* a jump to an anchor or to a focused control lands below the sticky or floating header (v4.js measures it) */
+html:has(.e-con.nh-header) { scroll-padding-top: calc(var(--nh4-header-h, 0px) + var(--nh4-top, var(--wp-admin--admin-bar--height, 0px))); }
+
+/* v4.1: the logo (the live PNG, white ground) on a white rounded badge in both states. The badge takes the row's own
+   padding (6px above and below) and the gutter at its side, so the header keeps its height and the logo its place;
+   the keyboard ring goes round the badge. On the smallest phones (≤370px) the logo is 36px high instead of 40, so
+   the one row (logo, «בשפה פשוטה», phone, «תפריט») still fits */
+.elementor-location-header .e-con.nh-header .elementor-widget-image img {
+  box-sizing: content-box;
+  padding: 6px;
+  margin-block: -6px;
+  margin-inline-start: -6px;
+  border-radius: 12px;
+  background-color: #FFFFFF;
+}
+@media (max-width: 370px) {
+  .elementor-location-header .e-con.nh-header .elementor-widget-image img { height: 36px; }
+}
+.elementor-location-header .e-con.nh-header .elementor-widget-image a:focus-visible { outline: none; }
+.elementor-location-header .e-con.nh-header .elementor-widget-image a:focus-visible img { outline: 3px solid #4A2D84; outline-offset: 2px; }
 
 /* the menu: hover purple-800 with a 2px underline; the current item 700 with a 3px bar, static */
 .elementor-location-header .e-con.nh-header .elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item.elementor-item-active {
@@ -276,6 +665,20 @@ html:has(.e-con.nh-header) { scroll-padding-top: calc(var(--nh4-sticky-h, 0px) +
   font-weight: 600;
   line-height: 1.2;
 }
+/* v4.1: the open phone menu of the floating header is a white panel under it, never taller than the screen below the
+   header (it scrolls inside; with the header fixed, the page behind cannot bring its end into view), and above the
+   floating buttons while open */
+@media screen {
+  body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header .e-con.nh-header .elementor-nav-menu--toggle .elementor-menu-toggle.elementor-active + .elementor-nav-menu__container {
+    max-height: calc(100vh - var(--nh4-header-h, 4.75rem) - var(--nh4-top, var(--wp-admin--admin-bar--height, 0px)) - 12px);
+    max-height: calc(100dvh - var(--nh4-header-h, 4.75rem) - var(--nh4-top, var(--wp-admin--admin-bar--height, 0px)) - 12px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background-color: #FFFFFF;
+    box-shadow: 0 16px 32px rgba(28, 24, 48, .14);
+  }
+}
+body:has(.elementor-location-header .elementor-menu-toggle.elementor-active) .nh-float { z-index: 90; }
 
 /* ---------- «בשפה פשוטה» (§5.5): the pressed toggle is purple with white text;
    the label stays. !important: Elementor has no setting for a pressed state, and
@@ -290,6 +693,73 @@ html:has(.e-con.nh-header) { scroll-padding-top: calc(var(--nh4-sticky-h, 0px) +
   border-color: #3A2269 !important;
 }
 :is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle)[aria-pressed="true"] :is(.elementor-button-text, svg) { color: inherit !important; fill: currentColor !important; }
+
+/* ---------- v4.1: the floating header's transparent state (research/10 §2) ----------
+   At the top of the page, over the hero's photo and its top shade: no ground, white
+   menu text, white outline buttons («בשפה פשוטה», the phone), «צור קשר» white with
+   purple text, the current item's bar white. Only with the scripts (html.nh-js: without
+   them the header stays solid, never white on white), only on screen. Solid again from
+   24px of scroll (html.nh-header-solid), while the phone menu is open (a white panel
+   under a white header) and while the keyboard is in the header: every ring and text
+   then sits on white */
+@media screen {
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .e-con.nh-header__nav { border-color: rgba(255, 255, 255, .3); }
+  /* the menu: white; hover and an open sub-menu underlined; the current item's bar white (the sub-menus stay white
+     panels with their own colours) */
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-nav-menu--main .elementor-item,
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-nav-menu--main .elementor-item:is(:hover, :focus, .highlighted, .elementor-item-active) {
+    color: #FFFFFF;
+    fill: #FFFFFF;
+  }
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-nav-menu--main .elementor-item.elementor-item-active { box-shadow: inset 0 -3px 0 #FFFFFF; }
+  /* «בשפה פשוטה»: a white outline button; on hover and when pressed, white with purple text */
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .nh-plain-toggle .elementor-button {
+    background-color: transparent;
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+    fill: #FFFFFF;
+  }
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .nh-plain-toggle .elementor-button:is(:hover, [aria-pressed="true"]) {
+    background-color: #FFFFFF !important;
+    border-color: #FFFFFF !important;
+    color: #4A2D84 !important;
+    fill: #4A2D84 !important;
+  }
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .nh-plain-toggle .elementor-button[aria-pressed="true"]:hover { background-color: #F3F0F9 !important; color: #3A2269 !important; }
+  /* the phone (the number on desktops, the icon below 1025px): a white outline button. The ring is drawn inside
+     the box (the solid state's buttons have no border), so nothing moves when the header changes */
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-button[href^="tel:"] {
+    background-color: transparent;
+    color: #FFFFFF;
+    fill: #FFFFFF;
+    box-shadow: inset 0 0 0 2px #FFFFFF;
+  }
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-button[href^="tel:"] svg { fill: #FFFFFF; }
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-button[href^="tel:"]:hover { background-color: #FFFFFF; color: #4A2D84; }
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-button[href^="tel:"]:hover svg { fill: #4A2D84; }
+  /* «צור קשר» (any other button of the header): white with purple text */
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-widget-button:not(.nh-plain-toggle) .elementor-button:not([href^="tel:"]) {
+    background-color: #FFFFFF;
+    border-color: #FFFFFF;
+    color: #4A2D84;
+    fill: #4A2D84;
+  }
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-widget-button:not(.nh-plain-toggle) .elementor-button:not([href^="tel:"]):hover { background-color: #F3F0F9; color: #3A2269; }
+  /* the menu toggle «תפריט»: white, with a white ring */
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-menu-toggle {
+    background-color: transparent;
+    color: #FFFFFF;
+    box-shadow: inset 0 0 0 2px #FFFFFF;
+  }
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-menu-toggle svg { fill: #FFFFFF; }
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-menu-toggle:hover { background-color: #FFFFFF; color: #4A2D84; }
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-menu-toggle:hover svg { fill: #4A2D84; }
+}
 
 /* ---------- Plain language (§6): the full text or its plain twin, never both.
    In the Elementor editor both show, so the client can edit both ---------- */
@@ -320,12 +790,67 @@ body.elementor-editor-active .e-con.nh-plain::after {
   pointer-events: none;
 }
 
-/* ---------- No motion in the v4 areas (§0). Nothing transitions or animates
-   (Elementor's 300–500ms defaults on widgets, buttons, the menu and its phone
-   dropdown included), except the colour of interactive things on hover/focus:
-   150ms, and not at all under prefers-reduced-motion. A switch of the
+/* =========================================================================
+   v4.1 footer (research/10 §1.11): night #1C1830 (the footer's own setting),
+   white text; first the shared contacts template at half size, then the line and
+   the bottom row (©, the three links). In the footer the template is not a band
+   of its own: no ground, no padding, the footer's column
+   ========================================================================= */
+.e-con.nh-footer-v4 { color: #FFFFFF; }
+.elementor-location-footer .e-con.nh-footer-v4 .elementor-widget-template .e-con.e-parent {
+  --padding-top: 0px;
+  --padding-bottom: 0px;
+  --padding-left: 0px;
+  --padding-right: 0px;
+  --content-width: 100%;
+  background-color: transparent;
+  background-image: none;
+}
+/* the grid: 4 columns, 2 on tablets and phones, the row gaps halved (32px → 16px). Above the theme's own rules for
+   the v3.2 footer's grid (style.css: 5fr 3fr 4fr from 64em, the first column across from 40em) */
+.elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.e-grid:has(> .nh-contact) {
+  --e-con-grid-template-columns: repeat(4, minmax(0, 1fr));
+  --e-con-grid-template-rows: auto;
+  --row-gap: 16px;
+  --column-gap: 24px;
+  --gap: 16px 24px;
+}
+.elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.e-grid:has(> .nh-contact) > .e-con { grid-column: auto; }
+@media (max-width: 1024px) {
+  .elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.e-grid:has(> .nh-contact) { --e-con-grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* a column: the gaps halved (12px → 6px); icons 36px (were 56), titles 1rem, text .9375rem, all white; long e-mail
+   addresses wrap inside their column on a phone */
+.elementor-location-footer .e-con.nh-footer-v4 .elementor-element.e-con.nh-contact { --row-gap: 6px; --gap: 6px 0px; min-width: 0; }
+.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-element .elementor-icon {
+  font-size: 16px;
+  padding: 10px;
+}
+.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-element .elementor-icon svg { width: 16px; height: 16px; }
+.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-element .elementor-heading-title {
+  font-size: 1rem;
+  line-height: 1.3;
+  color: #FFFFFF;
+}
+.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-element.elementor-widget-text-editor {
+  font-size: .9375rem;
+  line-height: 1.55;
+  color: #FFFFFF;
+  overflow-wrap: anywhere;
+}
+.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-element.elementor-widget-text-editor a[href] { color: #FFFFFF; }
+.elementor-location-footer .e-con.nh-footer-v4 .nh-contact .elementor-element.elementor-widget-text-editor :is(p + p) { margin-block-start: .375em; }
+
+/* =========================================================================
+   Motion (research/09 §0, research/10 §3). Nothing transitions or animates in
+   the v4 areas by default (Elementor's 300–500ms defaults on widgets, buttons,
+   the menu and its phone dropdown included). Opt in, only without
+   prefers-reduced-motion and «עצירת אנימציות», never in the editor: the colour of
+   interactive things (150ms), the floating header (250ms), the cards' lift
+   (250ms), the fade-ins (600ms) and the hero's zoom (24s). A switch of the
    accessibility menu applies at once (v4.js sets html.nh-a11y-switching for a
-   frame) ---------- */
+   frame)
+   ========================================================================= */
 body:not(.elementor-editor-active) :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-float),
 body:not(.elementor-editor-active) :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-float) *,
 body:not(.elementor-editor-active) :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-float) *::before,
@@ -334,11 +859,70 @@ body:not(.elementor-editor-active) :is(.nh-sec, .e-con.nh-header, .nh-footer-v4,
   animation: none !important;
 }
 @media (prefers-reduced-motion: no-preference) {
-  body:not(.elementor-editor-active) :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-float) :is(a, button, summary, [role="button"], .elementor-button, .e-con.nh-card) {
+  html:not(.nh-a11y-still) body:not(.elementor-editor-active) :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-float) :is(a, button, summary, [role="button"], .elementor-button, .e-con.nh-card) {
     transition: color .15s ease, background-color .15s ease, border-color .15s ease, text-decoration-color .15s ease, fill .15s ease !important;
   }
 }
 html.nh-a11y-switching body :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-float) :is(a, button, summary, [role="button"], .elementor-button, .e-con.nh-card) { transition: none !important; }
+
+@keyframes nh-hero-zoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  /* the floating header: its ground, colours, rings and shadow change in 250ms */
+  html:not(.nh-a11y-still):not(.nh-a11y-switching) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header .e-con.nh-header,
+  html:not(.nh-a11y-still):not(.nh-a11y-switching) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header .e-con.nh-header :is(.e-con, a, .elementor-button, .elementor-menu-toggle, svg) {
+    transition: background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease, fill .25s ease, text-decoration-color .25s ease !important;
+  }
+
+  /* the cards lift 6px, the photo grows 6% inside its frame (250ms) */
+  html:not(.nh-a11y-still):not(.nh-a11y-switching) body:not(.elementor-editor-active) .elementor .elementor-element.e-con.nh-card {
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease !important;
+  }
+  html:not(.nh-a11y-still) body:not(.elementor-editor-active) .elementor .elementor-element.e-con.nh-card:is(:hover, :focus-within) { transform: translateY(-6px); }
+  html:not(.nh-a11y-still):not(.nh-a11y-switching) body:not(.elementor-editor-active) .e-con.nh-card .nh-card__img img { transition: transform .25s ease !important; }
+  html:not(.nh-a11y-still) body:not(.elementor-editor-active) .e-con.nh-card:is(:hover, :focus-within) .nh-card__img img { transform: scale(1.06); }
+
+  /* the fade-in: a block marked nh-reveal waits 24px lower and transparent until it is scrolled into view, then rises
+     in 600ms. Only once v4.js has shown what is already in view (html.nh-reveal-on), so nothing on the first screen
+     waits for the script, and nothing at all is hidden without it. A block holding other fading blocks stays put:
+     its children move, not both */
+  html.nh-js.nh-reveal-on:not(.nh-a11y-still) body:not(.elementor-editor-active) .nh-reveal:not(.is-in):not(:has(.nh-reveal)) {
+    opacity: 0;
+    translate: 0 24px;
+  }
+  html.nh-js.nh-reveal-on:not(.nh-a11y-still) body:not(.elementor-editor-active) .nh-reveal.is-in {
+    transition: opacity .6s cubic-bezier(.2, .7, .2, 1) var(--nh-reveal-delay, 0s), translate .6s cubic-bezier(.2, .7, .2, 1) var(--nh-reveal-delay, 0s) !important;
+  }
+  html.nh-js.nh-reveal-on:not(.nh-a11y-still) body:not(.elementor-editor-active) .elementor .nh-reveal.is-in.e-con.nh-card {
+    transition: opacity .6s cubic-bezier(.2, .7, .2, 1) var(--nh-reveal-delay, 0s), translate .6s cubic-bezier(.2, .7, .2, 1) var(--nh-reveal-delay, 0s), transform .25s ease, box-shadow .25s ease, border-color .25s ease !important;
+  }
+
+  /* the hero's photo zooms in very slowly, once: 24s, from the moment it has loaded (v4.js: .is-zoom) */
+  html.nh-js:not(.nh-a11y-still) body:not(.elementor-editor-active) .e-con.nh-hero .nh-hero__img.is-zoom img {
+    animation: nh-hero-zoom 24s ease-out forwards !important;
+  }
+}
+/* siblings in a grid rise one after the other, 80ms apart (up to the fourth); on phones a grid is one column, and each
+   block rises as it comes */
+@media screen and (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+  .nh-reveal:nth-child(2) { --nh-reveal-delay: 80ms; }
+  .nh-reveal:nth-child(3) { --nh-reveal-delay: 160ms; }
+  .nh-reveal:nth-child(4) { --nh-reveal-delay: 240ms; }
+}
+/* «עצירת אנימציות» on every page (as prefers-reduced-motion does in style.css): no animation or transition takes
+   longer than a millisecond (events still fire, so no script waits for them); in the v4 areas there are none at all */
+html.nh-a11y-still *,
+html.nh-a11y-still *::before,
+html.nh-a11y-still *::after {
+  animation-duration: 1ms !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 1ms !important;
+  transition-delay: 0s !important;
+  scroll-behavior: auto !important;
+}
 
 /* =========================================================================
    The floating buttons (§5.3, §5.4), printed by functions.php on wp_footer on
@@ -367,7 +951,7 @@ html.nh-a11y-switching body :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-fl
 @media (max-width: 767px) {
   /* the page's end stays clear of the two buttons (12 + 56 + 8 + 52 + 8px) */
   body:has(.nh-float) { padding-block-end: calc(136px + env(safe-area-inset-bottom, 0px)); }
-  /* on a v4 page that room is the purple footer band's own bottom padding, so the band reaches the end of the page
+  /* on a v4 page that room is the v4 footer's own bottom padding, so the footer reaches the end of the page
      (17.11: a shadow copy of the band, shorter than the room, left a white strip between the two) */
   body:has(.nh-float):has(.e-con.nh-footer-v4) { padding-block-end: 0; }
   body:has(.nh-float) .e-con.nh-footer-v4 { padding-block-end: calc(1.5rem + 136px + env(safe-area-inset-bottom, 0px)) !important; }
@@ -386,7 +970,7 @@ html.nh-a11y-switching body :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-fl
   padding: 0;
   border: 0;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px #FFFFFF;   /* stays visible on the purple hero and footer */
+  box-shadow: 0 0 0 2px #FFFFFF;   /* stays visible on the purple and night bands and on the photo */
   color: #FFFFFF;
   font: inherit;
   text-decoration: none;
@@ -556,10 +1140,16 @@ html.nh-a11y-contrast :where(.elementor-location-header, .elementor-location-foo
 html.nh-a11y-contrast :where(.elementor-location-header, .elementor-location-footer, .nh-sec, .nh-float, .nh-skip, body:not([class*="elementor-page-"]) .site-main) :focus-visible,
 html.nh-a11y-contrast .nh-skip:focus-visible { outline: 3px solid #FFE600 !important; outline-offset: 2px !important; }
 html.nh-a11y-contrast .nh-float :is(.nh-a11y-btn, .nh-call-btn):focus-visible { box-shadow: inset 0 0 0 2px #FFE600, 0 0 0 9px #000000 !important; }
-/* decorations follow: the quote mark white, the check marks yellow */
-html.nh-a11y-contrast .elementor-element.e-con.nh-quote::after { color: #FFFFFF; opacity: .5; }
+/* the logo's ring goes round its badge, in yellow */
+html.nh-a11y-contrast .elementor-location-header .e-con.nh-header .elementor-widget-image a:focus-visible { outline: none !important; }
+html.nh-a11y-contrast .elementor-location-header .e-con.nh-header .elementor-widget-image a:focus-visible img { outline: 3px solid #FFE600 !important; outline-offset: 2px !important; }
+/* decorations follow: the quote marks white, the check marks yellow; the phone keeps a white frame */
+html.nh-a11y-contrast .elementor-element.e-con:is(.nh-quote, .nh-quote--band)::after { color: #FFFFFF; opacity: .5; }
 html.nh-a11y-contrast .nh-checklist li::before { background-color: #FFE600; }
 html.nh-a11y-contrast .nh-a11y-opt[aria-pressed="true"]::after { background-color: #000000; }
+html.nh-a11y-contrast .elementor-element.elementor-widget-video.nh-phone-frame { box-shadow: 0 0 0 2px #FFFFFF !important; }
+/* the hero's text sits on plain black there: no shade of its own over the box's edges */
+html.nh-a11y-contrast .elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content::before { display: none; }
 
 /* =========================================================================
    Highlighted links (`html.nh-a11y-links`, §5.3): every link underlined 2px,
@@ -591,11 +1181,25 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
   }
   .nh-a11y-opt[aria-pressed="true"]::after { forced-color-adjust: none; background-color: HighlightText; }
   .nh-checklist li::before { forced-color-adjust: none; background-color: CanvasText; }
-  .elementor-element.e-con.nh-quote::after { display: none; }
+  .elementor-element.e-con:is(.nh-quote, .nh-quote--band)::after { display: none; }
+  .elementor-element.e-con.nh-hero:has(.nh-hero__img)::before,
+  .elementor-element.e-con.nh-hero:has(.nh-hero__img)::after,
+  .elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content::before { display: none; }
+  .elementor-element.elementor-widget-video.nh-phone-frame { border: 2px solid CanvasText; }
 }
 
-/* ---------- Print: no floating buttons, no sticky header ---------- */
+/* ---------- Print: no floating buttons, no sticky or floating header, nothing
+   hidden or moving; the hero's photo above its text, the text in ink ---------- */
 @media print {
   .nh-float { display: none !important; }
   .elementor-location-header:has(.e-con.nh-header) { position: static !important; }
+  .nh-reveal { opacity: 1 !important; translate: none !important; }
+  .nh-hero__img img { animation: none !important; transform: none !important; }
+  .elementor-element.e-con.nh-hero:has(.nh-hero__img) { min-height: 0 !important; padding-block-start: 0 !important; background: none !important; }
+  .elementor-element.e-con.nh-hero:has(.nh-hero__img)::before,
+  .elementor-element.e-con.nh-hero:has(.nh-hero__img)::after,
+  .elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content::before { display: none !important; }
+  .elementor-element.e-con.nh-hero .elementor-element.nh-hero__img { position: relative !important; height: auto !important; }
+  .elementor-element.e-con.nh-hero .elementor-element.nh-hero__img img { height: auto !important; max-height: 9cm !important; }
+  .elementor-element.e-con.nh-hero:has(.nh-hero__img) :is(.elementor-heading-title, .elementor-widget-text-editor) { color: #1F2421 !important; text-shadow: none !important; }
 }

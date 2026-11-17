@@ -14,246 +14,369 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "3620cf806350892dc1c62fcdae8064401a80d770f64b6af0f491308bd49ace67",
+  "inputs_sha256": "af7046abda3b4335ec29f502c4c5e1b8e35209cd2eab54c489e45e738ce02a8b",
   "widgets": [
    "button",
    "heading",
+   "icon",
+   "icon-box",
    "image",
    "nested-accordion",
-   "template",
    "text-editor",
    "video"
   ],
   "blocks": {
-   "about.body": {
-    "full": {
-     "element": "38ccd25",
-     "field": "editor"
-    },
-    "plain": {
-     "element": "45ec1b8",
-     "field": "editor"
-    }
-   },
-   "about.title": {
-    "full": {
-     "element": "af71391",
-     "field": "title"
-    }
-   },
    "about.video1.caption": {
     "full": {
-     "element": "fa629d3",
+     "element": "304c995",
      "field": "editor"
     }
    },
    "about.video2.caption": {
     "full": {
-     "element": "4b8c3bc",
+     "element": "979979a",
      "field": "editor"
     }
    },
    "card1.sub": {
     "full": {
-     "element": "b008009",
+     "element": "a7af33b",
      "field": "editor"
     },
     "plain": {
-     "element": "9c3d08f",
+     "element": "93e3d1c",
      "field": "editor"
     }
    },
    "card1.title": {
     "full": {
-     "element": "bd3e0a9",
+     "element": "788f361",
      "field": "title"
     }
    },
    "card2.sub": {
     "full": {
-     "element": "dfe0ce2",
+     "element": "eb1b0af",
      "field": "editor"
     },
     "plain": {
-     "element": "b6f838a",
+     "element": "cde548d",
      "field": "editor"
     }
    },
    "card2.title": {
     "full": {
-     "element": "04add89",
+     "element": "8bd5ffe",
      "field": "title"
     }
    },
    "card3.sub": {
     "full": {
-     "element": "d06d1ab",
+     "element": "22e540b",
      "field": "editor"
     },
     "plain": {
-     "element": "82cfcc5",
+     "element": "af91810",
      "field": "editor"
     }
    },
    "card3.title": {
     "full": {
-     "element": "5220b3b",
+     "element": "90c058d",
      "field": "title"
     }
    },
    "card4.sub": {
     "full": {
-     "element": "34c03bf",
+     "element": "fd8169c",
      "field": "editor"
     }
    },
    "card4.title": {
     "full": {
-     "element": "705bcce",
+     "element": "62d10f1",
      "field": "title"
+    }
+   },
+   "contact.phone": {
+    "full": {
+     "element": "c5246f9",
+     "field": "text"
+    }
+   },
+   "contact.sub": {
+    "full": {
+     "element": "0aebf33",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "ef26c21",
+     "field": "editor"
+    }
+   },
+   "contact.title": {
+    "full": {
+     "element": "93f8de1",
+     "field": "title"
+    },
+    "plain": {
+     "element": "af089a6",
+     "field": "title"
+    }
+   },
+   "contact.whatsapp": {
+    "full": {
+     "element": "6166341",
+     "field": "text"
     }
    },
    "hero.cta_contact": {
     "full": {
-     "element": "6fa3f23",
+     "element": "51a6047",
      "field": "text"
     }
    },
    "hero.cta_phone": {
     "full": {
-     "element": "5fc18c7",
+     "element": "6ca36e5",
      "field": "text"
     }
    },
    "hero.sub": {
     "full": {
-     "element": "43ffdaa",
+     "element": "06f1284",
      "field": "title"
     },
     "plain": {
-     "element": "365404c",
+     "element": "bc27355",
      "field": "title"
     }
    },
    "hero.title": {
     "full": {
-     "element": "622b289",
+     "element": "2d8aaf4",
      "field": "title"
     },
     "plain": {
-     "element": "e51ef0d",
+     "element": "9c97281",
+     "field": "title"
+    }
+   },
+   "life.body": {
+    "full": {
+     "element": "3836cf1",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "82a7801",
+     "field": "editor"
+    }
+   },
+   "life.title": {
+    "full": {
+     "element": "e903d3f",
+     "field": "title"
+    }
+   },
+   "pro.body": {
+    "full": {
+     "element": "c6747d0",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "5e35d2c",
+     "field": "editor"
+    }
+   },
+   "pro.item1": {
+    "full": {
+     "element": "b502c51",
+     "field": "title_text"
+    },
+    "plain": {
+     "element": "318d52c",
+     "field": "title_text"
+    }
+   },
+   "pro.item2": {
+    "full": {
+     "element": "8f8c02d",
+     "field": "title_text"
+    },
+    "plain": {
+     "element": "7bace08",
+     "field": "title_text"
+    }
+   },
+   "pro.item3": {
+    "full": {
+     "element": "9ef713f",
+     "field": "title_text"
+    }
+   },
+   "pro.item4": {
+    "full": {
+     "element": "851439c",
+     "field": "title_text"
+    },
+    "plain": {
+     "element": "6d3994a",
+     "field": "title_text"
+    }
+   },
+   "pro.title": {
+    "full": {
+     "element": "dc38174",
+     "field": "title"
+    }
+   },
+   "pro.year1.label": {
+    "full": {
+     "element": "c80be77",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "2518fe0",
+     "field": "editor"
+    }
+   },
+   "pro.year1.num": {
+    "full": {
+     "element": "bd3b912",
+     "field": "title"
+    }
+   },
+   "pro.year2.label": {
+    "full": {
+     "element": "813c75b",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "9dcf849",
+     "field": "editor"
+    }
+   },
+   "pro.year2.num": {
+    "full": {
+     "element": "6442705",
      "field": "title"
     }
    },
    "snoezelen.credit": {
     "full": {
-     "element": "d48095e",
+     "element": "7fc77d7",
      "field": "editor"
     },
     "plain": {
-     "element": "1733c79",
+     "element": "4edd22a",
      "field": "editor"
     }
    },
    "snoezelen.intro": {
     "full": {
-     "element": "bb87dbf",
+     "element": "fa6a3b1",
      "field": "editor"
     }
    },
    "snoezelen.list": {
     "full": {
-     "element": "3180984",
+     "element": "2f5ae35",
      "field": "editor"
     }
    },
    "snoezelen.plain_body": {
     "plain": {
-     "element": "c97ab3d",
+     "element": "91501b1",
      "field": "editor"
     }
    },
    "snoezelen.title": {
     "full": {
-     "element": "aabd6eb",
+     "element": "6fd8892",
      "field": "title"
     }
    },
    "special.framed": {
     "full": {
-     "element": "9bdf13b",
+     "element": "b84e1d9",
      "field": "editor"
     }
    },
    "special.lead": {
     "full": {
-     "element": "76c73c4",
+     "element": "2e8126b",
      "field": "editor"
     }
    },
    "special.more_title": {
     "full": {
-     "element": "9a83976",
+     "element": "c463796",
      "field": "items.0.item_title"
     }
    },
    "special.plain_body": {
     "plain": {
-     "element": "158ebb5",
+     "element": "f48fa3c",
      "field": "editor"
     }
    },
    "special.rest": {
     "full": {
-     "element": "868b196",
+     "element": "b543d10",
      "field": "editor"
     }
    },
    "special.title": {
     "full": {
-     "element": "ed033eb",
+     "element": "8a866c9",
      "field": "title"
     }
    },
    "specialties.title": {
     "full": {
-     "element": "a05a6e4",
+     "element": "980e177",
      "field": "title"
     },
     "plain": {
-     "element": "acfdf25",
+     "element": "ab14231",
      "field": "title"
     }
    },
    "testimonials.card_title": {
     "full": {
-     "element": "b75bc5d",
+     "element": "9780db4",
      "field": "title"
     },
     "plain": {
-     "element": "08497af",
+     "element": "fd81ad3",
      "field": "title"
     }
    },
    "testimonials.excerpt": {
     "full": {
-     "element": "1257b6d",
+     "element": "60829ed",
      "field": "editor"
     },
     "plain": {
-     "element": "40768f7",
+     "element": "138b46a",
      "field": "editor"
     }
    },
    "testimonials.more": {
     "full": {
-     "element": "23f68f1",
+     "element": "f83d929",
      "field": "text"
     }
    },
    "testimonials.title": {
     "full": {
-     "element": "deee8f9",
+     "element": "9bc6368",
+     "field": "title"
+    }
+   },
+   "videos.title": {
+    "full": {
+     "element": "a9af14e",
      "field": "title"
     }
    }
@@ -266,7 +389,7 @@
    "settings": {
     "content_width": "full",
     "container_type": "flex",
-    "flex_direction": "row",
+    "flex_direction": "column",
     "flex_gap": {
      "column": "0",
      "row": "0",
@@ -276,13 +399,13 @@
     "flex_wrap": "nowrap",
     "flex_wrap_tablet": "nowrap",
     "flex_wrap_mobile": "nowrap",
-    "flex_direction_mobile": "column-reverse",
-    "flex_align_items": "stretch",
+    "flex_justify_content": "flex-end",
     "min_height": {
-     "unit": "px",
-     "size": 480,
+     "unit": "vh",
+     "size": 100,
      "sizes": []
     },
+    "overflow": "hidden",
     "padding": {
      "unit": "px",
      "top": "0",
@@ -291,65 +414,85 @@
      "left": "0",
      "isLinked": true
     },
+    "background_background": "classic",
     "css_classes": "nh-sec nh-sec--hero nh-hero",
     "_element_id": "hero",
+    "background_color": "#1C1830",
+    "__globals__": {
+     "background_color": "globals/colors?id=42a392f"
+    },
     "_title": "באנר"
    },
    "elements": [
     {
-     "id": "f20e148",
+     "id": "ca2db69",
+     "elType": "widget",
+     "settings": {
+      "image": {
+       "url": "",
+       "id": "@media:hero-wide",
+       "size": "",
+       "alt": "",
+       "source": "library"
+      },
+      "image_size": "full",
+      "_css_classes": "nh-hero__img nh-fx-50 nh-fy-30",
+      "_title": "תמונה"
+     },
+     "elements": [],
+     "widgetType": "image"
+    },
+    {
+     "id": "e684279",
      "elType": "container",
      "settings": {
-      "content_width": "full",
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
       "container_type": "flex",
       "flex_direction": "column",
       "flex_gap": {
-       "column": "0",
+       "column": "16",
        "row": "16",
-       "isLinked": false,
+       "isLinked": true,
        "unit": "px"
       },
       "flex_wrap": "nowrap",
       "flex_wrap_tablet": "nowrap",
       "flex_wrap_mobile": "nowrap",
-      "flex_justify_content": "center",
-      "width": {
-       "unit": "%",
-       "size": 50,
-       "sizes": []
-      },
-      "width_mobile": {
-       "unit": "%",
-       "size": 100,
-       "sizes": []
-      },
       "padding": {
        "unit": "custom",
-       "top": "4rem",
-       "right": "3rem",
-       "bottom": "4rem",
-       "left": "3rem",
+       "top": "0",
+       "right": "40px",
+       "bottom": "12vh",
+       "left": "40px",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "custom",
+       "top": "0",
+       "right": "32px",
+       "bottom": "12vh",
+       "left": "32px",
        "isLinked": false
       },
       "padding_mobile": {
        "unit": "custom",
-       "top": "2.5rem",
-       "right": "1.25rem",
-       "bottom": "2.5rem",
-       "left": "1.25rem",
+       "top": "0",
+       "right": "20px",
+       "bottom": "9vh",
+       "left": "20px",
        "isLinked": false
       },
-      "background_background": "classic",
-      "css_classes": "nh-hero__text",
-      "background_color": "#4A2D84",
-      "__globals__": {
-       "background_color": "globals/colors?id=primary"
-      },
+      "css_classes": "nh-hero__content",
       "_title": "טקסט"
      },
      "elements": [
       {
-       "id": "622b289",
+       "id": "2d8aaf4",
        "elType": "widget",
        "settings": {
         "title": "לחיות בבית שעוצב והותאם ממש בשבילך",
@@ -358,14 +501,14 @@
         "title_color": "#FFFFFF",
         "__globals__": {
          "title_color": "globals/colors?id=3efe2c1",
-         "typography_typography": "globals/typography?id=c704369"
+         "typography_typography": "globals/typography?id=003e88e"
         }
        },
        "elements": [],
        "widgetType": "heading"
       },
       {
-       "id": "e51ef0d",
+       "id": "9c97281",
        "elType": "widget",
        "settings": {
         "title": "לגור בבית שמתאים לך",
@@ -374,7 +517,7 @@
         "title_color": "#FFFFFF",
         "__globals__": {
          "title_color": "globals/colors?id=3efe2c1",
-         "typography_typography": "globals/typography?id=c704369"
+         "typography_typography": "globals/typography?id=003e88e"
         },
         "_title": "שפה פשוטה — טיוטה"
        },
@@ -382,7 +525,7 @@
        "widgetType": "heading"
       },
       {
-       "id": "43ffdaa",
+       "id": "06f1284",
        "elType": "widget",
        "settings": {
         "title": "שיפור מקצועי והתאמה אישית",
@@ -410,7 +553,7 @@
        "widgetType": "heading"
       },
       {
-       "id": "365404c",
+       "id": "bc27355",
        "elType": "widget",
        "settings": {
         "title": "אנחנו משתפרים בעבודה שלנו. אנחנו מתאימים את העבודה שלנו לכל אחד ואחת.",
@@ -439,7 +582,7 @@
        "widgetType": "heading"
       },
       {
-       "id": "6e3e452",
+       "id": "8dde022",
        "elType": "container",
        "settings": {
         "content_width": "full",
@@ -467,12 +610,12 @@
        },
        "elements": [
         {
-         "id": "6fa3f23",
+         "id": "51a6047",
          "elType": "widget",
          "settings": {
           "text": "צור קשר",
           "link": {
-           "url": "@home:/צור-קשר/",
+           "url": "#contact",
            "is_external": "",
            "nofollow": "",
            "custom_attributes": ""
@@ -511,7 +654,7 @@
          "widgetType": "button"
         },
         {
-         "id": "5fc18c7",
+         "id": "6ca36e5",
          "elType": "widget",
          "settings": {
           "text": "08-9403047",
@@ -579,9 +722,1041 @@
       }
      ],
      "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "ce297c1",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
     },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "5rem",
+     "right": "0",
+     "bottom": "5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "5rem",
+     "right": "0",
+     "bottom": "5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--specialties",
+    "_element_id": "specialties",
+    "background_color": "#FFFFFF",
+    "__globals__": {
+     "background_color": "globals/colors?id=3efe2c1"
+    },
+    "_title": "תחומי התמחות"
+   },
+   "elements": [
     {
-     "id": "d2dead2",
+     "id": "f5749e8",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "32",
+       "row": "32",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "980e177",
+       "elType": "widget",
+       "settings": {
+        "title": "תחומי התמחות",
+        "header_size": "h2",
+        "align": "center",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "ab14231",
+       "elType": "widget",
+       "settings": {
+        "title": "מה אנחנו עושים",
+        "header_size": "h2",
+        "align": "center",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "604709b",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "fr",
+         "size": 4,
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "fr",
+         "size": 2,
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "24",
+         "row": "24",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "_title": "כרטיסים"
+       },
+       "elements": [
+        {
+         "id": "e69c56c",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "0",
+           "row": "0",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "overflow": "hidden",
+          "background_background": "classic",
+          "border_border": "solid",
+          "border_width": {
+           "unit": "px",
+           "top": "1",
+           "right": "1",
+           "bottom": "1",
+           "left": "1",
+           "isLinked": true
+          },
+          "border_radius": {
+           "unit": "px",
+           "top": "16",
+           "right": "16",
+           "bottom": "16",
+           "left": "16",
+           "isLinked": true
+          },
+          "css_classes": "nh-card nh-reveal",
+          "background_color": "#FFFFFF",
+          "border_color": "#D9DCE3",
+          "__globals__": {
+           "background_color": "globals/colors?id=3efe2c1",
+           "border_color": "globals/colors?id=b72404d"
+          },
+          "_title": "כרטיס 1"
+         },
+         "elements": [
+          {
+           "id": "84a2640",
+           "elType": "widget",
+           "settings": {
+            "image": {
+             "url": "",
+             "id": "@media:card-1",
+             "size": "",
+             "alt": "",
+             "source": "library"
+            },
+            "image_size": "large",
+            "link_to": "custom",
+            "link": {
+             "url": "@page:main-home",
+             "is_external": "",
+             "nofollow": "",
+             "custom_attributes": "tabindex|-1,aria-hidden|true"
+            },
+            "_css_classes": "nh-card__img nh-ratio-4x3"
+           },
+           "elements": [],
+           "widgetType": "image"
+          },
+          {
+           "id": "b5b6ad4",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "8",
+             "row": "8",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "custom",
+             "top": "1.25rem",
+             "right": "1.5rem",
+             "bottom": "1.5rem",
+             "left": "1.5rem",
+             "isLinked": false
+            },
+            "_flex_size": "grow",
+            "css_classes": "nh-card__body"
+           },
+           "elements": [
+            {
+             "id": "788f361",
+             "elType": "widget",
+             "settings": {
+              "title": "מעון - בית לחיים",
+              "header_size": "h3",
+              "link": {
+               "url": "@page:main-home",
+               "is_external": "",
+               "nofollow": "",
+               "custom_attributes": ""
+              },
+              "_css_classes": "nh-card__title",
+              "title_color": "#1F2421",
+              "__globals__": {
+               "title_color": "globals/colors?id=text",
+               "typography_typography": "globals/typography?id=fb57358"
+              }
+             },
+             "elements": [],
+             "widgetType": "heading"
+            },
+            {
+             "id": "a7af33b",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>אוכלוסיית מש\"ה</p>",
+              "_css_classes": "nh-card__sub nh-full",
+              "text_color": "#4F5550",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=161ef55",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=504434a"
+              }
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "93e3d1c",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>לאנשים עם מוגבלות שכלית התפתחותית</p>",
+              "_css_classes": "nh-card__sub nh-plain",
+              "text_color": "#4F5550",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=161ef55",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=504434a"
+              },
+              "_title": "שפה פשוטה — טיוטה"
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "7a104d5",
+             "elType": "widget",
+             "settings": {
+              "selected_icon": {
+               "value": "fas fa-arrow-left",
+               "library": "fa-solid"
+              },
+              "view": "stacked",
+              "shape": "circle",
+              "align": "end",
+              "size": {
+               "unit": "px",
+               "size": 18,
+               "sizes": []
+              },
+              "icon_padding": {
+               "unit": "px",
+               "size": 11,
+               "sizes": []
+              },
+              "_css_classes": "nh-card__arrow",
+              "_title": "חץ (קישוט)",
+              "primary_color": "#4A2D84",
+              "secondary_color": "#FFFFFF",
+              "__globals__": {
+               "primary_color": "globals/colors?id=primary",
+               "secondary_color": "globals/colors?id=3efe2c1"
+              }
+             },
+             "elements": [],
+             "widgetType": "icon"
+            }
+           ],
+           "isInner": true
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "c567573",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "0",
+           "row": "0",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "overflow": "hidden",
+          "background_background": "classic",
+          "border_border": "solid",
+          "border_width": {
+           "unit": "px",
+           "top": "1",
+           "right": "1",
+           "bottom": "1",
+           "left": "1",
+           "isLinked": true
+          },
+          "border_radius": {
+           "unit": "px",
+           "top": "16",
+           "right": "16",
+           "bottom": "16",
+           "left": "16",
+           "isLinked": true
+          },
+          "css_classes": "nh-card nh-reveal",
+          "background_color": "#FFFFFF",
+          "border_color": "#D9DCE3",
+          "__globals__": {
+           "background_color": "globals/colors?id=3efe2c1",
+           "border_color": "globals/colors?id=b72404d"
+          },
+          "_title": "כרטיס 2"
+         },
+         "elements": [
+          {
+           "id": "26bb839",
+           "elType": "widget",
+           "settings": {
+            "image": {
+             "url": "",
+             "id": "@media:card-2",
+             "size": "",
+             "alt": "",
+             "source": "library"
+            },
+            "image_size": "large",
+            "link_to": "custom",
+            "link": {
+             "url": "@home:/מערך-דיור-בקהילה/",
+             "is_external": "",
+             "nofollow": "",
+             "custom_attributes": "tabindex|-1,aria-hidden|true"
+            },
+            "_css_classes": "nh-card__img nh-ratio-4x3"
+           },
+           "elements": [],
+           "widgetType": "image"
+          },
+          {
+           "id": "ce6d282",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "8",
+             "row": "8",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "custom",
+             "top": "1.25rem",
+             "right": "1.5rem",
+             "bottom": "1.5rem",
+             "left": "1.5rem",
+             "isLinked": false
+            },
+            "_flex_size": "grow",
+            "css_classes": "nh-card__body"
+           },
+           "elements": [
+            {
+             "id": "8bd5ffe",
+             "elType": "widget",
+             "settings": {
+              "title": "מערך דיור בקהילה",
+              "header_size": "h3",
+              "link": {
+               "url": "@home:/מערך-דיור-בקהילה/",
+               "is_external": "",
+               "nofollow": "",
+               "custom_attributes": ""
+              },
+              "_css_classes": "nh-card__title",
+              "title_color": "#1F2421",
+              "__globals__": {
+               "title_color": "globals/colors?id=text",
+               "typography_typography": "globals/typography?id=fb57358"
+              }
+             },
+             "elements": [],
+             "widgetType": "heading"
+            },
+            {
+             "id": "eb1b0af",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>אוכלוסיית מש\"ה</p>",
+              "_css_classes": "nh-card__sub nh-full",
+              "text_color": "#4F5550",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=161ef55",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=504434a"
+              }
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "cde548d",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>לאנשים עם מוגבלות שכלית התפתחותית</p>",
+              "_css_classes": "nh-card__sub nh-plain",
+              "text_color": "#4F5550",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=161ef55",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=504434a"
+              },
+              "_title": "שפה פשוטה — טיוטה"
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "22ccc86",
+             "elType": "widget",
+             "settings": {
+              "selected_icon": {
+               "value": "fas fa-arrow-left",
+               "library": "fa-solid"
+              },
+              "view": "stacked",
+              "shape": "circle",
+              "align": "end",
+              "size": {
+               "unit": "px",
+               "size": 18,
+               "sizes": []
+              },
+              "icon_padding": {
+               "unit": "px",
+               "size": 11,
+               "sizes": []
+              },
+              "_css_classes": "nh-card__arrow",
+              "_title": "חץ (קישוט)",
+              "primary_color": "#4A2D84",
+              "secondary_color": "#FFFFFF",
+              "__globals__": {
+               "primary_color": "globals/colors?id=primary",
+               "secondary_color": "globals/colors?id=3efe2c1"
+              }
+             },
+             "elements": [],
+             "widgetType": "icon"
+            }
+           ],
+           "isInner": true
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "954fd22",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "0",
+           "row": "0",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "overflow": "hidden",
+          "background_background": "classic",
+          "border_border": "solid",
+          "border_width": {
+           "unit": "px",
+           "top": "1",
+           "right": "1",
+           "bottom": "1",
+           "left": "1",
+           "isLinked": true
+          },
+          "border_radius": {
+           "unit": "px",
+           "top": "16",
+           "right": "16",
+           "bottom": "16",
+           "left": "16",
+           "isLinked": true
+          },
+          "css_classes": "nh-card nh-reveal",
+          "background_color": "#FFFFFF",
+          "border_color": "#D9DCE3",
+          "__globals__": {
+           "background_color": "globals/colors?id=3efe2c1",
+           "border_color": "globals/colors?id=b72404d"
+          },
+          "_title": "כרטיס 3"
+         },
+         "elements": [
+          {
+           "id": "635203a",
+           "elType": "widget",
+           "settings": {
+            "image": {
+             "url": "",
+             "id": "@media:card-3",
+             "size": "",
+             "alt": "",
+             "source": "library"
+            },
+            "image_size": "large",
+            "link_to": "custom",
+            "link": {
+             "url": "@home:/מערך-דיור-בקהילה-אוטיזם/",
+             "is_external": "",
+             "nofollow": "",
+             "custom_attributes": "tabindex|-1,aria-hidden|true"
+            },
+            "_css_classes": "nh-card__img nh-ratio-4x3"
+           },
+           "elements": [],
+           "widgetType": "image"
+          },
+          {
+           "id": "60ea133",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "8",
+             "row": "8",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "custom",
+             "top": "1.25rem",
+             "right": "1.5rem",
+             "bottom": "1.5rem",
+             "left": "1.5rem",
+             "isLinked": false
+            },
+            "_flex_size": "grow",
+            "css_classes": "nh-card__body"
+           },
+           "elements": [
+            {
+             "id": "90c058d",
+             "elType": "widget",
+             "settings": {
+              "title": "מערך דיור לאוטיזם",
+              "header_size": "h3",
+              "link": {
+               "url": "@home:/מערך-דיור-בקהילה-אוטיזם/",
+               "is_external": "",
+               "nofollow": "",
+               "custom_attributes": ""
+              },
+              "_css_classes": "nh-card__title",
+              "title_color": "#1F2421",
+              "__globals__": {
+               "title_color": "globals/colors?id=text",
+               "typography_typography": "globals/typography?id=fb57358"
+              }
+             },
+             "elements": [],
+             "widgetType": "heading"
+            },
+            {
+             "id": "22e540b",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>אוכלוסייה על הרצף האוטיסטי</p>",
+              "_css_classes": "nh-card__sub nh-full",
+              "text_color": "#4F5550",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=161ef55",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=504434a"
+              }
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "af91810",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>לאנשים עם אוטיזם</p>",
+              "_css_classes": "nh-card__sub nh-plain",
+              "text_color": "#4F5550",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=161ef55",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=504434a"
+              },
+              "_title": "שפה פשוטה — טיוטה"
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "8805ff5",
+             "elType": "widget",
+             "settings": {
+              "selected_icon": {
+               "value": "fas fa-arrow-left",
+               "library": "fa-solid"
+              },
+              "view": "stacked",
+              "shape": "circle",
+              "align": "end",
+              "size": {
+               "unit": "px",
+               "size": 18,
+               "sizes": []
+              },
+              "icon_padding": {
+               "unit": "px",
+               "size": 11,
+               "sizes": []
+              },
+              "_css_classes": "nh-card__arrow",
+              "_title": "חץ (קישוט)",
+              "primary_color": "#4A2D84",
+              "secondary_color": "#FFFFFF",
+              "__globals__": {
+               "primary_color": "globals/colors?id=primary",
+               "secondary_color": "globals/colors?id=3efe2c1"
+              }
+             },
+             "elements": [],
+             "widgetType": "icon"
+            }
+           ],
+           "isInner": true
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "c4df415",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "0",
+           "row": "0",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "overflow": "hidden",
+          "background_background": "classic",
+          "border_border": "solid",
+          "border_width": {
+           "unit": "px",
+           "top": "1",
+           "right": "1",
+           "bottom": "1",
+           "left": "1",
+           "isLinked": true
+          },
+          "border_radius": {
+           "unit": "px",
+           "top": "16",
+           "right": "16",
+           "bottom": "16",
+           "left": "16",
+           "isLinked": true
+          },
+          "css_classes": "nh-card nh-reveal",
+          "background_color": "#FFFFFF",
+          "border_color": "#D9DCE3",
+          "__globals__": {
+           "background_color": "globals/colors?id=3efe2c1",
+           "border_color": "globals/colors?id=b72404d"
+          },
+          "_title": "כרטיס 4"
+         },
+         "elements": [
+          {
+           "id": "7633af6",
+           "elType": "widget",
+           "settings": {
+            "image": {
+             "url": "",
+             "id": "@media:card-4",
+             "size": "",
+             "alt": "",
+             "source": "library"
+            },
+            "image_size": "large",
+            "link_to": "custom",
+            "link": {
+             "url": "@home:/חדשות-ועדכונים/",
+             "is_external": "",
+             "nofollow": "",
+             "custom_attributes": "tabindex|-1,aria-hidden|true"
+            },
+            "_css_classes": "nh-card__img nh-ratio-4x3"
+           },
+           "elements": [],
+           "widgetType": "image"
+          },
+          {
+           "id": "5b1ab77",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "8",
+             "row": "8",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "custom",
+             "top": "1.25rem",
+             "right": "1.5rem",
+             "bottom": "1.5rem",
+             "left": "1.5rem",
+             "isLinked": false
+            },
+            "_flex_size": "grow",
+            "css_classes": "nh-card__body"
+           },
+           "elements": [
+            {
+             "id": "62d10f1",
+             "elType": "widget",
+             "settings": {
+              "title": "חדשות ועדכונים",
+              "header_size": "h3",
+              "link": {
+               "url": "@home:/חדשות-ועדכונים/",
+               "is_external": "",
+               "nofollow": "",
+               "custom_attributes": ""
+              },
+              "_css_classes": "nh-card__title",
+              "title_color": "#1F2421",
+              "__globals__": {
+               "title_color": "globals/colors?id=text",
+               "typography_typography": "globals/typography?id=fb57358"
+              }
+             },
+             "elements": [],
+             "widgetType": "heading"
+            },
+            {
+             "id": "fd8169c",
+             "elType": "widget",
+             "settings": {
+              "editor": "",
+              "_css_classes": "nh-card__sub",
+              "text_color": "#4F5550",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=161ef55",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=504434a"
+              }
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "5928706",
+             "elType": "widget",
+             "settings": {
+              "selected_icon": {
+               "value": "fas fa-arrow-left",
+               "library": "fa-solid"
+              },
+              "view": "stacked",
+              "shape": "circle",
+              "align": "end",
+              "size": {
+               "unit": "px",
+               "size": 18,
+               "sizes": []
+              },
+              "icon_padding": {
+               "unit": "px",
+               "size": 11,
+               "sizes": []
+              },
+              "_css_classes": "nh-card__arrow",
+              "_title": "חץ (קישוט)",
+              "primary_color": "#4A2D84",
+              "secondary_color": "#FFFFFF",
+              "__globals__": {
+               "primary_color": "globals/colors?id=primary",
+               "secondary_color": "globals/colors?id=3efe2c1"
+              }
+             },
+             "elements": [],
+             "widgetType": "icon"
+            }
+           ],
+           "isInner": true
+          }
+         ],
+         "isInner": true
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "2dcb617",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "row",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "flex_direction_mobile": "column",
+    "flex_align_items": "center",
+    "flex_align_items_mobile": "stretch",
+    "padding": {
+     "unit": "px",
+     "top": "0",
+     "right": "0",
+     "bottom": "0",
+     "left": "0",
+     "isLinked": true
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--life",
+    "_element_id": "life",
+    "background_color": "#EAF6FC",
+    "__globals__": {
+     "background_color": "globals/colors?id=e60d395"
+    },
+    "_title": "החיים בנווה האירוס"
+   },
+   "elements": [
+    {
+     "id": "fbc07a1",
      "elType": "container",
      "settings": {
       "content_width": "full",
@@ -596,6 +1771,7 @@
       "flex_wrap": "nowrap",
       "flex_wrap_tablet": "nowrap",
       "flex_wrap_mobile": "nowrap",
+      "flex_justify_content": "center",
       "width": {
        "unit": "%",
        "size": 50,
@@ -614,915 +1790,139 @@
        "left": "0",
        "isLinked": true
       },
-      "css_classes": "nh-hero__media",
+      "css_classes": "nh-life__media",
       "_title": "תמונה"
      },
      "elements": [
       {
-       "id": "9441685",
+       "id": "b512733",
        "elType": "widget",
        "settings": {
         "image": {
          "url": "",
-         "id": "@media:hero",
+         "id": "@media:life",
          "size": "",
          "alt": "",
          "source": "library"
         },
         "image_size": "full",
-        "_css_classes": "nh-cover-img"
+        "_css_classes": "nh-life__img nh-ratio-16x9",
+        "_title": "תמונה"
        },
        "elements": [],
        "widgetType": "image"
       }
      ],
      "isInner": true
-    }
-   ],
-   "isInner": false
-  },
-  {
-   "id": "ce297c1",
-   "elType": "container",
-   "settings": {
-    "content_width": "boxed",
-    "boxed_width": {
-     "unit": "px",
-     "size": 1200,
-     "sizes": []
-    },
-    "container_type": "flex",
-    "flex_direction": "column",
-    "flex_gap": {
-     "column": "0",
-     "row": "32",
-     "isLinked": false,
-     "unit": "px"
-    },
-    "flex_wrap": "nowrap",
-    "flex_wrap_tablet": "nowrap",
-    "flex_wrap_mobile": "nowrap",
-    "flex_gap_mobile": {
-     "column": "0",
-     "row": "24",
-     "isLinked": false,
-     "unit": "px"
-    },
-    "padding": {
-     "unit": "custom",
-     "top": "5rem",
-     "right": "40px",
-     "bottom": "5rem",
-     "left": "40px",
-     "isLinked": false
-    },
-    "padding_tablet": {
-     "unit": "custom",
-     "top": "5rem",
-     "right": "32px",
-     "bottom": "5rem",
-     "left": "32px",
-     "isLinked": false
-    },
-    "padding_mobile": {
-     "unit": "custom",
-     "top": "3.5rem",
-     "right": "20px",
-     "bottom": "3.5rem",
-     "left": "20px",
-     "isLinked": false
-    },
-    "background_background": "classic",
-    "css_classes": "nh-sec nh-sec--specialties",
-    "_element_id": "specialties",
-    "background_color": "#FFFFFF",
-    "__globals__": {
-     "background_color": "globals/colors?id=3efe2c1"
-    },
-    "_title": "תחומי התמחות"
-   },
-   "elements": [
-    {
-     "id": "a05a6e4",
-     "elType": "widget",
-     "settings": {
-      "title": "תחומי התמחות",
-      "header_size": "h2",
-      "align": "center",
-      "_css_classes": "nh-full",
-      "title_color": "#4A2D84",
-      "__globals__": {
-       "title_color": "globals/colors?id=primary",
-       "typography_typography": "globals/typography?id=603f9ca"
-      }
-     },
-     "elements": [],
-     "widgetType": "heading"
     },
     {
-     "id": "acfdf25",
-     "elType": "widget",
-     "settings": {
-      "title": "מה אנחנו עושים",
-      "header_size": "h2",
-      "align": "center",
-      "_css_classes": "nh-plain",
-      "title_color": "#4A2D84",
-      "__globals__": {
-       "title_color": "globals/colors?id=primary",
-       "typography_typography": "globals/typography?id=603f9ca"
-      },
-      "_title": "שפה פשוטה — טיוטה"
-     },
-     "elements": [],
-     "widgetType": "heading"
-    },
-    {
-     "id": "5a0c2c5",
+     "id": "519b251",
      "elType": "container",
      "settings": {
       "content_width": "full",
-      "container_type": "grid",
-      "grid_columns_grid": {
-       "unit": "fr",
-       "size": 4,
-       "sizes": []
-      },
-      "grid_columns_grid_tablet": {
-       "unit": "fr",
-       "size": 2,
-       "sizes": []
-      },
-      "grid_columns_grid_mobile": {
-       "unit": "fr",
-       "size": 1,
-       "sizes": []
-      },
-      "grid_rows_grid": {
-       "unit": "custom",
-       "size": "auto",
-       "sizes": []
-      },
-      "grid_gaps": {
-       "column": "24",
-       "row": "24",
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "16",
+       "row": "16",
        "isLinked": true,
        "unit": "px"
       },
-      "padding": {
-       "unit": "px",
-       "top": "0",
-       "right": "0",
-       "bottom": "0",
-       "left": "0",
-       "isLinked": true
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_justify_content": "center",
+      "width": {
+       "unit": "%",
+       "size": 50,
+       "sizes": []
       },
-      "_title": "כרטיסים"
+      "width_mobile": {
+       "unit": "%",
+       "size": 100,
+       "sizes": []
+      },
+      "padding": {
+       "unit": "custom",
+       "top": "4rem",
+       "right": "4rem",
+       "bottom": "4rem",
+       "left": "max(40px, calc((100% - 1320px) / 2))",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "custom",
+       "top": "3rem",
+       "right": "2.5rem",
+       "bottom": "3rem",
+       "left": "32px",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "custom",
+       "top": "2.5rem",
+       "right": "20px",
+       "bottom": "3.5rem",
+       "left": "20px",
+       "isLinked": false
+      },
+      "css_classes": "nh-life__text nh-reveal",
+      "_title": "טקסט"
      },
      "elements": [
       {
-       "id": "2897a2b",
-       "elType": "container",
+       "id": "e903d3f",
+       "elType": "widget",
        "settings": {
-        "content_width": "full",
-        "container_type": "flex",
-        "flex_direction": "column",
-        "flex_gap": {
-         "column": "0",
-         "row": "0",
-         "isLinked": true,
-         "unit": "px"
-        },
-        "flex_wrap": "nowrap",
-        "flex_wrap_tablet": "nowrap",
-        "flex_wrap_mobile": "nowrap",
-        "padding": {
-         "unit": "px",
-         "top": "0",
-         "right": "0",
-         "bottom": "0",
-         "left": "0",
-         "isLinked": true
-        },
-        "overflow": "hidden",
-        "background_background": "classic",
-        "border_border": "solid",
-        "border_width": {
-         "unit": "px",
-         "top": "1",
-         "right": "1",
-         "bottom": "1",
-         "left": "1",
-         "isLinked": true
-        },
-        "border_radius": {
-         "unit": "px",
-         "top": "12",
-         "right": "12",
-         "bottom": "12",
-         "left": "12",
-         "isLinked": true
-        },
-        "css_classes": "nh-card",
-        "background_color": "#FFFFFF",
-        "border_color": "#D9DCE3",
+        "title": "החיים בנווה האירוס",
+        "header_size": "h2",
+        "title_color": "#4A2D84",
         "__globals__": {
-         "background_color": "globals/colors?id=3efe2c1",
-         "border_color": "globals/colors?id=b72404d"
-        },
-        "_title": "כרטיס 1"
-       },
-       "elements": [
-        {
-         "id": "9d2deda",
-         "elType": "widget",
-         "settings": {
-          "image": {
-           "url": "",
-           "id": "@media:card-1",
-           "size": "",
-           "alt": "",
-           "source": "library"
-          },
-          "image_size": "large",
-          "link_to": "custom",
-          "link": {
-           "url": "@page:main-home",
-           "is_external": "",
-           "nofollow": "",
-           "custom_attributes": "tabindex|-1,aria-hidden|true"
-          },
-          "_css_classes": "nh-card__img nh-ratio-4x3"
-         },
-         "elements": [],
-         "widgetType": "image"
-        },
-        {
-         "id": "f4a8f7a",
-         "elType": "container",
-         "settings": {
-          "content_width": "full",
-          "container_type": "flex",
-          "flex_direction": "column",
-          "flex_gap": {
-           "column": "0",
-           "row": "8",
-           "isLinked": false,
-           "unit": "px"
-          },
-          "flex_wrap": "nowrap",
-          "flex_wrap_tablet": "nowrap",
-          "flex_wrap_mobile": "nowrap",
-          "padding": {
-           "unit": "custom",
-           "top": "1.25rem",
-           "right": "1.5rem",
-           "bottom": "1.5rem",
-           "left": "1.5rem",
-           "isLinked": false
-          },
-          "_flex_size": "grow",
-          "css_classes": "nh-card__body"
-         },
-         "elements": [
-          {
-           "id": "bd3e0a9",
-           "elType": "widget",
-           "settings": {
-            "title": "מעון - בית לחיים",
-            "header_size": "h3",
-            "link": {
-             "url": "@page:main-home",
-             "is_external": "",
-             "nofollow": "",
-             "custom_attributes": ""
-            },
-            "_css_classes": "nh-card__title",
-            "title_color": "#1F2421",
-            "__globals__": {
-             "title_color": "globals/colors?id=text",
-             "typography_typography": "globals/typography?id=fb57358"
-            }
-           },
-           "elements": [],
-           "widgetType": "heading"
-          },
-          {
-           "id": "b008009",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>אוכלוסיית מש\"ה</p>",
-            "_css_classes": "nh-card__sub nh-full",
-            "text_color": "#4F5550",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=161ef55",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=504434a"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "9c3d08f",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>לאנשים עם מוגבלות שכלית התפתחותית</p>",
-            "_css_classes": "nh-card__sub nh-plain",
-            "text_color": "#4F5550",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=161ef55",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=504434a"
-            },
-            "_title": "שפה פשוטה — טיוטה"
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "d9478fb",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p><span aria-hidden=\"true\">למידע נוסף ←</span></p>",
-            "_css_classes": "nh-card__more",
-            "text_color": "#4A2D84",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=primary",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=accent"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          }
-         ],
-         "isInner": true
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
         }
-       ],
-       "isInner": true
+       },
+       "elements": [],
+       "widgetType": "heading"
       },
       {
-       "id": "c7848bd",
-       "elType": "container",
+       "id": "3836cf1",
+       "elType": "widget",
        "settings": {
-        "content_width": "full",
-        "container_type": "flex",
-        "flex_direction": "column",
-        "flex_gap": {
-         "column": "0",
-         "row": "0",
-         "isLinked": true,
-         "unit": "px"
-        },
-        "flex_wrap": "nowrap",
-        "flex_wrap_tablet": "nowrap",
-        "flex_wrap_mobile": "nowrap",
-        "padding": {
-         "unit": "px",
-         "top": "0",
-         "right": "0",
-         "bottom": "0",
-         "left": "0",
-         "isLinked": true
-        },
-        "overflow": "hidden",
-        "background_background": "classic",
-        "border_border": "solid",
-        "border_width": {
-         "unit": "px",
-         "top": "1",
-         "right": "1",
-         "bottom": "1",
-         "left": "1",
-         "isLinked": true
-        },
-        "border_radius": {
-         "unit": "px",
-         "top": "12",
-         "right": "12",
-         "bottom": "12",
-         "left": "12",
-         "isLinked": true
-        },
-        "css_classes": "nh-card",
-        "background_color": "#FFFFFF",
-        "border_color": "#D9DCE3",
+        "editor": "<p>המעון מקיים כל העת תערוכות אמנות ופעילויות מרשימות בתחומים שונים</p><p>במעון ניתן למצוא חדר סנוזילן מתקדם בעל ציוד חדשני, מרפאת שיניים מתקדמת ומשוכללת, מועדון מתקדם לרווחת החניכים, חדרים נוחים ומאובזרים ועוד.</p>",
+        "_css_classes": "nh-full",
+        "text_color": "#1F2421",
+        "link_color": "#4A2D84",
+        "link_hover_color": "#3A2269",
         "__globals__": {
-         "background_color": "globals/colors?id=3efe2c1",
-         "border_color": "globals/colors?id=b72404d"
-        },
-        "_title": "כרטיס 2"
-       },
-       "elements": [
-        {
-         "id": "9239726",
-         "elType": "widget",
-         "settings": {
-          "image": {
-           "url": "",
-           "id": "@media:card-2",
-           "size": "",
-           "alt": "",
-           "source": "library"
-          },
-          "image_size": "large",
-          "link_to": "custom",
-          "link": {
-           "url": "@home:/מערך-דיור-בקהילה/",
-           "is_external": "",
-           "nofollow": "",
-           "custom_attributes": "tabindex|-1,aria-hidden|true"
-          },
-          "_css_classes": "nh-card__img nh-ratio-4x3"
-         },
-         "elements": [],
-         "widgetType": "image"
-        },
-        {
-         "id": "8d303c4",
-         "elType": "container",
-         "settings": {
-          "content_width": "full",
-          "container_type": "flex",
-          "flex_direction": "column",
-          "flex_gap": {
-           "column": "0",
-           "row": "8",
-           "isLinked": false,
-           "unit": "px"
-          },
-          "flex_wrap": "nowrap",
-          "flex_wrap_tablet": "nowrap",
-          "flex_wrap_mobile": "nowrap",
-          "padding": {
-           "unit": "custom",
-           "top": "1.25rem",
-           "right": "1.5rem",
-           "bottom": "1.5rem",
-           "left": "1.5rem",
-           "isLinked": false
-          },
-          "_flex_size": "grow",
-          "css_classes": "nh-card__body"
-         },
-         "elements": [
-          {
-           "id": "04add89",
-           "elType": "widget",
-           "settings": {
-            "title": "מערך דיור בקהילה",
-            "header_size": "h3",
-            "link": {
-             "url": "@home:/מערך-דיור-בקהילה/",
-             "is_external": "",
-             "nofollow": "",
-             "custom_attributes": ""
-            },
-            "_css_classes": "nh-card__title",
-            "title_color": "#1F2421",
-            "__globals__": {
-             "title_color": "globals/colors?id=text",
-             "typography_typography": "globals/typography?id=fb57358"
-            }
-           },
-           "elements": [],
-           "widgetType": "heading"
-          },
-          {
-           "id": "dfe0ce2",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>אוכלוסיית מש\"ה</p>",
-            "_css_classes": "nh-card__sub nh-full",
-            "text_color": "#4F5550",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=161ef55",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=504434a"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "b6f838a",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>לאנשים עם מוגבלות שכלית התפתחותית</p>",
-            "_css_classes": "nh-card__sub nh-plain",
-            "text_color": "#4F5550",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=161ef55",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=504434a"
-            },
-            "_title": "שפה פשוטה — טיוטה"
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "0da647b",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p><span aria-hidden=\"true\">למידע נוסף ←</span></p>",
-            "_css_classes": "nh-card__more",
-            "text_color": "#4A2D84",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=primary",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=accent"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          }
-         ],
-         "isInner": true
+         "text_color": "globals/colors?id=text",
+         "link_color": "globals/colors?id=primary",
+         "link_hover_color": "globals/colors?id=78b4a18",
+         "typography_typography": "globals/typography?id=text"
         }
-       ],
-       "isInner": true
+       },
+       "elements": [],
+       "widgetType": "text-editor"
       },
       {
-       "id": "ed3a853",
-       "elType": "container",
+       "id": "82a7801",
+       "elType": "widget",
        "settings": {
-        "content_width": "full",
-        "container_type": "flex",
-        "flex_direction": "column",
-        "flex_gap": {
-         "column": "0",
-         "row": "0",
-         "isLinked": true,
-         "unit": "px"
-        },
-        "flex_wrap": "nowrap",
-        "flex_wrap_tablet": "nowrap",
-        "flex_wrap_mobile": "nowrap",
-        "padding": {
-         "unit": "px",
-         "top": "0",
-         "right": "0",
-         "bottom": "0",
-         "left": "0",
-         "isLinked": true
-        },
-        "overflow": "hidden",
-        "background_background": "classic",
-        "border_border": "solid",
-        "border_width": {
-         "unit": "px",
-         "top": "1",
-         "right": "1",
-         "bottom": "1",
-         "left": "1",
-         "isLinked": true
-        },
-        "border_radius": {
-         "unit": "px",
-         "top": "12",
-         "right": "12",
-         "bottom": "12",
-         "left": "12",
-         "isLinked": true
-        },
-        "css_classes": "nh-card",
-        "background_color": "#FFFFFF",
-        "border_color": "#D9DCE3",
+        "editor": "<p>במעון יש כל הזמן תערוכות אמנות ופעילויות בנושאים שונים.</p><p>מה יש במעון? למשל:</p><ul><li>חדר סנוזלן מתקדם.</li><li>מרפאת שיניים מתקדמת.</li><li>מועדון לדיירים ולדיירות.</li><li>חדרים נוחים.</li></ul>",
+        "_css_classes": "nh-plain",
+        "text_color": "#1F2421",
+        "link_color": "#4A2D84",
+        "link_hover_color": "#3A2269",
         "__globals__": {
-         "background_color": "globals/colors?id=3efe2c1",
-         "border_color": "globals/colors?id=b72404d"
+         "text_color": "globals/colors?id=text",
+         "link_color": "globals/colors?id=primary",
+         "link_hover_color": "globals/colors?id=78b4a18",
+         "typography_typography": "globals/typography?id=text"
         },
-        "_title": "כרטיס 3"
+        "_title": "שפה פשוטה — טיוטה"
        },
-       "elements": [
-        {
-         "id": "27b7af8",
-         "elType": "widget",
-         "settings": {
-          "image": {
-           "url": "",
-           "id": "@media:card-3",
-           "size": "",
-           "alt": "",
-           "source": "library"
-          },
-          "image_size": "large",
-          "link_to": "custom",
-          "link": {
-           "url": "@home:/מערך-דיור-בקהילה-אוטיזם/",
-           "is_external": "",
-           "nofollow": "",
-           "custom_attributes": "tabindex|-1,aria-hidden|true"
-          },
-          "_css_classes": "nh-card__img nh-ratio-4x3"
-         },
-         "elements": [],
-         "widgetType": "image"
-        },
-        {
-         "id": "3ba97d8",
-         "elType": "container",
-         "settings": {
-          "content_width": "full",
-          "container_type": "flex",
-          "flex_direction": "column",
-          "flex_gap": {
-           "column": "0",
-           "row": "8",
-           "isLinked": false,
-           "unit": "px"
-          },
-          "flex_wrap": "nowrap",
-          "flex_wrap_tablet": "nowrap",
-          "flex_wrap_mobile": "nowrap",
-          "padding": {
-           "unit": "custom",
-           "top": "1.25rem",
-           "right": "1.5rem",
-           "bottom": "1.5rem",
-           "left": "1.5rem",
-           "isLinked": false
-          },
-          "_flex_size": "grow",
-          "css_classes": "nh-card__body"
-         },
-         "elements": [
-          {
-           "id": "5220b3b",
-           "elType": "widget",
-           "settings": {
-            "title": "מערך דיור לאוטיזם",
-            "header_size": "h3",
-            "link": {
-             "url": "@home:/מערך-דיור-בקהילה-אוטיזם/",
-             "is_external": "",
-             "nofollow": "",
-             "custom_attributes": ""
-            },
-            "_css_classes": "nh-card__title",
-            "title_color": "#1F2421",
-            "__globals__": {
-             "title_color": "globals/colors?id=text",
-             "typography_typography": "globals/typography?id=fb57358"
-            }
-           },
-           "elements": [],
-           "widgetType": "heading"
-          },
-          {
-           "id": "d06d1ab",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>אוכלוסייה על הרצף האוטיסטי</p>",
-            "_css_classes": "nh-card__sub nh-full",
-            "text_color": "#4F5550",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=161ef55",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=504434a"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "82cfcc5",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>לאנשים עם אוטיזם</p>",
-            "_css_classes": "nh-card__sub nh-plain",
-            "text_color": "#4F5550",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=161ef55",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=504434a"
-            },
-            "_title": "שפה פשוטה — טיוטה"
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "083598f",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p><span aria-hidden=\"true\">למידע נוסף ←</span></p>",
-            "_css_classes": "nh-card__more",
-            "text_color": "#4A2D84",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=primary",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=accent"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          }
-         ],
-         "isInner": true
-        }
-       ],
-       "isInner": true
-      },
-      {
-       "id": "ef0ce6d",
-       "elType": "container",
-       "settings": {
-        "content_width": "full",
-        "container_type": "flex",
-        "flex_direction": "column",
-        "flex_gap": {
-         "column": "0",
-         "row": "0",
-         "isLinked": true,
-         "unit": "px"
-        },
-        "flex_wrap": "nowrap",
-        "flex_wrap_tablet": "nowrap",
-        "flex_wrap_mobile": "nowrap",
-        "padding": {
-         "unit": "px",
-         "top": "0",
-         "right": "0",
-         "bottom": "0",
-         "left": "0",
-         "isLinked": true
-        },
-        "overflow": "hidden",
-        "background_background": "classic",
-        "border_border": "solid",
-        "border_width": {
-         "unit": "px",
-         "top": "1",
-         "right": "1",
-         "bottom": "1",
-         "left": "1",
-         "isLinked": true
-        },
-        "border_radius": {
-         "unit": "px",
-         "top": "12",
-         "right": "12",
-         "bottom": "12",
-         "left": "12",
-         "isLinked": true
-        },
-        "css_classes": "nh-card",
-        "background_color": "#FFFFFF",
-        "border_color": "#D9DCE3",
-        "__globals__": {
-         "background_color": "globals/colors?id=3efe2c1",
-         "border_color": "globals/colors?id=b72404d"
-        },
-        "_title": "כרטיס 4"
-       },
-       "elements": [
-        {
-         "id": "ac59301",
-         "elType": "widget",
-         "settings": {
-          "image": {
-           "url": "",
-           "id": "@media:card-4",
-           "size": "",
-           "alt": "",
-           "source": "library"
-          },
-          "image_size": "large",
-          "link_to": "custom",
-          "link": {
-           "url": "@home:/חדשות-ועדכונים/",
-           "is_external": "",
-           "nofollow": "",
-           "custom_attributes": "tabindex|-1,aria-hidden|true"
-          },
-          "_css_classes": "nh-card__img nh-ratio-4x3"
-         },
-         "elements": [],
-         "widgetType": "image"
-        },
-        {
-         "id": "479dfec",
-         "elType": "container",
-         "settings": {
-          "content_width": "full",
-          "container_type": "flex",
-          "flex_direction": "column",
-          "flex_gap": {
-           "column": "0",
-           "row": "8",
-           "isLinked": false,
-           "unit": "px"
-          },
-          "flex_wrap": "nowrap",
-          "flex_wrap_tablet": "nowrap",
-          "flex_wrap_mobile": "nowrap",
-          "padding": {
-           "unit": "custom",
-           "top": "1.25rem",
-           "right": "1.5rem",
-           "bottom": "1.5rem",
-           "left": "1.5rem",
-           "isLinked": false
-          },
-          "_flex_size": "grow",
-          "css_classes": "nh-card__body"
-         },
-         "elements": [
-          {
-           "id": "705bcce",
-           "elType": "widget",
-           "settings": {
-            "title": "חדשות ועדכונים",
-            "header_size": "h3",
-            "link": {
-             "url": "@home:/חדשות-ועדכונים/",
-             "is_external": "",
-             "nofollow": "",
-             "custom_attributes": ""
-            },
-            "_css_classes": "nh-card__title",
-            "title_color": "#1F2421",
-            "__globals__": {
-             "title_color": "globals/colors?id=text",
-             "typography_typography": "globals/typography?id=fb57358"
-            }
-           },
-           "elements": [],
-           "widgetType": "heading"
-          },
-          {
-           "id": "34c03bf",
-           "elType": "widget",
-           "settings": {
-            "editor": "",
-            "_css_classes": "nh-card__sub",
-            "text_color": "#4F5550",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=161ef55",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=504434a"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "482bafc",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p><span aria-hidden=\"true\">למידע נוסף ←</span></p>",
-            "_css_classes": "nh-card__more",
-            "text_color": "#4A2D84",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=primary",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=accent"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          }
-         ],
-         "isInner": true
-        }
-       ],
-       "isInner": true
+       "elements": [],
+       "widgetType": "text-editor"
       }
      ],
      "isInner": true
@@ -1531,93 +1931,77 @@
    "isInner": false
   },
   {
-   "id": "0d62cae",
+   "id": "ee5f7d2",
    "elType": "container",
    "settings": {
-    "content_width": "boxed",
-    "boxed_width": {
-     "unit": "px",
-     "size": 1200,
-     "sizes": []
-    },
+    "content_width": "full",
     "container_type": "flex",
     "flex_direction": "column",
     "flex_gap": {
      "column": "0",
-     "row": "32",
-     "isLinked": false,
+     "row": "0",
+     "isLinked": true,
      "unit": "px"
     },
     "flex_wrap": "nowrap",
     "flex_wrap_tablet": "nowrap",
     "flex_wrap_mobile": "nowrap",
-    "flex_gap_mobile": {
-     "column": "0",
-     "row": "24",
-     "isLinked": false,
-     "unit": "px"
-    },
     "padding": {
      "unit": "custom",
      "top": "5rem",
-     "right": "40px",
+     "right": "0",
      "bottom": "5rem",
-     "left": "40px",
+     "left": "0",
      "isLinked": false
     },
     "padding_tablet": {
      "unit": "custom",
      "top": "5rem",
-     "right": "32px",
+     "right": "0",
      "bottom": "5rem",
-     "left": "32px",
+     "left": "0",
      "isLinked": false
     },
     "padding_mobile": {
      "unit": "custom",
      "top": "3.5rem",
-     "right": "20px",
+     "right": "0",
      "bottom": "3.5rem",
-     "left": "20px",
+     "left": "0",
      "isLinked": false
     },
     "background_background": "classic",
-    "css_classes": "nh-sec nh-sec--about",
-    "_element_id": "about",
-    "background_color": "#EAF6FC",
+    "css_classes": "nh-sec nh-sec--pro",
+    "_element_id": "pro",
+    "background_color": "#FFFFFF",
     "__globals__": {
-     "background_color": "globals/colors?id=e60d395"
+     "background_color": "globals/colors?id=3efe2c1"
     },
-    "_title": "קצת עלינו"
+    "_title": "מקצועיות, ניסיון ויחס אישי"
    },
    "elements": [
     {
-     "id": "2668ea4",
+     "id": "547f064",
      "elType": "container",
      "settings": {
-      "content_width": "full",
-      "container_type": "grid",
-      "grid_columns_grid": {
-       "unit": "custom",
-       "size": "5fr 6fr",
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
        "sizes": []
       },
-      "grid_columns_grid_tablet": {
-       "unit": "fr",
-       "size": 1,
-       "sizes": []
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "32",
+       "row": "32",
+       "isLinked": true,
+       "unit": "px"
       },
-      "grid_columns_grid_mobile": {
-       "unit": "fr",
-       "size": 1,
-       "sizes": []
-      },
-      "grid_rows_grid": {
-       "unit": "custom",
-       "size": "auto",
-       "sizes": []
-      },
-      "grid_gaps": {
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
        "column": "24",
        "row": "24",
        "isLinked": true,
@@ -1626,114 +2010,79 @@
       "padding": {
        "unit": "px",
        "top": "0",
-       "right": "0",
+       "right": "40",
        "bottom": "0",
-       "left": "0",
-       "isLinked": true
+       "left": "40",
+       "isLinked": false
       },
-      "_title": "טקסט וסרטונים"
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
      },
      "elements": [
       {
-       "id": "d027fb2",
-       "elType": "container",
+       "id": "dc38174",
+       "elType": "widget",
        "settings": {
-        "content_width": "full",
-        "container_type": "flex",
-        "flex_direction": "column",
-        "flex_gap": {
-         "column": "0",
-         "row": "16",
-         "isLinked": false,
-         "unit": "px"
-        },
-        "flex_wrap": "nowrap",
-        "flex_wrap_tablet": "nowrap",
-        "flex_wrap_mobile": "nowrap",
-        "padding": {
-         "unit": "px",
-         "top": "0",
-         "right": "0",
-         "bottom": "0",
-         "left": "0",
-         "isLinked": true
-        },
-        "_title": "טקסט"
-       },
-       "elements": [
-        {
-         "id": "af71391",
-         "elType": "widget",
-         "settings": {
-          "title": "נווה האירוס - קצת עלינו",
-          "header_size": "h2",
-          "title_color": "#4A2D84",
-          "__globals__": {
-           "title_color": "globals/colors?id=primary",
-           "typography_typography": "globals/typography?id=603f9ca"
-          }
-         },
-         "elements": [],
-         "widgetType": "heading"
-        },
-        {
-         "id": "38ccd25",
-         "elType": "widget",
-         "settings": {
-          "editor": "<p>אבן הפינה למעון \"נווה האירוס\" הונחה בשנת 1957 ע\"י המשפחות : שטיינהרט, רשו וקוגן.</p><p>במתכונתו הנוכחית מאז 1985 בפיקוח מלא של משרד הרווחה - האגף לטיפול באדם עם מוגבלות שכלית התפתחותית.</p><p>יחודו של המעון בשיטות טיפול מתקדמות, יחס אישי ודואג לכל חניך ופעילות תרפואיטית ייחודית.</p><p>המעון מקיים כל העת תערוכות אמנות ופעילויות מרשימות בתחומים שונים</p><p>במעון ניתן למצוא חדר סנוזילן מתקדם בעל ציוד חדשני, מרפאת שיניים מתקדמת ומשוכללת, מועדון מתקדם לרווחת החניכים, חדרים נוחים ומאובזרים ועוד.</p>",
-          "_css_classes": "nh-full",
-          "text_color": "#1F2421",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
-          "__globals__": {
-           "text_color": "globals/colors?id=text",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=text"
-          }
-         },
-         "elements": [],
-         "widgetType": "text-editor"
-        },
-        {
-         "id": "45ec1b8",
-         "elType": "widget",
-         "settings": {
-          "editor": "<p>בשנת 1957 כמה משפחות התחילו להקים את נווה האירוס.</p><p>משנת 1985 המעון עובד כמו היום.</p><p>משרד הרווחה מפקח על המעון באופן מלא. מי שמפקח הוא האגף שמטפל באנשים עם מוגבלות שכלית התפתחותית.</p><p>מה מיוחד במעון?</p><ul><li>יש שיטות טיפול מתקדמות.</li><li>דואגים לכל דייר ודיירת באופן אישי.</li><li>יש פעילות טיפולית מיוחדת.</li></ul><p>במעון יש כל הזמן תערוכות אמנות ופעילויות בנושאים שונים.</p><p>מה יש במעון? למשל:</p><ul><li>חדר סנוזלן מתקדם.</li><li>מרפאת שיניים מתקדמת.</li><li>מועדון לדיירים ולדיירות.</li><li>חדרים נוחים.</li></ul>",
-          "_css_classes": "nh-plain",
-          "text_color": "#1F2421",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
-          "__globals__": {
-           "text_color": "globals/colors?id=text",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=text"
-          },
-          "_title": "שפה פשוטה — טיוטה"
-         },
-         "elements": [],
-         "widgetType": "text-editor"
+        "title": "מקצועיות, ניסיון ויחס אישי",
+        "header_size": "h2",
+        "align": "center",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
         }
-       ],
-       "isInner": true
+       },
+       "elements": [],
+       "widgetType": "heading"
       },
       {
-       "id": "69d015d",
+       "id": "90627c2",
        "elType": "container",
        "settings": {
         "content_width": "full",
-        "container_type": "flex",
-        "flex_direction": "column",
-        "flex_gap": {
-         "column": "0",
-         "row": "24",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "fr",
+         "size": 4,
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "fr",
+         "size": 2,
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "24",
+         "row": "32",
          "isLinked": false,
          "unit": "px"
         },
-        "flex_wrap": "nowrap",
-        "flex_wrap_tablet": "nowrap",
-        "flex_wrap_mobile": "nowrap",
         "padding": {
          "unit": "px",
          "top": "0",
@@ -1742,11 +2091,11 @@
          "left": "0",
          "isLinked": true
         },
-        "_title": "סרטונים"
+        "_title": "ארבעה דברים"
        },
        "elements": [
         {
-         "id": "0fad3fd",
+         "id": "c445005",
          "elType": "container",
          "settings": {
           "content_width": "full",
@@ -1754,8 +2103,8 @@
           "flex_direction": "column",
           "flex_gap": {
            "column": "0",
-           "row": "8",
-           "isLinked": false,
+           "row": "0",
+           "isLinked": true,
            "unit": "px"
           },
           "flex_wrap": "nowrap",
@@ -1769,11 +2118,939 @@
            "left": "0",
            "isLinked": true
           },
+          "css_classes": "nh-pro__cell nh-reveal",
+          "_title": "ניסיון של עשרות שנים"
+         },
+         "elements": [
+          {
+           "id": "b502c51",
+           "elType": "widget",
+           "settings": {
+            "selected_icon": {
+             "value": "fas fa-award",
+             "library": "fa-solid"
+            },
+            "view": "stacked",
+            "shape": "circle",
+            "title_text": "ניסיון של עשרות שנים",
+            "description_text": "",
+            "title_size": "h3",
+            "position": "block-start",
+            "text_align": "center",
+            "icon_space": {
+             "unit": "px",
+             "size": 16,
+             "sizes": []
+            },
+            "icon_size": {
+             "unit": "rem",
+             "size": 2,
+             "sizes": []
+            },
+            "icon_padding": {
+             "unit": "rem",
+             "size": 1.25,
+             "sizes": []
+            },
+            "_css_classes": "nh-pro__item nh-full",
+            "primary_color": "#F3F0F9",
+            "secondary_color": "#4A2D84",
+            "title_color": "#1F2421",
+            "__globals__": {
+             "primary_color": "globals/colors?id=68730b2",
+             "secondary_color": "globals/colors?id=primary",
+             "title_color": "globals/colors?id=text",
+             "title_typography_typography": "globals/typography?id=fb57358"
+            }
+           },
+           "elements": [],
+           "widgetType": "icon-box"
+          },
+          {
+           "id": "318d52c",
+           "elType": "widget",
+           "settings": {
+            "selected_icon": {
+             "value": "fas fa-award",
+             "library": "fa-solid"
+            },
+            "view": "stacked",
+            "shape": "circle",
+            "title_text": "המעון עובד כבר הרבה שנים",
+            "description_text": "",
+            "title_size": "h3",
+            "position": "block-start",
+            "text_align": "center",
+            "icon_space": {
+             "unit": "px",
+             "size": 16,
+             "sizes": []
+            },
+            "icon_size": {
+             "unit": "rem",
+             "size": 2,
+             "sizes": []
+            },
+            "icon_padding": {
+             "unit": "rem",
+             "size": 1.25,
+             "sizes": []
+            },
+            "_css_classes": "nh-pro__item nh-plain",
+            "primary_color": "#F3F0F9",
+            "secondary_color": "#4A2D84",
+            "title_color": "#1F2421",
+            "__globals__": {
+             "primary_color": "globals/colors?id=68730b2",
+             "secondary_color": "globals/colors?id=primary",
+             "title_color": "globals/colors?id=text",
+             "title_typography_typography": "globals/typography?id=fb57358"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "icon-box"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "1209679",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "0",
+           "row": "0",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-pro__cell nh-reveal",
+          "_title": "תוכניות טיפול אישיות"
+         },
+         "elements": [
+          {
+           "id": "8f8c02d",
+           "elType": "widget",
+           "settings": {
+            "selected_icon": {
+             "value": "fas fa-clipboard-list",
+             "library": "fa-solid"
+            },
+            "view": "stacked",
+            "shape": "circle",
+            "title_text": "תוכניות טיפול אישיות",
+            "description_text": "",
+            "title_size": "h3",
+            "position": "block-start",
+            "text_align": "center",
+            "icon_space": {
+             "unit": "px",
+             "size": 16,
+             "sizes": []
+            },
+            "icon_size": {
+             "unit": "rem",
+             "size": 2,
+             "sizes": []
+            },
+            "icon_padding": {
+             "unit": "rem",
+             "size": 1.25,
+             "sizes": []
+            },
+            "_css_classes": "nh-pro__item nh-full",
+            "primary_color": "#F3F0F9",
+            "secondary_color": "#4A2D84",
+            "title_color": "#1F2421",
+            "__globals__": {
+             "primary_color": "globals/colors?id=68730b2",
+             "secondary_color": "globals/colors?id=primary",
+             "title_color": "globals/colors?id=text",
+             "title_typography_typography": "globals/typography?id=fb57358"
+            }
+           },
+           "elements": [],
+           "widgetType": "icon-box"
+          },
+          {
+           "id": "7bace08",
+           "elType": "widget",
+           "settings": {
+            "selected_icon": {
+             "value": "fas fa-clipboard-list",
+             "library": "fa-solid"
+            },
+            "view": "stacked",
+            "shape": "circle",
+            "title_text": "תוכנית טיפול לכל דייר ודיירת",
+            "description_text": "",
+            "title_size": "h3",
+            "position": "block-start",
+            "text_align": "center",
+            "icon_space": {
+             "unit": "px",
+             "size": 16,
+             "sizes": []
+            },
+            "icon_size": {
+             "unit": "rem",
+             "size": 2,
+             "sizes": []
+            },
+            "icon_padding": {
+             "unit": "rem",
+             "size": 1.25,
+             "sizes": []
+            },
+            "_css_classes": "nh-pro__item nh-plain",
+            "primary_color": "#F3F0F9",
+            "secondary_color": "#4A2D84",
+            "title_color": "#1F2421",
+            "__globals__": {
+             "primary_color": "globals/colors?id=68730b2",
+             "secondary_color": "globals/colors?id=primary",
+             "title_color": "globals/colors?id=text",
+             "title_typography_typography": "globals/typography?id=fb57358"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "icon-box"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "882a0d8",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "0",
+           "row": "0",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-pro__cell nh-reveal",
+          "_title": "צוות מקצועי ומסור"
+         },
+         "elements": [
+          {
+           "id": "9ef713f",
+           "elType": "widget",
+           "settings": {
+            "selected_icon": {
+             "value": "fas fa-hands-helping",
+             "library": "fa-solid"
+            },
+            "view": "stacked",
+            "shape": "circle",
+            "title_text": "צוות מקצועי ומסור",
+            "description_text": "",
+            "title_size": "h3",
+            "position": "block-start",
+            "text_align": "center",
+            "icon_space": {
+             "unit": "px",
+             "size": 16,
+             "sizes": []
+            },
+            "icon_size": {
+             "unit": "rem",
+             "size": 2,
+             "sizes": []
+            },
+            "icon_padding": {
+             "unit": "rem",
+             "size": 1.25,
+             "sizes": []
+            },
+            "_css_classes": "nh-pro__item",
+            "primary_color": "#F3F0F9",
+            "secondary_color": "#4A2D84",
+            "title_color": "#1F2421",
+            "__globals__": {
+             "primary_color": "globals/colors?id=68730b2",
+             "secondary_color": "globals/colors?id=primary",
+             "title_color": "globals/colors?id=text",
+             "title_typography_typography": "globals/typography?id=fb57358"
+            }
+           },
+           "elements": [],
+           "widgetType": "icon-box"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "b9dfe00",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "0",
+           "row": "0",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-pro__cell nh-reveal",
+          "_title": "קשר רציף עם המשפחות"
+         },
+         "elements": [
+          {
+           "id": "851439c",
+           "elType": "widget",
+           "settings": {
+            "selected_icon": {
+             "value": "fas fa-users",
+             "library": "fa-solid"
+            },
+            "view": "stacked",
+            "shape": "circle",
+            "title_text": "קשר רציף עם המשפחות",
+            "description_text": "",
+            "title_size": "h3",
+            "position": "block-start",
+            "text_align": "center",
+            "icon_space": {
+             "unit": "px",
+             "size": 16,
+             "sizes": []
+            },
+            "icon_size": {
+             "unit": "rem",
+             "size": 2,
+             "sizes": []
+            },
+            "icon_padding": {
+             "unit": "rem",
+             "size": 1.25,
+             "sizes": []
+            },
+            "_css_classes": "nh-pro__item nh-full",
+            "primary_color": "#F3F0F9",
+            "secondary_color": "#4A2D84",
+            "title_color": "#1F2421",
+            "__globals__": {
+             "primary_color": "globals/colors?id=68730b2",
+             "secondary_color": "globals/colors?id=primary",
+             "title_color": "globals/colors?id=text",
+             "title_typography_typography": "globals/typography?id=fb57358"
+            }
+           },
+           "elements": [],
+           "widgetType": "icon-box"
+          },
+          {
+           "id": "6d3994a",
+           "elType": "widget",
+           "settings": {
+            "selected_icon": {
+             "value": "fas fa-users",
+             "library": "fa-solid"
+            },
+            "view": "stacked",
+            "shape": "circle",
+            "title_text": "קשר קבוע עם המשפחות",
+            "description_text": "",
+            "title_size": "h3",
+            "position": "block-start",
+            "text_align": "center",
+            "icon_space": {
+             "unit": "px",
+             "size": 16,
+             "sizes": []
+            },
+            "icon_size": {
+             "unit": "rem",
+             "size": 2,
+             "sizes": []
+            },
+            "icon_padding": {
+             "unit": "rem",
+             "size": 1.25,
+             "sizes": []
+            },
+            "_css_classes": "nh-pro__item nh-plain",
+            "primary_color": "#F3F0F9",
+            "secondary_color": "#4A2D84",
+            "title_color": "#1F2421",
+            "__globals__": {
+             "primary_color": "globals/colors?id=68730b2",
+             "secondary_color": "globals/colors?id=primary",
+             "title_color": "globals/colors?id=text",
+             "title_typography_typography": "globals/typography?id=fb57358"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "icon-box"
+          }
+         ],
+         "isInner": true
+        }
+       ],
+       "isInner": true
+      },
+      {
+       "id": "2ae6ae4",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "2fr 3fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "2fr 3fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "32",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "24",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": false
+        },
+        "_title": "שנים וטקסט"
+       },
+       "elements": [
+        {
+         "id": "1ad80ab",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "24",
+           "row": "24",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-pro__years",
+          "_title": "שנים"
+         },
+         "elements": [
+          {
+           "id": "4dab537",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "4",
+             "row": "4",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "px",
+             "top": "0",
+             "right": "0",
+             "bottom": "0",
+             "left": "0",
+             "isLinked": true
+            },
+            "css_classes": "nh-year nh-reveal",
+            "_title": "1957"
+           },
+           "elements": [
+            {
+             "id": "bd3b912",
+             "elType": "widget",
+             "settings": {
+              "title": "1957",
+              "header_size": "p",
+              "_css_classes": "nh-year__num",
+              "title_color": "#4A2D84",
+              "__globals__": {
+               "title_color": "globals/colors?id=primary",
+               "typography_typography": "globals/typography?id=f773727"
+              }
+             },
+             "elements": [],
+             "widgetType": "heading"
+            },
+            {
+             "id": "c80be77",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>אבן הפינה למעון הונחה</p>",
+              "_css_classes": "nh-year__label nh-full",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              }
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "2518fe0",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>התחילו להקים את המעון</p>",
+              "_css_classes": "nh-year__label nh-plain",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              },
+              "_title": "שפה פשוטה — טיוטה"
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            }
+           ],
+           "isInner": true
+          },
+          {
+           "id": "45db5dc",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "4",
+             "row": "4",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "px",
+             "top": "0",
+             "right": "0",
+             "bottom": "0",
+             "left": "0",
+             "isLinked": true
+            },
+            "css_classes": "nh-year nh-reveal",
+            "_title": "1985"
+           },
+           "elements": [
+            {
+             "id": "6442705",
+             "elType": "widget",
+             "settings": {
+              "title": "1985",
+              "header_size": "p",
+              "_css_classes": "nh-year__num",
+              "title_color": "#4A2D84",
+              "__globals__": {
+               "title_color": "globals/colors?id=primary",
+               "typography_typography": "globals/typography?id=f773727"
+              }
+             },
+             "elements": [],
+             "widgetType": "heading"
+            },
+            {
+             "id": "813c75b",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>במתכונתו הנוכחית, בפיקוח מלא של משרד הרווחה</p>",
+              "_css_classes": "nh-year__label nh-full",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              }
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "9dcf849",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>מאז, המעון עובד כמו היום</p>",
+              "_css_classes": "nh-year__label nh-plain",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              },
+              "_title": "שפה פשוטה — טיוטה"
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            }
+           ],
+           "isInner": true
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "8753249",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-pro__text nh-reveal",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "c6747d0",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>אבן הפינה למעון \"נווה האירוס\" הונחה בשנת 1957 ע\"י המשפחות : שטיינהרט, רשו וקוגן.</p><p>במתכונתו הנוכחית מאז 1985 בפיקוח מלא של משרד הרווחה - האגף לטיפול באדם עם מוגבלות שכלית התפתחותית.</p><p>יחודו של המעון בשיטות טיפול מתקדמות, יחס אישי ודואג לכל חניך ופעילות תרפואיטית ייחודית.</p>",
+            "_css_classes": "nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "5e35d2c",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>בשנת 1957 כמה משפחות התחילו להקים את נווה האירוס.</p><p>משנת 1985 המעון עובד כמו היום.</p><p>משרד הרווחה מפקח על המעון באופן מלא. מי שמפקח הוא האגף שמטפל באנשים עם מוגבלות שכלית התפתחותית.</p><p>מה מיוחד במעון?</p><ul><li>יש שיטות טיפול מתקדמות.</li><li>דואגים לכל דייר ודיירת באופן אישי.</li><li>יש פעילות טיפולית מיוחדת.</li></ul>",
+            "_css_classes": "nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "5d28897",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "5rem",
+     "right": "0",
+     "bottom": "5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "5rem",
+     "right": "0",
+     "bottom": "5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--videos",
+    "_element_id": "videos",
+    "background_color": "#F3F0F9",
+    "__globals__": {
+     "background_color": "globals/colors?id=68730b2"
+    },
+    "_title": "סרטונים"
+   },
+   "elements": [
+    {
+     "id": "d7ca2b8",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "32",
+       "row": "32",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "a9af14e",
+       "elType": "widget",
+       "settings": {
+        "title": "סרטונים",
+        "header_size": "h2",
+        "_css_classes": "nh-visually-hidden",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "d624d12",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "fr",
+         "size": 2,
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "fr",
+         "size": 2,
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "32",
+         "row": "32",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "_title": "סרטונים"
+       },
+       "elements": [
+        {
+         "id": "0292d40",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "12",
+           "row": "12",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-video-item nh-reveal",
           "_title": "סרטון 1"
          },
          "elements": [
           {
-           "id": "a2f8cda",
+           "id": "0bf0795",
            "elType": "widget",
            "settings": {
             "video_type": "youtube",
@@ -1792,13 +3069,14 @@
             "image_overlay_size": "full",
             "show_play_icon": "yes",
             "lightbox": "",
-            "aspect_ratio": "169"
+            "aspect_ratio": "169",
+            "_css_classes": "nh-video"
            },
            "elements": [],
            "widgetType": "video"
           },
           {
-           "id": "fa629d3",
+           "id": "304c995",
            "elType": "widget",
            "settings": {
             "editor": "<p>אגף המגורים החדש בנוה האירוס מספק מענה מלא לכל צורך של הדיירים. מעניק סביבת מחייה נוחה ונעימה.</p>",
@@ -1810,7 +3088,7 @@
              "text_color": "globals/colors?id=161ef55",
              "link_color": "globals/colors?id=primary",
              "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=504434a"
+             "typography_typography": "globals/typography?id=4598e32"
             }
            },
            "elements": [],
@@ -1820,16 +3098,16 @@
          "isInner": true
         },
         {
-         "id": "187a75d",
+         "id": "fd4ad5b",
          "elType": "container",
          "settings": {
           "content_width": "full",
           "container_type": "flex",
           "flex_direction": "column",
           "flex_gap": {
-           "column": "0",
-           "row": "8",
-           "isLinked": false,
+           "column": "12",
+           "row": "12",
+           "isLinked": true,
            "unit": "px"
           },
           "flex_wrap": "nowrap",
@@ -1843,11 +3121,12 @@
            "left": "0",
            "isLinked": true
           },
+          "css_classes": "nh-video-item nh-reveal",
           "_title": "סרטון 2"
          },
          "elements": [
           {
-           "id": "24cc733",
+           "id": "b4a4aff",
            "elType": "widget",
            "settings": {
             "video_type": "youtube",
@@ -1866,13 +3145,14 @@
             "image_overlay_size": "full",
             "show_play_icon": "yes",
             "lightbox": "",
-            "aspect_ratio": "169"
+            "aspect_ratio": "169",
+            "_css_classes": "nh-video"
            },
            "elements": [],
            "widgetType": "video"
           },
           {
-           "id": "4b8c3bc",
+           "id": "979979a",
            "elType": "widget",
            "settings": {
             "editor": "<p>נוה האירוס מעון חוסים נס ציונה</p>",
@@ -1884,7 +3164,7 @@
              "text_color": "globals/colors?id=161ef55",
              "link_color": "globals/colors?id=primary",
              "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=504434a"
+             "typography_typography": "globals/typography?id=4598e32"
             }
            },
            "elements": [],
@@ -1906,250 +3186,646 @@
    "id": "9555b4e",
    "elType": "container",
    "settings": {
-    "content_width": "boxed",
-    "boxed_width": {
-     "unit": "px",
-     "size": 1200,
-     "sizes": []
-    },
+    "content_width": "full",
     "container_type": "flex",
     "flex_direction": "column",
     "flex_gap": {
      "column": "0",
-     "row": "32",
-     "isLinked": false,
+     "row": "0",
+     "isLinked": true,
      "unit": "px"
     },
     "flex_wrap": "nowrap",
     "flex_wrap_tablet": "nowrap",
     "flex_wrap_mobile": "nowrap",
-    "flex_gap_mobile": {
-     "column": "0",
-     "row": "24",
-     "isLinked": false,
-     "unit": "px"
-    },
     "padding": {
      "unit": "custom",
      "top": "5rem",
-     "right": "40px",
+     "right": "0",
      "bottom": "5rem",
-     "left": "40px",
+     "left": "0",
      "isLinked": false
     },
     "padding_tablet": {
      "unit": "custom",
      "top": "5rem",
-     "right": "32px",
+     "right": "0",
      "bottom": "5rem",
-     "left": "32px",
+     "left": "0",
      "isLinked": false
     },
     "padding_mobile": {
      "unit": "custom",
      "top": "3.5rem",
-     "right": "20px",
+     "right": "0",
      "bottom": "3.5rem",
-     "left": "20px",
+     "left": "0",
      "isLinked": false
     },
     "background_background": "classic",
     "css_classes": "nh-sec nh-sec--testimonials",
     "_element_id": "testimonials",
-    "background_color": "#FFFFFF",
+    "background_color": "#4A2D84",
     "__globals__": {
-     "background_color": "globals/colors?id=3efe2c1"
+     "background_color": "globals/colors?id=primary"
     },
     "_title": "תודות והמלצות"
    },
    "elements": [
     {
-     "id": "deee8f9",
-     "elType": "widget",
-     "settings": {
-      "title": "תודות והמלצות",
-      "header_size": "h2",
-      "align": "center",
-      "title_color": "#4A2D84",
-      "__globals__": {
-       "title_color": "globals/colors?id=primary",
-       "typography_typography": "globals/typography?id=603f9ca"
-      }
-     },
-     "elements": [],
-     "widgetType": "heading"
-    },
-    {
-     "id": "dc8343e",
+     "id": "c4b993b",
      "elType": "container",
      "settings": {
-      "content_width": "full",
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
       "container_type": "flex",
       "flex_direction": "column",
       "flex_gap": {
-       "column": "0",
-       "row": "16",
-       "isLinked": false,
+       "column": "32",
+       "row": "32",
+       "isLinked": true,
        "unit": "px"
       },
       "flex_wrap": "nowrap",
       "flex_wrap_tablet": "nowrap",
       "flex_wrap_mobile": "nowrap",
-      "flex_align_items": "flex-start",
-      "width": {
-       "unit": "custom",
-       "size": "min(760px, 100%)",
-       "sizes": []
+      "flex_gap_mobile": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
       },
       "padding": {
-       "unit": "custom",
-       "top": "2.5rem",
-       "right": "2.5rem",
-       "bottom": "2.5rem",
-       "left": "2.5rem",
-       "isLinked": true
-      },
-      "padding_mobile": {
-       "unit": "custom",
-       "top": "1.75rem",
-       "right": "1.25rem",
-       "bottom": "1.75rem",
-       "left": "1.25rem",
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
        "isLinked": false
       },
-      "background_background": "classic",
-      "border_radius": {
+      "padding_tablet": {
        "unit": "px",
-       "top": "12",
-       "right": "12",
-       "bottom": "12",
-       "left": "12",
-       "isLinked": true
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
       },
-      "_flex_align_self": "center",
-      "css_classes": "nh-quote",
-      "background_color": "#F3F0F9",
-      "__globals__": {
-       "background_color": "globals/colors?id=68730b2"
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
       },
-      "_title": "המלצה"
+      "css_classes": "nh-sec__inner nh-reveal",
+      "flex_align_items": "center",
+      "_title": "תוכן"
      },
      "elements": [
       {
-       "id": "b75bc5d",
+       "id": "9bc6368",
        "elType": "widget",
        "settings": {
-        "title": "נווה האירוס - המלצה של אמא לדייר במוסד",
-        "header_size": "h3",
-        "_css_classes": "nh-full",
-        "title_color": "#1F2421",
+        "title": "תודות והמלצות",
+        "header_size": "h2",
+        "align": "center",
+        "title_color": "#FFFFFF",
         "__globals__": {
-         "title_color": "globals/colors?id=text",
-         "typography_typography": "globals/typography?id=fb57358"
+         "title_color": "globals/colors?id=3efe2c1",
+         "typography_typography": "globals/typography?id=603f9ca"
         }
        },
        "elements": [],
        "widgetType": "heading"
       },
       {
-       "id": "08497af",
-       "elType": "widget",
+       "id": "6d61728",
+       "elType": "container",
        "settings": {
-        "title": "אמא של דייר ממליצה על נווה האירוס",
-        "header_size": "h3",
-        "_css_classes": "nh-plain",
-        "title_color": "#1F2421",
-        "__globals__": {
-         "title_color": "globals/colors?id=text",
-         "typography_typography": "globals/typography?id=fb57358"
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
         },
-        "_title": "שפה פשוטה — טיוטה"
-       },
-       "elements": [],
-       "widgetType": "heading"
-      },
-      {
-       "id": "1257b6d",
-       "elType": "widget",
-       "settings": {
-        "editor": "<p>שלום רב,שמי לילה ורבל, בני בן ה- 30 מתגורר בנווה האירוס מזה 11 שנה עקב בעיות התנהגות קשות, כגון אלימות פיזית. אני רוצה לציין לטובה את השינוי העצום שבוצע במוסד בשנתיים האחרונות וזאת עקב..</p>",
-        "_css_classes": "nh-full",
-        "text_color": "#1F2421",
-        "link_color": "#4A2D84",
-        "link_hover_color": "#3A2269",
-        "__globals__": {
-         "text_color": "globals/colors?id=text",
-         "link_color": "globals/colors?id=primary",
-         "link_hover_color": "globals/colors?id=78b4a18",
-         "typography_typography": "globals/typography?id=text"
-        }
-       },
-       "elements": [],
-       "widgetType": "text-editor"
-      },
-      {
-       "id": "40768f7",
-       "elType": "widget",
-       "settings": {
-        "editor": "<p>האמא כותבת שהבן שלה בן 30, ושהוא גר בנווה האירוס כבר 11 שנים.</p><p>היא כותבת שבמעון היה שינוי גדול וטוב ב־2 השנים האחרונות.</p>",
-        "_css_classes": "nh-plain",
-        "text_color": "#1F2421",
-        "link_color": "#4A2D84",
-        "link_hover_color": "#3A2269",
-        "__globals__": {
-         "text_color": "globals/colors?id=text",
-         "link_color": "globals/colors?id=primary",
-         "link_hover_color": "globals/colors?id=78b4a18",
-         "typography_typography": "globals/typography?id=text"
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "flex_align_items": "center",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
         },
-        "_title": "שפה פשוטה — טיוטה"
-       },
-       "elements": [],
-       "widgetType": "text-editor"
-      },
-      {
-       "id": "23f68f1",
-       "elType": "widget",
-       "settings": {
-        "text": "קרא עוד",
-        "link": {
-         "url": "@home:/תודות-והמלצות/",
-         "is_external": "",
-         "nofollow": "",
-         "custom_attributes": ""
-        },
-        "background_background": "classic",
-        "button_background_hover_background": "classic",
-        "border_radius": {
+        "padding": {
          "unit": "px",
-         "top": "8",
-         "right": "8",
-         "bottom": "8",
-         "left": "8",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
          "isLinked": true
         },
-        "text_padding": {
-         "unit": "custom",
-         "top": ".75rem",
-         "right": "1.5rem",
-         "bottom": ".75rem",
-         "left": "1.5rem",
-         "isLinked": false
-        },
-        "background_color": "#4A2D84",
-        "button_text_color": "#FFFFFF",
-        "button_background_hover_color": "#3A2269",
-        "hover_color": "#FFFFFF",
-        "__globals__": {
-         "background_color": "globals/colors?id=primary",
-         "button_text_color": "globals/colors?id=3efe2c1",
-         "button_background_hover_color": "globals/colors?id=78b4a18",
-         "hover_color": "globals/colors?id=3efe2c1",
-         "typography_typography": "globals/typography?id=accent"
-        }
+        "_flex_align_self": "center",
+        "css_classes": "nh-quote nh-quote--band",
+        "_title": "המלצה"
        },
-       "elements": [],
-       "widgetType": "button"
+       "elements": [
+        {
+         "id": "9780db4",
+         "elType": "widget",
+         "settings": {
+          "title": "נווה האירוס - המלצה של אמא לדייר במוסד",
+          "header_size": "h3",
+          "align": "center",
+          "_css_classes": "nh-full",
+          "title_color": "#FFFFFF",
+          "__globals__": {
+           "title_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=fb57358"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "fd81ad3",
+         "elType": "widget",
+         "settings": {
+          "title": "אמא של דייר ממליצה על נווה האירוס",
+          "header_size": "h3",
+          "align": "center",
+          "_css_classes": "nh-plain",
+          "title_color": "#FFFFFF",
+          "__globals__": {
+           "title_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=fb57358"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "60829ed",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>שלום רב,שמי לילה ורבל, בני בן ה- 30 מתגורר בנווה האירוס מזה 11 שנה עקב בעיות התנהגות קשות, כגון אלימות פיזית. אני רוצה לציין לטובה את השינוי העצום שבוצע במוסד בשנתיים האחרונות וזאת עקב..</p>",
+          "_css_classes": "nh-full",
+          "align": "center",
+          "text_color": "#FFFFFF",
+          "link_color": "#FFFFFF",
+          "link_hover_color": "#FFFFFF",
+          "__globals__": {
+           "text_color": "globals/colors?id=3efe2c1",
+           "link_color": "globals/colors?id=3efe2c1",
+           "link_hover_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=3cb992f"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "138b46a",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>האמא כותבת שהבן שלה בן 30, ושהוא גר בנווה האירוס כבר 11 שנים.</p><p>היא כותבת שבמעון היה שינוי גדול וטוב ב־2 השנים האחרונות.</p>",
+          "_css_classes": "nh-plain",
+          "align": "center",
+          "text_color": "#FFFFFF",
+          "link_color": "#FFFFFF",
+          "link_hover_color": "#FFFFFF",
+          "__globals__": {
+           "text_color": "globals/colors?id=3efe2c1",
+           "link_color": "globals/colors?id=3efe2c1",
+           "link_hover_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=3cb992f"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "f83d929",
+         "elType": "widget",
+         "settings": {
+          "text": "קרא עוד",
+          "link": {
+           "url": "@home:/תודות-והמלצות/",
+           "is_external": "",
+           "nofollow": "",
+           "custom_attributes": ""
+          },
+          "background_background": "classic",
+          "button_background_hover_background": "classic",
+          "border_radius": {
+           "unit": "px",
+           "top": "8",
+           "right": "8",
+           "bottom": "8",
+           "left": "8",
+           "isLinked": true
+          },
+          "text_padding": {
+           "unit": "custom",
+           "top": ".75rem",
+           "right": "1.5rem",
+           "bottom": ".75rem",
+           "left": "1.5rem",
+           "isLinked": false
+          },
+          "align": "center",
+          "background_color": "#FFFFFF",
+          "button_text_color": "#4A2D84",
+          "button_background_hover_color": "#F3F0F9",
+          "hover_color": "#3A2269",
+          "__globals__": {
+           "background_color": "globals/colors?id=3efe2c1",
+           "button_text_color": "globals/colors?id=primary",
+           "button_background_hover_color": "globals/colors?id=68730b2",
+           "hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=accent"
+          }
+         },
+         "elements": [],
+         "widgetType": "button"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "9b4982b",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "5rem",
+     "right": "0",
+     "bottom": "5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "5rem",
+     "right": "0",
+     "bottom": "5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--snoezelen",
+    "_element_id": "snoezelen",
+    "background_color": "#FFFFFF",
+    "__globals__": {
+     "background_color": "globals/colors?id=3efe2c1"
+    },
+    "_title": "חדר סנוזלן"
+   },
+   "elements": [
+    {
+     "id": "67fdea9",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "32",
+       "row": "32",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "36b02f5",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "32",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "center",
+        "_title": "טקסט וסרטון"
+       },
+       "elements": [
+        {
+         "id": "29b0afc",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "6fd8892",
+           "elType": "widget",
+           "settings": {
+            "title": "חדר סנוזלן בנוה האירוס",
+            "header_size": "h2",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=603f9ca"
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "fa6a3b1",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>חדר הוא סביבה רב-חושית מבוקרת, המשלבת גירויים אופטיים, קוליים, ריחיים ותחושתיים (מגע) להרפיה, ויסות רגשי וטיפול. החדר המרופד מציע חוויה מותאמת אישית, לרוב לילדים ואנשים עם מוגבלויות, אוטיזם, או קשיים בוויסות החושי, ומטרתו ליצור איזון בין רוגע לעוררות:</p>",
+            "_css_classes": "nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "2f5ae35",
+           "elType": "widget",
+           "settings": {
+            "editor": "<ul><li><strong>סביבה רב-חושית</strong>: שילוב של אורות, צלילים, ריחות ומרקמים שונים.</li><li><strong>עיצוב מרגיע</strong>: חדר מרופד, לעיתים קרובות לבן, המשרה תחושת ביטחון ונעימות.</li><li><strong>גירויים מותאמים</strong>: סיבים אופטיים, עמודי בועות, מקרנים, מוזיקה רגועה ואביזרי מגע.</li><li><strong>התאמה אישית</strong>: המטפל מתאים את עוצמת הגירויים למטופל, במטרה להביא להרפיה.</li></ul>",
+            "_css_classes": "nh-checklist nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "91501b1",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>חדר סנוזלן הוא חדר שיש בו דברים לראות, לשמוע, להריח ולגעת.</p><p>משתמשים בחדר כדי להירגע. משתמשים בו גם לטיפול.</p><p>חדר כזה מתאים בדרך כלל לאנשים עם מוגבלות או עם אוטיזם.</p><p>בחדר כזה יש:</p><ul><li>חוטים שמאירים.</li><li>עמודים עם בועות.</li><li>מקרנים.</li><li>מוזיקה רגועה.</li><li>דברים לגעת בהם.</li></ul><p>החדר מרופד, והרבה פעמים הוא לבן. בחדר מרגישים בטוחים, ונעים להיות בו.</p><p>המטפל או המטפלת מתאימים את החדר לכל אדם. למשל, הם קובעים כמה חזקים יהיו האורות והצלילים. המטרה היא לעזור לאדם להירגע.</p>",
+            "_css_classes": "nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "7fc77d7",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>חדר הוקם בסיוע ובאדיבות המוסד לביטוח לאומי</p>",
+            "_css_classes": "nh-credit nh-full",
+            "text_color": "#4F5550",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=161ef55",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=504434a"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "4edd22a",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>ביטוח לאומי עזר להקים את החדר.</p>",
+            "_css_classes": "nh-credit nh-plain",
+            "text_color": "#4F5550",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=161ef55",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=504434a"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "7c4c19a",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "0",
+           "row": "0",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "flex_align_items": "center",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "_title": "סרטון"
+         },
+         "elements": [
+          {
+           "id": "90a4dc0",
+           "elType": "widget",
+           "settings": {
+            "video_type": "youtube",
+            "youtube_url": "https://www.youtube.com/watch?v=Tkbqa08a5Ro",
+            "lazy_load": "yes",
+            "yt_privacy": "yes",
+            "rel": "",
+            "show_image_overlay": "yes",
+            "image_overlay": {
+             "url": "",
+             "id": "@media:video-Tkbqa08a5Ro",
+             "size": "",
+             "alt": "",
+             "source": "library"
+            },
+            "image_overlay_size": "full",
+            "show_play_icon": "yes",
+            "lightbox": "",
+            "aspect_ratio": "916",
+            "_element_width": "initial",
+            "_element_custom_width": {
+             "unit": "px",
+             "size": 300,
+             "sizes": []
+            },
+            "_flex_align_self": "center",
+            "_css_classes": "nh-phone-frame"
+           },
+           "elements": [],
+           "widgetType": "video"
+          }
+         ],
+         "isInner": true
+        }
+       ],
+       "isInner": true
       }
      ],
      "isInner": true
@@ -2161,98 +3837,109 @@
    "id": "a66c10a",
    "elType": "container",
    "settings": {
-    "content_width": "boxed",
-    "boxed_width": {
-     "unit": "px",
-     "size": 1200,
-     "sizes": []
-    },
+    "content_width": "full",
     "container_type": "flex",
     "flex_direction": "column",
     "flex_gap": {
      "column": "0",
-     "row": "32",
-     "isLinked": false,
+     "row": "0",
+     "isLinked": true,
      "unit": "px"
     },
     "flex_wrap": "nowrap",
     "flex_wrap_tablet": "nowrap",
     "flex_wrap_mobile": "nowrap",
-    "flex_gap_mobile": {
-     "column": "0",
-     "row": "24",
-     "isLinked": false,
-     "unit": "px"
-    },
     "padding": {
      "unit": "custom",
      "top": "5rem",
-     "right": "40px",
+     "right": "0",
      "bottom": "5rem",
-     "left": "40px",
+     "left": "0",
      "isLinked": false
     },
     "padding_tablet": {
      "unit": "custom",
      "top": "5rem",
-     "right": "32px",
+     "right": "0",
      "bottom": "5rem",
-     "left": "32px",
+     "left": "0",
      "isLinked": false
     },
     "padding_mobile": {
      "unit": "custom",
      "top": "3.5rem",
-     "right": "20px",
+     "right": "0",
      "bottom": "3.5rem",
-     "left": "20px",
+     "left": "0",
      "isLinked": false
     },
     "background_background": "classic",
     "css_classes": "nh-sec nh-sec--special-needs",
     "_element_id": "special-needs",
-    "background_color": "#FFFFFF",
+    "background_color": "#EAF6FC",
     "__globals__": {
-     "background_color": "globals/colors?id=3efe2c1"
+     "background_color": "globals/colors?id=e60d395"
     },
     "_title": "מעון לבעלי צרכים מיוחדים"
    },
    "elements": [
     {
-     "id": "2da190a",
+     "id": "fbd038f",
      "elType": "container",
      "settings": {
-      "content_width": "full",
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 860,
+       "sizes": []
+      },
       "container_type": "flex",
       "flex_direction": "column",
       "flex_gap": {
-       "column": "0",
+       "column": "24",
        "row": "24",
-       "isLinked": false,
+       "isLinked": true,
        "unit": "px"
       },
       "flex_wrap": "nowrap",
       "flex_wrap_tablet": "nowrap",
       "flex_wrap_mobile": "nowrap",
-      "width": {
-       "unit": "custom",
-       "size": "min(760px, 100%)",
-       "sizes": []
+      "flex_gap_mobile": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
       },
       "padding": {
        "unit": "px",
        "top": "0",
-       "right": "0",
+       "right": "40",
        "bottom": "0",
-       "left": "0",
-       "isLinked": true
+       "left": "40",
+       "isLinked": false
       },
-      "_flex_align_self": "flex-start",
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
       "_title": "תוכן"
      },
      "elements": [
       {
-       "id": "ed033eb",
+       "id": "8a866c9",
        "elType": "widget",
        "settings": {
         "title": "מעון לבעלי צרכים מיוחדים",
@@ -2267,106 +3954,14 @@
        "widgetType": "heading"
       },
       {
-       "id": "9d82fd9",
-       "elType": "container",
-       "settings": {
-        "content_width": "full",
-        "container_type": "flex",
-        "flex_direction": "column",
-        "flex_gap": {
-         "column": "0",
-         "row": "0",
-         "isLinked": true,
-         "unit": "px"
-        },
-        "flex_wrap": "nowrap",
-        "flex_wrap_tablet": "nowrap",
-        "flex_wrap_mobile": "nowrap",
-        "padding": {
-         "unit": "custom",
-         "top": "1.5rem",
-         "right": "1.5rem",
-         "bottom": "1.5rem",
-         "left": "1.5rem",
-         "isLinked": true
-        },
-        "background_background": "classic",
-        "border_border": "solid",
-        "border_width": {
-         "unit": "px",
-         "top": "0",
-         "right": "4",
-         "bottom": "0",
-         "left": "0",
-         "isLinked": false
-        },
-        "border_radius": {
-         "unit": "px",
-         "top": "12",
-         "right": "12",
-         "bottom": "12",
-         "left": "12",
-         "isLinked": true
-        },
-        "css_classes": "nh-framed nh-full",
-        "background_color": "#F3F0F9",
-        "border_color": "#4A2D84",
-        "__globals__": {
-         "background_color": "globals/colors?id=68730b2",
-         "border_color": "globals/colors?id=primary"
-        },
-        "_title": "מסגרת"
-       },
-       "elements": [
-        {
-         "id": "9bdf13b",
-         "elType": "widget",
-         "settings": {
-          "editor": "<ul><li>בכל פעם שאתם שומעים את המונח \"מעון לבעלי צרכים מיוחדים\" איזו תמונה עולה בראשכם?</li><li>בכל פעם שאתם שומעים את המונח \"מעון לבעלי צרכים מיוחדים\" איזו הרגשה עולה לכם בגוף?</li></ul><p>לא כזו איכותית ולא כזו נעימה, נכון? בדיוק.</p>",
-          "text_color": "#1F2421",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
-          "__globals__": {
-           "text_color": "globals/colors?id=text",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=text"
-          }
-         },
-         "elements": [],
-         "widgetType": "text-editor"
-        }
-       ],
-       "isInner": true
-      },
-      {
-       "id": "76c73c4",
-       "elType": "widget",
-       "settings": {
-        "editor": "<p>נווה האירוס הוא מעון לבעלי צרכים מיוחדים, והתמונה שעולה יחד עם ההרגשה שבגוף היא, כי משהו חדש מתחיל, משהו טוב קורה כאן, בנווה האירוס.</p><p>מעון לבעלי צרכים מיוחדים הוא מקום. בית. (אפילו) לכל החיים, הן לחוסים בו והן למשפחותיהם. הצוותים העובדים במעון נווה האירוס הינם צוותים חדשים ומחודשים, כאלו שעברו הכשרות מקצועיות, ימי עיון וההדרכות, על מנת למקד את תכנית הטיפול האישית, המתאימה לכל אחד ואחת מדיירי המעון. כמעון לבעלי צרכים מיוחדים, מעון נווה האירוס, שואף להתקדם ומתקדם בכל יום לשיפור המיומנויות והכלים היומיומיים לשילוב בחברה, שכן, ישנם דיירים ברמות תפקוד שונות, המאפשרות להם/ן, יחד עם הכשרה וליווי צמוד של הצוות המטפל, להשתלב בעבודה, לגור באופן עצמאי, עם דיירים נוספים (תוך חונכות איש צוות אשר קיבל הכשרה מתאימה) ובכלל, בנווה האירוס, עושים ונעשה את המקסימום על מנת לוודא כי כל החוסים יקבלו טיפול צמוד ומתאים בהתאם לקשיים של כל אחד ואחת.</p>",
-        "_css_classes": "nh-full",
-        "text_color": "#1F2421",
-        "link_color": "#4A2D84",
-        "link_hover_color": "#3A2269",
-        "__globals__": {
-         "text_color": "globals/colors?id=text",
-         "link_color": "globals/colors?id=primary",
-         "link_hover_color": "globals/colors?id=78b4a18",
-         "typography_typography": "globals/typography?id=text"
-        }
-       },
-       "elements": [],
-       "widgetType": "text-editor"
-      },
-      {
-       "id": "9a83976",
+       "id": "c463796",
        "elType": "widget",
        "settings": {
         "items": [
          {
           "item_title": "להמשך קריאה",
           "element_css_id": "",
-          "_id": "d192216"
+          "_id": "e2ec4d8"
          }
         ],
         "default_state": "all_collapsed",
@@ -2404,16 +3999,16 @@
        },
        "elements": [
         {
-         "id": "e80883f",
+         "id": "d4daa28",
          "elType": "container",
          "settings": {
           "content_width": "full",
           "container_type": "flex",
           "flex_direction": "column",
           "flex_gap": {
-           "column": "0",
+           "column": "16",
            "row": "16",
-           "isLinked": false,
+           "isLinked": true,
            "unit": "px"
           },
           "flex_wrap": "nowrap",
@@ -2431,7 +4026,98 @@
          },
          "elements": [
           {
-           "id": "868b196",
+           "id": "29a8109",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "0",
+             "row": "0",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "custom",
+             "top": "1.5rem",
+             "right": "1.5rem",
+             "bottom": "1.5rem",
+             "left": "1.5rem",
+             "isLinked": true
+            },
+            "background_background": "classic",
+            "border_border": "solid",
+            "border_width": {
+             "unit": "px",
+             "top": "0",
+             "right": "4",
+             "bottom": "0",
+             "left": "0",
+             "isLinked": false
+            },
+            "border_radius": {
+             "unit": "px",
+             "top": "12",
+             "right": "12",
+             "bottom": "12",
+             "left": "12",
+             "isLinked": true
+            },
+            "css_classes": "nh-framed",
+            "background_color": "#F3F0F9",
+            "border_color": "#4A2D84",
+            "__globals__": {
+             "background_color": "globals/colors?id=68730b2",
+             "border_color": "globals/colors?id=primary"
+            },
+            "_title": "שאלות"
+           },
+           "elements": [
+            {
+             "id": "b84e1d9",
+             "elType": "widget",
+             "settings": {
+              "editor": "<ul><li>בכל פעם שאתם שומעים את המונח \"מעון לבעלי צרכים מיוחדים\" איזו תמונה עולה בראשכם?</li><li>בכל פעם שאתם שומעים את המונח \"מעון לבעלי צרכים מיוחדים\" איזו הרגשה עולה לכם בגוף?</li></ul><p>לא כזו איכותית ולא כזו נעימה, נכון? בדיוק.</p>",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              }
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            }
+           ],
+           "isInner": true
+          },
+          {
+           "id": "2e8126b",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>נווה האירוס הוא מעון לבעלי צרכים מיוחדים, והתמונה שעולה יחד עם ההרגשה שבגוף היא, כי משהו חדש מתחיל, משהו טוב קורה כאן, בנווה האירוס.</p><p>מעון לבעלי צרכים מיוחדים הוא מקום. בית. (אפילו) לכל החיים, הן לחוסים בו והן למשפחותיהם. הצוותים העובדים במעון נווה האירוס הינם צוותים חדשים ומחודשים, כאלו שעברו הכשרות מקצועיות, ימי עיון וההדרכות, על מנת למקד את תכנית הטיפול האישית, המתאימה לכל אחד ואחת מדיירי המעון. כמעון לבעלי צרכים מיוחדים, מעון נווה האירוס, שואף להתקדם ומתקדם בכל יום לשיפור המיומנויות והכלים היומיומיים לשילוב בחברה, שכן, ישנם דיירים ברמות תפקוד שונות, המאפשרות להם/ן, יחד עם הכשרה וליווי צמוד של הצוות המטפל, להשתלב בעבודה, לגור באופן עצמאי, עם דיירים נוספים (תוך חונכות איש צוות אשר קיבל הכשרה מתאימה) ובכלל, בנווה האירוס, עושים ונעשה את המקסימום על מנת לוודא כי כל החוסים יקבלו טיפול צמוד ומתאים בהתאם לקשיים של כל אחד ואחת.</p>",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "b543d10",
            "elType": "widget",
            "settings": {
             "editor": "<p>מעון לבעלי צרכים מיוחדים צריך להיות כזה המאפשר גם למשפחות החוסים, לקחת חלק בחייהם, גם אם אינם גרים בביתם השורשי. האפשרות להגיע למעון, לבקר, לטייל בין החללים השונים, צריכה להיות מובנת מאליה ולא ממודרת. השיתוף בין הנהלת המעון, (אשר גם מנצחת על תהליך השיפור והשינוי במעון), הצוותים המטפלים השונים, לבין משפחות החוסים, מאפשר תקשורת פתוחה, שקיפות ושיתוף פעולה בכל הקשור לחיי היומיום במעון ולחזון העתידי שלו. משפחותיהם של החוסים מהווות חלק בלתי נפרד מהצוות התומך, המקיף את החוסה ועל כך, מעצימים את הביטחון שלו/ה, מאפשרים להתפנות לטיפולים השונים ולהתקדמות בדרך. התקשורת בין המשפחות לצוותים היא חלק בלתי נפרד מהצלחתו של מעון לבעלי צרכים מיוחדים, שכן, ישנם מעגלי תקשורת אשר נפתחים ונסגרים בכל פעם, והיות וישנם חוסים אשר נמצאים גם במסגרות חוץ, חד יומיות, חשוב להנהלת מעון נווה האירוס, להיות בקשר רציף עם המשפחות וזאת על מנת לשמר את תהליך הטיפול ולהתקדם בכל פעם, קצת, צעד צעד.</p><p>מעון לבעלי צרכים מיוחדים, הוא מקום מיוחד, ייחודי ורגיש מאד. העבודה עם אוכלוסייה בעלת צרכים מיוחדים היא זכות גדולה ועדיין לא כולם בוחרים בה ולכן, הצוותים בנווה האירוס נבחרו בקפידה תוך התייחסות ספציפית לכישורים מתאימים וכמובן, לב רחב וסבלנות אין קץ, שכן, הטיפול באוכלוסייה שכזו, אינו מניב תוצאות מיידיות (וכאלו שגם לא מניב כלל) ולכן, נדרשת סבלנות גדולה ונתינה ענקית.</p><p>הצוותים השונים, העובדים עם החוסים, עושים את המקסימום על מנת לאפשר לכל אחד מהדיירים במעון את הרווחה המגיעה לכל אחד ואחת מהם. הליווי, האכפתיות, תשומת הלב, גם לפרטים הקטנים ביותר, כי זהו חלק מהחזון שלנו בנווה האירוס, אותו אנו מגשימים בכל יום ויום וזמינים גם עבור משפחותיהם של הדיירים ומאפשרים ערוצי תקשורת פתוחים עם הנהלת המעון והצוותים הרלוונטיים.</p><p>מעון לבעלי צרכים מיוחדים נווה האירוס, הוא מקום מיוחד, עם אנשים מיוחדים לאנשים מיוחדים. נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.</p>",
@@ -2455,7 +4141,7 @@
        "widgetType": "nested-accordion"
       },
       {
-       "id": "158ebb5",
+       "id": "f48fa3c",
        "elType": "widget",
        "settings": {
         "editor": "<p>יש אנשים שחושבים שמעון לאנשים עם מוגבלות הוא מקום לא כל כך נעים.</p><p>נווה האירוס הוא מעון לאנשים עם מוגבלות. אבל בנווה האירוס מתחיל משהו חדש. משהו טוב קורה כאן.</p><p>המעון הוא בית. הוא יכול להיות בית לכל החיים. הוא בית לדיירים ולדיירות, וגם למשפחות שלהם.</p><p>הצוות במעון התחדש. אנשי הצוות עברו הכשרות מקצועיות, כדי להתאים לכל דייר ודיירת תכנית טיפול אישית.</p><p>אנחנו עוזרים לדיירים ולדיירות להשתפר בדברים של יום יום. המטרה היא שיהיו חלק מהחברה.</p><p>בעזרת הצוות, יש דיירים ודיירות שיכולים לעבוד. יש גם דיירים ודיירות שיכולים לגור באופן עצמאי, עם דיירים אחרים. איש צוות מלווה אותם.</p><p>אנחנו עושים כמה שאפשר כדי שכל דייר ודיירת יקבלו טיפול צמוד שמתאים להם. הצוות שם לב גם לדברים הכי קטנים.</p><p>חשוב לנו שהמשפחות יהיו חלק מהחיים של הדיירים והדיירות. חשוב לנו שהמשפחות יוכלו לבוא, לבקר ולהסתובב במעון.</p><p>ההנהלה, הצוות והמשפחות עובדים יחד. הם מדברים בפתיחות על החיים במעון ועל העתיד שלו.</p><p>המשפחות תומכות בדיירים ובדיירות. כך הדיירים והדיירות מרגישים בטוחים יותר, ויכולים להתקדם.</p><p>הצוות זמין גם למשפחות. חשוב לנו להיות בקשר קבוע עם המשפחות. הקשר עוזר להמשיך בטיפול ולהתקדם, צעד אחרי צעד.</p><p>לעבוד עם אנשים עם מוגבלות זו זכות גדולה. לא כל אחד בוחר בעבודה הזאת. לכן בחרנו את אנשי הצוות בתשומת לב. חיפשנו אנשים עם כישורים מתאימים, לב רחב והרבה סבלנות.</p><p>נווה האירוס הוא מקום מיוחד. נשמח שתבואו להכיר אותנו. נשמח לתת לכם מידע.</p>",
@@ -2481,7 +4167,7 @@
    "isInner": false
   },
   {
-   "id": "626ba5b",
+   "id": "a378b2e",
    "elType": "container",
    "settings": {
     "content_width": "full",
@@ -2497,335 +4183,307 @@
     "flex_wrap_tablet": "nowrap",
     "flex_wrap_mobile": "nowrap",
     "padding": {
-     "unit": "px",
-     "top": "0",
-     "right": "0",
-     "bottom": "0",
-     "left": "0",
-     "isLinked": true
-    },
-    "css_classes": "nh-slot nh-slot--contacts",
-    "_title": "צור קשר (תבנית)"
-   },
-   "elements": [
-    {
-     "id": "e6ddd70",
-     "elType": "widget",
-     "settings": {
-      "template_id": "@page-id:contacts",
-      "_title": "צור קשר — תבנית משותפת"
-     },
-     "elements": [],
-     "widgetType": "template"
-    }
-   ],
-   "isInner": false
-  },
-  {
-   "id": "9b4982b",
-   "elType": "container",
-   "settings": {
-    "content_width": "boxed",
-    "boxed_width": {
-     "unit": "px",
-     "size": 1200,
-     "sizes": []
-    },
-    "container_type": "flex",
-    "flex_direction": "column",
-    "flex_gap": {
-     "column": "0",
-     "row": "32",
-     "isLinked": false,
-     "unit": "px"
-    },
-    "flex_wrap": "nowrap",
-    "flex_wrap_tablet": "nowrap",
-    "flex_wrap_mobile": "nowrap",
-    "flex_gap_mobile": {
-     "column": "0",
-     "row": "24",
-     "isLinked": false,
-     "unit": "px"
-    },
-    "padding": {
      "unit": "custom",
      "top": "5rem",
-     "right": "40px",
+     "right": "0",
      "bottom": "5rem",
-     "left": "40px",
+     "left": "0",
      "isLinked": false
     },
     "padding_tablet": {
      "unit": "custom",
      "top": "5rem",
-     "right": "32px",
+     "right": "0",
      "bottom": "5rem",
-     "left": "32px",
+     "left": "0",
      "isLinked": false
     },
     "padding_mobile": {
      "unit": "custom",
      "top": "3.5rem",
-     "right": "20px",
+     "right": "0",
      "bottom": "3.5rem",
-     "left": "20px",
+     "left": "0",
      "isLinked": false
     },
     "background_background": "classic",
-    "css_classes": "nh-sec nh-sec--snoezelen",
-    "_element_id": "snoezelen",
-    "background_color": "#FFFFFF",
+    "css_classes": "nh-sec nh-sec--contact",
+    "_element_id": "contact",
+    "background_color": "#EFF6E8",
     "__globals__": {
-     "background_color": "globals/colors?id=3efe2c1"
+     "background_color": "globals/colors?id=1faeb27"
     },
-    "_title": "חדר סנוזלן"
+    "_title": "נשמח שתבואו להכיר אותנו"
    },
    "elements": [
     {
-     "id": "4663f5c",
+     "id": "c84359e",
      "elType": "container",
      "settings": {
-      "content_width": "full",
-      "container_type": "grid",
-      "grid_columns_grid": {
-       "unit": "custom",
-       "size": "7fr 5fr",
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
        "sizes": []
       },
-      "grid_columns_grid_tablet": {
-       "unit": "custom",
-       "size": "7fr 5fr",
-       "sizes": []
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
       },
-      "grid_columns_grid_mobile": {
-       "unit": "fr",
-       "size": 1,
-       "sizes": []
-      },
-      "grid_rows_grid": {
-       "unit": "custom",
-       "size": "auto",
-       "sizes": []
-      },
-      "grid_gaps": {
-       "column": "24",
-       "row": "32",
-       "isLinked": false,
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
        "unit": "px"
       },
       "padding": {
        "unit": "px",
        "top": "0",
-       "right": "0",
+       "right": "40",
        "bottom": "0",
-       "left": "0",
-       "isLinked": true
+       "left": "40",
+       "isLinked": false
       },
-      "_title": "טקסט וסרטון"
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "flex_align_items": "center",
+      "_title": "תוכן"
      },
      "elements": [
       {
-       "id": "407dc96",
-       "elType": "container",
+       "id": "93f8de1",
+       "elType": "widget",
        "settings": {
-        "content_width": "full",
-        "container_type": "flex",
-        "flex_direction": "column",
-        "flex_gap": {
-         "column": "0",
-         "row": "16",
-         "isLinked": false,
-         "unit": "px"
-        },
-        "flex_wrap": "nowrap",
-        "flex_wrap_tablet": "nowrap",
-        "flex_wrap_mobile": "nowrap",
-        "padding": {
-         "unit": "px",
-         "top": "0",
-         "right": "0",
-         "bottom": "0",
-         "left": "0",
-         "isLinked": true
-        },
-        "_title": "טקסט"
-       },
-       "elements": [
-        {
-         "id": "aabd6eb",
-         "elType": "widget",
-         "settings": {
-          "title": "חדר סנוזלן בנוה האירוס",
-          "header_size": "h2",
-          "title_color": "#4A2D84",
-          "__globals__": {
-           "title_color": "globals/colors?id=primary",
-           "typography_typography": "globals/typography?id=603f9ca"
-          }
-         },
-         "elements": [],
-         "widgetType": "heading"
-        },
-        {
-         "id": "bb87dbf",
-         "elType": "widget",
-         "settings": {
-          "editor": "<p>חדר הוא סביבה רב-חושית מבוקרת, המשלבת גירויים אופטיים, קוליים, ריחיים ותחושתיים (מגע) להרפיה, ויסות רגשי וטיפול. החדר המרופד מציע חוויה מותאמת אישית, לרוב לילדים ואנשים עם מוגבלויות, אוטיזם, או קשיים בוויסות החושי, ומטרתו ליצור איזון בין רוגע לעוררות:</p>",
-          "_css_classes": "nh-full",
-          "text_color": "#1F2421",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
-          "__globals__": {
-           "text_color": "globals/colors?id=text",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=text"
-          }
-         },
-         "elements": [],
-         "widgetType": "text-editor"
-        },
-        {
-         "id": "3180984",
-         "elType": "widget",
-         "settings": {
-          "editor": "<ul><li><strong>סביבה רב-חושית</strong>: שילוב של אורות, צלילים, ריחות ומרקמים שונים.</li><li><strong>עיצוב מרגיע</strong>: חדר מרופד, לעיתים קרובות לבן, המשרה תחושת ביטחון ונעימות.</li><li><strong>גירויים מותאמים</strong>: סיבים אופטיים, עמודי בועות, מקרנים, מוזיקה רגועה ואביזרי מגע.</li><li><strong>התאמה אישית</strong>: המטפל מתאים את עוצמת הגירויים למטופל, במטרה להביא להרפיה.</li></ul>",
-          "_css_classes": "nh-checklist nh-full",
-          "text_color": "#1F2421",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
-          "__globals__": {
-           "text_color": "globals/colors?id=text",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=text"
-          }
-         },
-         "elements": [],
-         "widgetType": "text-editor"
-        },
-        {
-         "id": "c97ab3d",
-         "elType": "widget",
-         "settings": {
-          "editor": "<p>חדר סנוזלן הוא חדר שיש בו דברים לראות, לשמוע, להריח ולגעת.</p><p>משתמשים בחדר כדי להירגע. משתמשים בו גם לטיפול.</p><p>חדר כזה מתאים בדרך כלל לאנשים עם מוגבלות או עם אוטיזם.</p><p>בחדר כזה יש:</p><ul><li>חוטים שמאירים.</li><li>עמודים עם בועות.</li><li>מקרנים.</li><li>מוזיקה רגועה.</li><li>דברים לגעת בהם.</li></ul><p>החדר מרופד, והרבה פעמים הוא לבן. בחדר מרגישים בטוחים, ונעים להיות בו.</p><p>המטפל או המטפלת מתאימים את החדר לכל אדם. למשל, הם קובעים כמה חזקים יהיו האורות והצלילים. המטרה היא לעזור לאדם להירגע.</p>",
-          "_css_classes": "nh-plain",
-          "text_color": "#1F2421",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
-          "__globals__": {
-           "text_color": "globals/colors?id=text",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=text"
-          },
-          "_title": "שפה פשוטה — טיוטה"
-         },
-         "elements": [],
-         "widgetType": "text-editor"
-        },
-        {
-         "id": "d48095e",
-         "elType": "widget",
-         "settings": {
-          "editor": "<p>חדר הוקם בסיוע ובאדיבות המוסד לביטוח לאומי</p>",
-          "_css_classes": "nh-credit nh-full",
-          "text_color": "#4F5550",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
-          "__globals__": {
-           "text_color": "globals/colors?id=161ef55",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=504434a"
-          }
-         },
-         "elements": [],
-         "widgetType": "text-editor"
-        },
-        {
-         "id": "1733c79",
-         "elType": "widget",
-         "settings": {
-          "editor": "<p>ביטוח לאומי עזר להקים את החדר.</p>",
-          "_css_classes": "nh-credit nh-plain",
-          "text_color": "#4F5550",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
-          "__globals__": {
-           "text_color": "globals/colors?id=161ef55",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=504434a"
-          },
-          "_title": "שפה פשוטה — טיוטה"
-         },
-         "elements": [],
-         "widgetType": "text-editor"
+        "title": "נשמח שתבואו להכיר אותנו",
+        "header_size": "h2",
+        "align": "center",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
         }
-       ],
-       "isInner": true
+       },
+       "elements": [],
+       "widgetType": "heading"
       },
       {
-       "id": "8742317",
+       "id": "af089a6",
+       "elType": "widget",
+       "settings": {
+        "title": "בואו להכיר אותנו",
+        "header_size": "h2",
+        "align": "center",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "0aebf33",
+       "elType": "widget",
+       "settings": {
+        "editor": "<p>נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.</p>",
+        "_css_classes": "nh-full",
+        "align": "center",
+        "text_color": "#1F2421",
+        "link_color": "#4A2D84",
+        "link_hover_color": "#3A2269",
+        "__globals__": {
+         "text_color": "globals/colors?id=text",
+         "link_color": "globals/colors?id=primary",
+         "link_hover_color": "globals/colors?id=78b4a18",
+         "typography_typography": "globals/typography?id=text"
+        }
+       },
+       "elements": [],
+       "widgetType": "text-editor"
+      },
+      {
+       "id": "ef26c21",
+       "elType": "widget",
+       "settings": {
+        "editor": "<p>אתם מוזמנים לבוא אלינו לפגישת היכרות. נשמח לתת לכם כל מידע שאתם צריכים.</p>",
+        "_css_classes": "nh-plain",
+        "align": "center",
+        "text_color": "#1F2421",
+        "link_color": "#4A2D84",
+        "link_hover_color": "#3A2269",
+        "__globals__": {
+         "text_color": "globals/colors?id=text",
+         "link_color": "globals/colors?id=primary",
+         "link_hover_color": "globals/colors?id=78b4a18",
+         "typography_typography": "globals/typography?id=text"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "text-editor"
+      },
+      {
+       "id": "69c1ffd",
        "elType": "container",
        "settings": {
         "content_width": "full",
         "container_type": "flex",
-        "flex_direction": "column",
+        "flex_direction": "row",
         "flex_gap": {
-         "column": "0",
-         "row": "0",
+         "column": "16",
+         "row": "16",
          "isLinked": true,
          "unit": "px"
         },
-        "flex_wrap": "nowrap",
-        "flex_wrap_tablet": "nowrap",
-        "flex_wrap_mobile": "nowrap",
+        "flex_wrap": "wrap",
+        "flex_wrap_tablet": "wrap",
+        "flex_wrap_mobile": "wrap",
+        "flex_justify_content": "center",
         "flex_align_items": "center",
         "padding": {
          "unit": "px",
-         "top": "0",
+         "top": "8",
          "right": "0",
          "bottom": "0",
          "left": "0",
-         "isLinked": true
+         "isLinked": false
         },
-        "_title": "סרטון"
+        "_title": "כפתורים"
        },
        "elements": [
         {
-         "id": "16a3fe2",
+         "id": "c5246f9",
          "elType": "widget",
          "settings": {
-          "video_type": "youtube",
-          "youtube_url": "https://www.youtube.com/watch?v=Tkbqa08a5Ro",
-          "lazy_load": "yes",
-          "yt_privacy": "yes",
-          "rel": "",
-          "show_image_overlay": "yes",
-          "image_overlay": {
-           "url": "",
-           "id": "@media:video-Tkbqa08a5Ro",
-           "size": "",
-           "alt": "",
-           "source": "library"
+          "text": "08-9403047",
+          "link": {
+           "url": "tel:089403047",
+           "is_external": "",
+           "nofollow": "",
+           "custom_attributes": ""
           },
-          "image_overlay_size": "full",
-          "show_play_icon": "yes",
-          "lightbox": "",
-          "aspect_ratio": "916",
-          "_element_width": "initial",
-          "_element_custom_width": {
+          "background_background": "classic",
+          "button_background_hover_background": "classic",
+          "border_radius": {
            "unit": "px",
-           "size": 320,
+           "top": "12",
+           "right": "12",
+           "bottom": "12",
+           "left": "12",
+           "isLinked": true
+          },
+          "text_padding": {
+           "unit": "custom",
+           "top": "1rem",
+           "right": "2rem",
+           "bottom": "1rem",
+           "left": "2rem",
+           "isLinked": false
+          },
+          "selected_icon": {
+           "value": "fas fa-phone-alt",
+           "library": "fa-solid"
+          },
+          "icon_align": "row",
+          "icon_indent": {
+           "unit": "px",
+           "size": 8,
            "sizes": []
           },
-          "_flex_align_self": "center"
+          "_css_classes": "nh-btn-phone",
+          "background_color": "#4A2D84",
+          "button_text_color": "#FFFFFF",
+          "button_background_hover_color": "#3A2269",
+          "hover_color": "#FFFFFF",
+          "__globals__": {
+           "background_color": "globals/colors?id=primary",
+           "button_text_color": "globals/colors?id=3efe2c1",
+           "button_background_hover_color": "globals/colors?id=78b4a18",
+           "hover_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=accent"
+          }
          },
          "elements": [],
-         "widgetType": "video"
+         "widgetType": "button"
+        },
+        {
+         "id": "6166341",
+         "elType": "widget",
+         "settings": {
+          "text": "WhatsApp",
+          "link": {
+           "url": "https://wa.me/97289403047",
+           "is_external": "",
+           "nofollow": "",
+           "custom_attributes": ""
+          },
+          "background_background": "classic",
+          "button_background_hover_background": "classic",
+          "border_radius": {
+           "unit": "px",
+           "top": "12",
+           "right": "12",
+           "bottom": "12",
+           "left": "12",
+           "isLinked": true
+          },
+          "text_padding": {
+           "unit": "custom",
+           "top": "1rem",
+           "right": "2rem",
+           "bottom": "1rem",
+           "left": "2rem",
+           "isLinked": false
+          },
+          "selected_icon": {
+           "value": "fab fa-whatsapp",
+           "library": "fa-brands"
+          },
+          "icon_align": "row",
+          "icon_indent": {
+           "unit": "px",
+           "size": 8,
+           "sizes": []
+          },
+          "_css_classes": "nh-btn-whatsapp",
+          "background_color": "#2F6B2A",
+          "button_text_color": "#FFFFFF",
+          "hover_color": "#FFFFFF",
+          "__globals__": {
+           "background_color": "globals/colors?id=dda5945",
+           "button_text_color": "globals/colors?id=3efe2c1",
+           "hover_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=accent"
+          }
+         },
+         "elements": [],
+         "widgetType": "button"
         }
        ],
        "isInner": true

@@ -19,6 +19,17 @@
   "faces": "none",
   "note": "Media 1214 (4032x3024, new wing shared lounge, no people; the TV reflects only the sofa). It is the full-size original of the live banner slide «סלון וחלל ציבורי באגף החדש» (media 1224, squashed to 1100x332), so it was chosen over the suggested list. Runner-up from the list: 1215 (new wing dining corner, portrait). Crop x220–4032, y0–2859 (removes a door handle and door edge at the bottom left), resized to 1600x1200, q82, no EXIF. Alt reused from photos.csv (media 1214)."
  },
+ "hero-wide": {
+  "file": "templates/v4/media/hero-wide.jpg",
+  "alt": "מסדרון הכניסה לאגף החדש עם תקרה מוארת בדמות שמיים ועננים, רצפת טרצו ודלת זכוכית בקצהו",
+  "title": "nh4:hero-wide",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2017/07/-לאגף-החדש-נווה-האירוס-e1640001546841.jpg",
+  "width": 3024,
+  "height": 4032,
+  "focus": "50% 30%",
+  "faces": "none",
+  "note": "The full-screen hero of v4.1 (research/10-v4.1-home-spec.md §1.1, §4). Media 1211 (3024x4032): the entrance corridor of the new wing with its sky-lit ceiling, no people; the full-size original of the view on the live banner slide «תאורת שמיים באגף החדש» (media 1223, squashed to 1100x332). Whole frame, long side 2400 (1800x2400), q80, no metadata. Focus 50% 30% (object-position): on desktop the band shows the sky panels at the top and the daylit glass door at the vanishing point; on phones the whole height shows, the corridor centred. Checked as full-screen crops at 1440x900 and 390x844 (also 360x740, 768x1024, 1024x768, 1024x1366, 1920x1080) with the shades of spec §1.1 and the hero text: the lightest pixel behind the white H1, subline and outline button gives at least 4.98:1 (1024x768), 6.38:1 at 1440x900, 9.37:1 at 390x844. Sharpness: 1.25 image px per CSS px at 1440x900 (soft on 2x desktop screens), 2.84 at 390x844 (sharp at DSF 3). No faces: the framed picture on the left wall is seen edge-on; through the glass door only a tiled roof, an air conditioner and a broom handle. Not chosen: 1214 (the v4 lounge: on phones only a sofa against a white wall; H1 4.30:1 at 768x1024), 1216 (the sky panels alone: the brightest, but it reads as a generic sky and could pass for stock), 1208 and 311 (bedrooms: the phone crop cuts the beds). Alt from photos.csv (media 1211). 17.11: re-exported by the developer at the original size (3024x4032, q78) so the full-screen desktop crop stays sharp on 2x screens; WordPress makes the smaller sizes for phones."
+ },
  "card-1": {
   "file": "templates/v4/media/card-1.jpg",
   "alt": "חדר שינה באגף החדש עם שתי מיטות עץ יחיד בכיסויים ורודים, חלון וכורסה חומה",
@@ -58,6 +69,16 @@
   "height": 900,
   "faces": "none",
   "note": "Card «חדשות ועדכונים». Media 1091 from the live news page (item «אירוע מכירות משתלת האירוס»), 1200x1600. Crop x0–1200, y520–1420 (1200x900, no resize) leaves out the passer-by seen from behind at the top. No people in frame. Not used: 1162 (computer room) shows a face on a monitor; 1392 (renovated room) shows a security camera."
+ },
+ "life": {
+  "file": "templates/v4/media/life.jpg",
+  "alt": "דוכן נווה האירוס בתערוכה: שולחנות ומדפים עמוסי עבודות יד וכיסא עץ מתקפל",
+  "title": "nh4:life",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2017/12/6.jpg",
+  "width": 1600,
+  "height": 900,
+  "faces": "none",
+  "note": "The wide photo of «החיים בנווה האירוס» (spec 10 §1.4, §4). Media 988 (1600x1200), the home's stand at an exhibition, from the live page גלריית מוצרים למכירה; no people. 16:9 crop x0–1600, y300–1200, no resize (no upscaling), q82, no metadata. The crop leaves out the banner above the stand (the Ministry of Welfare's name with the State emblem, and a cut-off logo); only a few rows of its plain blue hem remain at the top edge. It shows what the text beside it says: «המעון מקיים כל העת תערוכות אמנות…». Alt: photos.csv (media 988) without «תחת שלט משרד הרווחה והשירותים החברתיים», which is cropped out. Not chosen: 983 (the stand under the home's sign, whose lettering the 16:9 crop cuts), 990 (a close-up, busy at half width), 629 (one mosaic on a table: calm, but less of the home's life)."
  },
  "video-kLAGTCOIWQE": {
   "file": "templates/v4/media/video-kLAGTCOIWQE.jpg",

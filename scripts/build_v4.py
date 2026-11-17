@@ -1,36 +1,67 @@
 #!/usr/bin/env python3
-"""v4 home: the Elementor data of the new home page, its header, footer and contacts block, the Kit's global colours
-and fonts, and the main menu (research/09-v4-home-spec.md §2, §3, §4).
+"""v4.1 home: the Elementor data of the home page, its floating header, its footer with the shared contacts block, the
+Kit's global colours and fonts, and the main menu (research/09-v4-home-spec.md §2–§4 and its second pass
+research/10-v4.1-home-spec.md §1, §1.11, §2, §3, which wins where the two differ).
 
     python3 -I scripts/build_v4.py           build templates/v4/*.json, then check them
     python3 -I scripts/build_v4.py check     check the files as they are (and that they are what the inputs make)
 
-Inputs: content/v4/home.json (the live texts, word for word; a block's "plain" is its plain-language twin, a draft,
-or null while none is written: the builder makes a twin wherever "plain" is set and skips it where it is null) and
-templates/v4/media.json (the photos, the logo and the PDF, by name). Python 3 standard library only; never talks
-to a server.
+Inputs: content/v4/home.json "blocks" (the live texts, word for word; a block's "plain" is its plain-language twin, a
+draft, or null while none is written: the builder makes a twin wherever "plain" is set and skips it where it is null;
+"retired_blocks" are not used) and templates/v4/media.json (the photos, the logo and the PDF, by name; the hero
+photo's "focus"). Python 3 standard library only; never talks to a server.
 
 Writes, in templates/v4/:
   home.json       page #32 (found on deploy by post meta _nh_page_key = home), the front page, template
-                  elementor_header_footer: the sections of spec §4 in the live order, one top-level container each
-  header-v4.json  Theme Builder header, condition include/singular/front_page, wrapper <header> (§4.0)
-  footer-v4.json  Theme Builder footer, the same condition, wrapper <footer> (§4.9)
+                  elementor_header_footer: the nine sections of spec 10 §1 in Oleg's order, one top-level container
+                  each — hero, specialties, life, pro, videos, testimonials, snoezelen, special-needs, contact
+  header-v4.json  Theme Builder header, condition include/singular/front_page, wrapper <header> (09 §4.0, 10 §2)
+  footer-v4.json  Theme Builder footer, the same condition, wrapper <footer> (10 §1.11): night; the shared contacts
+                  block (Pro's Template widget), then a line and the bottom row (©, the three links)
   contacts.json   saved template (library type `container`: the test site lists it, its Container feature is on)
-                  holding the green contacts band (§4.7); the home inserts it with Pro's Template widget
-  kit.json        the Kit's system_colors, custom_colors, system_typography and custom_typography (§2)
+                  holding the contacts block (09 §4.7), styled for the footer: night ground, white text, half size
+  kit.json        the Kit's system_colors, custom_colors, system_typography and custom_typography (09 §2)
   menu.json       the WordPress menu «תפריט ראשי» (slug nh-main), the live menu with its targets on the test host
 The documents have the shape of templates/pages/*.json (key, title, slug, front_page, post_type, document_type,
 template, conditions, page_settings, built_from, elementor_data); elementor_data is the value of _elementor_data as
 Elementor 4.4.0 stores it.
 
-Only Elementor's own classic widgets (heading, text-editor, image, button, video, icon, nested-accordion) and Pro's
-nav-menu and template; none of the nevehairus-site plugin's. Every colour and font goes through the Kit's globals
-(settings.__globals__ = {control: "globals/colors?id=…" / "globals/typography?id=…"}), with the literal colour as
-a fallback; the one local font setting is the hero's subline (1.375rem 600: no global has that size). The classes
-of spec §4/§5.2 are on the elements for the child theme's v4.css. Plain twins are sibling widgets right after
-their full widget: the full one has class nh-full, the twin nh-plain and the Navigator label «שפה פשוטה — טיוטה».
-Element ids (7 lowercase hex) are a hash of the document key and the element's path, so a rebuild diffs cleanly;
-the Kit's custom ids are hashes too.
+Only Elementor's own classic widgets (heading, text-editor, image, button, video, icon, icon-box, nested-accordion) and
+Pro's nav-menu and template; none of the nevehairus-site plugin's. Every colour and font goes through the Kit's globals
+(settings.__globals__ = {control: "globals/colors?id=…" / "globals/typography?id=…"}), with the literal colour as a
+fallback; the one local font setting is the hero's subline (1.375rem 600). No motion setting of Elementor's own (no
+entrance animation, Motion Effects, sticky, hover animation or transition): the motion of spec 10 §3 (the hero's slow
+zoom, the fade-ins, the cards' lift, the header's change) is the child theme's, keyed to the classes below.
+
+The page (spec 10 §1). Every section is a top-level container: content_width full, css_classes «nh-sec nh-sec--<name>»,
+_element_id <name>, its Kit background, 5rem (phones 3.5rem) above and below; inside it one boxed container
+(nh-sec__inner, the 1320px column with 40/32/20px gutters) unless stated:
+  hero           nh-hero, at least 100vh (the theme makes it 100svh and adds the floating header's room), night until
+                 the photo shows; the Image widget nh-hero__img (@media:hero-wide, full size) with the focal point of
+                 media.json's "focus" as the theme's classes nh-fx-<x> nh-fy-<y> (steps of 5); the boxed nh-hero__content
+                 at the bottom (flex end, 12vh under it, phones 9vh): H1 (Kit «כותרת באנר»), the subline, «צור קשר» →
+                 #contact and the phone. No inner column, no nh-reveal (the first screen never waits)
+  specialties    H2 and the four cards (nh-card nh-reveal: radius 16, photo on top, H3 linked, the subline, the round
+                 arrow nh-card__arrow — an Icon widget, fas fa-arrow-left, decorative)
+  life           no inner column: two halves (column on phones, the photo first): nh-life__media with the 16:9 photo
+                 edge to edge (nh-ratio-16x9), nh-life__text nh-reveal with the H2 and the two live sentences; the text
+                 keeps to the 1320px column's edge on its outer side
+  pro            H2; four cells (nh-pro__cell nh-reveal) with an Icon Box each (nh-pro__item: stacked purple-50 circle,
+                 the label as H3); then a grid: the years (nh-year nh-reveal: Heading p nh-year__num, Kit «מספר גדול»;
+                 Text Editor nh-year__label) and the rest of «קצת עלינו» (nh-pro__text nh-reveal)
+  videos         the hidden H2 «סרטונים»; two items (nh-video-item nh-reveal) with the Video widget (nh-video) and its
+                 caption (nh-video__cap, Kit «כיתוב»); lazy, privacy mode, our thumbnails: nothing from YouTube before a
+                 click
+  testimonials   purple-700: the white H2, then nh-quote nh-quote--band (max 860px, centred; the theme draws the «”»
+                 in its own row): H3, the excerpt (Kit «ציטוט»), «קרא עוד» white
+  snoezelen      as v4; the Short in a phone (nh-phone-frame on the Video widget, 9:16, 300px)
+  special-needs  sky-50, an 860px column: H2, one Nested Accordion item «להמשך קריאה» (nh-more, collapsed, duration
+                 0) holding the WHOLE live text in order (the questions in the framed box nh-framed, the lead, the
+                 rest), the plain twin outside it
+  contact        green-50, _element_id contact (the target of «צור קשר»): H2, the live subline, the phone button
+                 (nh-btn-phone, purple) and WhatsApp (nh-btn-whatsapp, green-700, fab fa-whatsapp, https://wa.me/…)
+nh-reveal (spec 10 §3) is on every section's inner column, the cards, the pro cells, the years, the pro text, the video
+items and the life text; a block holding other nh-reveal blocks stays put (the theme moves its children).
 
 Tokens, resolved on deploy (scripts/test_site.py v4):
   @media:<name>    in a media control's id: the attachment (id, url, alt) of templates/v4/media.json's <name>;
@@ -41,23 +72,32 @@ Tokens, resolved on deploy (scripts/test_site.py v4):
 built_from.inputs_sha256 is the sha256 of the inputs and of this script: `test_site.py v4` refuses files built
 from other inputs.
 
-Where the data goes beyond the letter of the spec (each for one of its own rules):
+Where the data goes beyond the letter of the specs (each for one of their own rules):
   - the Kit's accent (UI, buttons) has line height 1.5 and «טקסט קטן» 1.5: a button with padding .75rem is then
-    ≈49.5px high (§1 min-height 48px; Elementor's Button has no min-height control);
+    ≈49.5px high (09 §1 min-height 48px; Elementor's Button has no min-height control);
+  - the Kit gets six more fonts for the sizes of spec 10 (so they stay global): «כותרת באנר» (the hero's H1,
+    clamp(2.25rem, 1.5rem + 3vw, 4rem)), «מספר גדול» (the years), «ציטוט» (the excerpt, 1.375rem/1.6), «כיתוב» (the
+    video captions, 1.125rem), «כותרת קטנה» and «טקסט זעיר» (the contacts block at half size: 1rem, .9375rem);
   - the accordion's title tag is span, not div: Elementor prints the title inside a <span>, where a div is invalid;
-  - the header's menu row is a full-width container whose padding keeps the 1200px column (a boxed container is
-    always 100% wide, and on ≤1024px that row is only the menu toggle beside the logo row); the actions container is
-    as wide as its buttons; the logo is 48px high on tablets and 40px on phones, so the one row of §4.0 (logo, «בשפה
-    פשוטה», phone, menu) fits a 360px phone;
+  - the header is v4's (two rows on desktops, one on tablets and phones), now in the 1320px column, so its logo
+    stands over the hero's H1: the theme makes it float and turns it transparent at the top (spec 10 §2), so the data
+    hold the solid state (white, ink and purple), which is also what a visitor without scripts gets; the logo's white
+    badge is the theme's;
+  - «צור קשר» in the header links to #contact, as in the hero (the menu item keeps /צור-קשר/);
   - card 4's subline is an empty Text Editor («leave empty»): nothing is printed, the client can fill it;
-  - the contacts band (with its section classes and id) is the saved template's own top container; the home holds
-    it in a plain container (nh-slot) with the Template widget.
+  - the WhatsApp button has no hover colour of its own (no Kit colour fits): the theme darkens it;
+  - the footer's line is white at 20% (no Kit colour: a hairline on night);
+  - the contacts template's root (night, no padding, nh-contacts, _element_id contacts) is no page section (no nh-sec):
+    it lives in the footer, under the footer's own classes.
 
 check: only known widget types; Elementor's element shape; every block of home.json used exactly once (its full
 text and, if set, its plain twin, each with the text verbatim); every @media name in media.json; every
-@page/@page-id key one of ours; headings h1 → h2 → h3 without gaps in each document (normal and plain mode; the
-contacts template at its place in the home); unique ids; no motion or animation settings (the accordion's
-duration is 0); no external URL but youtube.com and the live Facebook page; every widget styled through the Kit.
+@page/@page-id key one of ours; headings h1 → h2 → h3 without gaps in each document and on the page as a whole
+(header, home, the footer with the contacts template expanded; normal and plain mode); unique ids; no motion or
+animation settings (the accordion's duration is 0); no external URL but youtube.com, the live Facebook page and the
+WhatsApp link; every widget styled through the Kit; the sections of spec 10 §1 in order with their ids, classes and
+widths; the hero's photo, focus and content; every in-page link (#…) has its target on the page; the contacts template
+only in the footer, before the bottom row; nh-reveal where spec 10 §3 puts it; the phone frame.
 """
 import argparse
 import hashlib
@@ -77,21 +117,30 @@ DOC_KEYS = ("home", "header-v4", "footer-v4", "contacts")
 PAGE_KEYS = ("home", "main-home") + DOC_KEYS[1:]      # what @page-id:/@page: may name (main-home: the house page)
 LINKABLE = ("home", "main-home")                       # @page: (permalinks) only for pages
 
+# the sections of the home page, top to bottom (spec 10 §1; the header floats over the hero)
+SECTIONS = ("hero", "specialties", "life", "pro", "videos", "testimonials", "snoezelen", "special-needs", "contact")
+REVEAL_SKIP = ("hero",)                                # the first screen: nothing on it waits (spec 10 §3)
+
 PLAIN_TITLE = "שפה פשוטה — טיוטה"                      # the Navigator label of a plain twin (§4, §6)
 FACEBOOK = "https://www.facebook.com/neveirus/"
 YOUTUBE = "https://www.youtube.com/watch?v="
+WHATSAPP = "https://wa.me/97289403047"                 # spec 10 §1.10: the main number until the home confirms one
 PHONE_TEL = "tel:089403047"
 PHONE_LABEL = "התקשרו: 08-9403047"                     # aria-label of the icon-only phone button (§4.0)
+CONTACT_ANCHOR = "#contact"                            # the contact band (spec 10 §1.1, §1.10)
+IN_PAGE_OK = ("#plain",)                               # the plain-language toggle's link (the theme makes it a button)
 
-# ---- design tokens (§1) and the Kit (§2) -------------------------------------------------------------------------------
+# ---- design tokens (09 §1, 10 §0) and the Kit (09 §2) ---------------------------------------------------------------------
 # system colours keep Elementor's ids; custom ids are stable 7-hex hashes of the token
 SYSTEM_COLORS = (("primary", "purple-700", "סגול", "#4A2D84"), ("secondary", "sky-500", "תכלת", "#5BBDEB"),
                  ("text", "ink", "טקסט", "#1F2421"), ("accent", "green-500", "ירוק", "#8CC05C"))
 CUSTOM_COLORS = (("purple-800", "סגול כהה", "#3A2269"), ("purple-50", "רקע סגול", "#F3F0F9"),
                  ("sky-50", "רקע תכלת", "#EAF6FC"), ("green-50", "רקע ירוק", "#EFF6E8"),
-                 ("ink-2", "טקסט משני", "#4F5550"), ("line", "קו", "#D9DCE3"), ("white", "לבן", "#FFFFFF"))
+                 ("ink-2", "טקסט משני", "#4F5550"), ("line", "קו", "#D9DCE3"), ("white", "לבן", "#FFFFFF"),
+                 # v4.1 (spec 10 §0): the footer's night, and the green of WhatsApp (white on it 6.4:1)
+                 ("night", "לילה", "#1C1830"), ("green-700", "ירוק כהה", "#2F6B2A"))
 FONT = "Assistant"
-# (id or token, title, weight, size, size on phones, line height in em). Spec §1/§2. Two additions, both for the
+# (id or token, title, weight, size, size on phones, line height in em). Spec 09 §1/§2. Two additions, both for the
 # rules of §1: the accent (UI and buttons) gets line height 1.5, so a button with padding .75rem is 1.0625rem × 1.5
 # + 1.5rem ≈ 49.5px high (min-height 48px: Elementor's button has no min-height control); small text gets 1.5.
 SYSTEM_TYPOGRAPHY = (("primary", "כותרות", 700, None, None, None),
@@ -101,15 +150,25 @@ SYSTEM_TYPOGRAPHY = (("primary", "כותרות", 700, None, None, None),
 CUSTOM_TYPOGRAPHY = (("h1", "כותרת H1", 700, "clamp(2rem, 1.4rem + 2.4vw, 3.25rem)", None, 1.15),
                      ("h2", "כותרת H2", 700, "clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem)", None, 1.2),
                      ("h3", "כותרת H3", 700, "1.375rem", "1.25rem", 1.3),
-                     ("small", "טקסט קטן", 400, "1rem", None, 1.5))
+                     ("small", "טקסט קטן", 400, "1rem", None, 1.5),
+                     # v4.1 (spec 10 §1.1, §1.5, §1.6, §1.7, §1.11)
+                     ("display", "כותרת באנר", 700, "clamp(2.25rem, 1.5rem + 3vw, 4rem)", None, 1.1),
+                     ("number", "מספר גדול", 700, "clamp(3rem, 2rem + 4vw, 5.5rem)", None, 1),
+                     ("quote", "ציטוט", 400, "1.375rem", None, 1.6),
+                     ("caption", "כיתוב", 400, "1.125rem", None, 1.5),
+                     ("heading-small", "כותרת קטנה", 700, "1rem", None, 1.3),
+                     ("text-tiny", "טקסט זעיר", 400, "0.9375rem", None, 1.55))
 
-CONTENT_WIDTH = 1200                                   # boxed_width
-GUTTER = {"": "40px", "_tablet": "32px", "_mobile": "20px"}
+CONTENT_WIDTH = 1320                                   # the content column (spec 10 §0)
+BPS = ("", "_tablet", "_mobile")                       # desktop, ≤1024, ≤767 (Elementor's breakpoints)
+GUTTER = {"": 40, "_tablet": 32, "_mobile": 20}        # px, phones/tablets/desktops (spec 10 §0)
 SECTION_PAD = {"": "5rem", "_tablet": "5rem", "_mobile": "3.5rem"}
+HERO_BOTTOM = {"": "12vh", "_tablet": "12vh", "_mobile": "9vh"}   # the theme refines them to svh (spec 10 §1.1)
 GRID_GAP = 24
+HEADER_WIDTH = CONTENT_WIDTH                           # the header keeps to the same column (its logo over the H1)
 
-ALLOWED_WIDGETS = {"heading", "text-editor", "image", "button", "video", "icon", "nested-accordion",   # Elementor
-                   "nav-menu", "template"}                                                           # Pro
+ALLOWED_WIDGETS = {"heading", "text-editor", "image", "button", "video", "icon", "icon-box",    # Elementor
+                   "nested-accordion", "nav-menu", "template"}                                  # Elementor / Pro
 HEX7 = re.compile(r"^[0-9a-f]{7}$")
 TOKEN_IN_TEXT = re.compile(r"@(media|page|page-id|home):([^\s\"'<>]*)")
 URL_IN_TEXT = re.compile(r"(?:https?:)?//[^\s\"'<>)]+", re.I)
@@ -156,7 +215,8 @@ def size(value):
 
 
 def dims(top, right=None, bottom=None, left=None):
-    """Dimensions (padding, margin, border width, radius). All numbers → px; any string → unit custom, as is."""
+    """Dimensions (padding, margin, border width, radius). All numbers → px; otherwise unit custom, every side as CSS
+    (a number n becomes «npx», 0 stays «0»)."""
     right = top if right is None else right
     bottom = top if bottom is None else bottom
     left = right if left is None else left
@@ -165,8 +225,8 @@ def dims(top, right=None, bottom=None, left=None):
     if all(isinstance(v, (int, float)) for v in values):
         return {"unit": "px", "top": str(top), "right": str(right), "bottom": str(bottom), "left": str(left),
                 "isLinked": linked}
-    return {"unit": "custom", "top": str(top), "right": str(right), "bottom": str(bottom), "left": str(left),
-            "isLinked": linked}
+    css = [v if isinstance(v, str) else ("0" if v == 0 else f"{v}px") for v in values]
+    return {"unit": "custom", "top": css[0], "right": css[1], "bottom": css[2], "left": css[3], "isLinked": linked}
 
 
 def gaps(column, row):
@@ -181,8 +241,10 @@ def media(name):
     return {"url": "", "id": f"@media:{name}", "size": "", "alt": "", "source": "library"}
 
 
-def icon(name):
-    return {"value": f"fas fa-{name}", "library": "fa-solid"}
+def icon(name, library="fa-solid"):
+    """Font Awesome by name: fa-solid «fas fa-…», fa-brands «fab fa-…» (printed as inline SVG on the site)."""
+    prefix = {"fa-solid": "fas", "fa-brands": "fab", "fa-regular": "far"}[library]
+    return {"value": f"{prefix} fa-{name}", "library": library}
 
 
 def join(*classes):
@@ -203,10 +265,6 @@ def styled(settings, globals_=None, **colors):
     return out
 
 
-def section_padding(top_bottom=SECTION_PAD, sides=GUTTER):
-    return {f"padding{bp}": dims(top_bottom[bp], sides[bp], top_bottom[bp], sides[bp]) for bp in ("", "_tablet", "_mobile")}
-
-
 def flex(direction="column", gap_row=0, gap_column=0, wrap="nowrap", **extra):
     """A flex container's layout. Column containers never wrap (Elementor's mobile default for a column is wrap)."""
     out = {"container_type": "flex", "flex_direction": direction, "flex_gap": gaps(gap_column, gap_row)}
@@ -216,15 +274,30 @@ def flex(direction="column", gap_row=0, gap_column=0, wrap="nowrap", **extra):
     return out
 
 
+def grid(columns, columns_tablet, columns_mobile, gap_column=GRID_GAP, gap_row=GRID_GAP, **extra):
+    """A grid container: a number of equal columns, or a template («2fr 3fr») per breakpoint."""
+    def cols(v):
+        return {"unit": "fr", "size": v, "sizes": []} if isinstance(v, int) else size(v)
+    return {"container_type": "grid", "grid_columns_grid": cols(columns), "grid_columns_grid_tablet": cols(columns_tablet),
+            "grid_columns_grid_mobile": cols(columns_mobile), "grid_rows_grid": size("auto"),
+            "grid_gaps": gaps(gap_column, gap_row), "padding": ZERO, **extra}
+
+
+def per_bp(key, make):
+    """{key: make(""), key_tablet: make("_tablet"), key_mobile: make("_mobile")}."""
+    return {f"{key}{bp}": make(bp) for bp in BPS}
+
+
 ZERO = dims(0)
 
 
 # ---- the builder ----------------------------------------------------------------------------------------------------------
 class Builder:
-    def __init__(self, content, media_names):
+    def __init__(self, content, media_list):
         self.content = content
         self.blocks = content["blocks"]
-        self.media_names = set(media_names)
+        self.media = media_list
+        self.media_names = set(media_list)
         self.uses = []             # (block, mode, doc, element id, field)
         self.doc = None
 
@@ -242,14 +315,20 @@ class Builder:
         return {"id": self.eid(path), "elType": "widget", "settings": settings, "elements": children or [],
                 "widgetType": wtype}
 
-    def section(self, name, title, bg, children, classes="", gap_row=32):
-        """A top-level section container (§4): boxed 1200px, side gutters and vertical padding of §1, flex column."""
-        s = {"content_width": "boxed", "boxed_width": size(CONTENT_WIDTH),
-             **flex("column", gap_row), "flex_gap_mobile": gaps(0, 24), **section_padding(),
+    def section(self, name, title, bg, children, inner=None, gap=32, gap_mobile=24, inner_title="תוכן"):
+        """A top-level section (spec 10 §1): full width, its Kit background, 5rem (phones 3.5rem) above and below; inside
+        it one boxed container, the 1320px column with the gutters, marked nh-reveal (§3), holding the children."""
+        inner_s = {"content_width": "boxed", "boxed_width": size(CONTENT_WIDTH),
+                   **flex("column", gap, gap), "flex_gap_mobile": gaps(gap_mobile, gap_mobile),
+                   **per_bp("padding", lambda bp: dims(0, GUTTER[bp], 0, GUTTER[bp])),
+                   "css_classes": "nh-sec__inner nh-reveal"}
+        inner_s.update(inner or {})
+        box = self.container(f"{name}/inner", inner_s, children, title=inner_title)
+        s = {**flex("column", 0, 0),
+             **per_bp("padding", lambda bp: dims(SECTION_PAD[bp], 0, SECTION_PAD[bp], 0)),
              "background_background": "classic",
-             "css_classes": join("nh-sec", f"nh-sec--{name}", classes), "_element_id": name}
-        s = styled(s, background_color=bg)
-        return self.container(name, s, children, inner=False, title=title)
+             "css_classes": join("nh-sec", f"nh-sec--{name}"), "_element_id": name}
+        return self.container(name, styled(s, background_color=bg), [box], inner=False, title=title)
 
     # -- blocks of content/v4/home.json
     def text(self, block, mode):
@@ -320,17 +399,20 @@ class Builder:
         return self.twins(block, path, lambda t, p, cls: self.heading(t, p, tag, typo, color, cls, **kw), classes)
 
     def button(self, block, path, url, style, icon_name=None, classes="", aria_label=None, hide=(), text=None,
-               compact=False):
-        """Buttons of §1: radius 8px, padding .75rem 1.5rem, the accent font (600, 1.0625rem, line height 1.5).
-        style: primary (purple, white text), light (white, purple text: on the purple hero), outline (white with a
-        2px purple border), outline-light (transparent with a 2px white border, white text: on the purple hero),
-        text (no fill, purple text), soft (purple-50 fill, purple icon: the phone icon on tablets and phones)."""
+               compact=False, icon_value=None, padding=None, radius=8, align=None):
+        """Buttons of 09 §1: radius 8px, padding .75rem 1.5rem, the accent font (600, 1.0625rem, line height 1.5).
+        style: primary (purple, white text), light (white, purple text: on the hero and the purple band), outline
+        (white with a 2px purple border), outline-light (transparent with a 2px white border, white text: on the
+        photo), text (no fill, purple text), soft (purple-50 fill, purple icon: the phone icon on tablets and phones),
+        whatsapp (green-700, white text; its hover is the theme's: no Kit colour fits)."""
         label = self.text(block, "full") if block else (text or "")
         s = {"text": label, "link": link(url, f"aria-label|{aria_label}" if aria_label else ""),
              "background_background": "classic", "button_background_hover_background": "classic",
-             "border_radius": dims(8), "text_padding": dims(".75rem", "1.5rem")}
-        if icon_name:
-            s.update(selected_icon=icon(icon_name), icon_align="row", icon_indent=size(8))
+             "border_radius": dims(radius), "text_padding": padding or dims(".75rem", "1.5rem")}
+        if icon_name or icon_value:
+            s.update(selected_icon=icon_value or icon(icon_name), icon_align="row", icon_indent=size(8))
+        if align:
+            s["align"] = align
         if classes:
             s["_css_classes"] = classes
         for bp in hide:
@@ -349,11 +431,12 @@ class Builder:
                          button_background_hover_color="purple-50", hover_color="purple-800"),
             "soft": dict(background_color="purple-50", button_text_color="purple-700",
                          button_background_hover_color="purple-800", hover_color="white"),
+            "whatsapp": dict(background_color="green-700", button_text_color="white", hover_color="white"),
         }[style]
         if style in ("outline", "outline-light"):
             s.update(border_border="solid", border_width=dims(2))
         if style == "outline-light":
-            s["background_color"] = "rgba(255, 255, 255, 0)"     # transparent: the purple half shows through
+            s["background_color"] = "rgba(255, 255, 255, 0)"     # transparent: the photo shows through
         if style == "text":
             s["text_padding"] = dims(".75rem", ".5rem")
         if style == "soft":
@@ -378,7 +461,7 @@ class Builder:
         return self.widget(path, "image", s)
 
     def video(self, path, video_id, ratio="169", **extra):
-        """A YouTube video that loads nothing from YouTube until a click (§4.3): lazy, privacy mode, our own copy of
+        """A YouTube video that loads nothing from YouTube until a click (09 §4.3): lazy, privacy mode, our own copy of
         its thumbnail as the overlay, the play icon, no lightbox."""
         name = f"video-{video_id}"
         if name not in self.media_names:
@@ -388,7 +471,43 @@ class Builder:
              "show_play_icon": "yes", "lightbox": "", "aspect_ratio": ratio, **extra}
         return self.widget(path, "video", s)
 
-    # ---- §4.0 header ----------------------------------------------------------------------------------------------------
+    def icon_widget(self, path, value, classes, px, padding_px, primary, secondary, align="start", title=None):
+        """Elementor's Icon: a stacked circle (primary = the circle, secondary = the glyph), px + 2 × padding wide; no
+        link, so it is decorative (its SVG is aria-hidden)."""
+        s = {"selected_icon": value, "view": "stacked", "shape": "circle", "align": align, "size": size(px),
+             "icon_padding": size(padding_px)}
+        if classes:
+            s["_css_classes"] = classes
+        if title:
+            s["_title"] = title
+        return self.widget(path, "icon", styled(s, primary_color=primary, secondary_color=secondary))
+
+    def icon_box(self, text, path, value, classes):
+        """Elementor's Icon Box (spec 10 §1.5): the icon in a purple-50 circle (2rem glyph, 4.5rem circle) above the
+        label as H3 («כותרת H3», ink), centred, no description, no link."""
+        s = {"selected_icon": value, "view": "stacked", "shape": "circle", "title_text": html.escape(text, quote=False),
+             "description_text": "", "title_size": "h3", "position": "block-start", "text_align": "center",
+             "icon_space": size(16), "icon_size": size("2rem"), "icon_padding": size("1.25rem")}
+        if classes:
+            s["_css_classes"] = classes
+        return self.widget(path, "icon-box", styled(s, {"title_typography_typography": "h3"}, primary_color="purple-50",
+                                                     secondary_color="purple-700", title_color="ink"))
+
+    def focus_classes(self, name):
+        """media.json's "focus" ("x% y%", the photo's object-position) → the theme's classes nh-fx-<x> nh-fy-<y> (steps
+        of 5: v4.css reads them, and the zoom grows from the same point)."""
+        focus = (self.media.get(name) or {}).get("focus")
+        if not focus:
+            return ""
+        m = re.fullmatch(r"\s*(\d+(?:\.\d+)?)%\s+(\d+(?:\.\d+)?)%\s*", str(focus))
+        if not m:
+            die(f"templates/v4/media.json: {name}: focus {focus!r} is not «x% y%»")
+        x, y = (int(5 * round(float(v) / 5)) for v in m.groups())
+        if not (0 <= x <= 100 and 0 <= y <= 100):
+            die(f"templates/v4/media.json: {name}: focus {focus!r} is outside 0–100%")
+        return f"nh-fx-{x} nh-fy-{y}"
+
+    # ---- header (09 §4.0, 10 §2) -------------------------------------------------------------------------------------
     def header(self):
         self.doc = "header-v4"
         logo = self.image("header/top/logo", "logo", size_name="full", url="@page:home",
@@ -406,11 +525,11 @@ class Builder:
                         hide=("tablet", "mobile")),
             self.button(None, "header/top/actions/phone-icon", PHONE_TEL, "soft", icon_name="phone-alt",
                         aria_label=PHONE_LABEL, hide=("desktop",)),
-            self.button("header.contact", "header/top/actions/contact", "@home:/צור-קשר/", "primary",
+            self.button("header.contact", "header/top/actions/contact", CONTACT_ANCHOR, "primary",
                         hide=("tablet", "mobile")),
         ], title="כפתורים")
         top = self.container("header/top", {
-            "content_width": "boxed", "boxed_width": size(CONTENT_WIDTH),
+            "content_width": "boxed", "boxed_width": size(HEADER_WIDTH),
             **flex("row", 16, 16, wrap="nowrap", flex_justify_content="space-between", flex_align_items="center",
                    flex_wrap_mobile="wrap", flex_gap_mobile=gaps(6, 6)),
             "min_height": size(84), "min_height_tablet": size(72), "min_height_mobile": size(64),
@@ -430,15 +549,15 @@ class Builder:
             color_dropdown_item_hover="purple-800", background_color_dropdown_item_hover="purple-50",
             color_dropdown_item_active="purple-700", background_color_dropdown_item_active="purple-50",
             toggle_color="purple-700", toggle_background_color="purple-50"))
-        # Full width with the 1200px column as padding: a boxed container is always 100% wide, and on ≤1024px this
+        # Full width with the 1320px column as padding: a boxed container is always 100% wide, and on ≤1024px this
         # row is only the menu toggle beside the first row (width auto)
-        column = f"max({GUTTER['']}, calc((100% - {CONTENT_WIDTH}px) / 2))"
+        column = f"max({GUTTER['']}px, calc((100% - {HEADER_WIDTH}px) / 2))"
         nav = self.container("header/nav", {
             **flex("row", 0, 0, wrap="nowrap", flex_align_items="center"),
             # Elementor resets a container's width to 100% on phones unless the phone value is set too
             "width_tablet": size("auto"), "width_mobile": size("auto"),
-            "padding": dims("0px", column), "padding_tablet": dims("0px", "0px", "0px", GUTTER["_tablet"]),
-            "padding_mobile": dims("0px", "0px", "0px", GUTTER["_mobile"]),
+            "padding": dims("0px", column), "padding_tablet": dims("0px", "0px", "0px", f"{GUTTER['_tablet']}px"),
+            "padding_mobile": dims("0px", "0px", "0px", f"{GUTTER['_mobile']}px"),
             **styled({"border_border": "solid", "border_width": dims(1, 0, 0, 0), "border_width_tablet": dims(0)},
                      border_color="line"),
             "_flex_size_tablet": "none", "css_classes": "nh-header__nav"}, [nav_widget], title="תפריט")
@@ -450,229 +569,291 @@ class Builder:
             title="כותרת עליונה v4")
         return [root]
 
-    # ---- §4.1 hero ------------------------------------------------------------------------------------------------------
+    # ---- 1 hero (10 §1.1) ------------------------------------------------------------------------------------------------
     def hero(self):
         sub_font = {"typography_typography": "custom", "typography_font_family": FONT,
                     "typography_font_size": size("1.375rem"), "typography_font_weight": "600",
                     "typography_line_height": {"unit": "em", "size": 1.4, "sizes": []}}
-        buttons = self.container("hero/text/buttons", {
+        photo = self.image("hero/photo", "hero-wide", join("nh-hero__img", self.focus_classes("hero-wide")),
+                           size_name="full", _title="תמונה")
+        buttons = self.container("hero/content/buttons", {
             **flex("row", 12, 12, wrap="wrap", flex_align_items="center"), "padding": dims(8, 0, 0, 0)}, [
-            self.button("hero.cta_contact", "hero/text/buttons/contact", "@home:/צור-קשר/", "light"),
-            self.button("hero.cta_phone", "hero/text/buttons/phone", PHONE_TEL, "outline-light", icon_name="phone-alt"),
+            self.button("hero.cta_contact", "hero/content/buttons/contact", CONTACT_ANCHOR, "light"),
+            self.button("hero.cta_phone", "hero/content/buttons/phone", PHONE_TEL, "outline-light",
+                        icon_name="phone-alt"),
         ], title="כפתורים")
-        text = self.container("hero/text", styled({
-            **flex("column", 16, 0, flex_justify_content="center"), "width": size("50%"), "width_mobile": size("100%"),
-            "padding": dims("4rem", "3rem"), "padding_mobile": dims("2.5rem", "1.25rem"),
-            "background_background": "classic", "css_classes": "nh-hero__text"}, background_color="purple-700"),
-            self.heading_block("hero.title", "hero/text/title", "h1", "h1", "white")
-            + self.heading_block("hero.sub", "hero/text/sub", "p", None, "white", typography=sub_font)
+        content = self.container("hero/content", {
+            "content_width": "boxed", "boxed_width": size(CONTENT_WIDTH), **flex("column", 16, 16),
+            **per_bp("padding", lambda bp: dims(0, GUTTER[bp], HERO_BOTTOM[bp], GUTTER[bp])),
+            "css_classes": "nh-hero__content"},
+            self.heading_block("hero.title", "hero/content/title", "h1", "display", "white")
+            + self.heading_block("hero.sub", "hero/content/sub", "p", None, "white", typography=sub_font)
             + [buttons], title="טקסט")
-        photo = self.container("hero/media", {
-            **flex("column", 0, 0), "width": size("50%"), "width_mobile": size("100%"), "padding": ZERO,
-            "css_classes": "nh-hero__media"},
-            [self.image("hero/media/photo", "hero", "nh-cover-img", size_name="full")], title="תמונה")
-        s = {**flex("row", 0, 0, wrap="nowrap", flex_direction_mobile="column-reverse",
-                    flex_align_items="stretch"),
-             "min_height": size(480), "padding": ZERO,
+        s = {**flex("column", 0, 0, flex_justify_content="flex-end"), "min_height": size("100vh"),
+             "overflow": "hidden", "padding": ZERO, "background_background": "classic",
              "css_classes": "nh-sec nh-sec--hero nh-hero", "_element_id": "hero"}
-        return self.container("hero", s, [text, photo], inner=False, title="באנר")
+        return self.container("hero", styled(s, background_color="night"), [photo, content], inner=False, title="באנר")
 
-    # ---- §4.2 specialties -------------------------------------------------------------------------------------------------
+    # ---- 3 specialties (10 §1.3) -------------------------------------------------------------------------------------------
     CARDS = ((1, "@page:main-home"), (2, "@home:/מערך-דיור-בקהילה/"), (3, "@home:/מערך-דיור-בקהילה-אוטיזם/"),
              (4, "@home:/חדשות-ועדכונים/"))
 
     def specialties(self):
         cards = []
         for n, url in self.CARDS:
-            p = f"specialties/grid/card-{n}"
+            p = f"specialties/inner/grid/card-{n}"
             body = self.container(f"{p}/body", {
-                **flex("column", 8, 0), "padding": dims("1.25rem", "1.5rem", "1.5rem", "1.5rem"),
+                **flex("column", 8, 8), "padding": dims("1.25rem", "1.5rem", "1.5rem", "1.5rem"),
                 "_flex_size": "grow", "css_classes": "nh-card__body"},
                 self.heading_block(f"card{n}.title", f"{p}/body/title", "h3", "h3", "ink", "nh-card__title", url=url)
                 + self.text_editor_block(f"card{n}.sub", f"{p}/body/sub", "nh-card__sub", typo="small", color="ink-2")
-                + [self.editor('<p><span aria-hidden="true">למידע נוסף ←</span></p>', f"{p}/body/more",
-                               "nh-card__more", typo="accent", color="purple-700")])
+                + [self.icon_widget(f"{p}/body/arrow", icon("arrow-left"), "nh-card__arrow", 18, 11, "purple-700",
+                                    "white", align="end", title="חץ (קישוט)")])
             card = self.container(p, styled({
                 **flex("column", 0, 0), "padding": ZERO, "overflow": "hidden",
                 "background_background": "classic", "border_border": "solid", "border_width": dims(1),
-                "border_radius": dims(12), "css_classes": "nh-card"}, background_color="white", border_color="line"),
+                "border_radius": dims(16), "css_classes": "nh-card nh-reveal"}, background_color="white",
+                border_color="line"),
                 [self.image(f"{p}/photo", f"card-{n}", "nh-card__img nh-ratio-4x3", url=url,
                             link_attributes="tabindex|-1,aria-hidden|true"), body], title=f"כרטיס {n}")
             cards.append(card)
-        grid = self.container("specialties/grid", {
-            "container_type": "grid", "grid_columns_grid": {"unit": "fr", "size": 4, "sizes": []},
-            "grid_columns_grid_tablet": {"unit": "fr", "size": 2, "sizes": []},
-            "grid_columns_grid_mobile": {"unit": "fr", "size": 1, "sizes": []},
-            "grid_rows_grid": size("auto"), "grid_gaps": gaps(GRID_GAP, GRID_GAP), "padding": ZERO}, cards,
-            title="כרטיסים")
+        cards_grid = self.container("specialties/inner/grid", grid(4, 2, 1), cards, title="כרטיסים")
         return self.section("specialties", "תחומי התמחות", "white",
-                            self.heading_block("specialties.title", "specialties/title", "h2", "h2", "purple-700",
-                                               align="center") + [grid])
+                            self.heading_block("specialties.title", "specialties/inner/title", "h2", "h2", "purple-700",
+                                               align="center") + [cards_grid])
 
-    # ---- §4.3 about -------------------------------------------------------------------------------------------------------
-    def about(self):
-        text = self.container("about/grid/text", {**flex("column", 16, 0), "padding": ZERO},
-                              self.heading_block("about.title", "about/grid/text/title", "h2", "h2", "purple-700")
-                              + self.text_editor_block("about.body", "about/grid/text/body"), title="טקסט")
-        videos = []
-        for n, vid in ((1, "kLAGTCOIWQE"), (2, "JQXm_Dku7tI")):
-            p = f"about/grid/videos/video-{n}"
-            videos.append(self.container(p, {**flex("column", 8, 0), "padding": ZERO},
-                                         [self.video(f"{p}/video", vid)]
-                                         + self.text_editor_block(f"about.video{n}.caption", f"{p}/caption",
-                                                                  "nh-video__cap", typo="small", color="ink-2"),
-                                         title=f"סרטון {n}"))
-        video_col = self.container("about/grid/videos", {**flex("column", 24, 0), "padding": ZERO}, videos,
-                                   title="סרטונים")
-        grid = self.container("about/grid", {
-            "container_type": "grid", "grid_columns_grid": size("5fr 6fr"),
-            "grid_columns_grid_tablet": {"unit": "fr", "size": 1, "sizes": []},
-            "grid_columns_grid_mobile": {"unit": "fr", "size": 1, "sizes": []},
-            "grid_rows_grid": size("auto"), "grid_gaps": gaps(GRID_GAP, GRID_GAP), "padding": ZERO},
-            [text, video_col], title="טקסט וסרטונים")
-        return self.section("about", "קצת עלינו", "sky-50", [grid])
+    # ---- 4 life (10 §1.4) ----------------------------------------------------------------------------------------------------
+    def life(self):
+        """Two halves, no inner column: the photo edge to edge on its side (the inline start, first on phones), the text
+        on the other, keeping to the 1320px column's edge (padding % is of the section's width)."""
+        photo = self.container("life/media", {
+            **flex("column", 0, 0, flex_justify_content="center"), "width": size("50%"), "width_mobile": size("100%"),
+            "padding": ZERO, "css_classes": "nh-life__media"},
+            [self.image("life/media/photo", "life", "nh-life__img nh-ratio-16x9", size_name="full", _title="תמונה")],
+            title="תמונה")
+        outer = f"max({GUTTER['']}px, calc((100% - {CONTENT_WIDTH}px) / 2))"
+        text = self.container("life/text", {
+            **flex("column", 16, 16, flex_justify_content="center"), "width": size("50%"), "width_mobile": size("100%"),
+            # RTL: the right side faces the photo, the left side the screen's edge
+            "padding": dims("4rem", "4rem", "4rem", outer),
+            "padding_tablet": dims("3rem", "2.5rem", "3rem", f"{GUTTER['_tablet']}px"),
+            "padding_mobile": dims("2.5rem", f"{GUTTER['_mobile']}px", SECTION_PAD["_mobile"], f"{GUTTER['_mobile']}px"),
+            "css_classes": "nh-life__text nh-reveal"},
+            self.heading_block("life.title", "life/text/title", "h2", "h2", "purple-700")
+            + self.text_editor_block("life.body", "life/text/body"), title="טקסט")
+        s = {**flex("row", 0, 0, wrap="nowrap", flex_direction_mobile="column", flex_align_items="center",
+                    flex_align_items_mobile="stretch"),
+             "padding": ZERO, "background_background": "classic",
+             "css_classes": "nh-sec nh-sec--life", "_element_id": "life"}
+        return self.container("life", styled(s, background_color="sky-50"), [photo, text], inner=False,
+                              title="החיים בנווה האירוס")
 
-    # ---- §4.4 testimonials ------------------------------------------------------------------------------------------------
+    # ---- 5 pro (10 §1.5) -----------------------------------------------------------------------------------------------------
+    PRO_ITEMS = (("pro.item1", "award"), ("pro.item2", "clipboard-list"), ("pro.item3", "hands-helping"),
+                 ("pro.item4", "users"))
+
+    def pro(self):
+        cells = []
+        for n, (block, icon_name) in enumerate(self.PRO_ITEMS, 1):
+            p = f"pro/inner/items/item-{n}"
+            cells.append(self.container(p, {
+                **flex("column", 0, 0), "padding": ZERO, "css_classes": "nh-pro__cell nh-reveal"},
+                self.twins(block, f"{p}/box", lambda t, pp, cls, v=icon(icon_name): self.icon_box(t, pp, v, cls),
+                           "nh-pro__item"), title=self.text(block, "full")))
+        items = self.container("pro/inner/items", grid(4, 2, 1, gap_column=24, gap_row=32), cells, title="ארבעה דברים")
+        years = []
+        for n in (1, 2):
+            p = f"pro/inner/row/years/year-{n}"
+            years.append(self.container(p, {
+                **flex("column", 4, 4), "padding": ZERO, "css_classes": "nh-year nh-reveal"},
+                self.heading_block(f"pro.year{n}.num", f"{p}/num", "p", "number", "purple-700", "nh-year__num")
+                + self.text_editor_block(f"pro.year{n}.label", f"{p}/label", "nh-year__label"),
+                title=self.text(f"pro.year{n}.num", "full")))
+        years_col = self.container("pro/inner/row/years", {
+            **flex("column", 24, 24), "padding": ZERO, "css_classes": "nh-pro__years"}, years, title="שנים")
+        text_col = self.container("pro/inner/row/text", {
+            **flex("column", 16, 16), "padding": ZERO, "css_classes": "nh-pro__text nh-reveal"},
+            self.text_editor_block("pro.body", "pro/inner/row/text/body"), title="טקסט")
+        row = self.container("pro/inner/row", grid("2fr 3fr", "2fr 3fr", 1, gap_column=48, gap_row=32,
+                                                    padding=dims(24, 0, 0, 0)), [years_col, text_col],
+                             title="שנים וטקסט")
+        return self.section("pro", "מקצועיות, ניסיון ויחס אישי", "white",
+                            self.heading_block("pro.title", "pro/inner/title", "h2", "h2", "purple-700",
+                                               align="center") + [items, row])
+
+    # ---- 6 videos (10 §1.6) --------------------------------------------------------------------------------------------------
+    VIDEOS = ((1, "kLAGTCOIWQE"), (2, "JQXm_Dku7tI"))
+
+    def videos(self):
+        items = []
+        for n, vid in self.VIDEOS:
+            p = f"videos/inner/grid/video-{n}"
+            items.append(self.container(p, {
+                **flex("column", 12, 12), "padding": ZERO, "css_classes": "nh-video-item nh-reveal"},
+                [self.video(f"{p}/video", vid, _css_classes="nh-video")]
+                + self.text_editor_block(f"about.video{n}.caption", f"{p}/caption", "nh-video__cap", typo="caption",
+                                         color="ink-2"), title=f"סרטון {n}"))
+        videos_grid = self.container("videos/inner/grid", grid(2, 2, 1, gap_column=32, gap_row=32), items,
+                                     title="סרטונים")
+        return self.section("videos", "סרטונים", "purple-50",
+                            self.heading_block("videos.title", "videos/inner/title", "h2", "h2", "purple-700",
+                                               "nh-visually-hidden") + [videos_grid])
+
+    # ---- 7 testimonials (10 §1.7) --------------------------------------------------------------------------------------------
     def testimonials(self):
-        quote = self.container("testimonials/quote", styled({
-            **flex("column", 16, 0, flex_align_items="flex-start"), "width": size("min(760px, 100%)"),
-            "padding": dims("2.5rem"), "padding_mobile": dims("1.75rem", "1.25rem"),
-            "background_background": "classic", "border_radius": dims(12), "_flex_align_self": "center",
-            "css_classes": "nh-quote"}, background_color="purple-50"),
-            self.heading_block("testimonials.card_title", "testimonials/quote/title", "h3", "h3", "ink")
-            + self.text_editor_block("testimonials.excerpt", "testimonials/quote/excerpt")
-            + [self.button("testimonials.more", "testimonials/quote/more", "@home:/תודות-והמלצות/", "primary")],
+        white = ("white", "white")
+        quote = self.container("testimonials/inner/quote", {
+            **flex("column", 16, 16, flex_align_items="center"), "width": size("min(860px, 100%)"), "padding": ZERO,
+            "_flex_align_self": "center", "css_classes": "nh-quote nh-quote--band"},
+            self.heading_block("testimonials.card_title", "testimonials/inner/quote/title", "h3", "h3", "white",
+                               align="center")
+            + self.text_editor_block("testimonials.excerpt", "testimonials/inner/quote/excerpt", typo="quote",
+                                     color="white", links=white, align="center")
+            + [self.button("testimonials.more", "testimonials/inner/quote/more", "@home:/תודות-והמלצות/", "light",
+                           align="center")],
             title="המלצה")
-        return self.section("testimonials", "תודות והמלצות", "white",
-                            self.heading_block("testimonials.title", "testimonials/title", "h2", "h2", "purple-700",
-                                               align="center") + [quote])
+        return self.section("testimonials", "תודות והמלצות", "purple-700",
+                            self.heading_block("testimonials.title", "testimonials/inner/title", "h2", "h2", "white",
+                                               align="center") + [quote],
+                            inner={"flex_align_items": "center"})
 
-    # ---- §4.5 special needs -----------------------------------------------------------------------------------------------
+    # ---- 8 snoezelen (10 §1.8) -----------------------------------------------------------------------------------------------
+    def snoezelen(self):
+        plain = self.has_plain("snoezelen.plain_body")
+        p = "snoezelen/inner/grid"
+        text = self.container(f"{p}/text", {**flex("column", 16, 16), "padding": ZERO},
+                              self.heading_block("snoezelen.title", f"{p}/text/title", "h2", "h2", "purple-700")
+                              + self.text_editor_block("snoezelen.intro", f"{p}/text/intro", "nh-full" if plain else "")
+                              + self.text_editor_block("snoezelen.list", f"{p}/text/list",
+                                                       join("nh-checklist", "nh-full" if plain else ""))
+                              + self.text_editor_block("snoezelen.plain_body", f"{p}/text/plain")
+                              + self.text_editor_block("snoezelen.credit", f"{p}/text/credit", "nh-credit",
+                                                       typo="small", color="ink-2"), title="טקסט")
+        video = self.container(f"{p}/video", {**flex("column", 0, 0, flex_align_items="center"), "padding": ZERO},
+                               [self.video(f"{p}/video/short", "Tkbqa08a5Ro", ratio="916",
+                                           _element_width="initial", _element_custom_width=size(300),
+                                           _flex_align_self="center", _css_classes="nh-phone-frame")],
+                               title="סרטון")
+        body = self.container(p, grid("7fr 5fr", "7fr 5fr", 1, gap_column=48, gap_row=32, grid_align_items="center"),
+                              [text, video], title="טקסט וסרטון")
+        return self.section("snoezelen", "חדר סנוזלן", "white", [body])
+
+    # ---- 9 special needs (10 §1.9) -------------------------------------------------------------------------------------------
     def special(self):
-        framed = self.container("special-needs/body/framed", styled({
+        plain = self.has_plain("special.plain_body")
+        p = "special-needs/inner/more"
+        more_title = self.text("special.more_title", "full")
+        framed = self.container(f"{p}/item-1/framed", styled({
             **flex("column", 0, 0), "padding": dims("1.5rem"), "background_background": "classic",
             # the inline start is the right edge in RTL
             "border_border": "solid", "border_width": dims(0, 4, 0, 0), "border_radius": dims(12),
-            "css_classes": join("nh-framed", "nh-full" if self.has_plain("special.plain_body") else "")},
-            background_color="purple-50", border_color="purple-700"),
-            self.text_editor_block("special.framed", "special-needs/body/framed/text"), title="מסגרת")
-        rest = self.container("special-needs/body/more/item-1", {
-            **flex("column", 16, 0), "padding": dims(16, 0, 0, 0), "_title": self.text("special.more_title", "full")},
-            self.text_editor_block("special.rest", "special-needs/body/more/item-1/text"))
-        more_title = self.text("special.more_title", "full")
-        accordion = self.widget("special-needs/body/more", "nested-accordion", styled({
+            "css_classes": "nh-framed"}, background_color="purple-50", border_color="purple-700"),
+            self.text_editor_block("special.framed", f"{p}/item-1/framed/text"), title="שאלות")
+        # the WHOLE live text, in order, inside the one item (it stays in the HTML for search engines)
+        item = self.container(f"{p}/item-1", {**flex("column", 16, 16), "padding": dims(16, 0, 0, 0),
+                                              "_title": more_title},
+                              [framed]
+                              + self.text_editor_block("special.lead", f"{p}/item-1/lead")
+                              + self.text_editor_block("special.rest", f"{p}/item-1/rest"))
+        accordion = self.widget(p, "nested-accordion", styled({
             "items": [{"item_title": more_title, "element_css_id": "",
-                       "_id": hex7(f"{self.doc}/special-needs/body/more/items/0")}],
+                       "_id": hex7(f"{self.doc}/{p}/items/0")}],
             "default_state": "all_collapsed", "max_items_expended": "one",
             "n_accordion_animation_duration": {"unit": "ms", "size": 0, "sizes": []},
             # a span, not the spec's div: Elementor prints the title inside a <span>, where a div is not allowed
             # (the summary is the control either way; no heading)
             "title_tag": "span", "accordion_item_title_icon": icon("plus"),
             "accordion_item_title_icon_active": icon("minus"),
-            "_css_classes": join("nh-more", "nh-full" if self.has_plain("special.plain_body") else "")},
+            "_css_classes": join("nh-more", "nh-full" if plain else "")},
             {"title_typography_typography": "accent"},
             normal_title_color="purple-700", hover_title_color="purple-800", active_title_color="purple-700",
-            normal_icon_color="purple-700", hover_icon_color="purple-800", active_icon_color="purple-700"), [rest])
+            normal_icon_color="purple-700", hover_icon_color="purple-800", active_icon_color="purple-700"), [item])
         self.use("special.more_title", "full", accordion, "items.0.item_title")
-        body = self.container("special-needs/body", {
-            **flex("column", 24, 0), "width": size("min(760px, 100%)"), "padding": ZERO,
-            "_flex_align_self": "flex-start"},
-            self.heading_block("special.title", "special-needs/body/title", "h2", "h2", "purple-700")
-            + [framed]
-            + self.text_editor_block("special.lead", "special-needs/body/lead",
-                                     "nh-full" if self.has_plain("special.plain_body") else "")
-            + [accordion]
-            + self.text_editor_block("special.plain_body", "special-needs/body/plain"), title="תוכן")
-        return self.section("special-needs", "מעון לבעלי צרכים מיוחדים", "white", [body])
+        return self.section("special-needs", "מעון לבעלי צרכים מיוחדים", "sky-50",
+                            self.heading_block("special.title", "special-needs/inner/title", "h2", "h2", "purple-700")
+                            + [accordion]
+                            + self.text_editor_block("special.plain_body", "special-needs/inner/plain"),
+                            inner={"boxed_width": size(860)}, gap=24)
 
-    # ---- §4.7 contacts: the template and its slot in the home -------------------------------------------------------------
+    # ---- 10 contact (10 §1.10) -----------------------------------------------------------------------------------------------
+    def contact(self):
+        big = dims("1rem", "2rem")
+        buttons = self.container("contact/inner/buttons", {
+            **flex("row", 16, 16, wrap="wrap", flex_justify_content="center", flex_align_items="center"),
+            "padding": dims(8, 0, 0, 0)}, [
+            self.button("contact.phone", "contact/inner/buttons/phone", PHONE_TEL, "primary", icon_name="phone-alt",
+                        classes="nh-btn-phone", padding=big, radius=12),
+            self.button("contact.whatsapp", "contact/inner/buttons/whatsapp", WHATSAPP, "whatsapp",
+                        icon_value=icon("whatsapp", "fa-brands"), classes="nh-btn-whatsapp", padding=big, radius=12),
+        ], title="כפתורים")
+        return self.section("contact", "נשמח שתבואו להכיר אותנו", "green-50",
+                            self.heading_block("contact.title", "contact/inner/title", "h2", "h2", "purple-700",
+                                               align="center")
+                            + self.text_editor_block("contact.sub", "contact/inner/sub", align="center")
+                            + [buttons], inner={"flex_align_items": "center"}, gap=16, gap_mobile=16)
+
+    # ---- the contacts block: the shared template, in the footer (09 §4.7, 10 §1.11) ----------------------------------------
     CONTACTS = (("address", "map-marker-alt"), ("phone", "phone-alt"), ("email", "envelope"), ("links", "link"))
 
     def contacts(self):
+        """The footer's first part, at half size (10 §1.11): icons 36px (16 + 2 × 10), titles 1rem, text .9375rem, the
+        gaps halved; 4 columns, 2 on tablets and phones; white on night. The H2 «פרטי קשר» stays visually hidden."""
         self.doc = "contacts"
+        white = ("white", "white")
         columns = []
         for name, icon_name in self.CONTACTS:
             p = f"contacts/grid/{name}"
-            ico = self.widget(f"{p}/icon", "icon", styled({
-                "selected_icon": icon(icon_name), "view": "stacked", "shape": "circle", "align": "start",
-                "size": size(22), "icon_padding": {"unit": "em", "size": 0.7, "sizes": []}},
-                primary_color="purple-700", secondary_color="white"))
-            columns.append(self.container(p, {**flex("column", 12, 0, flex_align_items="flex-start"),
+            columns.append(self.container(p, {**flex("column", 6, 6, flex_align_items="flex-start"),
                                                "padding": ZERO, "css_classes": "nh-contact"},
-                                          [ico]
-                                          + self.heading_block(f"contacts.{name}.title", f"{p}/title", "h3", "h3", "ink")
-                                          + self.text_editor_block(f"contacts.{name}.body", f"{p}/text"),
+                                          [self.icon_widget(f"{p}/icon", icon(icon_name), "", 16, 10, "purple-700",
+                                                            "white")]
+                                          + self.heading_block(f"contacts.{name}.title", f"{p}/title", "h3",
+                                                               "heading-small", "white")
+                                          + self.text_editor_block(f"contacts.{name}.body", f"{p}/text",
+                                                                   typo="text-tiny", color="white", links=white),
                                           title=self.text(f"contacts.{name}.title", "full")))
-        grid = self.container("contacts/grid", {
-            "container_type": "grid", "grid_columns_grid": {"unit": "fr", "size": 4, "sizes": []},
-            "grid_columns_grid_tablet": {"unit": "fr", "size": 2, "sizes": []},
-            "grid_columns_grid_mobile": {"unit": "fr", "size": 1, "sizes": []},
-            "grid_rows_grid": size("auto"), "grid_gaps": gaps(GRID_GAP, 32), "padding": ZERO}, columns,
-            title="עמודות")
-        title = self.heading_block("contacts.title", "contacts/title", "h2", "h2", "purple-700", "nh-visually-hidden")
-        return [self.section("contacts", "צור קשר", "green-50", title + [grid], gap_row=0)]
+        cols = self.container("contacts/grid", grid(4, 2, 2, gap_column=GRID_GAP, gap_row=16), columns, title="עמודות")
+        title = self.heading_block("contacts.title", "contacts/title", "h2", "h2", "white", "nh-visually-hidden")
+        root = self.container("contacts", styled({
+            **flex("column", 0, 0), "padding": ZERO, "background_background": "classic",
+            "css_classes": "nh-contacts", "_element_id": "contacts"}, background_color="night"),
+            title + [cols], inner=False, title="פרטי קשר")
+        return [root]
 
-    def contacts_slot(self):
-        """In the home: a plain full-width container holding Pro's Template widget, which prints the saved template
-        `contacts` (the band itself, with its section classes and id, is the template's top container)."""
-        tpl = self.widget("contacts-slot/template", "template", {"template_id": "@page-id:contacts",
-                                                                   "_title": "צור קשר — תבנית משותפת"})
-        return self.container("contacts-slot", {**flex("column", 0, 0), "padding": ZERO,
-                                                "css_classes": "nh-slot nh-slot--contacts"}, [tpl], inner=False,
-                              title="צור קשר (תבנית)")
-
-    # ---- §4.8 snoezelen ---------------------------------------------------------------------------------------------------
-    def snoezelen(self):
-        text = self.container("snoezelen/grid/text", {**flex("column", 16, 0), "padding": ZERO},
-                              self.heading_block("snoezelen.title", "snoezelen/grid/text/title", "h2", "h2",
-                                                 "purple-700")
-                              + self.text_editor_block("snoezelen.intro", "snoezelen/grid/text/intro",
-                                                       "nh-full" if self.has_plain("snoezelen.plain_body") else "")
-                              + self.text_editor_block("snoezelen.list", "snoezelen/grid/text/list",
-                                                       join("nh-checklist", "nh-full"
-                                                            if self.has_plain("snoezelen.plain_body") else ""))
-                              + self.text_editor_block("snoezelen.plain_body", "snoezelen/grid/text/plain")
-                              + self.text_editor_block("snoezelen.credit", "snoezelen/grid/text/credit", "nh-credit",
-                                                       typo="small", color="ink-2"), title="טקסט")
-        video = self.container("snoezelen/grid/video", {**flex("column", 0, 0, flex_align_items="center"),
-                                                        "padding": ZERO},
-                               [self.video("snoezelen/grid/video/short", "Tkbqa08a5Ro", ratio="916",
-                                           _element_width="initial", _element_custom_width=size(320),
-                                           _flex_align_self="center")], title="סרטון")
-        grid = self.container("snoezelen/grid", {
-            "container_type": "grid", "grid_columns_grid": size("7fr 5fr"),
-            "grid_columns_grid_tablet": size("7fr 5fr"),
-            "grid_columns_grid_mobile": {"unit": "fr", "size": 1, "sizes": []},
-            "grid_rows_grid": size("auto"), "grid_gaps": gaps(GRID_GAP, 32), "padding": ZERO}, [text, video],
-            title="טקסט וסרטון")
-        return self.section("snoezelen", "חדר סנוזלן", "white", [grid])
-
-    # ---- §4.9 footer --------------------------------------------------------------------------------------------------------
+    # ---- footer (10 §1.11) ---------------------------------------------------------------------------------------------------
     def footer(self):
         self.doc = "footer-v4"
-        white_links = ("white", "white")
-        copyright_ = self.text_editor_block("footer.copyright", "footer/copyright", typo="small", color="white",
-                                            links=white_links, align_mobile="center")
-        links = self.text_editor_block("footer.links", "footer/links", typo="small", color="white", links=white_links,
+        white = ("white", "white")
+        template = self.widget("footer/contacts", "template", {"template_id": "@page-id:contacts",
+                                                                "_title": "פרטי קשר — תבנית משותפת"})
+        copyright_ = self.text_editor_block("footer.copyright", "footer/bottom/copyright", typo="small", color="white",
+                                            links=white, align_mobile="center")
+        links = self.text_editor_block("footer.links", "footer/bottom/links", typo="small", color="white", links=white,
                                        align_mobile="center")
-        root = self.container("footer", styled({
-            "content_width": "boxed", "boxed_width": size(CONTENT_WIDTH),
+        bottom = self.container("footer/bottom", {
             **flex("row", 8, 24, wrap="wrap", flex_direction_mobile="column", flex_justify_content="space-between",
                    flex_align_items="center", flex_justify_content_mobile="center"),
-            **section_padding({"": "1.5rem", "_tablet": "1.5rem", "_mobile": "2rem"}),
-            "background_background": "classic", "css_classes": "nh-footer-v4"}, background_color="purple-700"),
-            copyright_ + links, inner=False, title="כותרת תחתונה v4")
+            "padding": dims(24, 0, 0, 0), "border_border": "solid", "border_width": dims(1, 0, 0, 0),
+            "border_color": "rgba(255, 255, 255, 0.2)", "css_classes": "nh-footer__bottom"},
+            copyright_ + links, title="שורה תחתונה")
+        root = self.container("footer", styled({
+            "content_width": "boxed", "boxed_width": size(CONTENT_WIDTH), **flex("column", 24, 24),
+            "padding": dims("3rem", GUTTER[""], "1.5rem", GUTTER[""]),
+            "padding_tablet": dims("3rem", GUTTER["_tablet"], "1.5rem", GUTTER["_tablet"]),
+            "padding_mobile": dims("2.5rem", GUTTER["_mobile"], "2rem", GUTTER["_mobile"]),
+            "background_background": "classic", "css_classes": "nh-footer-v4"}, background_color="night"),
+            [template, bottom], inner=False, title="כותרת תחתונה v4")
         return [root]
 
     # ---- documents ------------------------------------------------------------------------------------------------------------
     def home(self):
         self.doc = "home"
-        return [self.hero(), self.specialties(), self.about(), self.testimonials(), self.special(),
-                self.contacts_slot(), self.snoezelen()]
+        return [self.hero(), self.specialties(), self.life(), self.pro(), self.videos(), self.testimonials(),
+                self.snoezelen(), self.special(), self.contact()]
 
 
 # the setting that holds a block's text, per widget type
-FIELDS = {"heading": "title", "text-editor": "editor", "button": "text"}
+FIELDS = {"heading": "title", "text-editor": "editor", "button": "text", "icon-box": "title_text"}
 
 DOCS = {
     "home": {"title": "דף הבית", "slug": "דף-הבית", "front_page": True, "post_type": "page",
@@ -685,7 +866,7 @@ DOCS = {
                   "post_type": "elementor_library", "document_type": "footer", "template": "",
                   "conditions": ["include/singular/front_page"],
                   "page_settings": {"content_wrapper_html_tag": "footer"}},
-    "contacts": {"title": "צור קשר — בלוק משותף", "slug": "nh-contacts", "front_page": False,
+    "contacts": {"title": "פרטי קשר — בלוק משותף", "slug": "nh-contacts", "front_page": False,
                  "post_type": "elementor_library", "document_type": "container", "template": "", "conditions": [],
                  "page_settings": {}},
 }
@@ -788,23 +969,155 @@ def classes_of(el):
     return set(str(s.get("_css_classes") or s.get("css_classes") or "").split())
 
 
-def headings(elements, docs, mode, inherited=frozenset()):
+def heading_level(el):
+    """The level of a heading the element prints (Heading h1–h6, an Icon Box's title), else None."""
+    s = el.get("settings") or {}
+    tag = None
+    if el.get("widgetType") == "heading":
+        tag = s.get("header_size")
+    elif el.get("widgetType") == "icon-box" and s.get("title_text"):
+        tag = s.get("title_size") or "h3"
+    return int(tag[1]) if re.fullmatch(r"h[1-6]", str(tag)) else None
+
+
+def headings(elements, docs, mode, inherited=frozenset(), expand=True):
     """(level, element id) of the headings shown in mode 'full' or 'plain', in document order; the Template widget's
-    template (@page-id:<key>) is expanded in place."""
+    template (@page-id:<key>) is expanded in place (unless expand is false)."""
     out = []
     for el in elements:
         cls = classes_of(el) | inherited
         if (mode == "full" and "nh-plain" in cls) or (mode == "plain" and "nh-full" in cls):
             continue
         s = el.get("settings") or {}
-        if el.get("widgetType") == "heading" and re.fullmatch(r"h[1-6]", str(s.get("header_size"))):
-            out.append((int(s["header_size"][1]), el["id"]))
-        if el.get("widgetType") == "template":
+        level = heading_level(el)
+        if level:
+            out.append((level, el["id"]))
+        if el.get("widgetType") == "template" and expand:
             m = re.fullmatch(r"@page-id:([a-z0-9-]+)", str(s.get("template_id")))
             if m and m.group(1) in docs:
                 out += headings(docs[m.group(1)]["elementor_data"], docs, mode)
-        out += headings(el.get("elements") or [], docs, mode, frozenset(cls & {"nh-full", "nh-plain"}))
+        out += headings(el.get("elements") or [], docs, mode, frozenset(cls & {"nh-full", "nh-plain"}), expand)
     return out
+
+
+def heading_order(levels, where, problems, one_h1):
+    for (a, _), (b, el_id) in zip(levels, levels[1:]):
+        if b > a + 1:
+            problems.append(f"{where}: h{a} → h{b} at {el_id} skips a level")
+    if one_h1:
+        n = [lv for lv, _ in levels].count(1)
+        if n != 1:
+            problems.append(f"{where}: {n} h1, expected one")
+        elif levels[0][0] != 1:
+            problems.append(f"{where}: the first heading is h{levels[0][0]}, not h1")
+
+
+def link_urls(el):
+    """(path, url) of the links an element's settings hold (link.url controls)."""
+    for path, v in walk_values(el.get("settings") or {}, el.get("id")):
+        if path.endswith("/url") and isinstance(v, str):
+            yield path, v
+
+
+def page_problems(docs, media_list):
+    """The page as a whole (spec 10 §1–§3): sections, hero, anchors, the contacts template, reveal, the phone frame."""
+    problems = []
+    home = (docs.get("home") or {}).get("elementor_data") or []
+    tops = [(el.get("settings") or {}) for el in home]
+    names = [s.get("_element_id") for s in tops]
+    if names != list(SECTIONS):
+        problems.append(f"home: the sections are {names}, not spec 10 §1's {list(SECTIONS)}")
+    for el, s in zip(home, tops):
+        name = s.get("_element_id")
+        cls = classes_of(el)
+        if s.get("content_width") != "full":
+            problems.append(f"home/{name}: content_width {s.get('content_width')!r}, not full (spec 10 §1)")
+        if not {"nh-sec", f"nh-sec--{name}"} <= cls:
+            problems.append(f"home/{name}: css_classes without nh-sec nh-sec--{name}")
+        if not s.get("background_background") or "background_color" not in (s.get("__globals__") or {}):
+            problems.append(f"home/{name}: no Kit background")
+        if any(MOTION.search(k) for k in s):
+            problems.append(f"home/{name}: a motion setting")
+    by_name = dict(zip(names, home))
+    # the hero: the photo (hero-wide, its focus), the content at the bottom with the H1, no reveal
+    hero = by_name.get("hero")
+    if hero:
+        hs = hero["settings"]
+        if "nh-hero" not in classes_of(hero) or hs.get("flex_justify_content") != "flex-end" \
+                or (hs.get("min_height") or {}).get("unit") != "vh" or hs.get("overflow") != "hidden":
+            problems.append("home/hero: not nh-hero, at least 100vh, overflow hidden, content at the bottom")
+        kids = hero.get("elements") or []
+        photo = next((k for k in kids if "nh-hero__img" in classes_of(k)), None)
+        content = next((k for k in kids if "nh-hero__content" in classes_of(k)), None)
+        if not photo or photo.get("widgetType") != "image" \
+                or (photo["settings"].get("image") or {}).get("id") != "@media:hero-wide":
+            problems.append("home/hero: no Image widget nh-hero__img with @media:hero-wide")
+        else:
+            focus = (media_list.get("hero-wide") or {}).get("focus")
+            fx = sorted(c for c in classes_of(photo) if re.fullmatch(r"nh-f[xy]-\d+", c))
+            if focus:
+                x, y = (int(5 * round(float(v) / 5)) for v in re.findall(r"\d+(?:\.\d+)?", focus)[:2])
+                if fx != [f"nh-fx-{x}", f"nh-fy-{y}"]:
+                    problems.append(f"home/hero: the photo's focus classes {fx} do not match media.json's {focus!r}")
+        if not content or not any(heading_level(e) == 1 for e in walk_elements(content.get("elements") or [])):
+            problems.append("home/hero: no nh-hero__content holding the H1")
+        if any("nh-reveal" in classes_of(e) for e in walk_elements([hero])):
+            problems.append("home/hero: nh-reveal on the first screen")
+    # nh-reveal (spec 10 §3): in every other section; on the cards, the pro cells, the years and the video items
+    for name in SECTIONS:
+        el = by_name.get(name)
+        if el and name not in REVEAL_SKIP and not any("nh-reveal" in classes_of(e) for e in walk_elements([el])):
+            problems.append(f"home/{name}: nothing marked nh-reveal")
+    for e in walk_elements(home):
+        cls = classes_of(e)
+        if cls & {"nh-card", "nh-pro__cell", "nh-year", "nh-video-item", "nh-sec__inner"} and "nh-reveal" not in cls:
+            problems.append(f"home/{e['id']}: {' '.join(sorted(cls))} without nh-reveal")
+        if "nh-pro__item" in cls and e.get("widgetType") != "icon-box":
+            problems.append(f"home/{e['id']}: nh-pro__item is not an Icon Box")
+    for need, what in (("nh-card", 4), ("nh-pro__cell", 4), ("nh-year", 2), ("nh-video-item", 2)):
+        n = sum(1 for e in walk_elements(home) if need in classes_of(e))
+        if n != what:
+            problems.append(f"home: {n} × {need}, expected {what}")
+    if sum(1 for e in walk_elements(home) if "nh-card__arrow" in classes_of(e) and e.get("widgetType") == "icon"
+           and not (e["settings"].get("link") or {}).get("url")) != 4:
+        problems.append("home: each card needs its decorative arrow (an Icon widget nh-card__arrow, no link)")
+    # the Snoezelen short in the phone frame
+    frames = [e for e in walk_elements(by_name.get("snoezelen", {}).get("elements") or [])
+              if "nh-phone-frame" in classes_of(e)]
+    if len(frames) != 1 or frames[0].get("widgetType") != "video" or frames[0]["settings"].get("aspect_ratio") != "916":
+        problems.append("home/snoezelen: the Video widget (9:16) needs nh-phone-frame")
+    # the contact band: the phone and WhatsApp
+    band = list(walk_elements([by_name.get("contact", {})])) if by_name.get("contact") else []
+    urls = {(e["settings"].get("link") or {}).get("url"): e for e in band if e.get("widgetType") == "button"}
+    wa = urls.get(WHATSAPP)
+    if PHONE_TEL not in urls or not wa or (wa["settings"].get("selected_icon") or {}).get("value") != "fab fa-whatsapp":
+        problems.append("home/contact: the phone button and the WhatsApp button (fab fa-whatsapp) are needed")
+    # every in-page link (#…) has its target on the page (the home, the footer and its template)
+    targets = {(e.get("settings") or {}).get("_element_id") for d in docs.values()
+               for e in walk_elements(d.get("elementor_data") or [])} - {None, ""}
+    for key, d in docs.items():
+        for e in walk_elements(d.get("elementor_data") or []):
+            for path, url in link_urls(e):
+                if url.startswith("#") and url not in IN_PAGE_OK and url[1:] not in targets:
+                    problems.append(f"{key}/{path}: {url} has no target on the page")
+    for key in ("home", "header-v4"):
+        n = sum(1 for e in walk_elements((docs.get(key) or {}).get("elementor_data") or [])
+                for _, url in link_urls(e) if url == CONTACT_ANCHOR)
+        if n != 1:
+            problems.append(f"{key}: {n} link(s) to {CONTACT_ANCHOR}, expected one («צור קשר», spec 10 §1.1)")
+    if "contact" not in targets:
+        problems.append("home: no element with the id contact (the target of «צור קשר»)")
+    # the contacts template: only in the footer, once, before the bottom row
+    for key, d in docs.items():
+        tpls = [e for e in walk_elements(d.get("elementor_data") or []) if e.get("widgetType") == "template"]
+        if key == "footer-v4":
+            root_kids = ((d.get("elementor_data") or [{}])[0]).get("elements") or []
+            if len(tpls) != 1 or tpls[0]["settings"].get("template_id") != "@page-id:contacts" \
+                    or not root_kids or root_kids[0] is not tpls[0]:
+                problems.append("footer-v4: the contacts template (Template widget, @page-id:contacts) must come first")
+        elif tpls:
+            problems.append(f"{key}: a Template widget (the contacts block lives in the footer, spec 10 §1.11)")
+    return problems
 
 
 def check(docs, kit, menu, content, media_list):
@@ -857,7 +1170,7 @@ def check(docs, kit, menu, content, media_list):
             if not isinstance(s, dict):
                 problems.append(f"{where}: settings is not an object")
                 continue
-            # motion
+            # motion: none of Elementor's own (spec 10 §3: the motion is the theme's)
             for k, v in s.items():
                 if MOTION.search(k) and not (k == "n_accordion_animation_duration" and isinstance(v, dict)
                                              and v.get("size") == 0):
@@ -887,7 +1200,7 @@ def check(docs, kit, menu, content, media_list):
                 for url in URL_IN_TEXT.findall(v):
                     host = urllib.parse.urlsplit(url if url.startswith("http") else "https:" + url).hostname or ""
                     if not ((host in ("youtube.com", "www.youtube.com") and path.endswith("/youtube_url"))
-                            or url == FACEBOOK):
+                            or url == FACEBOOK or (url == WHATSAPP and path.endswith("/link/url"))):
                         problems.append(f"{path}: external URL {url}")
             # styled through the Kit
             glob = s.get("__globals__") or {}
@@ -896,12 +1209,16 @@ def check(docs, kit, menu, content, media_list):
                     "button": ("typography_typography", "button_text_color"),
                     "nav-menu": ("menu_typography_typography", "color_menu_item"),
                     "nested-accordion": ("title_typography_typography", "normal_title_color"),
-                    "icon": ("primary_color", "secondary_color")}.get(wt, ())
+                    "icon": ("primary_color", "secondary_color"),
+                    "icon-box": ("primary_color", "secondary_color", "title_color",
+                                 "title_typography_typography")}.get(wt, ())
             for control in need:
                 if control not in glob:
                     problems.append(f"{where}: {wt} without a Kit global for {control}")
             if wt == "heading" and "typography_typography" not in glob and s.get("typography_typography") != "custom":
                 problems.append(f"{where}: heading without a font (Kit global or local)")
+            if wt == "icon-box" and s.get("description_text") != "":
+                problems.append(f"{where}: an Icon Box without description_text \"\" prints Elementor's sample text")
             for control, ref in glob.items():
                 m = re.fullmatch(r"globals/(colors|typography)\?id=([a-z0-9]+)", str(ref))
                 known = ({c["_id"] for c in kit["system_colors"] + kit["custom_colors"]} if m and m.group(1) == "colors"
@@ -946,21 +1263,24 @@ def check(docs, kit, menu, content, media_list):
                 if mode == "full" and blocks[block].get("plain") and "nh-full" not in classes_of(el) \
                         and block not in ("special.more_title",):
                     problems.append(f"{key}/{el['id']}: {block} has a plain twin but no class nh-full")
-        # headings
+        # headings of the document (the page as a whole below)
         for mode in ("full", "plain"):
-            levels = headings(doc.get("elementor_data") or [], docs, mode)
-            first_max = 1 if doc.get("post_type") == "page" else 2
-            if key in ("header-v4", "footer-v4") and levels:
-                problems.append(f"{key}: headings in the {key[:6]} ({levels})")
-            if levels and levels[0][0] > first_max and key == "home":
-                problems.append(f"{key} ({mode}): the first heading is h{levels[0][0]}, not h1")
-            if key == "contacts" and levels and levels[0][0] > 2:
-                problems.append(f"{key} ({mode}): the template starts at h{levels[0][0]} (inserted under the page's h1)")
-            for (a, _), (b, el_id) in zip(levels, levels[1:]):
-                if b > a + 1:
-                    problems.append(f"{key} ({mode}): h{a} → h{b} at {el_id} skips a level")
-            if key == "home" and [lv for lv, _ in levels].count(1) != 1:
-                problems.append(f"{key} ({mode}): {[lv for lv, _ in levels].count(1)} h1, expected one")
+            levels = headings(data, docs, mode)
+            if key == "header-v4" and levels:
+                problems.append(f"{key}: headings in the header ({levels})")
+            if key == "footer-v4" and headings(data, docs, mode, expand=False):
+                problems.append(f"{key}: headings of the footer's own (only the contacts template brings any)")
+            if key == "contacts" and levels and levels[0][0] != 2:
+                problems.append(f"{key} ({mode}): the template starts at h{levels[0][0]}, not h2 (a part of the page)")
+            heading_order(levels, f"{key} ({mode})", problems, one_h1=key == "home")
+    # the page as a whole: the header, the home, the footer with the contacts template (spec 09 §8: h1 → h2 → h3)
+    if all(k in docs for k in DOC_KEYS):
+        for mode in ("full", "plain"):
+            page = []
+            for key in ("header-v4", "home", "footer-v4"):
+                page += headings(docs[key]["elementor_data"], docs, mode)
+            heading_order(page, f"the page ({mode})", problems, one_h1=True)
+        problems += page_problems(docs, media_list)
     # every block once (its full text, its plain twin if set)
     for block, b in blocks.items():
         for mode in ("full", "plain"):
@@ -997,6 +1317,9 @@ def check(docs, kit, menu, content, media_list):
         fs = t.get("typography_font_size") or {}
         if fs and fs.get("unit") not in ("rem", "custom"):
             problems.append(f"kit.json: {t['_id']} font size in {fs.get('unit')}, not rem/custom")
+    for value in ("#1C1830", "#2F6B2A"):           # spec 10 §0: night and green-700
+        if value not in [c["color"] for c in kit["custom_colors"]]:
+            problems.append(f"kit.json: no custom colour {value}")
     # the menu
     def menu_items(items, depth=0):
         for it in items:
@@ -1055,6 +1378,9 @@ def summary(docs, content):
     print(f"· plain twins ({len(twins)}): {', '.join(twins) or 'none yet'}")
     if missing:
         print(f"· blocks with neither text yet: {', '.join(missing)}")
+    print("· sections: " + " → ".join((el["settings"] or {}).get("_element_id", "?")
+                                       for el in docs["home"]["elementor_data"])
+          + "; footer: the contacts template, then the bottom row")
 
 
 def main():

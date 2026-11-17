@@ -18,20 +18,21 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "3620cf806350892dc1c62fcdae8064401a80d770f64b6af0f491308bd49ace67",
+  "inputs_sha256": "af7046abda3b4335ec29f502c4c5e1b8e35209cd2eab54c489e45e738ce02a8b",
   "widgets": [
+   "template",
    "text-editor"
   ],
   "blocks": {
    "footer.copyright": {
     "full": {
-     "element": "33aa8d8",
+     "element": "fea16f8",
      "field": "editor"
     }
    },
    "footer.links": {
     "full": {
-     "element": "7dc8684",
+     "element": "830b8eb",
      "field": "editor"
     }
    }
@@ -45,27 +46,23 @@
     "content_width": "boxed",
     "boxed_width": {
      "unit": "px",
-     "size": 1200,
+     "size": 1320,
      "sizes": []
     },
     "container_type": "flex",
-    "flex_direction": "row",
+    "flex_direction": "column",
     "flex_gap": {
      "column": "24",
-     "row": "8",
-     "isLinked": false,
+     "row": "24",
+     "isLinked": true,
      "unit": "px"
     },
-    "flex_wrap": "wrap",
-    "flex_wrap_tablet": "wrap",
-    "flex_wrap_mobile": "wrap",
-    "flex_direction_mobile": "column",
-    "flex_justify_content": "space-between",
-    "flex_align_items": "center",
-    "flex_justify_content_mobile": "center",
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
     "padding": {
      "unit": "custom",
-     "top": "1.5rem",
+     "top": "3rem",
      "right": "40px",
      "bottom": "1.5rem",
      "left": "40px",
@@ -73,7 +70,7 @@
     },
     "padding_tablet": {
      "unit": "custom",
-     "top": "1.5rem",
+     "top": "3rem",
      "right": "32px",
      "bottom": "1.5rem",
      "left": "32px",
@@ -81,7 +78,7 @@
     },
     "padding_mobile": {
      "unit": "custom",
-     "top": "2rem",
+     "top": "2.5rem",
      "right": "20px",
      "bottom": "2rem",
      "left": "20px",
@@ -89,50 +86,105 @@
     },
     "background_background": "classic",
     "css_classes": "nh-footer-v4",
-    "background_color": "#4A2D84",
+    "background_color": "#1C1830",
     "__globals__": {
-     "background_color": "globals/colors?id=primary"
+     "background_color": "globals/colors?id=42a392f"
     },
     "_title": "כותרת תחתונה v4"
    },
    "elements": [
     {
-     "id": "33aa8d8",
+     "id": "fe01e5a",
      "elType": "widget",
      "settings": {
-      "editor": "<p>© מעון נווה האירוס</p>",
-      "align_mobile": "center",
-      "text_color": "#FFFFFF",
-      "link_color": "#FFFFFF",
-      "link_hover_color": "#FFFFFF",
-      "__globals__": {
-       "text_color": "globals/colors?id=3efe2c1",
-       "link_color": "globals/colors?id=3efe2c1",
-       "link_hover_color": "globals/colors?id=3efe2c1",
-       "typography_typography": "globals/typography?id=504434a"
-      }
+      "template_id": "@page-id:contacts",
+      "_title": "פרטי קשר — תבנית משותפת"
      },
      "elements": [],
-     "widgetType": "text-editor"
+     "widgetType": "template"
     },
     {
-     "id": "7dc8684",
-     "elType": "widget",
+     "id": "009ea9b",
+     "elType": "container",
      "settings": {
-      "editor": "<p><a href=\"@home:/הצהרת-נגישות/\">הצהרת נגישות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מדיניות-פרטיות/\">מדיניות פרטיות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מפת-אתר/\">מפת אתר</a></p>",
-      "align_mobile": "center",
-      "text_color": "#FFFFFF",
-      "link_color": "#FFFFFF",
-      "link_hover_color": "#FFFFFF",
-      "__globals__": {
-       "text_color": "globals/colors?id=3efe2c1",
-       "link_color": "globals/colors?id=3efe2c1",
-       "link_hover_color": "globals/colors?id=3efe2c1",
-       "typography_typography": "globals/typography?id=504434a"
-      }
+      "content_width": "full",
+      "container_type": "flex",
+      "flex_direction": "row",
+      "flex_gap": {
+       "column": "24",
+       "row": "8",
+       "isLinked": false,
+       "unit": "px"
+      },
+      "flex_wrap": "wrap",
+      "flex_wrap_tablet": "wrap",
+      "flex_wrap_mobile": "wrap",
+      "flex_direction_mobile": "column",
+      "flex_justify_content": "space-between",
+      "flex_align_items": "center",
+      "flex_justify_content_mobile": "center",
+      "padding": {
+       "unit": "px",
+       "top": "24",
+       "right": "0",
+       "bottom": "0",
+       "left": "0",
+       "isLinked": false
+      },
+      "border_border": "solid",
+      "border_width": {
+       "unit": "px",
+       "top": "1",
+       "right": "0",
+       "bottom": "0",
+       "left": "0",
+       "isLinked": false
+      },
+      "border_color": "rgba(255, 255, 255, 0.2)",
+      "css_classes": "nh-footer__bottom",
+      "_title": "שורה תחתונה"
      },
-     "elements": [],
-     "widgetType": "text-editor"
+     "elements": [
+      {
+       "id": "fea16f8",
+       "elType": "widget",
+       "settings": {
+        "editor": "<p>© מעון נווה האירוס</p>",
+        "align_mobile": "center",
+        "text_color": "#FFFFFF",
+        "link_color": "#FFFFFF",
+        "link_hover_color": "#FFFFFF",
+        "__globals__": {
+         "text_color": "globals/colors?id=3efe2c1",
+         "link_color": "globals/colors?id=3efe2c1",
+         "link_hover_color": "globals/colors?id=3efe2c1",
+         "typography_typography": "globals/typography?id=504434a"
+        }
+       },
+       "elements": [],
+       "widgetType": "text-editor"
+      },
+      {
+       "id": "830b8eb",
+       "elType": "widget",
+       "settings": {
+        "editor": "<p><a href=\"@home:/הצהרת-נגישות/\">הצהרת נגישות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מדיניות-פרטיות/\">מדיניות פרטיות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מפת-אתר/\">מפת אתר</a></p>",
+        "align_mobile": "center",
+        "text_color": "#FFFFFF",
+        "link_color": "#FFFFFF",
+        "link_hover_color": "#FFFFFF",
+        "__globals__": {
+         "text_color": "globals/colors?id=3efe2c1",
+         "link_color": "globals/colors?id=3efe2c1",
+         "link_hover_color": "globals/colors?id=3efe2c1",
+         "typography_typography": "globals/typography?id=504434a"
+        }
+       },
+       "elements": [],
+       "widgetType": "text-editor"
+      }
+     ],
+     "isInner": true
     }
    ],
    "isInner": false

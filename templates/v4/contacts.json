@@ -1,6 +1,6 @@
 {
  "key": "contacts",
- "title": "צור קשר — בלוק משותף",
+ "title": "פרטי קשר — בלוק משותף",
  "slug": "nh-contacts",
  "front_page": false,
  "post_type": "elementor_library",
@@ -14,7 +14,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "3620cf806350892dc1c62fcdae8064401a80d770f64b6af0f491308bd49ace67",
+  "inputs_sha256": "af7046abda3b4335ec29f502c4c5e1b8e35209cd2eab54c489e45e738ce02a8b",
   "widgets": [
    "heading",
    "icon",
@@ -94,12 +94,7 @@
    "id": "76dd3b9",
    "elType": "container",
    "settings": {
-    "content_width": "boxed",
-    "boxed_width": {
-     "unit": "px",
-     "size": 1200,
-     "sizes": []
-    },
+    "content_width": "full",
     "container_type": "flex",
     "flex_direction": "column",
     "flex_gap": {
@@ -111,56 +106,34 @@
     "flex_wrap": "nowrap",
     "flex_wrap_tablet": "nowrap",
     "flex_wrap_mobile": "nowrap",
-    "flex_gap_mobile": {
-     "column": "0",
-     "row": "24",
-     "isLinked": false,
-     "unit": "px"
-    },
     "padding": {
-     "unit": "custom",
-     "top": "5rem",
-     "right": "40px",
-     "bottom": "5rem",
-     "left": "40px",
-     "isLinked": false
-    },
-    "padding_tablet": {
-     "unit": "custom",
-     "top": "5rem",
-     "right": "32px",
-     "bottom": "5rem",
-     "left": "32px",
-     "isLinked": false
-    },
-    "padding_mobile": {
-     "unit": "custom",
-     "top": "3.5rem",
-     "right": "20px",
-     "bottom": "3.5rem",
-     "left": "20px",
-     "isLinked": false
+     "unit": "px",
+     "top": "0",
+     "right": "0",
+     "bottom": "0",
+     "left": "0",
+     "isLinked": true
     },
     "background_background": "classic",
-    "css_classes": "nh-sec nh-sec--contacts",
+    "css_classes": "nh-contacts",
     "_element_id": "contacts",
-    "background_color": "#EFF6E8",
+    "background_color": "#1C1830",
     "__globals__": {
-     "background_color": "globals/colors?id=1faeb27"
+     "background_color": "globals/colors?id=42a392f"
     },
-    "_title": "צור קשר"
+    "_title": "פרטי קשר"
    },
    "elements": [
     {
      "id": "bbb8074",
      "elType": "widget",
      "settings": {
-      "title": "צור קשר",
+      "title": "פרטי קשר",
       "header_size": "h2",
       "_css_classes": "nh-visually-hidden",
-      "title_color": "#4A2D84",
+      "title_color": "#FFFFFF",
       "__globals__": {
-       "title_color": "globals/colors?id=primary",
+       "title_color": "globals/colors?id=3efe2c1",
        "typography_typography": "globals/typography?id=603f9ca"
       }
      },
@@ -185,7 +158,7 @@
       },
       "grid_columns_grid_mobile": {
        "unit": "fr",
-       "size": 1,
+       "size": 2,
        "sizes": []
       },
       "grid_rows_grid": {
@@ -195,7 +168,7 @@
       },
       "grid_gaps": {
        "column": "24",
-       "row": "32",
+       "row": "16",
        "isLinked": false,
        "unit": "px"
       },
@@ -218,9 +191,9 @@
         "container_type": "flex",
         "flex_direction": "column",
         "flex_gap": {
-         "column": "0",
-         "row": "12",
-         "isLinked": false,
+         "column": "6",
+         "row": "6",
+         "isLinked": true,
          "unit": "px"
         },
         "flex_wrap": "nowrap",
@@ -252,12 +225,12 @@
           "align": "start",
           "size": {
            "unit": "px",
-           "size": 22,
+           "size": 16,
            "sizes": []
           },
           "icon_padding": {
-           "unit": "em",
-           "size": 0.7,
+           "unit": "px",
+           "size": 10,
            "sizes": []
           },
           "primary_color": "#4A2D84",
@@ -277,10 +250,10 @@
           "title": "כתובתינו",
           "header_size": "h3",
           "_css_classes": "nh-full",
-          "title_color": "#1F2421",
+          "title_color": "#FFFFFF",
           "__globals__": {
-           "title_color": "globals/colors?id=text",
-           "typography_typography": "globals/typography?id=fb57358"
+           "title_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=8426755"
           }
          },
          "elements": [],
@@ -293,10 +266,10 @@
           "title": "הכתובת שלנו",
           "header_size": "h3",
           "_css_classes": "nh-plain",
-          "title_color": "#1F2421",
+          "title_color": "#FFFFFF",
           "__globals__": {
-           "title_color": "globals/colors?id=text",
-           "typography_typography": "globals/typography?id=fb57358"
+           "title_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=8426755"
           },
           "_title": "שפה פשוטה — טיוטה"
          },
@@ -308,14 +281,14 @@
          "elType": "widget",
          "settings": {
           "editor": "<p>מעון נווה האירוס ת.ד. 28 נס ציונה 70450</p><p><a href=\"@media:pdf-entrances\">מפרט כניסות נגישות (PDF)</a></p>",
-          "text_color": "#1F2421",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
+          "text_color": "#FFFFFF",
+          "link_color": "#FFFFFF",
+          "link_hover_color": "#FFFFFF",
           "__globals__": {
-           "text_color": "globals/colors?id=text",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=text"
+           "text_color": "globals/colors?id=3efe2c1",
+           "link_color": "globals/colors?id=3efe2c1",
+           "link_hover_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=bcfc16b"
           }
          },
          "elements": [],
@@ -332,9 +305,9 @@
         "container_type": "flex",
         "flex_direction": "column",
         "flex_gap": {
-         "column": "0",
-         "row": "12",
-         "isLinked": false,
+         "column": "6",
+         "row": "6",
+         "isLinked": true,
          "unit": "px"
         },
         "flex_wrap": "nowrap",
@@ -366,12 +339,12 @@
           "align": "start",
           "size": {
            "unit": "px",
-           "size": 22,
+           "size": 16,
            "sizes": []
           },
           "icon_padding": {
-           "unit": "em",
-           "size": 0.7,
+           "unit": "px",
+           "size": 10,
            "sizes": []
           },
           "primary_color": "#4A2D84",
@@ -390,10 +363,10 @@
          "settings": {
           "title": "פרטי התקשרות",
           "header_size": "h3",
-          "title_color": "#1F2421",
+          "title_color": "#FFFFFF",
           "__globals__": {
-           "title_color": "globals/colors?id=text",
-           "typography_typography": "globals/typography?id=fb57358"
+           "title_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=8426755"
           }
          },
          "elements": [],
@@ -404,14 +377,14 @@
          "elType": "widget",
          "settings": {
           "editor": "<p>טלפון:&nbsp;<a href=\"tel:089403047\">08-9403047</a><br>פקס: 08-9400805</p>",
-          "text_color": "#1F2421",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
+          "text_color": "#FFFFFF",
+          "link_color": "#FFFFFF",
+          "link_hover_color": "#FFFFFF",
           "__globals__": {
-           "text_color": "globals/colors?id=text",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=text"
+           "text_color": "globals/colors?id=3efe2c1",
+           "link_color": "globals/colors?id=3efe2c1",
+           "link_hover_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=bcfc16b"
           }
          },
          "elements": [],
@@ -428,9 +401,9 @@
         "container_type": "flex",
         "flex_direction": "column",
         "flex_gap": {
-         "column": "0",
-         "row": "12",
-         "isLinked": false,
+         "column": "6",
+         "row": "6",
+         "isLinked": true,
          "unit": "px"
         },
         "flex_wrap": "nowrap",
@@ -462,12 +435,12 @@
           "align": "start",
           "size": {
            "unit": "px",
-           "size": 22,
+           "size": 16,
            "sizes": []
           },
           "icon_padding": {
-           "unit": "em",
-           "size": 0.7,
+           "unit": "px",
+           "size": 10,
            "sizes": []
           },
           "primary_color": "#4A2D84",
@@ -487,10 +460,10 @@
           "title": "כתובת מייל",
           "header_size": "h3",
           "_css_classes": "nh-full",
-          "title_color": "#1F2421",
+          "title_color": "#FFFFFF",
           "__globals__": {
-           "title_color": "globals/colors?id=text",
-           "typography_typography": "globals/typography?id=fb57358"
+           "title_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=8426755"
           }
          },
          "elements": [],
@@ -503,10 +476,10 @@
           "title": "המייל שלנו",
           "header_size": "h3",
           "_css_classes": "nh-plain",
-          "title_color": "#1F2421",
+          "title_color": "#FFFFFF",
           "__globals__": {
-           "title_color": "globals/colors?id=text",
-           "typography_typography": "globals/typography?id=fb57358"
+           "title_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=8426755"
           },
           "_title": "שפה פשוטה — טיוטה"
          },
@@ -518,14 +491,14 @@
          "elType": "widget",
          "settings": {
           "editor": "<p>דוד אליהו - מנהל המעון<br><a href=\"mailto:irus1@nevehairus.com\">irus1@nevehairus.com</a></p><p>גל שטיינהרט - נציג הבעלים<br><a href=\"mailto:galsh@inter.net.il\">galsh@inter.net.il</a></p>",
-          "text_color": "#1F2421",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
+          "text_color": "#FFFFFF",
+          "link_color": "#FFFFFF",
+          "link_hover_color": "#FFFFFF",
           "__globals__": {
-           "text_color": "globals/colors?id=text",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=text"
+           "text_color": "globals/colors?id=3efe2c1",
+           "link_color": "globals/colors?id=3efe2c1",
+           "link_hover_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=bcfc16b"
           }
          },
          "elements": [],
@@ -542,9 +515,9 @@
         "container_type": "flex",
         "flex_direction": "column",
         "flex_gap": {
-         "column": "0",
-         "row": "12",
-         "isLinked": false,
+         "column": "6",
+         "row": "6",
+         "isLinked": true,
          "unit": "px"
         },
         "flex_wrap": "nowrap",
@@ -576,12 +549,12 @@
           "align": "start",
           "size": {
            "unit": "px",
-           "size": 22,
+           "size": 16,
            "sizes": []
           },
           "icon_padding": {
-           "unit": "em",
-           "size": 0.7,
+           "unit": "px",
+           "size": 10,
            "sizes": []
           },
           "primary_color": "#4A2D84",
@@ -601,10 +574,10 @@
           "title": "קישורים נוספים",
           "header_size": "h3",
           "_css_classes": "nh-full",
-          "title_color": "#1F2421",
+          "title_color": "#FFFFFF",
           "__globals__": {
-           "title_color": "globals/colors?id=text",
-           "typography_typography": "globals/typography?id=fb57358"
+           "title_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=8426755"
           }
          },
          "elements": [],
@@ -617,10 +590,10 @@
           "title": "עוד קישורים",
           "header_size": "h3",
           "_css_classes": "nh-plain",
-          "title_color": "#1F2421",
+          "title_color": "#FFFFFF",
           "__globals__": {
-           "title_color": "globals/colors?id=text",
-           "typography_typography": "globals/typography?id=fb57358"
+           "title_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=8426755"
           },
           "_title": "שפה פשוטה — טיוטה"
          },
@@ -632,14 +605,14 @@
          "elType": "widget",
          "settings": {
           "editor": "<p><a href=\"https://www.facebook.com/neveirus/\">נווה האירוס בפייסבוק</a></p><p><a href=\"@home:/מפת-אתר/\">מפת אתר</a></p>",
-          "text_color": "#1F2421",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
+          "text_color": "#FFFFFF",
+          "link_color": "#FFFFFF",
+          "link_hover_color": "#FFFFFF",
           "__globals__": {
-           "text_color": "globals/colors?id=text",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=text"
+           "text_color": "globals/colors?id=3efe2c1",
+           "link_color": "globals/colors?id=3efe2c1",
+           "link_hover_color": "globals/colors?id=3efe2c1",
+           "typography_typography": "globals/typography?id=bcfc16b"
           }
          },
          "elements": [],

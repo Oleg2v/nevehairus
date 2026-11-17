@@ -24,6 +24,10 @@
  * - a tiny inline script in the head that applies the stored display choices before the first paint;
  * - on wp_footer, on every page but the Elementor editor: the floating «נגישות» button with its panel, the green
  *   call button for phones and a polite live region.
+ * 1.3.0, v4.1 «more life» (research/10-v4.1-home-spec.md §1–§3): the full-screen hero, the floating header
+ * (transparent over the hero, solid from 24px of scroll), the new blocks' look, the soft motion (fade-ins, the
+ * hero's slow zoom, the cards' lift; none under prefers-reduced-motion) — all in v4.css and v4.js — and here the
+ * panel's «עצירת אנימציות» and the head script's `nh-js` and `nh-a11y-still`.
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -213,8 +217,9 @@ function nh_child_v4_head() {
 
 /**
  * The pre-paint script: the stored choices of the accessibility menu (localStorage `nh-a11y`, JSON: text 0–2,
- * contrast, links) and of plain language (`nh-plain` = "on", or `?plain=1|0` in the address, as the plugin reads it)
- * become classes on `<html>` before the first paint, so nothing flashes. Every storage access is inside try/catch
+ * contrast, links, still) and of plain language (`nh-plain` = "on", or `?plain=1|0` in the address, as the plugin
+ * reads it) become classes on `<html>` before the first paint, so nothing flashes; and `nh-js` says the scripts run
+ * (v4.css keeps the floating header solid without it, and hides nothing). Every storage access is inside try/catch
  * (private mode, blocked storage). Not in the Elementor editor's preview.
  *
  * @return string
@@ -223,12 +228,14 @@ function nh_child_prepaint_js() {
 	return '(function (w, d) {'
 		. 'var h = d.documentElement, s = w.location.search;'
 		. 'if (/[?&]elementor-preview=/.test(s)) return;'
+		. 'h.classList.add("nh-js");'
 		. 'var g = function (k) { try { return w.localStorage.getItem(k); } catch (e) { return null; } };'
 		. 'var a = null; try { a = JSON.parse(g("nh-a11y") || "null"); } catch (e) { a = null; }'
 		. 'if (a && typeof a === "object") {'
 		. 'var t = Number(a.text); if (t === 1 || t === 2) h.classList.add("nh-a11y-text-" + t);'
 		. 'if (a.contrast === true) h.classList.add("nh-a11y-contrast");'
 		. 'if (a.links === true) h.classList.add("nh-a11y-links");'
+		. 'if (a.still === true) h.classList.add("nh-a11y-still");'
 		. '}'
 		. 'var q = /[?&]plain=([01])/.exec(s);'
 		. 'if (q ? q[1] === "1" : g("nh-plain") === "on") h.classList.add("nh-plainmode");'
@@ -263,6 +270,7 @@ function nh_child_v4_footer() {
 	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="text" aria-pressed="false"><span>' . esc_html__( 'הגדלת טקסט', 'hello-elementor-child' ) . '</span> <span class="nh-a11y-opt__state" dir="ltr">100%</span></button></li>';
 	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="contrast" aria-pressed="false"><span>' . esc_html__( 'ניגודיות גבוהה', 'hello-elementor-child' ) . '</span></button></li>';
 	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="links" aria-pressed="false"><span>' . esc_html__( 'הדגשת קישורים', 'hello-elementor-child' ) . '</span></button></li>';
+	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="still" aria-pressed="false"><span>' . esc_html__( 'עצירת אנימציות', 'hello-elementor-child' ) . '</span></button></li>';
 	$out .= '</ul>';
 	$out .= '<!-- text-to-speech (research/09 §5.3) comes here later: a «הקראה» button; not built yet -->';
 	$out .= '<div class="nh-a11y-panel__row">'

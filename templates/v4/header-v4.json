@@ -18,7 +18,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "3620cf806350892dc1c62fcdae8064401a80d770f64b6af0f491308bd49ace67",
+  "inputs_sha256": "af7046abda3b4335ec29f502c4c5e1b8e35209cd2eab54c489e45e738ce02a8b",
   "widgets": [
    "button",
    "image",
@@ -99,7 +99,7 @@
       "content_width": "boxed",
       "boxed_width": {
        "unit": "px",
-       "size": 1200,
+       "size": 1320,
        "sizes": []
       },
       "container_type": "flex",
@@ -453,7 +453,7 @@
          "settings": {
           "text": "צור קשר",
           "link": {
-           "url": "@home:/צור-קשר/",
+           "url": "#contact",
            "is_external": "",
            "nofollow": "",
            "custom_attributes": ""
@@ -529,9 +529,9 @@
       "padding": {
        "unit": "custom",
        "top": "0px",
-       "right": "max(40px, calc((100% - 1200px) / 2))",
+       "right": "max(40px, calc((100% - 1320px) / 2))",
        "bottom": "0px",
-       "left": "max(40px, calc((100% - 1200px) / 2))",
+       "left": "max(40px, calc((100% - 1320px) / 2))",
        "isLinked": false
       },
       "padding_tablet": {

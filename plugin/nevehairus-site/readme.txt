@@ -53,7 +53,7 @@ No external services, no CDN, no tracking. Fonts are served from the plugin.
   keeps «נווה האירוס» on one line on phones (a smaller ב, a no-break space); a line of the error summary never starts
   with «—»; the «!» of a two-line error sits on its first line; links in a line of text (the cover's phone, the
   privacy note's last link) keep their ring off the colon and the full stop; the consent sentence never ends on one
-  word.
+  word, and in plain language its question «מה עושים עם הפרטים שלי?» starts its own line.
 
 = 0.2.4 =
 * A second look at the live site after 0.2.3 (the same in the prototype): a fact of a home that breaks alone on a

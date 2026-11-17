@@ -2,7 +2,7 @@
 /**
  * Plugin Name: נווה האירוס — אתר
  * Description: Elementor widgets and site module for the v3.2 design. Loads its CSS and JS only on pages that use its widgets.
- * Version: 0.2.4
+ * Version: 0.2.5
  * Requires at least: 7.0
  * Requires PHP: 8.0
  * Author: קורנגה
@@ -24,7 +24,7 @@ if ( defined( 'NH_VERSION' ) ) {
 	return; // Loaded twice (a copy of the plugin in another folder): keep the first one.
 }
 
-define( 'NH_VERSION', '0.2.4' );
+define( 'NH_VERSION', '0.2.5' );
 define( 'NH_FILE', __FILE__ );
 define( 'NH_DIR', plugin_dir_path( __FILE__ ) );
 define( 'NH_URL', plugin_dir_url( __FILE__ ) );

@@ -25,10 +25,10 @@
    "door/default"
   ],
   "plugin": {
-   "version": "0.2.4",
-   "php_sha256": "7f29400360065491fbb1de4c6b8f3cf615d57e035248ef39f8ff62c981160b6a"
+   "version": "0.2.5",
+   "php_sha256": "1fe758de018ae6b07a7940f1cb3bf349f531f53df27528648c06c25895fb24dd"
   },
-  "inputs_sha256": "d1ad1ceed9ea8f5ef45e22a1b1668804a14dbb94d7312f374b390175196bd3c1"
+  "inputs_sha256": "3fd27cdd2916a7fb4842a530cb1809e562c0c8bd255a00bf4eeb852458028a4c"
  },
  "elementor_data": [
   {

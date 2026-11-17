@@ -367,7 +367,7 @@ final class NH_Forms {
 			foreach ( $errors as $key => $code ) {
 				$label  = trim( (string) ( $labels[ $key ] ?? $key ) );
 				$items .= '<li><a href="#' . esc_attr( sanitize_html_class( $prefix ) . '-' . $key ) . '">'
-					. esc_html( $label . ' — ' . self::code_message( (string) $code ) ) . '</a></li>';
+					. esc_html( NH_Text::dashes( $label . ' — ' . self::code_message( (string) $code ) ) ) . '</a></li>';
 			}
 			return $open . '><h3>' . esc_html( $title ) . '</h3><ul>' . $items . '</ul></div>';
 		}

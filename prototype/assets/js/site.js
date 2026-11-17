@@ -284,7 +284,7 @@
             const li = d.createElement("li");
             const a = d.createElement("a");
             a.href = "#" + el.id;
-            a.textContent = labelText(form, el) + " — " + m;
+            a.textContent = labelText(form, el) + "\u00A0— " + m;   // the dash stays with the label
             a.addEventListener("click", (e) => { e.preventDefault(); el.focus(); });
             li.append(a);
             return li;

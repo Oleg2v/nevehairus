@@ -96,7 +96,7 @@ final class NH_Widget_Cover extends NH_Widget_Base {
 				'label'       => __( 'כותרת — בשפה פשוטה', 'nevehairus-site' ),
 				'type'        => \Elementor\Controls_Manager::TEXTAREA,
 				'rows'        => 3,
-				'default'     => 'נווה האירוס הוא בית.',
+				'default'     => "נווה\u{00A0}האירוס הוא בית.",   // the name never breaks (16.11)
 				'description' => __( 'הכותרת הראשית של העמוד לא מוסתרת: ריק או מקף = שתי השורות של הכותרת, בלי הנקודות הצבעוניות.', 'nevehairus-site' ),
 				'label_block' => true,
 			]

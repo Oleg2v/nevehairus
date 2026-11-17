@@ -33,7 +33,7 @@
 .v3-home__facts:dir(ltr) { clip-path: inset(0 0 0 1em); }
 .v3-home__fact { padding-inline-start: 1em; text-indent: -1em; }
 .v3-home__fact:first-child { text-indent: 0; }
-.v3-home__sep { display: inline-block; inline-size: 1em; text-align: center; }
+.v3-home__sep { display: inline-block; inline-size: 1em; text-align: center; text-indent: 0; }   /* not the fact's hanging indent (inherited): the «·» stays centred between two facts */
 .v3-home__arrow { display: block; inline-size: 2rem; block-size: 2rem; }   /* always shown, never moves */
 .v3-home__row { grid-template-columns: 5.5rem minmax(0, 1fr); }      /* no arrow: no empty arrow column either */
 @media (max-width: 24.99em) {                                       /* narrow phones: a smaller ב, more room for the words */

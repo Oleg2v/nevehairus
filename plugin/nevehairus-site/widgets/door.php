@@ -220,8 +220,8 @@ final class NH_Widget_Door extends NH_Widget_Base {
 			[
 				'label'   => __( 'תיבת ההסכמה — טקסט (הקישור #privacy מוביל למדיניות הפרטיות)', 'nevehairus-site' ),
 				'type'    => 'textarea',
-				'default' => 'קראתי את <a href="#privacy">מדיניות הפרטיות</a> ואני מסכים/ה שתיצרו איתי קשר לגבי הביקור.',
-				'plain'   => 'אני מסכים או מסכימה שתתקשרו אליי. <a href="#privacy">מה עושים עם הפרטים שלי?</a>',
+				'default' => 'קראתי את <a href="#privacy">מדיניות הפרטיות</a> ואני מסכים/ה שתיצרו איתי קשר לגבי' . "\u{00A0}" . 'הביקור.',   // never «הביקור.» alone (16.11)
+				'plain'   => 'אני מסכים או מסכימה שתתקשרו אליי. <a href="#privacy">מה עושים עם הפרטים' . "\u{00A0}" . 'שלי?</a>',
 			]
 		);
 		$this->add_control(

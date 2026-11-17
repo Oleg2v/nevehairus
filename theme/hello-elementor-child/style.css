@@ -2,7 +2,7 @@
 Theme Name:   Hello Elementor Child — נווה האירוס
 Description:  Child theme of Hello Elementor for the site of מעון נווה האירוס. It holds what applies to the whole site (page ground and type, focus ring, link underlines, the skip link, main#content, Hello's CSS off); the design of the pages lives in the nevehairus-site plugin.
 Template:     hello-elementor
-Version:      1.1.3
+Version:      1.1.4
 Requires PHP: 8.0
 License:      GPL-2.0-or-later
 Text Domain:  hello-elementor-child
@@ -40,6 +40,9 @@ body {
    spreads, where an iris ring would vanish). */
 :where(:focus-visible) { outline: 3px solid #4A2D84; outline-offset: 3px; }
 .elementor-location-footer :focus-visible { outline-color: #F2B33D; }
+/* links in a line of text (the phone after «טלפון:», the agency after «עיצוב ופיתוח:»): the 2px ring on the words'
+   own box, so it never covers the colon before them (16.11) */
+.elementor-location-footer :is(.nh-footer-contacts, .nh-footer-credit) a:focus-visible { outline-width: 2px; outline-offset: 0; }
 
 /* ---------- Links stay underlined (WCAG 1.4.1). Printed after Elementor's frontend CSS,
    so this beats `.elementor a { text-decoration: none }` (same specificity) by order.

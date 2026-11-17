@@ -30,6 +30,7 @@
 /* «או בטלפון»: families often call from a phone (§3 p. 24); UI 18/600, the number is an underlined link */
 .v3-cover__call { grid-area: call; margin: 0; font: 600 var(--v3-fs-ui)/1.2 var(--nh-font-body); }
 .v3-cover__call a { display: inline-flex; align-items: center; min-block-size: 2.75rem; }
+.v3-cover__call a:focus-visible { outline-width: 2px; outline-offset: 0; }   /* in a line of text: the ring stays off the colon before it (16.11) */
 @media (min-width: 48em) {
   .v3-cover { --cover-h: min(calc(100svh - var(--v3-mast) - 13rem), 44rem); }
   .v3-cover__grid, .v3-cover--page .v3-cover__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-areas: none; column-gap: clamp(2rem, 1rem + 4vw, 6rem); row-gap: 0; align-items: center; }
@@ -51,6 +52,11 @@ html.nh-plainmode .v3-cover__call > .v3-plain { display: inline; }
 /* the cover: the ב folds into a chapter mark beside the words, the button under them */
 html.nh-plainmode .v3-cover__title { font: 400 var(--v3-fs-dm)/1 var(--nh-font-display); }
 html.nh-plainmode .v3-cover__plain p { font-size: var(--v3-fs-plain); }
+/* phones: in plain language the ב of the home's cover is smaller, so the title «נווה האירוס הוא בית.» keeps the
+   name on one line (16.11: «נווה / האירוס / הוא בית.» at 320–398px; the name is joined by a no-break space) */
+@media (max-width: 47.99em) {
+  html.nh-plainmode .v3-cover:not(.v3-cover--page) .v3-cover__letter { inline-size: min(30vw, 13rem); }
+}
 @media (min-width: 48em) {
   html.nh-plainmode .v3-cover__grid { grid-template-columns: auto minmax(0, 1fr); min-block-size: 0; align-items: start; }
   html.nh-plainmode .v3-cover__letter { position: relative; inline-size: calc(min(48svh, 22rem) * 432.4 / 597); }

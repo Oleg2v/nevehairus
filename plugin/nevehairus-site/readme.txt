@@ -4,7 +4,7 @@ Tags: elementor, hebrew, rtl, accessibility
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.2.4
+Stable tag: 0.2.5
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,15 @@ No external services, no CDN, no tracking. Fonts are served from the plugin.
 * The letter outlines in assets/letters.json are drawn from Frank Ruhl Libre (same licence).
 
 == Changelog ==
+
+= 0.2.5 =
+* The third look at the live site (the same in the prototype): the «·» between a home's facts is centred again (0.2.4
+  pulled it onto the fact before it); «סגירה» is as wide as «תפריט» on phones (its phone padding never applied); the
+  masthead's buttons keep .5rem between them, so their focus rings do not touch; in plain language the home's cover
+  keeps «נווה האירוס» on one line on phones (a smaller ב, a no-break space); a line of the error summary never starts
+  with «—»; the «!» of a two-line error sits on its first line; links in a line of text (the cover's phone, the
+  privacy note's last link) keep their ring off the colon and the full stop; the consent sentence never ends on one
+  word.
 
 = 0.2.4 =
 * A second look at the live site after 0.2.3 (the same in the prototype): a fact of a home that breaks alone on a

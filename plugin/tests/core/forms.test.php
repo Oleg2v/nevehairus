@@ -442,7 +442,7 @@ return [
 		$_GET['nh_err'] = 'name:required,phone:tel,evil:<x>,email:bogus';
 		$s = NH_Forms::summary( $state, [ 'name' => 'שם מלא', 'phone' => 'טלפון' ], 'door' );
 		nh_assert_same(
-			'<div class="nh-alert nh-alert--error" data-error-summary tabindex="-1"><h3>נמצאו 2 שגיאות בטופס:</h3><ul><li><a href="#door-name">שם מלא — צריך למלא את השדה הזה.</a></li><li><a href="#door-phone">טלפון — מספר הטלפון לא תקין: צריך 9 או 10 ספרות, ובהתחלה 0.</a></li></ul></div>',
+			'<div class="nh-alert nh-alert--error" data-error-summary tabindex="-1"><h3>נמצאו 2 שגיאות בטופס:</h3><ul><li><a href="#door-name">שם מלא' . "\u{00A0}" . '— צריך למלא את השדה הזה.</a></li><li><a href="#door-phone">טלפון' . "\u{00A0}" . '— מספר הטלפון לא תקין: צריך 9 או 10 ספרות, ובהתחלה 0.</a></li></ul></div>',
 			$s
 		);
 		$f = NH_Forms::field( 'visit', 'phone', [ 'id' => 'door-phone', 'label' => [ 'טלפון', '' ] ], $state );

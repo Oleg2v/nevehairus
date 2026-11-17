@@ -6,7 +6,7 @@
 
 **Скриншоты живой главной** (17.11, открыта в браузере, только чтение):
 - [live-home-desktop.jpg](live-home-desktop.jpg) — компьютер, 1440 px;
-- [live-home-phone.jpg](live-home-phone.jpg) — телефон, iPhone 13, 390 px.
+- [live-home-phone.jpg](live-home-phone.jpg) — телефон, iPhone 13, 390 px; то же частями: [1](live-home-phone-1.jpg), [2](live-home-phone-2.jpg), [3](live-home-phone-3.jpg), [4](live-home-phone-4.jpg).
 
 Видео YouTube на скриншотах — пустые места: проигрыватель в снимок не попадает.
 

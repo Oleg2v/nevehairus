@@ -4,7 +4,7 @@ Tags: elementor, hebrew, rtl, accessibility
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.2.5
+Stable tag: 0.2.6
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,10 @@ No external services, no CDN, no tracking. Fonts are served from the plugin.
 * The letter outlines in assets/letters.json are drawn from Frank Ruhl Libre (same licence).
 
 == Changelog ==
+
+= 0.2.6 =
+* The privacy note's full stop sits where any full stop does: the room that keeps the focus ring off it appears only
+  with the ring, and the line keeps its length, so nothing rewraps on focus (0.2.5 showed «08-9403047 .»).
 
 = 0.2.5 =
 * The third look at the live site (the same in the prototype): the «·» between a home's facts is centred again (0.2.4

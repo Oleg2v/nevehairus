@@ -312,7 +312,7 @@ strong { font-weight: 700; }
 .nh-footer li > a { display: inline-flex; align-items: center; min-block-size: 2.75rem; }
 .nh-footer__brand > p { max-inline-size: 34ch; margin-block: .75rem; color: var(--nh-on-night-2); }
 .nh-footer__contacts { color: var(--nh-on-night-2); }
-.nh-footer :is(.nh-footer__contacts, .v3-dev) a:focus-visible { outline-width: 2px; outline-offset: 0; }   /* links in a line of text: the ring stays off the colon (16.11) */
+.nh-footer :is(.nh-footer__contacts a:is([href^="tel:"], [href^="mailto:"]), .v3-dev a):focus-visible { outline-width: 2px; outline-offset: 0; }   /* links in a line of text: the ring stays off the colon (16.11); not the links alone in their row */
 /* a contact line without a link is as tall as one with a link (44px), so the lines keep one rhythm whatever the
    order (16.11: without the e-mail line the fax and the address made a tight pair) */
 .nh-footer__contacts > li:not(:has(> a)) { padding-block: .625rem; }
@@ -423,8 +423,13 @@ strong { font-weight: 700; }
 /* a link inside running text (a label, a note, the cookie panel's text): a 2px ring on the words' own box, so it never
    covers the next word or the full stop (16.11: the 3px ring 3px out reached over a word space) */
 .nh-form :is(p, label) a:focus-visible, .nh-cookies p a:focus-visible { outline-width: 2px; outline-offset: 0; }
-/* the note's last link is followed by its full stop: a little room keeps the ring off the stop (16.11) */
-.nh-form__note a:last-child { margin-inline-end: .2em; }
+/* the note's last link is followed by its full stop: while the ring shows, .2em of room keeps it off the stop. At
+   rest the same .2em waits after the stop (an invisible word joiner with padding), so the line never changes length
+   and nothing rewraps on focus; at rest the stop sits where any full stop does (16.11: a fixed margin read as
+   «08-9403047 .») */
+.nh-form__note a:last-child:focus-visible { margin-inline-end: .2em; }
+.nh-form__note:has(> a:last-child)::after { content: "\2060"; content: "\2060" / ""; padding-inline-start: .2em; }
+.nh-form__note:has(> a:last-child:focus-visible)::after { padding-inline-start: 0; }
 @media (max-width: 39.99em) { .nh-form [type="submit"] { inline-size: 100%; } }
 
 /* two columns: text beside the jobs application form (design-system page) */

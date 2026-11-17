@@ -21,10 +21,10 @@
   ],
   "extra": null,
   "plugin": {
-   "version": "0.2.5",
-   "php_sha256": "513b285f5325c8f76bb054fa96fc9630c0836f05d912f7e9935f3b825f2c0ef8"
+   "version": "0.2.6",
+   "php_sha256": "acc528ad17c5da4fb699f5da8db563bed89e15fa1910e09a65367d3409803b3f"
   },
-  "inputs_sha256": "7489791a3e60e13fc35d54cae0540da012a8b6a818ab0254291674aef074053c"
+  "inputs_sha256": "e4a1668e4145b9de79440b248c9685883b7c2045c75aa3755fe38d391a492b34"
  },
  "elementor_data": [
   {

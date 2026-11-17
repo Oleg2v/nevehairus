@@ -81,8 +81,13 @@
 /* a link inside running text (a label, a note): a 2px ring on the words' own box, so it never covers the next word or
    the full stop (16.11: the 3px ring 3px out reached over a word space). The cookie panel's text: base.css */
 .nh-form :is(p, label) a:focus-visible { outline-width: 2px; outline-offset: 0; }
-/* the note's last link is followed by its full stop: a little room keeps the ring off the stop (16.11) */
-.nh-form__note a:last-child { margin-inline-end: .2em; }
+/* the note's last link is followed by its full stop: while the ring shows, .2em of room keeps it off the stop. At
+   rest the same .2em waits after the stop (an invisible word joiner with padding), so the line never changes length
+   and nothing rewraps on focus; at rest the stop sits where any full stop does (16.11: a fixed margin read as
+   «08-9403047 .») */
+.nh-form__note a:last-child:focus-visible { margin-inline-end: .2em; }
+.nh-form__note:has(> a:last-child)::after { content: "\2060"; content: "\2060" / ""; padding-inline-start: .2em; }
+.nh-form__note:has(> a:last-child:focus-visible)::after { padding-inline-start: 0; }
 @media (max-width: 39.99em) { .nh-form [type="submit"] { inline-size: 100%; } }
 
 /* ---- v3.css plain-language block — (plain-language form notes, hints and the consent sentence) ---- */

@@ -660,7 +660,8 @@ class Builder:
                 **flex("column", 0, 0), "padding": ZERO, "css_classes": "nh-pro__cell nh-reveal"},
                 self.twins(block, f"{p}/box", lambda t, pp, cls, v=icon(icon_name): self.icon_box(t, pp, v, cls),
                            "nh-pro__item"), title=self.text(block, "full")))
-        items = self.container("pro/inner/items", grid(4, 2, 1, gap_column=24, gap_row=32), cells, title="ארבעה דברים")
+        # 4 / 2 / 2: on phones a 2×2 block, not a long, sparse column (Itzik: «static and empty»)
+        items = self.container("pro/inner/items", grid(4, 2, 2, gap_column=24, gap_row=32), cells, title="ארבעה דברים")
         years = []
         for n in (1, 2):
             p = f"pro/inner/row/years/year-{n}"

@@ -1,0 +1,141 @@
+{
+ "key": "footer-v4",
+ "title": "כותרת תחתונה v4 — נווה האירוס",
+ "slug": "nh-footer-v4",
+ "front_page": false,
+ "post_type": "elementor_library",
+ "document_type": "footer",
+ "template": "",
+ "conditions": [
+  "include/singular/front_page"
+ ],
+ "page_settings": {
+  "content_wrapper_html_tag": "footer"
+ },
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py"
+  ],
+  "inputs_sha256": "3620cf806350892dc1c62fcdae8064401a80d770f64b6af0f491308bd49ace67",
+  "widgets": [
+   "text-editor"
+  ],
+  "blocks": {
+   "footer.copyright": {
+    "full": {
+     "element": "33aa8d8",
+     "field": "editor"
+    }
+   },
+   "footer.links": {
+    "full": {
+     "element": "7dc8684",
+     "field": "editor"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "88b1372",
+   "elType": "container",
+   "settings": {
+    "content_width": "boxed",
+    "boxed_width": {
+     "unit": "px",
+     "size": 1200,
+     "sizes": []
+    },
+    "container_type": "flex",
+    "flex_direction": "row",
+    "flex_gap": {
+     "column": "24",
+     "row": "8",
+     "isLinked": false,
+     "unit": "px"
+    },
+    "flex_wrap": "wrap",
+    "flex_wrap_tablet": "wrap",
+    "flex_wrap_mobile": "wrap",
+    "flex_direction_mobile": "column",
+    "flex_justify_content": "space-between",
+    "flex_align_items": "center",
+    "flex_justify_content_mobile": "center",
+    "padding": {
+     "unit": "custom",
+     "top": "1.5rem",
+     "right": "40px",
+     "bottom": "1.5rem",
+     "left": "40px",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "1.5rem",
+     "right": "32px",
+     "bottom": "1.5rem",
+     "left": "32px",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2rem",
+     "right": "20px",
+     "bottom": "2rem",
+     "left": "20px",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-footer-v4",
+    "background_color": "#4A2D84",
+    "__globals__": {
+     "background_color": "globals/colors?id=primary"
+    },
+    "_title": "כותרת תחתונה v4"
+   },
+   "elements": [
+    {
+     "id": "33aa8d8",
+     "elType": "widget",
+     "settings": {
+      "editor": "<p>© מעון נווה האירוס</p>",
+      "align_mobile": "center",
+      "text_color": "#FFFFFF",
+      "link_color": "#FFFFFF",
+      "link_hover_color": "#FFFFFF",
+      "__globals__": {
+       "text_color": "globals/colors?id=3efe2c1",
+       "link_color": "globals/colors?id=3efe2c1",
+       "link_hover_color": "globals/colors?id=3efe2c1",
+       "typography_typography": "globals/typography?id=504434a"
+      }
+     },
+     "elements": [],
+     "widgetType": "text-editor"
+    },
+    {
+     "id": "7dc8684",
+     "elType": "widget",
+     "settings": {
+      "editor": "<p><a href=\"@home:/הצהרת-נגישות/\">הצהרת נגישות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מדיניות-פרטיות/\">מדיניות פרטיות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מפת-אתר/\">מפת אתר</a></p>",
+      "align_mobile": "center",
+      "text_color": "#FFFFFF",
+      "link_color": "#FFFFFF",
+      "link_hover_color": "#FFFFFF",
+      "__globals__": {
+       "text_color": "globals/colors?id=3efe2c1",
+       "link_color": "globals/colors?id=3efe2c1",
+       "link_hover_color": "globals/colors?id=3efe2c1",
+       "typography_typography": "globals/typography?id=504434a"
+      }
+     },
+     "elements": [],
+     "widgetType": "text-editor"
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

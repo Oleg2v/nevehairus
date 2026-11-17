@@ -1,0 +1,199 @@
+{
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py"
+  ],
+  "inputs_sha256": "3620cf806350892dc1c62fcdae8064401a80d770f64b6af0f491308bd49ace67"
+ },
+ "system_colors": [
+  {
+   "_id": "primary",
+   "title": "סגול",
+   "color": "#4A2D84"
+  },
+  {
+   "_id": "secondary",
+   "title": "תכלת",
+   "color": "#5BBDEB"
+  },
+  {
+   "_id": "text",
+   "title": "טקסט",
+   "color": "#1F2421"
+  },
+  {
+   "_id": "accent",
+   "title": "ירוק",
+   "color": "#8CC05C"
+  }
+ ],
+ "custom_colors": [
+  {
+   "_id": "78b4a18",
+   "title": "סגול כהה",
+   "color": "#3A2269"
+  },
+  {
+   "_id": "68730b2",
+   "title": "רקע סגול",
+   "color": "#F3F0F9"
+  },
+  {
+   "_id": "e60d395",
+   "title": "רקע תכלת",
+   "color": "#EAF6FC"
+  },
+  {
+   "_id": "1faeb27",
+   "title": "רקע ירוק",
+   "color": "#EFF6E8"
+  },
+  {
+   "_id": "161ef55",
+   "title": "טקסט משני",
+   "color": "#4F5550"
+  },
+  {
+   "_id": "b72404d",
+   "title": "קו",
+   "color": "#D9DCE3"
+  },
+  {
+   "_id": "3efe2c1",
+   "title": "לבן",
+   "color": "#FFFFFF"
+  }
+ ],
+ "system_typography": [
+  {
+   "_id": "primary",
+   "title": "כותרות",
+   "typography_typography": "custom",
+   "typography_font_family": "Assistant",
+   "typography_font_weight": "700"
+  },
+  {
+   "_id": "secondary",
+   "title": "משני",
+   "typography_typography": "custom",
+   "typography_font_family": "Assistant",
+   "typography_font_weight": "600"
+  },
+  {
+   "_id": "text",
+   "title": "טקסט",
+   "typography_typography": "custom",
+   "typography_font_family": "Assistant",
+   "typography_font_weight": "400",
+   "typography_font_size": {
+    "unit": "rem",
+    "size": 1.1875,
+    "sizes": []
+   },
+   "typography_font_size_mobile": {
+    "unit": "rem",
+    "size": 1.125,
+    "sizes": []
+   },
+   "typography_line_height": {
+    "unit": "em",
+    "size": 1.65,
+    "sizes": []
+   }
+  },
+  {
+   "_id": "accent",
+   "title": "כפתורים וממשק",
+   "typography_typography": "custom",
+   "typography_font_family": "Assistant",
+   "typography_font_weight": "600",
+   "typography_font_size": {
+    "unit": "rem",
+    "size": 1.0625,
+    "sizes": []
+   },
+   "typography_line_height": {
+    "unit": "em",
+    "size": 1.5,
+    "sizes": []
+   }
+  }
+ ],
+ "custom_typography": [
+  {
+   "_id": "c704369",
+   "title": "כותרת H1",
+   "typography_typography": "custom",
+   "typography_font_family": "Assistant",
+   "typography_font_weight": "700",
+   "typography_font_size": {
+    "unit": "custom",
+    "size": "clamp(2rem, 1.4rem + 2.4vw, 3.25rem)",
+    "sizes": []
+   },
+   "typography_line_height": {
+    "unit": "em",
+    "size": 1.15,
+    "sizes": []
+   }
+  },
+  {
+   "_id": "603f9ca",
+   "title": "כותרת H2",
+   "typography_typography": "custom",
+   "typography_font_family": "Assistant",
+   "typography_font_weight": "700",
+   "typography_font_size": {
+    "unit": "custom",
+    "size": "clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem)",
+    "sizes": []
+   },
+   "typography_line_height": {
+    "unit": "em",
+    "size": 1.2,
+    "sizes": []
+   }
+  },
+  {
+   "_id": "fb57358",
+   "title": "כותרת H3",
+   "typography_typography": "custom",
+   "typography_font_family": "Assistant",
+   "typography_font_weight": "700",
+   "typography_font_size": {
+    "unit": "rem",
+    "size": 1.375,
+    "sizes": []
+   },
+   "typography_font_size_mobile": {
+    "unit": "rem",
+    "size": 1.25,
+    "sizes": []
+   },
+   "typography_line_height": {
+    "unit": "em",
+    "size": 1.3,
+    "sizes": []
+   }
+  },
+  {
+   "_id": "504434a",
+   "title": "טקסט קטן",
+   "typography_typography": "custom",
+   "typography_font_family": "Assistant",
+   "typography_font_weight": "400",
+   "typography_font_size": {
+    "unit": "rem",
+    "size": 1,
+    "sizes": []
+   },
+   "typography_line_height": {
+    "unit": "em",
+    "size": 1.5,
+    "sizes": []
+   }
+  }
+ ]
+}

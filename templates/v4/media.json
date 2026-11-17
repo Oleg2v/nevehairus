@@ -1,0 +1,102 @@
+{
+ "logo": {
+  "file": "templates/v4/media/logo.png",
+  "alt": "מעון נווה האירוס — דף הבית",
+  "title": "nh4:logo",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2018/08/logo.png",
+  "width": 159,
+  "height": 123,
+  "faces": "none",
+  "note": "Live logo, media 967, copied byte-for-byte (PNG, no transparency, white background). The live media library (search «logo» and «לוגו») holds no larger copy of this artwork: media 77, 79 and 195 are other, horizontal letterhead logos. The PDF embeds the same 159x123 file. At 64 px display height the file is about 1.9x, so it can look slightly soft on 3x phone screens until a vector logo exists. Alt as in spec §4.0 (the logo links to the home page)."
+ },
+ "hero": {
+  "file": "templates/v4/media/hero.jpg",
+  "alt": "סלון וחלל משותף באגף החדש עם שתי ספות קטיפה כחולות כהות, שולחן אוכל עם מפה, כיסאות עץ וטלוויזיה",
+  "title": "nh4:hero",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2017/07/-וחלל-משותף-נווה-האירוס-e1640001508312.jpg",
+  "width": 1600,
+  "height": 1200,
+  "faces": "none",
+  "note": "Media 1214 (4032x3024, new wing shared lounge, no people; the TV reflects only the sofa). It is the full-size original of the live banner slide «סלון וחלל ציבורי באגף החדש» (media 1224, squashed to 1100x332), so it was chosen over the suggested list. Runner-up from the list: 1215 (new wing dining corner, portrait). Crop x220–4032, y0–2859 (removes a door handle and door edge at the bottom left), resized to 1600x1200, q82, no EXIF. Alt reused from photos.csv (media 1214)."
+ },
+ "card-1": {
+  "file": "templates/v4/media/card-1.jpg",
+  "alt": "חדר שינה באגף החדש עם שתי מיטות עץ יחיד בכיסויים ורודים, חלון וכורסה חומה",
+  "title": "nh4:card-1",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2017/07/-מגורים-באגף-החדש-e1640001613628.jpg",
+  "width": 1200,
+  "height": 900,
+  "faces": "none",
+  "note": "Card «מעון - בית לחיים». Media 1208 from the live gallery: a bedroom of the new wing, which is part of the main home (the live banner shows the same wing with «לחיות בבית שעוצב והותאם ממש בשבילך»). No people. 4:3 from 4032x3024, 1200x900. Chosen by the developer instead of the bare-tree crop of the Purim photo."
+ },
+ "card-2": {
+  "file": "templates/v4/media/card-2.jpg",
+  "alt": "סדנת שתילה: אישה חותכת ייחורים במזמרה, ועל השולחן מגש שתילים מלא אדמה",
+  "title": "nh4:card-2",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2025/12/לומדים-ומעשירים-ידע-נוה-האירוס.png",
+  "width": 480,
+  "height": 360,
+  "faces": "none",
+  "note": "Card «מערך דיור בקהילה». Media 1308, the only photo on the live page מערך דיור בקהילה (pixelated faces, one man in half-profile). The crop x290–770, y650–1010 shows hands, shears, cuttings and the seedling tray, with no face, no pixelation and no label of the hygiene-wipes bucket («מגבונים למבוגרים»). That clean area is only 480x360, kept at that size (no upscaling): soft on 2x screens. A better photo from the home is wanted."
+ },
+ "card-3": {
+  "file": "templates/v4/media/card-3.jpg",
+  "alt": "קבוצת אנשים, רובם בחולצות לבנות תואמות ועם מדליות על סרטים כחולים, מצטלמת יחד בפארק",
+  "title": "nh4:card-3",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2025/12/נוה-האירוס-נס-ציונה-הווי-המקום.png",
+  "width": 1200,
+  "height": 900,
+  "faces": "not recognizable",
+  "note": "Card «מערך דיור לאוטיזם». Media 1314, the photo shown on the live page מערך דיור בקהילה – אוטיזם, whole, as the home publishes it: the faces are pixelated by the home. Chosen by the developer instead of a crop that showed the people without heads."
+ },
+ "card-4": {
+  "file": "templates/v4/media/card-4.jpg",
+  "alt": "שולחן מכירה עם מוצרי יצירה בעבודת יד: עציצים וחמסות בפסיפס, צלחות, קופסאות עץ ומסגרות HOME",
+  "title": "nh4:card-4",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2017/12/אירוע-מכירות-משתלת-האירוס.jpg",
+  "width": 1200,
+  "height": 900,
+  "faces": "none",
+  "note": "Card «חדשות ועדכונים». Media 1091 from the live news page (item «אירוע מכירות משתלת האירוס»), 1200x1600. Crop x0–1200, y520–1420 (1200x900, no resize) leaves out the passer-by seen from behind at the top. No people in frame. Not used: 1162 (computer room) shows a face on a monitor; 1392 (renovated room) shows a security camera."
+ },
+ "video-kLAGTCOIWQE": {
+  "file": "templates/v4/media/video-kLAGTCOIWQE.jpg",
+  "alt": "חדר שינה באגף החדש עם שתי מיטות יחיד בכיסויים ירוקים, והכיתוב: בכל דירה 3-4 חדרים כולל סלון ופינת אוכל",
+  "title": "nh4:video-kLAGTCOIWQE",
+  "source_url": "https://i.ytimg.com/vi/kLAGTCOIWQE/maxresdefault.jpg",
+  "width": 1280,
+  "height": 720,
+  "faces": "none",
+  "note": "The video's own YouTube thumbnail (maxresdefault, 1280x720, 16:9), no black bars; re-saved q82. The text printed on it (from the video) is in the alt."
+ },
+ "video-JQXm_Dku7tI": {
+  "file": "templates/v4/media/video-JQXm_Dku7tI.jpg",
+  "alt": "גבר יושב על ספסל בגינה ומדבר אל המצלמה, עם כתוביות בעברית",
+  "title": "nh4:video-JQXm_Dku7tI",
+  "source_url": "https://i.ytimg.com/vi/JQXm_Dku7tI/maxresdefault.jpg",
+  "width": 1280,
+  "height": 720,
+  "faces": "visible",
+  "note": "The video's own YouTube thumbnail (maxresdefault, 1280x720), no black bars; re-saved q82. It shows a man's face clearly, with burned-in subtitles that name a person; the alt leaves the name out. The live home shows the same image as the YouTube poster. YouTube's other frames are no better: maxres1 shows the founders' portraits, maxres3 the same man. Needs the home's OK, as for any photo with a face."
+ },
+ "video-Tkbqa08a5Ro": {
+  "file": "templates/v4/media/video-Tkbqa08a5Ro.jpg",
+  "alt": "נקודות אור סגולות במתקן בחדר הסנוזלן, והכיתוב: מנהרת עומק",
+  "title": "nh4:video-Tkbqa08a5Ro",
+  "source_url": "https://i.ytimg.com/vi/Tkbqa08a5Ro/oardefault.jpg",
+  "width": 711,
+  "height": 1264,
+  "faces": "none",
+  "note": "The Short's own thumbnail in its original aspect (oardefault.jpg, 720x1270, no black bars; the 16:9 maxresdefault has side bars). Center crop to exact 9:16 = 711x1264, below the 720x1280 target (no upscaling); q82."
+ },
+ "pdf-entrances": {
+  "file": "templates/v4/media/pdf-entrances.pdf",
+  "alt": "מפרט כניסות נגישות",
+  "title": "nh4:pdf-entrances",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2017/08/מפרט-כניסות-נגישות.pdf",
+  "width": null,
+  "height": null,
+  "faces": "none",
+  "note": "The live PDF «מפרט כניסות נגישות», byte-for-byte (sha256 f77510775b5e1c8cc0629243d81405922b60bde648db96971e55289de6dc8c1d, 554,483 bytes, 9 pages, Last-Modified 15.02.2025): an accessibility survey of the entrances with photos of doors, gates and parking, no people seen. Tagged PDF with form fields, no JavaScript. Width/height do not apply. The alt is only the document name; the link text on the page describes it."
+ }
+}

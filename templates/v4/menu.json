@@ -1,0 +1,84 @@
+{
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py"
+  ],
+  "inputs_sha256": "3620cf806350892dc1c62fcdae8064401a80d770f64b6af0f491308bd49ace67"
+ },
+ "name": "תפריט ראשי",
+ "slug": "nh-main",
+ "source": "content/v4/home.json \"menu\" (the live header menu)",
+ "items": [
+  {
+   "label": "דף הבית",
+   "url": "@page:home",
+   "page": "home",
+   "children": [
+    {
+     "label": "גלריית מוצרים למכירה",
+     "url": "@home:/מעון-ראשי-בית-לחיים/גלריית-מוצרים-למכירה/",
+     "children": []
+    },
+    {
+     "label": "אבחנה כפולה",
+     "url": "@home:/מעון-ראשי-בית-לחיים/אבחנה-כפולה/",
+     "children": []
+    },
+    {
+     "label": "סנטוריום",
+     "url": "@home:/מעון-ראשי-בית-לחיים/סנטוריום/",
+     "children": []
+    }
+   ]
+  },
+  {
+   "label": "אודות",
+   "url": "@home:/אודות/",
+   "children": [
+    {
+     "label": "חדשות ועדכונים",
+     "url": "@home:/חדשות-ועדכונים/",
+     "children": []
+    },
+    {
+     "label": "המלצות",
+     "url": "@home:/תודות-והמלצות/",
+     "children": []
+    },
+    {
+     "label": "מאמרים וכתבות",
+     "url": "@home:/category/ספרים-ומאמרים/",
+     "children": []
+    }
+   ]
+  },
+  {
+   "label": "מעון ראשי – בית לחיים",
+   "url": "@page:main-home",
+   "page": "main-home",
+   "children": []
+  },
+  {
+   "label": "מערך דיור בקהילה",
+   "url": "@home:/מערך-דיור-בקהילה/",
+   "children": []
+  },
+  {
+   "label": "מערך דיור בקהילה – אוטיזם",
+   "url": "@home:/מערך-דיור-בקהילה-אוטיזם/",
+   "children": []
+  },
+  {
+   "label": "דרושים",
+   "url": "@home:/דרושים/",
+   "children": []
+  },
+  {
+   "label": "צור קשר",
+   "url": "@home:/צור-קשר/",
+   "children": []
+  }
+ ]
+}

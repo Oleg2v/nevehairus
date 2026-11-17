@@ -1,0 +1,440 @@
+{
+  "source": "https://www.nevehairus.com/",
+  "read_at": "2026-11-17",
+  "notes": [
+    "Read on 17.11.2026 in Chromium at 1440 px from the rendered live home page and its layout script (GET only, nothing sent, no login). Every block whose source starts with «live» is copied from that DOM, except hero.title and hero.sub, which are read from the banner images (see below). The texts are the same as in content/pages/home.md and content/_global-footer.md (REST snapshot of 15.11.2026).",
+    "Plain twins: 15 drafts written later (plain_status \"draft\"), fact-checked against their full texts; listed in content/v4/plain-drafts.md for the home to check.",
+    "hero.title and hero.sub are not HTML text on the live site. They are printed inside two slides of the live banner slider: banner-1.jpg (media 1027) and banner2.jpg (media 1026). The other two slides are the new wing's sky-lit corridor (media 1223, caption «תאורת שמיים באגף החדש») and its lounge (media 1224, caption «סלון וחלל ציבורי באגף החדש»).",
+    "The live banner has no buttons. hero.cta_contact and header.contact use the live menu label «צור קשר»; hero.cta_phone and header.phone use the number from the live contacts block (טלפון: 08-9403047).",
+    "Suspected typo, kept: about.body paragraph 1 has a space before the colon: «המשפחות : שטיינהרט».",
+    "Suspected typos, kept: about.body paragraph 3 «יחודו» (the same sentence spells «ייחודית» with two yods) and «תרפואיטית» (usual spelling «תרפויטית»).",
+    "Kept as on live: about.body paragraph 4 («המעון מקיים כל העת תערוכות אמנות…») has no final period.",
+    "Inconsistent spelling on the live page, kept: about.body paragraph 5 «חדר סנוזילן» vs the heading «חדר סנוזלן בנוה האירוס»; and «נווה האירוס» in most texts vs «נוה האירוס» in snoezelen.title and the YouTube titles.",
+    "Suspected missing word, kept: snoezelen.intro starts «חדר הוא סביבה…» (probably «חדר סנוזלן הוא…»); snoezelen.credit «חדר הוקם…» reads the same way (probably «החדר הוקם…»).",
+    "Kept as on live: testimonials.excerpt «שלום רב,שמי…» has no space after the comma (two spans are glued on live), «בן ה- 30» has a space after the hyphen, and the excerpt ends with «..» (two dots).",
+    "Privacy to confirm, not changed: testimonials.excerpt names the mother («לילה ורבל») and so makes her son identifiable, and it describes his behaviour («בעיות התנהגות קשות, כגון אלימות פיזית»). It is published on the live home; worth confirming with the home that this consent still stands.",
+    "Suspected typos, kept: special.lead paragraph 2 «ימי עיון וההדרכות» (probably «והדרכות») and «עושים ונעשה» (perhaps «עשינו ונעשה»).",
+    "Suspected typos, kept: special.rest paragraph 1 «מהווות» (usual spelling «מהוות»); special.rest paragraph 2 «(וכאלו שגם לא מניב כלל)» (the verb does not agree: «מניבות»/«מניבים»).",
+    "Suspected spelling, kept: contacts.address.title «כתובתינו» (standard spelling «כתובתנו»).",
+    "Terms the project avoids in plain twins, kept verbatim in the full texts: «חניך», «החניכים» (about.body); «מוסד» (testimonials.card_title, testimonials.excerpt); «חוסים», «החוסים», «לחוסים», «החוסה» (special.lead, special.rest); «מש\"ה» (card1.sub, card2.sub); «חוסים» in the YouTube title used for about.video2.caption.",
+    "Structure, not text: on live special.title is a bold 28 px paragraph, not a heading, and testimonials.card_title is an h2 inside a call-to-action. The spec makes them an H2 and an H3.",
+    "Cards: on live, card 1 «מעון - בית לחיים» links to /תעסוקה/, a page that does not exist; v4 links it to @page:main-home (מעון ראשי – בית לחיים). Card titles use a hyphen («מעון - בית לחיים») where the menu uses an en dash. Card 3's live title is «מערך דיור לאוטיזם», while the menu and page title are «מערך דיור בקהילה – אוטיזם». Card 4 has no subline on live, so card4.sub is \"\".",
+    "Menu: the live HTML label «מעון ראשי –  בית לחיים» has two spaces after the dash (the page title has them too). Browsers show one space, and home.json uses one. «המלצות» links to /תודות-והמלצות/; «מאמרים וכתבות» links to the category archive /category/ספרים-ומאמרים/. The «דף הבית» sub-menu lists three pages whose URLs sit under /מעון-ראשי-בית-לחיים/. All as on live.",
+    "contacts.phone.body: on live only «08» is a link (tel:089403047). Here the whole number is the link. The no-break space after «טלפון:» is kept.",
+    "contacts.email.body: on live the two addresses are plain text. mailto links are added (spec §4.7). The names and roles («דוד אליהו - מנהל המעון», «גל שטיינהרט - נציג הבעלים») are copied as on live; worth confirming they are still current.",
+    "contacts.links.body: on live, Facebook is an icon without text (fa-facebook-square) that opens a new tab. There is no live label, so the text is «נווה האירוס בפייסבוק» (spec §4.7). The link opens in the same tab. facebook_url is the live href.",
+    "contacts.address.body: «70450» is a 5-digit postal code. Israel Post has used 7-digit codes since 2013, so this is worth checking with the home. Not changed.",
+    "contacts.title «צור קשר» is not on the live block, which has no heading. It is the menu's own label, used as a visually hidden H2.",
+    "live_pdf_url decodes to /wp-content/uploads/2017/08/מפרט-כניסות-נגישות.pdf. The file has 9 pages and 554,483 bytes (Last-Modified 15.02.2025): an accessibility survey of the entrances, a tagged PDF with form fields. It is copied byte-for-byte to templates/v4/media/pdf-entrances.pdf, and the link text gets « (PDF)». The PDF's own accessibility was not checked.",
+    "about.video1.caption and about.video2.caption: the videos have no captions on live. These are the videos' own YouTube titles (oEmbed, channel «נוה האירוס», read 17.11.2026). The Short Tkbqa08a5Ro is titled «חדר סנוזלן - מעון נוה האירוס».",
+    "UI labels of the v4 design, not live copy: special.more_title «להמשך קריאה», header.plain_toggle «בשפה פשוטה», footer.copyright «© מעון נווה האירוס» and footer.links. The live site has no footer band. The accessibility statement page /הצהרת-נגישות/ does not exist yet on live or test.",
+    "Left out on purpose: the live home's «גלריית תמונות» row and its photo carousel are display:none on every screen (spec §4.6).",
+    "For reference, the live page's SEO title is «מעון לבעלי צרכים מיוחדים | מעון צרכים מיוחדים | מוגבלות שכלית | מעון נווה האירוס»."
+  ],
+  "menu": [
+    {
+      "label": "דף הבית",
+      "live_href": "https://www.nevehairus.com/",
+      "children": [
+        {
+          "label": "גלריית מוצרים למכירה",
+          "live_href": "https://www.nevehairus.com/%d7%9e%d7%a2%d7%95%d7%9f-%d7%a8%d7%90%d7%a9%d7%99-%d7%91%d7%99%d7%aa-%d7%9c%d7%97%d7%99%d7%99%d7%9d/%d7%92%d7%9c%d7%a8%d7%99%d7%99%d7%aa-%d7%9e%d7%95%d7%a6%d7%a8%d7%99%d7%9d-%d7%9c%d7%9e%d7%9b%d7%99%d7%a8%d7%94/",
+          "children": []
+        },
+        {
+          "label": "אבחנה כפולה",
+          "live_href": "https://www.nevehairus.com/%d7%9e%d7%a2%d7%95%d7%9f-%d7%a8%d7%90%d7%a9%d7%99-%d7%91%d7%99%d7%aa-%d7%9c%d7%97%d7%99%d7%99%d7%9d/%d7%90%d7%91%d7%97%d7%a0%d7%94-%d7%9b%d7%a4%d7%95%d7%9c%d7%94/",
+          "children": []
+        },
+        {
+          "label": "סנטוריום",
+          "live_href": "https://www.nevehairus.com/%d7%9e%d7%a2%d7%95%d7%9f-%d7%a8%d7%90%d7%a9%d7%99-%d7%91%d7%99%d7%aa-%d7%9c%d7%97%d7%99%d7%99%d7%9d/%d7%a1%d7%a0%d7%98%d7%95%d7%a8%d7%99%d7%95%d7%9d/",
+          "children": []
+        }
+      ]
+    },
+    {
+      "label": "אודות",
+      "live_href": "https://www.nevehairus.com/%d7%90%d7%95%d7%93%d7%95%d7%aa/",
+      "children": [
+        {
+          "label": "חדשות ועדכונים",
+          "live_href": "https://www.nevehairus.com/%d7%97%d7%93%d7%a9%d7%95%d7%aa-%d7%95%d7%a2%d7%93%d7%9b%d7%95%d7%a0%d7%99%d7%9d/",
+          "children": []
+        },
+        {
+          "label": "המלצות",
+          "live_href": "https://www.nevehairus.com/%d7%aa%d7%95%d7%93%d7%95%d7%aa-%d7%95%d7%94%d7%9e%d7%9c%d7%a6%d7%95%d7%aa/",
+          "children": []
+        },
+        {
+          "label": "מאמרים וכתבות",
+          "live_href": "https://www.nevehairus.com/category/%d7%a1%d7%a4%d7%a8%d7%99%d7%9d-%d7%95%d7%9e%d7%90%d7%9e%d7%a8%d7%99%d7%9d/",
+          "children": []
+        }
+      ]
+    },
+    {
+      "label": "מעון ראשי – בית לחיים",
+      "live_href": "https://www.nevehairus.com/%d7%9e%d7%a2%d7%95%d7%9f-%d7%a8%d7%90%d7%a9%d7%99-%d7%91%d7%99%d7%aa-%d7%9c%d7%97%d7%99%d7%99%d7%9d/",
+      "children": []
+    },
+    {
+      "label": "מערך דיור בקהילה",
+      "live_href": "https://www.nevehairus.com/%d7%9e%d7%a2%d7%a8%d7%9a-%d7%93%d7%99%d7%95%d7%a8-%d7%91%d7%a7%d7%94%d7%99%d7%9c%d7%94/",
+      "children": []
+    },
+    {
+      "label": "מערך דיור בקהילה – אוטיזם",
+      "live_href": "https://www.nevehairus.com/%d7%9e%d7%a2%d7%a8%d7%9a-%d7%93%d7%99%d7%95%d7%a8-%d7%91%d7%a7%d7%94%d7%99%d7%9c%d7%94-%d7%90%d7%95%d7%98%d7%99%d7%96%d7%9d/",
+      "children": []
+    },
+    {
+      "label": "דרושים",
+      "live_href": "https://www.nevehairus.com/%d7%93%d7%a8%d7%95%d7%a9%d7%99%d7%9d/",
+      "children": []
+    },
+    {
+      "label": "צור קשר",
+      "live_href": "https://www.nevehairus.com/%d7%a6%d7%95%d7%a8-%d7%a7%d7%a9%d7%a8/",
+      "children": []
+    }
+  ],
+  "facebook_url": "https://www.facebook.com/neveirus/",
+  "live_pdf_url": "https://www.nevehairus.com/wp-content/uploads/2017/08/%D7%9E%D7%A4%D7%A8%D7%98-%D7%9B%D7%A0%D7%99%D7%A1%D7%95%D7%AA-%D7%A0%D7%92%D7%99%D7%A9%D7%95%D7%AA.pdf",
+  "videos": {
+    "kLAGTCOIWQE": {
+      "title": "אגף המגורים החדש בנוה האירוס מספק מענה מלא לכל צורך של הדיירים. מעניק סביבת מחייה נוחה ונעימה."
+    },
+    "JQXm_Dku7tI": {
+      "title": "נוה האירוס מעון חוסים נס ציונה"
+    },
+    "Tkbqa08a5Ro": {
+      "title": "חדר סנוזלן - מעון נוה האירוס"
+    }
+  },
+  "blocks": {
+    "hero.title": {
+      "kind": "h1",
+      "full": "לחיות בבית שעוצב והותאם ממש בשבילך",
+      "plain": "לגור בבית שמתאים לך",
+      "plain_status": "draft",
+      "source": "live home, banner slider (module 5bdeb69ed7d45): printed inside slide banner-1.jpg (media 1027)"
+    },
+    "hero.sub": {
+      "kind": "text",
+      "full": "שיפור מקצועי והתאמה אישית",
+      "plain": "אנחנו משתפרים בעבודה שלנו. אנחנו מתאימים את העבודה שלנו לכל אחד ואחת.",
+      "plain_status": "draft",
+      "source": "live home, banner slider (module 5bdeb69ed7d45): printed inside slide banner2.jpg (media 1026)"
+    },
+    "hero.cta_contact": {
+      "kind": "button",
+      "full": "צור קשר",
+      "plain": null,
+      "plain_status": null,
+      "source": "live header menu item «צור קשר» (→ /צור-קשר/); the live banner has no buttons"
+    },
+    "hero.cta_phone": {
+      "kind": "button",
+      "full": "08-9403047",
+      "plain": null,
+      "plain_status": null,
+      "source": "live contacts block «פרטי התקשרות» (טלפון: 08-9403047); tel:089403047"
+    },
+    "specialties.title": {
+      "kind": "h2",
+      "full": "תחומי התמחות",
+      "plain": "מה אנחנו עושים",
+      "plain_status": "draft",
+      "source": "live home, row «תחומי התמחות», heading module 5953a96b77f39"
+    },
+    "card1.title": {
+      "kind": "h3",
+      "full": "מעון - בית לחיים",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, «תחומי התמחות», callout module 5953686d8d0fd: card title (h3 link)"
+    },
+    "card1.sub": {
+      "kind": "text",
+      "full": "אוכלוסיית מש\"ה",
+      "plain": "לאנשים עם מוגבלות שכלית התפתחותית",
+      "plain_status": "draft",
+      "source": "live home, «תחומי התמחות», callout module 5953686d8d0fd: card text"
+    },
+    "card2.title": {
+      "kind": "h3",
+      "full": "מערך דיור בקהילה",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, «תחומי התמחות», callout module 5953686d8c9eb: card title (h3 link)"
+    },
+    "card2.sub": {
+      "kind": "text",
+      "full": "אוכלוסיית מש\"ה",
+      "plain": "לאנשים עם מוגבלות שכלית התפתחותית",
+      "plain_status": "draft",
+      "source": "live home, «תחומי התמחות», callout module 5953686d8c9eb: card text"
+    },
+    "card3.title": {
+      "kind": "h3",
+      "full": "מערך דיור לאוטיזם",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, «תחומי התמחות», callout module 5953686d8a7c8: card title (h3 link)"
+    },
+    "card3.sub": {
+      "kind": "text",
+      "full": "אוכלוסייה על הרצף האוטיסטי",
+      "plain": "לאנשים עם אוטיזם",
+      "plain_status": "draft",
+      "source": "live home, «תחומי התמחות», callout module 5953686d8a7c8: card text"
+    },
+    "card4.title": {
+      "kind": "h3",
+      "full": "חדשות ועדכונים",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, «תחומי התמחות», callout module 5bbf3db3bdd60: card title (h3 link)"
+    },
+    "card4.sub": {
+      "kind": "text",
+      "full": "",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, «תחומי התמחות», callout module 5bbf3db3bdd60: card text (empty on live)"
+    },
+    "about.title": {
+      "kind": "h2",
+      "full": "נווה האירוס - קצת עלינו",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, row «קצת עלינו», rich text module 59536e52147b3: h2"
+    },
+    "about.body": {
+      "kind": "html",
+      "full": "<p>אבן הפינה למעון \"נווה האירוס\" הונחה בשנת 1957 ע\"י המשפחות : שטיינהרט, רשו וקוגן.</p><p>במתכונתו הנוכחית מאז 1985 בפיקוח מלא של משרד הרווחה - האגף לטיפול באדם עם מוגבלות שכלית התפתחותית.</p><p>יחודו של המעון בשיטות טיפול מתקדמות, יחס אישי ודואג לכל חניך ופעילות תרפואיטית ייחודית.</p><p>המעון מקיים כל העת תערוכות אמנות ופעילויות מרשימות בתחומים שונים</p><p>במעון ניתן למצוא חדר סנוזילן מתקדם בעל ציוד חדשני, מרפאת שיניים מתקדמת ומשוכללת, מועדון מתקדם לרווחת החניכים, חדרים נוחים ומאובזרים ועוד.</p>",
+      "plain": "<p>בשנת 1957 כמה משפחות התחילו להקים את נווה האירוס.</p><p>משנת 1985 המעון עובד כמו היום.</p><p>משרד הרווחה מפקח על המעון באופן מלא. מי שמפקח הוא האגף שמטפל באנשים עם מוגבלות שכלית התפתחותית.</p><p>מה מיוחד במעון?</p><ul><li>יש שיטות טיפול מתקדמות.</li><li>דואגים לכל דייר ודיירת באופן אישי.</li><li>יש פעילות טיפולית מיוחדת.</li></ul><p>במעון יש כל הזמן תערוכות אמנות ופעילויות בנושאים שונים.</p><p>מה יש במעון? למשל:</p><ul><li>חדר סנוזלן מתקדם.</li><li>מרפאת שיניים מתקדמת.</li><li>מועדון לדיירים ולדיירות.</li><li>חדרים נוחים.</li></ul>",
+      "plain_status": "draft",
+      "source": "live home, rich text module 59536e52147b3: the 5 paragraphs under the h2"
+    },
+    "about.video1.caption": {
+      "kind": "text",
+      "full": "אגף המגורים החדש בנוה האירוס מספק מענה מלא לכל צורך של הדיירים. מעניק סביבת מחייה נוחה ונעימה.",
+      "plain": null,
+      "plain_status": null,
+      "source": "YouTube title of kLAGTCOIWQE (oEmbed, channel «נוה האירוס»); the video sits in the live row under «קצת עלינו» (module 5d67e12924f97), no caption on live"
+    },
+    "about.video2.caption": {
+      "kind": "text",
+      "full": "נוה האירוס מעון חוסים נס ציונה",
+      "plain": null,
+      "plain_status": null,
+      "source": "YouTube title of JQXm_Dku7tI (oEmbed, channel «נוה האירוס»); live video module 61d17540b78ff, no caption on live"
+    },
+    "testimonials.title": {
+      "kind": "h2",
+      "full": "תודות והמלצות",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, row «תודות והמלצות», heading module 5b3db959f1f4b"
+    },
+    "testimonials.card_title": {
+      "kind": "h3",
+      "full": "נווה האירוס - המלצה של אמא לדייר במוסד",
+      "plain": "אמא של דייר ממליצה על נווה האירוס",
+      "plain_status": "draft",
+      "source": "live home, call-to-action module 5b3db9d1bc5a1: its title (h2 on live)"
+    },
+    "testimonials.excerpt": {
+      "kind": "html",
+      "full": "<p>שלום רב,שמי לילה ורבל, בני בן ה- 30 מתגורר בנווה האירוס מזה 11 שנה עקב בעיות התנהגות קשות, כגון אלימות פיזית. אני רוצה לציין לטובה את השינוי העצום שבוצע במוסד בשנתיים האחרונות וזאת עקב..</p>",
+      "plain": "<p>האמא כותבת שהבן שלה בן 30, ושהוא גר בנווה האירוס כבר 11 שנים.</p><p>היא כותבת שבמעון היה שינוי גדול וטוב ב־2 השנים האחרונות.</p>",
+      "plain_status": "draft",
+      "source": "live home, call-to-action module 5b3db9d1bc5a1: its text (two spans glued, no space after «שלום רב,»)"
+    },
+    "testimonials.more": {
+      "kind": "button",
+      "full": "קרא עוד",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, call-to-action module 5b3db9d1bc5a1: button → /תודות-והמלצות/"
+    },
+    "special.title": {
+      "kind": "h2",
+      "full": "מעון לבעלי צרכים מיוחדים",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, rich text module 5bb32d1fb3245: first paragraph, bold 28px (not a heading on live)"
+    },
+    "special.framed": {
+      "kind": "html",
+      "full": "<ul><li>בכל פעם שאתם שומעים את המונח \"מעון לבעלי צרכים מיוחדים\" איזו תמונה עולה בראשכם?</li><li>בכל פעם שאתם שומעים את המונח \"מעון לבעלי צרכים מיוחדים\" איזו הרגשה עולה לכם בגוף?</li></ul><p>לא כזו איכותית ולא כזו נעימה, נכון? בדיוק.</p>",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, module 5bb32d1fb3245: the bulleted 2 questions and the paragraph after them"
+    },
+    "special.lead": {
+      "kind": "html",
+      "full": "<p>נווה האירוס הוא מעון לבעלי צרכים מיוחדים, והתמונה שעולה יחד עם ההרגשה שבגוף היא, כי משהו חדש מתחיל, משהו טוב קורה כאן, בנווה האירוס.</p><p>מעון לבעלי צרכים מיוחדים הוא מקום. בית. (אפילו) לכל החיים, הן לחוסים בו והן למשפחותיהם. הצוותים העובדים במעון נווה האירוס הינם צוותים חדשים ומחודשים, כאלו שעברו הכשרות מקצועיות, ימי עיון וההדרכות, על מנת למקד את תכנית הטיפול האישית, המתאימה לכל אחד ואחת מדיירי המעון. כמעון לבעלי צרכים מיוחדים, מעון נווה האירוס, שואף להתקדם ומתקדם בכל יום לשיפור המיומנויות והכלים היומיומיים לשילוב בחברה, שכן, ישנם דיירים ברמות תפקוד שונות, המאפשרות להם/ן, יחד עם הכשרה וליווי צמוד של הצוות המטפל, להשתלב בעבודה, לגור באופן עצמאי, עם דיירים נוספים (תוך חונכות איש צוות אשר קיבל הכשרה מתאימה) ובכלל, בנווה האירוס, עושים ונעשה את המקסימום על מנת לוודא כי כל החוסים יקבלו טיפול צמוד ומתאים בהתאם לקשיים של כל אחד ואחת.</p>",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, module 5bb32d1fb3245: paragraphs 2–3 (from «נווה האירוס הוא מעון…» to the end of «…מעון לבעלי צרכים מיוחדים הוא מקום. בית. …»)"
+    },
+    "special.more_title": {
+      "kind": "text",
+      "full": "להמשך קריאה",
+      "plain": null,
+      "plain_status": null,
+      "source": "UI label of the v4 accordion (spec §4.5), not live copy"
+    },
+    "special.rest": {
+      "kind": "html",
+      "full": "<p>מעון לבעלי צרכים מיוחדים צריך להיות כזה המאפשר גם למשפחות החוסים, לקחת חלק בחייהם, גם אם אינם גרים בביתם השורשי. האפשרות להגיע למעון, לבקר, לטייל בין החללים השונים, צריכה להיות מובנת מאליה ולא ממודרת. השיתוף בין הנהלת המעון, (אשר גם מנצחת על תהליך השיפור והשינוי במעון), הצוותים המטפלים השונים, לבין משפחות החוסים, מאפשר תקשורת פתוחה, שקיפות ושיתוף פעולה בכל הקשור לחיי היומיום במעון ולחזון העתידי שלו. משפחותיהם של החוסים מהווות חלק בלתי נפרד מהצוות התומך, המקיף את החוסה ועל כך, מעצימים את הביטחון שלו/ה, מאפשרים להתפנות לטיפולים השונים ולהתקדמות בדרך. התקשורת בין המשפחות לצוותים היא חלק בלתי נפרד מהצלחתו של מעון לבעלי צרכים מיוחדים, שכן, ישנם מעגלי תקשורת אשר נפתחים ונסגרים בכל פעם, והיות וישנם חוסים אשר נמצאים גם במסגרות חוץ, חד יומיות, חשוב להנהלת מעון נווה האירוס, להיות בקשר רציף עם המשפחות וזאת על מנת לשמר את תהליך הטיפול ולהתקדם בכל פעם, קצת, צעד צעד.</p><p>מעון לבעלי צרכים מיוחדים, הוא מקום מיוחד, ייחודי ורגיש מאד. העבודה עם אוכלוסייה בעלת צרכים מיוחדים היא זכות גדולה ועדיין לא כולם בוחרים בה ולכן, הצוותים בנווה האירוס נבחרו בקפידה תוך התייחסות ספציפית לכישורים מתאימים וכמובן, לב רחב וסבלנות אין קץ, שכן, הטיפול באוכלוסייה שכזו, אינו מניב תוצאות מיידיות (וכאלו שגם לא מניב כלל) ולכן, נדרשת סבלנות גדולה ונתינה ענקית.</p><p>הצוותים השונים, העובדים עם החוסים, עושים את המקסימום על מנת לאפשר לכל אחד מהדיירים במעון את הרווחה המגיעה לכל אחד ואחת מהם. הליווי, האכפתיות, תשומת הלב, גם לפרטים הקטנים ביותר, כי זהו חלק מהחזון שלנו בנווה האירוס, אותו אנו מגשימים בכל יום ויום וזמינים גם עבור משפחותיהם של הדיירים ומאפשרים ערוצי תקשורת פתוחים עם הנהלת המעון והצוותים הרלוונטיים.</p><p>מעון לבעלי צרכים מיוחדים נווה האירוס, הוא מקום מיוחד, עם אנשים מיוחדים לאנשים מיוחדים. נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.</p>",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, module 5bb32d1fb3245: the remaining 4 paragraphs, verbatim"
+    },
+    "special.plain_body": {
+      "kind": "html",
+      "full": null,
+      "plain": "<p>יש אנשים שחושבים שמעון לאנשים עם מוגבלות הוא מקום לא כל כך נעים.</p><p>נווה האירוס הוא מעון לאנשים עם מוגבלות. אבל בנווה האירוס מתחיל משהו חדש. משהו טוב קורה כאן.</p><p>המעון הוא בית. הוא יכול להיות בית לכל החיים. הוא בית לדיירים ולדיירות, וגם למשפחות שלהם.</p><p>הצוות במעון התחדש. אנשי הצוות עברו הכשרות מקצועיות, כדי להתאים לכל דייר ודיירת תכנית טיפול אישית.</p><p>אנחנו עוזרים לדיירים ולדיירות להשתפר בדברים של יום יום. המטרה היא שיהיו חלק מהחברה.</p><p>בעזרת הצוות, יש דיירים ודיירות שיכולים לעבוד. יש גם דיירים ודיירות שיכולים לגור באופן עצמאי, עם דיירים אחרים. איש צוות מלווה אותם.</p><p>אנחנו עושים כמה שאפשר כדי שכל דייר ודיירת יקבלו טיפול צמוד שמתאים להם. הצוות שם לב גם לדברים הכי קטנים.</p><p>חשוב לנו שהמשפחות יהיו חלק מהחיים של הדיירים והדיירות. חשוב לנו שהמשפחות יוכלו לבוא, לבקר ולהסתובב במעון.</p><p>ההנהלה, הצוות והמשפחות עובדים יחד. הם מדברים בפתיחות על החיים במעון ועל העתיד שלו.</p><p>המשפחות תומכות בדיירים ובדיירות. כך הדיירים והדיירות מרגישים בטוחים יותר, ויכולים להתקדם.</p><p>הצוות זמין גם למשפחות. חשוב לנו להיות בקשר קבוע עם המשפחות. הקשר עוזר להמשיך בטיפול ולהתקדם, צעד אחרי צעד.</p><p>לעבוד עם אנשים עם מוגבלות זו זכות גדולה. לא כל אחד בוחר בעבודה הזאת. לכן בחרנו את אנשי הצוות בתשומת לב. חיפשנו אנשים עם כישורים מתאימים, לב רחב והרבה סבלנות.</p><p>נווה האירוס הוא מקום מיוחד. נשמח שתבואו להכיר אותנו. נשמח לתת לכם מידע.</p>",
+      "plain_status": "draft",
+      "source": "plain twin of the whole section body (spec §4.5); no full text of its own"
+    },
+    "contacts.title": {
+      "kind": "h2",
+      "full": "צור קשר",
+      "plain": null,
+      "plain_status": null,
+      "source": "not on the live block (it has no heading): the live menu label «צור קשר»; visually hidden (spec §4.7)"
+    },
+    "contacts.address.title": {
+      "kind": "h3",
+      "full": "כתובתינו",
+      "plain": "הכתובת שלנו",
+      "plain_status": "draft",
+      "source": "live contacts block, icon module 5983185a72544 (its text)"
+    },
+    "contacts.address.body": {
+      "kind": "html",
+      "full": "<p>מעון נווה האירוס ת.ד. 28 נס ציונה 70450</p><p><a href=\"@media:pdf-entrances\">מפרט כניסות נגישות (PDF)</a></p>",
+      "plain": null,
+      "plain_status": null,
+      "source": "live contacts block, rich text module 5983185a72588; the PDF link text gets « (PDF)»"
+    },
+    "contacts.phone.title": {
+      "kind": "h3",
+      "full": "פרטי התקשרות",
+      "plain": null,
+      "plain_status": null,
+      "source": "live contacts block, icon module 5983185a7260f"
+    },
+    "contacts.phone.body": {
+      "kind": "html",
+      "full": "<p>טלפון:&nbsp;<a href=\"tel:089403047\">08-9403047</a><br>פקס: 08-9400805</p>",
+      "plain": null,
+      "plain_status": null,
+      "source": "live contacts block, rich text module 5983185a725cb (live links only «08»; here the whole number)"
+    },
+    "contacts.email.title": {
+      "kind": "h3",
+      "full": "כתובת מייל",
+      "plain": "המייל שלנו",
+      "plain_status": "draft",
+      "source": "live contacts block, icon module 5983185a72655"
+    },
+    "contacts.email.body": {
+      "kind": "html",
+      "full": "<p>דוד אליהו - מנהל המעון<br><a href=\"mailto:irus1@nevehairus.com\">irus1@nevehairus.com</a></p><p>גל שטיינהרט - נציג הבעלים<br><a href=\"mailto:galsh@inter.net.il\">galsh@inter.net.il</a></p>",
+      "plain": null,
+      "plain_status": null,
+      "source": "live contacts block, rich text module 5983185a7269b (plain text on live; mailto links added)"
+    },
+    "contacts.links.title": {
+      "kind": "h3",
+      "full": "קישורים נוספים",
+      "plain": "עוד קישורים",
+      "plain_status": "draft",
+      "source": "live contacts block, icon module 5983185a726df"
+    },
+    "contacts.links.body": {
+      "kind": "html",
+      "full": "<p><a href=\"https://www.facebook.com/neveirus/\">נווה האירוס בפייסבוק</a></p><p><a href=\"@home:/מפת-אתר/\">מפת אתר</a></p>",
+      "plain": null,
+      "plain_status": null,
+      "source": "live contacts block: Facebook icon module 5b72b2952372e (an icon without text on live; label «נווה האירוס בפייסבוק» per spec) and rich text module 5986c6b6636cd «מפת אתר»"
+    },
+    "snoezelen.title": {
+      "kind": "h2",
+      "full": "חדר סנוזלן בנוה האירוס",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, last row, heading module 6a15c0eebc840"
+    },
+    "snoezelen.intro": {
+      "kind": "html",
+      "full": "<p>חדר הוא סביבה רב-חושית מבוקרת, המשלבת גירויים אופטיים, קוליים, ריחיים ותחושתיים (מגע) להרפיה, ויסות רגשי וטיפול. החדר המרופד מציע חוויה מותאמת אישית, לרוב לילדים ואנשים עם מוגבלויות, אוטיזם, או קשיים בוויסות החושי, ומטרתו ליצור איזון בין רוגע לעוררות:</p>",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, rich text module 6a15c1b32d012: the paragraph"
+    },
+    "snoezelen.list": {
+      "kind": "html",
+      "full": "<ul><li><strong>סביבה רב-חושית</strong>: שילוב של אורות, צלילים, ריחות ומרקמים שונים.</li><li><strong>עיצוב מרגיע</strong>: חדר מרופד, לעיתים קרובות לבן, המשרה תחושת ביטחון ונעימות.</li><li><strong>גירויים מותאמים</strong>: סיבים אופטיים, עמודי בועות, מקרנים, מוזיקה רגועה ואביזרי מגע.</li><li><strong>התאמה אישית</strong>: המטפל מתאים את עוצמת הגירויים למטופל, במטרה להביא להרפיה.</li></ul>",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, rich text module 6a15c1b32d012: the 4 bullets (bold lead + text)"
+    },
+    "snoezelen.credit": {
+      "kind": "text",
+      "full": "חדר הוקם בסיוע ובאדיבות המוסד לביטוח לאומי",
+      "plain": "ביטוח לאומי עזר להקים את החדר.",
+      "plain_status": "draft",
+      "source": "live home, rich text module 6a15c3172106e (italic, under the video)"
+    },
+    "snoezelen.plain_body": {
+      "kind": "html",
+      "full": null,
+      "plain": "<p>חדר סנוזלן הוא חדר שיש בו דברים לראות, לשמוע, להריח ולגעת.</p><p>משתמשים בחדר כדי להירגע. משתמשים בו גם לטיפול.</p><p>חדר כזה מתאים בדרך כלל לאנשים עם מוגבלות או עם אוטיזם.</p><p>בחדר כזה יש:</p><ul><li>חוטים שמאירים.</li><li>עמודים עם בועות.</li><li>מקרנים.</li><li>מוזיקה רגועה.</li><li>דברים לגעת בהם.</li></ul><p>החדר מרופד, והרבה פעמים הוא לבן. בחדר מרגישים בטוחים, ונעים להיות בו.</p><p>המטפל או המטפלת מתאימים את החדר לכל אדם. למשל, הם קובעים כמה חזקים יהיו האורות והצלילים. המטרה היא לעזור לאדם להירגע.</p>",
+      "plain_status": "draft",
+      "source": "plain twin of the text column (spec §4.8); no full text of its own"
+    },
+    "header.plain_toggle": {
+      "kind": "button",
+      "full": "בשפה פשוטה",
+      "plain": null,
+      "plain_status": null,
+      "source": "UI label of the plain-language toggle (as on the v3.2 plugin masthead); not on the live site"
+    },
+    "header.phone": {
+      "kind": "button",
+      "full": "08-9403047",
+      "plain": null,
+      "plain_status": null,
+      "source": "live contacts block «פרטי התקשרות» (טלפון: 08-9403047); tel:089403047"
+    },
+    "header.contact": {
+      "kind": "button",
+      "full": "צור קשר",
+      "plain": null,
+      "plain_status": null,
+      "source": "live header menu item «צור קשר» (→ /צור-קשר/)"
+    },
+    "footer.copyright": {
+      "kind": "text",
+      "full": "© מעון נווה האירוס",
+      "plain": null,
+      "plain_status": null,
+      "source": "UI of the v4 footer band (the live site has no footer band); the name as in the live contacts block"
+    },
+    "footer.links": {
+      "kind": "html",
+      "full": "<p><a href=\"@home:/הצהרת-נגישות/\">הצהרת נגישות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מדיניות-פרטיות/\">מדיניות פרטיות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מפת-אתר/\">מפת אתר</a></p>",
+      "plain": null,
+      "plain_status": null,
+      "source": "UI of the v4 footer band (spec §4.9); labels: the live page titles «מדיניות פרטיות», «מפת אתר» and the required «הצהרת נגישות» (no such page yet on live or test)"
+    }
+  }
+}

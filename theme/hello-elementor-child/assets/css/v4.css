@@ -1,0 +1,594 @@
+/* =========================================================================
+   v4 — the calm design of the pages built from Elementor's own widgets
+   (research/09-v4-home-spec.md §5.2–§5.5). Child theme 1.2.0.
+
+   Printed on every page after Elementor's frontend CSS and the theme's style.css,
+   but every rule is scoped, so the v3.2 pages built with the plugin's widgets
+   look as before:
+   - v4 classes the documents carry: nh-sec, nh-hero__text, nh-card, nh-quote,
+     nh-framed, nh-checklist, nh-credit, nh-video__cap, nh-more, nh-cover-img,
+     nh-ratio-4x3, nh-full / nh-plain, nh-plain-toggle, nh-visually-hidden,
+     nh-footer-v4;
+   - the v4 header by its root container `.e-con.nh-header` (the plugin's
+     masthead on the v3.2 pages has a `.nh-header` too, never on a container);
+   - the theme's own floating buttons (.nh-float, functions.php) and the html
+     classes of the accessibility menu (nh-a11y-*), which work on every page.
+
+   Colours (§1): purple-700 #4A2D84, purple-800 #3A2269, purple-50 #F3F0F9,
+   green-500 #8CC05C (decoration only), ink #1F2421, ink-2 #4F5550,
+   line #D9DCE3; call green #2E7D32 (hover #1B5E20); high-contrast yellow
+   #FFE600 on black. Every text and UI pair is at least 4.5:1 (UI 3:1); the
+   table is in theme/README.md.
+
+   Specificity: Elementor writes each element's settings as `.elementor-<doc>
+   .elementor-element.elementor-element-<id> …` (0,3,0 and up), and its widgets'
+   global defaults land there too (the Kit's accent, a light green, is the
+   default hover colour of the menu and the accordion: 2.1:1 on white). Where the
+   theme must win (states Elementor has no control for, or such a default), the
+   selectors below are longer than Elementor's; the rest are fallbacks that the
+   Elementor settings override.
+   ========================================================================= */
+
+/* ---------- Text size (accessibility menu, §5.3): everything is in rem ---------- */
+html.nh-a11y-text-1 { font-size: 115%; }
+html.nh-a11y-text-2 { font-size: 130%; }
+
+/* ---------- The page ground of a v4 page is white (§1); zero specificity above
+   style.css's paper, so an Elementor page setting still wins ---------- */
+body:where(:has(.e-con.nh-sec)) { background-color: #FFFFFF; }
+
+/* ---------- Visually hidden (the contacts block's H2, the live region) ---------- */
+.nh-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
+/* ---------- Text Editor blocks keep no browser margin at their edges: the
+   containers' gaps space the sections (Hello's reset.css is off) ---------- */
+:is(.nh-sec, .nh-footer-v4) :is(.elementor-widget-text-editor, .elementor-widget-text-editor > .elementor-widget-container) > :is(:first-child, style:first-child + *) { margin-block-start: 0; }
+:is(.nh-sec, .nh-footer-v4) :is(.elementor-widget-text-editor, .elementor-widget-text-editor > .elementor-widget-container) > :last-child { margin-block-end: 0; }
+
+/* ---------- Photos (§1: every photo 4:3; images 12px, in cards only the card's
+   own top corners) ---------- */
+.elementor-element.nh-ratio-4x3 img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+/* a linked photo (the cards'): Elementor makes the link inline-block, which would shrink it to the file's own width */
+.elementor-element.nh-ratio-4x3 a { display: block; width: 100%; }
+/* outside cards a 12px radius (beats `.elementor img { border-radius: 0 }`, loses to the widget's own setting);
+   in a card the card clips the photo (overflow: hidden), so its bottom corners stay square */
+.elementor-element.nh-ratio-4x3:where(:not(.nh-card *)) img { border-radius: 12px; }
+
+/* the hero photo fills its half; on phones it is 4:3 above the text */
+.elementor-element.nh-cover-img {
+  position: relative;
+  align-self: stretch;
+  flex: 1 1 auto;
+  min-height: 20rem;
+}
+.elementor-element.nh-cover-img img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+@media (max-width: 767px) {
+  .elementor-element.nh-cover-img { flex: 0 0 auto; width: 100%; min-height: 0; aspect-ratio: 4 / 3; }
+}
+
+/* ---------- Cards (§4.2): one tab stop, the whole card clickable ---------- */
+.elementor-element.e-con.nh-card {
+  position: relative;
+  overflow: hidden;
+}
+.elementor-element.e-con.nh-card:is(:hover, :focus-within) { border-color: #3A2269; }
+/* the title link: no underline at rest (the card is the affordance), underlined with the card's hover */
+.elementor-element.e-con.nh-card .nh-card__title a { color: inherit; text-decoration-line: none; }
+.elementor-element.e-con.nh-card:is(:hover, :focus-within) .nh-card__title :is(.elementor-heading-title, a) { color: #3A2269; }
+.elementor-element.e-con.nh-card:is(:hover, :focus-within) .nh-card__title a {
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .2em;
+}
+/* the stretched link: the title link's box covers the card. Not in the editor (a click there selects a widget) */
+body:not(.elementor-editor-active) .nh-card :is(.nh-card__body, .nh-card__title, .nh-card__title > .elementor-widget-container, .nh-card__title .elementor-heading-title) { position: static; }
+body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+/* keyboard focus: the link's own ring and one around the card */
+.elementor-element.e-con.nh-card:has(.nh-card__title a:focus-visible) {
+  outline: 3px solid #4A2D84;
+  outline-offset: 2px;
+}
+
+/* ---------- The quote card (§4.4): a large decorative ” in its top inline-start
+   corner. `::after`, not `::before`: on an Elementor container `::before` is the
+   background overlay's own box. Behind the text (isolation + z-index -1) ---------- */
+.elementor-element.e-con.nh-quote { position: relative; isolation: isolate; }
+.elementor-element.e-con.nh-quote::after {
+  content: "\201D";
+  position: absolute;
+  inset-block-start: -.5rem;
+  inset-inline-start: .75rem;
+  z-index: -1;
+  font: 700 6rem/1 "Assistant", "Arial Hebrew", Arial, sans-serif;
+  color: #4A2D84;
+  opacity: .25;
+  pointer-events: none;
+}
+
+/* ---------- The framed box (§4.5): the inline-start border, a fallback the
+   container's own border setting overrides ---------- */
+.e-con:where(.nh-framed) { border-inline-start: 4px solid #4A2D84; }
+
+/* ---------- Check list (§4.8): green check marks, aligned to the first line ---------- */
+.nh-checklist ul { list-style: none; margin: 0; padding: 0; }
+.nh-checklist li { position: relative; padding-inline-start: 2rem; }
+.nh-checklist li + li { margin-block-start: .75rem; }
+.nh-checklist li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: calc(.825em - .625rem);   /* the first line's middle at line-height 1.65 … */
+  top: calc(.5lh - .625rem);     /* … or exactly, where the lh unit exists */
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #8CC05C;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 12.5l5 5L19.5 7' fill='none' stroke='%23000' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 12.5l5 5L19.5 7' fill='none' stroke='%23000' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* ---------- Captions and the credit line (fallbacks: the widgets' typography and
+   colour settings win) ---------- */
+.elementor-widget-text-editor:is(.nh-credit, .nh-video__cap) { font-size: 1rem; line-height: 1.5; color: #4F5550; }
+.elementor-widget-text-editor.nh-credit { font-style: italic; }
+
+/* ---------- «להמשך קריאה» (§4.5): the accordion's summary as a clear button-like
+   row; no motion (the widget's animation duration is 0) ---------- */
+.nh-sec .elementor-widget-n-accordion.nh-more .e-n-accordion-item > .e-n-accordion-item-title {
+  min-block-size: 2.75rem;
+  align-items: center;
+  padding: .75rem 1rem;
+  border: 1px solid #D9DCE3;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+.nh-sec .elementor-widget-n-accordion.nh-more .e-n-accordion-item > .e-n-accordion-item-title :is(.e-n-accordion-item-title-text, .e-n-accordion-item-title-icon) { color: #4A2D84; font-weight: 600; }
+.nh-sec .elementor-widget-n-accordion.nh-more .e-n-accordion-item > .e-n-accordion-item-title svg { fill: currentColor; }
+.nh-sec .elementor-widget-n-accordion.nh-more .e-n-accordion-item > .e-n-accordion-item-title:hover { border-color: #3A2269; }
+.nh-sec .elementor-widget-n-accordion.nh-more .e-n-accordion-item > .e-n-accordion-item-title:hover :is(.e-n-accordion-item-title-text, .e-n-accordion-item-title-icon) { color: #3A2269; }
+.nh-sec .elementor-widget-n-accordion.nh-more .e-n-accordion-item > .e-n-accordion-item-title:hover .e-n-accordion-item-title-text {
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .3em;
+}
+
+/* ---------- Links in text (WCAG 1.4.1): underlined, purple, thicker on hover ---------- */
+.nh-sec .elementor-widget-text-editor a {
+  color: #4A2D84;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .2em;
+}
+.nh-sec .elementor-widget-text-editor a:hover { color: #3A2269; text-decoration-thickness: 2px; }
+
+/* ---------- Focus: a 3px purple ring in the v4 areas, white on purple ---------- */
+.nh-sec :focus-visible,
+.e-con.nh-header :focus-visible,
+.nh-float :focus-visible { outline: 3px solid #4A2D84; outline-offset: 2px; }
+.nh-hero__text :focus-visible,
+.nh-footer-v4 :focus-visible { outline: 3px solid #FFFFFF; outline-offset: 2px; }
+/* the footer band's links are underlined (WCAG 1.4.1): Elementor's `.elementor a` takes the underline away */
+.nh-footer-v4 a { text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.nh-footer-v4 a:hover { text-decoration-thickness: 2px; }
+
+/* ---------- The v4 header (§4.0) ---------- */
+/* sticky from 1025px (static on phones and tablets, as on the live site), under WordPress's admin bar */
+@media (min-width: 1025px) {
+  .elementor-location-header:has(.e-con.nh-header) {
+    position: sticky;
+    top: var(--wp-admin--admin-bar--height, 0px);
+    z-index: 100;
+  }
+}
+/* a jump to an anchor or to a focused control lands below the sticky header (v4.js measures it) */
+html:has(.e-con.nh-header) { scroll-padding-top: calc(var(--nh4-sticky-h, 0px) + var(--wp-admin--admin-bar--height, 0px)); }
+
+/* the menu: hover purple-800 with a 2px underline; the current item 700 with a 3px bar, static */
+.elementor-location-header .e-con.nh-header .elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item.elementor-item-active {
+  font-weight: 700;
+  color: #4A2D84;
+  fill: #4A2D84;
+  box-shadow: inset 0 -3px 0 #4A2D84;
+}
+.elementor-location-header .e-con.nh-header .elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item:is(:hover, :focus, .highlighted) {
+  color: #3A2269;
+  fill: #3A2269;
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .35em;
+}
+/* sub-menus: white, a 1px line border, radius 8px, no shadow */
+.elementor-location-header .e-con.nh-header .elementor-nav-menu--main .elementor-nav-menu ul {
+  background-color: #FFFFFF;
+  border: 1px solid #D9DCE3;
+  border-radius: 8px;
+  padding-block: .375rem;
+  box-shadow: none;
+}
+/* sub-menu and phone-dropdown items: 44px rows; the current one 700 with a bar on its inline-start edge on the
+   white ground (not Elementor's default active ground, the Kit's green accent); hover purple-50, purple-800 text */
+.elementor-location-header .e-con.nh-header .elementor-widget-nav-menu .elementor-nav-menu--dropdown a { min-block-size: 2.75rem; }
+.elementor-location-header .e-con.nh-header .elementor-widget-nav-menu .elementor-nav-menu--dropdown a.elementor-item-active {
+  background-color: transparent;
+  font-weight: 700;
+  color: #4A2D84;
+  fill: #4A2D84;
+  box-shadow: inset calc(3px * var(--direction-multiplier, -1)) 0 0 #4A2D84;
+}
+.elementor-location-header .e-con.nh-header .elementor-widget-nav-menu .elementor-nav-menu--dropdown a:is(:hover, :focus, .highlighted) {
+  background-color: #F3F0F9;
+  color: #3A2269;
+  fill: #3A2269;
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: .3em;
+}
+/* the phone/tablet toggle: the visible word «תפריט» beside its icon; the widget's toggle stays the control
+   and keeps its own aria-label (v4.js adds the word to it only if it is missing: WCAG 2.5.3) */
+.elementor-location-header .e-con.nh-header .elementor-menu-toggle {
+  min-inline-size: 2.75rem;
+  min-block-size: 2.75rem;
+  gap: .5rem;
+  padding-inline: .75rem;
+  border-radius: 8px;
+}
+.elementor-location-header .e-con.nh-header .elementor-menu-toggle::after {
+  content: "\5EA\5E4\5E8\5D9\5D8";   /* תפריט */
+  font-family: inherit;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* ---------- «בשפה פשוטה» (§5.5): the pressed toggle is purple with white text;
+   the label stays. !important: Elementor has no setting for a pressed state, and
+   its own hover/focus colours (0,5,0) would otherwise win ---------- */
+:is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle)[aria-pressed="true"] {
+  background-color: #4A2D84 !important;
+  border-color: #4A2D84 !important;
+  color: #FFFFFF !important;
+}
+:is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle)[aria-pressed="true"]:hover {
+  background-color: #3A2269 !important;
+  border-color: #3A2269 !important;
+}
+:is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle)[aria-pressed="true"] :is(.elementor-button-text, svg) { color: inherit !important; fill: currentColor !important; }
+
+/* ---------- Plain language (§6): the full text or its plain twin, never both.
+   In the Elementor editor both show, so the client can edit both ---------- */
+html:not(.nh-plainmode) body:not(.elementor-editor-active) .nh-plain { display: none !important; }
+html.nh-plainmode body:not(.elementor-editor-active) .nh-full { display: none !important; }
+
+/* editor helpers: the plain twins get a dashed olive outline and the label «שפה פשוטה — טיוטה».
+   A widget takes it on ::before (as the spec has it); a container on ::after (its ::before is the overlay) */
+body.elementor-editor-active .nh-plain { outline: 2px dashed #3D5832; outline-offset: 2px; }
+body.elementor-editor-active .elementor-widget.nh-plain::before,
+body.elementor-editor-active .e-con.nh-plain::after {
+  content: "\5E9\5E4\5D4\20\5E4\5E9\5D5\5D8\5D4\20\2014\20\5D8\5D9\5D5\5D8\5D4";   /* שפה פשוטה — טיוטה */
+  position: absolute;
+  inset: auto auto 100% auto;
+  inset-inline-start: 0;
+  z-index: 2;
+  display: block;
+  width: auto;
+  height: auto;
+  padding: .125rem .5rem;
+  border: 0;
+  border-radius: 4px 4px 0 0;
+  background: #3D5832;
+  color: #FFFFFF;
+  font: 600 .75rem/1.4 "Assistant", "Arial Hebrew", Arial, sans-serif;
+  opacity: 1;
+  mix-blend-mode: normal;
+  pointer-events: none;
+}
+
+/* ---------- No motion in the v4 areas (§0). Nothing transitions or animates
+   (Elementor's 300–500ms defaults on widgets, buttons, the menu and its phone
+   dropdown included), except the colour of interactive things on hover/focus:
+   150ms, and not at all under prefers-reduced-motion. A switch of the
+   accessibility menu applies at once (v4.js sets html.nh-a11y-switching for a
+   frame) ---------- */
+body:not(.elementor-editor-active) :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-float),
+body:not(.elementor-editor-active) :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-float) *,
+body:not(.elementor-editor-active) :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-float) *::before,
+body:not(.elementor-editor-active) :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-float) *::after {
+  transition: none !important;
+  animation: none !important;
+}
+@media (prefers-reduced-motion: no-preference) {
+  body:not(.elementor-editor-active) :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-float) :is(a, button, summary, [role="button"], .elementor-button, .e-con.nh-card) {
+    transition: color .15s ease, background-color .15s ease, border-color .15s ease, text-decoration-color .15s ease, fill .15s ease !important;
+  }
+}
+html.nh-a11y-switching body :is(.nh-sec, .e-con.nh-header, .nh-footer-v4, .nh-float) :is(a, button, summary, [role="button"], .elementor-button, .e-con.nh-card) { transition: none !important; }
+
+/* =========================================================================
+   The floating buttons (§5.3, §5.4), printed by functions.php on wp_footer on
+   every page (not in the Elementor editor): «נגישות» and, on phones only, the
+   green call button under it. One column at the inline end (left), so they
+   never cover each other; on phones the page ends with room for them.
+   ========================================================================= */
+.nh-float {
+  position: fixed;
+  z-index: 9000;   /* above the sticky header (100), under Elementor's phone dropdown (9997) and the admin bar */
+  inset-inline-end: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  font: 400 1rem/1.4 "Assistant", "Arial Hebrew", Arial, sans-serif;
+  color: #1F2421;
+  text-align: start;
+}
+@media (min-width: 768px) {
+  .nh-float { inset-inline-end: 24px; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (max-width: 767px) {
+  /* the page's end stays clear of the two buttons (12 + 56 + 8 + 52 + 8px) */
+  body:has(.nh-float) { padding-block-end: calc(136px + env(safe-area-inset-bottom, 0px)); }
+  /* on a v4 page the purple footer band runs on into that room (no white strip under it); the band is always
+     taller than 136px on phones, so its shadow copy fills the room exactly */
+  body:has(.nh-float) .e-con.nh-footer-v4 { box-shadow: 0 calc(136px + env(safe-area-inset-bottom, 0px)) 0 0 #4A2D84; }
+  html.nh-a11y-contrast body:has(.nh-float) .e-con.nh-footer-v4 { box-shadow: 0 calc(136px + env(safe-area-inset-bottom, 0px)) 0 0 #000000 !important; }
+}
+
+.nh-a11y { position: relative; }
+.nh-a11y-btn,
+.nh-call-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 52px;
+  height: 52px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #FFFFFF;   /* stays visible on the purple hero and footer */
+  color: #FFFFFF;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.nh-a11y-btn { background-color: #4A2D84; }
+.nh-a11y-btn:hover,
+.nh-a11y-btn[aria-expanded="true"] { background-color: #3A2269; }
+.nh-call-btn { width: 56px; height: 56px; background-color: #2E7D32; }
+.nh-call-btn:hover { background-color: #1B5E20; }
+.nh-a11y-btn svg,
+.nh-call-btn svg { display: block; width: 28px; height: 28px; flex: none; }
+@media (min-width: 768px) {
+  .nh-call-btn { display: none; }
+}
+/* a ring that shows on any background: purple on a white halo */
+.nh-float :is(.nh-a11y-btn, .nh-call-btn):focus-visible {
+  outline: 3px solid #4A2D84;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 9px #FFFFFF;
+}
+
+/* the panel: above the button, no animation; `hidden` takes it out of the tab order */
+.nh-a11y-panel {
+  position: absolute;
+  inset-inline-end: 0;
+  bottom: calc(100% + 12px);
+  box-sizing: border-box;
+  width: min(20rem, calc(100vw - 24px));
+  max-height: calc(100vh - 160px);
+  max-height: calc(100dvh - 160px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1rem 1rem 1.25rem;
+  border: 1px solid #D9DCE3;
+  border-radius: 12px;
+  background-color: #FFFFFF;
+  color: #1F2421;
+}
+@media (min-width: 768px) {
+  .nh-a11y-panel { max-height: calc(100vh - 112px); max-height: calc(100dvh - 112px); }
+}
+.nh-a11y-panel[hidden] { display: none !important; }
+.nh-a11y-panel *,
+.nh-a11y-panel *::before,
+.nh-a11y-panel *::after { box-sizing: border-box; }
+.nh-a11y-panel__title {
+  margin: 0 0 .75rem;
+  font: 700 1.25rem/1.3 "Assistant", "Arial Hebrew", Arial, sans-serif;
+  color: #1F2421;
+}
+.nh-a11y-panel__list { display: grid; gap: .5rem; margin: 0; padding: 0; list-style: none; }
+.nh-a11y-panel__list > li { margin: 0; padding: 0; }
+.nh-a11y-opt,
+.nh-a11y-act {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  width: 100%;
+  min-height: 2.75rem;
+  margin: 0;
+  padding: .5rem .875rem;
+  border: 2px solid #4A2D84;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  color: #4A2D84;
+  font: 600 1.0625rem/1.3 "Assistant", "Arial Hebrew", Arial, sans-serif;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+}
+.nh-a11y-opt:hover,
+.nh-a11y-act:hover { background-color: #F3F0F9; color: #3A2269; border-color: #3A2269; }
+.nh-a11y-opt[aria-pressed="true"] { background-color: #4A2D84; color: #FFFFFF; }
+.nh-a11y-opt[aria-pressed="true"]:hover { background-color: #3A2269; color: #FFFFFF; }
+.nh-a11y-opt__state { flex: none; font-weight: 700; }
+/* a pressed switch also shows a check mark (not only its colour; decorative, outside the name) */
+.nh-a11y-opt[aria-pressed="true"]:not([data-a11y="text"])::after {
+  content: "";
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 12.5l5 5L19.5 7' fill='none' stroke='%23000' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 12.5l5 5L19.5 7' fill='none' stroke='%23000' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.nh-a11y-panel__row { display: flex; gap: .5rem; margin-block-start: .75rem; }
+.nh-a11y-act { justify-content: center; flex: 1 1 0; border-color: #4F5550; color: #1F2421; }
+.nh-a11y-panel__statement {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  margin-block-start: .5rem;
+  color: #4A2D84;
+  font-weight: 600;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .2em;
+}
+.nh-a11y-panel__statement:hover { color: #3A2269; text-decoration-thickness: 2px; }
+
+/* =========================================================================
+   High contrast (`html.nh-a11y-contrast`, §5.3): black ground, white text,
+   yellow links, buttons and focus, white borders; photos unchanged. On the v4
+   sections, the Theme Builder header and footer, the theme's own areas (the
+   skip link, pages without Elementor content) and the panel itself. The v3.2
+   spreads keep their own colours (some sit on the page's paper ground, so the
+   page itself turns black only on v4 pages and pages without Elementor content).
+   ========================================================================= */
+html.nh-a11y-contrast body:is(:has(.e-con.nh-sec), :not([class*="elementor-page-"])) {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+html.nh-a11y-contrast :where(.elementor-location-header, .elementor-location-footer, .nh-sec, .nh-float, .nh-skip, body:not([class*="elementor-page-"]) .site-main),
+html.nh-a11y-contrast :where(.elementor-location-header, .elementor-location-footer, .nh-sec, .nh-float, body:not([class*="elementor-page-"]) .site-main) :where(:not(img, picture, video, iframe, svg, svg *, .elementor-custom-embed-image-overlay, .elementor-custom-embed-image-overlay *, .elementor-custom-embed-play, .elementor-custom-embed-play *)) {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+/* the floating column and its wrapper stay transparent (only the round buttons are painted) */
+html.nh-a11y-contrast .nh-float,
+html.nh-a11y-contrast .nh-float .nh-a11y { background-color: transparent !important; }
+/* icons follow the text (on the svg element only: shapes with their own fill="none" keep it) */
+html.nh-a11y-contrast :where(.elementor-location-header, .elementor-location-footer, .nh-sec, .nh-float) svg:not(.elementor-custom-embed-play svg) { fill: currentColor !important; }
+/* links yellow */
+html.nh-a11y-contrast :where(.elementor-location-header, .elementor-location-footer, .nh-sec, .nh-float, body:not([class*="elementor-page-"]) .site-main) a:where(:not(.elementor-button, .nh-call-btn)) { color: #FFE600 !important; }
+html.nh-a11y-contrast .nh-skip { color: #FFE600 !important; }
+/* buttons and other controls: yellow on black with a yellow frame (inset, so nothing moves) */
+html.nh-a11y-contrast :where(.elementor-location-header, .elementor-location-footer, .nh-sec, .nh-float, body:not([class*="elementor-page-"]) .site-main) :is(.elementor-button, button, .elementor-menu-toggle, [role="button"]:not(.elementor-custom-embed-play, .elementor-custom-embed-image-overlay), .e-n-accordion-item-title, .nh-call-btn, .nh-a11y-opt, .nh-a11y-act) {
+  background-color: #000000 !important;
+  color: #FFE600 !important;
+  box-shadow: inset 0 0 0 2px #FFE600 !important;
+}
+/* inside a link or a control nothing paints its own ground: the control's colours show through (a pressed
+   control is yellow, and its label must not sit in a black box) */
+html.nh-a11y-contrast :where(.elementor-location-header, .elementor-location-footer, .nh-sec, .nh-float, body:not([class*="elementor-page-"]) .site-main) :is(a, button, [role="button"], .elementor-button, .e-n-accordion-item-title, .elementor-menu-toggle) :where(:not(img, picture, video, svg, svg *)) {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+/* the v4 footer keeps a line above it */
+html.nh-a11y-contrast .e-con.nh-footer-v4 { border-top: 1px solid #FFFFFF !important; }
+/* the two floating buttons keep a ring that shows on black */
+html.nh-a11y-contrast .nh-float :is(.nh-a11y-btn, .nh-call-btn) { box-shadow: inset 0 0 0 2px #FFE600, 0 0 0 2px #000000 !important; }
+/* a pressed control is inverted: black on yellow */
+html.nh-a11y-contrast :is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle, .nh-a11y-opt)[aria-pressed="true"],
+html.nh-a11y-contrast .nh-float .nh-a11y-btn[aria-expanded="true"] {
+  background-color: #FFE600 !important;
+  border-color: #FFE600 !important;
+  color: #000000 !important;
+}
+html.nh-a11y-contrast :is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle)[aria-pressed="true"] * { color: inherit !important; }
+html.nh-a11y-contrast :is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle)[aria-pressed="true"] svg { fill: currentColor !important; }
+/* the current menu item keeps its bar, in yellow */
+html.nh-a11y-contrast .elementor-location-header .e-con.nh-header .elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item.elementor-item-active { box-shadow: inset 0 -3px 0 #FFE600 !important; }
+html.nh-a11y-contrast .elementor-location-header .e-con.nh-header .elementor-widget-nav-menu .elementor-nav-menu--dropdown a.elementor-item-active { box-shadow: inset calc(3px * var(--direction-multiplier, -1)) 0 0 #FFE600 !important; }
+/* hover and focus: yellow ground under the link or control */
+html.nh-a11y-contrast :where(.elementor-location-header, .elementor-location-footer, .nh-sec, .nh-float) :is(a, button, [role="button"], .e-n-accordion-item-title):not(.elementor-custom-embed-play, .elementor-custom-embed-image-overlay):hover {
+  background-color: #FFE600 !important;
+  color: #000000 !important;
+}
+html.nh-a11y-contrast :where(.elementor-location-header, .elementor-location-footer, .nh-sec, .nh-float) :is(a, button, [role="button"], .e-n-accordion-item-title):hover * { color: inherit !important; }
+/* focus: a yellow ring */
+html.nh-a11y-contrast :where(.elementor-location-header, .elementor-location-footer, .nh-sec, .nh-float, .nh-skip, body:not([class*="elementor-page-"]) .site-main) :focus-visible,
+html.nh-a11y-contrast .nh-skip:focus-visible { outline: 3px solid #FFE600 !important; outline-offset: 2px !important; }
+html.nh-a11y-contrast .nh-float :is(.nh-a11y-btn, .nh-call-btn):focus-visible { box-shadow: inset 0 0 0 2px #FFE600, 0 0 0 9px #000000 !important; }
+/* decorations follow: the quote mark white, the check marks yellow */
+html.nh-a11y-contrast .elementor-element.e-con.nh-quote::after { color: #FFFFFF; opacity: .5; }
+html.nh-a11y-contrast .nh-checklist li::before { background-color: #FFE600; }
+html.nh-a11y-contrast .nh-a11y-opt[aria-pressed="true"]::after { background-color: #000000; }
+
+/* =========================================================================
+   Highlighted links (`html.nh-a11y-links`, §5.3): every link underlined 2px,
+   a yellow ground on hover and focus. On every page.
+   ========================================================================= */
+html.nh-a11y-links a[href] {
+  text-decoration-line: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: .2em !important;
+}
+html.nh-a11y-links a[href]:is(:hover, :focus-visible) {
+  background-color: #FFE600 !important;
+  color: #000000 !important;
+  text-decoration-color: currentColor !important;
+}
+html.nh-a11y-links a[href]:is(:hover, :focus-visible) * { color: inherit !important; }
+html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !important; }
+
+/* ---------- Windows high contrast (forced colours): states stay visible ---------- */
+@media (forced-colors: active) {
+  .nh-a11y-btn,
+  .nh-call-btn { border: 2px solid ButtonText; }
+  .nh-a11y-panel { border-color: CanvasText; }
+  :is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle, .nh-a11y-opt)[aria-pressed="true"] {
+    forced-color-adjust: none;
+    background-color: Highlight !important;
+    border-color: Highlight !important;
+    color: HighlightText !important;
+  }
+  .nh-a11y-opt[aria-pressed="true"]::after { forced-color-adjust: none; background-color: HighlightText; }
+  .nh-checklist li::before { forced-color-adjust: none; background-color: CanvasText; }
+  .elementor-element.e-con.nh-quote::after { display: none; }
+}
+
+/* ---------- Print: no floating buttons, no sticky header ---------- */
+@media print {
+  .nh-float { display: none !important; }
+  .elementor-location-header:has(.e-con.nh-header) { position: static !important; }
+}

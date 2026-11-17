@@ -16,6 +16,14 @@
  *   for one request by the test site's safe switch, or unable to run): that cache is shared by every visitor and
  *   keeps the HTML of the plugin's static widgets, which would otherwise print as raw markup without their CSS and
  *   JS, and a page rendered without the plugin would be cached for the visitors who have it.
+ * 1.2.0, the v4 pages built from Elementor's own widgets (research/09-v4-home-spec.md §5):
+ * - the font Assistant from the theme (assets/fonts, assets/css/fonts.css) wherever the plugin's tokens.css is not
+ *   printed, with a preload of its Hebrew subset;
+ * - assets/css/v4.css (every rule scoped to the v4 classes, so the v3.2 pages do not change) and assets/js/v4.js
+ *   (deferred): the accessibility menu, the «בשפה פשוטה» toggle of the v4 header, the header's small needs;
+ * - a tiny inline script in the head that applies the stored display choices before the first paint;
+ * - on wp_footer, on every page but the Elementor editor: the floating «נגישות» button with its panel, the green
+ *   call button for phones and a polite live region.
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -41,6 +49,9 @@ foreach ( array( 'header-footer', 'canvas' ) as $nh_child_template ) {
 unset( $nh_child_template );
 
 add_action( 'wp_enqueue_scripts', 'nh_child_styles', 20 );
+add_action( 'wp_enqueue_scripts', 'nh_child_v4_assets', 30 );
+add_action( 'wp_head', 'nh_child_v4_head', 2 );
+add_action( 'wp_footer', 'nh_child_v4_footer', 10 );
 
 /**
  * `hello_elementor_page_title`: no Hello title on a page built with Elementor (its cover is the page's H1).
@@ -121,4 +132,149 @@ function nh_child_main_close() {
 function nh_child_styles() {
 	$deps = wp_style_is( 'elementor-frontend', 'registered' ) ? array( 'elementor-frontend' ) : array();
 	wp_enqueue_style( 'nh-child', get_stylesheet_uri(), $deps, (string) wp_get_theme()->get( 'Version' ) );
+}
+
+/**
+ * The theme's version (style.css), the version of every asset it prints.
+ *
+ * @return string
+ */
+function nh_child_version() {
+	return (string) wp_get_theme()->get( 'Version' );
+}
+
+/**
+ * True inside the Elementor editor's preview (the page the editor shows in its frame): no floating buttons and no
+ * stored display choices there, the client edits the page as it is designed.
+ *
+ * @return bool
+ */
+function nh_child_is_elementor_preview() {
+	if ( isset( $_GET['elementor-preview'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- a read-only check of the request
+		return true;
+	}
+	if ( ! class_exists( 'Elementor\Plugin', false ) ) {
+		return false;
+	}
+	$preview = isset( \Elementor\Plugin::$instance->preview ) ? \Elementor\Plugin::$instance->preview : null;
+	return is_object( $preview ) && method_exists( $preview, 'is_preview_mode' ) && $preview->is_preview_mode();
+}
+
+/**
+ * `wp_enqueue_scripts` @30 (after the plugin's and the theme's own @20, so it knows what they enqueued):
+ * - assets/css/fonts.css (Assistant from the theme) only where the plugin's tokens.css is not printed: it declares
+ *   the same font from the plugin's folder, and two faces with different URLs would download the font twice;
+ * - assets/css/v4.css after style.css (itself after Elementor's frontend CSS);
+ * - assets/js/v4.js, deferred, no dependencies.
+ * Version: the theme's (a deploy with a new version gives every file a new URL).
+ */
+function nh_child_v4_assets() {
+	$ver = nh_child_version();
+	$dir = get_stylesheet_directory_uri();
+	if ( ! wp_style_is( 'nh-tokens', 'enqueued' ) ) {
+		wp_enqueue_style( 'nh-child-fonts', $dir . '/assets/css/fonts.css', array(), $ver );
+	}
+	$deps = array( 'nh-child' );
+	if ( wp_style_is( 'elementor-frontend', 'registered' ) ) {
+		$deps[] = 'elementor-frontend';
+	}
+	wp_enqueue_style( 'nh-child-v4', $dir . '/assets/css/v4.css', $deps, $ver );
+	wp_enqueue_script(
+		'nh-child-v4',
+		$dir . '/assets/js/v4.js',
+		array(),
+		$ver,
+		array(
+			'strategy'  => 'defer',
+			'in_footer' => false,
+		)
+	);
+}
+
+/**
+ * `wp_head` @2 (after `wp_enqueue_scripts`, which core runs at @1; before the stylesheets at @8): the preload of the
+ * theme's Hebrew font subset (when fonts.css is enqueued) and the pre-paint script.
+ */
+function nh_child_v4_head() {
+	if ( wp_style_is( 'nh-child-fonts', 'enqueued' ) ) {
+		// No ?ver: the URL must equal the one fonts.css resolves to, or the font is downloaded twice.
+		echo '<link rel="preload" href="' . esc_url( get_stylesheet_directory_uri() . '/assets/fonts/assistant-core-var.woff2' ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
+	}
+	wp_print_inline_script_tag(
+		nh_child_prepaint_js(),
+		array(
+			'id'               => 'nh-v4-prepaint',
+			'data-no-optimize' => '1',
+			'data-no-defer'    => '1',
+			'data-cfasync'     => 'false',
+		)
+	);
+}
+
+/**
+ * The pre-paint script: the stored choices of the accessibility menu (localStorage `nh-a11y`, JSON: text 0–2,
+ * contrast, links) and of plain language (`nh-plain` = "on", or `?plain=1|0` in the address, as the plugin reads it)
+ * become classes on `<html>` before the first paint, so nothing flashes. Every storage access is inside try/catch
+ * (private mode, blocked storage). Not in the Elementor editor's preview.
+ *
+ * @return string
+ */
+function nh_child_prepaint_js() {
+	return '(function (w, d) {'
+		. 'var h = d.documentElement, s = w.location.search;'
+		. 'if (/[?&]elementor-preview=/.test(s)) return;'
+		. 'var g = function (k) { try { return w.localStorage.getItem(k); } catch (e) { return null; } };'
+		. 'var a = null; try { a = JSON.parse(g("nh-a11y") || "null"); } catch (e) { a = null; }'
+		. 'if (a && typeof a === "object") {'
+		. 'var t = Number(a.text); if (t === 1 || t === 2) h.classList.add("nh-a11y-text-" + t);'
+		. 'if (a.contrast === true) h.classList.add("nh-a11y-contrast");'
+		. 'if (a.links === true) h.classList.add("nh-a11y-links");'
+		. '}'
+		. 'var q = /[?&]plain=([01])/.exec(s);'
+		. 'if (q ? q[1] === "1" : g("nh-plain") === "on") h.classList.add("nh-plainmode");'
+		. '})(window, document);';
+}
+
+/**
+ * `wp_footer` @10, on every page but the Elementor editor's preview: one landmark at the inline end (left) holding
+ * the «נגישות» button and its panel (§5.3), the green call button, shown on phones only (§5.4), and the polite live
+ * region v4.js speaks in. In the DOM the panel follows its button, so Tab goes from the button into it; it is
+ * `hidden` until opened, so it is out of the tab order.
+ */
+function nh_child_v4_footer() {
+	if ( nh_child_is_elementor_preview() ) {
+		return;
+	}
+	$a11y_icon  = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+		. '<circle cx="12" cy="4.25" r="2.25" fill="currentColor"/>'
+		. '<path d="M4.5 8.5 12 10l7.5-1.5M12 10v4.75M12 14.75 8.75 21.5M12 14.75l3.25 6.75" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'
+		. '</svg>';
+	$phone_icon = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+		. '<path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+		. '</svg>';
+
+	$out  = '<aside class="nh-float" aria-label="' . esc_attr__( 'נגישות ויצירת קשר', 'hello-elementor-child' ) . '">';
+	$out .= '<div class="nh-a11y">';
+	$out .= '<button type="button" class="nh-a11y-btn" aria-expanded="false" aria-controls="nh-a11y-panel" aria-label="' . esc_attr__( 'נגישות', 'hello-elementor-child' ) . '">'
+		. $a11y_icon . '<span class="nh-visually-hidden">' . esc_html__( 'נגישות', 'hello-elementor-child' ) . '</span></button>';
+	$out .= '<div id="nh-a11y-panel" class="nh-a11y-panel" role="dialog" aria-label="' . esc_attr__( 'תפריט נגישות', 'hello-elementor-child' ) . '" hidden>';
+	$out .= '<h2 class="nh-a11y-panel__title">' . esc_html__( 'נגישות', 'hello-elementor-child' ) . '</h2>';
+	$out .= '<ul class="nh-a11y-panel__list" role="list">';
+	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="text" aria-pressed="false"><span>' . esc_html__( 'הגדלת טקסט', 'hello-elementor-child' ) . '</span> <span class="nh-a11y-opt__state" dir="ltr">100%</span></button></li>';
+	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="contrast" aria-pressed="false"><span>' . esc_html__( 'ניגודיות גבוהה', 'hello-elementor-child' ) . '</span></button></li>';
+	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="links" aria-pressed="false"><span>' . esc_html__( 'הדגשת קישורים', 'hello-elementor-child' ) . '</span></button></li>';
+	$out .= '</ul>';
+	$out .= '<!-- text-to-speech (research/09 §5.3) comes here later: a «הקראה» button; not built yet -->';
+	$out .= '<div class="nh-a11y-panel__row">'
+		. '<button type="button" class="nh-a11y-act" data-a11y="reset">' . esc_html__( 'איפוס', 'hello-elementor-child' ) . '</button>'
+		. '<button type="button" class="nh-a11y-act" data-a11y="close">' . esc_html__( 'סגירה', 'hello-elementor-child' ) . '</button>'
+		. '</div>';
+	$out .= '<a class="nh-a11y-panel__statement" href="' . esc_url( home_url( '/הצהרת-נגישות/' ) ) . '">' . esc_html__( 'הצהרת נגישות', 'hello-elementor-child' ) . '</a>';
+	$out .= '</div>'; // .nh-a11y-panel
+	$out .= '</div>'; // .nh-a11y
+	$out .= '<a class="nh-call-btn" href="tel:089403047" aria-label="' . esc_attr__( 'התקשרו אלינו: 08-9403047', 'hello-elementor-child' ) . '">' . $phone_icon . '</a>';
+	$out .= '<p id="nh-v4-live" class="nh-visually-hidden" role="status" aria-live="polite"></p>';
+	$out .= '</aside>';
+
+	echo $out . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled from escaped parts and static SVG
 }

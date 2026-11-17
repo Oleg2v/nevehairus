@@ -11,6 +11,12 @@
     python3 -I scripts/test_site.py cleanup                delete one-time snippets a failed run left behind
     python3 -I scripts/test_site.py health [--no-browser]  read-only: plugins unchanged, Elementor/Pro + licence,
                                                            every public page without PHP errors, browser console
+    python3 -I scripts/test_site.py v4                     read-only: the plan of the v4 home and the site's state
+    python3 -I scripts/test_site.py v4 --render-check [--out DIR]
+                                                           render templates/v4/*.json with Elementor in memory
+                                                           (saves nothing on the site); HTML to DIR
+    python3 -I scripts/test_site.py v4 --go                build the v4 home (research/09-v4-home-spec.md §7)
+    python3 -I scripts/test_site.py v4 --rollback          page #32 back to its v3.2 backup; v4 header/footer off
 
 Safety rules built in:
   * every request, including redirects, must stay on https://HOST; anything else stops the script;
@@ -60,6 +66,32 @@ once, on this step — the plugin's link tokens in the footer's links (#privacy,
 (@nh:email; its list item is left out while none is set). (d) ezCache is purged and both pages are smoke-tested:
 HTTP 200 without PHP errors, every widget, the header (in a div) and the footer (in a footer element), no
 unresolved token.
+
+v4 (research/09-v4-home-spec.md §7): builds what templates/v4/*.json describe (made by scripts/build_v4.py; refused
+unless they pass its check and were built from this tree's inputs). Elementor's own widgets only: no plugin needed.
+Without a flag it prints the plan and reads the site's state over the REST API (GET only). --go, in this order,
+each step idempotent, every old value to the change log: (1) a one-time backup of page #32 (found by _nh_page_key
+home) as the draft «דף הבית — גיבוי v3.2 (17.11.2026)» with post meta _nh_backup_of = 32 (the one made on 17.11 is
+found and kept; a new one is never made from a page that already holds v4), read back and compared; (2) the files of
+templates/v4/media.json uploaded once each, titled nh4:<name> with their Hebrew alt text (the PDF too), reused by
+that title later, ids in templates/v4/media-map.json; (3) the menu «תפריט ראשי» (slug nh-main) through the REST
+menus endpoints: the live menu, custom links on the test host and the pages #32 and #33; its old items are replaced
+only when they differ; no theme location; (4) the active Kit's system_colors, custom_colors, system_typography and
+custom_typography replaced whole by kit.json (Theme Style untouched); (5) the documents home (page #32: data, meta
+and template; its title, slug and status stay), header-v4 and footer-v4 (Theme Builder, condition
+include/singular/front_page; the v3.2 header #34 and footer #35 keep include/general and stay on the other pages)
+and contacts (a saved template the home inserts with the Template widget), found by _nh_page_key, created as drafts,
+written as Elementor saves them, published, conditions cache rebuilt, Elementor's CSS cache emptied; (6) ezCache
+purged and the home page smoke-tested: 200, no PHP error, every widget type and section id, the v4 header in
+<header> and footer in <footer>, no unresolved token, no request in the HTML to another host than ours or YouTube.
+--rollback (only): copies the backup's Elementor meta back to page #32 and moves header-v4 and footer-v4 to drafts
+(backups/2026-11-17-v3.2/README.md; spec §7 says trash, a draft is the same for Theme Builder and keeps them).
+--render-check: one read-only PHP step builds every document's elements with Elementor's API in memory
+(create_element_instance + print_element, under output buffering), with the tokens resolved to the real posts where
+they exist and to placeholder ids/URLs where not, the Kit's globals of kit.json and the menu of menu.json present
+for that request only through filters; it checks every setting against the controls of its element (with the style
+controls and options, as the editor has them), collects PHP warnings, notices and exceptions, and returns the HTML
+and the CSS Elementor generates for it, saved to DIR (default $NH_V4_RENDER_DIR or ~/.config/nevehairus/v4-render).
 """
 import argparse
 import base64
@@ -1066,6 +1098,11 @@ PAGES_PHP = r"""
 			);
 			$nh_id  = $nh_found ? (int) $nh_found[0] : 0;
 			$nh_was = $nh_id ? get_post_status( $nh_id ) : null;
+			// a page rebuilt as v4 (the live site's structure, research/09) is never overwritten with v3.2 here: v4's classes
+			// nh-sec--… mark it; `v4 --rollback` brings v3.2 back from the backup instead
+			if ( $nh_id && false !== strpos( (string) get_post_meta( $nh_id, '_elementor_data', true ), 'nh-sec--' ) ) {
+				throw new Exception( "$nh_key: post #$nh_id holds a v4 page; the v3.2 `pages` step leaves it alone (use `v4 --rollback` to go back)" );
+			}
 			if ( count( $nh_found ) > 1 ) {
 				$log['warnings'][] = "$nh_key: several posts carry _nh_page_key $nh_key (" . implode( ', ', $nh_found ) . "); #$nh_id is used, the others are left as they are";
 			}
@@ -1761,6 +1798,1553 @@ def cmd_pages(args):
     step(f"done: both pages and the header and footer are on {HOST}")
 
 
+# --- v4 home (research/09-v4-home-spec.md §7) -----------------------------------------------------------------------
+V4_DIR = os.path.join(ROOT, "templates", "v4")
+V4_KEYS = ("home", "header-v4", "footer-v4", "contacts")
+V4_MEDIA_MAP = os.path.join(V4_DIR, "media-map.json")
+V4_BACKUP_LABEL = "v3.2 (17.11.2026)"                 # as the backup made on 17.11 (backups/2026-11-17-v3.2/)
+V4_BACKUP_TITLE = "דף הבית — גיבוי v3.2 (17.11.2026)"
+V4_SECTIONS = ("hero", "specialties", "about", "testimonials", "special-needs", "contacts", "snoezelen")
+V4_RENDER_DIR = os.environ.get("NH_V4_RENDER_DIR") or os.path.join(CONF, "v4-render")
+V4_UNRESOLVED = re.compile(r"@(?:media|page|page-id|home):")
+V4_HOSTS_OK = {HOST, "youtube.com", "www.youtube.com", "youtube-nocookie.com", "www.youtube-nocookie.com"}
+V4_MIME = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp",
+           ".pdf": "application/pdf"}
+V4_WRAPPER_CLASS = {"nested-accordion": "n-accordion"}   # widgets whose wrapper class is not elementor-widget-<name>
+
+# The beginning of every v4 PHP step: the data, the user, Elementor, the finder of our posts and the token resolver.
+V4_PRELUDE_PHP = r"""
+		$nh_docs   = json_decode( base64_decode( '__NH_DOCS_B64__' ), true );
+		$nh_kit    = json_decode( base64_decode( '__NH_KIT_B64__' ), true );
+		$nh_menu   = json_decode( base64_decode( '__NH_MENU_B64__' ), true );
+		$nh_author = __NH_AUTHOR__;
+		if ( ! is_array( $nh_docs ) || 4 !== count( $nh_docs ) || ! is_array( $nh_kit ) || ! is_array( $nh_menu ) ) {
+			throw new Exception( 'the v4 data did not decode' );
+		}
+		// The snippet runs on wp_loaded, before WordPress accepts the application password: act as the script's user.
+		wp_set_current_user( $nh_author );
+		if ( get_current_user_id() !== $nh_author || ! current_user_can( 'edit_pages' ) ) {
+			throw new Exception( "user #$nh_author does not exist or cannot edit pages" );
+		}
+		if ( ! defined( 'ELEMENTOR_VERSION' ) || ! class_exists( '\Elementor\Plugin' ) ) {
+			throw new Exception( 'Elementor is not active' );
+		}
+		if ( ! defined( 'ELEMENTOR_PRO_VERSION' ) ) {
+			throw new Exception( 'Elementor Pro is not active (Theme Builder, the menu widget and the Template widget)' );
+		}
+		$nh_el = \Elementor\Plugin::$instance;
+		$log['versions'] = array(
+			'wordpress'     => get_bloginfo( 'version' ),
+			'elementor'     => ELEMENTOR_VERSION,
+			'elementor_pro' => ELEMENTOR_PRO_VERSION,
+		);
+		if ( ! isset( $nh_el->experiments ) || ! $nh_el->experiments->is_feature_active( 'container' ) ) {
+			throw new Exception( 'the Elementor feature Container is not active: the v4 documents are made of containers' );
+		}
+		// Our posts carry post meta _nh_page_key; nothing else is ever looked up or touched by key.
+		$nh_find = static function ( $key, $type, $meta_key = '_nh_page_key' ) {
+			return array_map( 'intval', get_posts( array(
+				'post_type'        => $type,
+				'post_status'      => array( 'publish', 'draft', 'pending', 'private', 'future', 'trash' ),
+				'meta_key'         => $meta_key,
+				'meta_value'       => (string) $key,
+				'fields'           => 'ids',
+				'posts_per_page'   => -1,
+				'orderby'          => 'ID',
+				'order'            => 'ASC',
+				'suppress_filters' => true,
+			) ) );
+		};
+		$nh_types = array(
+			'home'      => 'page',
+			'main-home' => 'page',
+			'header-v4' => 'elementor_library',
+			'footer-v4' => 'elementor_library',
+			'contacts'  => 'elementor_library',
+		);
+		// Tokens (scripts/build_v4.py): @page:<key>[#x] → the page's link, @page-id:<key> → its post id,
+		// @home:/<path> → home_url( <path> ); as whole values and inside texts (hrefs). @media: is resolved before.
+		$nh_resolver = static function ( array $links, array $ids ) {
+			$one  = static function ( $text ) use ( $links, $ids ) {
+				return preg_replace_callback(
+					'~@(page|page-id|home):([^\s"\'<>]*)~u',
+					static function ( $m ) use ( $links, $ids ) {
+						if ( 'home' === $m[1] ) {
+							if ( '' === $m[2] || '/' !== $m[2][0] ) {
+								throw new Exception( "bad token {$m[0]}" );
+							}
+							return home_url( $m[2] );
+						}
+						$parts = explode( '#', $m[2], 2 );
+						if ( 'page' === $m[1] && isset( $links[ $parts[0] ] ) && '' !== (string) $links[ $parts[0] ] ) {
+							return $links[ $parts[0] ] . ( isset( $parts[1] ) ? '#' . $parts[1] : '' );
+						}
+						if ( 'page-id' === $m[1] && ! empty( $ids[ $m[2] ] ) ) {
+							return (string) $ids[ $m[2] ];
+						}
+						throw new Exception( "unresolved token {$m[0]}" );
+					},
+					$text
+				);
+			};
+			$walk = static function ( $value ) use ( &$walk, $one ) {
+				if ( is_array( $value ) ) {
+					foreach ( $value as $k => $v ) {
+						$value[ $k ] = $walk( $v );
+					}
+					return $value;
+				}
+				return ( is_string( $value ) && false !== strpos( $value, '@' ) ) ? $one( $value ) : $value;
+			};
+			return $walk;
+		};
+		$nh_conditions_cache = static function () {
+			$tb    = class_exists( '\ElementorPro\Modules\ThemeBuilder\Module' ) ? \ElementorPro\Modules\ThemeBuilder\Module::instance() : null;
+			$cm    = ( $tb && method_exists( $tb, 'get_conditions_manager' ) ) ? $tb->get_conditions_manager() : null;
+			$cache = ( $cm && method_exists( $cm, 'get_cache' ) ) ? $cm->get_cache() : null;
+			if ( $cache && method_exists( $cache, 'regenerate' ) ) {
+				$cache->regenerate();
+				return 'cache regenerated';
+			}
+			return 'cache NOT regenerated: no Conditions_Cache::regenerate() in this Elementor Pro (open the templates in Theme Builder and save their display conditions)';
+		};
+"""
+
+# --render-check: read-only. Builds each document's elements in memory, checks their settings against the controls,
+# prints them and generates their CSS; nothing is saved (no post, meta, option, term, menu or file is written).
+V4_RENDER_PHP = r"""
+		$log['read_only'] = true;
+		$nh_ids   = array();
+		$nh_n     = 0;
+		foreach ( $nh_types as $nh_key => $nh_type ) {
+			$nh_n++;
+			$nh_f                    = $nh_find( $nh_key, $nh_type );
+			$log['found'][ $nh_key ] = $nh_f ? $nh_f[0] : null;
+			$nh_ids[ $nh_key ]       = $nh_f ? $nh_f[0] : 990000 + $nh_n;   // a placeholder id where the post is not there yet
+		}
+		$nh_links = array(
+			'home'      => home_url( '/' ),
+			'main-home' => $log['found']['main-home'] ? get_permalink( $log['found']['main-home'] ) : home_url( '/nh-v4-placeholder/main-home/' ),
+		);
+		$log['ids']   = $nh_ids;
+		$log['links'] = $nh_links;
+		$nh_resolve   = $nh_resolver( $nh_links, $nh_ids );
+		$log['document_types'] = array();
+		foreach ( array( 'wp-page', 'header', 'footer', 'container', 'section' ) as $nh_t ) {
+			$log['document_types'][ $nh_t ] = array_key_exists( $nh_t, (array) $nh_el->documents->get_document_types() );
+		}
+		$log['front'] = array( 'show_on_front' => get_option( 'show_on_front' ), 'page_on_front' => (int) get_option( 'page_on_front' ) );
+		$log['element_cache_ttl'] = get_option( 'elementor_element_cache_ttl' );
+
+		// The globals of kit.json, for this request only: the CSS below refers to them (nothing is saved).
+		add_filter( 'elementor/globals/colors/items', static function () use ( $nh_kit ) {
+			$out = array();
+			foreach ( array_merge( $nh_kit['system_colors'], $nh_kit['custom_colors'] ) as $c ) {
+				$out[ $c['_id'] ] = array( 'id' => $c['_id'], 'title' => $c['title'], 'value' => $c['color'] );
+			}
+			return $out;
+		}, 99 );
+		add_filter( 'elementor/globals/typography/items', static function () use ( $nh_kit ) {
+			$out = array();
+			foreach ( array_merge( $nh_kit['system_typography'], $nh_kit['custom_typography'] ) as $t ) {
+				$id    = $t['_id'];
+				$title = $t['title'];
+				unset( $t['_id'], $t['title'] );
+				$out[ $id ] = array( 'id' => $id, 'title' => $title, 'value' => $t );
+			}
+			return $out;
+		}, 99 );
+
+		// The menu nh-main: the site's, or menu.json's for this request only (filters; no term or item is created).
+		$nh_real_menu = wp_get_nav_menu_object( 'nh-main' );
+		$log['menu']  = $nh_real_menu ? 'the site menu nh-main #' . $nh_real_menu->term_id : 'menu.json, for this request only (the site has no menu nh-main yet)';
+		if ( ! $nh_real_menu ) {
+			$nh_term  = new WP_Term( (object) array( 'term_id' => 990900, 'name' => $nh_menu['name'], 'slug' => $nh_menu['slug'], 'term_group' => 0, 'term_taxonomy_id' => 990900, 'taxonomy' => 'nav_menu', 'description' => '', 'parent' => 0, 'count' => 0, 'filter' => 'raw' ) );
+			$nh_items = array();
+			$nh_add   = static function ( $items, $parent ) use ( &$nh_add, &$nh_items, $nh_resolve, $nh_ids ) {
+				foreach ( $items as $it ) {
+					$id         = 990901 + count( $nh_items );
+					$page       = ! empty( $it['page'] );
+					$nh_items[] = (object) array(
+						'ID'               => $id,
+						'db_id'            => $id,
+						'menu_item_parent' => (string) $parent,
+						'object_id'        => (string) ( $page ? $nh_ids[ $it['page'] ] : $id ),
+						'object'           => $page ? 'page' : 'custom',
+						'type'             => $page ? 'post_type' : 'custom',
+						'type_label'       => '',
+						'title'            => $it['label'],
+						'post_title'       => $it['label'],
+						'url'              => $nh_resolve( $it['url'] ),
+						'target'           => '',
+						'attr_title'       => '',
+						'description'      => '',
+						'classes'          => array( '' ),
+						'xfn'              => '',
+						'menu_order'       => count( $nh_items ) + 1,
+						'post_parent'      => 0,
+						'post_type'        => 'nav_menu_item',
+						'post_status'      => 'publish',
+						'status'           => 'publish',
+					);
+					$nh_add( (array) $it['children'], $id );
+				}
+			};
+			$nh_add( $nh_menu['items'], 0 );
+			add_filter( 'wp_get_nav_menus', static function ( $menus ) use ( $nh_term ) {
+				$menus[] = $nh_term;
+				return $menus;
+			} );
+			add_filter( 'wp_get_nav_menu_object', static function ( $obj, $menu ) use ( $nh_term ) {
+				if ( $obj ) {
+					return $obj;
+				}
+				$id = is_object( $menu ) ? (int) $menu->term_id : ( is_numeric( $menu ) ? (int) $menu : 0 );
+				return ( 'nh-main' === $menu || 990900 === $id ) ? $nh_term : $obj;
+			}, 10, 2 );
+			add_filter( 'wp_get_nav_menu_items', static function ( $items, $menu ) use ( $nh_items ) {
+				if ( ! is_object( $menu ) || 990900 !== (int) $menu->term_id ) {
+					return $items;
+				}
+				return array_map( static function ( $item ) {
+					return clone $item;   // fresh objects on every call, as WordPress returns them
+				}, $nh_items );
+			}, 10, 2 );
+		}
+
+		// Every control with its options and the style controls, as the editor has them: Elementor's frontend loads
+		// neither (Performance::should_optimize_controls()); the stacks of the element types used are built again.
+		try {
+			$nh_rp = new ReflectionProperty( '\Elementor\Core\Frontend\Performance', 'is_frontend' );
+			$nh_rp->setAccessible( true );
+			$nh_rp->setValue( null, false );
+			$log['controls'] = 'full (every control and its options, as in the editor)';
+		} catch ( Throwable $e ) {
+			$log['controls'] = 'style controls without options (' . $e->getMessage() . ')';
+		}
+		\Elementor\Core\Frontend\Performance::set_use_style_controls( true );
+		// responsive controls once per device (<control>_tablet, <control>_mobile), as the CSS files have them
+		$nh_mode = $nh_el->breakpoints->get_responsive_control_duplication_mode();
+		$nh_el->breakpoints->set_responsive_control_duplication_mode( 'on' );
+		$nh_used = array( 'container' => true );
+		$nh_collect = static function ( $els ) use ( &$nh_collect, &$nh_used ) {
+			foreach ( (array) $els as $e ) {
+				if ( 'widget' === $e['elType'] ) {
+					$nh_used[ $e['widgetType'] ] = true;
+				}
+				$nh_collect( isset( $e['elements'] ) ? $e['elements'] : array() );
+			}
+		};
+		foreach ( $nh_docs as $nh_doc ) {
+			$nh_collect( $nh_doc['elementor_data'] );
+		}
+		foreach ( array_keys( $nh_used ) as $nh_t ) {
+			$nh_obj = 'container' === $nh_t ? $nh_el->elements_manager->get_element_types( 'container' ) : $nh_el->widgets_manager->get_widget_types( $nh_t );
+			if ( $nh_obj ) {
+				$nh_el->controls_manager->delete_stack( $nh_obj );
+			} else {
+				$log['problems'][] = "no element type $nh_t on the site";
+			}
+		}
+
+		// The settings of every element against its controls: names, options of selects and choices, switcher values,
+		// repeater fields, and that a __globals__ entry names a control that takes a global.
+		$nh_fields = static function ( $c ) {
+			$out = array();
+			foreach ( (array) ( isset( $c['fields'] ) ? $c['fields'] : array() ) as $k => $f ) {
+				$out[ is_array( $f ) && isset( $f['name'] ) ? $f['name'] : $k ] = $f;
+			}
+			return $out;
+		};
+		$nh_validate = static function ( $el, $where, &$problems ) use ( &$nh_validate, $nh_el, $nh_fields ) {
+			$type = 'widget' === $el['elType'] ? $nh_el->widgets_manager->get_widget_types( $el['widgetType'] ) : $nh_el->elements_manager->get_element_types( $el['elType'] );
+			if ( ! $type ) {
+				$problems[] = "$where: no element type " . ( isset( $el['widgetType'] ) ? $el['widgetType'] : $el['elType'] );
+				return;
+			}
+			$controls = $type->get_controls();
+			foreach ( (array) $el['settings'] as $k => $v ) {
+				if ( '__globals__' === $k ) {
+					foreach ( (array) $v as $gk => $gv ) {
+						if ( ! isset( $controls[ $gk ] ) ) {
+							$problems[] = "$where: __globals__.$gk is not a control";
+							continue;
+						}
+						$ctl = $nh_el->controls_manager->get_control( $controls[ $gk ]['type'] );
+						$c   = $ctl ? array_replace_recursive( (array) $ctl->get_settings(), $controls[ $gk ] ) : $controls[ $gk ];
+						if ( empty( $c['global']['active'] ) && empty( $c['global']['default'] ) ) {
+							$problems[] = "$where: $gk takes no global";
+						}
+					}
+					continue;
+				}
+				if ( ! isset( $controls[ $k ] ) ) {
+					if ( '_title' !== $k ) {   // the Navigator's label: a hidden control on widgets, kept on containers too
+						$problems[] = "$where: $k is not a control of " . ( isset( $el['widgetType'] ) ? $el['widgetType'] : $el['elType'] );
+					}
+					continue;
+				}
+				$c = $controls[ $k ];
+				if ( 'switcher' === $c['type'] ) {
+					$rv = isset( $c['return_value'] ) ? (string) $c['return_value'] : 'yes';
+					if ( '' !== $v && $rv !== $v ) {
+						$problems[] = "$where: $k = " . wp_json_encode( $v ) . " (the switcher's value is '$rv')";
+					}
+				} elseif ( in_array( $c['type'], array( 'select', 'choose' ), true ) && ! empty( $c['options'] ) && is_array( $c['options'] ) && is_scalar( $v ) && '' !== (string) $v ) {
+					$GLOBALS['nh_v4_options_checked'] = ( isset( $GLOBALS['nh_v4_options_checked'] ) ? $GLOBALS['nh_v4_options_checked'] : 0 ) + 1;
+					if ( ! array_key_exists( (string) $v, $c['options'] ) ) {
+						$problems[] = "$where: $k = '$v' is not one of: " . implode( ', ', array_keys( $c['options'] ) );
+					}
+				}
+				$fields = $nh_fields( $c );
+				if ( $fields && is_array( $v ) ) {
+					foreach ( $v as $i => $row ) {
+						foreach ( array_keys( (array) $row ) as $rk ) {
+							if ( '_id' !== $rk && ! isset( $fields[ $rk ] ) ) {
+								$problems[] = "$where: $k.$i.$rk is not a field of $k";
+							}
+						}
+					}
+				}
+			}
+			foreach ( (array) ( isset( $el['elements'] ) ? $el['elements'] : array() ) as $child ) {
+				$nh_validate( $child, $where . '/' . $child['id'], $problems );
+			}
+		};
+
+		// The Kit: kit.json's lists against the Kit's controls (nothing is saved).
+		$nh_kit_doc         = $nh_el->kits_manager->get_active_kit();
+		$log['kit_id']      = $nh_kit_doc ? $nh_kit_doc->get_id() : null;
+		$log['kit_problems'] = array();
+		if ( $nh_kit_doc ) {
+			$nh_el->controls_manager->delete_stack( $nh_kit_doc );
+		}
+		$nh_kc              = $nh_kit_doc ? $nh_kit_doc->get_controls() : array();
+		foreach ( array( 'system_colors', 'custom_colors', 'system_typography', 'custom_typography' ) as $nh_k ) {
+			if ( ! isset( $nh_kc[ $nh_k ] ) ) {
+				$log['kit_problems'][] = "the Kit has no control $nh_k";
+				continue;
+			}
+			$nh_f = $nh_fields( $nh_kc[ $nh_k ] );
+			foreach ( $nh_kit[ $nh_k ] as $nh_i => $nh_item ) {
+				foreach ( array_keys( $nh_item ) as $nh_fk ) {
+					if ( '_id' !== $nh_fk && $nh_f && ! isset( $nh_f[ $nh_fk ] ) ) {
+						$log['kit_problems'][] = "$nh_k.$nh_i.$nh_fk is not a field of the Kit's $nh_k";
+					}
+				}
+			}
+		}
+
+		// PHP warnings, notices, deprecations and _doing_it_wrong() while the documents are built.
+		$nh_errors = array();
+		set_error_handler( static function ( $no, $str, $file = '', $line = 0 ) use ( &$nh_errors ) {
+			$nh_errors[] = array( 'level' => $no, 'message' => $str, 'at' => ( $file ? basename( dirname( $file ) ) . '/' . basename( $file ) : '' ) . ':' . $line );
+			return true;
+		} );
+		add_filter( 'doing_it_wrong_trigger_error', '__return_false' );
+		add_action( 'doing_it_wrong_run', static function ( $function, $message ) use ( &$nh_errors ) {
+			$nh_errors[] = array( 'level' => 'doing_it_wrong', 'message' => "$function: " . wp_strip_all_tags( (string) $message ), 'at' => '' );
+		}, 10, 2 );
+		foreach ( array( 'deprecated_function_run', 'deprecated_argument_run', 'deprecated_hook_run' ) as $nh_hook ) {
+			add_action( $nh_hook, static function ( $what ) use ( &$nh_errors, $nh_hook ) {
+				$nh_errors[] = array( 'level' => $nh_hook, 'message' => (string) $what, 'at' => '' );
+			}, 10, 1 );
+		}
+		// page-level CSS of real posts (Pro's custom CSS of a document): not part of these elements
+		remove_all_actions( 'elementor/css-file/post/parse' );
+		// The CSS Elementor generates for these elements: a post CSS file whose data are the elements in memory and
+		// which writes nothing (no file is written; get_content() only parses).
+		$nh_css_for = static function ( $post_id, $data ) {
+			$file = new class( $post_id ) extends \Elementor\Core\Files\CSS\Post {
+				public $nh_data = array();
+				protected function get_data() {
+					return $this->nh_data;
+				}
+				protected function load_meta() {
+					return array();
+				}
+				protected function update_meta( $meta ) {
+				}
+				protected function delete_meta() {
+				}
+			};
+			$file->nh_data = $data;
+			return (string) $file->get_content();
+		};
+		$nh_home_doc = $log['found']['home'] ? $nh_el->documents->get( $log['found']['home'] ) : null;
+		if ( $nh_home_doc ) {
+			$nh_el->documents->switch_to_document( $nh_home_doc );
+		}
+		$nh_level   = ob_get_level();
+		$nh_checked = array();
+		foreach ( $nh_docs as $nh_doc ) {
+			$nh_key    = $nh_doc['key'];
+			$nh_errors = array();
+			$nh_out    = array( 'post_id' => $nh_ids[ $nh_key ], 'problems' => array() );
+			try {
+				$nh_data = $nh_resolve( $nh_doc['elementor_data'] );
+				$nh_el->breakpoints->set_responsive_control_duplication_mode( 'on' );
+				foreach ( $nh_data as $nh_d ) {
+					$nh_validate( $nh_d, $nh_key . '/' . $nh_d['id'], $nh_out['problems'] );
+				}
+				$nh_el->breakpoints->set_responsive_control_duplication_mode( $nh_mode );   // render as the frontend does
+				ob_start();
+				foreach ( $nh_data as $nh_d ) {
+					$nh_inst = $nh_el->elements_manager->create_element_instance( $nh_d );
+					if ( ! $nh_inst ) {
+						$nh_out['problems'][] = "$nh_key/{$nh_d['id']}: Elementor made no element of it";
+						continue;
+					}
+					$nh_inst->print_element();
+				}
+				$nh_out['html']       = ob_get_clean();
+				$nh_out['css'] = $nh_css_for( (int) $nh_ids[ $nh_key ], $nh_data );
+			} catch ( Throwable $e ) {
+				while ( ob_get_level() > $nh_level ) {
+					ob_end_clean();
+				}
+				$nh_out['exception'] = get_class( $e ) . ': ' . $e->getMessage() . ' @ ' . basename( $e->getFile() ) . ':' . $e->getLine();
+			}
+			$nh_out['errors']           = $nh_errors;
+			$log['docs'][ $nh_key ]     = $nh_out;
+		}
+		restore_error_handler();
+		if ( $nh_home_doc ) {
+			$nh_el->documents->restore_document();
+		}
+		$log['options_checked'] = isset( $GLOBALS['nh_v4_options_checked'] ) ? $GLOBALS['nh_v4_options_checked'] : 0;
+"""
+
+# --go step 1: the one-time backup of page #32 (spec §7.1). The backup made on 17.11 (backups/2026-11-17-v3.2) carries
+# the same meta and label, so it is found here and kept; a new backup is never taken from a page that holds v4.
+V4_BACKUP_PHP = r"""
+		$nh_home = $nh_find( 'home', 'page' );
+		if ( ! $nh_home ) {
+			throw new Exception( 'no page carries _nh_page_key home (the home page #32)' );
+		}
+		$nh_hid      = $nh_home[0];
+		$log['home'] = $nh_hid;
+		$nh_keys     = array( '_elementor_data', '_elementor_page_settings', '_wp_page_template', '_elementor_edit_mode', '_elementor_template_type', '_elementor_version', '_elementor_pro_version' );
+		$nh_backups  = array_values( array_intersect( $nh_find( (string) $nh_hid, 'page', '_nh_backup_of' ), $nh_find( '__NH_LABEL__', 'page', '_nh_backup_label' ) ) );
+		if ( ! $nh_backups ) {
+			$nh_backups = $nh_find( (string) $nh_hid, 'page', '_nh_backup_of' );
+		}
+		$nh_now = (string) get_post_meta( $nh_hid, '_elementor_data', true );
+		$nh_v4  = false;
+		foreach ( json_decode( base64_decode( '__NH_V4_IDS_B64__' ), true ) as $nh_v4_id ) {
+			if ( false !== strpos( $nh_now, '"id":"' . $nh_v4_id . '"' ) ) {
+				$nh_v4 = true;
+			}
+		}
+		$log['home_holds_v4'] = $nh_v4;
+		if ( $nh_backups ) {
+			$nh_bid                  = $nh_backups[0];
+			$log['backup']           = array( 'id' => $nh_bid, 'action' => 'found (kept as it is)', 'status' => get_post_status( $nh_bid ), 'title' => get_the_title( $nh_bid ) );
+			$log['backup']['equal_to_home_now'] = (string) get_post_meta( $nh_bid, '_elementor_data', true ) === $nh_now;
+			if ( '' === (string) get_post_meta( $nh_bid, '_elementor_data', true ) ) {
+				throw new Exception( "the backup #$nh_bid has no Elementor data" );
+			}
+			if ( 'trash' === get_post_status( $nh_bid ) ) {
+				$log['warnings'][] = "the backup #$nh_bid is in the trash (it is still used; restore it in Pages → Trash)";
+			}
+		} else {
+			if ( $nh_v4 ) {
+				throw new Exception( "page #$nh_hid already holds the v4 home and no backup of v3.2 exists: none is taken from v4 (restore the backup from the trash or from backups/2026-11-17-v3.2)" );
+			}
+			$nh_src = get_post( $nh_hid );
+			$nh_bid = wp_insert_post( wp_slash( array(
+				'post_type'      => 'page',
+				'post_status'    => 'draft',
+				'post_title'     => '__NH_TITLE__',
+				'post_name'      => 'nh-backup-v32-' . $nh_hid,
+				'post_content'   => $nh_src->post_content,
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed',
+				'post_author'    => $nh_author,
+				'meta_input'     => array(
+					'_nh_backup_of'    => $nh_hid,
+					'_nh_backup_label' => '__NH_LABEL__',
+				),
+			) ), true );
+			if ( is_wp_error( $nh_bid ) || ! $nh_bid ) {
+				throw new Exception( 'the backup was not created: ' . ( is_wp_error( $nh_bid ) ? $nh_bid->get_error_message() : '?' ) );
+			}
+			foreach ( $nh_keys as $nh_k ) {
+				$nh_v = get_post_meta( $nh_hid, $nh_k, true );
+				if ( '' !== $nh_v && array() !== $nh_v && null !== $nh_v ) {
+					update_post_meta( $nh_bid, $nh_k, wp_slash( $nh_v ) );
+				}
+			}
+			$log['backup'] = array( 'id' => (int) $nh_bid, 'action' => 'created', 'status' => get_post_status( $nh_bid ), 'title' => get_the_title( $nh_bid ) );
+		}
+		// read back and compare (a found backup may hold an older state of the page than now: that is reported)
+		$log['backup']['differs'] = array();
+		foreach ( $nh_keys as $nh_k ) {
+			if ( get_post_meta( $nh_bid, $nh_k, true ) !== get_post_meta( $nh_hid, $nh_k, true ) ) {
+				$log['backup']['differs'][] = $nh_k;
+			}
+		}
+		if ( 'created' === $log['backup']['action'] && $log['backup']['differs'] ) {
+			throw new Exception( 'the new backup does not read back equal: ' . implode( ', ', $log['backup']['differs'] ) );
+		}
+"""
+
+# --go steps 4 and 5: the Kit, then the four documents, the conditions cache and Elementor's CSS cache.
+V4_DOCS_PHP = r"""
+		// 4. The Kit's four global lists, replaced whole. Document::update_settings() merges with
+		// array_replace_recursive(), which keeps an old list's extra items and keys; so the merged settings are written
+		// through the page settings manager, as update_settings() does after its merge.
+		$nh_kit_doc = $nh_el->kits_manager->get_active_kit();
+		$nh_kid     = $nh_kit_doc ? (int) $nh_kit_doc->get_id() : 0;
+		if ( ! $nh_kid ) {
+			throw new Exception( 'no active Elementor Kit' );
+		}
+		$nh_kit_keys = array( 'system_colors', 'custom_colors', 'system_typography', 'custom_typography' );
+		$nh_old      = get_post_meta( $nh_kid, '_elementor_page_settings', true );
+		$nh_old      = is_array( $nh_old ) ? $nh_old : array();
+		$log['before']['kit'] = array( 'id' => $nh_kid, 'settings' => $nh_old );
+		$nh_new = $nh_old;
+		foreach ( $nh_kit_keys as $nh_k ) {
+			$nh_new[ $nh_k ] = $nh_kit[ $nh_k ];
+		}
+		if ( $nh_new !== $nh_old ) {
+			\Elementor\Core\Settings\Manager::get_settings_managers( 'page' )->save_settings( $nh_new, $nh_kid );
+			$log['kit'] = "Kit #$nh_kid updated";
+		} else {
+			$log['kit'] = "Kit #$nh_kid already as kit.json";
+		}
+		$nh_back = get_post_meta( $nh_kid, '_elementor_page_settings', true );
+		foreach ( $nh_kit_keys as $nh_k ) {
+			if ( ! is_array( $nh_back ) || ! isset( $nh_back[ $nh_k ] ) || $nh_back[ $nh_k ] !== $nh_kit[ $nh_k ] ) {
+				$log['warnings'][] = "Kit: $nh_k does not read back equal to kit.json";
+			}
+		}
+
+		// 5. Our documents, found by _nh_page_key. The home must exist (page #32): its title, slug and status stay. The
+		// others are created as drafts when missing (a trashed one is restored) and published once written.
+		$log['before']['front'] = array( 'show_on_front' => get_option( 'show_on_front' ), 'page_on_front' => (int) get_option( 'page_on_front' ) );
+		$log['before']['theme_builder_conditions'] = get_option( 'elementor_pro_theme_builder_conditions' );
+		$nh_ids = array();
+		foreach ( $nh_docs as $nh_doc ) {
+			$nh_key   = (string) $nh_doc['key'];
+			$nh_type  = (string) $nh_doc['post_type'];
+			$nh_found = $nh_find( $nh_key, $nh_type );
+			$nh_id    = $nh_found ? $nh_found[0] : 0;
+			$nh_was   = $nh_id ? get_post_status( $nh_id ) : null;
+			if ( count( $nh_found ) > 1 ) {
+				$log['warnings'][] = "$nh_key: several posts carry _nh_page_key $nh_key (" . implode( ', ', $nh_found ) . "); #$nh_id is used";
+			}
+			if ( 'home' === $nh_key && ( ! $nh_id || 'publish' !== $nh_was ) ) {
+				throw new Exception( 'the home page (_nh_page_key home) is missing or not published' );
+			}
+			if ( $nh_id ) {
+				$log['before']['docs'][ $nh_key ] = array(
+					'id'         => $nh_id,
+					'status'     => $nh_was,
+					'title'      => get_post_field( 'post_title', $nh_id, 'raw' ),
+					'slug'       => urldecode( (string) get_post_field( 'post_name', $nh_id, 'raw' ) ),
+					'template'   => get_post_meta( $nh_id, '_wp_page_template', true ),
+					'type'       => get_post_meta( $nh_id, '_elementor_template_type', true ),
+					'settings'   => get_post_meta( $nh_id, '_elementor_page_settings', true ),
+					'conditions' => get_post_meta( $nh_id, '_elementor_conditions', true ),
+					'version'    => get_post_meta( $nh_id, '_elementor_version', true ),
+					'data'       => get_post_meta( $nh_id, '_elementor_data', true ),
+				);
+				if ( 'trash' === $nh_was ) {
+					wp_untrash_post( $nh_id );   // WordPress restores it as a draft
+				}
+				if ( 'home' !== $nh_key ) {
+					$nh_res = wp_update_post( wp_slash( array( 'ID' => $nh_id, 'post_title' => (string) $nh_doc['title'] ) ), true );
+					if ( is_wp_error( $nh_res ) ) {
+						throw new Exception( "$nh_key: " . $nh_res->get_error_message() );
+					}
+				}
+			} else {
+				$nh_id = wp_insert_post( wp_slash( array(
+					'post_type'      => $nh_type,
+					'post_status'    => 'draft',
+					'post_title'     => (string) $nh_doc['title'],
+					'post_name'      => sanitize_title( (string) $nh_doc['slug'] ),
+					'post_author'    => $nh_author,
+					'post_content'   => '',
+					'comment_status' => 'closed',
+					'ping_status'    => 'closed',
+					// saved before save_post fires: Elementor would type a library post without it as 'page'
+					'meta_input'     => array(
+						'_nh_page_key'             => $nh_key,
+						'_elementor_edit_mode'     => 'builder',
+						'_elementor_template_type' => (string) $nh_doc['document_type'],
+					),
+				) ), true );
+				if ( is_wp_error( $nh_id ) || ! $nh_id ) {
+					throw new Exception( "$nh_key: " . ( is_wp_error( $nh_id ) ? $nh_id->get_error_message() : 'the post was not saved' ) );
+				}
+			}
+			$nh_ids[ $nh_key ]      = (int) $nh_id;
+			$log['docs'][ $nh_key ] = array( 'id' => (int) $nh_id, 'action' => $nh_was ? ( 'trash' === $nh_was ? 'restored from the trash, updated' : 'updated' ) : 'created', 'was' => $nh_was );
+		}
+		$nh_main          = $nh_find( 'main-home', 'page' );
+		$nh_ids['main-home'] = $nh_main ? $nh_main[0] : 0;
+		$nh_links = array(
+			'home'      => home_url( '/' ),
+			'main-home' => $nh_main ? get_permalink( $nh_main[0] ) : '',
+		);
+		if ( ! $nh_main ) {
+			throw new Exception( 'no page carries _nh_page_key main-home (the house page #33, a target of the menu and of card 1)' );
+		}
+		if ( (int) get_option( 'page_on_front' ) !== $nh_ids['home'] || 'page' !== get_option( 'show_on_front' ) ) {
+			$log['warnings'][] = 'the front page is not the home page #' . $nh_ids['home'] . ' (Settings → Reading is left as it is)';
+		}
+		$nh_resolve = $nh_resolver( $nh_links, $nh_ids );
+
+		foreach ( $nh_docs as $nh_doc ) {
+			$nh_key  = (string) $nh_doc['key'];
+			$nh_id   = $nh_ids[ $nh_key ];
+			$nh_data = $nh_resolve( $nh_doc['elementor_data'] );
+			$nh_json = wp_json_encode( $nh_data );
+			if ( ! is_string( $nh_json ) || '' === $nh_json || false !== strpos( $nh_json, '@page' ) || false !== strpos( $nh_json, '@home:' ) || false !== strpos( $nh_json, '@media:' ) ) {
+				throw new Exception( "$nh_key: the data did not encode, or a token is left in it" );
+			}
+			update_post_meta( $nh_id, '_elementor_data', wp_slash( $nh_json ) );
+			update_post_meta( $nh_id, '_elementor_edit_mode', 'builder' );
+			update_post_meta( $nh_id, '_elementor_template_type', (string) $nh_doc['document_type'] );
+			update_post_meta( $nh_id, '_elementor_version', ELEMENTOR_VERSION );
+			update_post_meta( $nh_id, '_elementor_pro_version', ELEMENTOR_PRO_VERSION );
+			if ( '' !== (string) $nh_doc['template'] ) {
+				update_post_meta( $nh_id, '_wp_page_template', (string) $nh_doc['template'] );
+			}
+			if ( ! empty( $nh_doc['page_settings'] ) ) {
+				update_post_meta( $nh_id, '_elementor_page_settings', wp_slash( (array) $nh_doc['page_settings'] ) );
+			} else {
+				delete_post_meta( $nh_id, '_elementor_page_settings' );
+			}
+			if ( 'elementor_library' === $nh_doc['post_type'] ) {
+				$nh_terms = wp_set_object_terms( $nh_id, (string) $nh_doc['document_type'], 'elementor_library_type' );
+				if ( is_wp_error( $nh_terms ) ) {
+					throw new Exception( "$nh_key: elementor_library_type: " . $nh_terms->get_error_message() );
+				}
+				if ( $nh_doc['conditions'] ) {
+					update_post_meta( $nh_id, '_elementor_conditions', wp_slash( (array) $nh_doc['conditions'] ) );
+				} else {
+					delete_post_meta( $nh_id, '_elementor_conditions' );
+				}
+			}
+			// this post's CSS, element and asset caches: Elementor rebuilds them on the next view
+			delete_post_meta( $nh_id, '_elementor_css' );
+			delete_post_meta( $nh_id, '_elementor_element_cache' );
+			delete_post_meta( $nh_id, '_elementor_page_assets' );
+			if ( json_decode( (string) get_post_meta( $nh_id, '_elementor_data', true ), true ) !== $nh_data ) {
+				$log['warnings'][] = "$nh_key: _elementor_data does not read back equal to what was written";
+			}
+		}
+		foreach ( $nh_docs as $nh_doc ) {
+			$nh_id = $nh_ids[ $nh_doc['key'] ];
+			if ( 'publish' !== get_post_status( $nh_id ) ) {
+				$nh_res = wp_update_post( wp_slash( array( 'ID' => $nh_id, 'post_status' => 'publish' ) ), true );
+				if ( is_wp_error( $nh_res ) || ! $nh_res ) {
+					throw new Exception( $nh_doc['key'] . ': not published: ' . ( is_wp_error( $nh_res ) ? $nh_res->get_error_message() : '?' ) );
+				}
+			}
+		}
+
+		// Theme Builder conditions: Pro rebuilds its cache from every template's _elementor_conditions.
+		$log['conditions'] = $nh_conditions_cache();
+		$nh_opt = get_option( 'elementor_pro_theme_builder_conditions' );
+		foreach ( array( 'header-v4' => 'header', 'footer-v4' => 'footer' ) as $nh_key => $nh_loc ) {
+			$nh_all = ( is_array( $nh_opt ) && isset( $nh_opt[ $nh_loc ] ) ) ? (array) $nh_opt[ $nh_loc ] : array();
+			$log['conditions_cache'][ $nh_key ] = isset( $nh_all[ $nh_ids[ $nh_key ] ] ) ? $nh_all[ $nh_ids[ $nh_key ] ] : 'missing';
+			foreach ( $nh_all as $nh_tid => $nh_conds ) {
+				if ( (int) $nh_tid !== $nh_ids[ $nh_key ] && in_array( 'include/singular/front_page', (array) $nh_conds, true ) ) {
+					$log['warnings'][] = "$nh_loc: template #$nh_tid also has include/singular/front_page; Pro may show it instead";
+				}
+			}
+		}
+		// Elementor's CSS files (the Kit's globals are in every post's CSS): rebuilt on the next view.
+		$nh_el->files_manager->clear_cache();
+		foreach ( $nh_ids as $nh_key => $nh_id ) {
+			if ( ! isset( $log['docs'][ $nh_key ] ) ) {
+				continue;
+			}
+			$log['docs'][ $nh_key ]['status'] = get_post_status( $nh_id );
+			$log['docs'][ $nh_key ]['url']    = get_permalink( $nh_id );
+			$log['docs'][ $nh_key ]['edit']   = admin_url( 'post.php?post=' . $nh_id . '&action=elementor' );
+			$nh_now = (string) get_post_meta( $nh_id, '_elementor_data', true );
+			if ( isset( $log['before']['docs'][ $nh_key ]['data'] ) && $log['before']['docs'][ $nh_key ]['data'] === $nh_now ) {
+				$log['before']['docs'][ $nh_key ]['data'] = '(the same as now)';
+			}
+		}
+		$log['front_after'] = array( 'show_on_front' => get_option( 'show_on_front' ), 'page_on_front' => (int) get_option( 'page_on_front' ) );
+"""
+
+# --rollback: page #32 gets its backup's Elementor meta back; header-v4 and footer-v4 become drafts (Pro shows only
+# published templates, so #34 and #35, include/general, are the home's header and footer again).
+V4_ROLLBACK_PHP = r"""
+		$nh_home = $nh_find( 'home', 'page' );
+		if ( ! $nh_home ) {
+			throw new Exception( 'no page carries _nh_page_key home' );
+		}
+		$nh_hid     = $nh_home[0];
+		$nh_backups = array_values( array_intersect( $nh_find( (string) $nh_hid, 'page', '_nh_backup_of' ), $nh_find( '__NH_LABEL__', 'page', '_nh_backup_label' ) ) );
+		if ( ! $nh_backups ) {
+			$nh_backups = $nh_find( (string) $nh_hid, 'page', '_nh_backup_of' );
+		}
+		if ( ! $nh_backups ) {
+			throw new Exception( "no backup of page #$nh_hid (post meta _nh_backup_of): nothing is changed" );
+		}
+		$nh_bid = $nh_backups[0];
+		if ( '' === (string) get_post_meta( $nh_bid, '_elementor_data', true ) ) {
+			throw new Exception( "the backup #$nh_bid has no Elementor data: nothing is changed" );
+		}
+		$nh_keys       = array( '_elementor_data', '_elementor_page_settings', '_wp_page_template', '_elementor_edit_mode', '_elementor_template_type', '_elementor_version', '_elementor_pro_version' );
+		$log['home']   = $nh_hid;
+		$log['backup'] = array( 'id' => $nh_bid, 'title' => get_the_title( $nh_bid ), 'status' => get_post_status( $nh_bid ) );
+		foreach ( $nh_keys as $nh_k ) {
+			$log['before']['home'][ $nh_k ] = get_post_meta( $nh_hid, $nh_k, true );
+		}
+		foreach ( $nh_keys as $nh_k ) {
+			$nh_v = get_post_meta( $nh_bid, $nh_k, true );
+			if ( '' === $nh_v || array() === $nh_v || null === $nh_v ) {
+				delete_post_meta( $nh_hid, $nh_k );
+			} else {
+				update_post_meta( $nh_hid, $nh_k, wp_slash( $nh_v ) );
+			}
+		}
+		delete_post_meta( $nh_hid, '_elementor_css' );
+		delete_post_meta( $nh_hid, '_elementor_element_cache' );
+		delete_post_meta( $nh_hid, '_elementor_page_assets' );
+		$log['differs'] = array();
+		foreach ( $nh_keys as $nh_k ) {
+			if ( get_post_meta( $nh_bid, $nh_k, true ) !== get_post_meta( $nh_hid, $nh_k, true ) ) {
+				$log['differs'][] = $nh_k;
+			}
+		}
+		foreach ( array( 'header-v4', 'footer-v4' ) as $nh_key ) {
+			foreach ( $nh_find( $nh_key, 'elementor_library' ) as $nh_id ) {
+				$nh_was = get_post_status( $nh_id );
+				$log['templates'][ $nh_key ][ $nh_id ] = array( 'was' => $nh_was );
+				if ( 'publish' === $nh_was ) {
+					$nh_res = wp_update_post( array( 'ID' => $nh_id, 'post_status' => 'draft' ), true );
+					if ( is_wp_error( $nh_res ) ) {
+						throw new Exception( "$nh_key #$nh_id: " . $nh_res->get_error_message() );
+					}
+				}
+				$log['templates'][ $nh_key ][ $nh_id ]['now'] = get_post_status( $nh_id );
+			}
+		}
+		$log['conditions'] = $nh_conditions_cache();
+		$nh_el->files_manager->clear_cache();
+		$log['conditions_now'] = get_option( 'elementor_pro_theme_builder_conditions' );
+"""
+
+
+def build_v4_module():
+    """scripts/build_v4.py as a module (it never talks to a server)."""
+    spec = importlib.util.spec_from_file_location("nh_build_v4", os.path.join(ROOT, "scripts", "build_v4.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_v4():
+    """templates/v4/*.json as scripts/build_v4.py makes them from this tree's inputs, checked: (module, docs in V4_KEYS
+    order, kit, menu, media.json)."""
+    bv = build_v4_module()
+    docs, kit, menu = bv.read_outputs()
+    content, media_list = bv.load_inputs()
+    problems = bv.check(docs, kit, menu, content, media_list)
+    fresh = bv.build()
+    if (docs, kit, menu) != fresh:
+        problems.append("templates/v4/*.json are not what this tree's inputs make: run python3 -I scripts/build_v4.py")
+    need(not problems, "templates/v4 does not pass scripts/build_v4.py check:\n  " + "\n  ".join(problems[:20]))
+    return bv, [docs[k] for k in V4_KEYS], kit, menu, media_list
+
+
+def v4_media_files(media_list):
+    """name -> the file to upload: path, its name on upload, MIME type, size and the Hebrew alt text (images only)."""
+    out = {}
+    for name, rec in sorted(media_list.items()):
+        path = os.path.realpath(os.path.join(ROOT, rec["file"]))
+        need(path.startswith(V4_DIR + os.sep) and os.path.isfile(path), f"media {name}: no file {rec['file']}")
+        ext = os.path.splitext(path)[1].lower()
+        need(ext in V4_MIME, f"media {name}: unknown file type {ext}")
+        alt = (rec.get("alt") or "").strip()
+        need(alt, f"media {name} has no alt text in templates/v4/media.json")
+        out[name] = {"path": path, "upload_as": f"{name}{ext}", "type": V4_MIME[ext], "bytes": os.path.getsize(path),
+                     "alt": alt if V4_MIME[ext].startswith("image/") else "", "title": f"nh4:{name}",
+                     "width": rec.get("width"), "height": rec.get("height")}
+    return out
+
+
+def load_json_map(path):
+    if not os.path.isfile(path):
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        data = json.load(fh)
+    return {str(k): int(v) for k, v in data.items()} if isinstance(data, dict) else {}
+
+
+def save_json_map(path, ids):
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump({k: ids[k] for k in sorted(ids)}, fh, indent=1)
+        fh.write("\n")
+    os.replace(tmp, path)
+
+
+def v4_our_media(media_map):
+    """Attachments titled nh4:<name> (any type, the PDF too): name -> [items], lowest id first. The ids of
+    templates/v4/media-map.json are read one by one; a search for the marker finds the rest."""
+    out, seen = {}, set()
+
+    def add(item):
+        title = str((item.get("title") or {}).get("raw") or "").strip()
+        if title.startswith("nh4:") and int(item["id"]) not in seen:
+            seen.add(int(item["id"]))
+            out.setdefault(title[4:], []).append(item)
+    for name, att in sorted(media_map.items()):
+        st, item, _ = api(f"/wp/v2/media/{att}", query={"context": "edit", "_fields": MEDIA_FIELDS})
+        if st == 200 and isinstance(item, dict) and item.get("id"):
+            add(item)
+    items = api_all("/wp/v2/media", {"search": "nh4:", "context": "edit", "orderby": "id", "order": "asc",
+                                     "_fields": MEDIA_FIELDS})
+    need(not isinstance(items, tuple), f"cannot list the media library ({items[0] if isinstance(items, tuple) else ''})")
+    for item in items:
+        add(item)
+    for group in out.values():
+        group.sort(key=lambda i: int(i["id"]))
+    return out
+
+
+def v4_upload(name, info, media_map):
+    """Upload one file with its title marker (and alt text) in the same request; recorded as soon as WordPress names
+    its id, before anything can fail."""
+    with open(info["path"], "rb") as fh:
+        data = fh.read()
+    query = {"title": info["title"], **({"alt_text": info["alt"]} if info["alt"] else {})}
+    st, item, hdr = api("/wp/v2/media", "POST", data, query=query, headers={
+        "Content-Type": info["type"], "Content-Disposition": f'attachment; filename="{info["upload_as"]}"'}, timeout=300)
+    att = str((item.get("id") if st == 201 and isinstance(item, dict) else None)
+              or hdr.get("x-wp-upload-attachment-id") or "").strip()
+    need(att.isdigit() and int(att) > 0, f"could not upload {info['upload_as']} ({st} {err(item)})")
+    att = int(att)
+    record({"change": f"v4: uploaded {name}", "id": att, "file": info["upload_as"], "title": info["title"],
+            "alt": info["alt"], **({} if st == 201 else {"upload_answer": st})})
+    media_map[name] = att
+    save_json_map(V4_MEDIA_MAP, media_map)
+    if st != 201 and info["type"].startswith("image/"):
+        for _ in range(3):   # the attachment exists, its sub-sizes did not finish: let WordPress finish them
+            st, item, _ = api(f"/wp/v2/media/{att}/post-process", "POST", {"action": "create-image-subsizes"}, timeout=300)
+            if st in (200, 201):
+                break
+        need(st in (200, 201) and isinstance(item, dict) and item.get("id"),
+             f"{info['upload_as']} is #{att} (recorded), but its sub-sizes failed ({st} {err(item)})")
+    if st != 201:
+        st, item, _ = api(f"/wp/v2/media/{att}", query={"context": "edit", "_fields": MEDIA_FIELDS})
+        need(st == 200, f"cannot read attachment #{att} ({st})")
+    if str((item.get("title") or {}).get("raw") or "") != info["title"] or (info["alt"] and item.get("alt_text") != info["alt"]):
+        st, item, _ = api(f"/wp/v2/media/{att}", "POST", {"title": info["title"], "alt_text": info["alt"]})
+        need(st == 200, f"could not set the title and alt text of #{att} ({st} {err(item)})")
+    return item
+
+
+def v4_media_state(files, media_map):
+    """name -> the attachment to reuse (the one in media-map.json if it still carries the marker), or None."""
+    mine = v4_our_media(media_map)
+    out = {}
+    for name in files:
+        items = mine.get(name, [])
+        pick = next((i for i in items if int(i["id"]) == media_map.get(name)), items[0] if items else None)
+        out[name] = (pick, len(items))
+    return out
+
+
+def v4_resolve_media(value, atts):
+    """@media:<name>: in a media control (a dict with id) → the attachment's id, URL and alt; inside a text → its URL."""
+    if isinstance(value, dict):
+        out = {k: v4_resolve_media(v, atts) for k, v in value.items()}
+        m = re.fullmatch(r"@media:([A-Za-z0-9_-]+)", str(value.get("id", "")))
+        if m:
+            a = atts[m.group(1)]
+            out.update(id=a["id"], url=a["url"], alt=a["alt"])
+        return out
+    if isinstance(value, list):
+        return [v4_resolve_media(v, atts) for v in value]
+    if isinstance(value, str) and "@media:" in value:
+        return re.sub(r"@media:([A-Za-z0-9_-]+)", lambda m: atts[m.group(1)]["url"], value)
+    return value
+
+
+def v4_body(php, docs, kit, menu, author, extra=None):
+    """A v4 PHP step: the prelude and the step, the data inside as base64 JSON (no quoting issues)."""
+    def b64(obj):
+        return base64.b64encode(json.dumps(obj, ensure_ascii=False, separators=(",", ":")).encode()).decode()
+    body = (V4_PRELUDE_PHP + php).replace("__NH_DOCS_B64__", b64(docs)).replace("__NH_KIT_B64__", b64(kit)) \
+        .replace("__NH_MENU_B64__", b64(menu)).replace("__NH_AUTHOR__", str(int(author)))
+    for k, v in (extra or {}).items():
+        body = body.replace(k, v)
+    return body
+
+
+def v4_v4_ids(docs):
+    """The ids of the v4 home's top-level containers: a page holding one of them holds v4."""
+    return [el["id"] for el in docs[0]["elementor_data"]]
+
+
+def v4_kit_payload(kit):
+    return {k: kit[k] for k in ("system_colors", "custom_colors", "system_typography", "custom_typography")}
+
+
+def v4_home_url():
+    """home_url() of the site, from the REST index (read-only)."""
+    st, index, _ = api("/", query=bust())
+    home = index.get("home") if st == 200 and isinstance(index, dict) else None
+    need(isinstance(home, str) and home.startswith(f"https://{HOST}"), f"cannot read home_url() from the REST index ({st})")
+    return home.rstrip("/")
+
+
+def v4_menu_wanted(menu, home, page_ids):
+    """menu.json → the items as the REST menu-items endpoint names them (depth first; parent = index or None)."""
+    out = []
+
+    def add(items, parent):
+        for it in items:
+            if it.get("page"):
+                need(page_ids.get(it["page"]), f"menu: no page id for {it['page']}")
+                row = {"title": it["label"], "type": "post_type", "object": "page", "object_id": page_ids[it["page"]]}
+            else:
+                need(it["url"].startswith("@home:/"), f"menu: {it['label']}: unexpected target {it['url']}")
+                row = {"title": it["label"], "type": "custom", "url": home + it["url"][len("@home:"):]}
+            out.append({**row, "parent": parent})
+            add(it.get("children") or [], len(out) - 1)
+    add(menu["items"], None)
+    return out
+
+
+def v4_menu_state():
+    """The site's menu nh-main (or None) and its items in order (REST, read-only)."""
+    st, menus, _ = api("/wp/v2/menus", query={"context": "edit", "per_page": "100", **bust()})
+    need(st == 200 and isinstance(menus, list), f"cannot list menus ({st} {err(menus)})")
+    menu = next((m for m in menus if m.get("slug") == "nh-main"), None)
+    items = []
+    if menu:
+        got = api_all("/wp/v2/menu-items", {"menus": str(menu["id"]), "context": "edit", "orderby": "menu_order",
+                                            "order": "asc"})
+        need(not isinstance(got, tuple), f"cannot list the items of menu #{menu['id']}")
+        items = sorted(got, key=lambda i: (int(i.get("menu_order") or 0), int(i["id"])))
+    return menu, items, menus
+
+
+def v4_menu_same(items, wanted):
+    if len(items) != len(wanted):
+        return False
+    index = {int(i["id"]): n for n, i in enumerate(items)}
+    for have, want in zip(items, wanted):
+        parent = index.get(int(have.get("parent") or 0))
+        title = have.get("title")
+        title = title.get("raw") if isinstance(title, dict) else title
+        if title != want["title"] or parent != want["parent"] \
+                or have.get("type") != want["type"]:
+            return False
+        if want["type"] == "custom" and urllib.parse.unquote(str(have.get("url"))) != want["url"]:
+            return False
+        if want["type"] == "post_type" and int(have.get("object_id") or 0) != int(want["object_id"]):
+            return False
+    return True
+
+
+def v4_menu_apply(wanted):
+    """Create the menu «תפריט ראשי» (slug nh-main) if missing; replace its items when they differ (REST)."""
+    menu, items, _ = v4_menu_state()
+    if menu and v4_menu_same(items, wanted):
+        step(f"menu nh-main #{menu['id']}: already as menu.json ({len(items)} items)")
+        return menu["id"]
+    if not menu:
+        st, menu, _ = api("/wp/v2/menus", "POST", {"name": "תפריט ראשי", "slug": "nh-main"})
+        need(st in (200, 201) and isinstance(menu, dict) and menu.get("id"), f"could not create the menu ({st} {err(menu)})")
+        record({"change": "v4: created menu «תפריט ראשי»", "id": menu["id"], "slug": menu.get("slug")})
+        if menu.get("slug") != "nh-main":
+            st, menu, _ = api(f"/wp/v2/menus/{menu['id']}", "POST", {"slug": "nh-main"})
+            need(st == 200 and menu.get("slug") == "nh-main", f"the menu's slug is not nh-main ({st} {err(menu)})")
+    else:
+        record({"change": f"v4: menu nh-main #{menu['id']}: old items (replaced)",
+                "items": [{k: i.get(k) for k in ("id", "title", "type", "object", "object_id", "url", "parent",
+                                                 "menu_order")} for i in items]})
+        for i in items:
+            st, res, _ = api(f"/wp/v2/menu-items/{i['id']}", "DELETE", query={"force": "true"})
+            need(st == 200, f"could not delete menu item #{i['id']} ({st} {err(res)})")
+    made = []
+    for n, row in enumerate(wanted):
+        body = {k: v for k, v in row.items() if k != "parent"}
+        body.update(status="publish", menus=menu["id"], menu_order=n + 1,
+                    parent=made[row["parent"]] if row["parent"] is not None else 0)
+        st, item, _ = api("/wp/v2/menu-items", "POST", body)
+        need(st in (200, 201) and isinstance(item, dict) and item.get("id"),
+             f"could not add menu item {row['title']} ({st} {err(item)})")
+        made.append(int(item["id"]))
+    _, items, _ = v4_menu_state()
+    need(v4_menu_same(items, wanted), "the menu does not read back as menu.json")
+    record({"change": f"v4: menu nh-main #{menu['id']}: {len(made)} items", "items": made})
+    step(f"menu nh-main #{menu['id']}: {len(made)} items written")
+    return menu["id"]
+
+
+V4_RESOURCE_TAG = re.compile(r"<(script|img|iframe|source|video|audio|embed|object|link|input)\b[^>]*>", re.I)
+V4_RESOURCE_REL = {"stylesheet", "preload", "modulepreload", "icon", "apple-touch-icon", "dns-prefetch", "preconnect",
+                   "prefetch", "prerender", "manifest", "mask-icon"}
+
+
+def v4_external_requests(html):
+    """URLs the page would load from another host than ours or YouTube (resource tags, srcset, url() in styles)."""
+    urls = []
+    for m in V4_RESOURCE_TAG.finditer(html):
+        tag, name = m.group(0), m.group(1).lower()
+        if name == "link":
+            rel = re.search(r"""\brel\s*=\s*["']?([^"'>]+)""", tag, re.I)
+            if not rel or not set(rel.group(1).lower().split()) & V4_RESOURCE_REL:
+                continue
+            attrs = ("href",)
+        else:
+            attrs = ("src", "srcset", "data", "poster")
+        for attr in attrs:
+            for v in re.findall(r"""\b""" + attr + r"""\s*=\s*["']([^"']+)["']""", tag, re.I):
+                urls += [part.strip().split(" ")[0] for part in v.split(",")] if attr == "srcset" else [v]
+    urls += re.findall(r"""url\(\s*['"]?([^'")]+)""", html)
+    bad = []
+    for u in urls:
+        u = u.replace("&#038;", "&").replace("&amp;", "&")
+        if u.startswith("//"):
+            u = "https:" + u
+        host = urllib.parse.urlsplit(u).hostname if re.match(r"https?://", u, re.I) else None
+        if host and host.lower() not in V4_HOSTS_OK:
+            bad.append(u)
+    return sorted(set(bad))
+
+
+def v4_widget_types(doc):
+    return sorted({el.get("widgetType") for el in walk_v4(doc["elementor_data"]) if el.get("elType") == "widget"})
+
+
+def walk_v4(elements):
+    for el in elements:
+        yield el
+        yield from walk_v4(el.get("elements") or [])
+
+
+def v4_page_problems(url, docs, ids):
+    """§7.6: the home page as a visitor gets it. -> (problems, facts)"""
+    _check_url(url)
+    st, hdr, body = http(url + ("&" if "?" in url else "?") + urllib.parse.urlencode(bust()))
+    html = body.decode("utf-8", "replace")
+    problems = [] if st == 200 else [f"HTTP {st}"]
+    if any(c in html for c in CRITICAL):
+        problems.append("a PHP error on the page")
+    for d in docs:
+        for wt in v4_widget_types(d):
+            if wt == "template":
+                continue   # its wrapper is checked by the contacts band's id
+            if f"elementor-widget-{V4_WRAPPER_CLASS.get(wt, wt)}" not in html:
+                problems.append(f"{d['key']}: widget {wt} is missing")
+    for sid in V4_SECTIONS:
+        if not re.search(r'\sid="' + re.escape(sid) + '"', html):
+            problems.append(f"section #{sid} is missing")
+    for key, loc in (("header-v4", "header"), ("footer-v4", "footer")):
+        m = re.search(r'<(\w+)\s[^>]*\bdata-elementor-type="' + loc + r'"[^>]*\bdata-elementor-id="(\d+)"', html)
+        if not m:
+            problems.append(f"no Theme Builder {loc} on the page")
+        elif int(m.group(2)) != int(ids.get(key) or 0):
+            problems.append(f"the {loc} on the page is #{m.group(2)}, not {key} #{ids.get(key)}")
+        elif m.group(1) != loc:
+            problems.append(f"the {loc} is wrapped in <{m.group(1)}>, not <{loc}>")
+    if V4_UNRESOLVED.search(html):
+        problems.append("an unresolved token (@media:/@page:/@page-id:/@home:) in the page")
+    external = v4_external_requests(html)
+    if external:
+        problems.append(f"requests to other hosts: {external[:6]}")
+    return problems, {"status": st, "bytes": len(body), "images": len(re.findall(r"<img\s", html)),
+                      "cache": hdr.get("x-ezcache") or hdr.get("x-cache") or ""}
+
+
+V4_PLAN = """v4 will change the test site (research/09-v4-home-spec.md §7), each step idempotent:
+  1. backup of the home page #{home}: {backup}
+  2. media: {upload} file(s) to upload (titled nh4:<name>, Hebrew alt text; the PDF too), {reuse} already there;
+     ids kept in templates/v4/media-map.json
+  3. menu «תפריט ראשי» (slug nh-main, no theme location): {menu}
+  4. Kit #{kit}: system_colors, custom_colors, system_typography, custom_typography replaced by kit.json
+     (Theme Style untouched); now: {kit_now}
+  5. one PHP step, as user #{user}: the documents (found by post meta _nh_page_key; no other post is touched)
+{docs}
+     written as Elementor saves them, the templates published, Pro's conditions cache rebuilt, Elementor's CSS cache
+     emptied; Settings → Reading is not changed (the front page is #{front})
+     The v3.2 header #34 and footer #35 keep include/general: they stay on every other page (the house page too).
+  6. ezCache purged; the home page smoke-tested (200, no PHP error, every widget and section, the v4 header/footer,
+     no unresolved token, no request to a host other than ours or YouTube)
+  Link targets on the test site (the live slugs; not there yet ≠ an error of v4): {targets}
+  Every old value goes to {log} (the posts' old Elementor data and the Kit's old settings too). Code Snippets is
+  switched on for the PHP steps and off again; Elementor empties its CSS file cache on both switches.
+  Rollback: python3 -I scripts/test_site.py v4 --rollback copies the backup's Elementor meta back to #{home} and
+  moves header-v4 and footer-v4 to drafts.
+  Before: python3 -I scripts/test_site.py v4 --render-check (read-only) renders the documents with Elementor.
+Run again with --go to apply."""
+
+
+def v4_link_targets(docs, menu):
+    """The @home:/…/ targets of the documents and the menu, each asked once on the test site (GET, read-only):
+    path -> HTTP status. Targets that are not there yet are listed in the plan, not hidden (spec §8)."""
+    paths = set()
+    for d in docs:
+        for v in walk_strings(d["elementor_data"]):
+            paths.update(re.findall(r"@home:(/[^\s\"'<>]*)", v))
+
+    def items(rows):
+        for it in rows:
+            yield it
+            yield from items(it.get("children") or [])
+    paths.update(it["url"][len("@home:"):] for it in items(menu["items"]) if it["url"].startswith("@home:"))
+    out = {}
+    for path in sorted(paths):
+        url = BASE.rstrip("/") + urllib.parse.quote(path)
+        st, _, _ = http(url + "?" + urllib.parse.urlencode(bust()))
+        out[path] = st
+    return out
+
+
+def walk_strings(value):
+    if isinstance(value, dict):
+        for v in value.values():
+            yield from walk_strings(v)
+    elif isinstance(value, list):
+        for v in value:
+            yield from walk_strings(v)
+    elif isinstance(value, str):
+        yield value
+
+
+def v4_state(docs):
+    """The site's state for the plan, over REST (GET only)."""
+    st, s, _ = api("/wp/v2/settings")
+    need(st == 200 and isinstance(s, dict), f"cannot read the settings ({st} {err(s)})")
+    pages = api_all("/wp/v2/pages", {"context": "edit", "status": "publish,draft,pending,private,trash"})
+    library = api_all("/wp/v2/elementor_library", {"context": "edit", "status": "publish,draft,pending,private,trash"})
+    need(not isinstance(pages, tuple) and not isinstance(library, tuple), "cannot list pages and templates")
+    return s, pages, library
+
+
+def cmd_v4(args):
+    flags = [f for f in ("go", "rollback", "render_check") if getattr(args, f)]
+    need(len(flags) <= 1, "use one of --go, --rollback, --render-check")
+    me = whoami(("manage_options", "upload_files", "edit_pages", "edit_theme_options"))
+    if args.rollback:
+        return v4_rollback(me)
+    bv, docs, kit, menu, media_list = load_v4()
+    files = v4_media_files(media_list)
+    st, plugins, _ = api("/wp/v2/plugins")
+    need(st == 200 and isinstance(plugins, list), f"cannot list plugins ({st} {err(plugins)})")
+    active = {p["plugin"].split("/")[0]: p for p in plugins if p.get("status") == "active"}
+    missing = [slug for slug in ("elementor", "elementor-pro") if slug not in active]
+    step(f"signed in as user #{me['id']}; active: " + ", ".join(
+        f"{s} {active[s].get('version', '')}" for s in ("elementor", "elementor-pro") if s in active)
+         + (f"; NOT active: {', '.join(missing)}" if missing else ""))
+    step(f"templates/v4: built from this tree ({docs[0]['built_from']['inputs_sha256'][:12]}…), check passed; "
+         + "; ".join(f"{d['key']}: {len(list(walk_v4(d['elementor_data'])))} elements" for d in docs))
+    need(not missing, f"activate first: {', '.join(missing)}")
+    media_map = load_json_map(V4_MEDIA_MAP)
+    state = v4_media_state(files, media_map)
+    if args.render_check:
+        return v4_render_check(me, docs, kit, menu, files, state, args.out)
+    if args.go:
+        return v4_go(me, docs, kit, menu, files, media_map, state)
+
+    # the plan, read-only
+    s, pages, library = v4_state(docs)
+    home_id = int(s.get("page_on_front") or 0)
+    by_id = {int(p["id"]): p for p in pages}
+    home = by_id.get(32) or by_id.get(home_id)
+    v4_ids = v4_v4_ids(docs)
+    holds_v4 = bool(home) and any(f'"id":"{i}"' in str((home.get("meta") or {}).get("_elementor_data") or "")
+                                  for i in v4_ids)
+    backups = [p for p in pages if (p.get("title") or {}).get("raw") == V4_BACKUP_TITLE]
+    backup = (f"found: #{backups[0]['id']} «{V4_BACKUP_TITLE}» ({backups[0]['status']}), kept as it is"
+              if backups else f"a new draft «{V4_BACKUP_TITLE}» (post meta _nh_backup_of = {home['id'] if home else '?'})")
+    if home:
+        step(f"home page #{home['id']} «{home['title']['raw']}» ({home['status']}, template {home.get('template')}); "
+             f"it holds {'the v4 home already' if holds_v4 else 'the v3.2 home'}")
+    for name, info in files.items():
+        item, n = state[name]
+        what = f"reuse #{item['id']}" if item else f"upload {info['upload_as']} ({info['bytes'] / 1024:.0f} KB, {info['type']})"
+        if n > 1:
+            what += f" ({n} attachments carry nh4:{name}; the others stay as they are)"
+        print(f"   media {name:22s} {what}")
+    site_menu, items, _ = v4_menu_state()
+    if site_menu:
+        menu_note = f"menu #{site_menu['id']} has {len(items)} item(s); replaced if they differ from menu.json"
+    else:
+        menu_note = "created"
+    lines = []
+    lib_by_slug = {p.get("slug"): p for p in library}
+    for d in docs:
+        if d["post_type"] == "page":
+            where = f"page #{home['id'] if home else '?'} (the front page: data and meta replaced; title, slug, status kept)"
+        else:
+            found = lib_by_slug.get(d["slug"])
+            kind = (f"Theme Builder {d['document_type']}, conditions {', '.join(d['conditions'])}" if d["conditions"]
+                    else f"saved template (library type {d['document_type']}), no conditions")
+            where = (f"{kind}; "
+                     + (f"probably #{found['id']} ({found['status']})" if found else "created as a draft, then published"))
+        lines.append(f"     {d['key']:10s} «{d['title']}» {where}; {len(v4_widget_types(d))} widget type(s): "
+                     f"{' '.join(v4_widget_types(d))}")
+    kit_post = next((p for p in library if (p.get("meta") or {}).get("_elementor_template_type") == "kit"), None)
+    kit_now = ", ".join(sorted(((kit_post or {}).get("meta") or {}).get("_elementor_page_settings") or {})) or "?"
+    targets = v4_link_targets(docs, menu)
+    there = [p for p, st in targets.items() if st == 200]
+    absent = [f"{p} ({st})" for p, st in targets.items() if st != 200]
+    target_note = f"{len(there)} of {len(targets)} answer 200" + (
+        "; not there yet: " + ", ".join(absent) if absent else "")
+    print(V4_PLAN.format(home=home["id"] if home else "?", backup=backup, targets=target_note,
+                         upload=sum(1 for v in state.values() if not v[0]), reuse=sum(1 for v in state.values() if v[0]),
+                         menu=menu_note, kit=kit_post["id"] if kit_post else "?",
+                         kit_now=f"settings keys {kit_now} (the four lists unset: Elementor's defaults)"
+                         if "system_colors" not in kit_now else f"settings keys {kit_now}",
+                         user=me["id"], docs="\n".join(lines), front=home_id, log=LOG_FILE))
+    known = {n: {"id": int(i["id"]) if i else 0, "url": str(i.get("source_url") or "") if i else "",
+                 "alt": files[n]["alt"]} for n, (i, _) in state.items()}
+    resolved = [v4_resolve_media(d, known) for d in docs]
+    for label, php, extra in (("v4 backup", V4_BACKUP_PHP, None), ("v4 documents", V4_DOCS_PHP, None),
+                              ("v4 render check", V4_RENDER_PHP, None), ("v4 rollback", V4_ROLLBACK_PHP, None)):
+        body = v4_body(php, resolved, v4_kit_payload(kit), menu, me["id"], {
+            "__NH_LABEL__": V4_BACKUP_LABEL, "__NH_TITLE__": V4_BACKUP_TITLE,
+            "__NH_V4_IDS_B64__": base64.b64encode(json.dumps(v4_v4_ids(docs)).encode()).decode()})
+        lint_php(label, body)
+
+
+def v4_atts(files, state, placeholders):
+    """name -> {id, url, alt}: the attachments that are there; for the others placeholders (render check) or None."""
+    out = {}
+    for name, info in files.items():
+        item, _ = state[name]
+        if item:
+            out[name] = {"id": int(item["id"]), "url": str(item.get("source_url") or ""), "alt": info["alt"]}
+        elif placeholders:
+            out[name] = {"id": "", "url": f"{BASE}wp-content/uploads/nh4-placeholder/{info['upload_as']}",
+                         "alt": info["alt"]}
+    return out
+
+
+V4_ERROR_LEVELS = {2: "E_WARNING", 8: "E_NOTICE", 512: "E_USER_WARNING", 1024: "E_USER_NOTICE", 256: "E_USER_ERROR",
+                   8192: "E_DEPRECATED", 16384: "E_USER_DEPRECATED", 2048: "E_STRICT"}
+
+
+def v4_kit_css(kit):
+    """The Kit's global variables, as Elementor prints them in the Kit's CSS (for the preview page only)."""
+    lines, mobile = [], []
+
+    def val(v):
+        return f"{v['size']}{'' if v['unit'] == 'custom' else v['unit']}"
+    for c in kit["system_colors"] + kit["custom_colors"]:
+        lines.append(f"--e-global-color-{c['_id']}: {c['color']};")
+    for t in kit["system_typography"] + kit["custom_typography"]:
+        p = f"--e-global-typography-{t['_id']}"
+        lines.append(f'{p}-font-family: "{t["typography_font_family"]}";')
+        if t.get("typography_font_weight"):
+            lines.append(f"{p}-font-weight: {t['typography_font_weight']};")
+        if t.get("typography_font_size"):
+            lines.append(f"{p}-font-size: {val(t['typography_font_size'])};")
+        if t.get("typography_line_height"):
+            lines.append(f"{p}-line-height: {val(t['typography_line_height'])};")
+        if t.get("typography_font_size_mobile"):
+            mobile.append(f"{p}-font-size: {val(t['typography_font_size_mobile'])};")
+    return (".elementor-kit-v4 {\n  " + "\n  ".join(lines) + "\n}\n@media (max-width: 767px) {\n  .elementor-kit-v4 {\n    "
+            + "\n    ".join(mobile) + "\n  }\n}\n")
+
+
+def v4_preview_page(out_dir, log, docs, kit):
+    """One HTML page for a look in a browser: the v4 header, the home with the contacts template in the Template
+    widget's place, the footer; Elementor's and Pro's frontend CSS (inlined from the test site), the Kit's variables
+    and the CSS Elementor generated for these elements, the child theme's CSS and fonts of this tree (file://), and
+    the media files of templates/v4/media in place of the placeholders. Without Elementor's JS: the menu's dropdown
+    and the videos do not open there."""
+    ids = log.get("ids") or {}
+    parts = {d["key"]: (log["docs"].get(d["key"]) or {}) for d in docs}
+    contacts = parts["contacts"].get("html") or ""
+    wrap = ('<div data-elementor-type="container" data-elementor-id="{id}" class="elementor elementor-{id}" '
+            'data-elementor-post-type="elementor_library">{html}</div>')
+    home_html = parts["home"].get("html") or ""
+    slot = [el["id"] for el in docs[0]["elementor_data"] if "nh-slot" in str(el["settings"].get("css_classes"))]
+    tpl = [el["id"] for el in walk_v4(docs[0]["elementor_data"]) if el.get("widgetType") == "template"]
+    if slot and tpl and contacts and f'data-id="{tpl[0]}"' not in home_html:
+        # the Template widget printed nothing (the template is not on the site yet): its place gets the template
+        widget = ('<div class="elementor-element elementor-element-{0} elementor-widget elementor-widget-template" '
+                  'data-id="{0}" data-element_type="widget" data-e-type="widget" data-widget_type="template.default">'
+                  '<div class="elementor-template">{1}</div></div>').format(
+                      tpl[0], wrap.format(id=ids.get("contacts"), html=contacts))
+        home_html = re.sub(r'(<div\b[^>]*\bdata-id="' + slot[0] + r'"[^>]*>)', lambda m: m.group(1) + widget,
+                           home_html, count=1)
+    css = "\n".join((parts[k].get("css") or "") for k in V4_KEYS)
+    el = f"https://{HOST}/wp-content/plugins/elementor/assets/css/"
+    pro = f"https://{HOST}/wp-content/plugins/elementor-pro/assets/css/"
+    up = f"https://{HOST}/wp-content/uploads/elementor/css/"
+    links = [el + "frontend.min.css", up + "base-desktop.css", up + "base-mobile.css"] + [
+        el + f"widget-{w}-rtl.min.css" for w in ("heading", "image", "video", "icon-box", "nested-accordion",
+                                                 "text-editor")] + [
+        pro + "widget-nav-menu-rtl.min.css"]
+    # inlined (GET from the test site): a file:// page may not load them cross-origin. Elementor writes its base-*.css
+    # again on the next page view after its CSS cache was emptied (the plugin switch of this step), so a 404 there
+    # gets one view of the home page and a second try.
+    inline, missing = [], []
+    for u in links:
+        st, _, body = http(u + "?" + urllib.parse.urlencode(bust()))
+        if st == 404 and "/uploads/elementor/css/" in u:
+            http(url_for(query=bust()))
+            st, _, body = http(u + "?" + urllib.parse.urlencode(bust()))
+        if st == 200:
+            text = body.decode("utf-8", "replace")
+            base = u.rsplit("/", 1)[0] + "/"
+            text = re.sub(r"url\(\s*['\"]?(?!data:|https?:|//)([^'\")]+)['\"]?\s*\)", lambda m: f"url({base}{m.group(1)})", text)
+            inline.append(f"/* {u} */\n{text}")
+        else:
+            missing.append(f"{u} ({st})")
+    # the child theme of this tree (the v4 CSS is deployed with it)
+    local = [os.path.join(CHILD_DIR, "style.css"), os.path.join(CHILD_DIR, "assets", "css", "fonts.css"),
+             os.path.join(CHILD_DIR, "assets", "css", "v4.css")]
+    head = "<style>\n" + "\n".join(inline) + "\n</style>\n"
+    head += "".join(f'<link rel="stylesheet" href="file://{p}">\n' for p in local if os.path.isfile(p))
+    if missing:
+        print("!! preview: not loaded:", "; ".join(missing))
+    page = f"""<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v4 render check (not saved on the site)</title>
+{head}<style>
+{v4_kit_css(kit)}
+{css}
+</style></head>
+<body class="rtl home page-template-elementor_header_footer elementor-kit-v4 elementor-page elementor-page-{ids.get('home')}">
+<header data-elementor-type="header" data-elementor-id="{ids.get('header-v4')}" class="elementor elementor-{ids.get('header-v4')} elementor-location-header" data-elementor-post-type="elementor_library">
+{parts['header-v4'].get('html') or ''}
+</header>
+<main id="content" class="site-main">
+<div data-elementor-type="wp-page" data-elementor-id="{ids.get('home')}" class="elementor elementor-{ids.get('home')}" data-elementor-post-type="page">
+{home_html}
+</div>
+</main>
+<footer data-elementor-type="footer" data-elementor-id="{ids.get('footer-v4')}" class="elementor elementor-{ids.get('footer-v4')} elementor-location-footer" data-elementor-post-type="elementor_library">
+{parts['footer-v4'].get('html') or ''}
+</footer>
+</body></html>
+"""
+    # the placeholders of media not uploaded yet → the files in the repo (only on this preview page)
+    page = page.replace(f"{BASE}wp-content/uploads/nh4-placeholder/", "file://" + os.path.join(V4_DIR, "media") + "/")
+    path = os.path.join(out_dir, "page.html")
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(page)
+    return path
+
+
+def v4_render_check(me, docs, kit, menu, files, state, out):
+    """Read-only: Elementor builds and prints every document in memory (nothing is saved on the site)."""
+    out_dir = os.path.realpath(out or V4_RENDER_DIR)
+    need(out_dir != ROOT and not out_dir.startswith(ROOT + os.sep), "keep the rendered HTML outside the repo")
+    atts = v4_atts(files, state, placeholders=True)
+    resolved = [v4_resolve_media(d, atts) for d in docs]
+    need(not re.search(r"@media:", json.dumps(resolved)), "a media token is left in the data")
+    body = v4_body(V4_RENDER_PHP, resolved, v4_kit_payload(kit), menu, me["id"])
+    lint_php("v4 render check", body)
+    step(f"media: {sum(1 for v in state.values() if v[0])} on the site, the others as placeholders "
+         f"({BASE}wp-content/uploads/nh4-placeholder/…)")
+    with Helper():
+        log = run_php("v4 render check (read-only)", body)
+    record({"change": "v4 render check (read-only: nothing saved)", "exception": log.get("exception"),
+            "problems": {k: len(v.get("problems") or []) for k, v in (log.get("docs") or {}).items()}})
+    need("exception" not in log or log.get("docs"), f"the render step failed: {log.get('exception')}")
+    os.makedirs(out_dir, mode=0o700, exist_ok=True)
+    bad, report = [], {}
+    if log.get("exception"):
+        bad.append(f"the step: {log['exception']}")
+    for p in log.get("problems") or []:
+        bad.append(p)
+    for p in log.get("kit_problems") or []:
+        bad.append(f"kit.json: {p}")
+    for t, ok in (log.get("document_types") or {}).items():
+        if t in ("wp-page", "header", "footer", "container") and not ok:
+            bad.append(f"the site has no Elementor document type {t}")
+    for d in docs:
+        r = (log.get("docs") or {}).get(d["key"]) or {}
+        html = r.get("html") or ""
+        with open(os.path.join(out_dir, f"{d['key']}.html"), "w", encoding="utf-8") as fh:
+            fh.write(html)
+        with open(os.path.join(out_dir, f"{d['key']}.css"), "w", encoding="utf-8") as fh:
+            fh.write(r.get("css") or "")
+        printed = set(re.findall(r'\bdata-id="([0-9a-f]{7})"', html))
+        missing = []
+        for el in walk_v4(d["elementor_data"]):
+            if el["id"] in printed:
+                continue
+            s = el.get("settings") or {}
+            if el.get("widgetType") == "text-editor" and not s.get("editor"):
+                continue           # empty on purpose (card 4 has no subline on live): Elementor prints nothing
+            if el.get("widgetType") == "template" and not (log.get("found") or {}).get("contacts"):
+                continue           # the template is not on the site yet: rendered on its own (contacts.html)
+            missing.append(f"{el.get('widgetType') or 'container'} {el['id']}")
+        warnings = [e for e in r.get("errors") or [] if V4_ERROR_LEVELS.get(e.get("level"), e.get("level"))
+                    not in ("E_DEPRECATED", "E_USER_DEPRECATED", "E_STRICT", "deprecated_function_run",
+                            "deprecated_argument_run", "deprecated_hook_run")]
+        deprecations = [e for e in r.get("errors") or [] if e not in warnings]
+        report[d["key"]] = {"post_id": r.get("post_id"), "html_bytes": len(html), "css_bytes": len(r.get("css") or ""),
+                            "elements": len(list(walk_v4(d["elementor_data"]))), "printed": len(printed),
+                            "not_printed": missing, "problems": r.get("problems") or [], "warnings": warnings,
+                            "deprecations": deprecations, "exception": r.get("exception")}
+        for p in r.get("problems") or []:
+            bad.append(p)
+        for e in warnings:
+            bad.append(f"{d['key']}: PHP {V4_ERROR_LEVELS.get(e.get('level'), e.get('level'))}: {e.get('message')} "
+                       f"({e.get('at')})")
+        if r.get("exception"):
+            bad.append(f"{d['key']}: {r['exception']}")
+        if missing:
+            bad.append(f"{d['key']}: not printed: {', '.join(missing[:8])}")
+        if V4_UNRESOLVED.search(html):
+            bad.append(f"{d['key']}: an unresolved token in the HTML")
+        external = v4_external_requests(html)
+        if external:
+            bad.append(f"{d['key']}: requests to other hosts: {external}")
+    preview = v4_preview_page(out_dir, log, docs, kit)
+    summary = {k: v for k, v in log.items() if k not in ("docs",)}
+    summary["report"] = report
+    with open(os.path.join(out_dir, "report.json"), "w", encoding="utf-8") as fh:
+        json.dump(summary, fh, ensure_ascii=False, indent=1)
+    for key, r in report.items():
+        step(f"{key}: post {r['post_id']}, {r['printed']}/{r['elements']} elements printed, HTML {r['html_bytes'] / 1024:.0f} KB, "
+             f"CSS {r['css_bytes'] / 1024:.0f} KB; {len(r['problems'])} setting problem(s), {len(r['warnings'])} warning(s), "
+             f"{len(r['deprecations'])} deprecation(s)" + (f"; not printed (by design): {r['not_printed']}" if r['not_printed'] else ""))
+    step(f"controls: {log.get('controls')}, {log.get('options_checked')} values checked against their options; "
+         f"menu: {log.get('menu')}; found on the site: "
+         + ", ".join(f"{k} #{v}" if v else f"{k} (placeholder #{log['ids'][k]})" for k, v in (log.get('found') or {}).items()))
+    step(f"saved: {out_dir}/{{{','.join(V4_KEYS)}}}.html and .css, report.json, page.html (preview: {preview})")
+    need(not bad, "the render check found problems:\n  " + "\n  ".join(bad[:40]))
+    step("render check passed: no setting problem, no PHP warning, every element printed")
+
+
+def v4_go(me, docs, kit, menu, files, media_map, state):
+    """§7 steps 1–6."""
+    before = smoke()
+    need(not before, f"the site is not healthy before v4: {before}")
+    st_s, s, _ = api("/wp/v2/settings")
+    need(st_s == 200 and isinstance(s, dict), f"cannot read the settings ({st_s} {err(s)})")
+    record({"change": "v4: values before (Settings → Reading)", "show_on_front": s.get("show_on_front"),
+            "page_on_front": s.get("page_on_front")})
+    kit_payload = v4_kit_payload(kit)
+    extra = {"__NH_LABEL__": V4_BACKUP_LABEL, "__NH_TITLE__": V4_BACKUP_TITLE,
+             "__NH_V4_IDS_B64__": base64.b64encode(json.dumps(v4_v4_ids(docs)).encode()).decode()}
+    with Helper():
+        # 1. backup (once)
+        body = v4_body(V4_BACKUP_PHP, docs, kit_payload, menu, me["id"], extra)
+        lint_php("v4 backup", body)
+        log = run_php("v4 backup of the home", body)
+        record({"change": "v4 step 1: backup of the home", "log": log})
+        need("exception" not in log and (log.get("backup") or {}).get("id"),
+             f"the backup step failed: {log.get('exception')}")
+        b = log["backup"]
+        step(f"backup: #{b['id']} «{b.get('title')}» ({b.get('status')}), {b.get('action')}"
+             + (f"; differs from the home now in {', '.join(b['differs'])}" if b.get("differs") else "; equal to the home now"))
+        for w in log.get("warnings") or []:
+            print("!!", w)
+        # 2. media
+        atts = {}
+        for name, info in files.items():
+            item, _ = state[name]
+            if item is None:
+                item = v4_upload(name, info, media_map)
+                step(f"uploaded {info['upload_as']} as #{item['id']} (nh4:{name})")
+            elif info["alt"] and item.get("alt_text") != info["alt"]:
+                old = item.get("alt_text")
+                st_a, item, _ = api(f"/wp/v2/media/{item['id']}", "POST", {"alt_text": info["alt"]})
+                need(st_a == 200, f"could not set the alt text of {name} ({st_a} {err(item)})")
+                record({"change": f"v4: alt text of {name} (#{item['id']})", "old": old, "new": info["alt"]})
+            atts[name] = {"id": int(item["id"]), "url": str(item.get("source_url") or ""), "alt": info["alt"]}
+            need(atts[name]["url"].startswith(BASE), f"{name}: the attachment URL {atts[name]['url']!r} is not on {HOST}")
+            media_map[name] = atts[name]["id"]
+        save_json_map(V4_MEDIA_MAP, media_map)
+        step(f"media ready: {len(atts)} (ids in {os.path.relpath(V4_MEDIA_MAP, ROOT)})")
+        resolved = [v4_resolve_media(d, atts) for d in docs]
+        need(not re.search(r"@media:", json.dumps(resolved)), "a media token is left in the data")
+        # 3. menu (REST)
+        home = v4_home_url()
+        page_ids = {"home": log["home"]}
+        st_p, pages, _ = api("/wp/v2/pages", query={"context": "edit", "per_page": "100", "status": "publish"})
+        need(st_p == 200, f"cannot list pages ({st_p})")
+        # the house page: the published page whose meta key the PHP step uses; over REST, its slug
+        house = [p for p in pages if urllib.parse.unquote(p.get("slug", "")) == "מעון-ראשי-בית-לחיים"]
+        need(len(house) == 1, "cannot find the house page /מעון-ראשי-בית-לחיים/ over REST")
+        page_ids["main-home"] = int(house[0]["id"])
+        v4_menu_apply(v4_menu_wanted(menu, home, page_ids))
+        # 4–5. the Kit and the documents (one PHP step)
+        body = v4_body(V4_DOCS_PHP, resolved, kit_payload, menu, me["id"])
+        lint_php("v4 documents", body)
+        try:
+            log = run_php("v4 kit and documents", body)
+        except SystemExit as e:
+            record({"change": "v4: the documents step failed or did not answer; what it changed is not known here "
+                              "(posts it made carry _nh_page_key, so the next run finds and updates them)",
+                    "error": str(e)})
+            raise
+    record({"change": "v4 steps 4–5: Kit and documents (old values: log.before)", "log": log,
+            "media": {n: a["id"] for n, a in atts.items()}})
+    shown = json.loads(json.dumps(log))
+    for old in ((shown.get("before") or {}).get("docs") or {}).values():
+        if isinstance(old, dict) and isinstance(old.get("data"), str) and len(old["data"]) > 40:
+            old["data"] = f"({len(old['data'])} bytes: in the change log)"
+    if (shown.get("before") or {}).get("kit"):
+        shown["before"]["kit"] = f"(Kit #{shown['before']['kit'].get('id')}: in the change log)"
+    if (shown.get("before") or {}).get("theme_builder_conditions"):
+        shown["before"]["theme_builder_conditions"] = "(in the change log)"
+    print(json.dumps(shown, ensure_ascii=False, indent=1))
+    need("exception" not in log and len(log.get("docs") or {}) == len(docs),
+         f"the documents step failed: {log.get('exception') or 'not every document was written'}")
+    for w in log.get("warnings") or []:
+        print("!!", w)
+    # 6. checks
+    st_c, _, _ = api("/ezcache/v1/cache", "DELETE")
+    step(f"ezCache page cache purged ({st_c})")
+    ids = {k: v.get("id") for k, v in log["docs"].items()}
+    problems, facts = v4_page_problems(str(log["docs"]["home"].get("url") or BASE), docs, ids)
+    site = smoke()
+    record({"change": "v4 step 6: ezCache purged, smoke test", "ezcache": st_c, "home": facts, "problems": problems,
+            "site": site})
+    for key, info in log["docs"].items():
+        print(f"   {key:10s} #{info.get('id')} {info.get('status')} {info.get('url')}  edit: {info.get('edit')}")
+    need(not problems and not site, f"v4 is on the site, but: {problems or ''} {site or ''} "
+         "(python3 -I scripts/test_site.py v4 --rollback brings the v3.2 home back)")
+    step(f"done: the v4 home is on {HOST} ({facts['images']} images, {facts['bytes'] / 1024:.0f} KB)")
+
+
+def v4_rollback(me):
+    """Page #32 back to its backup; header-v4 and footer-v4 to drafts (nothing else)."""
+    bv = build_v4_module()
+    docs, kit, menu = bv.read_outputs()
+    docs = [docs[k] for k in V4_KEYS]
+    body = v4_body(V4_ROLLBACK_PHP, docs, v4_kit_payload(kit), menu, me["id"], {"__NH_LABEL__": V4_BACKUP_LABEL})
+    lint_php("v4 rollback", body)
+    with Helper():
+        try:
+            log = run_php("v4 rollback of the home", body)
+        except SystemExit as e:
+            record({"change": "v4 rollback: the step failed or did not answer", "error": str(e)})
+            raise
+    record({"change": "v4 rollback: home meta from its backup, v4 header/footer to drafts (old values: log.before)",
+            "log": log})
+    shown = json.loads(json.dumps(log))
+    for k, v in ((shown.get("before") or {}).get("home") or {}).items():
+        if isinstance(v, str) and len(v) > 80:
+            shown["before"]["home"][k] = f"({len(v)} bytes: in the change log)"
+    print(json.dumps(shown, ensure_ascii=False, indent=1))
+    need("exception" not in log, f"the rollback failed: {log.get('exception')}")
+    need(not log.get("differs"), f"the home does not read back equal to the backup: {log.get('differs')}")
+    st_c, _, _ = api("/ezcache/v1/cache", "DELETE")
+    site = smoke()
+    record({"change": "v4 rollback: ezCache purged, smoke test", "ezcache": st_c, "site": site})
+    need(not site, f"rolled back, but: {site}")
+    step(f"done: the home #{log.get('home')} holds its backup #{(log.get('backup') or {}).get('id')} again; "
+         "header-v4 and footer-v4 are drafts")
+
+
 def main():
     ap = argparse.ArgumentParser(description="Work on the TEST site only: " + HOST,
                                  formatter_class=argparse.RawDescriptionHelpFormatter, epilog=__doc__)
@@ -1785,6 +3369,12 @@ def main():
     p = sub.add_parser("health")
     p.add_argument("--no-browser", action="store_true", help="skip the Chromium console check")
     p.set_defaults(fn=cmd_health)
+    p = sub.add_parser("v4", help="the v4 home (research/09-v4-home-spec.md §7); without a flag: the plan")
+    p.add_argument("--go", action="store_true", help="apply §7 steps 1-6")
+    p.add_argument("--rollback", action="store_true", help="only: page #32 back to its backup, v4 header/footer to drafts")
+    p.add_argument("--render-check", action="store_true", help="read-only: render templates/v4 with Elementor in memory")
+    p.add_argument("--out", help=f"--render-check: folder for the HTML (default {V4_RENDER_DIR})")
+    p.set_defaults(fn=cmd_v4)
     args = ap.parse_args()
     args.fn(args)
 

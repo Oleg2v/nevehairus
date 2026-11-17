@@ -1,0 +1,1352 @@
+{
+ "label": "v3.2 (17.11.2026)",
+ "host": "nevehairus.ussl.co.il",
+ "versions": {
+  "wordpress": "7.1.4",
+  "elementor": "4.4.0",
+  "elementor_pro": "4.4.0",
+  "plugin": "0.2.6",
+  "theme": "1.1.5"
+ },
+ "docs": [
+  {
+   "id": 32,
+   "post_type": "page",
+   "title": "דף הבית",
+   "slug": "דף-הבית",
+   "status": "publish",
+   "menu_order": 0,
+   "library_type": [],
+   "meta": {
+    "_elementor_data": [
+     {
+      "id": "3f4d1e1",
+      "elType": "container",
+      "settings": {
+       "container_type": "flex",
+       "content_width": "full",
+       "flex_direction": "column",
+       "flex_gap": {
+        "column": "0",
+        "row": "0",
+        "isLinked": true,
+        "unit": "px"
+       },
+       "flex_wrap": "nowrap",
+       "flex_wrap_tablet": "nowrap",
+       "flex_wrap_mobile": "nowrap",
+       "padding": {
+        "unit": "px",
+        "top": "0",
+        "right": "0",
+        "bottom": "0",
+        "left": "0",
+        "isLinked": true
+       }
+      },
+      "elements": [
+       {
+        "id": "35749b2",
+        "elType": "widget",
+        "settings": {
+         "photo": {
+          "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-walk.webp",
+          "id": 31,
+          "size": "",
+          "alt": "שני אנשים צועדים יחד, מחובקים, בשביל מוצל בין עצים ודקלים",
+          "source": "library"
+         }
+        },
+        "elements": [],
+        "widgetType": "nh-cover"
+       },
+       {
+        "id": "e17cfa7",
+        "elType": "widget",
+        "settings": {
+         "homes": [
+          {
+           "anchor": "home-1",
+           "tone": "paper",
+           "title": "מעון ראשי — בית לחיים",
+           "title_plain": "",
+           "who": "בוגרים ובוגרות עם מוגבלות שכלית התפתחותית, גם עם התנהגות מאתגרת או אבחנה כפולה.",
+           "who_plain": "בית גדול בנס ציונה.\nצוות עוזר שם כל היום.",
+           "facts": "שתי יחידות · צוות קבוע · חדר סנוזלן ומרפאת שיניים",
+           "facts_plain": "-",
+           "link": {
+            "url": "https://nevehairus.ussl.co.il/%d7%9e%d7%a2%d7%95%d7%9f-%d7%a8%d7%90%d7%a9%d7%99-%d7%91%d7%99%d7%aa-%d7%9c%d7%97%d7%99%d7%99%d7%9d/"
+           },
+           "photo": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-sky-room.webp",
+            "id": 28,
+            "size": "",
+            "alt": "תקרת „שמיים” באגף החדש: עננים על רקע כחול",
+            "source": "library"
+           },
+           "photo_alt": "",
+           "photo_decorative": "yes",
+           "photo_pos": "55% 45%",
+           "_id": "14696d4"
+          },
+          {
+           "anchor": "home-2",
+           "tone": "sand",
+           "title": "דיור בקהילה",
+           "title_plain": "",
+           "who": "בוגרים ובוגרות עם מוגבלות שכלית התפתחותית, בדירות ובבתים בתוך העיר — עם צוות מלווה.",
+           "who_plain": "דירות ובתים בתוך העיר.\nצוות עוזר לדיירים ולדיירות.",
+           "facts": "שגרה ועצמאות · עבודה ופנאי בעיר · ליווי צמוד",
+           "facts_plain": "-",
+           "link": {
+            "url": ""
+           },
+           "photo": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-villa.webp",
+            "id": 29,
+            "size": "",
+            "alt": "פינת ישיבה עם מפה סרוגה ועציץ סחלבים ליד קיר אבן",
+            "source": "library"
+           },
+           "photo_alt": "",
+           "photo_decorative": "yes",
+           "photo_pos": "50% 45%",
+           "_id": "8d3b088"
+          },
+          {
+           "anchor": "home-3",
+           "tone": "sky",
+           "title": "דיור לצעירים על הרצף האוטיסטי",
+           "title_plain": "",
+           "who": "בית לצעירים ולצעירות, עם ליווי אישי בשגרת היום־יום.",
+           "who_plain": "בית לצעירים ולצעירות עם אוטיזם.\nהבית שקט, ויש סדר יום ברור.",
+           "facts": "סביבה רגועה · שגרה ברורה",
+           "facts_plain": "-",
+           "link": {
+            "url": ""
+           },
+           "photo": {
+            "url": "",
+            "id": ""
+           },
+           "photo_alt": "",
+           "photo_decorative": "yes",
+           "photo_pos": "50% 50%",
+           "_id": "9f296ff"
+          }
+         ]
+        },
+        "elements": [],
+        "widgetType": "nh-homes"
+       },
+       {
+        "id": "57d0bf5",
+        "elType": "widget",
+        "settings": [],
+        "elements": [],
+        "widgetType": "nh-plainbox"
+       },
+       {
+        "id": "6cae84f",
+        "elType": "widget",
+        "settings": {
+         "moments": [
+          {
+           "verb": "יוצרים",
+           "verb_plain": "",
+           "photo": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-crafts.webp",
+            "id": 17,
+            "size": "",
+            "alt": "שולחן עמוס עבודות פסיפס וקרמיקה על מפה צהובה ביום מכירה",
+            "source": "library"
+           },
+           "photo_alt": "",
+           "photo_decorative": "",
+           "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
+           "caption": "עבודות פסיפס וקרמיקה ביום מכירה.",
+           "caption_plain": "",
+           "text": "סדנאות פסיפס, תכשיטים, ציור על משי, מוזיקה ותנועה — וגם תעסוקה בעיר.",
+           "text_plain": "עובדים בסדנאות: פסיפס, תכשיטים וציור.",
+           "_id": "3a98fb8"
+          },
+          {
+           "verb": "רוכבים",
+           "verb_plain": "",
+           "photo": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-riding.webp",
+            "id": 25,
+            "size": "",
+            "alt": "סוס ליד הגדר בחווה, ביום של רכיבה טיפולית",
+            "source": "library"
+           },
+           "photo_alt": "",
+           "photo_decorative": "",
+           "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
+           "caption": "סוס ליד הגדר, ביום של רכיבה טיפולית.",
+           "caption_plain": "",
+           "text": "רכיבה טיפולית בחווה, ועוד חוגים מחוץ למעון.",
+           "text_plain": "רוכבים על סוסים בחווה.",
+           "_id": "a16f184"
+          },
+          {
+           "verb": "מטיילים",
+           "verb_plain": "",
+           "photo": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-orchard.webp",
+            "id": 22,
+            "size": "",
+            "alt": "קבוצה צועדת בטיול בין עצי הדר",
+            "source": "library"
+           },
+           "photo_alt": "",
+           "photo_decorative": "",
+           "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
+           "caption": "טיול בין עצי ההדר.",
+           "caption_plain": "",
+           "text": "טיולים, בתי קפה וסרטים, בעיר ובטבע.",
+           "text_plain": "יוצאים לטיולים, לבית קפה ולסרט.",
+           "_id": "b5ba685"
+          },
+          {
+           "verb": "מארחים",
+           "verb_plain": "",
+           "photo": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-villa-print.webp",
+            "id": 30,
+            "size": "",
+            "alt": "פינת ישיבה עם מפה סרוגה ועציץ סחלבים ליד קיר אבן",
+            "source": "library"
+           },
+           "photo_alt": "",
+           "photo_decorative": "",
+           "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
+           "caption": "פינה לשבת עם אורחים.",
+           "caption_plain": "",
+           "text": "ביקורים של משפחה וחברים, וקשר פתוח עם הצוות.",
+           "text_plain": "המשפחות והחברים באים לבקר.",
+           "_id": "2a4809c"
+          }
+         ]
+        },
+        "elements": [],
+        "widgetType": "nh-day"
+       },
+       {
+        "id": "506a3ee",
+        "elType": "widget",
+        "settings": {
+         "photo": {
+          "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-pot-b.webp",
+          "id": 24,
+          "size": "",
+          "alt": "כד פסיפס בגוני כחול וירוק עם שפה כהה, על מפה צהובה",
+          "source": "library"
+         }
+        },
+        "elements": [],
+        "widgetType": "nh-kaf"
+       },
+       {
+        "id": "8ee7b2c",
+        "elType": "widget",
+        "settings": {
+         "photo": {
+          "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-mandala.webp",
+          "id": 21,
+          "size": "",
+          "alt": "מנדלה בפסיפס, עבודת יד של הדיירים: טבעות של אבן לבנה, אפורה ואדומה סביב לב של זכוכית צבעונית",
+          "source": "library"
+         }
+        },
+        "elements": [],
+        "widgetType": "nh-samekh"
+       },
+       {
+        "id": "b547c72",
+        "elType": "widget",
+        "settings": {
+         "years": [
+          {
+           "num": "1957",
+           "title": "סנטוריום נס ציונה",
+           "text": "אבן הפינה מונחת במקום שיהפוך לנווה האירוס.",
+           "photo": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-courtyard.webp",
+            "id": 16,
+            "size": "",
+            "alt": "החצר במעון: עצים, ספסלים ומדרגות לבניין",
+            "source": "library"
+           },
+           "photo_alt": "",
+           "photo_decorative": "",
+           "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
+           "caption": "החצר במעון, היום.",
+           "shamayim": "",
+           "shamayim_text": "",
+           "shamayim_photo": {
+            "url": "",
+            "id": ""
+           },
+           "shamayim_photo_alt": "",
+           "shamayim_photo_decorative": "yes",
+           "shamayim_photo_pos": "72% 30%",
+           "shamayim_photo_sizes": "(min-width: 1024px) 8rem, 24vw",
+           "_id": "80e6190"
+          },
+          {
+           "num": "2021",
+           "title": "אגף חדש, ובו שמיים",
+           "text": "חדרים חדשים, מרחבים משותפים ותאורת „שמיים” בתקרה — אגף שתוכנן במיוחד לצורכי הדיירים והדיירות.",
+           "photo": {
+            "url": "",
+            "id": ""
+           },
+           "photo_alt": "",
+           "photo_decorative": "",
+           "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
+           "caption": "",
+           "shamayim": "yes",
+           "shamayim_text": "שמיי",
+           "shamayim_photo": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-sky-room.webp",
+            "id": 28,
+            "size": "",
+            "alt": "תקרת „שמיים” באגף החדש: עננים על רקע כחול",
+            "source": "library"
+           },
+           "shamayim_photo_alt": "",
+           "shamayim_photo_decorative": "yes",
+           "shamayim_photo_pos": "72% 30%",
+           "shamayim_photo_sizes": "(min-width: 1024px) 8rem, 24vw",
+           "_id": "222a7cf"
+          },
+          {
+           "num": "היום",
+           "title": "שלושה בתים",
+           "text": "במעון, בבתים בקהילה ובמסגרת לצעירים על הרצף האוטיסטי — יותר מ־100 דיירים ודיירות. יותר מ־25,000 בקרים מאז 1957.",
+           "photo": {
+            "url": "",
+            "id": ""
+           },
+           "photo_alt": "",
+           "photo_decorative": "",
+           "photo_sizes": "(max-width: 23em) calc(100vw - 2.5rem), 21rem",
+           "caption": "",
+           "shamayim": "",
+           "shamayim_text": "",
+           "shamayim_photo": {
+            "url": "",
+            "id": ""
+           },
+           "shamayim_photo_alt": "",
+           "shamayim_photo_decorative": "yes",
+           "shamayim_photo_pos": "72% 30%",
+           "shamayim_photo_sizes": "(min-width: 1024px) 8rem, 24vw",
+           "_id": "2106a3e"
+          }
+         ]
+        },
+        "elements": [],
+        "widgetType": "nh-years"
+       },
+       {
+        "id": "f63f0ee",
+        "elType": "widget",
+        "settings": {
+         "poster": {
+          "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-owls.webp",
+          "id": 23,
+          "size": "",
+          "alt": "ינשופים, חמסות ומחזיקי מפתחות בעבודת יד על דוכן היצירות",
+          "source": "library"
+         }
+        },
+        "elements": [],
+        "widgetType": "nh-voices"
+       },
+       {
+        "id": "872d95c",
+        "elType": "widget",
+        "settings": [],
+        "elements": [],
+        "widgetType": "nh-steps"
+       },
+       {
+        "id": "c67feb8",
+        "elType": "widget",
+        "settings": [],
+        "elements": [],
+        "widgetType": "nh-lamed"
+       },
+       {
+        "id": "10d2500",
+        "elType": "widget",
+        "settings": [],
+        "elements": [],
+        "widgetType": "nh-door"
+       }
+      ],
+      "isInner": false
+     }
+    ],
+    "_elementor_page_settings": "",
+    "_wp_page_template": "elementor_header_footer",
+    "_elementor_edit_mode": "builder",
+    "_elementor_template_type": "wp-page",
+    "_elementor_version": "4.4.0",
+    "_elementor_pro_version": "4.4.0",
+    "_elementor_conditions": "",
+    "_nh_page_key": "home"
+   },
+   "backup_id": 58,
+   "backup": "created",
+   "backup_equal": true,
+   "backup_status": "draft",
+   "backup_conditions": ""
+  },
+  {
+   "id": 33,
+   "post_type": "page",
+   "title": "מעון ראשי — בית לחיים",
+   "slug": "מעון-ראשי-בית-לחיים",
+   "status": "publish",
+   "menu_order": 0,
+   "library_type": [],
+   "meta": {
+    "_elementor_data": [
+     {
+      "id": "5d75946",
+      "elType": "container",
+      "settings": {
+       "container_type": "flex",
+       "content_width": "full",
+       "flex_direction": "column",
+       "flex_gap": {
+        "column": "0",
+        "row": "0",
+        "isLinked": true,
+        "unit": "px"
+       },
+       "flex_wrap": "nowrap",
+       "flex_wrap_tablet": "nowrap",
+       "flex_wrap_mobile": "nowrap",
+       "padding": {
+        "unit": "px",
+        "top": "0",
+        "right": "0",
+        "bottom": "0",
+        "left": "0",
+        "isLinked": true
+       }
+      },
+      "elements": [
+       {
+        "id": "32c4d6d",
+        "elType": "widget",
+        "settings": {
+         "photo": {
+          "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-sky-room.webp",
+          "id": 28,
+          "size": "",
+          "alt": "תקרת „שמיים” באגף החדש: עננים על רקע כחול",
+          "source": "library"
+         }
+        },
+        "elements": [],
+        "widgetType": "nh-page-cover"
+       },
+       {
+        "id": "acfd4d8",
+        "elType": "widget",
+        "settings": [],
+        "elements": [],
+        "widgetType": "nh-glance"
+       },
+       {
+        "id": "645f193",
+        "elType": "widget",
+        "settings": {
+         "images": [
+          {
+           "caption": "פינת האוכל המשותפת.",
+           "image": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-dining.webp",
+            "id": 18,
+            "size": "",
+            "alt": "שולחן אוכל מעץ בהיר עם כיסאות, בפינת האוכל המשותפת באגף החדש",
+            "source": "library"
+           },
+           "image_decorative": "",
+           "image_alt": "",
+           "caption_plain": "",
+           "_id": "a1c943a"
+          },
+          {
+           "caption": "תקרת „שמיים” — לוחות תאורה עם עננים.",
+           "image": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-sky-ceiling.webp",
+            "id": 26,
+            "size": "",
+            "alt": "תקרת „שמיים” באגף החדש: לוחות תאורה עם עננים",
+            "source": "library"
+           },
+           "image_decorative": "",
+           "image_alt": "",
+           "caption_plain": "",
+           "_id": "23dcea2"
+          },
+          {
+           "caption": "חדר מגורים לשניים.",
+           "image": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-bedroom.webp",
+            "id": 15,
+            "size": "",
+            "alt": "חדר מגורים עם שתי מיטות מוצעות בכיסוי ורוד",
+            "source": "library"
+           },
+           "image_decorative": "",
+           "image_alt": "",
+           "caption_plain": "",
+           "_id": "63fae3b"
+          },
+          {
+           "caption": "הסלון המשותף.",
+           "image": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-living.webp",
+            "id": 19,
+            "size": "",
+            "alt": "סלון משותף עם ספות כחולות ושולחן אוכל",
+            "source": "library"
+           },
+           "image_decorative": "",
+           "image_alt": "",
+           "caption_plain": "",
+           "_id": "87f346d"
+          },
+          {
+           "caption": "מסדרון האגף החדש, עם תאורת „שמיים”.",
+           "image": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-sky-corridor.webp",
+            "id": 27,
+            "size": "",
+            "alt": "מסדרון באגף החדש עם תאורת תקרה בדמות שמיים כחולים ועננים",
+            "source": "library"
+           },
+           "image_decorative": "",
+           "image_alt": "",
+           "caption_plain": "",
+           "_id": "a77f497"
+          },
+          {
+           "caption": "פינת אוכל וסלון באגף החדש.",
+           "image": {
+            "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/v3-lounge.webp",
+            "id": 20,
+            "size": "",
+            "alt": "פינת אוכל וסלון משותף באגף החדש",
+            "source": "library"
+           },
+           "image_decorative": "",
+           "image_alt": "",
+           "caption_plain": "",
+           "_id": "3d93c8a"
+          }
+         ]
+        },
+        "elements": [],
+        "widgetType": "nh-gallery"
+       },
+       {
+        "id": "8bb68e3",
+        "elType": "widget",
+        "settings": [],
+        "elements": [],
+        "widgetType": "nh-features"
+       },
+       {
+        "id": "d79e65e",
+        "elType": "widget",
+        "settings": [],
+        "elements": [],
+        "widgetType": "nh-stories"
+       },
+       {
+        "id": "da6c36e",
+        "elType": "widget",
+        "settings": {
+         "variant": "page",
+         "anchor": "plain-page",
+         "items": "המעון הראשי נמצא בנס ציונה.\nגרים בו גברים ונשים עם מוגבלות שכלית התפתחותית.\nהצוות קבוע, ומכיר את כולם.\nיש חדר נעים להירגע, מרפאה וחוגים.\nאפשר לבוא לבקר."
+        },
+        "elements": [],
+        "widgetType": "nh-plainbox"
+       },
+       {
+        "id": "82d78b4",
+        "elType": "widget",
+        "settings": [],
+        "elements": [],
+        "widgetType": "nh-related"
+       },
+       {
+        "id": "d2620c4",
+        "elType": "widget",
+        "settings": {
+         "title": "בואו לראות בעיניים.",
+         "lead": "השאירו פרטים ונחזור אליכם לתיאום מפגש היכרות.",
+         "success_text": "נחזור אליכם בהקדם לתיאום הביקור.",
+         "show_email": "yes",
+         "show_who": "yes",
+         "show_program": "",
+         "show_message": "yes",
+         "anchor": "visit"
+        },
+        "elements": [],
+        "widgetType": "nh-door"
+       }
+      ],
+      "isInner": false
+     }
+    ],
+    "_elementor_page_settings": "",
+    "_wp_page_template": "elementor_header_footer",
+    "_elementor_edit_mode": "builder",
+    "_elementor_template_type": "wp-page",
+    "_elementor_version": "4.4.0",
+    "_elementor_pro_version": "4.4.0",
+    "_elementor_conditions": "",
+    "_nh_page_key": "main-home"
+   },
+   "backup_id": 59,
+   "backup": "created",
+   "backup_equal": true,
+   "backup_status": "draft",
+   "backup_conditions": ""
+  },
+  {
+   "id": 34,
+   "post_type": "elementor_library",
+   "title": "כותרת עליונה — נווה האירוס",
+   "slug": "nh-header",
+   "status": "publish",
+   "menu_order": 0,
+   "library_type": [
+    "header"
+   ],
+   "meta": {
+    "_elementor_data": [
+     {
+      "id": "cca9563",
+      "elType": "container",
+      "settings": {
+       "container_type": "flex",
+       "content_width": "full",
+       "flex_direction": "column",
+       "flex_gap": {
+        "column": "0",
+        "row": "0",
+        "isLinked": true,
+        "unit": "px"
+       },
+       "flex_wrap": "nowrap",
+       "flex_wrap_tablet": "nowrap",
+       "flex_wrap_mobile": "nowrap",
+       "padding": {
+        "unit": "px",
+        "top": "0",
+        "right": "0",
+        "bottom": "0",
+        "left": "0",
+        "isLinked": true
+       }
+      },
+      "elements": [
+       {
+        "id": "978d85a",
+        "elType": "widget",
+        "settings": {
+         "html_tag": "header",
+         "logo": {
+          "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/logo-emblem.png",
+          "id": 14,
+          "size": "",
+          "alt": "",
+          "source": "library"
+         },
+         "nav": [
+          {
+           "label": "הבתים שלנו",
+           "label_plain": "",
+           "link": {
+            "url": "https://nevehairus.ussl.co.il/#homes"
+           },
+           "current_ids": "33",
+           "_id": "6ba6630"
+          },
+          {
+           "label": "החיים אצלנו",
+           "label_plain": "",
+           "link": {
+            "url": "https://nevehairus.ussl.co.il/#day"
+           },
+           "current_ids": "",
+           "_id": "3a73fea"
+          },
+          {
+           "label": "מי אנחנו",
+           "label_plain": "",
+           "link": {
+            "url": "https://nevehairus.ussl.co.il/#story"
+           },
+           "current_ids": "",
+           "_id": "b58b863"
+          },
+          {
+           "label": "דרושים",
+           "label_plain": "",
+           "link": {
+            "url": "https://nevehairus.ussl.co.il/#jobs"
+           },
+           "current_ids": "",
+           "_id": "27ccbaa"
+          },
+          {
+           "label": "יצירת קשר",
+           "label_plain": "",
+           "link": {
+            "url": "https://nevehairus.ussl.co.il/#door"
+           },
+           "current_ids": "",
+           "_id": "59ede0c"
+          }
+         ]
+        },
+        "elements": [],
+        "widgetType": "nh-masthead"
+       }
+      ],
+      "isInner": false
+     }
+    ],
+    "_elementor_page_settings": {
+     "content_wrapper_html_tag": "div"
+    },
+    "_wp_page_template": "",
+    "_elementor_edit_mode": "builder",
+    "_elementor_template_type": "header",
+    "_elementor_version": "4.4.0",
+    "_elementor_pro_version": "4.4.0",
+    "_elementor_conditions": [
+     "include/general"
+    ],
+    "_nh_page_key": "header"
+   },
+   "backup_id": 60,
+   "backup": "created",
+   "backup_equal": true,
+   "backup_status": "draft",
+   "backup_conditions": ""
+  },
+  {
+   "id": 35,
+   "post_type": "elementor_library",
+   "title": "כותרת תחתונה — נווה האירוס",
+   "slug": "nh-footer",
+   "status": "publish",
+   "menu_order": 0,
+   "library_type": [
+    "footer"
+   ],
+   "meta": {
+    "_elementor_data": [
+     {
+      "id": "cbb7d37",
+      "elType": "container",
+      "settings": {
+       "container_type": "flex",
+       "content_width": "boxed",
+       "boxed_width": {
+        "unit": "px",
+        "size": 1440,
+        "sizes": []
+       },
+       "flex_direction": "column",
+       "flex_gap": {
+        "column": "0",
+        "row": "32",
+        "isLinked": false,
+        "unit": "px"
+       },
+       "background_background": "classic",
+       "background_color": "#1C1830",
+       "padding": {
+        "unit": "custom",
+        "top": "4rem",
+        "right": "clamp(1rem, .6rem + 3vw, 4rem)",
+        "bottom": "2rem",
+        "left": "clamp(1rem, .6rem + 3vw, 4rem)",
+        "isLinked": false
+       }
+      },
+      "elements": [
+       {
+        "id": "6e964c3",
+        "elType": "container",
+        "settings": {
+         "container_type": "grid",
+         "content_width": "full",
+         "grid_columns_grid": {
+          "unit": "custom",
+          "size": "5fr 3fr 4fr",
+          "sizes": []
+         },
+         "grid_columns_grid_tablet": {
+          "unit": "fr",
+          "size": 2,
+          "sizes": []
+         },
+         "grid_columns_grid_mobile": {
+          "unit": "fr",
+          "size": 1,
+          "sizes": []
+         },
+         "grid_rows_grid": {
+          "unit": "custom",
+          "size": "auto",
+          "sizes": []
+         },
+         "grid_gaps": {
+          "column": "32",
+          "row": "40",
+          "isLinked": false,
+          "unit": "px"
+         },
+         "padding": {
+          "unit": "px",
+          "top": "0",
+          "right": "0",
+          "bottom": "0",
+          "left": "0",
+          "isLinked": false
+         }
+        },
+        "elements": [
+         {
+          "id": "676ef0c",
+          "elType": "container",
+          "settings": {
+           "container_type": "flex",
+           "content_width": "full",
+           "flex_direction": "column",
+           "flex_gap": {
+            "column": "0",
+            "row": "12",
+            "isLinked": false,
+            "unit": "px"
+           },
+           "padding": {
+            "unit": "px",
+            "top": "0",
+            "right": "0",
+            "bottom": "0",
+            "left": "0",
+            "isLinked": false
+           },
+           "grid_column_tablet": "2",
+           "grid_column_mobile": "1"
+          },
+          "elements": [
+           {
+            "id": "bb01572",
+            "elType": "container",
+            "settings": {
+             "container_type": "flex",
+             "content_width": "full",
+             "flex_direction": "row",
+             "flex_align_items": "center",
+             "flex_gap": {
+              "column": "10",
+              "row": "10",
+              "isLinked": false,
+              "unit": "px"
+             },
+             "flex_wrap": "nowrap",
+             "flex_wrap_tablet": "nowrap",
+             "flex_wrap_mobile": "nowrap",
+             "min_height": {
+              "unit": "px",
+              "size": 44,
+              "sizes": []
+             },
+             "padding": {
+              "unit": "px",
+              "top": "0",
+              "right": "0",
+              "bottom": "0",
+              "left": "0",
+              "isLinked": false
+             }
+            },
+            "elements": [
+             {
+              "id": "908dc15",
+              "elType": "widget",
+              "settings": {
+               "image": {
+                "url": "https://nevehairus.ussl.co.il/wp-content/uploads/2026/11/logo-emblem.png",
+                "id": 14,
+                "size": "",
+                "alt": "",
+                "source": "library"
+               },
+               "image_size": "full",
+               "align": "start",
+               "width": {
+                "unit": "px",
+                "size": 51,
+                "sizes": []
+               },
+               "height": {
+                "unit": "px",
+                "size": 36,
+                "sizes": []
+               }
+              },
+              "elements": [],
+              "widgetType": "image"
+             },
+             {
+              "id": "3ccb8af",
+              "elType": "widget",
+              "settings": {
+               "title": "מעון נווה האירוס",
+               "header_size": "p",
+               "title_color": "#F7F1E7",
+               "typography_typography": "custom",
+               "typography_font_family": "Frank Ruhl Libre",
+               "typography_font_size": {
+                "unit": "custom",
+                "size": "clamp(1.25rem, 1.157rem + .381vw, 1.5rem)",
+                "sizes": []
+               },
+               "typography_font_weight": "500",
+               "typography_line_height": {
+                "unit": "em",
+                "size": 1.15,
+                "sizes": []
+               }
+              },
+              "elements": [],
+              "widgetType": "heading"
+             }
+            ],
+            "isInner": true
+           },
+           {
+            "id": "9c7061f",
+            "elType": "widget",
+            "settings": {
+             "editor": "<p>בית לאנשים עם מוגבלות שכלית התפתחותית בנס ציונה, מאז 1957. בפיקוח משרד הרווחה והביטחון החברתי.</p>",
+             "text_color": "#CFC8DE",
+             "link_color": "#F7F1E7",
+             "typography_typography": "custom",
+             "typography_font_family": "Assistant",
+             "typography_font_size": {
+              "unit": "rem",
+              "size": 1,
+              "sizes": []
+             },
+             "typography_font_weight": "400",
+             "typography_line_height": {
+              "unit": "em",
+              "size": 1.5,
+              "sizes": []
+             },
+             "_element_width": "initial",
+             "_element_custom_width": {
+              "unit": "custom",
+              "size": "34ch",
+              "sizes": []
+             }
+            },
+            "elements": [],
+            "widgetType": "text-editor"
+           },
+           {
+            "id": "91665ee",
+            "elType": "widget",
+            "settings": {
+             "editor": "<ul class=\"nh-footer-contacts\"><li>טלפון: <a href=\"tel:+97289403047\"><span dir=\"ltr\">08-9403047</span></a></li><li>פקס: <span dir=\"ltr\">08-9400805</span></li><li>ת״ד 28, נס ציונה</li><li><a href=\"https://www.facebook.com/neveirus/\" rel=\"noopener\">נווה האירוס בפייסבוק<span class=\"elementor-screen-only\"> (נפתח באתר חיצוני)</span></a></li></ul>",
+             "text_color": "#CFC8DE",
+             "link_color": "#F7F1E7",
+             "typography_typography": "custom",
+             "typography_font_family": "Assistant",
+             "typography_font_size": {
+              "unit": "rem",
+              "size": 1,
+              "sizes": []
+             },
+             "typography_font_weight": "400",
+             "typography_line_height": {
+              "unit": "em",
+              "size": 1.5,
+              "sizes": []
+             }
+            },
+            "elements": [],
+            "widgetType": "text-editor"
+           }
+          ],
+          "isInner": true
+         },
+         {
+          "id": "83661b0",
+          "elType": "container",
+          "settings": {
+           "container_type": "flex",
+           "content_width": "full",
+           "flex_direction": "column",
+           "flex_gap": {
+            "column": "0",
+            "row": "8",
+            "isLinked": false,
+            "unit": "px"
+           },
+           "padding": {
+            "unit": "px",
+            "top": "0",
+            "right": "0",
+            "bottom": "0",
+            "left": "0",
+            "isLinked": false
+           }
+          },
+          "elements": [
+           {
+            "id": "d68c039",
+            "elType": "widget",
+            "settings": {
+             "title": "ניווט",
+             "header_size": "h2",
+             "title_color": "#F2B33D",
+             "typography_typography": "custom",
+             "typography_font_family": "Assistant",
+             "typography_font_size": {
+              "unit": "rem",
+              "size": 1,
+              "sizes": []
+             },
+             "typography_font_weight": "700",
+             "typography_line_height": {
+              "unit": "em",
+              "size": 1.3,
+              "sizes": []
+             }
+            },
+            "elements": [],
+            "widgetType": "heading"
+           },
+           {
+            "id": "fb5ceb7",
+            "elType": "widget",
+            "settings": {
+             "editor": "<ul class=\"nh-footer-links\"><li><a href=\"/#homes\">הבתים שלנו</a></li><li><a href=\"/#day\">החיים אצלנו</a></li><li><a href=\"/#story\">מי אנחנו</a></li><li><a href=\"/#jobs\">דרושים</a></li><li><a href=\"/#door\">יצירת קשר</a></li></ul>",
+             "text_color": "#CFC8DE",
+             "link_color": "#F7F1E7",
+             "typography_typography": "custom",
+             "typography_font_family": "Assistant",
+             "typography_font_size": {
+              "unit": "rem",
+              "size": 1,
+              "sizes": []
+             },
+             "typography_font_weight": "400",
+             "typography_line_height": {
+              "unit": "em",
+              "size": 1.5,
+              "sizes": []
+             }
+            },
+            "elements": [],
+            "widgetType": "text-editor"
+           }
+          ],
+          "isInner": true
+         },
+         {
+          "id": "874355c",
+          "elType": "container",
+          "settings": {
+           "container_type": "flex",
+           "content_width": "full",
+           "flex_direction": "column",
+           "flex_gap": {
+            "column": "0",
+            "row": "8",
+            "isLinked": false,
+            "unit": "px"
+           },
+           "padding": {
+            "unit": "px",
+            "top": "0",
+            "right": "0",
+            "bottom": "0",
+            "left": "0",
+            "isLinked": false
+           }
+          },
+          "elements": [
+           {
+            "id": "7f6cbc7",
+            "elType": "widget",
+            "settings": {
+             "title": "מידע ונגישות",
+             "header_size": "h2",
+             "title_color": "#F2B33D",
+             "typography_typography": "custom",
+             "typography_font_family": "Assistant",
+             "typography_font_size": {
+              "unit": "rem",
+              "size": 1,
+              "sizes": []
+             },
+             "typography_font_weight": "700",
+             "typography_line_height": {
+              "unit": "em",
+              "size": 1.3,
+              "sizes": []
+             }
+            },
+            "elements": [],
+            "widgetType": "heading"
+           },
+           {
+            "id": "1908c36",
+            "elType": "widget",
+            "settings": {
+             "editor": "<ul class=\"nh-footer-links\"><li><a href=\"#accessibility\">הצהרת נגישות</a></li><li><a href=\"#privacy\">מדיניות פרטיות</a></li><li><a href=\"#nh-cookies\">הגדרות עוגיות</a></li><li><a href=\"#sitemap\">מפת אתר</a></li><li><a href=\"#entrances\">מפרט כניסות נגישות (PDF)</a></li></ul>",
+             "text_color": "#CFC8DE",
+             "link_color": "#F7F1E7",
+             "typography_typography": "custom",
+             "typography_font_family": "Assistant",
+             "typography_font_size": {
+              "unit": "rem",
+              "size": 1,
+              "sizes": []
+             },
+             "typography_font_weight": "400",
+             "typography_line_height": {
+              "unit": "em",
+              "size": 1.5,
+              "sizes": []
+             }
+            },
+            "elements": [],
+            "widgetType": "text-editor"
+           },
+           {
+            "id": "2ef5896",
+            "elType": "widget",
+            "settings": {
+             "_margin": {
+              "unit": "px",
+              "top": "4",
+              "right": "0",
+              "bottom": "0",
+              "left": "0",
+              "isLinked": false
+             }
+            },
+            "elements": [],
+            "widgetType": "nh-display"
+           }
+          ],
+          "isInner": true
+         }
+        ],
+        "isInner": true
+       },
+       {
+        "id": "f66e765",
+        "elType": "widget",
+        "settings": {
+         "editor": "<p><b>קולופון.</b> גופנים: <span lang=\"en\" dir=\"ltr\">Frank Ruhl Libre</span> (יאנק יונטף) ו־⁠<span lang=\"en\" dir=\"ltr\">Assistant</span> (בן נתן ו־⁠<span lang=\"en\" dir=\"ltr\">Adobe</span>), ברישיון <span lang=\"en\" dir=\"ltr\">SIL OFL</span>. חמש אותיות שהשמות שלהן מילים של בית — ב׳, כ׳, ס׳, ל׳ ו־⁠ד׳ — משמשות כאן כאדריכלות. הכדים, המנדלה והינשופים — עבודות יד של דיירות ודיירי נווה האירוס. הצילומים זמניים, ללא פנים מזוהות.</p>",
+         "text_color": "#CFC8DE",
+         "link_color": "#F7F1E7",
+         "typography_typography": "custom",
+         "typography_font_family": "Assistant",
+         "typography_font_size": {
+          "unit": "rem",
+          "size": 1,
+          "sizes": []
+         },
+         "typography_font_weight": "400",
+         "typography_line_height": {
+          "unit": "em",
+          "size": 1.6,
+          "sizes": []
+         },
+         "_element_width": "initial",
+         "_element_custom_width": {
+          "unit": "custom",
+          "size": "104ch",
+          "sizes": []
+         },
+         "_margin": {
+          "unit": "px",
+          "top": "8",
+          "right": "0",
+          "bottom": "0",
+          "left": "0",
+          "isLinked": false
+         }
+        },
+        "elements": [],
+        "widgetType": "text-editor"
+       },
+       {
+        "id": "2aba9d6",
+        "elType": "container",
+        "settings": {
+         "container_type": "flex",
+         "content_width": "full",
+         "flex_direction": "row",
+         "flex_wrap": "wrap",
+         "flex_justify_content": "space-between",
+         "flex_gap": {
+          "column": "32",
+          "row": "4",
+          "isLinked": false,
+          "unit": "px"
+         },
+         "padding": {
+          "unit": "px",
+          "top": "20",
+          "right": "0",
+          "bottom": "0",
+          "left": "0",
+          "isLinked": false
+         },
+         "border_border": "solid",
+         "border_width": {
+          "unit": "px",
+          "top": "1",
+          "right": "0",
+          "bottom": "0",
+          "left": "0",
+          "isLinked": false
+         },
+         "border_color": "rgba(247, 241, 231, 0.3)"
+        },
+        "elements": [
+         {
+          "id": "964b4bf",
+          "elType": "widget",
+          "settings": {
+           "editor": "<p>© מעון נווה האירוס. כל הזכויות שמורות.</p>",
+           "text_color": "#CFC8DE",
+           "link_color": "#F7F1E7",
+           "typography_typography": "custom",
+           "typography_font_family": "Assistant",
+           "typography_font_size": {
+            "unit": "rem",
+            "size": 1,
+            "sizes": []
+           },
+           "typography_font_weight": "400",
+           "typography_line_height": {
+            "unit": "em",
+            "size": 1.5,
+            "sizes": []
+           },
+           "__dynamic__": {
+            "editor": "[elementor-tag id=\"90fec9f\" name=\"current-date-time\" settings=\"%7B%22date_format%22%3A%22custom%22%2C%22custom_format%22%3A%22Y%22%2C%22before%22%3A%22%C2%A9+%22%2C%22after%22%3A%22+%D7%9E%D7%A2%D7%95%D7%9F+%D7%A0%D7%95%D7%95%D7%94+%D7%94%D7%90%D7%99%D7%A8%D7%95%D7%A1.+%D7%9B%D7%9C+%D7%94%D7%96%D7%9B%D7%95%D7%99%D7%95%D7%AA+%D7%A9%D7%9E%D7%95%D7%A8%D7%95%D7%AA.%22%7D\"]"
+           }
+          },
+          "elements": [],
+          "widgetType": "text-editor"
+         },
+         {
+          "id": "0ccd70c",
+          "elType": "widget",
+          "settings": {
+           "editor": "<p class=\"nh-footer-credit\">עיצוב ופיתוח: <a href=\"https://koranga.co.il/\" rel=\"noopener\">קורנגה<span class=\"elementor-screen-only\"> (נפתח באתר חיצוני)</span></a></p>",
+           "text_color": "#CFC8DE",
+           "link_color": "#F7F1E7",
+           "typography_typography": "custom",
+           "typography_font_family": "Assistant",
+           "typography_font_size": {
+            "unit": "rem",
+            "size": 1,
+            "sizes": []
+           },
+           "typography_font_weight": "400",
+           "typography_line_height": {
+            "unit": "em",
+            "size": 1.5,
+            "sizes": []
+           },
+           "link_hover_color": "#F2B33D"
+          },
+          "elements": [],
+          "widgetType": "text-editor"
+         }
+        ],
+        "isInner": true
+       }
+      ],
+      "isInner": false
+     }
+    ],
+    "_elementor_page_settings": {
+     "content_wrapper_html_tag": "footer"
+    },
+    "_wp_page_template": "",
+    "_elementor_edit_mode": "builder",
+    "_elementor_template_type": "footer",
+    "_elementor_version": "4.4.0",
+    "_elementor_pro_version": "4.4.0",
+    "_elementor_conditions": [
+     "include/general"
+    ],
+    "_nh_page_key": "footer"
+   },
+   "backup_id": 61,
+   "backup": "created",
+   "backup_equal": true,
+   "backup_status": "draft",
+   "backup_conditions": ""
+  }
+ ],
+ "kit": {
+  "id": 4,
+  "settings": {
+   "site_name": "מעון נווה האירוס"
+  }
+ },
+ "options": {
+  "page_on_front": "32",
+  "show_on_front": "page",
+  "blogname": "מעון נווה האירוס",
+  "elementor_active_kit": "4",
+  "elementor_pro_theme_builder_conditions": {
+   "header": {
+    "34": [
+     "include/general"
+    ]
+   },
+   "footer": {
+    "35": [
+     "include/general"
+    ]
+   }
+  },
+  "nav_menu_locations": false,
+  "theme_mods": {
+   "nav_menu_locations": [],
+   "custom_css_post_id": -1
+  },
+  "menus": []
+ }
+}

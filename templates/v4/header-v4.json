@@ -18,7 +18,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "dbc4e0f3fc95286268997fb2bff60027c6d32c1fcc02da1be2848c720472fea1",
+  "inputs_sha256": "759cefab53df5896f064e34661a815a7f75eaf12412778430b7a1b8a4251d07d",
   "widgets": [
    "button",
    "image",

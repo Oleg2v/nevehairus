@@ -14,7 +14,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "dbc4e0f3fc95286268997fb2bff60027c6d32c1fcc02da1be2848c720472fea1",
+  "inputs_sha256": "759cefab53df5896f064e34661a815a7f75eaf12412778430b7a1b8a4251d07d",
   "widgets": [
    "button",
    "heading",
@@ -122,12 +122,6 @@
     "plain": {
      "element": "af089a6",
      "field": "title"
-    }
-   },
-   "contact.whatsapp": {
-    "full": {
-     "element": "6166341",
-     "field": "text"
     }
    },
    "hero.cta_contact": {
@@ -884,7 +878,7 @@
         },
         "grid_columns_grid_mobile": {
          "unit": "fr",
-         "size": 1,
+         "size": 2,
          "sizes": []
         },
         "grid_rows_grid": {
@@ -905,6 +899,12 @@
          "bottom": "0",
          "left": "0",
          "isLinked": true
+        },
+        "grid_gaps_mobile": {
+         "column": "12",
+         "row": "16",
+         "isLinked": false,
+         "unit": "px"
         },
         "_title": "כרטיסים"
        },
@@ -1002,12 +1002,26 @@
             "flex_wrap": "nowrap",
             "flex_wrap_tablet": "nowrap",
             "flex_wrap_mobile": "nowrap",
+            "flex_gap_mobile": {
+             "column": "6",
+             "row": "6",
+             "isLinked": true,
+             "unit": "px"
+            },
             "padding": {
              "unit": "custom",
              "top": "1.25rem",
              "right": "1.5rem",
              "bottom": "1.5rem",
              "left": "1.5rem",
+             "isLinked": false
+            },
+            "padding_mobile": {
+             "unit": "custom",
+             "top": ".75rem",
+             "right": ".875rem",
+             "bottom": ".875rem",
+             "left": ".875rem",
              "isLinked": false
             },
             "_flex_size": "grow",
@@ -1030,7 +1044,7 @@
               "title_color": "#1F2421",
               "__globals__": {
                "title_color": "globals/colors?id=text",
-               "typography_typography": "globals/typography?id=fb57358"
+               "typography_typography": "globals/typography?id=dd397bf"
               }
              },
              "elements": [],
@@ -1094,6 +1108,11 @@
               "icon_padding": {
                "unit": "px",
                "size": 11,
+               "sizes": []
+              },
+              "size_mobile": {
+               "unit": "px",
+               "size": 14,
                "sizes": []
               },
               "_css_classes": "nh-card__arrow",
@@ -1207,12 +1226,26 @@
             "flex_wrap": "nowrap",
             "flex_wrap_tablet": "nowrap",
             "flex_wrap_mobile": "nowrap",
+            "flex_gap_mobile": {
+             "column": "6",
+             "row": "6",
+             "isLinked": true,
+             "unit": "px"
+            },
             "padding": {
              "unit": "custom",
              "top": "1.25rem",
              "right": "1.5rem",
              "bottom": "1.5rem",
              "left": "1.5rem",
+             "isLinked": false
+            },
+            "padding_mobile": {
+             "unit": "custom",
+             "top": ".75rem",
+             "right": ".875rem",
+             "bottom": ".875rem",
+             "left": ".875rem",
              "isLinked": false
             },
             "_flex_size": "grow",
@@ -1235,7 +1268,7 @@
               "title_color": "#1F2421",
               "__globals__": {
                "title_color": "globals/colors?id=text",
-               "typography_typography": "globals/typography?id=fb57358"
+               "typography_typography": "globals/typography?id=dd397bf"
               }
              },
              "elements": [],
@@ -1299,6 +1332,11 @@
               "icon_padding": {
                "unit": "px",
                "size": 11,
+               "sizes": []
+              },
+              "size_mobile": {
+               "unit": "px",
+               "size": 14,
                "sizes": []
               },
               "_css_classes": "nh-card__arrow",
@@ -1412,12 +1450,26 @@
             "flex_wrap": "nowrap",
             "flex_wrap_tablet": "nowrap",
             "flex_wrap_mobile": "nowrap",
+            "flex_gap_mobile": {
+             "column": "6",
+             "row": "6",
+             "isLinked": true,
+             "unit": "px"
+            },
             "padding": {
              "unit": "custom",
              "top": "1.25rem",
              "right": "1.5rem",
              "bottom": "1.5rem",
              "left": "1.5rem",
+             "isLinked": false
+            },
+            "padding_mobile": {
+             "unit": "custom",
+             "top": ".75rem",
+             "right": ".875rem",
+             "bottom": ".875rem",
+             "left": ".875rem",
              "isLinked": false
             },
             "_flex_size": "grow",
@@ -1440,7 +1492,7 @@
               "title_color": "#1F2421",
               "__globals__": {
                "title_color": "globals/colors?id=text",
-               "typography_typography": "globals/typography?id=fb57358"
+               "typography_typography": "globals/typography?id=dd397bf"
               }
              },
              "elements": [],
@@ -1504,6 +1556,11 @@
               "icon_padding": {
                "unit": "px",
                "size": 11,
+               "sizes": []
+              },
+              "size_mobile": {
+               "unit": "px",
+               "size": 14,
                "sizes": []
               },
               "_css_classes": "nh-card__arrow",
@@ -1617,12 +1674,26 @@
             "flex_wrap": "nowrap",
             "flex_wrap_tablet": "nowrap",
             "flex_wrap_mobile": "nowrap",
+            "flex_gap_mobile": {
+             "column": "6",
+             "row": "6",
+             "isLinked": true,
+             "unit": "px"
+            },
             "padding": {
              "unit": "custom",
              "top": "1.25rem",
              "right": "1.5rem",
              "bottom": "1.5rem",
              "left": "1.5rem",
+             "isLinked": false
+            },
+            "padding_mobile": {
+             "unit": "custom",
+             "top": ".75rem",
+             "right": ".875rem",
+             "bottom": ".875rem",
+             "left": ".875rem",
              "isLinked": false
             },
             "_flex_size": "grow",
@@ -1645,7 +1716,7 @@
               "title_color": "#1F2421",
               "__globals__": {
                "title_color": "globals/colors?id=text",
-               "typography_typography": "globals/typography?id=fb57358"
+               "typography_typography": "globals/typography?id=dd397bf"
               }
              },
              "elements": [],
@@ -1689,6 +1760,11 @@
               "icon_padding": {
                "unit": "px",
                "size": 11,
+               "sizes": []
+              },
+              "size_mobile": {
+               "unit": "px",
+               "size": 14,
                "sizes": []
               },
               "_css_classes": "nh-card__arrow",
@@ -1889,7 +1965,7 @@
        "id": "3836cf1",
        "elType": "widget",
        "settings": {
-        "editor": "<p>המעון מקיים כל העת תערוכות אמנות ופעילויות מרשימות בתחומים שונים</p><p>במעון ניתן למצוא חדר סנוזילן מתקדם בעל ציוד חדשני, מרפאת שיניים מתקדמת ומשוכללת, מועדון מתקדם לרווחת החניכים, חדרים נוחים ומאובזרים ועוד.</p>",
+        "editor": "<p>המעון מקיים כל העת תערוכות אמנות ופעילויות מרשימות בתחומים שונים</p><p>במעון ניתן למצוא חדר סנוזלן מתקדם בעל ציוד חדשני, מרפאת שיניים מתקדמת ומשוכללת, מועדון מתקדם לרווחת החניכים, חדרים נוחים ומאובזרים ועוד.</p>",
         "_css_classes": "nh-full",
         "text_color": "#1F2421",
         "link_color": "#4A2D84",
@@ -2810,7 +2886,7 @@
            "id": "c6747d0",
            "elType": "widget",
            "settings": {
-            "editor": "<p>אבן הפינה למעון \"נווה האירוס\" הונחה בשנת 1957 ע\"י המשפחות : שטיינהרט, רשו וקוגן.</p><p>במתכונתו הנוכחית מאז 1985 בפיקוח מלא של משרד הרווחה - האגף לטיפול באדם עם מוגבלות שכלית התפתחותית.</p><p>יחודו של המעון בשיטות טיפול מתקדמות, יחס אישי ודואג לכל חניך ופעילות תרפואיטית ייחודית.</p>",
+            "editor": "<p>אבן הפינה למעון \"נווה האירוס\" הונחה בשנת 1957 ע\"י המשפחות : שטיינהרט, רשו וקוגן.</p><p>במתכונתו הנוכחית מאז 1985 בפיקוח מלא של משרד הרווחה - האגף לטיפול באדם עם מוגבלות שכלית התפתחותית.</p><p>יחודו של המעון בשיטות טיפול מתקדמות, יחס אישי ודואג לכל חניך ופעילות תרפויטית ייחודית.</p>",
             "_css_classes": "nh-full",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -3378,7 +3454,7 @@
          "id": "60829ed",
          "elType": "widget",
          "settings": {
-          "editor": "<p>שלום רב,שמי לילה ורבל, בני בן ה- 30 מתגורר בנווה האירוס מזה 11 שנה עקב בעיות התנהגות קשות, כגון אלימות פיזית. אני רוצה לציין לטובה את השינוי העצום שבוצע במוסד בשנתיים האחרונות וזאת עקב..</p>",
+          "editor": "<p>שלום רב, שמי לילה ורבל, בני בן ה- 30 מתגורר בנווה האירוס מזה 11 שנה עקב בעיות התנהגות קשות, כגון אלימות פיזית. אני רוצה לציין לטובה את השינוי העצום שבוצע במוסד בשנתיים האחרונות וזאת עקב..</p>",
           "_css_classes": "nh-full",
           "align": "center",
           "text_color": "#FFFFFF",
@@ -4425,59 +4501,6 @@
            "background_color": "globals/colors?id=primary",
            "button_text_color": "globals/colors?id=3efe2c1",
            "button_background_hover_color": "globals/colors?id=78b4a18",
-           "hover_color": "globals/colors?id=3efe2c1",
-           "typography_typography": "globals/typography?id=accent"
-          }
-         },
-         "elements": [],
-         "widgetType": "button"
-        },
-        {
-         "id": "6166341",
-         "elType": "widget",
-         "settings": {
-          "text": "WhatsApp",
-          "link": {
-           "url": "https://wa.me/97289403047",
-           "is_external": "",
-           "nofollow": "",
-           "custom_attributes": ""
-          },
-          "background_background": "classic",
-          "button_background_hover_background": "classic",
-          "border_radius": {
-           "unit": "px",
-           "top": "12",
-           "right": "12",
-           "bottom": "12",
-           "left": "12",
-           "isLinked": true
-          },
-          "text_padding": {
-           "unit": "custom",
-           "top": "1rem",
-           "right": "2rem",
-           "bottom": "1rem",
-           "left": "2rem",
-           "isLinked": false
-          },
-          "selected_icon": {
-           "value": "fab fa-whatsapp",
-           "library": "fa-brands"
-          },
-          "icon_align": "row",
-          "icon_indent": {
-           "unit": "px",
-           "size": 8,
-           "sizes": []
-          },
-          "_css_classes": "nh-btn-whatsapp",
-          "background_color": "#2F6B2A",
-          "button_text_color": "#FFFFFF",
-          "hover_color": "#FFFFFF",
-          "__globals__": {
-           "background_color": "globals/colors?id=dda5945",
-           "button_text_color": "globals/colors?id=3efe2c1",
            "hover_color": "globals/colors?id=3efe2c1",
            "typography_typography": "globals/typography?id=accent"
           }

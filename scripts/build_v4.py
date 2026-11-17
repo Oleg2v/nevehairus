@@ -59,7 +59,8 @@ _element_id <name>, its Kit background, 5rem (phones 3.5rem) above and below; in
                  0) holding the WHOLE live text in order (the questions in the framed box nh-framed, the lead, the
                  rest), the plain twin outside it
   contact        green-50, _element_id contact (the target of «צור קשר»): H2, the live subline, the phone button
-                 (nh-btn-phone, purple) and WhatsApp (nh-btn-whatsapp, green-700, fab fa-whatsapp, https://wa.me/…)
+                 (nh-btn-phone, purple); WhatsApp (nh-btn-whatsapp, green-700, fab fa-whatsapp, https://wa.me/…) only
+                 while WHATSAPP holds a number the home confirmed (Oleg 17.11: off until then)
 nh-reveal (spec 10 §3) is on every section's inner column, the cards, the pro cells, the years, the pro text, the video
 items and the life text; a block holding other nh-reveal blocks stays put (the theme moves its children).
 
@@ -85,7 +86,8 @@ Where the data goes beyond the letter of the specs (each for one of their own ru
     badge is the theme's;
   - «צור קשר» in the header links to #contact, as in the hero (the menu item keeps /צור-קשר/);
   - card 4's subline is an empty Text Editor («leave empty»): nothing is printed, the client can fill it;
-  - the WhatsApp button has no hover colour of its own (no Kit colour fits): the theme darkens it;
+  - the WhatsApp button (when WHATSAPP is set) has no hover colour of its own (no Kit colour fits): the theme
+    darkens it;
   - the footer's line is white at 20% (no Kit colour: a hairline on night);
   - the contacts template's root (night, no padding, nh-contacts, _element_id contacts) is no page section (no nh-sec):
     it lives in the footer, under the footer's own classes.
@@ -95,7 +97,7 @@ text and, if set, its plain twin, each with the text verbatim); every @media nam
 @page/@page-id key one of ours; headings h1 → h2 → h3 without gaps in each document and on the page as a whole
 (header, home, the footer with the contacts template expanded; normal and plain mode); unique ids; no motion or
 animation settings (the accordion's duration is 0); no external URL but youtube.com, the live Facebook page and the
-WhatsApp link; every widget styled through the Kit; the sections of spec 10 §1 in order with their ids, classes and
+WhatsApp link (none at all while WHATSAPP is empty); every widget styled through the Kit; the sections of spec 10 §1 in order with their ids, classes and
 widths; the hero's photo, focus and content; every in-page link (#…) has its target on the page; the contacts template
 only in the footer, before the bottom row; nh-reveal where spec 10 §3 puts it; the phone frame.
 """
@@ -124,7 +126,10 @@ REVEAL_SKIP = ("hero",)                                # the first screen: nothi
 PLAIN_TITLE = "שפה פשוטה — טיוטה"                      # the Navigator label of a plain twin (§4, §6)
 FACEBOOK = "https://www.facebook.com/neveirus/"
 YOUTUBE = "https://www.youtube.com/watch?v="
-WHATSAPP = "https://wa.me/97289403047"                 # spec 10 §1.10: the main number until the home confirms one
+# spec 10 §1.10. Oleg 17.11: no WhatsApp button until the home confirms a WhatsApp number (the live site lists none, and
+# 08-9403047 is a landline). To bring the button back: the number here as "https://wa.me/972…", then `v4 --go`.
+WHATSAPP = ""
+OFF_BLOCKS = set() if WHATSAPP else {"contact.whatsapp"}   # blocks of home.json kept, but not built while switched off
 PHONE_TEL = "tel:089403047"
 PHONE_LABEL = "התקשרו: 08-9403047"                     # aria-label of the icon-only phone button (§4.0)
 CONTACT_ANCHOR = "#contact"                            # the contact band (spec 10 §1.1, §1.10)
@@ -157,7 +162,9 @@ CUSTOM_TYPOGRAPHY = (("h1", "כותרת H1", 700, "clamp(2rem, 1.4rem + 2.4vw, 3
                      ("quote", "ציטוט", 400, "1.375rem", None, 1.6),
                      ("caption", "כיתוב", 400, "1.125rem", None, 1.5),
                      ("heading-small", "כותרת קטנה", 700, "1rem", None, 1.3),
-                     ("text-tiny", "טקסט זעיר", 400, "0.9375rem", None, 1.55))
+                     # Oleg 17.11: the footer contacts' text at 14px; the card titles smaller on phones (2 in a row)
+                     ("text-tiny", "טקסט זעיר", 400, "0.875rem", None, 1.5),
+                     ("card-title", "כותרת כרטיס", 700, "1.375rem", "1.0625rem", 1.3))
 
 CONTENT_WIDTH = 1320                                   # the content column (spec 10 §0)
 BPS = ("", "_tablet", "_mobile")                       # desktop, ≤1024, ≤767 (Elementor's breakpoints)
@@ -274,13 +281,18 @@ def flex(direction="column", gap_row=0, gap_column=0, wrap="nowrap", **extra):
     return out
 
 
-def grid(columns, columns_tablet, columns_mobile, gap_column=GRID_GAP, gap_row=GRID_GAP, **extra):
-    """A grid container: a number of equal columns, or a template («2fr 3fr») per breakpoint."""
+def grid(columns, columns_tablet, columns_mobile, gap_column=GRID_GAP, gap_row=GRID_GAP, gap_mobile=None, **extra):
+    """A grid container: a number of equal columns, or a template («2fr 3fr») per breakpoint; gap_mobile = (column,
+    row) on phones."""
     def cols(v):
         return {"unit": "fr", "size": v, "sizes": []} if isinstance(v, int) else size(v)
-    return {"container_type": "grid", "grid_columns_grid": cols(columns), "grid_columns_grid_tablet": cols(columns_tablet),
-            "grid_columns_grid_mobile": cols(columns_mobile), "grid_rows_grid": size("auto"),
-            "grid_gaps": gaps(gap_column, gap_row), "padding": ZERO, **extra}
+    out = {"container_type": "grid", "grid_columns_grid": cols(columns), "grid_columns_grid_tablet": cols(columns_tablet),
+           "grid_columns_grid_mobile": cols(columns_mobile), "grid_rows_grid": size("auto"),
+           "grid_gaps": gaps(gap_column, gap_row), "padding": ZERO}
+    if gap_mobile:
+        out["grid_gaps_mobile"] = gaps(*gap_mobile)
+    out.update(extra)
+    return out
 
 
 def per_bp(key, make):
@@ -471,11 +483,15 @@ class Builder:
              "show_play_icon": "yes", "lightbox": "", "aspect_ratio": ratio, **extra}
         return self.widget(path, "video", s)
 
-    def icon_widget(self, path, value, classes, px, padding_px, primary, secondary, align="start", title=None):
+    def icon_widget(self, path, value, classes, px, padding_px, primary, secondary, align="start", title=None,
+                    mobile=None):
         """Elementor's Icon: a stacked circle (primary = the circle, secondary = the glyph), px + 2 × padding wide; no
-        link, so it is decorative (its SVG is aria-hidden)."""
+        link, so it is decorative (its SVG is aria-hidden). mobile = the glyph's px on phones (Elementor has no phone
+        value for the padding: the theme sizes the circle there)."""
         s = {"selected_icon": value, "view": "stacked", "shape": "circle", "align": align, "size": size(px),
              "icon_padding": size(padding_px)}
+        if mobile:
+            s["size_mobile"] = size(mobile)
         if classes:
             s["_css_classes"] = classes
         if title:
@@ -603,12 +619,15 @@ class Builder:
         for n, url in self.CARDS:
             p = f"specialties/inner/grid/card-{n}"
             body = self.container(f"{p}/body", {
-                **flex("column", 8, 8), "padding": dims("1.25rem", "1.5rem", "1.5rem", "1.5rem"),
+                **flex("column", 8, 8), "flex_gap_mobile": gaps(6, 6),
+                "padding": dims("1.25rem", "1.5rem", "1.5rem", "1.5rem"),
+                "padding_mobile": dims(".75rem", ".875rem", ".875rem", ".875rem"),
                 "_flex_size": "grow", "css_classes": "nh-card__body"},
-                self.heading_block(f"card{n}.title", f"{p}/body/title", "h3", "h3", "ink", "nh-card__title", url=url)
+                self.heading_block(f"card{n}.title", f"{p}/body/title", "h3", "card-title", "ink", "nh-card__title",
+                                   url=url)
                 + self.text_editor_block(f"card{n}.sub", f"{p}/body/sub", "nh-card__sub", typo="small", color="ink-2")
                 + [self.icon_widget(f"{p}/body/arrow", icon("arrow-left"), "nh-card__arrow", 18, 11, "purple-700",
-                                    "white", align="end", title="חץ (קישוט)")])
+                                    "white", align="end", title="חץ (קישוט)", mobile=14)])
             card = self.container(p, styled({
                 **flex("column", 0, 0), "padding": ZERO, "overflow": "hidden",
                 "background_background": "classic", "border_border": "solid", "border_width": dims(1),
@@ -617,7 +636,9 @@ class Builder:
                 [self.image(f"{p}/photo", f"card-{n}", "nh-card__img nh-ratio-4x3", url=url,
                             link_attributes="tabindex|-1,aria-hidden|true"), body], title=f"כרטיס {n}")
             cards.append(card)
-        cards_grid = self.container("specialties/inner/grid", grid(4, 2, 1), cards, title="כרטיסים")
+        # 4 / 2 / 2: on phones two in a row, all four on about one screen (Oleg 17.11: «компактнее»)
+        cards_grid = self.container("specialties/inner/grid", grid(4, 2, 2, gap_mobile=(12, 16)), cards,
+                                    title="כרטיסים")
         return self.section("specialties", "תחומי התמחות", "white",
                             self.heading_block("specialties.title", "specialties/inner/title", "h2", "h2", "purple-700",
                                                align="center") + [cards_grid])
@@ -779,14 +800,15 @@ class Builder:
     # ---- 10 contact (10 §1.10) -----------------------------------------------------------------------------------------------
     def contact(self):
         big = dims("1rem", "2rem")
+        row = [self.button("contact.phone", "contact/inner/buttons/phone", PHONE_TEL, "primary", icon_name="phone-alt",
+                           classes="nh-btn-phone", padding=big, radius=12)]
+        if WHATSAPP:                       # off until the home confirms a WhatsApp number (Oleg 17.11)
+            row.append(self.button("contact.whatsapp", "contact/inner/buttons/whatsapp", WHATSAPP, "whatsapp",
+                                   icon_value=icon("whatsapp", "fa-brands"), classes="nh-btn-whatsapp", padding=big,
+                                   radius=12))
         buttons = self.container("contact/inner/buttons", {
             **flex("row", 16, 16, wrap="wrap", flex_justify_content="center", flex_align_items="center"),
-            "padding": dims(8, 0, 0, 0)}, [
-            self.button("contact.phone", "contact/inner/buttons/phone", PHONE_TEL, "primary", icon_name="phone-alt",
-                        classes="nh-btn-phone", padding=big, radius=12),
-            self.button("contact.whatsapp", "contact/inner/buttons/whatsapp", WHATSAPP, "whatsapp",
-                        icon_value=icon("whatsapp", "fa-brands"), classes="nh-btn-whatsapp", padding=big, radius=12),
-        ], title="כפתורים")
+            "padding": dims(8, 0, 0, 0)}, row, title="כפתורים")
         return self.section("contact", "נשמח שתבואו להכיר אותנו", "green-50",
                             self.heading_block("contact.title", "contact/inner/title", "h2", "h2", "purple-700",
                                                align="center")
@@ -797,23 +819,29 @@ class Builder:
     CONTACTS = (("address", "map-marker-alt"), ("phone", "phone-alt"), ("email", "envelope"), ("links", "link"))
 
     def contacts(self):
-        """The footer's first part, at half size (10 §1.11): icons 36px (16 + 2 × 10), titles 1rem, text .9375rem, the
-        gaps halved; 4 columns, 2 on tablets and phones; white on night. The H2 «פרטי קשר» stays visually hidden."""
+        """The footer's first part, small (10 §1.11; Oleg 17.11): in each column a row with the icon (24px: 14 + 2 × 5)
+        and the title (1rem), then the text at 14px (Kit «טקסט זעיר»); small gaps; 4 columns, 2 on tablets and phones;
+        white on night. The H2 «פרטי קשר» stays visually hidden (a heading for screen readers only)."""
         self.doc = "contacts"
         white = ("white", "white")
         columns = []
         for name, icon_name in self.CONTACTS:
             p = f"contacts/grid/{name}"
-            columns.append(self.container(p, {**flex("column", 6, 6, flex_align_items="flex-start"),
+            head = self.container(f"{p}/head", {**flex("row", 8, 8, flex_align_items="center"), "padding": ZERO,
+                                                "css_classes": "nh-contact__head"},
+                                  [self.icon_widget(f"{p}/head/icon", icon(icon_name), "", 14, 5, "purple-700",
+                                                    "white")]
+                                  + self.heading_block(f"contacts.{name}.title", f"{p}/head/title", "h3",
+                                                       "heading-small", "white"),
+                                  title="סמל וכותרת")
+            columns.append(self.container(p, {**flex("column", 4, 4, flex_align_items="flex-start"),
                                                "padding": ZERO, "css_classes": "nh-contact"},
-                                          [self.icon_widget(f"{p}/icon", icon(icon_name), "", 16, 10, "purple-700",
-                                                            "white")]
-                                          + self.heading_block(f"contacts.{name}.title", f"{p}/title", "h3",
-                                                               "heading-small", "white")
+                                          [head]
                                           + self.text_editor_block(f"contacts.{name}.body", f"{p}/text",
                                                                    typo="text-tiny", color="white", links=white),
                                           title=self.text(f"contacts.{name}.title", "full")))
-        cols = self.container("contacts/grid", grid(4, 2, 2, gap_column=GRID_GAP, gap_row=16), columns, title="עמודות")
+        cols = self.container("contacts/grid", grid(4, 2, 2, gap_column=GRID_GAP, gap_row=12, gap_mobile=(16, 12)),
+                              columns, title="עמודות")
         title = self.heading_block("contacts.title", "contacts/title", "h2", "h2", "white", "nh-visually-hidden")
         root = self.container("contacts", styled({
             **flex("column", 0, 0), "padding": ZERO, "background_background": "classic",
@@ -834,14 +862,14 @@ class Builder:
         bottom = self.container("footer/bottom", {
             **flex("row", 8, 24, wrap="wrap", flex_direction_mobile="column", flex_justify_content="space-between",
                    flex_align_items="center", flex_justify_content_mobile="center"),
-            "padding": dims(24, 0, 0, 0), "border_border": "solid", "border_width": dims(1, 0, 0, 0),
+            "padding": dims(16, 0, 0, 0), "border_border": "solid", "border_width": dims(1, 0, 0, 0),
             "border_color": "rgba(255, 255, 255, 0.2)", "css_classes": "nh-footer__bottom"},
             copyright_ + links, title="שורה תחתונה")
-        root = self.container("footer", styled({
-            "content_width": "boxed", "boxed_width": size(CONTENT_WIDTH), **flex("column", 24, 24),
-            "padding": dims("3rem", GUTTER[""], "1.5rem", GUTTER[""]),
-            "padding_tablet": dims("3rem", GUTTER["_tablet"], "1.5rem", GUTTER["_tablet"]),
-            "padding_mobile": dims("2.5rem", GUTTER["_mobile"], "2rem", GUTTER["_mobile"]),
+        root = self.container("footer", styled({     # Oleg 17.11: smaller paddings and gap (were 3rem / 2.5rem, 24px)
+            "content_width": "boxed", "boxed_width": size(CONTENT_WIDTH), **flex("column", 20, 20),
+            "padding": dims("2.25rem", GUTTER[""], "1.25rem", GUTTER[""]),
+            "padding_tablet": dims("2.25rem", GUTTER["_tablet"], "1.25rem", GUTTER["_tablet"]),
+            "padding_mobile": dims("2rem", GUTTER["_mobile"], "1.5rem", GUTTER["_mobile"]),
             "background_background": "classic", "css_classes": "nh-footer-v4"}, background_color="night"),
             [template, bottom], inner=False, title="כותרת תחתונה v4")
         return [root]
@@ -1087,12 +1115,20 @@ def page_problems(docs, media_list):
               if "nh-phone-frame" in classes_of(e)]
     if len(frames) != 1 or frames[0].get("widgetType") != "video" or frames[0]["settings"].get("aspect_ratio") != "916":
         problems.append("home/snoezelen: the Video widget (9:16) needs nh-phone-frame")
-    # the contact band: the phone and WhatsApp
+    # the contact band: the phone; WhatsApp only while WHATSAPP holds a confirmed number (Oleg 17.11)
     band = list(walk_elements([by_name.get("contact", {})])) if by_name.get("contact") else []
     urls = {(e["settings"].get("link") or {}).get("url"): e for e in band if e.get("widgetType") == "button"}
-    wa = urls.get(WHATSAPP)
-    if PHONE_TEL not in urls or not wa or (wa["settings"].get("selected_icon") or {}).get("value") != "fab fa-whatsapp":
-        problems.append("home/contact: the phone button and the WhatsApp button (fab fa-whatsapp) are needed")
+    if PHONE_TEL not in urls:
+        problems.append("home/contact: the phone button is needed")
+    if WHATSAPP:
+        wa = urls.get(WHATSAPP)
+        if not wa or (wa["settings"].get("selected_icon") or {}).get("value") != "fab fa-whatsapp":
+            problems.append("home/contact: the WhatsApp button (fab fa-whatsapp) is needed")
+    else:
+        for d in docs.values():
+            for path, v in walk_values(d.get("elementor_data") or []):
+                if isinstance(v, str) and "wa.me/" in v:
+                    problems.append(f"{d.get('key')}{path}: a WhatsApp link, but WHATSAPP is empty (no confirmed number)")
     # every in-page link (#…) has its target on the page (the home, the footer and its template)
     targets = {(e.get("settings") or {}).get("_element_id") for d in docs.values()
                for e in walk_elements(d.get("elementor_data") or [])} - {None, ""}
@@ -1201,7 +1237,7 @@ def check(docs, kit, menu, content, media_list):
                 for url in URL_IN_TEXT.findall(v):
                     host = urllib.parse.urlsplit(url if url.startswith("http") else "https:" + url).hostname or ""
                     if not ((host in ("youtube.com", "www.youtube.com") and path.endswith("/youtube_url"))
-                            or url == FACEBOOK or (url == WHATSAPP and path.endswith("/link/url"))):
+                            or url == FACEBOOK or (WHATSAPP and url == WHATSAPP and path.endswith("/link/url"))):
                         problems.append(f"{path}: external URL {url}")
             # styled through the Kit
             glob = s.get("__globals__") or {}
@@ -1291,8 +1327,10 @@ def check(docs, kit, menu, content, media_list):
                     problems.append(f"block {block} ({mode}) is null in home.json but used")
                 continue
             n = len(used.get((block, mode), []))
-            if n != 1:
-                problems.append(f"block {block} ({mode}) is used {n} times, expected once")
+            expected = 0 if block in OFF_BLOCKS else 1
+            if n != expected:
+                problems.append(f"block {block} ({mode}) is used {n} times, expected {expected}"
+                                + (" (switched off: OFF_BLOCKS)" if block in OFF_BLOCKS else ""))
     for block, mode in used:
         if block not in blocks:
             problems.append(f"block {block} is not in content/v4/home.json")

@@ -4,7 +4,7 @@ Tags: elementor, hebrew, rtl, accessibility
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 0.2.6
+Stable tag: 0.2.7
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,13 @@ No external services, no CDN, no tracking. Fonts are served from the plugin.
 * The letter outlines in assets/letters.json are drawn from Frank Ruhl Libre (same licence).
 
 == Changelog ==
+
+= 0.2.7 =
+* The child theme may own the cookie settings: when the theme declares `add_theme_support( 'nh-cookies' )`
+  (hello-elementor-child 1.4.0+, its own panel on every page), the plugin prints no panel of its own and its script
+  never binds, opens or hides the theme's (`data-owner="theme"`); `nh.consent` hands read, save, open and hide to
+  the theme's `window.nhConsent` when it is there. The same stored choice (`nh-consent-v1`) on both sides. With
+  any other theme nothing changes.
 
 = 0.2.6 =
 * The privacy note's full stop sits where any full stop does: the room that keeps the focus ring off it appears only

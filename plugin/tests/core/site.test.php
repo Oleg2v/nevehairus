@@ -1,7 +1,8 @@
 <?php
 /**
  * Core tests 5 — NH_Site (SPEC §11.5 item 5, §5; research/07 §12.2–12.3): head order and the pre-paint
- * script, body open (the sprite only), footer (cookie-settings panel + live region), the preview, the cover
+ * script, body open (the sprite only), footer (cookie-settings panel + live region; 0.2.7: no panel when the theme
+ * declares `nh-cookies`), the preview, the cover
  * preload, and parity of the printed parts with the prototype partials (the live region of header.html,
  * cookies.html, sprite.html reduced to the six symbols of the pages). Every part needs a page that uses our
  * widgets: the tests write one into the queried post (10); core/scope.test.php covers the pages without.
@@ -168,6 +169,38 @@ return [
 	'footer(): nothing on a page that does not use our widgets' => static function () {
 		nh_assert( ! NH_Site::uses_widgets(), 'post 10 holds no widget of ours' );
 		nh_assert_same( '', nh_test_capture( [ 'NH_Site', 'footer' ] ) );
+	},
+
+	'footer(): the theme declares nh-cookies (it prints its own panel) — ours is not printed, the rest is unchanged (0.2.7)' => static function () {
+		nh_test_use_widgets();
+		$without = nh_test_capture( [ 'NH_Site', 'footer' ] );
+		nh_assert_same( 1, substr_count( $without, 'id="nh-cookies"' ), 'no theme support: our panel' );
+		nh_test_reset_request();
+		nh_test_use_widgets();
+		add_theme_support( 'nh-cookies' );
+		nh_assert( NH_Site::uses_widgets(), 'a page that uses our widgets' );
+		$with = nh_test_capture( [ 'NH_Site', 'footer' ] );
+		foreach ( [ 'nh-cookies', 'data-consent', 'nh-c-media' ] as $gone ) {
+			nh_assert_not_contains( $gone, $with, 'the theme prints the panel, not the plugin' );
+		}
+		nh_assert_contains( '<symbol id="i-phone"', $with, 'wp_body_open never ran: the sprite still falls back here' );
+		nh_assert_contains( NH_Site::live_region(), $with, 'the global live region stays' );
+		nh_assert_same( str_replace( NH_Site::cookie_panel() . "\n", '', $without ), $with, 'only the panel goes' );
+	},
+
+	'footer(): any other theme (no nh-cookies support) — our cookie panel is printed as before' => static function () {
+		nh_test_use_widgets();
+		nh_assert( ! current_theme_supports( 'nh-cookies' ), 'a request starts without theme features' );
+		add_theme_support( 'title-tag' );
+		add_theme_support( 'html5', [ 'script', 'style' ] );
+		$f = nh_test_capture( [ 'NH_Site', 'footer' ] );
+		nh_assert_same( 1, substr_count( $f, 'id="nh-cookies"' ), 'other theme features do not matter' );
+		nh_assert_contains( NH_Site::cookie_panel() . "\n" . NH_Site::live_region(), $f, 'the panel, then the live region' );
+		nh_assert_not_contains( 'data-owner', $f, 'our panel is never marked as the theme\'s' );
+		add_theme_support( 'nh-cookies' );
+		nh_assert_not_contains( 'id="nh-cookies"', nh_test_capture( [ 'NH_Site', 'footer' ] ), 'declared: not ours' );
+		remove_theme_support( 'nh-cookies' );
+		nh_assert_same( 1, substr_count( nh_test_capture( [ 'NH_Site', 'footer' ] ), 'id="nh-cookies"' ), 'removed again: ours again' );
 	},
 
 	'parity: live region = the one in header.html' => static function () {

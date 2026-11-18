@@ -176,12 +176,19 @@
   /* ---------- cookie settings (the choice stays in this browser; nothing is sent) ------ */
   const consentKey = (data.consent && data.consent.key) || "nh-consent-v1";
   const consentV = (data.consent && Number(data.consent.v)) || 1;
-  const panel = () => d.getElementById("nh-cookies");
+  // the plugin's own panel only. 0.2.7: a theme that declares `nh-cookies` (the child theme 1.4.0+) prints its own on
+  // every page, section#nh-cookies[data-owner="theme"], and runs it with its own script (window.nhConsent): that panel
+  // is never returned here, so nothing below binds to it, opens, fills or hides it
+  const panel = () => {
+    const p = d.getElementById("nh-cookies");
+    return p && p.dataset.owner !== "theme" ? p : null;
+  };
   // a record of an older consent version counts as none: the video asks again (§9)
+  const valid = (rec) => (rec && typeof rec === "object" && Number(rec.v) >= consentV ? rec : null);
   const read = () => {
     let rec = null;
     try { rec = JSON.parse(store.get(consentKey) || "null"); } catch (e) { rec = null; }
-    return rec && typeof rec === "object" && Number(rec.v) >= consentV ? rec : null;
+    return valid(rec);
   };
   const save = (c) => {
     const rec = { necessary: true, stats: !!c.stats, media: !!c.media, date: new Date().toISOString(), v: consentV };
@@ -229,7 +236,7 @@
   };
   const initPanel = () => {
     const p = panel();
-    if (!p) return;
+    if (!p) return;                                                         // none, or the theme's: its own script binds it
     p.addEventListener("click", (e) => {
       const btn = e.target instanceof Element ? e.target.closest("[data-consent]") : null;
       if (!btn) return;
@@ -242,6 +249,18 @@
     });
     p.addEventListener("keydown", (e) => { if (e.key === "Escape") { e.preventDefault(); closePanel(); } });
   };
+  // nh.consent (voices.js calls read, save and hideBanner). 0.2.7: when the theme's script is on the page,
+  // window.nhConsent answers instead — looked up at every call, as it may load before or after this script: read() →
+  // read(), save(c) → save({ stats, media }), openSettings(source) → open(source), hideBanner() → hide(). Both sides
+  // keep the same key and record format, so each reads what the other saved; a record older than nhData.consent.v
+  // still counts as none here
+  const themeConsent = (m) => { const t = w.nhConsent; return t && typeof t[m] === "function" ? t : null; };
+  const consent = {
+    read: () => { const t = themeConsent("read"); return t ? valid(t.read()) : read(); },
+    save: (c) => { const t = themeConsent("save"); return t ? t.save({ stats: !!(c && c.stats), media: !!(c && c.media) }) : save(c); },
+    openSettings: (source) => { const t = themeConsent("open"); return t ? !!t.open(source) : openSettings(source); },
+    hideBanner: () => { const t = themeConsent("hide"); if (t) t.hide(); else hideBanner(); },
+  };
 
   /* ---------- delegated clicks: switches, «הגדרות עוגיות», in-page links ------------- */
   d.addEventListener("click", (e) => {
@@ -250,7 +269,9 @@
     if (t.closest("[data-plain-toggle]")) { togglePlain(); return; }
     if (t.closest("[data-calm-toggle]")) { toggleCalm(); return; }
     const a = t.closest("a[href]");
-    // «הגדרות עוגיות»: [data-cookie-settings] or any link to #nh-cookies on this page (the footer's Text Editor)
+    // «הגדרות עוגיות»: [data-cookie-settings] or any link to #nh-cookies on this page (the footer's Text Editor). The
+    // theme's panel (0.2.7): openSettings() finds no panel of ours, so nothing is done here, not even preventDefault —
+    // the theme's own script opens it
     const settings = t.closest("[data-cookie-settings]") || (a && a.hash === "#nh-cookies" && samePage(a) ? a : null);
     if (settings) { if (openSettings(settings)) e.preventDefault(); return; }
     if (a) followAnchor(e, a);
@@ -314,7 +335,7 @@
     announce,
     reveal,
     widget,
-    consent: { read, save, openSettings, hideBanner },
+    consent,
     syncToggles,
     keepPlace,
   });

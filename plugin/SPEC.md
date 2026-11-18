@@ -1440,6 +1440,7 @@ The scripts `nh-core.js` and widget scripts are deferred footer scripts (§2.4);
 1. **Cookie-settings panel** = `partials/cookies.html` (research/07 §9) with the texts from the settings (§7), `hidden` — it never shows itself; `«הגדרות עוגיות»` (`[data-cookie-settings]` or any link of the page to `#nh-cookies`, e.g. the footer's Text Editor) opens it. `href="#privacy"` resolved. Without a statistics text (`cookie_stats`, default `''`) the statistics row is not rendered. Not printed in the Elementor preview.
 2. **Global live region** = header: `<p class="nh-sr-only" role="status" aria-live="polite" data-announce></p>`.
 3. *(v3.2: no visit bar; no parts queued by widgets — `footer_once()` is removed, P1 16.11.)*
+4. *(0.2.7: item 1 is not printed when the theme declares `add_theme_support( 'nh-cookies' )` — the child theme 1.4.0+ prints and runs its own `section#nh-cookies[data-owner="theme"]` on every page; nh-core.js then binds nothing to that panel, and `nh.consent` delegates to the theme's `window.nhConsent` (`read`, `save`, `open`, `hide`) at call time, with the same `nh-consent-v1` record.)*
 
 ### 5.5 `nh-core.js` contents (porting map)
 

@@ -53,6 +53,7 @@ function nh_test_state_defaults(): array {
 		'settings'     => [],
 		'notices'      => [],
 		'time_offset'  => 0,
+		'features'     => [],    // theme features: feature => true | args (add_theme_support()); the fake theme declares none
 	];
 }
 
@@ -772,6 +773,34 @@ if ( ! function_exists( 'home_url' ) ) {
 		}
 		$slug = (string) get_post_meta( $id, '_wp_page_template', true );
 		return ( '' === $slug || 'default' === $slug ) ? '' : $slug;
+	}
+}
+
+/* ---------- Theme features --------------------------------------------------------------------------------- */
+
+if ( ! function_exists( 'current_theme_supports' ) ) {
+	/**
+	 * As WordPress: true when the active theme declared the feature with add_theme_support(), through the filter
+	 * `current_theme_supports-{$feature}` (the extra arguments a few core features check are not checked here). The
+	 * fake site's theme declares nothing: a test declares what it needs, and every request (nh_test_reset_request())
+	 * starts without it again.
+	 */
+	function current_theme_supports( $feature, ...$args ) {
+		$features = (array) ( $GLOBALS['nh_test']['features'] ?? [] );
+		if ( ! isset( $features[ $feature ] ) ) {
+			return false;
+		}
+		return apply_filters( "current_theme_supports-{$feature}", true, $args, $features[ $feature ] );
+	}
+	function add_theme_support( $feature, ...$args ) {
+		$GLOBALS['nh_test']['features'][ $feature ] = $args ? $args : true;
+	}
+	function remove_theme_support( $feature ) {
+		if ( ! isset( $GLOBALS['nh_test']['features'][ $feature ] ) ) {
+			return false;
+		}
+		unset( $GLOBALS['nh_test']['features'][ $feature ] );
+		return true;
 	}
 }
 

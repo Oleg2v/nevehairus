@@ -3,8 +3,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Site module (SPEC §5; research/07 §12.2–12.3): head (meta, font and cover preloads, the pre-paint script),
- * body open (the SVG sprite), footer (the cookie-settings panel, the global live region), body class `v3`, and
- * the page setting "calm mode by default".
+ * body open (the SVG sprite), footer (the cookie-settings panel — unless the theme prints its own, 0.2.7 —, the
+ * global live region), body class `v3`, and the page setting "calm mode by default".
  *
  * A guest on the site: every part is printed only on a page that uses our widgets (uses_widgets()) — in
  * the requested post or in the Theme Builder header/footer shown on it. The skip link and `<main>` belong
@@ -214,9 +214,9 @@ final class NH_Site {
 
 	/**
 	 * `wp_footer` @5, when uses_widgets(): the sprite if the theme never fired wp_body_open; the
-	 * cookie-settings panel (not in the Elementor preview) — in the flow, right after the footer; the global
-	 * live region. (v3.2: no part is queued by a widget any more — the lightbox is gone, and with it
-	 * footer_once().)
+	 * cookie-settings panel (not in the Elementor preview, and not when the theme prints its own — 0.2.7,
+	 * `current_theme_supports( 'nh-cookies' )`) — in the flow, right after the footer; the global live region.
+	 * (v3.2: no part is queued by a widget any more — the lightbox is gone, and with it footer_once().)
 	 */
 	public static function footer(): void {
 		if ( ! self::uses_widgets() ) {
@@ -227,7 +227,9 @@ final class NH_Site {
 			self::$opened = true;
 			$out         .= self::sprite() . "\n";
 		}
-		if ( ! self::is_preview() ) {
+		// 0.2.7: a theme that declares `nh-cookies` (hello-elementor-child 1.4.0+, on after_setup_theme) prints the
+		// site-wide panel itself on every page, section#nh-cookies[data-owner="theme"], and runs it with its own script
+		if ( ! self::is_preview() && ! current_theme_supports( 'nh-cookies' ) ) {
 			$out .= self::cookie_panel() . "\n";
 		}
 		$out .= self::live_region() . "\n";

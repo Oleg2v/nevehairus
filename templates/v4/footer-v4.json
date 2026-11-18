@@ -18,7 +18,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "de3813b83c94678a4c7f8f3ca9f1f64ccf9a3451cbada9fcf34b23f26f614966",
+  "inputs_sha256": "f1a89a7a9b8cd412bb8a42ac9823e3e4d5f5518ad9bb8dcceeac06efebbc55cc",
   "widgets": [
    "template",
    "text-editor"
@@ -168,7 +168,7 @@
        "id": "830b8eb",
        "elType": "widget",
        "settings": {
-        "editor": "<p><a href=\"@home:/הצהרת-נגישות/\">הצהרת נגישות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מדיניות-פרטיות/\">מדיניות פרטיות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מפת-אתר/\">מפת אתר</a></p>",
+        "editor": "<p><a href=\"@home:/הצהרת-נגישות/\">הצהרת נגישות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מדיניות-פרטיות/\">מדיניות פרטיות</a><span aria-hidden=\"true\"> · </span><a href=\"#nh-cookies\">הגדרות עוגיות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מפת-אתר/\">מפת אתר</a></p>",
         "align_mobile": "center",
         "text_color": "#FFFFFF",
         "link_color": "#FFFFFF",

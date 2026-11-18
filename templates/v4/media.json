@@ -60,6 +60,16 @@
   "faces": "not recognizable",
   "note": "Card «מערך דיור לאוטיזם». Media 1314, the photo shown on the live page מערך דיור בקהילה – אוטיזם, whole, as the home publishes it: the faces are pixelated by the home. Chosen by the developer instead of a crop that showed the people without heads."
  },
+ "card-3-v43": {
+  "file": "templates/v4/media/card-3-v43.jpg",
+  "alt": "קבוצת אנשים, רובם בחולצות לבנות תואמות ועם מדליות על סרטים כחולים, מצטלמת יחד בפארק",
+  "title": "nh4:card-3-v43",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2025/12/נוה-האירוס-נס-ציונה-הווי-המקום.png",
+  "width": 1200,
+  "height": 900,
+  "faces": "blurred (faces only)",
+  "note": "v4.3 (Itzik 18.11: «размыть только лица»): card-3.jpg with all nine faces blurred by scripts/blur_faces.py (soft ovals; the home's own square pixelation left the ears and jaws of two of them). Everything else unchanged and sharp. Boxes: 179,387,280,490 300,392,404,495 387,345,489,441 498,374,600,470 588,399,678,488 704,349,794,448 782,365,890,466 952,349,1050,445 1039,343,1152,436 (--strength 0.4). A new attachment: the earlier one is not overwritten."
+ },
  "card-4": {
   "file": "templates/v4/media/card-4.jpg",
   "alt": "שולחן מכירה עם מוצרי יצירה בעבודת יד: עציצים וחמסות בפסיפס, צלחות, קופסאות עץ ומסגרות HOME",
@@ -99,6 +109,16 @@
   "height": 720,
   "faces": "visible",
   "note": "The video's own YouTube thumbnail (maxresdefault, 1280x720), no black bars; re-saved q82. It shows a man's face clearly, with burned-in subtitles that name a person; the alt leaves the name out. The live home shows the same image as the YouTube poster. YouTube's other frames are no better: maxres1 shows the founders' portraits, maxres3 the same man. Needs the home's OK, as for any photo with a face."
+ },
+ "video-JQXm_Dku7tI-v43": {
+  "file": "templates/v4/media/video-JQXm_Dku7tI-v43.jpg",
+  "alt": "גבר יושב על ספסל בגינה ומדבר אל המצלמה, עם כתוביות בעברית; פניו מטושטשות",
+  "title": "nh4:video-JQXm_Dku7tI-v43",
+  "source_url": "https://i.ytimg.com/vi/JQXm_Dku7tI/maxresdefault.jpg",
+  "width": 1280,
+  "height": 720,
+  "faces": "blurred (faces only)",
+  "note": "v4.3 (Itzik 18.11): the video's own thumbnail with the man's face blurred by scripts/blur_faces.py (box 522,38,752,368); the rest and the burned-in subtitles unchanged. The video itself, played from YouTube after a click, is not ours to change. A new attachment: the earlier one is not overwritten."
  },
  "video-Tkbqa08a5Ro": {
   "file": "templates/v4/media/video-Tkbqa08a5Ro.jpg",

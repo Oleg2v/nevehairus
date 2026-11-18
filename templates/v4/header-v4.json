@@ -18,7 +18,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "de3813b83c94678a4c7f8f3ca9f1f64ccf9a3451cbada9fcf34b23f26f614966",
+  "inputs_sha256": "f1a89a7a9b8cd412bb8a42ac9823e3e4d5f5518ad9bb8dcceeac06efebbc55cc",
   "widgets": [
    "button",
    "image",
@@ -34,12 +34,6 @@
    "header.phone": {
     "full": {
      "element": "529b598",
-     "field": "text"
-    }
-   },
-   "header.plain_toggle": {
-    "full": {
-     "element": "053c93c",
      "field": "text"
     }
    }
@@ -262,80 +256,6 @@
         "_title": "כפתורים"
        },
        "elements": [
-        {
-         "id": "053c93c",
-         "elType": "widget",
-         "settings": {
-          "text": "בשפה פשוטה",
-          "link": {
-           "url": "#plain",
-           "is_external": "",
-           "nofollow": "",
-           "custom_attributes": ""
-          },
-          "background_background": "classic",
-          "button_background_hover_background": "classic",
-          "border_radius": {
-           "unit": "px",
-           "top": "8",
-           "right": "8",
-           "bottom": "8",
-           "left": "8",
-           "isLinked": true
-          },
-          "text_padding": {
-           "unit": "custom",
-           "top": "calc(.75rem - 2px)",
-           "right": "1.5rem",
-           "bottom": "calc(.75rem - 2px)",
-           "left": "1.5rem",
-           "isLinked": false
-          },
-          "_css_classes": "nh-plain-toggle",
-          "border_border": "solid",
-          "border_width": {
-           "unit": "px",
-           "top": "2",
-           "right": "2",
-           "bottom": "2",
-           "left": "2",
-           "isLinked": true
-          },
-          "text_padding_tablet": {
-           "unit": "custom",
-           "top": "calc(.5rem - .75px)",
-           "right": ".875rem",
-           "bottom": "calc(.5rem - .75px)",
-           "left": ".875rem",
-           "isLinked": false
-          },
-          "text_padding_mobile": {
-           "unit": "custom",
-           "top": "calc(.5rem - .75px)",
-           "right": ".5rem",
-           "bottom": "calc(.5rem - .75px)",
-           "left": ".5rem",
-           "isLinked": false
-          },
-          "background_color": "#FFFFFF",
-          "button_text_color": "#4A2D84",
-          "border_color": "#4A2D84",
-          "button_background_hover_color": "#F3F0F9",
-          "hover_color": "#3A2269",
-          "button_hover_border_color": "#3A2269",
-          "__globals__": {
-           "background_color": "globals/colors?id=3efe2c1",
-           "button_text_color": "globals/colors?id=primary",
-           "border_color": "globals/colors?id=primary",
-           "button_background_hover_color": "globals/colors?id=68730b2",
-           "hover_color": "globals/colors?id=78b4a18",
-           "button_hover_border_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=accent"
-          }
-         },
-         "elements": [],
-         "widgetType": "button"
-        },
         {
          "id": "529b598",
          "elType": "widget",

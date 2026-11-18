@@ -1,17 +1,18 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.3.0 (research/09-v4-home-spec.md
-   §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3). No libraries; deferred; on
-   every page.
+   v4.js — child theme hello-elementor-child 1.4.0 (research/09-v4-home-spec.md
+   §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
+   No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed
       by functions.php): text size, high contrast, highlighted links, «עצירת
       אנימציות» (html.nh-a11y-still), reset. The choices live in localStorage
       `nh-a11y` (JSON); the inline head script applies them before the first
       paint.
-   2. «בשפה פשוטה» in the v4 header (an Elementor Button widget with the class
-      nh-plain-toggle and the link #plain) becomes a toggle button for
+   2. «בשפה פשוטה»: v4.3, the first option of the «נגישות» panel (it left the v4
+      header), shown only on a page with plain texts; it toggles
       html.nh-plainmode. The choice lives in localStorage `nh-plain` ("on" /
-      "off", the plugin's key, so it carries between v3.2 and v4 pages). Not on
-      a page with the plugin's own toggle (.v3-plainbtn), not in the editor.
+      "off", the plugin's key, so it carries between v3.2 and v4 pages). On a
+      v3.2 page the plugin's own script toggles it (the button carries
+      data-plain-toggle); «איפוס» turns it off too.
    3. What the v4 header needs: its height when it is sticky or floating
       (scroll-padding and the hero's top room in v4.css), the word «תפריט» in the
       menu toggle's name if it is missing, no jQuery animations (the menu's
@@ -23,6 +24,16 @@
       stays hidden), and the hero photo zooms in very slowly, once, after it has
       loaded. None of it under prefers-reduced-motion, with «עצירת אנימציות» or
       in the Elementor editor; without this script nothing is hidden.
+   5. v4.3 our cookie settings (#nh-cookies, printed by functions.php on every
+      page): the banner while no current choice is stored, the settings, the
+      openers (links to #nh-cookies), window.nhConsent for the plugin's widgets.
+      The record is the plugin's (localStorage `nh-consent-v1`).
+   6. v4.3 a question in place before an Elementor video loads YouTube while
+      embedded content is not allowed (the template #nh-video-ask).
+   7. v4.3 the contact form of the v4 home (Elementor Pro's Form, class
+      nh-contact-form) at the inner page's form's accessibility: checks on send,
+      an error summary that takes the focus, each error tied to its field, the
+      hint tied to the message field, the result message focused.
    ========================================================================= */
 (() => {
   "use strict";
@@ -69,6 +80,11 @@
     let state = read();
     const btn = d.querySelector(".nh-a11y-btn");
     const panel = d.getElementById("nh-a11y-panel");
+    const isPlain = () => html.classList.contains("nh-plainmode");
+    // a v3.2 page: the plugin's script owns plain language (its document delegate on [data-plain-toggle]); decided at
+    // click time, because this script runs before the plugin's
+    const pluginPlain = () => !d.querySelector(".nh-sec") && !!(w.nh && w.nh.__core);
+    let setPlain = null;                               // part 2: (on, quiet) → the v4 page's plain language
 
     // the classes on <html> and the panel's buttons follow `state`
     const sync = () => {
@@ -85,6 +101,8 @@
           if (s) s.textContent = STEPS[state.text];
         } else if (SWITCHES.indexOf(k) !== -1) {
           b.setAttribute("aria-pressed", String(state[k]));
+        } else if (k === "plain") {
+          b.setAttribute("aria-pressed", String(isPlain()));
         }
       });
     };
@@ -103,7 +121,8 @@
     const open = () => {
       panel.hidden = false;
       btn.setAttribute("aria-expanded", "true");
-      const first = panel.querySelector("button:not([disabled]), a[href]");
+      // the first control that shows (the plain option is hidden on a page without plain texts)
+      const first = Array.from(panel.querySelectorAll("button:not([disabled]), a[href]")).find((el) => el.getClientRects().length);
       if (first) first.focus({ preventScroll: true });
     };
     const close = (returnFocus) => {
@@ -121,6 +140,12 @@
         if (!b || !panel.contains(b)) return;
         const k = b.getAttribute("data-a11y");
         if (k === "close") { close(true); return; }
+        if (k === "plain") {
+          if (pluginPlain()) { w.setTimeout(sync, 0); return; }   // the plugin toggles it; our button follows
+          e.stopPropagation();                                     // and never a second toggle by the plugin
+          if (setPlain) setPlain(!isPlain(), false);
+          return;
+        }
         if (k === "text") {
           state.text = (state.text + 1) % STEPS.length;   // 100% → 115% → 130% → 100%
           announce("גודל הטקסט: " + STEPS[state.text]);
@@ -128,6 +153,20 @@
           state[k] = !state[k];
         } else if (k === "reset") {
           state = { text: 0, contrast: false, links: false, still: false };
+          // v4.3: plain language is one of the panel's options now, so «איפוס» turns it off too (quietly)
+          if (isPlain()) {
+            if (pluginPlain()) {
+              const off = () => {
+                html.classList.remove("nh-plainmode");
+                store.set("nh-plain", "off");
+                if (typeof w.nh.syncToggles === "function") w.nh.syncToggles();
+                d.dispatchEvent(new CustomEvent("nh:displaychange"));
+              };
+              if (typeof w.nh.keepPlace === "function") w.nh.keepPlace(off); else off();
+            } else if (setPlain) {
+              setPlain(false, true);
+            }
+          }
           announce("הגדרות הנגישות אופסו");
         } else {
           return;
@@ -156,13 +195,13 @@
       w.addEventListener("pageshow", (e) => { if (e.persisted) { state = read(); apply(); } });
     }
 
-    /* ---------- 2. «בשפה פשוטה» -------------------------------------------------- */
+    /* ---------- 2. «בשפה פשוטה» (v4.3: in the «נגישות» panel) --------------------------- */
     const headerLoc = d.querySelector(".elementor-location-header");
     const headerFloats = () => !!headerLoc && /^(sticky|fixed)$/.test(w.getComputedStyle(headerLoc).position);
-    const plainLinks = Array.from(d.querySelectorAll(".nh-plain-toggle a, a.nh-plain-toggle"));
-    if (plainLinks.length && !inEditor && !d.querySelector(".v3-plainbtn")) {
-      const isPlain = () => html.classList.contains("nh-plainmode");
-      const syncPlain = () => plainLinks.forEach((a) => a.setAttribute("aria-pressed", String(isPlain())));
+    const plainBtn = panel ? panel.querySelector('[data-a11y="plain"]') : null;
+    if (plainBtn && !inEditor && d.querySelector(".nh-plain, main .v3-plain")) {
+      const li = plainBtn.closest("li");
+      if (li) li.hidden = false;                          // only where the page has plain texts
       // nobody loses their place: the section at the top of the screen stays where it was, or, if it began
       // above the screen, its start comes to the top (just under the sticky or floating header)
       const keepPlace = (change) => {
@@ -177,8 +216,7 @@
         const dy = anchor.getBoundingClientRect().top - Math.max(before, top);
         if (Math.abs(dy) >= 1) w.scrollBy(0, dy);        // instant (:root { scroll-behavior: auto })
       };
-      const toggle = () => {
-        const on = !isPlain();
+      setPlain = (on, quiet) => {
         keepPlace(() => html.classList.toggle("nh-plainmode", on));
         store.set("nh-plain", on ? "on" : "off");
         try {                                             // a ?plain= link keeps working after a reload
@@ -188,26 +226,15 @@
             w.history.replaceState(w.history.state, "", url);
           }
         } catch (e) { /* old browsers */ }
-        syncPlain();
-        announce(on ? "הדף מוצג עכשיו בשפה פשוטה" : "הדף מוצג בשפה הרגילה");
+        sync();
+        if (!quiet) announce(on ? "הדף מוצג עכשיו בשפה פשוטה" : "הדף מוצג בשפה הרגילה");
       };
-      let spaceOn = null;                                 // Space acts on key-up, as on a native button
-      plainLinks.forEach((a) => {
-        a.setAttribute("role", "button");
-        a.addEventListener("click", (e) => { e.preventDefault(); toggle(); });   // mouse, touch and Enter
-        a.addEventListener("keydown", (e) => {
-          if (e.key === " " || e.key === "Spacebar") { e.preventDefault(); spaceOn = a; }
-        });
-        a.addEventListener("keyup", (e) => {
-          if ((e.key === " " || e.key === "Spacebar") && spaceOn === a) { e.preventDefault(); spaceOn = null; toggle(); }
-        });
-      });
-      syncPlain();
+      sync();
       w.addEventListener("pageshow", (e) => {
         if (!e.persisted) return;
         const q = /[?&]plain=([01])/.exec(w.location.search);
         html.classList.toggle("nh-plainmode", q ? q[1] === "1" : store.get("nh-plain") === "on");
-        syncPlain();
+        sync();
       });
     }
 
@@ -371,6 +398,308 @@
         else if (typeof reduce.addListener === "function") reduce.addListener(motionChanged);
       }
     }
+
+    /* ---------- 5. v4.3 our cookie settings (#nh-cookies) ----------------------------- */
+    const CKEY = "nh-consent-v1";                         // the plugin's record: the two read each other's choice
+    const cons = d.getElementById("nh-cookies");
+    const CV = cons ? Number(cons.getAttribute("data-v")) || 2 : 2;
+    const cRead = () => {
+      let r = null;
+      try { r = JSON.parse(store.get(CKEY) || "null"); } catch (e) { r = null; }
+      return r && typeof r === "object" && Number(r.v) >= CV ? r : null;   // an older version counts as none
+    };
+    const cSave = (c) => {
+      const rec = { necessary: true, stats: !!(c && c.stats), media: !!(c && c.media), date: new Date().toISOString(), v: CV };
+      store.set(CKEY, JSON.stringify(rec));
+      html.classList.remove("nh-consent-ask");
+      d.dispatchEvent(new CustomEvent("nh:consent", { detail: rec }));
+      return rec;
+    };
+    if (cons && cons.getAttribute("data-owner") === "theme" && !inEditor) {
+      const prefs = d.getElementById("nh-cookies-prefs");
+      const prefsBtn = cons.querySelector('[data-consent="prefs"]');
+      const media = d.getElementById("nh-c-media");
+      const title = d.getElementById("nh-cookies-title");
+      const mainEl = d.querySelector("main") || d.getElementById("content");
+      let opener = null;
+      // its height, for the room the page keeps at its end and the floating buttons above it (v4.css)
+      const setCH = () => html.style.setProperty("--nh-consent-h", Math.ceil(cons.getBoundingClientRect().height) + "px");
+      if ("ResizeObserver" in w) new w.ResizeObserver(setCH).observe(cons);
+      const showPrefs = (on) => {
+        if (!prefs) return;
+        prefs.hidden = !on;
+        if (prefsBtn) prefsBtn.setAttribute("aria-expanded", String(on));
+        if (on && media) { const r = cRead(); media.checked = !!(r && r.media); }
+        setCH();
+      };
+      const isOpen = () => cons.classList.contains("is-open");
+      const focusTo = (el) => {
+        const t = el && d.contains(el) && el !== d.body ? el : mainEl;
+        if (!t) return;
+        if (t === mainEl && !t.hasAttribute("tabindex")) t.setAttribute("tabindex", "-1");
+        t.focus({ preventScroll: true });
+      };
+      const open = (src) => {
+        opener = src || null;
+        cons.classList.add("is-open");
+        html.classList.add("nh-consent-open");
+        showPrefs(true);
+        if (title) title.focus();
+      };
+      const hide = (returnFocus) => {
+        const back = opener;
+        opener = null;
+        cons.classList.remove("is-open");
+        html.classList.remove("nh-consent-open");
+        showPrefs(false);
+        if (!cRead()) html.classList.add("nh-consent-ask");   // no choice yet: the banner stays
+        if (returnFocus) focusTo(back);
+      };
+      const chosen = (rec) => {
+        const back = opener;
+        hide(false);
+        announce("הבחירה נשמרה");
+        focusTo(back);
+        return rec;
+      };
+      cons.addEventListener("click", (e) => {
+        const b = e.target.closest("[data-consent]");
+        if (!b || !cons.contains(b)) return;
+        const k = b.getAttribute("data-consent");
+        if (k === "necessary") chosen(cSave({ media: false }));
+        else if (k === "all") chosen(cSave({ media: true }));
+        else if (k === "save") chosen(cSave({ media: !!(media && media.checked) }));
+        else if (k === "prefs") {
+          const on = !prefs || prefs.hidden;
+          showPrefs(on);
+          if (on && media) media.focus();
+        } else if (k === "close") {
+          if (cRead() || isOpen()) hide(true);
+          else showPrefs(false);
+        }
+      });
+      // Esc: the settings close (the banner stays while nothing is chosen)
+      cons.addEventListener("keydown", (e) => {
+        if (e.key !== "Escape" && e.key !== "Esc") return;
+        if (isOpen()) { e.preventDefault(); hide(true); }
+        else if (prefs && !prefs.hidden) { e.preventDefault(); showPrefs(false); if (prefsBtn) prefsBtn.focus(); }
+      });
+      // the openers: the footers' «הגדרות עוגיות» (#nh-cookies) and anything marked data-cookie-settings
+      d.addEventListener("click", (e) => {
+        const a = e.target.closest('a[href$="#nh-cookies"], [data-cookie-settings]');
+        if (!a) return;
+        const href = a.getAttribute("href");
+        if (href && href.charAt(0) !== "#" && href.split("#")[0] !== w.location.href.split("#")[0]) return;
+        e.preventDefault();
+        open(a);
+      });
+      if (w.location.hash === "#nh-cookies") open(null);
+      if (!cRead()) html.classList.add("nh-consent-ask"); // the head script may have been dropped by a cache tool
+      setCH();
+      // another tab chose
+      w.addEventListener("storage", (e) => {
+        if (e.key === CKEY || e.key === null) html.classList.toggle("nh-consent-ask", !cRead());
+      });
+      // the plugin's widgets (the voices widget of the v3.2 pages) read and save through this (nh-core.js 0.2.7)
+      w.nhConsent = { read: cRead, save: cSave, open: (src) => open(src || null), hide: () => hide(false) };
+    }
+
+    /* ---------- 6. v4.3 a question before an Elementor video loads YouTube ------------- */
+    const askTpl = d.getElementById("nh-video-ask");
+    if (askTpl && !inEditor) {
+      const mediaOK = () => { const r = w.nhConsent ? w.nhConsent.read() : cRead(); return !!(r && r.media); };
+      const saveMedia = () => {
+        const r = (w.nhConsent ? w.nhConsent.read() : cRead()) || {};
+        (w.nhConsent ? w.nhConsent.save : cSave)({ stats: !!r.stats, media: true });
+      };
+      let passing = null, askN = 0;
+      // the player appears in place of the cover: the focus goes to it, and it gets a name
+      const focusPlayer = (wgt, name) => {
+        if (!("MutationObserver" in w)) return;
+        const mo = new w.MutationObserver(() => {
+          const f = wgt.querySelector("iframe");
+          if (!f) return;
+          mo.disconnect();
+          if (!f.getAttribute("title")) f.setAttribute("title", name || "סרטון YouTube");
+          f.focus();
+        });
+        mo.observe(wgt, { childList: true, subtree: true });
+        w.setTimeout(() => mo.disconnect(), 15000);
+      };
+      const ask = (ov) => {
+        const wgt = ov.closest(".elementor-widget-video");
+        if (!wgt) return;
+        let q = wgt.parentElement ? wgt.parentElement.querySelector(":scope > .nh-video-ask") : null;
+        if (!q) {
+          q = askTpl.content.firstElementChild.cloneNode(true);
+          const qid = "nh-video-ask-" + (++askN);
+          q.querySelector(".nh-video-ask__q").id = qid;
+          q.setAttribute("aria-labelledby", qid);
+          q.querySelector('[data-ask="yes"]').setAttribute("aria-describedby", qid);
+          wgt.insertAdjacentElement("afterend", q);        // after the widget: inside it the frame clips it
+          q.addEventListener("click", (e) => {
+            const b = e.target.closest("[data-ask]");
+            if (!b) return;
+            const play = ov.querySelector(".elementor-custom-embed-play");
+            if (b.getAttribute("data-ask") === "yes") {
+              saveMedia();
+              q.remove();
+              const cap = wgt.parentElement ? wgt.parentElement.querySelector(".nh-video__cap") : null;
+              focusPlayer(wgt, cap ? cap.textContent.trim() : "");
+              passing = ov;
+              ov.click();                                   // Elementor's own handler starts the video now
+              passing = null;
+            } else {
+              q.remove();
+              (play || ov).focus({ preventScroll: true });
+            }
+          });
+        }
+        const yes = q.querySelector('[data-ask="yes"]');
+        if (yes) yes.focus();
+      };
+      const gate = (e) => {
+        const ov = e.target && e.target.closest ? e.target.closest(".elementor-widget-video .elementor-custom-embed-image-overlay") : null;
+        if (!ov || ov === passing || mediaOK()) return;
+        if (e.type === "keydown" && !(e.key === "Enter" || e.key === " " || e.key === "Spacebar")) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+        ask(ov);
+      };
+      // capture phase on window: before Elementor's handlers on the cover
+      w.addEventListener("click", gate, true);
+      w.addEventListener("keydown", gate, true);
+    }
+
+    /* ---------- 7. v4.3 the contact form (Elementor Pro's Form, .nh-contact-form) ------- */
+    const T = Object.assign({
+      required: "צריך למלא את השדה הזה.", tel: "מספר הטלפון לא תקין: צריך 9 או 10 ספרות, ובהתחלה 0.",
+      consent: "צריך לסמן את התיבה כדי לשלוח.", summary1: "נמצאה שגיאה אחת בטופס:", summaryN: "נמצאו {n} שגיאות בטופס:",
+      consentName: "אישור מדיניות הפרטיות",
+    }, w.nhFormText || {});
+    d.querySelectorAll(".nh-contact-form form.elementor-form").forEach((form, fi) => {
+      if (inEditor) return;
+      const nameIn = form.querySelector('[name="form_fields[name]"]');
+      const telIn = form.querySelector('[name="form_fields[phone]"]');
+      const msgIn = form.querySelector('[name="form_fields[message]"]');
+      const consIn = form.querySelector('[name="form_fields[consent]"]');
+      form.setAttribute("novalidate", "");
+      if (!form.getAttribute("aria-label")) form.setAttribute("aria-label", form.getAttribute("name") || "בקשה לביקור");
+      if (nameIn) nameIn.setAttribute("autocomplete", "name");
+      if (telIn) { telIn.setAttribute("autocomplete", "tel"); telIn.setAttribute("inputmode", "tel"); telIn.setAttribute("dir", "ltr"); }
+      const hint = form.querySelector("#nh-form-hint");
+      // the message field and its hint (the hint stays tied; an error is added in front of it)
+      const baseDesc = new Map();
+      if (msgIn && hint) baseDesc.set(msgIn, hint.id);
+      const labelOf = (input) => {
+        if (input === consIn) return T.consentName;
+        const l = input.id ? form.querySelector('label[for="' + input.id + '"]') : null;
+        return l ? l.textContent.replace(/\s*\*\s*$/, "").trim() : "";
+      };
+      // the summary: above the fields, hidden until a send finds errors; it takes the focus
+      const sum = d.createElement("div");
+      sum.className = "nh-form-errors";
+      sum.id = "nh-form-errors-" + fi;
+      sum.setAttribute("tabindex", "-1");
+      sum.hidden = true;
+      sum.innerHTML = '<p class="nh-form-errors__title" id="' + sum.id + '-t"></p><ul class="nh-form-errors__list"></ul>';
+      sum.setAttribute("role", "group");
+      sum.setAttribute("aria-labelledby", sum.id + "-t");
+      form.insertBefore(sum, form.firstChild);
+      const setErr = (input, msg) => {
+        const group = input.closest(".elementor-field-group");
+        const eid = "nh-err-" + fi + "-" + (input.id || input.name).replace(/\W+/g, "-");
+        let p = d.getElementById(eid);
+        if (msg) {
+          if (!p) { p = d.createElement("p"); p.id = eid; p.className = "nh-field-error"; (group || input.parentElement).appendChild(p); }
+          p.textContent = msg;
+          input.setAttribute("aria-invalid", "true");
+          input.setAttribute("aria-describedby", [eid, baseDesc.get(input)].filter(Boolean).join(" "));
+          if (group) group.classList.add("nh-has-error");
+        } else {
+          if (p) p.remove();
+          input.removeAttribute("aria-invalid");
+          if (baseDesc.has(input)) input.setAttribute("aria-describedby", baseDesc.get(input));
+          else input.removeAttribute("aria-describedby");
+          if (group) group.classList.remove("nh-has-error");
+        }
+      };
+      if (msgIn && hint) msgIn.setAttribute("aria-describedby", hint.id);
+      const check = () => {
+        const errs = [];
+        if (nameIn && !nameIn.value.trim()) errs.push([nameIn, T.required]);
+        if (telIn) {
+          const v = telIn.value.trim();
+          if (!v) errs.push([telIn, T.required]);
+          else if (!/^0\d{8,9}$/.test(v.replace(/\D+/g, ""))) errs.push([telIn, T.tel]);
+        }
+        if (consIn && !consIn.checked) errs.push([consIn, T.consent]);
+        return errs;
+      };
+      const show = (errs) => {
+        [nameIn, telIn, consIn].forEach((i) => i && setErr(i, ""));
+        errs.forEach(([i, m]) => setErr(i, m));
+        const list = sum.querySelector("ul");
+        list.textContent = "";
+        if (!errs.length) { sum.hidden = true; return; }
+        errs.forEach(([i, m]) => {
+          const li = d.createElement("li");
+          const a = d.createElement("a");
+          a.href = "#" + i.id;
+          a.textContent = labelOf(i) + ": " + m;
+          a.addEventListener("click", (e) => { e.preventDefault(); i.focus(); });
+          li.appendChild(a);
+          list.appendChild(li);
+        });
+        sum.querySelector(".nh-form-errors__title").textContent = errs.length === 1 ? T.summary1 : T.summaryN.replace("{n}", String(errs.length));
+        sum.hidden = false;
+        sum.focus();
+      };
+      // on send: our checks first (capture phase, before Pro's handler); with errors Pro never sends
+      form.addEventListener("submit", (e) => {
+        const errs = check();
+        if (errs.length) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          show(errs);
+        } else {
+          sum.hidden = true;
+        }
+      }, true);
+      // an error goes as soon as its field is right (no new errors while typing)
+      form.addEventListener("input", (e) => {
+        const i = e.target;
+        if (i.getAttribute && i.getAttribute("aria-invalid") === "true") {
+          const still = check().find(([x]) => x === i);
+          setErr(i, still ? still[1] : "");
+          if (!form.querySelector('[aria-invalid="true"]')) sum.hidden = true;
+        }
+      });
+      form.addEventListener("change", (e) => { if (e.target === consIn && consIn.checked) setErr(consIn, ""); });
+      // Pro's answer: its message gets the focus (role=alert already speaks it); its own field errors are tied
+      if ("MutationObserver" in w) {
+        new w.MutationObserver((recs) => {
+          recs.forEach((r) => r.addedNodes.forEach((n) => {
+            if (!(n instanceof w.HTMLElement)) return;
+            const msg = n.matches(".elementor-message") ? n : n.querySelector && n.querySelector(".elementor-message");
+            if (!msg) return;
+            const group = msg.closest(".elementor-field-group");
+            if (group) {                                    // a field error from the server
+              const input = group.querySelector("input, textarea, select");
+              if (input) {
+                msg.id = msg.id || "nh-srv-" + fi + "-" + (input.id || "f");
+                input.setAttribute("aria-invalid", "true");
+                input.setAttribute("aria-describedby", [msg.id, baseDesc.get(input)].filter(Boolean).join(" "));
+              }
+              return;
+            }
+            msg.setAttribute("tabindex", "-1");             // the form's result: success or failure
+            w.setTimeout(() => msg.focus(), 50);
+          }));
+        }).observe(form, { childList: true, subtree: true });
+      }
+    });
   };
 
   if (d.readyState === "loading") d.addEventListener("DOMContentLoaded", init, { once: true });

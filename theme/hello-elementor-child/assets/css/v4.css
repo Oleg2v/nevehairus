@@ -8,7 +8,7 @@
    look as before:
    - v4 classes the documents carry: nh-sec, nh-hero__text, nh-card,
      nh-framed, nh-checklist, nh-credit, nh-video__cap, nh-more, nh-cover-img,
-     nh-ratio-4x3, nh-full / nh-plain, nh-plain-toggle, nh-visually-hidden,
+     nh-ratio-4x3, nh-full / nh-plain, nh-visually-hidden,
      nh-footer-v4;
    - v4.1 classes: nh-hero with nh-hero__img (its photo; the focal point from
      --nh-hero-focus / --nh-focus: "x% y%", or the classes nh-fx-0…100 and
@@ -541,8 +541,8 @@ html:has(.e-con.nh-header) { scroll-padding-top: calc(var(--nh4-header-h, 0px) +
 
 /* v4.1: the logo (the live PNG, white ground) on a white rounded badge in both states. The badge takes the row's own
    padding (6px above and below) and the gutter at its side, so the header keeps its height and the logo its place;
-   the keyboard ring goes round the badge. On the smallest phones (≤370px) the logo is 36px high instead of 40, so
-   the one row (logo, «בשפה פשוטה», phone, «תפריט») still fits */
+   the keyboard ring goes round the badge. v4.3: the phone row is logo, phone, «תפריט» («בשפה פשוטה» is in the
+   «נגישות» panel), so the logo keeps its 40px on every phone */
 .elementor-location-header .e-con.nh-header .elementor-widget-image img {
   box-sizing: content-box;
   padding: 6px;
@@ -550,9 +550,6 @@ html:has(.e-con.nh-header) { scroll-padding-top: calc(var(--nh4-header-h, 0px) +
   margin-inline-start: -6px;
   border-radius: 12px;
   background-color: #FFFFFF;
-}
-@media (max-width: 370px) {
-  .elementor-location-header .e-con.nh-header .elementor-widget-image img { height: 36px; }
 }
 .elementor-location-header .e-con.nh-header .elementor-widget-image a:focus-visible { outline: none; }
 .elementor-location-header .e-con.nh-header .elementor-widget-image a:focus-visible img { outline: 3px solid #4A2D84; outline-offset: 2px; }
@@ -633,23 +630,9 @@ html:has(.e-con.nh-header) { scroll-padding-top: calc(var(--nh4-header-h, 0px) +
 }
 body:has(.elementor-location-header .elementor-menu-toggle.elementor-active) .nh-float { z-index: 90; }
 
-/* ---------- «בשפה פשוטה» (§5.5): the pressed toggle is purple with white text;
-   the label stays. !important: Elementor has no setting for a pressed state, and
-   its own hover/focus colours (0,5,0) would otherwise win ---------- */
-:is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle)[aria-pressed="true"] {
-  background-color: #4A2D84 !important;
-  border-color: #4A2D84 !important;
-  color: #FFFFFF !important;
-}
-:is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle)[aria-pressed="true"]:hover {
-  background-color: #3A2269 !important;
-  border-color: #3A2269 !important;
-}
-:is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle)[aria-pressed="true"] :is(.elementor-button-text, svg) { color: inherit !important; fill: currentColor !important; }
-
 /* ---------- v4.1: the floating header's transparent state (research/10 §2) ----------
    At the top of the page, over the hero's photo and its top shade: no ground, white
-   menu text, white outline buttons («בשפה פשוטה», the phone), «צור קשר» white with
+   menu text, the phone as a white outline button, «צור קשר» white with
    purple text, the current item's bar white. Only with the scripts (html.nh-js: without
    them the header stays solid, never white on white), only on screen. Solid again from
    24px of scroll (html.nh-header-solid), while the phone menu is open (a white panel
@@ -670,20 +653,6 @@ body:has(.elementor-location-header .elementor-menu-toggle.elementor-active) .nh
     fill: #FFFFFF;
   }
   html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-nav-menu--main .elementor-item.elementor-item-active { box-shadow: inset 0 -3px 0 #FFFFFF; }
-  /* «בשפה פשוטה»: a white outline button; on hover and when pressed, white with purple text */
-  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .nh-plain-toggle .elementor-button {
-    background-color: transparent;
-    border-color: #FFFFFF;
-    color: #FFFFFF;
-    fill: #FFFFFF;
-  }
-  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .nh-plain-toggle .elementor-button:is(:hover, [aria-pressed="true"]) {
-    background-color: #FFFFFF !important;
-    border-color: #FFFFFF !important;
-    color: #4A2D84 !important;
-    fill: #4A2D84 !important;
-  }
-  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .nh-plain-toggle .elementor-button[aria-pressed="true"]:hover { background-color: #F3F0F9 !important; color: #3A2269 !important; }
   /* the phone (the number on desktops, the icon below 1025px): a white outline button. The ring is drawn inside
      the box (the solid state's buttons have no border), so nothing moves when the header changes */
   html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-button[href^="tel:"] {
@@ -696,13 +665,13 @@ body:has(.elementor-location-header .elementor-menu-toggle.elementor-active) .nh
   html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-button[href^="tel:"]:hover { background-color: #FFFFFF; color: #4A2D84; }
   html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-button[href^="tel:"]:hover svg { fill: #4A2D84; }
   /* «צור קשר» (any other button of the header): white with purple text */
-  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-widget-button:not(.nh-plain-toggle) .elementor-button:not([href^="tel:"]) {
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-widget-button .elementor-button:not([href^="tel:"]) {
     background-color: #FFFFFF;
     border-color: #FFFFFF;
     color: #4A2D84;
     fill: #4A2D84;
   }
-  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-widget-button:not(.nh-plain-toggle) .elementor-button:not([href^="tel:"]):hover { background-color: #F3F0F9; color: #3A2269; }
+  html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-widget-button .elementor-button:not([href^="tel:"]):hover { background-color: #F3F0F9; color: #3A2269; }
   /* the menu toggle «תפריט»: white, with a white ring */
   html.nh-js:not(.nh-header-solid) body:not(.elementor-editor-active):has(.nh-hero__img) .elementor-location-header:not(:has(.elementor-menu-toggle.elementor-active, :focus-visible)) .e-con.nh-header .elementor-menu-toggle {
     background-color: transparent;
@@ -1052,6 +1021,186 @@ html.nh-a11y-still *::after {
   text-underline-offset: .2em;
 }
 .nh-a11y-panel__statement:hover { color: #3A2269; text-decoration-thickness: 2px; }
+/* v4.3: an option that does not apply to this page (the plain option, where the page has no plain texts) */
+.nh-a11y-panel__list > li[hidden] { display: none !important; }
+
+/* =========================================================================
+   v4.3 our cookie settings (#nh-cookies: functions.php; v4.js part 5). One
+   region, not a dialog: a banner at the foot of the screen while no current
+   choice is stored (html.nh-consent-ask, set before the first paint), and the
+   settings when opened (.is-open). Light, as the «נגישות» panel. Under the
+   floating buttons (8990 < 9000), so «נגישות» opens over it; on desktops at the
+   inline start (right), never over the floating button at the inline end.
+   ========================================================================= */
+.nh-consent {
+  display: none;
+  position: fixed;
+  z-index: 8990;
+  box-sizing: border-box;
+  inset-inline-start: 24px;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  width: min(36rem, calc(100vw - 148px));
+  max-height: calc(100vh - 1rem);
+  max-height: calc(100dvh - 1rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.25rem;
+  border: 1px solid #D9DCE3;
+  border-radius: 12px;
+  background-color: #FFFFFF;
+  color: #1F2421;
+  box-shadow: 0 16px 40px -12px rgba(28, 24, 48, .32);
+  font: 400 1.0625rem/1.55 "Assistant", "Arial Hebrew", Arial, sans-serif;
+  text-align: start;
+}
+html.nh-consent-ask .nh-consent,
+.nh-consent.is-open { display: block; }
+.nh-consent *,
+.nh-consent *::before,
+.nh-consent *::after { box-sizing: border-box; }
+.nh-consent__title {
+  margin: 0 0 .5rem;
+  font: 700 1.25rem/1.3 "Assistant", "Arial Hebrew", Arial, sans-serif;
+  color: #1F2421;
+}
+.nh-consent__title:focus { outline: none; }
+.nh-consent__title:focus-visible { outline: 3px solid #4A2D84; outline-offset: 2px; }
+.nh-consent__text p { margin: 0; }
+.nh-consent a { color: #4A2D84; font-weight: 600; text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.nh-consent a:hover { color: #3A2269; text-decoration-thickness: 2px; }
+.nh-consent__ask,
+.nh-consent__row,
+.nh-video-ask__row { display: flex; flex-wrap: wrap; gap: .5rem; margin-block-start: .875rem; }
+/* a choice is stored: opened from «הגדרות עוגיות», only the settings show */
+html:not(.nh-consent-ask) .nh-consent__ask { display: none; }
+/* «רק הכרחיות» and «אישור הכול» equally prominent; «הגדרות», «סגירה» and «לא עכשיו» quieter */
+.nh-consent__btn {
+  flex: 1 1 auto;
+  min-height: 2.75rem;
+  margin: 0;
+  padding: .5rem 1rem;
+  border: 2px solid #4A2D84;
+  border-radius: 8px;
+  background-color: #4A2D84;
+  color: #FFFFFF;
+  font: 600 1.0625rem/1.3 "Assistant", "Arial Hebrew", Arial, sans-serif;
+  cursor: pointer;
+}
+.nh-consent__btn:hover { background-color: #3A2269; border-color: #3A2269; color: #FFFFFF; }
+.nh-consent__btn--quiet { background-color: #FFFFFF; color: #4A2D84; }
+.nh-consent__btn--quiet:hover { background-color: #F3F0F9; color: #3A2269; }
+:is(.nh-consent, .nh-video-ask) :is(button, a, input):focus-visible { outline: 3px solid #4A2D84; outline-offset: 2px; }
+.nh-consent__prefs[hidden] { display: none !important; }
+.nh-consent__list { display: grid; gap: .625rem; margin: .875rem 0 0; padding: 0; list-style: none; }
+.nh-consent__list li { display: flex; align-items: flex-start; gap: .625rem; margin: 0; }
+.nh-consent__list input { flex: none; width: 1.5rem; height: 1.5rem; margin: .125rem 0 0; accent-color: #4A2D84; }
+.nh-consent__list label { flex: 1 1 auto; cursor: pointer; }
+.nh-consent__list input:disabled + label { cursor: default; }
+/* the page keeps room at its end for the banner, and a focused control is scrolled clear of it */
+html:is(.nh-consent-ask, .nh-consent-open) { scroll-padding-block-end: calc(var(--nh-consent-h, 12rem) + 1.5rem); }
+html:is(.nh-consent-ask, .nh-consent-open) body:not(:has(.e-con.nh-footer-v4)) { padding-block-end: calc(var(--nh-consent-h, 12rem) + 48px); }
+@media (min-width: 768px) {
+  html:is(.nh-consent-ask, .nh-consent-open) .e-con.nh-footer-v4 { padding-block-end: calc(var(--nh-consent-h, 12rem) + 48px) !important; }
+}
+/* phones: the whole width at the foot; the floating buttons rise above it */
+@media (max-width: 767px) {
+  .nh-consent {
+    inset-inline: .5rem;
+    bottom: calc(.5rem + env(safe-area-inset-bottom, 0px));
+    width: auto;
+    max-height: calc(100vh - 5rem);
+    max-height: calc(100dvh - 5rem);
+    padding: 1rem;
+  }
+  html:is(.nh-consent-ask, .nh-consent-open) .nh-float { bottom: calc(var(--nh-consent-h, 14rem) + 1rem + env(safe-area-inset-bottom, 0px)); }
+  html:is(.nh-consent-ask, .nh-consent-open) .nh-a11y-panel { max-height: calc(100dvh - var(--nh-consent-h, 14rem) - 160px); }
+  html:is(.nh-consent-ask, .nh-consent-open) { scroll-padding-block-end: calc(var(--nh-consent-h, 14rem) + 136px); }
+  html:is(.nh-consent-ask, .nh-consent-open) body:has(.nh-float) .e-con.nh-footer-v4 { padding-block-end: calc(136px + var(--nh-consent-h, 14rem) + env(safe-area-inset-bottom, 0px)) !important; }
+}
+/* under the open phone menu, as the floating buttons */
+body:has(.elementor-location-header .elementor-menu-toggle.elementor-active) .nh-consent { z-index: 90; }
+
+/* ---------- v4.3 the question before a video loads YouTube (v4.js part 6): in the
+   flow right after the video, in its card ---------- */
+.nh-video-ask {
+  margin: 0;
+  padding: 1rem 1.25rem 1.25rem;
+  border-block-start: 1px solid #D9DCE3;
+  background-color: #FFFFFF;
+  color: #1F2421;
+  font: 400 1.0625rem/1.55 "Assistant", "Arial Hebrew", Arial, sans-serif;
+  text-align: start;
+}
+.nh-video-ask__q { margin: 0; font-weight: 600; }
+.nh-video-ask__row { margin-block-start: .75rem; }
+.nh-video-ask .nh-consent__btn { flex: 0 1 auto; }
+
+/* =========================================================================
+   v4.3 the contact form of the v4 home (Elementor Pro's Form, .nh-contact-form,
+   in a white card): the inner page's form's look (forms.css of the plugin) —
+   56px fields with a 2px #4F5550 frame, a 3px purple focus ring, a 24px consent
+   box, errors #A8261B (6.6:1 on white) beside their fields and in a summary
+   that takes the focus (v4.js part 7). Colours and type are the widget's own
+   settings (the Kit); here what has no control.
+   ========================================================================= */
+.elementor .elementor-element.nh-contact-form .elementor-field-group .elementor-field-textual {
+  min-height: 56px;
+  padding: .75rem 1rem;
+  line-height: 1.4;
+}
+.elementor .elementor-element.nh-contact-form .elementor-field-group textarea.elementor-field-textual { min-height: 8rem; resize: vertical; }
+.elementor .elementor-element.nh-contact-form .elementor-field-group .elementor-field-textual:focus,
+.elementor .elementor-element.nh-contact-form .elementor-field-group .elementor-field-textual:focus-visible {
+  outline: 3px solid #4A2D84;
+  outline-offset: 3px;
+  box-shadow: none;
+}
+.elementor .elementor-element.nh-contact-form .elementor-field-group.elementor-field-group-phone .elementor-field-textual { direction: ltr; text-align: right; }
+/* the hint sits right under the message field */
+.elementor .elementor-element.nh-contact-form .elementor-field-group.elementor-field-group-message { margin-block-end: 6px; }
+.elementor .elementor-element.nh-contact-form .elementor-field-type-html p { margin: 0; }
+.elementor .elementor-element.nh-contact-form .nh-req { color: #A8261B; font-weight: 700; }
+.elementor .elementor-element.nh-contact-form a { color: #4A2D84; font-weight: 600; text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.elementor .elementor-element.nh-contact-form a:hover { color: #3A2269; text-decoration-thickness: 2px; }
+/* the consent: a 24px box; the whole label is its target */
+.elementor .elementor-element.nh-contact-form .elementor-field-type-acceptance .elementor-field-option { display: flex; align-items: flex-start; gap: .625rem; }
+.elementor .elementor-element.nh-contact-form .elementor-field-type-acceptance input[type="checkbox"] {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: .125rem 0 0;
+  accent-color: #4A2D84;
+}
+.elementor .elementor-element.nh-contact-form .elementor-field-type-acceptance input[type="checkbox"]:focus-visible { outline: 3px solid #4A2D84; outline-offset: 2px; }
+.elementor .elementor-element.nh-contact-form .elementor-field-type-acceptance .elementor-field-option label { font-weight: 400; cursor: pointer; }
+/* errors */
+.elementor .elementor-element.nh-contact-form .elementor-field-group.nh-has-error .elementor-field-textual { border-color: #A8261B; }
+.elementor .elementor-element.nh-contact-form .nh-field-error { width: 100%; margin: .375rem 0 0; color: #A8261B; font-weight: 600; font-size: 1rem; line-height: 1.4; }
+.elementor .elementor-element.nh-contact-form .nh-form-errors {
+  width: 100%;
+  margin: 0 0 1.25rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid #A8261B;
+  border-radius: 8px;
+  background-color: #FBEDEB;
+  color: #1F2421;
+}
+.elementor .elementor-element.nh-contact-form .nh-form-errors[hidden] { display: none !important; }
+.elementor .elementor-element.nh-contact-form .nh-form-errors:focus { outline: 3px solid #4A2D84; outline-offset: 2px; }
+.elementor .elementor-element.nh-contact-form .nh-form-errors__title { margin: 0 0 .375rem; color: #A8261B; font-weight: 700; }
+.elementor .elementor-element.nh-contact-form .nh-form-errors__list { margin: 0; padding-inline-start: 1.25rem; }
+.elementor .elementor-element.nh-contact-form .nh-form-errors a { color: #A8261B; }
+/* Pro's own messages: no icon glyph (the eicons font is not loaded), a frame, focusable */
+.elementor .elementor-element.nh-contact-form .elementor-message { margin-block-start: 1rem; padding: .875rem 1rem; border-radius: 8px; font-weight: 600; line-height: 1.5; }
+.elementor .elementor-element.nh-contact-form .elementor-message::before { content: none; }
+.elementor .elementor-element.nh-contact-form .elementor-message-success { border: 2px solid #2F6B2A; background-color: #EEF3E8; }
+.elementor .elementor-element.nh-contact-form .elementor-message-danger { border: 2px solid #A8261B; background-color: #FBEDEB; }
+.elementor .elementor-element.nh-contact-form .elementor-field-group .elementor-message { margin-block-start: .375rem; padding: 0; border: 0; background: none; }
+.elementor .elementor-element.nh-contact-form .elementor-message:focus { outline: 3px solid #4A2D84; outline-offset: 2px; }
+/* no fade while sending (motion rules: nothing changes by itself) */
+.elementor .elementor-element.nh-contact-form .elementor-form.elementor-form-waiting { opacity: 1 !important; }
+.elementor .elementor-element.nh-contact-form .elementor-field-type-submit .elementor-button { min-height: 3.5rem; }
+.elementor .elementor-element.nh-contact-form .elementor-field-type-submit .elementor-button:focus-visible { outline: 3px solid #4A2D84; outline-offset: 3px; }
 
 /* =========================================================================
    High contrast (`html.nh-a11y-contrast`, §5.3): black ground, white text,
@@ -1073,6 +1222,16 @@ html.nh-a11y-contrast :where(.elementor-location-header, .elementor-location-foo
   text-shadow: none !important;
   box-shadow: none !important;
 }
+/* v4.3: the cookie settings and the video question follow the high contrast */
+html.nh-a11y-contrast :is(.nh-consent, .nh-video-ask),
+html.nh-a11y-contrast :is(.nh-consent, .nh-video-ask) :where(:not(svg, svg *)) {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+  box-shadow: none !important;
+}
+html.nh-a11y-contrast :is(.nh-consent, .nh-video-ask) a { color: #FFE600 !important; }
+html.nh-a11y-contrast :is(.nh-consent, .nh-video-ask) .nh-consent__btn { color: #FFE600 !important; border-color: #FFE600 !important; }
 /* the floating column and its wrapper stay transparent (only the round buttons are painted) */
 html.nh-a11y-contrast .nh-float,
 html.nh-a11y-contrast .nh-float .nh-a11y { background-color: transparent !important; }
@@ -1098,14 +1257,12 @@ html.nh-a11y-contrast .e-con.nh-footer-v4 { border-top: 1px solid #FFFFFF !impor
 /* the two floating buttons keep a ring that shows on black */
 html.nh-a11y-contrast .nh-float :is(.nh-a11y-btn, .nh-call-btn) { box-shadow: inset 0 0 0 2px #FFE600, 0 0 0 2px #000000 !important; }
 /* a pressed control is inverted: black on yellow */
-html.nh-a11y-contrast :is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle, .nh-a11y-opt)[aria-pressed="true"],
+html.nh-a11y-contrast .nh-a11y-opt[aria-pressed="true"],
 html.nh-a11y-contrast .nh-float .nh-a11y-btn[aria-expanded="true"] {
   background-color: #FFE600 !important;
   border-color: #FFE600 !important;
   color: #000000 !important;
 }
-html.nh-a11y-contrast :is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle)[aria-pressed="true"] * { color: inherit !important; }
-html.nh-a11y-contrast :is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle)[aria-pressed="true"] svg { fill: currentColor !important; }
 /* the current menu item keeps its bar, in yellow */
 html.nh-a11y-contrast .elementor-location-header .e-con.nh-header .elementor-widget-nav-menu .elementor-nav-menu--main .elementor-item.elementor-item-active { box-shadow: inset 0 -3px 0 #FFE600 !important; }
 html.nh-a11y-contrast .elementor-location-header .e-con.nh-header .elementor-widget-nav-menu .elementor-nav-menu--dropdown a.elementor-item-active { box-shadow: inset calc(3px * var(--direction-multiplier, -1)) 0 0 #FFE600 !important; }
@@ -1148,10 +1305,13 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
 
 /* ---------- Windows high contrast (forced colours): states stay visible ---------- */
 @media (forced-colors: active) {
+  .nh-consent { border: 1px solid CanvasText; }
+  .nh-consent__btn { border: 2px solid ButtonText; }
+  .nh-consent__list input { accent-color: auto; }
   .nh-a11y-btn,
   .nh-call-btn { border: 2px solid ButtonText; }
   .nh-a11y-panel { border-color: CanvasText; }
-  :is(.nh-plain-toggle .elementor-button, a.nh-plain-toggle, .nh-a11y-opt)[aria-pressed="true"] {
+  .nh-a11y-opt[aria-pressed="true"] {
     forced-color-adjust: none;
     background-color: Highlight !important;
     border-color: Highlight !important;
@@ -1168,7 +1328,7 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
 /* ---------- Print: no floating buttons, no sticky or floating header, nothing
    hidden or moving; the hero's photo above its text, the text in ink ---------- */
 @media print {
-  .nh-float { display: none !important; }
+  .nh-float, .nh-consent, .nh-video-ask { display: none !important; }
   .elementor-location-header:has(.e-con.nh-header) { position: static !important; }
   .nh-reveal { opacity: 1 !important; translate: none !important; }
   .nh-hero__img img { animation: none !important; transform: none !important; }

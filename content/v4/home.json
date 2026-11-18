@@ -37,7 +37,8 @@
     "contact.whatsapp: the live site lists no WhatsApp number, and 08-9403047 is a landline. Oleg 17.11: the WhatsApp button is off until the home confirms a WhatsApp number (WHATSAPP in scripts/build_v4.py is empty, so the block is kept but not built; to bring the button back: set the number there as https://wa.me/972…, run python3 -I scripts/build_v4.py, then python3 -I scripts/test_site.py v4 --go). contact.phone is the live number (tel:089403047).",
     "hero.cta_contact: in v4.1 the button links to #contact, the contact band, until the contact page exists (spec 10 §1.1); its label is unchanged.",
     "Typography only, no words changed (review 17.11): contacts.email.body has <wbr> before the @ of each visible address, so a narrow column breaks a line there and never inside the domain (the mailto: links are unchanged); contacts.address.body puts the P.O. box on a second line (<br>) and keeps «ת.ד. 28» and «נס ציונה» whole (&nbsp;).",
-    "v4.3 (Itzik 18.11): the home drops the large years 1957/1985 (pro.year*), the testimonials band (testimonials.*) and WhatsApp (contact.whatsapp, question closed): all moved to retired_blocks. The cards and the videos are one section «הבית שלנו» (specialties.title; the live «תחומי התמחות» is kept as retired «specialties.title (v4.2)»). Every section is on one cream ground."
+    "v4.3 (Itzik 18.11): the home drops the large years 1957/1985 (pro.year*), the testimonials band (testimonials.*) and WhatsApp (contact.whatsapp, question closed): all moved to retired_blocks. The cards and the videos are one section «הבית שלנו» (specialties.title; the live «תחומי התמחות» is kept as retired «specialties.title (v4.2)»). Every section is on one cream ground.",
+    "v4.3 (Itzik 18.11): «מעון לבעלי צרכים מיוחדים» is open (special.more_title retired); «בשפה פשוטה» is in the theme's «נגישות» panel (header.plain_toggle retired); the band «נשמח שתבואו להכיר אותנו» has the visit form of the inner page instead of the phone (contact.phone retired; contact.form.* are #33's texts; contact.sub is the form's lead, because the old subline repeated the last sentence of the now-open text just above it). The footer links gained «הגדרות עוגיות»."
   ],
   "menu": [
     {
@@ -311,13 +312,6 @@
       "plain_status": null,
       "source": "live home, module 5bb32d1fb3245: paragraphs 2–3 (from «נווה האירוס הוא מעון…» to the end of «…מעון לבעלי צרכים מיוחדים הוא מקום. בית. …»)"
     },
-    "special.more_title": {
-      "kind": "text",
-      "full": "להמשך קריאה",
-      "plain": null,
-      "plain_status": null,
-      "source": "UI label of the v4 accordion (spec §4.5), not live copy"
-    },
     "special.rest": {
       "kind": "html",
       "full": "<p>מעון לבעלי צרכים מיוחדים צריך להיות כזה המאפשר גם למשפחות החוסים, לקחת חלק בחייהם, גם אם אינם גרים בביתם השורשי. האפשרות להגיע למעון, לבקר, לטייל בין החללים השונים, צריכה להיות מובנת מאליה ולא ממודרת. השיתוף בין הנהלת המעון, (אשר גם מנצחת על תהליך השיפור והשינוי במעון), הצוותים המטפלים השונים, לבין משפחות החוסים, מאפשר תקשורת פתוחה, שקיפות ושיתוף פעולה בכל הקשור לחיי היומיום במעון ולחזון העתידי שלו. משפחותיהם של החוסים מהווות חלק בלתי נפרד מהצוות התומך, המקיף את החוסה ועל כך, מעצימים את הביטחון שלו/ה, מאפשרים להתפנות לטיפולים השונים ולהתקדמות בדרך. התקשורת בין המשפחות לצוותים היא חלק בלתי נפרד מהצלחתו של מעון לבעלי צרכים מיוחדים, שכן, ישנם מעגלי תקשורת אשר נפתחים ונסגרים בכל פעם, והיות וישנם חוסים אשר נמצאים גם במסגרות חוץ, חד יומיות, חשוב להנהלת מעון נווה האירוס, להיות בקשר רציף עם המשפחות וזאת על מנת לשמר את תהליך הטיפול ולהתקדם בכל פעם, קצת, צעד צעד.</p><p>מעון לבעלי צרכים מיוחדים, הוא מקום מיוחד, ייחודי ורגיש מאד. העבודה עם אוכלוסייה בעלת צרכים מיוחדים היא זכות גדולה ועדיין לא כולם בוחרים בה ולכן, הצוותים בנווה האירוס נבחרו בקפידה תוך התייחסות ספציפית לכישורים מתאימים וכמובן, לב רחב וסבלנות אין קץ, שכן, הטיפול באוכלוסייה שכזו, אינו מניב תוצאות מיידיות (וכאלו שגם לא מניב כלל) ולכן, נדרשת סבלנות גדולה ונתינה ענקית.</p><p>הצוותים השונים, העובדים עם החוסים, עושים את המקסימום על מנת לאפשר לכל אחד מהדיירים במעון את הרווחה המגיעה לכל אחד ואחת מהם. הליווי, האכפתיות, תשומת הלב, גם לפרטים הקטנים ביותר, כי זהו חלק מהחזון שלנו בנווה האירוס, אותו אנו מגשימים בכל יום ויום וזמינים גם עבור משפחותיהם של הדיירים ומאפשרים ערוצי תקשורת פתוחים עם הנהלת המעון והצוותים הרלוונטיים.</p><p>מעון לבעלי צרכים מיוחדים נווה האירוס, הוא מקום מיוחד, עם אנשים מיוחדים לאנשים מיוחדים. נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.</p>",
@@ -341,17 +335,10 @@
     },
     "contact.sub": {
       "kind": "text",
-      "full": "נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.",
-      "plain": "אתם מוזמנים לבוא אלינו לפגישת היכרות. נשמח לתת לכם כל מידע שאתם צריכים.",
+      "full": "השאירו פרטים ונחזור אליכם לתיאום מפגש היכרות.",
+      "plain": "אפשר להשאיר פרטים. נתקשר אליכם כדי לקבוע פגישת היכרות.",
       "plain_status": "draft",
-      "source": "live home, module 5bb32d1fb3245 («מעון לבעלי צרכים מיוחדים»): the second sentence of its last paragraph, verbatim (also in special.rest)"
-    },
-    "contact.phone": {
-      "kind": "button",
-      "full": "08-9403047",
-      "plain": null,
-      "plain_status": null,
-      "source": "live contacts block «פרטי התקשרות» (טלפון: 08-9403047); tel:089403047"
+      "source": "the lead of the visit form on the inner page (#33, nh-door «lead»); v4.3, Itzik 18.11: «возьми свою форму с внутренней страницы»"
     },
     "contacts.title": {
       "kind": "h2",
@@ -451,13 +438,6 @@
       "plain_status": "draft",
       "source": "plain twin of the text column (spec §4.8); no full text of its own"
     },
-    "header.plain_toggle": {
-      "kind": "button",
-      "full": "בשפה פשוטה",
-      "plain": null,
-      "plain_status": null,
-      "source": "UI label of the plain-language toggle (as on the v3.2 plugin masthead); not on the live site"
-    },
     "header.phone": {
       "kind": "button",
       "full": "08-9403047",
@@ -481,10 +461,101 @@
     },
     "footer.links": {
       "kind": "html",
-      "full": "<p><a href=\"@home:/הצהרת-נגישות/\">הצהרת נגישות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מדיניות-פרטיות/\">מדיניות פרטיות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מפת-אתר/\">מפת אתר</a></p>",
+      "full": "<p><a href=\"@home:/הצהרת-נגישות/\">הצהרת נגישות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מדיניות-פרטיות/\">מדיניות פרטיות</a><span aria-hidden=\"true\"> · </span><a href=\"#nh-cookies\">הגדרות עוגיות</a><span aria-hidden=\"true\"> · </span><a href=\"@home:/מפת-אתר/\">מפת אתר</a></p>",
       "plain": null,
       "plain_status": null,
-      "source": "UI of the v4 footer band (spec §4.9); labels: the live page titles «מדיניות פרטיות», «מפת אתר» and the required «הצהרת נגישות» (no such page yet on live or test)"
+      "source": "UI of the v4 footer band (spec §4.9); labels: the live page titles «מדיניות פרטיות», «מפת אתר» and the required «הצהרת נגישות» (no such page yet on live or test); v4.3: «הגדרות עוגיות» (#nh-cookies) opens the theme's cookie settings, as the v3.2 footer's link does"
+    },
+    "contact.form.name": {
+      "kind": "text",
+      "full": "בקשה לביקור",
+      "plain": null,
+      "plain_status": null,
+      "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11; the form's name: its aria-label and its name in Elementor → Submissions"
+    },
+    "contact.form.required_note": {
+      "kind": "html",
+      "full": "שדות המסומנים ב־<span class=\"nh-req\" aria-hidden=\"true\">*</span><span class=\"nh-visually-hidden\">כוכבית</span> הם שדות חובה.",
+      "plain": "צריך למלא את השדות עם כוכבית <span class=\"nh-req\" aria-hidden=\"true\">*</span>.",
+      "plain_status": "draft",
+      "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11"
+    },
+    "contact.form.label_name": {
+      "kind": "text",
+      "full": "שם מלא",
+      "plain": null,
+      "plain_status": null,
+      "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11"
+    },
+    "contact.form.label_phone": {
+      "kind": "text",
+      "full": "טלפון",
+      "plain": null,
+      "plain_status": null,
+      "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11"
+    },
+    "contact.form.label_message": {
+      "kind": "text",
+      "full": "משהו שחשוב לנו לדעת?",
+      "plain": null,
+      "plain_status": null,
+      "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11"
+    },
+    "contact.form.hint": {
+      "kind": "text",
+      "full": "אין צורך לפרט כאן מידע רפואי. נדבר על הכול בשיחה.",
+      "plain": "לא צריך לכתוב כאן מידע רפואי. נדבר על זה בשיחה.",
+      "plain_status": "draft",
+      "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11; under the message field, linked to it (aria-describedby)"
+    },
+    "contact.form.consent": {
+      "kind": "html",
+      "full": "קראתי את <a href=\"@home:/מדיניות-פרטיות/\">מדיניות הפרטיות</a> ואני מסכים/ה שתיצרו איתי קשר לגבי הביקור.",
+      "plain": "אני מסכים או מסכימה שתתקשרו אליי.<br><a href=\"@home:/מדיניות-פרטיות/\">מה עושים עם הפרטים שלי?</a>",
+      "plain_status": "draft",
+      "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11; the consent box (required); the link leads to the privacy policy (not on the test site yet)"
+    },
+    "contact.form.privacy": {
+      "kind": "html",
+      "full": "מסירת הפרטים אינה חובה לפי חוק, אך בלעדיהם לא נוכל לחזור אליכם. הפרטים ישמשו רק לתיאום הביקור ולמענה לבקשה, יישמרו במאגר המידע של נוה האירוס בע״מ ולא יועברו לגורם אחר. אפשר לבקש לעיין במידע ולתקן אותו: 08-9403047.",
+      "plain": "לא חייבים לתת לנו את הפרטים.<br>בלי הפרטים לא נוכל לחזור אליכם.<br>הפרטים נשמרים אצלנו רק כדי לקבוע ביקור.<br>לא נותנים אותם לאף אחד אחר.<br>אפשר לבקש לראות אותם או לתקן אותם.",
+      "plain_status": "draft",
+      "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11; NH_Settings privacy_visit with {contact} = «: 08-9403047», and its plain twin"
+    },
+    "contact.form.submit": {
+      "kind": "button",
+      "full": "שליחת הבקשה",
+      "plain": null,
+      "plain_status": null,
+      "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11"
+    },
+    "contact.form.success": {
+      "kind": "text",
+      "full": "תודה! הבקשה התקבלה. נחזור אליכם בהקדם לתיאום הביקור.",
+      "plain": null,
+      "plain_status": null,
+      "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11; success title + #33's success text"
+    },
+    "contact.form.error": {
+      "kind": "text",
+      "full": "משהו השתבש בשליחה. אפשר לנסות שוב, או להתקשר: 08-9403047",
+      "plain": null,
+      "plain_status": null,
+      "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11; NH_Settings msg_error with {phone}"
+    },
+    "contact.form.required": {
+      "kind": "text",
+      "full": "צריך למלא את השדה הזה.",
+      "plain": null,
+      "plain_status": null,
+      "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11; NH_Settings msg_required"
+    },
+    "contact.form.invalid": {
+      "kind": "text",
+      "full": "נמצאו שגיאות בטופס.",
+      "plain": null,
+      "plain_status": null,
+      "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11; NH_Settings msg_summary, without its colon (Elementor's own message when the server finds an error)"
     }
   },
   "retired_blocks": {
@@ -581,6 +652,38 @@
       "plain_status": "draft",
       "source": "live home, row «תחומי התמחות», heading module 5953a96b77f39",
       "retired": "v4.3, Itzik 18.11: the section is «הבית שלנו» now (specialties.title)"
+    },
+    "special.more_title": {
+      "kind": "text",
+      "full": "להמשך קריאה",
+      "plain": null,
+      "plain_status": null,
+      "source": "UI label of the v4 accordion (spec §4.5), not live copy",
+      "retired": "v4.3, Itzik 18.11: the text is open, as on the live site; «להמשך קריאה» was the v4 fold's own label, never a link of the live site"
+    },
+    "header.plain_toggle": {
+      "kind": "button",
+      "full": "בשפה פשוטה",
+      "plain": null,
+      "plain_status": null,
+      "source": "UI label of the plain-language toggle (as on the v3.2 plugin masthead); not on the live site",
+      "retired": "v4.3, Itzik 18.11: «בשפה פשוטה» moved from the header into the theme's «נגישות» panel (its label lives in the theme now)"
+    },
+    "contact.phone": {
+      "kind": "button",
+      "full": "08-9403047",
+      "plain": null,
+      "plain_status": null,
+      "source": "live contacts block «פרטי התקשרות» (טלפון: 08-9403047); tel:089403047",
+      "retired": "v4.3, Itzik 18.11: the phone button left «נשמח שתבואו להכיר אותנו»; the contact form took its place (the number stays in the header and the footer)"
+    },
+    "contact.sub (v4.2)": {
+      "kind": "text",
+      "full": "נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.",
+      "plain": "אתם מוזמנים לבוא אלינו לפגישת היכרות. נשמח לתת לכם כל מידע שאתם צריכים.",
+      "plain_status": "draft",
+      "source": "live home, module 5bb32d1fb3245 («מעון לבעלי צרכים מיוחדים»): the second sentence of its last paragraph, verbatim (also in special.rest)",
+      "retired": "v4.3: the band's subline repeated the last sentence of «מעון לבעלי צרכים מיוחדים», which is open just above now; the form's lead from the inner page took its place"
     }
   }
 }

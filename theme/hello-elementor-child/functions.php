@@ -28,6 +28,14 @@
  * (transparent over the hero, solid from 24px of scroll), the new blocks' look, the soft motion (fade-ins, the
  * hero's slow zoom, the cards' lift; none under prefers-reduced-motion) — all in v4.css and v4.js — and here the
  * panel's «עצירת אנימציות» and the head script's `nh-js` and `nh-a11y-still`.
+ * 1.4.0, v4.3 (research/11-v4.3-home-spec.md, Itzik 18.11):
+ * - «בשפה פשוטה» is the first option of the «נגישות» panel (it left the v4 header), shown only on a page with plain
+ *   texts; the same mode and stored choice as before;
+ * - our cookie settings «הגדרות עוגיות» on EVERY page (the theme declares `nh-cookies`, so the plugin, which printed
+ *   them only beside its widgets, steps aside): a banner on the first visit (only necessary cookies by default), the
+ *   settings, and a question in place before an Elementor video loads YouTube while embedded content is not allowed;
+ * - the contact form of the v4 home (Elementor Pro's Form): its texts for the theme's error summary, the server-side
+ *   check of the phone and the consent, and a rate limit.
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -45,7 +53,9 @@ add_filter( 'elementor/frontend/print_google_fonts', '__return_false' );
 add_filter( 'document_title_separator', 'nh_child_title_separator' );
 add_filter( 'pre_option_elementor_element_cache_ttl', 'nh_child_element_cache' );
 
+add_action( 'after_setup_theme', 'nh_child_supports' );
 add_action( 'wp_body_open', 'nh_child_skip_link', 5 );
+add_action( 'wp_body_open', 'nh_child_cookies', 6 );
 foreach ( array( 'header-footer', 'canvas' ) as $nh_child_template ) {
 	add_action( "elementor/page_templates/{$nh_child_template}/before_content", 'nh_child_main_open' );
 	add_action( "elementor/page_templates/{$nh_child_template}/after_content", 'nh_child_main_close' );
@@ -56,6 +66,7 @@ add_action( 'wp_enqueue_scripts', 'nh_child_styles', 20 );
 add_action( 'wp_enqueue_scripts', 'nh_child_v4_assets', 30 );
 add_action( 'wp_head', 'nh_child_v4_head', 2 );
 add_action( 'wp_footer', 'nh_child_v4_footer', 10 );
+add_action( 'elementor_pro/forms/validation', 'nh_child_form_validation', 10, 2 );
 
 /**
  * `hello_elementor_page_title`: no Hello title on a page built with Elementor (its cover is the page's H1).
@@ -193,6 +204,8 @@ function nh_child_v4_assets() {
 			'in_footer' => false,
 		)
 	);
+	// v4.3: the texts of the contact form's checks (the plugin's settings, else its defaults)
+	wp_add_inline_script( 'nh-child-v4', 'window.nhFormText = ' . wp_json_encode( nh_child_form_texts(), JSON_UNESCAPED_UNICODE ) . ';', 'before' );
 }
 
 /**
@@ -239,6 +252,8 @@ function nh_child_prepaint_js() {
 		. '}'
 		. 'var q = /[?&]plain=([01])/.exec(s);'
 		. 'if (q ? q[1] === "1" : g("nh-plain") === "on") h.classList.add("nh-plainmode");'
+		. 'var c = null; try { c = JSON.parse(g("nh-consent-v1") || "null"); } catch (e) { c = null; }'
+		. 'if (!c || typeof c !== "object" || !(Number(c.v) >= ' . (int) nh_child_consent_version() . ')) h.classList.add("nh-consent-ask");'
 		. '})(window, document);';
 }
 
@@ -267,6 +282,8 @@ function nh_child_v4_footer() {
 	$out .= '<div id="nh-a11y-panel" class="nh-a11y-panel" role="dialog" aria-label="' . esc_attr__( 'תפריט נגישות', 'hello-elementor-child' ) . '" hidden>';
 	$out .= '<h2 class="nh-a11y-panel__title">' . esc_html__( 'נגישות', 'hello-elementor-child' ) . '</h2>';
 	$out .= '<ul class="nh-a11y-panel__list" role="list">';
+	// v4.3: «בשפה פשוטה» (it left the v4 header): first, a toggle; shown by v4.js only where the page has plain texts
+	$out .= '<li class="nh-a11y-panel__plain" hidden><button type="button" class="nh-a11y-opt" data-a11y="plain" data-plain-toggle aria-pressed="false"><span>' . esc_html__( 'בשפה פשוטה', 'hello-elementor-child' ) . '</span></button></li>';
 	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="text" aria-pressed="false"><span>' . esc_html__( 'הגדלת טקסט', 'hello-elementor-child' ) . '</span> <span class="nh-a11y-opt__state" dir="ltr">100%</span></button></li>';
 	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="contrast" aria-pressed="false"><span>' . esc_html__( 'ניגודיות גבוהה', 'hello-elementor-child' ) . '</span></button></li>';
 	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="links" aria-pressed="false"><span>' . esc_html__( 'הדגשת קישורים', 'hello-elementor-child' ) . '</span></button></li>';
@@ -285,4 +302,195 @@ function nh_child_v4_footer() {
 	$out .= '</aside>';
 
 	echo $out . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assembled from escaped parts and static SVG
+}
+
+/**
+ * `after_setup_theme`: the theme provides the site's cookie settings (#nh-cookies); the nevehairus-site plugin
+ * (0.2.7+) then prints none of its own.
+ */
+function nh_child_supports() {
+	add_theme_support( 'nh-cookies' );
+}
+
+/**
+ * The consent version: a stored choice older than this counts as none, so the banner asks again. At least 2: the
+ * plugin's panel of the v3.2 pages saved version 1 before the banner existed (v4.3, 18.11.2026).
+ *
+ * @return int
+ */
+function nh_child_consent_version() {
+	$v = 1;
+	if ( class_exists( 'NH_Settings', false ) && method_exists( 'NH_Settings', 'get' ) ) {
+		$v = (int) NH_Settings::get( 'consent_version' );
+	}
+	return max( 2, $v );
+}
+
+/**
+ * A text of the plugin's settings (Settings → נווה האירוס), or the same default when the plugin is off. Inline
+ * tags only; `#privacy` becomes the privacy policy's address.
+ *
+ * @param string $key      Setting key.
+ * @param string $fallback The plugin's default (class-nh-settings.php).
+ * @return string Safe HTML.
+ */
+function nh_child_setting_text( $key, $fallback ) {
+	$v = '';
+	if ( class_exists( 'NH_Settings', false ) && method_exists( 'NH_Settings', 'get' ) ) {
+		$v = (string) NH_Settings::get( $key );
+	}
+	if ( '' === trim( $v ) ) {
+		$v = $fallback;
+	}
+	$privacy = function_exists( 'get_privacy_policy_url' ) ? get_privacy_policy_url() : '';
+	if ( '' === $privacy ) {
+		$privacy = home_url( '/מדיניות-פרטיות/' );
+	}
+	$v = str_replace( 'href="#privacy"', 'href="' . esc_url( $privacy ) . '"', $v );
+	return wp_kses(
+		$v,
+		array(
+			'a'      => array( 'href' => true ),
+			'b'      => array(),
+			'strong' => array(),
+			'br'     => array(),
+		)
+	);
+}
+
+/**
+ * Plain lines («\n») as HTML lines.
+ *
+ * @param string $html Safe HTML.
+ * @return string
+ */
+function nh_child_lines( $html ) {
+	return str_replace( "\n", '<br>', $html );
+}
+
+/**
+ * `wp_body_open` @6, right after the skip link, on every page but the Elementor editor's preview: our cookie settings
+ * (v4.3, Itzik 18.11; the texts are the plugin's settings, research/07 §9). One region, not a dialog (no focus trap):
+ * - while no current choice is stored (html.nh-consent-ask, set before the first paint): a banner at the foot of the
+ *   screen with the text and «רק הכרחיות» · «אישור הכול» · «הגדרות»;
+ * - «הגדרות» and every link to #nh-cookies (the footers' «הגדרות עוגיות») open the settings: necessary (always) and
+ *   embedded content (YouTube), «שמירת הבחירה», «סגירה».
+ * By default only necessary storage; YouTube loads only after a click and, while embedded content is not allowed, a
+ * question in place (the template #nh-video-ask; v4.js part 6).
+ */
+function nh_child_cookies() {
+	if ( nh_child_is_elementor_preview() ) {
+		return;
+	}
+	$t = array(
+		'title'     => nh_child_setting_text( 'cookie_title', 'הגדרות עוגיות' ),
+		'text'      => nh_child_setting_text( 'cookie_text', 'באתר יש רק עוגיות הכרחיות. סרטון מ־YouTube נטען רק אחרי שמאשרים אותו, ואז YouTube עשוי לשמור עוגיות. כאן אפשר לשנות את הבחירה. <a href="#privacy">מדיניות הפרטיות</a>' ),
+		'plain'     => nh_child_setting_text( 'cookie_text_plain', "האתר שומר רק מה שחייבים.\nסרטון מ־YouTube נפתח רק אם מסכימים.\nכאן אפשר לשנות את הבחירה." ),
+		'necessary' => nh_child_setting_text( 'cookie_necessary', '<b>הכרחיות</b> — פעילות תקינה של האתר ושמירת הבחירות שלכם. תמיד פעילות.' ),
+		'media'     => nh_child_setting_text( 'cookie_media', '<b>תוכן מוטמע</b> — סרטונים מ־YouTube.' ),
+		'save'      => nh_child_setting_text( 'cookie_save', 'שמירת הבחירה' ),
+		'close'     => nh_child_setting_text( 'cookie_close', 'סגירה' ),
+	);
+	$out  = '<section id="nh-cookies" class="nh-consent" aria-labelledby="nh-cookies-title" data-owner="theme" data-v="' . (int) nh_child_consent_version() . '">';
+	$out .= '<h2 id="nh-cookies-title" class="nh-consent__title" tabindex="-1">' . $t['title'] . '</h2>';
+	$out .= '<div class="nh-consent__text"><p class="nh-full">' . $t['text'] . '</p><p class="nh-plain">' . nh_child_lines( $t['plain'] ) . '</p></div>';
+	$out .= '<div class="nh-consent__ask">'
+		. '<button type="button" class="nh-consent__btn" data-consent="necessary">' . esc_html__( 'רק הכרחיות', 'hello-elementor-child' ) . '</button>'
+		. '<button type="button" class="nh-consent__btn" data-consent="all">' . esc_html__( 'אישור הכול', 'hello-elementor-child' ) . '</button>'
+		. '<button type="button" class="nh-consent__btn nh-consent__btn--quiet" data-consent="prefs" aria-expanded="false" aria-controls="nh-cookies-prefs">' . esc_html__( 'הגדרות', 'hello-elementor-child' ) . '</button>'
+		. '</div>';
+	$out .= '<div id="nh-cookies-prefs" class="nh-consent__prefs" hidden>';
+	$out .= '<ul class="nh-consent__list" role="list">'
+		. '<li><input type="checkbox" id="nh-c-necessary" checked disabled><label for="nh-c-necessary">' . $t['necessary'] . '</label></li>'
+		. '<li><input type="checkbox" id="nh-c-media"><label for="nh-c-media">' . $t['media'] . '</label></li>'
+		. '</ul>';
+	$out .= '<div class="nh-consent__row">'
+		. '<button type="button" class="nh-consent__btn" data-consent="save">' . $t['save'] . '</button>'
+		. '<button type="button" class="nh-consent__btn nh-consent__btn--quiet" data-consent="close">' . $t['close'] . '</button>'
+		. '</div>';
+	$out .= '</div>';
+	$out .= '</section>';
+	// the question before a video loads YouTube (the texts of the plugin's voices widget, research/07 §9)
+	$out .= '<template id="nh-video-ask"><div class="nh-video-ask" role="group">'
+		. '<p class="nh-video-ask__q"><span class="nh-full">' . esc_html__( 'הסרטון מוטמע מ־YouTube, שעשוי לשמור עוגיות. לטעון אותו?', 'hello-elementor-child' ) . '</span>'
+		. '<span class="nh-plain">' . esc_html__( 'הסרטון נמצא באתר YouTube.', 'hello-elementor-child' ) . '<br>' . esc_html__( 'YouTube יכול לשמור מידע עליכם.', 'hello-elementor-child' ) . '<br>' . esc_html__( 'לפתוח את הסרטון?', 'hello-elementor-child' ) . '</span></p>'
+		. '<div class="nh-video-ask__row">'
+		. '<button type="button" class="nh-consent__btn" data-ask="yes"><span class="nh-full">' . esc_html__( 'כן, לטעון את הסרטון', 'hello-elementor-child' ) . '</span><span class="nh-plain">' . esc_html__( 'כן, לפתוח את הסרטון', 'hello-elementor-child' ) . '</span></button>'
+		. '<button type="button" class="nh-consent__btn nh-consent__btn--quiet" data-ask="no">' . esc_html__( 'לא עכשיו', 'hello-elementor-child' ) . '</button>'
+		. '</div></div></template>';
+	echo $out . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped parts and wp_kses'd settings
+}
+
+/**
+ * The texts of the contact form's checks (the plugin's settings, else its defaults), for v4.js part 7.
+ *
+ * @return array
+ */
+function nh_child_form_texts() {
+	$get = static function ( $key, $fallback ) {
+		$v = '';
+		if ( class_exists( 'NH_Settings', false ) && method_exists( 'NH_Settings', 'get' ) ) {
+			$v = (string) NH_Settings::get( $key );
+		}
+		return wp_strip_all_tags( '' === trim( $v ) ? $fallback : $v );
+	};
+	return array(
+		'required' => $get( 'msg_required', 'צריך למלא את השדה הזה.' ),
+		'tel'      => $get( 'msg_tel', 'מספר הטלפון לא תקין: צריך 9 או 10 ספרות, ובהתחלה 0.' ),
+		'consent'  => $get( 'msg_consent', 'צריך לסמן את התיבה כדי לשלוח.' ),
+		'summary1' => $get( 'msg_summary_one', 'נמצאה שגיאה אחת בטופס:' ),
+		'summaryN' => $get( 'msg_summary_many', 'נמצאו {n} שגיאות בטופס:' ),
+		'limited'  => str_replace( '{phone}', '08-9403047', $get( 'msg_limited', 'נשלחו כבר כמה בקשות מהמכשיר הזה. אפשר לנסות שוב בעוד כמה דקות, או להתקשר: {phone}' ) ),
+		'consentName' => 'אישור מדיניות הפרטיות',
+	);
+}
+
+/**
+ * `elementor_pro/forms/validation`: the contact form of the v4 home (its fields name / phone / consent, class
+ * nh-contact-form), checked on the server as the inner page's form is: required fields, an Israeli phone number
+ * (0 and 8–9 more digits, after removing spaces and dashes), the consent; and at most 5 sends in 10 minutes from one
+ * address (only a counter under a salted hash of it is kept, in a transient; nothing the visitor typed).
+ *
+ * @param object $record       ElementorPro\Modules\Forms\Classes\Form_Record.
+ * @param object $ajax_handler ElementorPro\Modules\Forms\Classes\Ajax_Handler.
+ */
+function nh_child_form_validation( $record, $ajax_handler ) {
+	if ( ! is_object( $record ) || ! method_exists( $record, 'get' ) || ! method_exists( $record, 'get_form_settings' ) ) {
+		return;
+	}
+	$classes = (string) $record->get_form_settings( '_css_classes' );
+	if ( false === strpos( ' ' . $classes . ' ', ' nh-contact-form ' ) ) {
+		return;
+	}
+	$t      = nh_child_form_texts();
+	$fields = (array) $record->get( 'fields' );
+	foreach ( array( 'name', 'phone' ) as $id ) {
+		if ( isset( $fields[ $id ] ) && '' === trim( (string) $fields[ $id ]['value'] ) ) {
+			$ajax_handler->add_error( $id, $t['required'] );
+		}
+	}
+	if ( isset( $fields['phone'] ) && '' !== trim( (string) $fields['phone']['value'] ) ) {
+		$digits = preg_replace( '/\D+/', '', (string) $fields['phone']['value'] );
+		if ( ! preg_match( '/^0\d{8,9}$/', $digits ) ) {
+			$ajax_handler->add_error( 'phone', $t['tel'] );
+		}
+	}
+	if ( isset( $fields['consent'] ) && '' === trim( (string) $fields['consent']['value'] ) ) {
+		$ajax_handler->add_error( 'consent', $t['consent'] );
+	}
+	// the rate limit: a counter per salted hash of the address, 10 minutes; never the address itself. A send with
+	// errors is not counted (nobody is locked out by their own typing mistakes)
+	if ( property_exists( $ajax_handler, 'errors' ) && ! empty( $ajax_handler->errors ) ) {
+		return;
+	}
+	$ip  = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+	$key = 'nh_form_rate_' . substr( hash_hmac( 'sha256', $ip, wp_salt( 'nonce' ) ), 0, 32 );
+	$n   = (int) get_transient( $key );
+	if ( $n >= 5 ) {
+		// the general message says it; the error itself sits on the hidden trap field, so no visible field is blamed
+		$ajax_handler->add_error_message( $t['limited'] );
+		$ajax_handler->add_error( 'website', $t['limited'] );
+		return;
+	}
+	set_transient( $key, $n + 1, 10 * MINUTE_IN_SECONDS );
 }

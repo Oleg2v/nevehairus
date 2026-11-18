@@ -5,7 +5,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "de3813b83c94678a4c7f8f3ca9f1f64ccf9a3451cbada9fcf34b23f26f614966"
+  "inputs_sha256": "f1a89a7a9b8cd412bb8a42ac9823e3e4d5f5518ad9bb8dcceeac06efebbc55cc"
  },
  "system_colors": [
   {
@@ -79,6 +79,11 @@
    "_id": "349c69f",
    "title": "קרם",
    "color": "#F7F1E7"
+  },
+  {
+   "_id": "a269239",
+   "title": "שגיאה",
+   "color": "#A8261B"
   }
  ],
  "system_typography": [

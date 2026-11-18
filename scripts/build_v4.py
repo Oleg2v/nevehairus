@@ -27,7 +27,7 @@ template, conditions, page_settings, built_from, elementor_data); elementor_data
 Elementor 4.4.0 stores it.
 
 Only Elementor's own classic widgets (heading, text-editor, image, button, video, icon, icon-box, nested-accordion) and
-Pro's nav-menu and template; none of the nevehairus-site plugin's. Every colour and font goes through the Kit's globals
+Pro's nav-menu, template and form (v4.3: the contact form); none of the nevehairus-site plugin's. Every colour and font goes through the Kit's globals
 (settings.__globals__ = {control: "globals/colors?id=…" / "globals/typography?id=…"}), with the literal colour as a
 fallback; the one local font setting is the hero's subline (1.375rem 600). No motion setting of Elementor's own (no
 entrance animation, Motion Effects, sticky, hover animation or transition): the motion of spec 10 §3 (the hero's slow
@@ -54,12 +54,13 @@ _element_id <name>, its Kit background, 5rem (phones 3.5rem) above and below; in
                  760px at most. v4.3: no large years (Itzik 18.11)
   (v4.3: the videos section joined «הבית שלנו»; «תודות והמלצות» left the home — Itzik 18.11)
   snoezelen      as v4; the Short in a phone (nh-phone-frame on the Video widget, 9:16, 300px)
-  special-needs  sky-50, an 860px column: H2, one Nested Accordion item «להמשך קריאה» (nh-more, collapsed, duration
-                 0) holding the WHOLE live text in order (the questions in the framed box nh-framed, the lead, the
-                 rest), the plain twin outside it
-  contact        green-50, _element_id contact (the target of «צור קשר»): H2, the live subline, the phone button
-                 (nh-btn-phone, purple); WhatsApp (nh-btn-whatsapp, green-700, fab fa-whatsapp, https://wa.me/…) only
-                 while WHATSAPP holds a number the home confirmed (Oleg 17.11: off until then)
+  special-needs  an 860px column: H2, the WHOLE live text open, in order (v4.3: no fold, as on the live site): the
+                 questions in the framed box (nh-framed, white), the lead, the rest; the plain twin after them
+  contact        _element_id contact (the target of «צור קשר»): H2, the form's lead (the inner page's), and the visit
+                 form of the inner page in a white card (nh-form-card): Elementor Pro's Form (nh-contact-form), the
+                 texts of #33, submissions kept in the admin only («save-to-database», no IP or browser); the e-mail
+                 action to FORM_TO only at launch (LAUNCH). v4.3: no phone button, no WhatsApp (Itzik 18.11)
+The header (header-v4): logo, the phone, «צור קשר»; the menu. v4.3: «בשפה פשוטה» is in the theme's «נגישות» panel.
 Every section is on the Kit's cream (v4.3, Itzik 18.11), the hero on its photo; the cards are white.
 nh-reveal (spec 10 §3) is on every section's inner column, the cards, the pro cells, the pro text, the video items and
 the life text; a block holding other nh-reveal blocks stays put (the theme moves its children).
@@ -127,10 +128,12 @@ PLAIN_TITLE = "שפה פשוטה — טיוטה"                      # the Navi
 FACEBOOK = "https://www.facebook.com/neveirus/"
 YOUTUBE = "https://www.youtube.com/watch?v="
 OFF_BLOCKS = set()          # blocks of home.json kept, but deliberately not built (WhatsApp: closed, Itzik 18.11)
+LAUNCH = False              # True only for the live site: the contact form then also e-mails FORM_TO (Itzik 18.11)
+FORM_TO = "irus1@nevehairus.com"                      # the address of the live site's contact block
 PHONE_TEL = "tel:089403047"
 PHONE_LABEL = "התקשרו: 08-9403047"                     # aria-label of the icon-only phone button (§4.0)
 CONTACT_ANCHOR = "#contact"                            # the contact band (spec 10 §1.1, §1.10)
-IN_PAGE_OK = ("#plain",)                               # the plain-language toggle's link (the theme makes it a button)
+IN_PAGE_OK = ("#nh-cookies",)                          # the theme's cookie settings (printed on every page, v4.3)
 
 # ---- design tokens (09 §1, 10 §0) and the Kit (09 §2) ---------------------------------------------------------------------
 # system colours keep Elementor's ids; custom ids are stable 7-hex hashes of the token
@@ -142,7 +145,9 @@ CUSTOM_COLORS = (("purple-800", "סגול כהה", "#3A2269"), ("purple-50", "ר
                  # v4.1 (spec 10 §0): the footer's night, and the green of WhatsApp (white on it 6.4:1)
                  ("night", "לילה", "#1C1830"), ("green-700", "ירוק כהה", "#2F6B2A"),
                  # v4.3 (Itzik 18.11): one cream ground for every section (the inner page's «paper»; ink 14:1 on it)
-                 ("cream", "קרם", "#F7F1E7"))
+                 ("cream", "קרם", "#F7F1E7"),
+                 # v4.3: the contact form's errors and its required mark, as the inner page's form (6.3:1 on cream)
+                 ("red-700", "שגיאה", "#A8261B"))
 FONT = "Assistant"
 # (id or token, title, weight, size, size on phones, line height in em). Spec 09 §1/§2. Two additions, both for the
 # rules of §1: the accent (UI and buttons) gets line height 1.5, so a button with padding .75rem is 1.0625rem × 1.5
@@ -174,7 +179,7 @@ GRID_GAP = 24
 HEADER_WIDTH = CONTENT_WIDTH                           # the header keeps to the same column (its logo over the H1)
 
 ALLOWED_WIDGETS = {"heading", "text-editor", "image", "button", "video", "icon", "icon-box",    # Elementor
-                   "nested-accordion", "nav-menu", "template"}                                  # Elementor / Pro
+                   "nested-accordion", "nav-menu", "template", "form"}                          # Elementor / Pro
 HEX7 = re.compile(r"^[0-9a-f]{7}$")
 TOKEN_IN_TEXT = re.compile(r"@(media|page|page-id|home):([^\s\"'<>]*)")
 URL_IN_TEXT = re.compile(r"(?:https?:)?//[^\s\"'<>)]+", re.I)
@@ -417,7 +422,7 @@ class Builder:
         return self.twins(block, path, lambda t, p, cls: self.heading(t, p, tag, typo, color, cls, **kw), classes)
 
     def button(self, block, path, url, style, icon_name=None, classes="", aria_label=None, hide=(), text=None,
-               compact=False, icon_value=None, padding=None, radius=8, align=None):
+               icon_value=None, padding=None, radius=8, align=None):
         """Buttons of 09 §1: radius 8px, padding .75rem 1.5rem, the accent font (600, 1.0625rem, line height 1.5).
         style: primary (purple, white text), light (white, purple text: on the hero and the purple band), outline
         (white with a 2px purple border), outline-light (transparent with a 2px white border, white text: on the
@@ -460,11 +465,6 @@ class Builder:
             s["text_padding"] = dims(".75rem", ".5rem")
         if style == "soft":
             s["text_padding"] = dims("calc(.8125rem + .5px)")      # 44px high, as the menu toggle beside it
-        if compact:                                               # ≤1024: the header's row is narrow
-            # 44px high with its 2px border, as the phone icon and the menu toggle beside it (review 17.11)
-            pad_block = "calc(.5rem - .75px)" if style in ("outline", "outline-light") else ".625rem"
-            s["text_padding_tablet"] = dims(pad_block, ".875rem")
-            s["text_padding_mobile"] = dims(pad_block, ".5rem")   # the one row of a 360px phone: logo, this, phone, menu
         w = self.widget(path, "button", styled(s, {"typography_typography": "accent"}, **colors))
         if block:
             self.use(block, "full", w, "text")
@@ -485,6 +485,7 @@ class Builder:
         """A YouTube video that loads nothing from YouTube until a click (09 §4.3): lazy, privacy mode, our own copy of
         its thumbnail as the overlay, the play icon, no lightbox."""
         name = f"video-{video_id}"
+        name = self.FACES_BLURRED.get(name, name)
         if name not in self.media_names:
             die(f"templates/v4/media.json has no {name}")
         s = {"video_type": "youtube", "youtube_url": YOUTUBE + video_id, "lazy_load": "yes", "yt_privacy": "yes",
@@ -544,8 +545,6 @@ class Builder:
             # as wide as its buttons (a container is 100% wide by default, and on phones always unless set)
             "width": size("auto"), "width_mobile": size("auto"),
             "padding": ZERO, "css_classes": "nh-header__actions"}, [
-            self.button("header.plain_toggle", "header/top/actions/plain", "#plain", "outline",
-                        classes="nh-plain-toggle", compact=True),
             self.button("header.phone", "header/top/actions/phone", PHONE_TEL, "text", icon_name="phone-alt",
                         hide=("tablet", "mobile")),
             self.button(None, "header/top/actions/phone-icon", PHONE_TEL, "soft", icon_name="phone-alt",
@@ -629,6 +628,8 @@ class Builder:
 
     # ---- 3 specialties (10 §1.3) -------------------------------------------------------------------------------------------
     VIDEOS = ((1, "kLAGTCOIWQE"), (2, "JQXm_Dku7tI"))     # under the cards since v4.3 (10 §1.6)
+    # v4.3 (Itzik 18.11: only the faces blurred): the photos with faces use their blurred copies (media.json)
+    FACES_BLURRED = {"card-3": "card-3-v43", "video-JQXm_Dku7tI": "video-JQXm_Dku7tI-v43"}
     CARDS = ((1, "@page:main-home"), (2, "@home:/מערך-דיור-בקהילה/"), (3, "@home:/מערך-דיור-בקהילה-אוטיזם/"),
              (4, "@home:/חדשות-ועדכונים/"))
 
@@ -653,7 +654,7 @@ class Builder:
                 **flex("column", 0, 0), "padding": ZERO, "overflow": "hidden",
                 "background_background": "classic", "border_radius": dims(16), **SOFT_SHADOW,
                 "css_classes": "nh-card nh-reveal"}, background_color="white"),
-                [self.image(f"{p}/photo", f"card-{n}", "nh-card__img nh-ratio-4x3", url=url,
+                [self.image(f"{p}/photo", self.FACES_BLURRED.get(f"card-{n}", f"card-{n}"), "nh-card__img nh-ratio-4x3", url=url,
                             link_attributes="tabindex|-1,aria-hidden|true"), body], title=f"כרטיס {n}")
             cards.append(card)
         # 4 / 2 / 2: on phones two in a row, all four on about one screen (Oleg 17.11: «компактнее»)
@@ -752,54 +753,131 @@ class Builder:
 
     # ---- 9 special needs (10 §1.9) -------------------------------------------------------------------------------------------
     def special(self):
+        """v4.3 (Itzik 18.11): the whole live text open, as on the live site, no fold: the questions in the framed box
+        (white, its purple inline-start border), the lead, the rest; the plain twin after them. «להמשך קריאה» was the
+        v4 fold's own label, never a link of the live site, so it is gone (retired)."""
         plain = self.has_plain("special.plain_body")
-        p = "special-needs/inner/more"
-        more_title = self.text("special.more_title", "full")
-        framed = self.container(f"{p}/item-1/framed", styled({
+        full = "nh-full" if plain else ""
+        p = "special-needs/inner"
+        framed = self.container(f"{p}/framed", styled({
             **flex("column", 0, 0), "padding": dims("1.5rem"), "background_background": "classic",
             # the inline start is the right edge in RTL
             "border_border": "solid", "border_width": dims(0, 4, 0, 0), "border_radius": dims(12),
-            "css_classes": "nh-framed"}, background_color="white", border_color="purple-700"),
-            self.text_editor_block("special.framed", f"{p}/item-1/framed/text"), title="שאלות")
-        # the WHOLE live text, in order, inside the one item (it stays in the HTML for search engines)
-        item = self.container(f"{p}/item-1", {**flex("column", 16, 16), "padding": dims(16, 0, 0, 0),
-                                              "_title": more_title},
-                              [framed]
-                              + self.text_editor_block("special.lead", f"{p}/item-1/lead")
-                              + self.text_editor_block("special.rest", f"{p}/item-1/rest"))
-        accordion = self.widget(p, "nested-accordion", styled({
-            "items": [{"item_title": more_title, "element_css_id": "",
-                       "_id": hex7(f"{self.doc}/{p}/items/0")}],
-            "default_state": "all_collapsed", "max_items_expended": "one",
-            "n_accordion_animation_duration": {"unit": "ms", "size": 0, "sizes": []},
-            # a span, not the spec's div: Elementor prints the title inside a <span>, where a div is not allowed
-            # (the summary is the control either way; no heading)
-            "title_tag": "span", "accordion_item_title_icon": icon("plus"),
-            "accordion_item_title_icon_active": icon("minus"),
-            "_css_classes": join("nh-more", "nh-full" if plain else "")},
-            {"title_typography_typography": "accent"},
-            normal_title_color="purple-700", hover_title_color="purple-800", active_title_color="purple-700",
-            normal_icon_color="purple-700", hover_icon_color="purple-800", active_icon_color="purple-700"), [item])
-        self.use("special.more_title", "full", accordion, "items.0.item_title")
+            "css_classes": join("nh-framed", full)}, background_color="white", border_color="purple-700"),
+            self.text_editor_block("special.framed", f"{p}/framed/text"), title="שאלות")
         return self.section("special-needs", "מעון לבעלי צרכים מיוחדים", "cream",
-                            self.heading_block("special.title", "special-needs/inner/title", "h2", "h2", "purple-700")
-                            + [accordion]
-                            + self.text_editor_block("special.plain_body", "special-needs/inner/plain"),
+                            self.heading_block("special.title", f"{p}/title", "h2", "h2", "purple-700")
+                            + [framed]
+                            + self.text_editor_block("special.lead", f"{p}/lead", full)
+                            + self.text_editor_block("special.rest", f"{p}/rest", full)
+                            + self.text_editor_block("special.plain_body", f"{p}/plain"),
                             inner={"boxed_width": size(860)}, gap=24)
 
     # ---- 10 contact (10 §1.10) -----------------------------------------------------------------------------------------------
     def contact(self):
-        big = dims("1rem", "2rem")
-        row = [self.button("contact.phone", "contact/inner/buttons/phone", PHONE_TEL, "primary", icon_name="phone-alt",
-                           classes="nh-btn-phone", padding=big, radius=12)]
-        buttons = self.container("contact/inner/buttons", {
-            **flex("row", 16, 16, wrap="wrap", flex_justify_content="center", flex_align_items="center"),
-            "padding": dims(8, 0, 0, 0)}, row, title="כפתורים")
+        """«נשמח שתבואו להכיר אותנו» (v4.3, Itzik 18.11): H2, the form's lead, and the visit form of the inner page in a
+        white card (max 640px): Elementor Pro's Form, its texts those of #33. Submissions are kept in the admin
+        (Elementor → Submissions, «save-to-database», without the visitor's IP or browser); no e-mail on the test site,
+        the e-mail action (to FORM_TO) is added at launch (LAUNCH). The theme brings it to the inner form's
+        accessibility (v4.js / v4.css: the error summary, the links between fields, hints and errors)."""
+        card = self.container("contact/inner/card", styled({
+            **flex("column", 0, 0), "width": size("min(640px, 100%)"), "_flex_align_self": "center",
+            "padding": dims("2rem"), "padding_mobile": dims("1.25rem"), "background_background": "classic",
+            "border_radius": dims(16), **SOFT_SHADOW, "css_classes": "nh-form-card nh-reveal"},
+            background_color="white"), [self.contact_form("contact/inner/card/form")], title="טופס")
         return self.section("contact", "נשמח שתבואו להכיר אותנו", "cream",
                             self.heading_block("contact.title", "contact/inner/title", "h2", "h2", "purple-700",
                                                align="center")
                             + self.text_editor_block("contact.sub", "contact/inner/sub", align="center")
-                            + [buttons], inner={"flex_align_items": "center"}, gap=16, gap_mobile=16)
+                            + [card], inner={"flex_align_items": "stretch"}, gap=16, gap_mobile=16)
+
+    FORM_FIELDS = (  # (custom_id, type, block, required, extra)
+        ("note", "html", "contact.form.required_note", False, {}),
+        ("name", "text", "contact.form.label_name", True, {}),
+        ("phone", "tel", "contact.form.label_phone", True, {}),
+        ("message", "textarea", "contact.form.label_message", False, {"rows": 4}),
+        ("hint", "html", "contact.form.hint", False, {}),
+        ("website", "honeypot", None, False, {}),
+        ("consent", "acceptance", "contact.form.consent", True, {}),
+        ("privacy", "html", "contact.form.privacy", False, {}),
+    )
+
+    def twin_html(self, block, tag="span", attrs=""):
+        """A text with its plain twin in ONE field (a form field cannot be doubled): <tag><span class="nh-full">…</span>
+        <span class="nh-plain">…</span></tag>; the theme shows one of them (spans: inline, so the line stays one)."""
+        def part(mode):
+            t = self.text(block, mode)
+            if t in (None, ""):
+                return ""
+            body = t if self.blocks[block]["kind"] == "html" else html.escape(t, quote=False)
+            return f'<span class="nh-{mode}">{body}</span>' if self.has_plain(block) else body
+        inner = part("full") + (part("plain") if self.has_plain(block) else "")
+        return f"<{tag}{attrs}>{inner}</{tag}>" if tag else inner
+
+    def contact_form(self, path):
+        items, uses = [], []
+        for n, (cid, ftype, block, required, extra) in enumerate(self.FORM_FIELDS):
+            it = {"_id": hex7(f"{self.doc}/{path}/fields/{cid}"), "custom_id": cid, "field_type": ftype,
+                  "width": "100", **extra}
+            if required:
+                it["required"] = "true"
+            if ftype == "html":
+                klass = {"note": "nh-form__note", "hint": "nh-form__hint", "privacy": "nh-form__privacy"}[cid]
+                it["field_html"] = self.twin_html(block, "p", f' class="{klass}" id="nh-form-{cid}"')
+                uses.append((block, f"form_fields.{n}.field_html"))
+            elif ftype == "acceptance":
+                it["field_label"] = ""
+                it["acceptance_text"] = self.twin_html(block, tag=None)
+                uses.append((block, f"form_fields.{n}.acceptance_text"))
+            elif ftype == "honeypot":
+                it["field_label"] = "אתר"                     # never seen; a person never fills it
+            else:
+                it["field_label"] = self.text(block, "full")
+                uses.append((block, f"form_fields.{n}.field_label"))
+            items.append(it)
+        s = {"form_name": self.text("contact.form.name", "full"), "form_fields": items, "input_size": "md",
+             "show_labels": "true", "mark_required": "yes", "label_position": "above",
+             "button_text": self.text("contact.form.submit", "full"), "button_size": "md", "button_width": "100",
+             "button_align": "stretch",
+             # submissions are kept in the admin; no visitor's IP or browser is stored with them (privacy)
+             "submit_actions": ["save-to-database"] + (["email"] if LAUNCH else []), "submissions_metadata": [],
+             "form_validation": "custom", "custom_messages": "yes",
+             "success_message": self.text("contact.form.success", "full"),
+             "error_message": self.text("contact.form.error", "full"),
+             "server_message": self.text("contact.form.error", "full"),
+             "invalid_message": self.text("contact.form.invalid", "full"),
+             "required_field_message": self.text("contact.form.required", "full"),
+             "column_gap": size(0), "row_gap": size(20), "label_spacing": size(6),
+             "field_border_width": dims(2), "field_border_radius": dims(8),
+             "button_border_radius": dims(12), "button_text_padding": dims("1rem", "2rem"),
+             "_css_classes": "nh-contact-form"}
+        if LAUNCH:
+            s.update(email_to=FORM_TO, email_subject="בקשה לביקור — מעון נווה האירוס", email_content="[all-fields]",
+                     email_from_name="מעון נווה האירוס", email_content_type="plain", form_metadata=["date", "time", "page_url"])
+        w = self.widget(path, "form", styled(s, {"label_typography_typography": "accent",
+                                                  "field_typography_typography": "text",
+                                                  "button_typography_typography": "accent",
+                                                  "html_typography_typography": "small",
+                                                  "message_typography_typography": "text"},
+                                             label_color="ink", mark_required_color="red-700", html_color="ink-2",
+                                             field_text_color="ink", field_background_color="white",
+                                             field_border_color="ink-2", button_background_color="purple-700",
+                                             button_text_color="white", button_background_hover_color="purple-800",
+                                             button_hover_color="white", success_message_color="green-700",
+                                             error_message_color="red-700", inline_message_color="red-700"))
+        for block, field in uses:
+            if self.has_plain(block) and not field.endswith(".field_label"):
+                self.use(block, "full", w, field + "#full")
+                self.use(block, "plain", w, field + "#plain")
+            else:
+                self.use(block, "full", w, field)
+        self.use("contact.form.name", "full", w, "form_name")
+        self.use("contact.form.submit", "full", w, "button_text")
+        self.use("contact.form.success", "full", w, "success_message")
+        self.use("contact.form.error", "full", w, "error_message")
+        self.use("contact.form.invalid", "full", w, "invalid_message")
+        self.use("contact.form.required", "full", w, "required_field_message")
+        return w
 
     # ---- the contacts block: the shared template, in the footer (09 §4.7, 10 §1.11) ----------------------------------------
     CONTACTS = (("address", "map-marker-alt"), ("phone", "phone-alt"), ("email", "envelope"), ("links", "link"))
@@ -1102,15 +1180,32 @@ def page_problems(docs, media_list):
               if "nh-phone-frame" in classes_of(e)]
     if len(frames) != 1 or frames[0].get("widgetType") != "video" or frames[0]["settings"].get("aspect_ratio") != "916":
         problems.append("home/snoezelen: the Video widget (9:16) needs nh-phone-frame")
-    # the contact band (v4.3: the form comes here; no WhatsApp anywhere: Itzik 18.11)
+    # the contact band (v4.3, Itzik 18.11): the visit form, kept in the admin; e-mail only at launch; no WhatsApp
     band = list(walk_elements([by_name.get("contact", {})])) if by_name.get("contact") else []
-    urls = {(e["settings"].get("link") or {}).get("url"): e for e in band if e.get("widgetType") == "button"}
-    if PHONE_TEL not in urls:
-        problems.append("home/contact: the phone button is needed")
+    forms = [e for e in band if e.get("widgetType") == "form"]
+    all_forms = [e for d in docs.values() for e in walk_elements(d.get("elementor_data") or []) if e.get("widgetType") == "form"]
+    if len(forms) != 1 or len(all_forms) != 1:
+        problems.append(f"home/contact: one Form widget there and nowhere else ({len(forms)} there, {len(all_forms)} in all)")
+    for f in forms:
+        fs = f["settings"]
+        acts = list(fs.get("submit_actions") or [])
+        if acts != (["save-to-database", "email"] if LAUNCH else ["save-to-database"]):
+            problems.append(f"home/contact: the form's actions are {acts} (kept in the admin; e-mail only at launch)")
+        if fs.get("submissions_metadata") != []:
+            problems.append("home/contact: the form must not keep the visitor's IP or browser (submissions_metadata [])")
+        if fs.get("show_labels") != "true":
+            problems.append("home/contact: the form's labels must be shown")
+        req = {i.get("custom_id") for i in fs.get("form_fields") or [] if i.get("required") == "true"}
+        if req != {"name", "phone", "consent"}:
+            problems.append(f"home/contact: required fields {sorted(req)}, not name, phone, consent")
+        if LAUNCH and fs.get("email_to") != FORM_TO:
+            problems.append(f"home/contact: at launch the form e-mails {FORM_TO}")
     for d in docs.values():
         for path, v in walk_values(d.get("elementor_data") or []):
             if isinstance(v, str) and "wa.me/" in v:
                 problems.append(f"{d.get('key')}{path}: a WhatsApp link (not wanted: Itzik 18.11)")
+            if isinstance(v, str) and "nh-plain-toggle" in v:
+                problems.append(f"{d.get('key')}{path}: «בשפה פשוטה» belongs to the theme's «נגישות» panel now (v4.3)")
     # every in-page link (#…) has its target on the page (the home, the footer and its template)
     targets = {(e.get("settings") or {}).get("_element_id") for d in docs.values()
                for e in walk_elements(d.get("elementor_data") or [])} - {None, ""}
@@ -1230,7 +1325,9 @@ def check(docs, kit, menu, content, media_list):
                     "nested-accordion": ("title_typography_typography", "normal_title_color"),
                     "icon": ("primary_color", "secondary_color"),
                     "icon-box": ("primary_color", "secondary_color", "title_color",
-                                 "title_typography_typography")}.get(wt, ())
+                                 "title_typography_typography"),
+                    "form": ("label_color", "field_text_color", "button_background_color", "button_text_color",
+                             "label_typography_typography", "button_typography_typography")}.get(wt, ())
             for control in need:
                 if control not in glob:
                     problems.append(f"{where}: {wt} without a Kit global for {control}")
@@ -1268,19 +1365,23 @@ def check(docs, kit, menu, content, media_list):
                     problems.append(f"{key}: block {block} ({mode}) → element {ref.get('element')} not found")
                     continue
                 value = el["settings"]
-                for part in ref["field"].split("."):
+                field, _, twin = ref["field"].partition("#")
+                for part in field.split("."):
                     value = value[int(part)] if isinstance(value, list) else (value or {}).get(part)
                 kind = blocks[block]["kind"]
                 want = (text if kind == "html" or el.get("widgetType") in ("button", "nested-accordion")
                         else html.escape(text, quote=False))
                 if el.get("widgetType") == "text-editor" and kind != "html":
                     want = f"<p>{want}</p>" if want else ""
+                if twin:                    # a form field holds both (v4.3): the span of this mode, verbatim
+                    if f'<span class="nh-{twin}">{want}</span>' not in str(value or ""):
+                        problems.append(f"{key}/{el['id']}: block {block} ({mode}) is not in the field's nh-{twin} span")
+                    continue
                 if value != want:
                     problems.append(f"{key}/{el['id']}: block {block} ({mode}) is not verbatim: {str(value)[:80]!r}")
                 if mode == "plain" and "nh-plain" not in classes_of(el):
                     problems.append(f"{key}/{el['id']}: the plain twin of {block} has no class nh-plain")
-                if mode == "full" and blocks[block].get("plain") and "nh-full" not in classes_of(el) \
-                        and block not in ("special.more_title",):
+                if mode == "full" and blocks[block].get("plain") and "nh-full" not in classes_of(el):
                     problems.append(f"{key}/{el['id']}: {block} has a plain twin but no class nh-full")
         # headings of the document (the page as a whole below)
         for mode in ("full", "plain"):

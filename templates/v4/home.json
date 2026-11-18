@@ -14,14 +14,14 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "de3813b83c94678a4c7f8f3ca9f1f64ccf9a3451cbada9fcf34b23f26f614966",
+  "inputs_sha256": "f1a89a7a9b8cd412bb8a42ac9823e3e4d5f5518ad9bb8dcceeac06efebbc55cc",
   "widgets": [
    "button",
+   "form",
    "heading",
    "icon",
    "icon-box",
    "image",
-   "nested-accordion",
    "text-editor",
    "video"
   ],
@@ -98,10 +98,98 @@
      "field": "title"
     }
    },
-   "contact.phone": {
+   "contact.form.consent": {
     "full": {
-     "element": "c5246f9",
-     "field": "text"
+     "element": "95a9477",
+     "field": "form_fields.6.acceptance_text#full"
+    },
+    "plain": {
+     "element": "95a9477",
+     "field": "form_fields.6.acceptance_text#plain"
+    }
+   },
+   "contact.form.error": {
+    "full": {
+     "element": "95a9477",
+     "field": "error_message"
+    }
+   },
+   "contact.form.hint": {
+    "full": {
+     "element": "95a9477",
+     "field": "form_fields.4.field_html#full"
+    },
+    "plain": {
+     "element": "95a9477",
+     "field": "form_fields.4.field_html#plain"
+    }
+   },
+   "contact.form.invalid": {
+    "full": {
+     "element": "95a9477",
+     "field": "invalid_message"
+    }
+   },
+   "contact.form.label_message": {
+    "full": {
+     "element": "95a9477",
+     "field": "form_fields.3.field_label"
+    }
+   },
+   "contact.form.label_name": {
+    "full": {
+     "element": "95a9477",
+     "field": "form_fields.1.field_label"
+    }
+   },
+   "contact.form.label_phone": {
+    "full": {
+     "element": "95a9477",
+     "field": "form_fields.2.field_label"
+    }
+   },
+   "contact.form.name": {
+    "full": {
+     "element": "95a9477",
+     "field": "form_name"
+    }
+   },
+   "contact.form.privacy": {
+    "full": {
+     "element": "95a9477",
+     "field": "form_fields.7.field_html#full"
+    },
+    "plain": {
+     "element": "95a9477",
+     "field": "form_fields.7.field_html#plain"
+    }
+   },
+   "contact.form.required": {
+    "full": {
+     "element": "95a9477",
+     "field": "required_field_message"
+    }
+   },
+   "contact.form.required_note": {
+    "full": {
+     "element": "95a9477",
+     "field": "form_fields.0.field_html#full"
+    },
+    "plain": {
+     "element": "95a9477",
+     "field": "form_fields.0.field_html#plain"
+    }
+   },
+   "contact.form.submit": {
+    "full": {
+     "element": "95a9477",
+     "field": "button_text"
+    }
+   },
+   "contact.form.success": {
+    "full": {
+     "element": "95a9477",
+     "field": "success_message"
     }
    },
    "contact.sub": {
@@ -260,20 +348,14 @@
    },
    "special.framed": {
     "full": {
-     "element": "b84e1d9",
+     "element": "543cfe0",
      "field": "editor"
     }
    },
    "special.lead": {
     "full": {
-     "element": "2e8126b",
+     "element": "1ebed93",
      "field": "editor"
-    }
-   },
-   "special.more_title": {
-    "full": {
-     "element": "c463796",
-     "field": "items.0.item_title"
     }
    },
    "special.plain_body": {
@@ -284,7 +366,7 @@
    },
    "special.rest": {
     "full": {
-     "element": "b543d10",
+     "element": "50a346c",
      "field": "editor"
     }
    },
@@ -1320,7 +1402,7 @@
            "settings": {
             "image": {
              "url": "",
-             "id": "@media:card-3",
+             "id": "@media:card-3-v43",
              "size": "",
              "alt": "",
              "source": "library"
@@ -1916,7 +1998,7 @@
             "show_image_overlay": "yes",
             "image_overlay": {
              "url": "",
-             "id": "@media:video-JQXm_Dku7tI",
+             "id": "@media:video-JQXm_Dku7tI-v43",
              "size": "",
              "alt": "",
              "source": "library"
@@ -3350,191 +3432,115 @@
        "widgetType": "heading"
       },
       {
-       "id": "c463796",
-       "elType": "widget",
+       "id": "393a44d",
+       "elType": "container",
        "settings": {
-        "items": [
-         {
-          "item_title": "להמשך קריאה",
-          "element_css_id": "",
-          "_id": "e2ec4d8"
-         }
-        ],
-        "default_state": "all_collapsed",
-        "max_items_expended": "one",
-        "n_accordion_animation_duration": {
-         "unit": "ms",
-         "size": 0,
-         "sizes": []
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "0",
+         "row": "0",
+         "isLinked": true,
+         "unit": "px"
         },
-        "title_tag": "span",
-        "accordion_item_title_icon": {
-         "value": "fas fa-plus",
-         "library": "fa-solid"
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "padding": {
+         "unit": "custom",
+         "top": "1.5rem",
+         "right": "1.5rem",
+         "bottom": "1.5rem",
+         "left": "1.5rem",
+         "isLinked": true
         },
-        "accordion_item_title_icon_active": {
-         "value": "fas fa-minus",
-         "library": "fa-solid"
+        "background_background": "classic",
+        "border_border": "solid",
+        "border_width": {
+         "unit": "px",
+         "top": "0",
+         "right": "4",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": false
         },
-        "_css_classes": "nh-more nh-full",
-        "normal_title_color": "#4A2D84",
-        "hover_title_color": "#3A2269",
-        "active_title_color": "#4A2D84",
-        "normal_icon_color": "#4A2D84",
-        "hover_icon_color": "#3A2269",
-        "active_icon_color": "#4A2D84",
+        "border_radius": {
+         "unit": "px",
+         "top": "12",
+         "right": "12",
+         "bottom": "12",
+         "left": "12",
+         "isLinked": true
+        },
+        "css_classes": "nh-framed nh-full",
+        "background_color": "#FFFFFF",
+        "border_color": "#4A2D84",
         "__globals__": {
-         "normal_title_color": "globals/colors?id=primary",
-         "hover_title_color": "globals/colors?id=78b4a18",
-         "active_title_color": "globals/colors?id=primary",
-         "normal_icon_color": "globals/colors?id=primary",
-         "hover_icon_color": "globals/colors?id=78b4a18",
-         "active_icon_color": "globals/colors?id=primary",
-         "title_typography_typography": "globals/typography?id=accent"
-        }
+         "background_color": "globals/colors?id=3efe2c1",
+         "border_color": "globals/colors?id=primary"
+        },
+        "_title": "שאלות"
        },
        "elements": [
         {
-         "id": "d4daa28",
-         "elType": "container",
+         "id": "543cfe0",
+         "elType": "widget",
          "settings": {
-          "content_width": "full",
-          "container_type": "flex",
-          "flex_direction": "column",
-          "flex_gap": {
-           "column": "16",
-           "row": "16",
-           "isLinked": true,
-           "unit": "px"
-          },
-          "flex_wrap": "nowrap",
-          "flex_wrap_tablet": "nowrap",
-          "flex_wrap_mobile": "nowrap",
-          "padding": {
-           "unit": "px",
-           "top": "16",
-           "right": "0",
-           "bottom": "0",
-           "left": "0",
-           "isLinked": false
-          },
-          "_title": "להמשך קריאה"
-         },
-         "elements": [
-          {
-           "id": "29a8109",
-           "elType": "container",
-           "settings": {
-            "content_width": "full",
-            "container_type": "flex",
-            "flex_direction": "column",
-            "flex_gap": {
-             "column": "0",
-             "row": "0",
-             "isLinked": true,
-             "unit": "px"
-            },
-            "flex_wrap": "nowrap",
-            "flex_wrap_tablet": "nowrap",
-            "flex_wrap_mobile": "nowrap",
-            "padding": {
-             "unit": "custom",
-             "top": "1.5rem",
-             "right": "1.5rem",
-             "bottom": "1.5rem",
-             "left": "1.5rem",
-             "isLinked": true
-            },
-            "background_background": "classic",
-            "border_border": "solid",
-            "border_width": {
-             "unit": "px",
-             "top": "0",
-             "right": "4",
-             "bottom": "0",
-             "left": "0",
-             "isLinked": false
-            },
-            "border_radius": {
-             "unit": "px",
-             "top": "12",
-             "right": "12",
-             "bottom": "12",
-             "left": "12",
-             "isLinked": true
-            },
-            "css_classes": "nh-framed",
-            "background_color": "#FFFFFF",
-            "border_color": "#4A2D84",
-            "__globals__": {
-             "background_color": "globals/colors?id=3efe2c1",
-             "border_color": "globals/colors?id=primary"
-            },
-            "_title": "שאלות"
-           },
-           "elements": [
-            {
-             "id": "b84e1d9",
-             "elType": "widget",
-             "settings": {
-              "editor": "<ul><li>בכל פעם שאתם שומעים את המונח \"מעון לבעלי צרכים מיוחדים\" איזו תמונה עולה בראשכם?</li><li>בכל פעם שאתם שומעים את המונח \"מעון לבעלי צרכים מיוחדים\" איזו הרגשה עולה לכם בגוף?</li></ul><p>לא כזו איכותית ולא כזו נעימה, נכון? בדיוק.</p>",
-              "text_color": "#1F2421",
-              "link_color": "#4A2D84",
-              "link_hover_color": "#3A2269",
-              "__globals__": {
-               "text_color": "globals/colors?id=text",
-               "link_color": "globals/colors?id=primary",
-               "link_hover_color": "globals/colors?id=78b4a18",
-               "typography_typography": "globals/typography?id=text"
-              }
-             },
-             "elements": [],
-             "widgetType": "text-editor"
-            }
-           ],
-           "isInner": true
-          },
-          {
-           "id": "2e8126b",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>נווה האירוס הוא מעון לבעלי צרכים מיוחדים, והתמונה שעולה יחד עם ההרגשה שבגוף היא, כי משהו חדש מתחיל, משהו טוב קורה כאן, בנווה האירוס.</p><p>מעון לבעלי צרכים מיוחדים הוא מקום. בית. (אפילו) לכל החיים, הן לחוסים בו והן למשפחותיהם. הצוותים העובדים במעון נווה האירוס הינם צוותים חדשים ומחודשים, כאלו שעברו הכשרות מקצועיות, ימי עיון וההדרכות, על מנת למקד את תכנית הטיפול האישית, המתאימה לכל אחד ואחת מדיירי המעון. כמעון לבעלי צרכים מיוחדים, מעון נווה האירוס, שואף להתקדם ומתקדם בכל יום לשיפור המיומנויות והכלים היומיומיים לשילוב בחברה, שכן, ישנם דיירים ברמות תפקוד שונות, המאפשרות להם/ן, יחד עם הכשרה וליווי צמוד של הצוות המטפל, להשתלב בעבודה, לגור באופן עצמאי, עם דיירים נוספים (תוך חונכות איש צוות אשר קיבל הכשרה מתאימה) ובכלל, בנווה האירוס, עושים ונעשה את המקסימום על מנת לוודא כי כל החוסים יקבלו טיפול צמוד ומתאים בהתאם לקשיים של כל אחד ואחת.</p>",
-            "text_color": "#1F2421",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=text",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=text"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "b543d10",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>מעון לבעלי צרכים מיוחדים צריך להיות כזה המאפשר גם למשפחות החוסים, לקחת חלק בחייהם, גם אם אינם גרים בביתם השורשי. האפשרות להגיע למעון, לבקר, לטייל בין החללים השונים, צריכה להיות מובנת מאליה ולא ממודרת. השיתוף בין הנהלת המעון, (אשר גם מנצחת על תהליך השיפור והשינוי במעון), הצוותים המטפלים השונים, לבין משפחות החוסים, מאפשר תקשורת פתוחה, שקיפות ושיתוף פעולה בכל הקשור לחיי היומיום במעון ולחזון העתידי שלו. משפחותיהם של החוסים מהווות חלק בלתי נפרד מהצוות התומך, המקיף את החוסה ועל כך, מעצימים את הביטחון שלו/ה, מאפשרים להתפנות לטיפולים השונים ולהתקדמות בדרך. התקשורת בין המשפחות לצוותים היא חלק בלתי נפרד מהצלחתו של מעון לבעלי צרכים מיוחדים, שכן, ישנם מעגלי תקשורת אשר נפתחים ונסגרים בכל פעם, והיות וישנם חוסים אשר נמצאים גם במסגרות חוץ, חד יומיות, חשוב להנהלת מעון נווה האירוס, להיות בקשר רציף עם המשפחות וזאת על מנת לשמר את תהליך הטיפול ולהתקדם בכל פעם, קצת, צעד צעד.</p><p>מעון לבעלי צרכים מיוחדים, הוא מקום מיוחד, ייחודי ורגיש מאד. העבודה עם אוכלוסייה בעלת צרכים מיוחדים היא זכות גדולה ועדיין לא כולם בוחרים בה ולכן, הצוותים בנווה האירוס נבחרו בקפידה תוך התייחסות ספציפית לכישורים מתאימים וכמובן, לב רחב וסבלנות אין קץ, שכן, הטיפול באוכלוסייה שכזו, אינו מניב תוצאות מיידיות (וכאלו שגם לא מניב כלל) ולכן, נדרשת סבלנות גדולה ונתינה ענקית.</p><p>הצוותים השונים, העובדים עם החוסים, עושים את המקסימום על מנת לאפשר לכל אחד מהדיירים במעון את הרווחה המגיעה לכל אחד ואחת מהם. הליווי, האכפתיות, תשומת הלב, גם לפרטים הקטנים ביותר, כי זהו חלק מהחזון שלנו בנווה האירוס, אותו אנו מגשימים בכל יום ויום וזמינים גם עבור משפחותיהם של הדיירים ומאפשרים ערוצי תקשורת פתוחים עם הנהלת המעון והצוותים הרלוונטיים.</p><p>מעון לבעלי צרכים מיוחדים נווה האירוס, הוא מקום מיוחד, עם אנשים מיוחדים לאנשים מיוחדים. נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.</p>",
-            "text_color": "#1F2421",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=text",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=text"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
+          "editor": "<ul><li>בכל פעם שאתם שומעים את המונח \"מעון לבעלי צרכים מיוחדים\" איזו תמונה עולה בראשכם?</li><li>בכל פעם שאתם שומעים את המונח \"מעון לבעלי צרכים מיוחדים\" איזו הרגשה עולה לכם בגוף?</li></ul><p>לא כזו איכותית ולא כזו נעימה, נכון? בדיוק.</p>",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
           }
-         ],
-         "isInner": true
+         },
+         "elements": [],
+         "widgetType": "text-editor"
         }
        ],
-       "widgetType": "nested-accordion"
+       "isInner": true
+      },
+      {
+       "id": "1ebed93",
+       "elType": "widget",
+       "settings": {
+        "editor": "<p>נווה האירוס הוא מעון לבעלי צרכים מיוחדים, והתמונה שעולה יחד עם ההרגשה שבגוף היא, כי משהו חדש מתחיל, משהו טוב קורה כאן, בנווה האירוס.</p><p>מעון לבעלי צרכים מיוחדים הוא מקום. בית. (אפילו) לכל החיים, הן לחוסים בו והן למשפחותיהם. הצוותים העובדים במעון נווה האירוס הינם צוותים חדשים ומחודשים, כאלו שעברו הכשרות מקצועיות, ימי עיון וההדרכות, על מנת למקד את תכנית הטיפול האישית, המתאימה לכל אחד ואחת מדיירי המעון. כמעון לבעלי צרכים מיוחדים, מעון נווה האירוס, שואף להתקדם ומתקדם בכל יום לשיפור המיומנויות והכלים היומיומיים לשילוב בחברה, שכן, ישנם דיירים ברמות תפקוד שונות, המאפשרות להם/ן, יחד עם הכשרה וליווי צמוד של הצוות המטפל, להשתלב בעבודה, לגור באופן עצמאי, עם דיירים נוספים (תוך חונכות איש צוות אשר קיבל הכשרה מתאימה) ובכלל, בנווה האירוס, עושים ונעשה את המקסימום על מנת לוודא כי כל החוסים יקבלו טיפול צמוד ומתאים בהתאם לקשיים של כל אחד ואחת.</p>",
+        "_css_classes": "nh-full",
+        "text_color": "#1F2421",
+        "link_color": "#4A2D84",
+        "link_hover_color": "#3A2269",
+        "__globals__": {
+         "text_color": "globals/colors?id=text",
+         "link_color": "globals/colors?id=primary",
+         "link_hover_color": "globals/colors?id=78b4a18",
+         "typography_typography": "globals/typography?id=text"
+        }
+       },
+       "elements": [],
+       "widgetType": "text-editor"
+      },
+      {
+       "id": "50a346c",
+       "elType": "widget",
+       "settings": {
+        "editor": "<p>מעון לבעלי צרכים מיוחדים צריך להיות כזה המאפשר גם למשפחות החוסים, לקחת חלק בחייהם, גם אם אינם גרים בביתם השורשי. האפשרות להגיע למעון, לבקר, לטייל בין החללים השונים, צריכה להיות מובנת מאליה ולא ממודרת. השיתוף בין הנהלת המעון, (אשר גם מנצחת על תהליך השיפור והשינוי במעון), הצוותים המטפלים השונים, לבין משפחות החוסים, מאפשר תקשורת פתוחה, שקיפות ושיתוף פעולה בכל הקשור לחיי היומיום במעון ולחזון העתידי שלו. משפחותיהם של החוסים מהווות חלק בלתי נפרד מהצוות התומך, המקיף את החוסה ועל כך, מעצימים את הביטחון שלו/ה, מאפשרים להתפנות לטיפולים השונים ולהתקדמות בדרך. התקשורת בין המשפחות לצוותים היא חלק בלתי נפרד מהצלחתו של מעון לבעלי צרכים מיוחדים, שכן, ישנם מעגלי תקשורת אשר נפתחים ונסגרים בכל פעם, והיות וישנם חוסים אשר נמצאים גם במסגרות חוץ, חד יומיות, חשוב להנהלת מעון נווה האירוס, להיות בקשר רציף עם המשפחות וזאת על מנת לשמר את תהליך הטיפול ולהתקדם בכל פעם, קצת, צעד צעד.</p><p>מעון לבעלי צרכים מיוחדים, הוא מקום מיוחד, ייחודי ורגיש מאד. העבודה עם אוכלוסייה בעלת צרכים מיוחדים היא זכות גדולה ועדיין לא כולם בוחרים בה ולכן, הצוותים בנווה האירוס נבחרו בקפידה תוך התייחסות ספציפית לכישורים מתאימים וכמובן, לב רחב וסבלנות אין קץ, שכן, הטיפול באוכלוסייה שכזו, אינו מניב תוצאות מיידיות (וכאלו שגם לא מניב כלל) ולכן, נדרשת סבלנות גדולה ונתינה ענקית.</p><p>הצוותים השונים, העובדים עם החוסים, עושים את המקסימום על מנת לאפשר לכל אחד מהדיירים במעון את הרווחה המגיעה לכל אחד ואחת מהם. הליווי, האכפתיות, תשומת הלב, גם לפרטים הקטנים ביותר, כי זהו חלק מהחזון שלנו בנווה האירוס, אותו אנו מגשימים בכל יום ויום וזמינים גם עבור משפחותיהם של הדיירים ומאפשרים ערוצי תקשורת פתוחים עם הנהלת המעון והצוותים הרלוונטיים.</p><p>מעון לבעלי צרכים מיוחדים נווה האירוס, הוא מקום מיוחד, עם אנשים מיוחדים לאנשים מיוחדים. נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.</p>",
+        "_css_classes": "nh-full",
+        "text_color": "#1F2421",
+        "link_color": "#4A2D84",
+        "link_hover_color": "#3A2269",
+        "__globals__": {
+         "text_color": "globals/colors?id=text",
+         "link_color": "globals/colors?id=primary",
+         "link_hover_color": "globals/colors?id=78b4a18",
+         "typography_typography": "globals/typography?id=text"
+        }
+       },
+       "elements": [],
+       "widgetType": "text-editor"
       },
       {
        "id": "f48fa3c",
@@ -3664,7 +3670,7 @@
        "isLinked": false
       },
       "css_classes": "nh-sec__inner nh-reveal",
-      "flex_align_items": "center",
+      "flex_align_items": "stretch",
       "_title": "תוכן"
      },
      "elements": [
@@ -3707,7 +3713,7 @@
        "id": "0aebf33",
        "elType": "widget",
        "settings": {
-        "editor": "<p>נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.</p>",
+        "editor": "<p>השאירו פרטים ונחזור אליכם לתיאום מפגש היכרות.</p>",
         "_css_classes": "nh-full",
         "align": "center",
         "text_color": "#1F2421",
@@ -3727,7 +3733,7 @@
        "id": "ef26c21",
        "elType": "widget",
        "settings": {
-        "editor": "<p>אתם מוזמנים לבוא אלינו לפגישת היכרות. נשמח לתת לכם כל מידע שאתם צריכים.</p>",
+        "editor": "<p>אפשר להשאיר פרטים. נתקשר אליכם כדי לקבוע פגישת היכרות.</p>",
         "_css_classes": "nh-plain",
         "align": "center",
         "text_color": "#1F2421",
@@ -3745,48 +3751,187 @@
        "widgetType": "text-editor"
       },
       {
-       "id": "69c1ffd",
+       "id": "011623f",
        "elType": "container",
        "settings": {
         "content_width": "full",
         "container_type": "flex",
-        "flex_direction": "row",
+        "flex_direction": "column",
         "flex_gap": {
-         "column": "16",
-         "row": "16",
+         "column": "0",
+         "row": "0",
          "isLinked": true,
          "unit": "px"
         },
-        "flex_wrap": "wrap",
-        "flex_wrap_tablet": "wrap",
-        "flex_wrap_mobile": "wrap",
-        "flex_justify_content": "center",
-        "flex_align_items": "center",
-        "padding": {
-         "unit": "px",
-         "top": "8",
-         "right": "0",
-         "bottom": "0",
-         "left": "0",
-         "isLinked": false
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(640px, 100%)",
+         "sizes": []
         },
-        "_title": "כפתורים"
+        "_flex_align_self": "center",
+        "padding": {
+         "unit": "custom",
+         "top": "2rem",
+         "right": "2rem",
+         "bottom": "2rem",
+         "left": "2rem",
+         "isLinked": true
+        },
+        "padding_mobile": {
+         "unit": "custom",
+         "top": "1.25rem",
+         "right": "1.25rem",
+         "bottom": "1.25rem",
+         "left": "1.25rem",
+         "isLinked": true
+        },
+        "background_background": "classic",
+        "border_radius": {
+         "unit": "px",
+         "top": "16",
+         "right": "16",
+         "bottom": "16",
+         "left": "16",
+         "isLinked": true
+        },
+        "box_shadow_box_shadow_type": "yes",
+        "box_shadow_box_shadow": {
+         "horizontal": 0,
+         "vertical": 8,
+         "blur": 24,
+         "spread": -4,
+         "color": "rgba(28, 24, 48, 0.14)"
+        },
+        "css_classes": "nh-form-card nh-reveal",
+        "background_color": "#FFFFFF",
+        "__globals__": {
+         "background_color": "globals/colors?id=3efe2c1"
+        },
+        "_title": "טופס"
        },
        "elements": [
         {
-         "id": "c5246f9",
+         "id": "95a9477",
          "elType": "widget",
          "settings": {
-          "text": "08-9403047",
-          "link": {
-           "url": "tel:089403047",
-           "is_external": "",
-           "nofollow": "",
-           "custom_attributes": ""
+          "form_name": "בקשה לביקור",
+          "form_fields": [
+           {
+            "_id": "6448445",
+            "custom_id": "note",
+            "field_type": "html",
+            "width": "100",
+            "field_html": "<p class=\"nh-form__note\" id=\"nh-form-note\"><span class=\"nh-full\">שדות המסומנים ב־<span class=\"nh-req\" aria-hidden=\"true\">*</span><span class=\"nh-visually-hidden\">כוכבית</span> הם שדות חובה.</span><span class=\"nh-plain\">צריך למלא את השדות עם כוכבית <span class=\"nh-req\" aria-hidden=\"true\">*</span>.</span></p>"
+           },
+           {
+            "_id": "e4b3f6a",
+            "custom_id": "name",
+            "field_type": "text",
+            "width": "100",
+            "required": "true",
+            "field_label": "שם מלא"
+           },
+           {
+            "_id": "4ec35e3",
+            "custom_id": "phone",
+            "field_type": "tel",
+            "width": "100",
+            "required": "true",
+            "field_label": "טלפון"
+           },
+           {
+            "_id": "9ae8928",
+            "custom_id": "message",
+            "field_type": "textarea",
+            "width": "100",
+            "rows": 4,
+            "field_label": "משהו שחשוב לנו לדעת?"
+           },
+           {
+            "_id": "c7bebca",
+            "custom_id": "hint",
+            "field_type": "html",
+            "width": "100",
+            "field_html": "<p class=\"nh-form__hint\" id=\"nh-form-hint\"><span class=\"nh-full\">אין צורך לפרט כאן מידע רפואי. נדבר על הכול בשיחה.</span><span class=\"nh-plain\">לא צריך לכתוב כאן מידע רפואי. נדבר על זה בשיחה.</span></p>"
+           },
+           {
+            "_id": "ed65aeb",
+            "custom_id": "website",
+            "field_type": "honeypot",
+            "width": "100",
+            "field_label": "אתר"
+           },
+           {
+            "_id": "1eb4d9a",
+            "custom_id": "consent",
+            "field_type": "acceptance",
+            "width": "100",
+            "required": "true",
+            "field_label": "",
+            "acceptance_text": "<span class=\"nh-full\">קראתי את <a href=\"@home:/מדיניות-פרטיות/\">מדיניות הפרטיות</a> ואני מסכים/ה שתיצרו איתי קשר לגבי הביקור.</span><span class=\"nh-plain\">אני מסכים או מסכימה שתתקשרו אליי.<br><a href=\"@home:/מדיניות-פרטיות/\">מה עושים עם הפרטים שלי?</a></span>"
+           },
+           {
+            "_id": "c203636",
+            "custom_id": "privacy",
+            "field_type": "html",
+            "width": "100",
+            "field_html": "<p class=\"nh-form__privacy\" id=\"nh-form-privacy\"><span class=\"nh-full\">מסירת הפרטים אינה חובה לפי חוק, אך בלעדיהם לא נוכל לחזור אליכם. הפרטים ישמשו רק לתיאום הביקור ולמענה לבקשה, יישמרו במאגר המידע של נוה האירוס בע״מ ולא יועברו לגורם אחר. אפשר לבקש לעיין במידע ולתקן אותו: 08-9403047.</span><span class=\"nh-plain\">לא חייבים לתת לנו את הפרטים.<br>בלי הפרטים לא נוכל לחזור אליכם.<br>הפרטים נשמרים אצלנו רק כדי לקבוע ביקור.<br>לא נותנים אותם לאף אחד אחר.<br>אפשר לבקש לראות אותם או לתקן אותם.</span></p>"
+           }
+          ],
+          "input_size": "md",
+          "show_labels": "true",
+          "mark_required": "yes",
+          "label_position": "above",
+          "button_text": "שליחת הבקשה",
+          "button_size": "md",
+          "button_width": "100",
+          "button_align": "stretch",
+          "submit_actions": [
+           "save-to-database"
+          ],
+          "submissions_metadata": [],
+          "form_validation": "custom",
+          "custom_messages": "yes",
+          "success_message": "תודה! הבקשה התקבלה. נחזור אליכם בהקדם לתיאום הביקור.",
+          "error_message": "משהו השתבש בשליחה. אפשר לנסות שוב, או להתקשר: 08-9403047",
+          "server_message": "משהו השתבש בשליחה. אפשר לנסות שוב, או להתקשר: 08-9403047",
+          "invalid_message": "נמצאו שגיאות בטופס.",
+          "required_field_message": "צריך למלא את השדה הזה.",
+          "column_gap": {
+           "unit": "px",
+           "size": 0,
+           "sizes": []
           },
-          "background_background": "classic",
-          "button_background_hover_background": "classic",
-          "border_radius": {
+          "row_gap": {
+           "unit": "px",
+           "size": 20,
+           "sizes": []
+          },
+          "label_spacing": {
+           "unit": "px",
+           "size": 6,
+           "sizes": []
+          },
+          "field_border_width": {
+           "unit": "px",
+           "top": "2",
+           "right": "2",
+           "bottom": "2",
+           "left": "2",
+           "isLinked": true
+          },
+          "field_border_radius": {
+           "unit": "px",
+           "top": "8",
+           "right": "8",
+           "bottom": "8",
+           "left": "8",
+           "isLinked": true
+          },
+          "button_border_radius": {
            "unit": "px",
            "top": "12",
            "right": "12",
@@ -3794,7 +3939,7 @@
            "left": "12",
            "isLinked": true
           },
-          "text_padding": {
+          "button_text_padding": {
            "unit": "custom",
            "top": "1rem",
            "right": "2rem",
@@ -3802,31 +3947,43 @@
            "left": "2rem",
            "isLinked": false
           },
-          "selected_icon": {
-           "value": "fas fa-phone-alt",
-           "library": "fa-solid"
-          },
-          "icon_align": "row",
-          "icon_indent": {
-           "unit": "px",
-           "size": 8,
-           "sizes": []
-          },
-          "_css_classes": "nh-btn-phone",
-          "background_color": "#4A2D84",
+          "_css_classes": "nh-contact-form",
+          "label_color": "#1F2421",
+          "mark_required_color": "#A8261B",
+          "html_color": "#4F5550",
+          "field_text_color": "#1F2421",
+          "field_background_color": "#FFFFFF",
+          "field_border_color": "#4F5550",
+          "button_background_color": "#4A2D84",
           "button_text_color": "#FFFFFF",
           "button_background_hover_color": "#3A2269",
-          "hover_color": "#FFFFFF",
+          "button_hover_color": "#FFFFFF",
+          "success_message_color": "#2F6B2A",
+          "error_message_color": "#A8261B",
+          "inline_message_color": "#A8261B",
           "__globals__": {
-           "background_color": "globals/colors?id=primary",
+           "label_color": "globals/colors?id=text",
+           "mark_required_color": "globals/colors?id=a269239",
+           "html_color": "globals/colors?id=161ef55",
+           "field_text_color": "globals/colors?id=text",
+           "field_background_color": "globals/colors?id=3efe2c1",
+           "field_border_color": "globals/colors?id=161ef55",
+           "button_background_color": "globals/colors?id=primary",
            "button_text_color": "globals/colors?id=3efe2c1",
            "button_background_hover_color": "globals/colors?id=78b4a18",
-           "hover_color": "globals/colors?id=3efe2c1",
-           "typography_typography": "globals/typography?id=accent"
+           "button_hover_color": "globals/colors?id=3efe2c1",
+           "success_message_color": "globals/colors?id=dda5945",
+           "error_message_color": "globals/colors?id=a269239",
+           "inline_message_color": "globals/colors?id=a269239",
+           "label_typography_typography": "globals/typography?id=accent",
+           "field_typography_typography": "globals/typography?id=text",
+           "button_typography_typography": "globals/typography?id=accent",
+           "html_typography_typography": "globals/typography?id=504434a",
+           "message_typography_typography": "globals/typography?id=text"
           }
          },
          "elements": [],
-         "widgetType": "button"
+         "widgetType": "form"
         }
        ],
        "isInner": true

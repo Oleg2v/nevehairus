@@ -1029,8 +1029,10 @@ html.nh-a11y-still *::after {
    region, not a dialog: a banner at the foot of the screen while no current
    choice is stored (html.nh-consent-ask, set before the first paint), and the
    settings when opened (.is-open). Light, as the «נגישות» panel. Under the
-   floating buttons (8990 < 9000), so «נגישות» opens over it; on desktops at the
-   inline start (right), never over the floating button at the inline end.
+   floating buttons (8990 < 9000), so «נגישות» opens over it. On tablets at the
+   inline start (right), never over the floating button at the inline end; from
+   1024px (1.4.1) at the inline end, beside that button, so the hero's text and
+   its two buttons at the inline start stay in view on a first visit.
    ========================================================================= */
 .nh-consent {
   display: none;
@@ -1052,6 +1054,10 @@ html.nh-a11y-still *::after {
   box-shadow: 0 16px 40px -12px rgba(28, 24, 48, .32);
   font: 400 1.0625rem/1.55 "Assistant", "Arial Hebrew", Arial, sans-serif;
   text-align: start;
+}
+/* beside the floating «נגישות» button: 24px from the edge + the 52px button + a 16px gap */
+@media (min-width: 1024px) {
+  .nh-consent { inset-inline-start: auto; inset-inline-end: 92px; }
 }
 html.nh-consent-ask .nh-consent,
 .nh-consent.is-open { display: block; }

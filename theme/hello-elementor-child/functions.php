@@ -36,6 +36,9 @@
  *   settings, and a question in place before an Elementor video loads YouTube while embedded content is not allowed;
  * - the contact form of the v4 home (Elementor Pro's Form): its texts for the theme's error summary, the server-side
  *   check of the phone and the consent, and a rate limit.
+ * 1.4.1 (18.11, after the checks on the test site): a stored submission holds only the visitor's answers (the
+ * form's HTML fields are taken out of the record); at the send limit the server answers with that one message;
+ * keyboard focus is never left under the cookie banner; from 1024px the banner sits beside the «נגישות» button.
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child

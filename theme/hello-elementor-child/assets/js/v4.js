@@ -1,5 +1,5 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.4.0 (research/09-v4-home-spec.md
+   v4.js — child theme hello-elementor-child 1.4.1 (research/09-v4-home-spec.md
    §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
    No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed
@@ -496,6 +496,21 @@
       if (w.location.hash === "#nh-cookies") open(null);
       if (!cRead()) html.classList.add("nh-consent-ask"); // the head script may have been dropped by a cache tool
       setCH();
+      // keyboard focus never sits under the banner (WCAG 2.4.11): scroll-padding covers what the browser scrolls to,
+      // but a control already on screen behind the banner is not scrolled by the browser; move it just above the
+      // banner, and if it is too tall for the room left, bring its top just under the header
+      d.addEventListener("focusin", (e) => {
+        const t = e.target;
+        if (!t || !t.getBoundingClientRect || cons.contains(t) || !html.matches(".nh-consent-ask, .nh-consent-open")) return;
+        if (t.closest(".elementor-location-header, .nh-float, .nh-a11y-panel, .nh-a11y")) return;   // fixed: scrolling does not move them
+        const c = cons.getBoundingClientRect();
+        if (!c.height) return;
+        const r = t.getBoundingClientRect();
+        if (!r.height || r.bottom <= c.top || r.top >= c.bottom || r.right <= c.left || r.left >= c.right) return;
+        const top = (headerFloats() ? headerLoc.getBoundingClientRect().bottom : 0) + 8;
+        const dy = r.height <= c.top - 16 - top ? r.bottom - (c.top - 16) : r.top - top;
+        if (dy > 0) w.scrollBy(0, dy);                    // instant (:root { scroll-behavior: auto })
+      });
       // another tab chose
       w.addEventListener("storage", (e) => {
         if (e.key === CKEY || e.key === null) html.classList.toggle("nh-consent-ask", !cRead());

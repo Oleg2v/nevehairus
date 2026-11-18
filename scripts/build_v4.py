@@ -823,6 +823,10 @@ class Builder:
                 it["required"] = "true"
             if ftype == "html":
                 klass = {"note": "nh-form__note", "hint": "nh-form__hint", "privacy": "nh-form__privacy"}[cid]
+                # a name for the editor's list of fields only (Elementor prints no label for an HTML field), so the
+                # client sees what each item is instead of «פריט #1»
+                it["field_label"] = {"note": "טקסט: שדות חובה", "hint": "טקסט: הסבר להודעה",
+                                     "privacy": "טקסט: פרטיות"}[cid]
                 it["field_html"] = self.twin_html(block, "p", f' class="{klass}" id="nh-form-{cid}"')
                 uses.append((block, f"form_fields.{n}.field_html"))
             elif ftype == "acceptance":

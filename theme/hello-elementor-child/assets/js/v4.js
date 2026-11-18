@@ -1,5 +1,5 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.4.2 (research/09-v4-home-spec.md
+   v4.js — child theme hello-elementor-child 1.4.3 (research/09-v4-home-spec.md
    §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
    No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed
@@ -320,6 +320,18 @@
       // Elementor's Nested Accordion prints an English, untranslatable aria-label on its wrapper <div> («Accordion. Open
       // links with Enter or Space…»); a generic div may not carry a name (ARIA 1.2) and its <summary> is the control
       d.querySelectorAll(".nh-sec .e-n-accordion[aria-label]").forEach((a) => a.removeAttribute("aria-label"));
+      // 1.4.3: its open region would be named by its whole text (Elementor points the region's aria-labelledby, and
+      // the summary's aria-controls, at the <details> itself): the summary names the region and controls it
+      d.querySelectorAll(".nh-sec .e-n-accordion-item").forEach((item, i) => {
+        const head = item.querySelector(":scope > summary");
+        const region = item.querySelector(':scope > [role="region"]');
+        if (!head || !region) return;
+        const base = item.id || "nh-acc-" + i;
+        if (!head.id) head.id = base + "-title";
+        if (!region.id) region.id = base + "-panel";
+        region.setAttribute("aria-labelledby", head.id);
+        head.setAttribute("aria-controls", region.id);
+      });
     }
 
     /* ---------- 4. v4.1 motion ---------------------------------------------------- */

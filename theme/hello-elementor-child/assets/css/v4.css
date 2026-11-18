@@ -470,6 +470,10 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
   text-decoration-thickness: 2px;
   text-underline-offset: .3em;
 }
+/* 1.4.3: the opened text continues the paragraphs above it: no frame of Elementor's own around it */
+.nh-sec .elementor-widget-n-accordion.nh-more .e-n-accordion-item > [role="region"] { border: 0; }
+/* a phone number in a text never breaks after its dash, and reads left to right inside Hebrew */
+.nh-sec .nh-ltr { direction: ltr; unicode-bidi: isolate; white-space: nowrap; }
 
 /* ---------- v4.1 «נשמח שתבואו להכיר אותנו» (§1.10): two large buttons, the phone
    purple-700, WhatsApp green-700 #2F6B2A (white on it 6.5:1), white text and icons

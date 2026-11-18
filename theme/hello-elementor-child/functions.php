@@ -45,6 +45,8 @@
  * 1.4.2 (18.11, after the check of the fixes): a valid phone number is kept as its digits; on phones the «נגישות»
  * panel opened over the banner stands beside the floating column, the column and the panel keep below the v3.2
  * pages' fixed masthead too, and a banner too tall for the column stands beside it (v4.js, v4.css).
+ * 1.4.3: the form's check runs after Elementor Pro's own (priority 20), so a send its trap refused is not counted;
+ * «להמשך קריאה»: its open region is named by its summary and has no frame; phone numbers in texts never break.
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -75,7 +77,7 @@ add_action( 'wp_enqueue_scripts', 'nh_child_styles', 20 );
 add_action( 'wp_enqueue_scripts', 'nh_child_v4_assets', 30 );
 add_action( 'wp_head', 'nh_child_v4_head', 2 );
 add_action( 'wp_footer', 'nh_child_v4_footer', 10 );
-add_action( 'elementor_pro/forms/validation', 'nh_child_form_validation', 10, 2 );
+add_action( 'elementor_pro/forms/validation', 'nh_child_form_validation', 20, 2 );   // after Pro's own (its trap): a refused send is not counted
 add_filter( 'elementor_pro/forms/sanitize/tel', 'nh_child_form_tel', 20 );
 
 /**

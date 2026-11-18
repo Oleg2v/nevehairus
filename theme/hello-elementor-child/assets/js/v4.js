@@ -501,7 +501,9 @@
         if (e.key === CKEY || e.key === null) html.classList.toggle("nh-consent-ask", !cRead());
       });
       // the plugin's widgets (the voices widget of the v3.2 pages) read and save through this (nh-core.js 0.2.7)
-      w.nhConsent = { read: cRead, save: cSave, open: (src) => open(src || null), hide: () => hide(false) };
+      // read() → the record or null; save({stats, media}) → the record (synchronous; dispatches nh:consent); open(src) →
+      // true; hide() hides at once and never moves the focus (the voices widget focuses its player right after)
+      w.nhConsent = { read: cRead, save: cSave, open: (src) => { open(src || null); return true; }, hide: () => { hide(false); } };
     }
 
     /* ---------- 6. v4.3 a question before an Elementor video loads YouTube ------------- */

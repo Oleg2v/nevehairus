@@ -36,7 +36,8 @@
     "contact.sub is the live sentence «נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.» from the end of «מעון לבעלי צרכים מיוחדים» (spec 10 §1.10), verbatim; the page shows it twice: in the contact band and at the end of the folded special.rest.",
     "contact.whatsapp: the live site lists no WhatsApp number, and 08-9403047 is a landline. Oleg 17.11: the WhatsApp button is off until the home confirms a WhatsApp number (WHATSAPP in scripts/build_v4.py is empty, so the block is kept but not built; to bring the button back: set the number there as https://wa.me/972…, run python3 -I scripts/build_v4.py, then python3 -I scripts/test_site.py v4 --go). contact.phone is the live number (tel:089403047).",
     "hero.cta_contact: in v4.1 the button links to #contact, the contact band, until the contact page exists (spec 10 §1.1); its label is unchanged.",
-    "Typography only, no words changed (review 17.11): contacts.email.body has <wbr> before the @ of each visible address, so a narrow column breaks a line there and never inside the domain (the mailto: links are unchanged); contacts.address.body puts the P.O. box on a second line (<br>) and keeps «ת.ד. 28» and «נס ציונה» whole (&nbsp;)."
+    "Typography only, no words changed (review 17.11): contacts.email.body has <wbr> before the @ of each visible address, so a narrow column breaks a line there and never inside the domain (the mailto: links are unchanged); contacts.address.body puts the P.O. box on a second line (<br>) and keeps «ת.ד. 28» and «נס ציונה» whole (&nbsp;).",
+    "v4.3 (Itzik 18.11): the home drops the large years 1957/1985 (pro.year*), the testimonials band (testimonials.*) and WhatsApp (contact.whatsapp, question closed): all moved to retired_blocks. The cards and the videos are one section «הבית שלנו» (specialties.title; the live «תחומי התמחות» is kept as retired «specialties.title (v4.2)»). Every section is on one cream ground."
   ],
   "menu": [
     {
@@ -151,10 +152,10 @@
     },
     "specialties.title": {
       "kind": "h2",
-      "full": "תחומי התמחות",
-      "plain": "מה אנחנו עושים",
-      "plain_status": "draft",
-      "source": "live home, row «תחומי התמחות», heading module 5953a96b77f39"
+      "full": "הבית שלנו",
+      "plain": null,
+      "plain_status": null,
+      "source": "Itzik 18.11: the title of the merged section (the four cards and the two videos); the client's own words, replacing the live «תחומי התמחות». Already plain, so no twin"
     },
     "card1.title": {
       "kind": "h3",
@@ -261,34 +262,6 @@
       "plain_status": "draft",
       "source": "Oleg: item label 4 (spec 10 §1.5, icon fas fa-users); the words of the live special.rest «להיות בקשר רציף עם המשפחות»"
     },
-    "pro.year1.num": {
-      "kind": "text",
-      "full": "1957",
-      "plain": null,
-      "plain_status": null,
-      "source": "live home, «קצת עלינו» rich text module 59536e52147b3, paragraph 1 («…הונחה בשנת 1957…»): the year, a static number (spec 10 §1.5)"
-    },
-    "pro.year1.label": {
-      "kind": "text",
-      "full": "אבן הפינה למעון הונחה",
-      "plain": "התחילו להקים את המעון",
-      "plain_status": "draft",
-      "source": "live home, «קצת עלינו» rich text module 59536e52147b3, paragraph 1: the sentence's own words in their order, shortened as spec 10 §1.5 gives them (without «\"נווה האירוס\"», the year and the founders)"
-    },
-    "pro.year2.num": {
-      "kind": "text",
-      "full": "1985",
-      "plain": null,
-      "plain_status": null,
-      "source": "live home, «קצת עלינו» rich text module 59536e52147b3, paragraph 2 («…מאז 1985…»): the year, a static number (spec 10 §1.5)"
-    },
-    "pro.year2.label": {
-      "kind": "text",
-      "full": "במתכונתו הנוכחית, בפיקוח מלא של משרד הרווחה",
-      "plain": "מאז, המעון עובד כמו היום",
-      "plain_status": "draft",
-      "source": "live home, «קצת עלינו» rich text module 59536e52147b3, paragraph 2: the sentence's own words in their order, shortened as spec 10 §1.5 gives them (without «מאז 1985» and the department; a comma added)"
-    },
     "pro.body": {
       "kind": "html",
       "full": "<p>אבן הפינה למעון \"נווה האירוס\" הונחה בשנת 1957 ע\"י המשפחות : שטיינהרט, רשו וקוגן.</p><p>במתכונתו הנוכחית מאז 1985 בפיקוח מלא של משרד הרווחה - האגף לטיפול באדם עם מוגבלות שכלית התפתחותית.</p><p>ייחודו של המעון בשיטות טיפול מתקדמות, יחס אישי ודואג לכל חניך ופעילות תרפויטית ייחודית.</p>",
@@ -301,7 +274,7 @@
       "full": "סרטונים",
       "plain": null,
       "plain_status": null,
-      "source": "UI label (spec 10 §1.6): the visually hidden H2 of the videos section, keeps the heading order; not live copy"
+      "source": "UI label: the visually hidden H3 «סרטונים» before the two videos inside «הבית שלנו» (v4.3); keeps the heading order; not live copy"
     },
     "about.video1.caption": {
       "kind": "text",
@@ -316,34 +289,6 @@
       "plain": null,
       "plain_status": null,
       "source": "YouTube title of JQXm_Dku7tI (oEmbed, channel «נוה האירוס»); live video module 61d17540b78ff, no caption on live"
-    },
-    "testimonials.title": {
-      "kind": "h2",
-      "full": "תודות והמלצות",
-      "plain": null,
-      "plain_status": null,
-      "source": "live home, row «תודות והמלצות», heading module 5b3db959f1f4b"
-    },
-    "testimonials.card_title": {
-      "kind": "h3",
-      "full": "נווה האירוס - המלצה של אמא לדייר במוסד",
-      "plain": "אמא של דייר ממליצה על נווה האירוס",
-      "plain_status": "draft",
-      "source": "live home, call-to-action module 5b3db9d1bc5a1: its title (h2 on live)"
-    },
-    "testimonials.excerpt": {
-      "kind": "html",
-      "full": "<p>שלום רב, שמי לילה ורבל, בני בן ה- 30 מתגורר בנווה האירוס מזה 11 שנה עקב בעיות התנהגות קשות, כגון אלימות פיזית. אני רוצה לציין לטובה את השינוי העצום שבוצע במוסד בשנתיים האחרונות וזאת עקב..</p>",
-      "plain": "<p>האמא כותבת שהבן שלה בן 30, ושהוא גר בנווה האירוס כבר 11 שנים.</p><p>היא כותבת שבמעון היה שינוי גדול וטוב ב־2 השנים האחרונות.</p>",
-      "plain_status": "draft",
-      "source": "live home, call-to-action module 5b3db9d1bc5a1: its text (on live two spans are glued, no space after «שלום רב,»; the space added 17.11, see notes)"
-    },
-    "testimonials.more": {
-      "kind": "button",
-      "full": "קרא עוד",
-      "plain": null,
-      "plain_status": null,
-      "source": "live home, call-to-action module 5b3db9d1bc5a1: button → /תודות-והמלצות/"
     },
     "special.title": {
       "kind": "h2",
@@ -407,13 +352,6 @@
       "plain": null,
       "plain_status": null,
       "source": "live contacts block «פרטי התקשרות» (טלפון: 08-9403047); tel:089403047"
-    },
-    "contact.whatsapp": {
-      "kind": "button",
-      "full": "WhatsApp",
-      "plain": null,
-      "plain_status": null,
-      "source": "UI label (spec 10 §0, §1.10); the live site lists no WhatsApp number. Not built while WHATSAPP in scripts/build_v4.py is empty (Oleg 17.11: off until the home confirms a number)"
     },
     "contacts.title": {
       "kind": "h2",
@@ -563,6 +501,86 @@
       "plain": "<p>בשנת 1957 כמה משפחות התחילו להקים את נווה האירוס.</p><p>משנת 1985 המעון עובד כמו היום.</p><p>משרד הרווחה מפקח על המעון באופן מלא. מי שמפקח הוא האגף שמטפל באנשים עם מוגבלות שכלית התפתחותית.</p><p>מה מיוחד במעון?</p><ul><li>יש שיטות טיפול מתקדמות.</li><li>דואגים לכל דייר ודיירת באופן אישי.</li><li>יש פעילות טיפולית מיוחדת.</li></ul><p>במעון יש כל הזמן תערוכות אמנות ופעילויות בנושאים שונים.</p><p>מה יש במעון? למשל:</p><ul><li>חדר סנוזלן מתקדם.</li><li>מרפאת שיניים מתקדמת.</li><li>מועדון לדיירים ולדיירות.</li><li>חדרים נוחים.</li></ul>",
       "plain_status": "draft",
       "source": "live home, rich text module 59536e52147b3: the 5 paragraphs under the h2"
+    },
+    "pro.year1.num": {
+      "kind": "text",
+      "full": "1957",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, «קצת עלינו» rich text module 59536e52147b3, paragraph 1 («…הונחה בשנת 1957…»): the year, a static number (spec 10 §1.5)",
+      "retired": "v4.3, Itzik 18.11: the large years left «מקצועיות» (the dates stay in pro.body)"
+    },
+    "pro.year1.label": {
+      "kind": "text",
+      "full": "אבן הפינה למעון הונחה",
+      "plain": "התחילו להקים את המעון",
+      "plain_status": "draft",
+      "source": "live home, «קצת עלינו» rich text module 59536e52147b3, paragraph 1: the sentence's own words in their order, shortened as spec 10 §1.5 gives them (without «\"נווה האירוס\"», the year and the founders)",
+      "retired": "v4.3, Itzik 18.11: the large years left «מקצועיות» (the dates stay in pro.body)"
+    },
+    "pro.year2.num": {
+      "kind": "text",
+      "full": "1985",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, «קצת עלינו» rich text module 59536e52147b3, paragraph 2 («…מאז 1985…»): the year, a static number (spec 10 §1.5)",
+      "retired": "v4.3, Itzik 18.11: the large years left «מקצועיות» (the dates stay in pro.body)"
+    },
+    "pro.year2.label": {
+      "kind": "text",
+      "full": "במתכונתו הנוכחית, בפיקוח מלא של משרד הרווחה",
+      "plain": "מאז, המעון עובד כמו היום",
+      "plain_status": "draft",
+      "source": "live home, «קצת עלינו» rich text module 59536e52147b3, paragraph 2: the sentence's own words in their order, shortened as spec 10 §1.5 gives them (without «מאז 1985» and the department; a comma added)",
+      "retired": "v4.3, Itzik 18.11: the large years left «מקצועיות» (the dates stay in pro.body)"
+    },
+    "testimonials.title": {
+      "kind": "h2",
+      "full": "תודות והמלצות",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, row «תודות והמלצות», heading module 5b3db959f1f4b",
+      "retired": "v4.3, Itzik 18.11: «תודות והמלצות» left the home"
+    },
+    "testimonials.card_title": {
+      "kind": "h3",
+      "full": "נווה האירוס - המלצה של אמא לדייר במוסד",
+      "plain": "אמא של דייר ממליצה על נווה האירוס",
+      "plain_status": "draft",
+      "source": "live home, call-to-action module 5b3db9d1bc5a1: its title (h2 on live)",
+      "retired": "v4.3, Itzik 18.11: «תודות והמלצות» left the home"
+    },
+    "testimonials.excerpt": {
+      "kind": "html",
+      "full": "<p>שלום רב, שמי לילה ורבל, בני בן ה- 30 מתגורר בנווה האירוס מזה 11 שנה עקב בעיות התנהגות קשות, כגון אלימות פיזית. אני רוצה לציין לטובה את השינוי העצום שבוצע במוסד בשנתיים האחרונות וזאת עקב..</p>",
+      "plain": "<p>האמא כותבת שהבן שלה בן 30, ושהוא גר בנווה האירוס כבר 11 שנים.</p><p>היא כותבת שבמעון היה שינוי גדול וטוב ב־2 השנים האחרונות.</p>",
+      "plain_status": "draft",
+      "source": "live home, call-to-action module 5b3db9d1bc5a1: its text (on live two spans are glued, no space after «שלום רב,»; the space added 17.11, see notes)",
+      "retired": "v4.3, Itzik 18.11: «תודות והמלצות» left the home"
+    },
+    "testimonials.more": {
+      "kind": "button",
+      "full": "קרא עוד",
+      "plain": null,
+      "plain_status": null,
+      "source": "live home, call-to-action module 5b3db9d1bc5a1: button → /תודות-והמלצות/",
+      "retired": "v4.3, Itzik 18.11: «תודות והמלצות» left the home"
+    },
+    "contact.whatsapp": {
+      "kind": "button",
+      "full": "WhatsApp",
+      "plain": null,
+      "plain_status": null,
+      "source": "UI label (spec 10 §0, §1.10); the live site lists no WhatsApp number. Not built while WHATSAPP in scripts/build_v4.py is empty (Oleg 17.11: off until the home confirms a number)",
+      "retired": "v4.3, Itzik 18.11: WhatsApp is not needed (question closed)"
+    },
+    "specialties.title (v4.2)": {
+      "kind": "h2",
+      "full": "תחומי התמחות",
+      "plain": "מה אנחנו עושים",
+      "plain_status": "draft",
+      "source": "live home, row «תחומי התמחות», heading module 5953a96b77f39",
+      "retired": "v4.3, Itzik 18.11: the section is «הבית שלנו» now (specialties.title)"
     }
   }
 }

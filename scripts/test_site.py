@@ -1807,7 +1807,7 @@ V4_MEDIA_MAP = os.path.join(V4_DIR, "media-map.json")
 V4_BACKUP_LABEL = "v3.2 (17.11.2026)"                 # as the backup made on 17.11 (backups/2026-11-17-v3.2/)
 V4_BACKUP_TITLE = "דף הבית — גיבוי v3.2 (17.11.2026)"
 # the element ids the home page shows (research/10 §1): its sections and, in the footer, the contacts block
-V4_SECTIONS = ("hero", "specialties", "life", "pro", "videos", "testimonials", "snoezelen", "special-needs", "contact",
+V4_SECTIONS = ("hero", "specialties", "life", "pro", "snoezelen", "special-needs", "contact",   # v4.3: no videos / testimonials
                "contacts")
 V4_RENDER_DIR = os.environ.get("NH_V4_RENDER_DIR") or os.path.join(CONF, "v4-render")
 V4_UNRESOLVED = re.compile(r"@(?:media|page|page-id|home):")

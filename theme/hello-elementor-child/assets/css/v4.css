@@ -6,16 +6,16 @@
    Printed on every page after Elementor's frontend CSS and the theme's style.css,
    but every rule is scoped, so the v3.2 pages built with the plugin's widgets
    look as before:
-   - v4 classes the documents carry: nh-sec, nh-hero__text, nh-card, nh-quote,
+   - v4 classes the documents carry: nh-sec, nh-hero__text, nh-card,
      nh-framed, nh-checklist, nh-credit, nh-video__cap, nh-more, nh-cover-img,
      nh-ratio-4x3, nh-full / nh-plain, nh-plain-toggle, nh-visually-hidden,
      nh-footer-v4;
    - v4.1 classes: nh-hero with nh-hero__img (its photo; the focal point from
      --nh-hero-focus / --nh-focus: "x% y%", or the classes nh-fx-0…100 and
      nh-fy-0…100 in steps of 5) and nh-hero__content, nh-reveal, nh-card__arrow,
-     nh-ratio-16x9, nh-pro__item, nh-year__num / nh-year__label, nh-video,
-     nh-quote--band, nh-phone-frame, nh-btn-phone / nh-btn-whatsapp, and the
-     section classes nh-sec--life, nh-sec--testimonials, nh-sec--contact;
+     nh-ratio-16x9, nh-pro__item, nh-video, nh-video-item, nh-phone-frame,
+     nh-btn-phone, and the section classes nh-sec--life, nh-sec--contact (v4.3:
+     no years, quotes or WhatsApp any more);
    - the v4 header by its root container `.e-con.nh-header` (the plugin's
      masthead on the v3.2 pages has a `.nh-header` too, never on a container);
    - the theme's own floating buttons (.nh-float, functions.php) and the html
@@ -52,9 +52,9 @@
 html.nh-a11y-text-1 { font-size: 115%; }
 html.nh-a11y-text-2 { font-size: 130%; }
 
-/* ---------- The page ground of a v4 page is white (§1); zero specificity above
-   style.css's paper, so an Elementor page setting still wins ---------- */
-body:where(:has(.e-con.nh-sec)) { background-color: #FFFFFF; }
+/* ---------- The page ground of a v4 page: cream #F7F1E7, as every section (v4.3, Itzik 18.11; it was white);
+   zero specificity, so an Elementor page setting still wins ---------- */
+body:where(:has(.e-con.nh-sec)) { background-color: #F7F1E7; }
 
 /* ---------- Visually hidden (the contacts block's H2, the live region) ---------- */
 .nh-visually-hidden {
@@ -201,6 +201,14 @@ body:where(:has(.e-con.nh-sec)) { background-color: #FFFFFF; }
    menu, 85–138px down) on 15% of shade: 2.5:1 over the bright sky ceiling of the chosen photo. So the shade holds
    about 60% night under the whole header, whatever its height (v4.js measures it; text size 130% makes it taller),
    then fades out over 4rem: white on a white pixel under it is 4.8:1 */
+/* v4.3: the three shades are variables, so each photo gets the lightest that keeps its white text at AA (measured on
+   the photo's pixels; Itzik 18.11: «затемнение заметно легче»). The defaults are the values of 1.3.1. A photo's own
+   values come from the hero's Custom CSS (Elementor → Advanced), written by scripts/build_v4.py from media.json */
+.elementor-element.e-con.nh-hero:has(.nh-hero__img) {
+  --nh-shade-top: .7;       /* under the floating header */
+  --nh-shade-ambient: .6;   /* the photo's foot */
+  --nh-shade-text: .6;      /* behind the text */
+}
 .elementor-element.e-con.nh-hero:has(.nh-hero__img)::before {
   top: 0;
   bottom: auto;
@@ -208,14 +216,14 @@ body:where(:has(.e-con.nh-sec)) { background-color: #FFFFFF; }
   min-height: 160px;
   /* 17.11 (1.3.1): 60% let the desktop menu over the brightest clouds fall to about 4.0:1 where the shade began to
      fade; 70% held 1rem past the header keeps white text at 6:1 or more even over a white pixel */
-  background: linear-gradient(to bottom, rgba(28, 24, 48, .72), rgba(28, 24, 48, .7) calc(var(--nh4-header-h, 8.5rem) + 1rem), rgba(28, 24, 48, 0));
+  background: linear-gradient(to bottom, rgba(28, 24, 48, calc(var(--nh-shade-top) + .02)), rgba(28, 24, 48, var(--nh-shade-top)) calc(var(--nh4-header-h, 8.5rem) + 1rem), rgba(28, 24, 48, 0));
 }
 /* bottom: an ambient shade over the lower part of the photo … */
 .elementor-element.e-con.nh-hero:has(.nh-hero__img)::after {
   top: 0;
   bottom: 0;
   height: auto;
-  background: linear-gradient(to top, rgba(28, 24, 48, .6), rgba(28, 24, 48, .25) 35%, rgba(28, 24, 48, 0) 70%);
+  background: linear-gradient(to top, rgba(28, 24, 48, var(--nh-shade-ambient)), rgba(28, 24, 48, calc(var(--nh-shade-ambient) * .4167)) 35%, rgba(28, 24, 48, 0) 70%);
 }
 /* the text: above the photo and the shades, at the bottom (12% of the screen's height under it, 9% on phones) */
 .elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content {
@@ -245,7 +253,7 @@ body:where(:has(.e-con.nh-sec)) { background-color: #FFFFFF; }
   mix-blend-mode: normal;
   pointer-events: none;
   transition: none;
-  background: linear-gradient(to bottom, rgba(28, 24, 48, 0), rgba(28, 24, 48, .6) 6rem, rgba(28, 24, 48, .6));
+  background: linear-gradient(to bottom, rgba(28, 24, 48, 0), rgba(28, 24, 48, var(--nh-shade-text)) 6rem, rgba(28, 24, 48, var(--nh-shade-text)));
 }
 @supports (height: 1svh) {
   .elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content { --padding-bottom: 12svh; }
@@ -275,19 +283,18 @@ body:where(:has(.e-con.nh-sec)) { background-color: #FFFFFF; }
 }
 :where(.e-con.nh-hero:has(.nh-hero__img)) .elementor-element.elementor-widget-heading p.elementor-heading-title { font-size: 1.375rem; line-height: 1.4; }
 
-/* ---------- Cards (§4.2; v4.1 §1.3): one tab stop, the whole card clickable;
-   white, 1px line, radius 16px (the card's settings), a faint shadow; on hover and
-   keyboard focus the card lifts 6px (motion, below), its shadow deepens, the photo
-   grows 6% inside its frame, the title and the arrow turn purple-800 ---------- */
+/* ---------- Cards (§4.2; v4.1 §1.3; v4.3): one tab stop, the whole card clickable;
+   white on cream, radius 16px and a soft shadow (the card's own settings: Box Shadow); on hover and keyboard focus
+   the card lifts 6px (motion, below), its shadow deepens, the photo grows 6% inside its frame, the title and the
+   arrow turn purple-800 ---------- */
 .elementor-element.e-con.nh-card {
   position: relative;
   isolation: isolate;          /* the corners clip the zoomed photo (Safari too) */
   overflow: hidden;
-  box-shadow: 0 1px 2px rgba(28, 24, 48, .06);
 }
 .elementor .elementor-element.e-con.nh-card:is(:hover, :focus-within) {
   border-color: #3A2269;
-  box-shadow: 0 16px 32px rgba(28, 24, 48, .14);
+  box-shadow: 0 18px 36px -6px rgba(28, 24, 48, .22);
 }
 /* the photo's frame */
 .elementor-element.e-con.nh-card .elementor-element.nh-card__img { overflow: hidden; }
@@ -325,8 +332,8 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
 .elementor .elementor-element.e-con.nh-card:is(:hover, :focus-within) .nh-card__arrow .elementor-icon { background-color: #3A2269; }
 
 /* ---------- v4.1 «מקצועיות, ניסיון ויחס אישי» (§1.5): Icon Boxes with the icon
-   in a purple-50 circle and the label as H3; the years in large static numbers
-   (fallbacks: the widgets' own settings win) ---------- */
+   in a white circle (v4.3; was purple-50) and the label as H3 (fallbacks: the widgets' own settings win). v4.3: the
+   large years are gone (Itzik 18.11) ---------- */
 .elementor-element.elementor-widget-icon-box.nh-pro__item .elementor-icon-box-wrapper { gap: 1rem; }
 .elementor-element.elementor-widget-icon-box.nh-pro__item .elementor-icon-box-icon { margin: 0; }
 .elementor .elementor-element.elementor-widget-icon-box.nh-pro__item .elementor-icon {
@@ -337,7 +344,8 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
   height: 4.5rem;
   padding: 0;
   border-radius: 50%;
-  background-color: #F3F0F9;
+  background-color: #FFFFFF;
+  box-shadow: 0 6px 16px -4px rgba(28, 24, 48, .14);   /* v4.3: white on cream, a little depth */
   color: #4A2D84;
   fill: #4A2D84;
   font-size: 2rem;
@@ -351,16 +359,10 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
   color: #1F2421;
 }
 .elementor-element.elementor-widget-icon-box.nh-pro__item .elementor-icon-box-title :is(a, span) { color: inherit; }
-/* the years: «1957», «1985» — large, purple-700, lining figures; no counter */
-.elementor-element.elementor-widget-heading.nh-year__num .elementor-heading-title {
-  font-size: clamp(3rem, 2rem + 4vw, 5.5rem);
-  font-weight: 700;
-  line-height: 1;
-  color: #4A2D84;
-  font-variant-numeric: lining-nums tabular-nums;
-}
-.elementor-element.nh-year__label:is(.elementor-widget-text-editor, .elementor-widget-heading) { color: #1F2421; }
-.elementor-element.nh-year__label.elementor-widget-heading .elementor-heading-title { color: #1F2421; font-size: 1.125rem; font-weight: 600; line-height: 1.4; }
+
+/* v4.3: a video in a white card (.nh-video-item, «הבית שלנו»): the card's own radius and overflow round its top */
+.e-con.nh-video-item .elementor-element.elementor-widget-video.nh-video,
+.e-con.nh-video-item .elementor-element.elementor-widget-video.nh-video :is(.elementor-wrapper, .elementor-custom-embed-image-overlay) { border-radius: 0; }
 
 /* ---------- v4.1 videos (§1.6) and the Snoezelen phone (§1.8): radius 16px, a
    large round play button — Elementor's play icon, white, on an 80px purple
@@ -421,46 +423,6 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
 .elementor-element.elementor-widget-video.nh-phone-frame :is(.elementor-wrapper, .elementor-custom-embed-image-overlay) { border-radius: 32px; }
 .elementor-element.elementor-widget-video.nh-phone-frame .elementor-wrapper { overflow: hidden; aspect-ratio: var(--video-aspect-ratio, 9 / 16); }
 
-/* ---------- The quote card (§4.4): a large decorative ” in its top inline-start
-   corner. `::after`, not `::before`: on an Elementor container `::before` is the
-   background overlay's own box. Behind the text (isolation + z-index -1) ---------- */
-.elementor-element.e-con.nh-quote { position: relative; isolation: isolate; }
-/* the large decorative «”» stands in a row of its own above the card's heading, at the inline start: placed in the
-   corner, it sat on the heading's first word (17.11, phones: «אמא», «נווה») */
-.elementor-element.e-con.nh-quote::after {
-  content: "\201D";
-  order: -1;                 /* the container is a flex column: first, above the heading */
-  align-self: flex-start;    /* the inline start (right in RTL) */
-  display: block;
-  block-size: 2.25rem;
-  margin-block: -.5rem 0;
-  overflow: visible;
-  font: 700 5rem/1 "Assistant", "Arial Hebrew", Arial, sans-serif;
-  color: #4A2D84;
-  opacity: .25;
-  pointer-events: none;
-}
-/* v4.1 (§1.7): the testimonial on a full-width purple-700 band: centred, white text, the large «”» sky-500 at 50%
-   in its own row above the quote, the excerpt 1.375rem/1.6 (fallbacks: the widgets' own settings win) */
-.elementor-element.e-con.nh-quote--band { position: relative; isolation: isolate; text-align: center; }
-.elementor-element.e-con.nh-quote--band::after {
-  content: "\201D";
-  order: -1;
-  align-self: center;
-  display: block;
-  block-size: 3.25rem;
-  margin-block: -.25rem 0;
-  overflow: visible;
-  font: 700 7rem/1 "Assistant", "Arial Hebrew", Arial, sans-serif;
-  color: #5BBDEB;
-  opacity: .5;
-  pointer-events: none;
-}
-:where(.e-con.nh-quote--band, .e-con.nh-sec--testimonials) .elementor-element.elementor-widget-heading .elementor-heading-title,
-:where(.e-con.nh-quote--band, .e-con.nh-sec--testimonials) .elementor-element.elementor-widget-text-editor { color: #FFFFFF; }
-:where(.e-con.nh-quote--band) .elementor-element.elementor-widget-text-editor { font-size: 1.375rem; line-height: 1.6; }
-.e-con:is(.nh-quote--band, .nh-sec--testimonials) .elementor-widget-text-editor a { color: #FFFFFF; }
-
 /* ---------- The framed box (§4.5): the inline-start border, a fallback the
    container's own border setting overrides ---------- */
 .e-con:where(.nh-framed) { border-inline-start: 4px solid #4A2D84; }
@@ -513,7 +475,7 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
    purple-700, WhatsApp green-700 #2F6B2A (white on it 6.5:1), white text and icons
    (fallbacks above Elementor's global button colour, the Kit's light green; the
    buttons' own settings win) ---------- */
-.elementor-element.elementor-widget-button:is(.nh-btn-phone, .nh-btn-whatsapp) .elementor-button {
+.elementor-element.elementor-widget-button.nh-btn-phone .elementor-button {
   min-height: 3.5rem;
   padding: 1rem 2rem;
   border-radius: 12px;
@@ -523,11 +485,9 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
   color: #FFFFFF;
   fill: #FFFFFF;
 }
-.elementor-element.elementor-widget-button:is(.nh-btn-phone, .nh-btn-whatsapp) .elementor-button-icon svg { width: 1.25em; height: 1.25em; fill: currentColor; }
+.elementor-element.elementor-widget-button.nh-btn-phone .elementor-button-icon svg { width: 1.25em; height: 1.25em; fill: currentColor; }
 .elementor-element.elementor-widget-button.nh-btn-phone .elementor-button { background-color: #4A2D84; }
 .elementor-element.elementor-widget-button.nh-btn-phone .elementor-button:is(:hover, :focus) { background-color: #3A2269; color: #FFFFFF; }
-.elementor-element.elementor-widget-button.nh-btn-whatsapp .elementor-button { background-color: #2F6B2A; }
-.elementor-element.elementor-widget-button.nh-btn-whatsapp .elementor-button:is(:hover, :focus) { background-color: #24521F; color: #FFFFFF; }
 
 /* ---------- Links in text (WCAG 1.4.1): underlined, purple, thicker on hover ---------- */
 .nh-sec .elementor-widget-text-editor a {
@@ -537,8 +497,6 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
   text-underline-offset: .2em;
 }
 .nh-sec .elementor-widget-text-editor a:hover { color: #3A2269; text-decoration-thickness: 2px; }
-/* on the testimonial band: white (above) */
-.e-con:is(.nh-quote--band, .nh-sec--testimonials) .elementor-widget-text-editor a:hover { color: #FFFFFF; }
 
 /* ---------- Focus: a 3px purple ring in the v4 areas, white on purple and on the
    photo ---------- */
@@ -547,7 +505,7 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
 .nh-float :focus-visible { outline: 3px solid #4A2D84; outline-offset: 2px; }
 .nh-hero__text :focus-visible,
 .nh-footer-v4 :focus-visible { outline: 3px solid #FFFFFF; outline-offset: 2px; }
-.e-con:is(.nh-hero, .nh-quote--band, .nh-sec--testimonials) :focus-visible { outline: 3px solid #FFFFFF; outline-offset: 2px; }
+.e-con.nh-hero :focus-visible { outline: 3px solid #FFFFFF; outline-offset: 2px; }
 /* the footer band's links are underlined (WCAG 1.4.1): Elementor's `.elementor a` takes the underline away */
 .nh-footer-v4 a { text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
 .nh-footer-v4 a:hover { text-decoration-thickness: 2px; }
@@ -1165,7 +1123,6 @@ html.nh-a11y-contrast .nh-float :is(.nh-a11y-btn, .nh-call-btn):focus-visible { 
 html.nh-a11y-contrast .elementor-location-header .e-con.nh-header .elementor-widget-image a:focus-visible { outline: none !important; }
 html.nh-a11y-contrast .elementor-location-header .e-con.nh-header .elementor-widget-image a:focus-visible img { outline: 3px solid #FFE600 !important; outline-offset: 2px !important; }
 /* decorations follow: the quote marks white, the check marks yellow; the phone keeps a white frame */
-html.nh-a11y-contrast .elementor-element.e-con:is(.nh-quote, .nh-quote--band)::after { color: #FFFFFF; opacity: .5; }
 html.nh-a11y-contrast .nh-checklist li::before { background-color: #FFE600; }
 html.nh-a11y-contrast .nh-a11y-opt[aria-pressed="true"]::after { background-color: #000000; }
 html.nh-a11y-contrast .elementor-element.elementor-widget-video.nh-phone-frame { box-shadow: 0 0 0 2px #FFFFFF !important; }
@@ -1202,7 +1159,6 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
   }
   .nh-a11y-opt[aria-pressed="true"]::after { forced-color-adjust: none; background-color: HighlightText; }
   .nh-checklist li::before { forced-color-adjust: none; background-color: CanvasText; }
-  .elementor-element.e-con:is(.nh-quote, .nh-quote--band)::after { display: none; }
   .elementor-element.e-con.nh-hero:has(.nh-hero__img)::before,
   .elementor-element.e-con.nh-hero:has(.nh-hero__img)::after,
   .elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content::before { display: none; }

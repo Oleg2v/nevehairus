@@ -41,19 +41,18 @@ _element_id <name>, its Kit background, 5rem (phones 3.5rem) above and below; in
                  media.json's "focus" as the theme's classes nh-fx-<x> nh-fy-<y> (steps of 5); the boxed nh-hero__content
                  at the bottom (flex end, 12vh under it, phones 9vh): H1 (Kit «כותרת באנר»), the subline, «צור קשר» →
                  #contact and the phone. No inner column, no nh-reveal (the first screen never waits)
-  specialties    H2 and the four cards (nh-card nh-reveal: radius 16, photo on top, H3 linked, the subline, the round
-                 arrow nh-card__arrow — an Icon widget, fas fa-arrow-left, decorative)
+  specialties    «הבית שלנו» (v4.3): H2, the four cards (nh-card nh-reveal: white, radius 16, a soft shadow, photo on
+                 top, H3 linked, the subline, the round arrow nh-card__arrow — an Icon widget, fas fa-arrow-left,
+                 decorative), then the hidden H3 «סרטונים» and the two videos, each a white card too (nh-video-item
+                 nh-reveal: the Video widget nh-video, its caption nh-video__cap, Kit «כיתוב»; lazy, privacy mode, our
+                 thumbnails: nothing from YouTube before a click)
   life           no inner column: two halves (column on phones, the photo first): nh-life__media with the 16:9 photo
                  edge to edge (nh-ratio-16x9), nh-life__text nh-reveal with the H2 and the two live sentences; the text
                  keeps to the 1320px column's edge on its outer side
-  pro            H2; four cells (nh-pro__cell nh-reveal) with an Icon Box each (nh-pro__item: stacked purple-50 circle,
-                 the label as H3); then a grid: the years (nh-year nh-reveal: Heading p nh-year__num, Kit «מספר גדול»;
-                 Text Editor nh-year__label) and the rest of «קצת עלינו» (nh-pro__text nh-reveal)
-  videos         the hidden H2 «סרטונים»; two items (nh-video-item nh-reveal) with the Video widget (nh-video) and its
-                 caption (nh-video__cap, Kit «כיתוב»); lazy, privacy mode, our thumbnails: nothing from YouTube before a
-                 click
-  testimonials   purple-700: the white H2, then nh-quote nh-quote--band (max 860px, centred; the theme draws the «”»
-                 in its own row): H3, the excerpt (Kit «ציטוט»), «קרא עוד» white
+  pro            H2; four cells (nh-pro__cell nh-reveal) with an Icon Box each (nh-pro__item: stacked white circle,
+                 the label as H3); then the rest of «קצת עלינו» (nh-pro__text nh-reveal) at the inline start (right),
+                 760px at most. v4.3: no large years (Itzik 18.11)
+  (v4.3: the videos section joined «הבית שלנו»; «תודות והמלצות» left the home — Itzik 18.11)
   snoezelen      as v4; the Short in a phone (nh-phone-frame on the Video widget, 9:16, 300px)
   special-needs  sky-50, an 860px column: H2, one Nested Accordion item «להמשך קריאה» (nh-more, collapsed, duration
                  0) holding the WHOLE live text in order (the questions in the framed box nh-framed, the lead, the
@@ -61,8 +60,9 @@ _element_id <name>, its Kit background, 5rem (phones 3.5rem) above and below; in
   contact        green-50, _element_id contact (the target of «צור קשר»): H2, the live subline, the phone button
                  (nh-btn-phone, purple); WhatsApp (nh-btn-whatsapp, green-700, fab fa-whatsapp, https://wa.me/…) only
                  while WHATSAPP holds a number the home confirmed (Oleg 17.11: off until then)
-nh-reveal (spec 10 §3) is on every section's inner column, the cards, the pro cells, the years, the pro text, the video
-items and the life text; a block holding other nh-reveal blocks stays put (the theme moves its children).
+Every section is on the Kit's cream (v4.3, Itzik 18.11), the hero on its photo; the cards are white.
+nh-reveal (spec 10 §3) is on every section's inner column, the cards, the pro cells, the pro text, the video items and
+the life text; a block holding other nh-reveal blocks stays put (the theme moves its children).
 
 Tokens, resolved on deploy (scripts/test_site.py v4):
   @media:<name>    in a media control's id: the attachment (id, url, alt) of templates/v4/media.json's <name>;
@@ -120,17 +120,13 @@ PAGE_KEYS = ("home", "main-home") + DOC_KEYS[1:]      # what @page-id:/@page: ma
 LINKABLE = ("home", "main-home")                       # @page: (permalinks) only for pages
 
 # the sections of the home page, top to bottom (spec 10 §1; the header floats over the hero)
-SECTIONS = ("hero", "specialties", "life", "pro", "videos", "testimonials", "snoezelen", "special-needs", "contact")
+SECTIONS = ("hero", "specialties", "life", "pro", "snoezelen", "special-needs", "contact")   # v4.3 (Itzik 18.11)
 REVEAL_SKIP = ("hero",)                                # the first screen: nothing on it waits (spec 10 §3)
 
 PLAIN_TITLE = "שפה פשוטה — טיוטה"                      # the Navigator label of a plain twin (§4, §6)
 FACEBOOK = "https://www.facebook.com/neveirus/"
 YOUTUBE = "https://www.youtube.com/watch?v="
-# spec 10 §1.10. Oleg 17.11: no WhatsApp button until the home confirms a WhatsApp number (the live site lists none, and
-# 08-9403047 is a landline). To bring the button back: the number here as "https://wa.me/972…", then
-# `python3 -I scripts/build_v4.py` (the templates) and `python3 -I scripts/test_site.py v4 --go` (the site).
-WHATSAPP = ""
-OFF_BLOCKS = set() if WHATSAPP else {"contact.whatsapp"}   # blocks of home.json kept, but not built while switched off
+OFF_BLOCKS = set()          # blocks of home.json kept, but deliberately not built (WhatsApp: closed, Itzik 18.11)
 PHONE_TEL = "tel:089403047"
 PHONE_LABEL = "התקשרו: 08-9403047"                     # aria-label of the icon-only phone button (§4.0)
 CONTACT_ANCHOR = "#contact"                            # the contact band (spec 10 §1.1, §1.10)
@@ -144,7 +140,9 @@ CUSTOM_COLORS = (("purple-800", "סגול כהה", "#3A2269"), ("purple-50", "ר
                  ("sky-50", "רקע תכלת", "#EAF6FC"), ("green-50", "רקע ירוק", "#EFF6E8"),
                  ("ink-2", "טקסט משני", "#4F5550"), ("line", "קו", "#D9DCE3"), ("white", "לבן", "#FFFFFF"),
                  # v4.1 (spec 10 §0): the footer's night, and the green of WhatsApp (white on it 6.4:1)
-                 ("night", "לילה", "#1C1830"), ("green-700", "ירוק כהה", "#2F6B2A"))
+                 ("night", "לילה", "#1C1830"), ("green-700", "ירוק כהה", "#2F6B2A"),
+                 # v4.3 (Itzik 18.11): one cream ground for every section (the inner page's «paper»; ink 14:1 on it)
+                 ("cream", "קרם", "#F7F1E7"))
 FONT = "Assistant"
 # (id or token, title, weight, size, size on phones, line height in em). Spec 09 §1/§2. Two additions, both for the
 # rules of §1: the accent (UI and buttons) gets line height 1.5, so a button with padding .75rem is 1.0625rem × 1.5
@@ -282,6 +280,11 @@ def flex(direction="column", gap_row=0, gap_column=0, wrap="nowrap", **extra):
     return out
 
 
+SOFT_SHADOW = {"box_shadow_box_shadow_type": "yes",
+               "box_shadow_box_shadow": {"horizontal": 0, "vertical": 8, "blur": 24, "spread": -4,
+                                         "color": "rgba(28, 24, 48, 0.14)"}}
+
+
 def grid(columns, columns_tablet, columns_mobile, gap_column=GRID_GAP, gap_row=GRID_GAP, gap_mobile=None, **extra):
     """A grid container: a number of equal columns, or a template («2fr 3fr») per breakpoint; gap_mobile = (column,
     row) on phones."""
@@ -388,8 +391,10 @@ class Builder:
         return self.widget(path, "heading", styled(s, {"typography_typography": typo}, title_color=color))
 
     def editor(self, content_html, path, classes="", typo="text", color="ink", links=("purple-700", "purple-800"),
-               align=None, align_mobile=None):
+               align=None, align_mobile=None, padding=None):
         s = {"editor": content_html}
+        if padding:
+            s["_padding"] = padding
         if classes:
             s["_css_classes"] = classes
         if align:
@@ -417,7 +422,7 @@ class Builder:
         style: primary (purple, white text), light (white, purple text: on the hero and the purple band), outline
         (white with a 2px purple border), outline-light (transparent with a 2px white border, white text: on the
         photo), text (no fill, purple text), soft (purple-50 fill, purple icon: the phone icon on tablets and phones),
-        whatsapp (green-700, white text; its hover is the theme's: no Kit colour fits)."""
+        """
         label = self.text(block, "full") if block else (text or "")
         s = {"text": label, "link": link(url, f"aria-label|{aria_label}" if aria_label else ""),
              "background_background": "classic", "button_background_hover_background": "classic",
@@ -444,7 +449,6 @@ class Builder:
                          button_background_hover_color="purple-50", hover_color="purple-800"),
             "soft": dict(background_color="purple-50", button_text_color="purple-700",
                          button_background_hover_color="purple-800", hover_color="white"),
-            "whatsapp": dict(background_color="green-700", button_text_color="white", hover_color="white"),
         }[style]
         if style in ("outline", "outline-light"):
             # the 2px border inside the solid buttons' height (49.5px): 2px less padding above and below (review 17.11)
@@ -511,7 +515,7 @@ class Builder:
              "icon_space": size(16), "icon_size": size("2rem"), "icon_padding": size("1.25rem")}
         if classes:
             s["_css_classes"] = classes
-        return self.widget(path, "icon-box", styled(s, {"title_typography_typography": "h3"}, primary_color="purple-50",
+        return self.widget(path, "icon-box", styled(s, {"title_typography_typography": "h3"}, primary_color="white",
                                                      secondary_color="purple-700", title_color="ink"))
 
     def focus_classes(self, name):
@@ -613,13 +617,24 @@ class Builder:
         s = {**flex("column", 0, 0, flex_justify_content="flex-end"), "min_height": size("100vh"),
              "overflow": "hidden", "padding": ZERO, "background_background": "classic",
              "css_classes": "nh-sec nh-sec--hero nh-hero", "_element_id": "hero"}
+        # v4.3: the photo's own shades (media.json "shade": the lightest that keep the white text at AA, measured on
+        # its pixels) as the hero's Custom CSS; without them the theme's defaults (1.3.1's values) apply
+        shade = (self.media.get("hero-wide") or {}).get("shade") or {}
+        bad = {k: v for k, v in shade.items() if k not in ("top", "ambient", "text") or not 0 <= float(v) <= 1}
+        if bad:
+            die(f"templates/v4/media.json: hero-wide: shade {bad} (top / ambient / text, 0–1)")
+        if shade:
+            s["custom_css"] = "selector { " + " ".join(f"--nh-shade-{k}: {float(v):g};" for k, v in sorted(shade.items())) + " }"
         return self.container("hero", styled(s, background_color="night"), [photo, content], inner=False, title="באנר")
 
     # ---- 3 specialties (10 §1.3) -------------------------------------------------------------------------------------------
+    VIDEOS = ((1, "kLAGTCOIWQE"), (2, "JQXm_Dku7tI"))     # under the cards since v4.3 (10 §1.6)
     CARDS = ((1, "@page:main-home"), (2, "@home:/מערך-דיור-בקהילה/"), (3, "@home:/מערך-דיור-בקהילה-אוטיזם/"),
              (4, "@home:/חדשות-ועדכונים/"))
 
     def specialties(self):
+        """«הבית שלנו» (v4.3, Itzik 18.11): the four cards (white, a soft shadow, no line), then the two videos, each a
+        white card too (the video, its caption), under a visually hidden H3 «סרטונים». The old videos section is gone."""
         cards = []
         for n, url in self.CARDS:
             p = f"specialties/inner/grid/card-{n}"
@@ -636,18 +651,34 @@ class Builder:
                                     "purple-700", "white", align="end", title="חץ (קישוט)", mobile=14)])
             card = self.container(p, styled({
                 **flex("column", 0, 0), "padding": ZERO, "overflow": "hidden",
-                "background_background": "classic", "border_border": "solid", "border_width": dims(1),
-                "border_radius": dims(16), "css_classes": "nh-card nh-reveal"}, background_color="white",
-                border_color="line"),
+                "background_background": "classic", "border_radius": dims(16), **SOFT_SHADOW,
+                "css_classes": "nh-card nh-reveal"}, background_color="white"),
                 [self.image(f"{p}/photo", f"card-{n}", "nh-card__img nh-ratio-4x3", url=url,
                             link_attributes="tabindex|-1,aria-hidden|true"), body], title=f"כרטיס {n}")
             cards.append(card)
         # 4 / 2 / 2: on phones two in a row, all four on about one screen (Oleg 17.11: «компактнее»)
         cards_grid = self.container("specialties/inner/grid", grid(4, 2, 2, gap_mobile=(12, 16)), cards,
                                     title="כרטיסים")
-        return self.section("specialties", "תחומי התמחות", "white",
+        videos = []
+        for n, vid in self.VIDEOS:
+            p = f"specialties/inner/videos/video-{n}"
+            videos.append(self.container(p, styled({
+                **flex("column", 0, 0), "padding": ZERO, "overflow": "hidden",
+                "background_background": "classic", "border_radius": dims(16), **SOFT_SHADOW,
+                "css_classes": "nh-video-item nh-reveal"}, background_color="white"),
+                [self.video(f"{p}/video", vid, _css_classes="nh-video")]
+                + self.text_editor_block(f"about.video{n}.caption", f"{p}/caption", "nh-video__cap", typo="caption",
+                                         color="ink-2", padding=dims(".875rem", "1.25rem", "1.125rem", "1.25rem")),
+                title=f"סרטון {n}"))
+        videos_grid = self.container("specialties/inner/videos", grid(2, 2, 1, gap_column=32, gap_row=24,
+                                                                       padding=dims(16, 0, 0, 0)),
+                                     videos, title="סרטונים")
+        return self.section("specialties", "הבית שלנו", "cream",
                             self.heading_block("specialties.title", "specialties/inner/title", "h2", "h2", "purple-700",
-                                               align="center") + [cards_grid])
+                                               align="center") + [cards_grid]
+                            + self.heading_block("videos.title", "specialties/inner/videos-title", "h3", "h3",
+                                                 "purple-700", "nh-visually-hidden")
+                            + [videos_grid])
 
     # ---- 4 life (10 §1.4) ----------------------------------------------------------------------------------------------------
     def life(self):
@@ -672,7 +703,7 @@ class Builder:
                     flex_align_items_mobile="stretch"),
              "padding": ZERO, "background_background": "classic",
              "css_classes": "nh-sec nh-sec--life", "_element_id": "life"}
-        return self.container("life", styled(s, background_color="sky-50"), [photo, text], inner=False,
+        return self.container("life", styled(s, background_color="cream"), [photo, text], inner=False,
                               title="החיים בנווה האירוס")
 
     # ---- 5 pro (10 §1.5) -----------------------------------------------------------------------------------------------------
@@ -689,61 +720,14 @@ class Builder:
                            "nh-pro__item"), title=self.text(block, "full")))
         # 4 / 2 / 2: on phones a 2×2 block, not a long, sparse column (Itzik: «static and empty»)
         items = self.container("pro/inner/items", grid(4, 2, 2, gap_column=24, gap_row=32), cells, title="ארבעה דברים")
-        years = []
-        for n in (1, 2):
-            p = f"pro/inner/row/years/year-{n}"
-            years.append(self.container(p, {
-                **flex("column", 4, 4), "padding": ZERO, "css_classes": "nh-year nh-reveal"},
-                self.heading_block(f"pro.year{n}.num", f"{p}/num", "p", "number", "purple-700", "nh-year__num")
-                + self.text_editor_block(f"pro.year{n}.label", f"{p}/label", "nh-year__label"),
-                title=self.text(f"pro.year{n}.num", "full")))
-        years_col = self.container("pro/inner/row/years", {
-            **flex("column", 24, 24), "padding": ZERO, "css_classes": "nh-pro__years"}, years, title="שנים")
-        text_col = self.container("pro/inner/row/text", {
-            **flex("column", 16, 16), "padding": ZERO, "css_classes": "nh-pro__text nh-reveal"},
-            self.text_editor_block("pro.body", "pro/inner/row/text/body"), title="טקסט")
-        row = self.container("pro/inner/row", grid("2fr 3fr", "2fr 3fr", 1, gap_column=48, gap_row=32,
-                                                    padding=dims(24, 0, 0, 0)), [years_col, text_col],
-                             title="שנים וטקסט")
-        return self.section("pro", "מקצועיות, ניסיון ויחס אישי", "white",
+        # v4.3 (Itzik 18.11): no large 1957 / 1985; the rest of «קצת עלינו» moves to the right (the inline start)
+        text_col = self.container("pro/inner/text", {
+            **flex("column", 16, 16), "padding": dims(8, 0, 0, 0), "width": size("min(760px, 100%)"),
+            "_flex_align_self": "flex-start", "css_classes": "nh-pro__text nh-reveal"},
+            self.text_editor_block("pro.body", "pro/inner/text/body"), title="טקסט")
+        return self.section("pro", "מקצועיות, ניסיון ויחס אישי", "cream",
                             self.heading_block("pro.title", "pro/inner/title", "h2", "h2", "purple-700",
-                                               align="center") + [items, row])
-
-    # ---- 6 videos (10 §1.6) --------------------------------------------------------------------------------------------------
-    VIDEOS = ((1, "kLAGTCOIWQE"), (2, "JQXm_Dku7tI"))
-
-    def videos(self):
-        items = []
-        for n, vid in self.VIDEOS:
-            p = f"videos/inner/grid/video-{n}"
-            items.append(self.container(p, {
-                **flex("column", 12, 12), "padding": ZERO, "css_classes": "nh-video-item nh-reveal"},
-                [self.video(f"{p}/video", vid, _css_classes="nh-video")]
-                + self.text_editor_block(f"about.video{n}.caption", f"{p}/caption", "nh-video__cap", typo="caption",
-                                         color="ink-2"), title=f"סרטון {n}"))
-        videos_grid = self.container("videos/inner/grid", grid(2, 2, 1, gap_column=32, gap_row=32), items,
-                                     title="סרטונים")
-        return self.section("videos", "סרטונים", "purple-50",
-                            self.heading_block("videos.title", "videos/inner/title", "h2", "h2", "purple-700",
-                                               "nh-visually-hidden") + [videos_grid])
-
-    # ---- 7 testimonials (10 §1.7) --------------------------------------------------------------------------------------------
-    def testimonials(self):
-        white = ("white", "white")
-        quote = self.container("testimonials/inner/quote", {
-            **flex("column", 16, 16, flex_align_items="center"), "width": size("min(860px, 100%)"), "padding": ZERO,
-            "_flex_align_self": "center", "css_classes": "nh-quote nh-quote--band"},
-            self.heading_block("testimonials.card_title", "testimonials/inner/quote/title", "h3", "h3", "white",
-                               align="center")
-            + self.text_editor_block("testimonials.excerpt", "testimonials/inner/quote/excerpt", typo="quote",
-                                     color="white", links=white, align="center")
-            + [self.button("testimonials.more", "testimonials/inner/quote/more", "@home:/תודות-והמלצות/", "light",
-                           align="center")],
-            title="המלצה")
-        return self.section("testimonials", "תודות והמלצות", "purple-700",
-                            self.heading_block("testimonials.title", "testimonials/inner/title", "h2", "h2", "white",
-                                               align="center") + [quote],
-                            inner={"flex_align_items": "center"})
+                                               align="center") + [items, text_col])
 
     # ---- 8 snoezelen (10 §1.8) -----------------------------------------------------------------------------------------------
     def snoezelen(self):
@@ -764,7 +748,7 @@ class Builder:
                                title="סרטון")
         body = self.container(p, grid("7fr 5fr", "7fr 5fr", 1, gap_column=48, gap_row=32, grid_align_items="center"),
                               [text, video], title="טקסט וסרטון")
-        return self.section("snoezelen", "חדר סנוזלן", "white", [body])
+        return self.section("snoezelen", "חדר סנוזלן", "cream", [body])
 
     # ---- 9 special needs (10 §1.9) -------------------------------------------------------------------------------------------
     def special(self):
@@ -775,7 +759,7 @@ class Builder:
             **flex("column", 0, 0), "padding": dims("1.5rem"), "background_background": "classic",
             # the inline start is the right edge in RTL
             "border_border": "solid", "border_width": dims(0, 4, 0, 0), "border_radius": dims(12),
-            "css_classes": "nh-framed"}, background_color="purple-50", border_color="purple-700"),
+            "css_classes": "nh-framed"}, background_color="white", border_color="purple-700"),
             self.text_editor_block("special.framed", f"{p}/item-1/framed/text"), title="שאלות")
         # the WHOLE live text, in order, inside the one item (it stays in the HTML for search engines)
         item = self.container(f"{p}/item-1", {**flex("column", 16, 16), "padding": dims(16, 0, 0, 0),
@@ -797,7 +781,7 @@ class Builder:
             normal_title_color="purple-700", hover_title_color="purple-800", active_title_color="purple-700",
             normal_icon_color="purple-700", hover_icon_color="purple-800", active_icon_color="purple-700"), [item])
         self.use("special.more_title", "full", accordion, "items.0.item_title")
-        return self.section("special-needs", "מעון לבעלי צרכים מיוחדים", "sky-50",
+        return self.section("special-needs", "מעון לבעלי צרכים מיוחדים", "cream",
                             self.heading_block("special.title", "special-needs/inner/title", "h2", "h2", "purple-700")
                             + [accordion]
                             + self.text_editor_block("special.plain_body", "special-needs/inner/plain"),
@@ -808,14 +792,10 @@ class Builder:
         big = dims("1rem", "2rem")
         row = [self.button("contact.phone", "contact/inner/buttons/phone", PHONE_TEL, "primary", icon_name="phone-alt",
                            classes="nh-btn-phone", padding=big, radius=12)]
-        if WHATSAPP:                       # off until the home confirms a WhatsApp number (Oleg 17.11)
-            row.append(self.button("contact.whatsapp", "contact/inner/buttons/whatsapp", WHATSAPP, "whatsapp",
-                                   icon_value=icon("whatsapp", "fa-brands"), classes="nh-btn-whatsapp", padding=big,
-                                   radius=12))
         buttons = self.container("contact/inner/buttons", {
             **flex("row", 16, 16, wrap="wrap", flex_justify_content="center", flex_align_items="center"),
             "padding": dims(8, 0, 0, 0)}, row, title="כפתורים")
-        return self.section("contact", "נשמח שתבואו להכיר אותנו", "green-50",
+        return self.section("contact", "נשמח שתבואו להכיר אותנו", "cream",
                             self.heading_block("contact.title", "contact/inner/title", "h2", "h2", "purple-700",
                                                align="center")
                             + self.text_editor_block("contact.sub", "contact/inner/sub", align="center")
@@ -884,7 +864,7 @@ class Builder:
     # ---- documents ------------------------------------------------------------------------------------------------------------
     def home(self):
         self.doc = "home"
-        return [self.hero(), self.specialties(), self.life(), self.pro(), self.videos(), self.testimonials(),
+        return [self.hero(), self.specialties(), self.life(), self.pro(),
                 self.snoezelen(), self.special(), self.contact()]
 
 
@@ -1106,11 +1086,11 @@ def page_problems(docs, media_list):
             problems.append(f"home/{name}: nothing marked nh-reveal")
     for e in walk_elements(home):
         cls = classes_of(e)
-        if cls & {"nh-card", "nh-pro__cell", "nh-year", "nh-video-item", "nh-sec__inner"} and "nh-reveal" not in cls:
+        if cls & {"nh-card", "nh-pro__cell", "nh-video-item", "nh-sec__inner"} and "nh-reveal" not in cls:
             problems.append(f"home/{e['id']}: {' '.join(sorted(cls))} without nh-reveal")
         if "nh-pro__item" in cls and e.get("widgetType") != "icon-box":
             problems.append(f"home/{e['id']}: nh-pro__item is not an Icon Box")
-    for need, what in (("nh-card", 4), ("nh-pro__cell", 4), ("nh-year", 2), ("nh-video-item", 2)):
+    for need, what in (("nh-card", 4), ("nh-pro__cell", 4), ("nh-video-item", 2)):
         n = sum(1 for e in walk_elements(home) if need in classes_of(e))
         if n != what:
             problems.append(f"home: {n} × {need}, expected {what}")
@@ -1122,20 +1102,15 @@ def page_problems(docs, media_list):
               if "nh-phone-frame" in classes_of(e)]
     if len(frames) != 1 or frames[0].get("widgetType") != "video" or frames[0]["settings"].get("aspect_ratio") != "916":
         problems.append("home/snoezelen: the Video widget (9:16) needs nh-phone-frame")
-    # the contact band: the phone; WhatsApp only while WHATSAPP holds a confirmed number (Oleg 17.11)
+    # the contact band (v4.3: the form comes here; no WhatsApp anywhere: Itzik 18.11)
     band = list(walk_elements([by_name.get("contact", {})])) if by_name.get("contact") else []
     urls = {(e["settings"].get("link") or {}).get("url"): e for e in band if e.get("widgetType") == "button"}
     if PHONE_TEL not in urls:
         problems.append("home/contact: the phone button is needed")
-    if WHATSAPP:
-        wa = urls.get(WHATSAPP)
-        if not wa or (wa["settings"].get("selected_icon") or {}).get("value") != "fab fa-whatsapp":
-            problems.append("home/contact: the WhatsApp button (fab fa-whatsapp) is needed")
-    else:
-        for d in docs.values():
-            for path, v in walk_values(d.get("elementor_data") or []):
-                if isinstance(v, str) and "wa.me/" in v:
-                    problems.append(f"{d.get('key')}{path}: a WhatsApp link, but WHATSAPP is empty (no confirmed number)")
+    for d in docs.values():
+        for path, v in walk_values(d.get("elementor_data") or []):
+            if isinstance(v, str) and "wa.me/" in v:
+                problems.append(f"{d.get('key')}{path}: a WhatsApp link (not wanted: Itzik 18.11)")
     # every in-page link (#…) has its target on the page (the home, the footer and its template)
     targets = {(e.get("settings") or {}).get("_element_id") for d in docs.values()
                for e in walk_elements(d.get("elementor_data") or [])} - {None, ""}
@@ -1244,7 +1219,7 @@ def check(docs, kit, menu, content, media_list):
                 for url in URL_IN_TEXT.findall(v):
                     host = urllib.parse.urlsplit(url if url.startswith("http") else "https:" + url).hostname or ""
                     if not ((host in ("youtube.com", "www.youtube.com") and path.endswith("/youtube_url"))
-                            or url == FACEBOOK or (WHATSAPP and url == WHATSAPP and path.endswith("/link/url"))):
+                            or url == FACEBOOK):
                         problems.append(f"{path}: external URL {url}")
             # styled through the Kit
             glob = s.get("__globals__") or {}

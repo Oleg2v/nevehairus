@@ -1042,8 +1042,8 @@ html.nh-a11y-still *::after {
   inset-inline-start: 24px;
   bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   width: min(36rem, calc(100vw - 148px));
-  max-height: calc(100vh - 1rem);
-  max-height: calc(100dvh - 1rem);
+  max-height: calc(100vh - var(--nh-top-h, 0px) - 1rem);
+  max-height: calc(100dvh - var(--nh-top-h, 0px) - 1rem);
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 1.25rem;
@@ -1057,7 +1057,7 @@ html.nh-a11y-still *::after {
 }
 /* beside the floating «נגישות» button: 24px from the edge + the 52px button + a 16px gap */
 @media (min-width: 1024px) {
-  .nh-consent { inset-inline-start: auto; inset-inline-end: 92px; }
+  .nh-consent { inset-inline-start: auto; inset-inline-end: 92px; width: min(36rem, calc(100vw - 30rem)); }
 }
 html.nh-consent-ask .nh-consent,
 .nh-consent.is-open { display: block; }
@@ -1114,32 +1114,35 @@ html:is(.nh-consent-ask, .nh-consent-open) body:not(:has(.e-con.nh-footer-v4)) {
     inset-inline: .5rem;
     bottom: calc(.5rem + env(safe-area-inset-bottom, 0px));
     width: auto;
-    max-height: calc(100vh - 5rem);
-    max-height: calc(100dvh - 5rem);
+    max-height: calc(100vh - var(--nh-top-h, 4rem) - 1rem);
+    max-height: calc(100dvh - var(--nh-top-h, 4rem) - 1rem);
     padding: 1rem;
   }
   /* 1.4.1: never above the header, however tall the banner (zoom, large text, the settings open): the column of
      the two buttons (52 + 8 + 56px) keeps 16px under the header */
   html:is(.nh-consent-ask, .nh-consent-open) .nh-float {
-    bottom: min(calc(var(--nh-consent-h, 14rem) + 1rem + env(safe-area-inset-bottom, 0px)), calc(100vh - var(--nh4-header-h, 69px) - 132px));
-    bottom: min(calc(var(--nh-consent-h, 14rem) + 1rem + env(safe-area-inset-bottom, 0px)), calc(100dvh - var(--nh4-header-h, 69px) - 132px));
+    bottom: min(calc(var(--nh-consent-h, 14rem) + 1rem + env(safe-area-inset-bottom, 0px)), calc(100vh - var(--nh-top-h, var(--nh4-header-h, 69px)) - 132px));
+    bottom: min(calc(var(--nh-consent-h, 14rem) + 1rem + env(safe-area-inset-bottom, 0px)), calc(100dvh - var(--nh-top-h, var(--nh4-header-h, 69px)) - 132px));
   }
-  /* while the banner is shown, «נגישות» opens under the header, over the banner, with the whole screen's room */
+  /* while the banner is shown, «נגישות» opens under the header (v4 or the v3.2 masthead: --nh-top-h, v4.js), over the
+     banner, with the whole screen's room, and beside the floating column, so its own button stays free to close it */
   html:is(.nh-consent-ask, .nh-consent-open) .nh-a11y-panel {
     position: fixed;
-    top: calc(var(--nh4-header-h, 69px) + 8px);
+    top: calc(var(--nh-top-h, var(--nh4-header-h, 69px)) + 8px);
     bottom: auto;
-    inset-inline-end: 12px;
-    max-height: calc(100vh - var(--nh4-header-h, 69px) - 16px);
-    max-height: calc(100dvh - var(--nh4-header-h, 69px) - 16px);
+    inset-inline-end: 80px;
+    width: min(20rem, calc(100vw - 92px));
+    max-height: calc(100vh - var(--nh-top-h, var(--nh4-header-h, 69px)) - 16px);
+    max-height: calc(100dvh - var(--nh-top-h, var(--nh4-header-h, 69px)) - 16px);
   }
   html:is(.nh-consent-ask, .nh-consent-open) { scroll-padding-block-end: calc(var(--nh-consent-h, 14rem) + 136px); }
   html:is(.nh-consent-ask, .nh-consent-open) body:has(.nh-float) .e-con.nh-footer-v4 { padding-block-end: calc(136px + var(--nh-consent-h, 14rem) + env(safe-area-inset-bottom, 0px)) !important; }
-  /* 1.4.1: the panel's largest text: the banner is tall, so it leaves the column its place at the inline end
-     (12 + 56 + 12px) and the column stays at the foot, as on a short screen below */
-  html.nh-a11y-text-2:is(.nh-consent-ask, .nh-consent-open) .nh-consent { inset-inline-end: 80px; }
-  html.nh-a11y-text-2:is(.nh-consent-ask, .nh-consent-open) .nh-float { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
-  html.nh-a11y-text-2:is(.nh-consent-ask, .nh-consent-open) { scroll-padding-block-end: calc(var(--nh-consent-h, 14rem) + 1.5rem); }
+  /* 1.4.1: a banner too tall for the column to rise above it (zoom, the panel's larger text, the settings open; v4.js
+     decides: html.nh-consent-tall) leaves the column its place at the inline end (12 + 56 + 12px), and the column
+     stays at the foot, as on a short screen below */
+  html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) .nh-consent { inset-inline-end: 80px; }
+  html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) .nh-float { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+  html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) { scroll-padding-block-end: calc(var(--nh-consent-h, 14rem) + 1.5rem); }
 }
 /* 1.4.1: a short screen (browser zoom 200–400%: 683×384, 640×360, 320×256): the banner beside the column, the column
    at the foot, and «נגישות» opens under the header with all the room there is */
@@ -1149,11 +1152,12 @@ html:is(.nh-consent-ask, .nh-consent-open) body:not(:has(.e-con.nh-footer-v4)) {
   html:is(.nh-consent-ask, .nh-consent-open) { scroll-padding-block-end: calc(var(--nh-consent-h, 14rem) + 1.5rem); }
   .nh-a11y-panel {
     position: fixed;
-    top: calc(var(--nh4-header-h, 69px) + 8px);
+    top: calc(var(--nh-top-h, var(--nh4-header-h, 69px)) + 8px);
     bottom: auto;
-    inset-inline-end: 12px;
-    max-height: calc(100vh - var(--nh4-header-h, 69px) - 16px);
-    max-height: calc(100dvh - var(--nh4-header-h, 69px) - 16px);
+    inset-inline-end: 80px;
+    width: min(20rem, calc(100vw - 92px));
+    max-height: calc(100vh - var(--nh-top-h, var(--nh4-header-h, 69px)) - 16px);
+    max-height: calc(100dvh - var(--nh-top-h, var(--nh4-header-h, 69px)) - 16px);
   }
 }
 /* under the open phone menu, as the floating buttons */
@@ -1216,6 +1220,7 @@ body:has(.elementor-location-header .elementor-menu-toggle.elementor-active) .nh
 .elementor .elementor-element.nh-contact-form .elementor-field-group.nh-has-error .elementor-field-textual { border-color: #A8261B; }
 .elementor .elementor-element.nh-contact-form .nh-field-error { width: 100%; margin: .375rem 0 0; color: #A8261B; font-weight: 600; font-size: 1rem; line-height: 1.4; }
 .elementor .elementor-element.nh-contact-form .nh-form-errors {
+  scroll-margin-top: .5rem;                          /* its focus ring clears the header when it is scrolled to */
   width: 100%;
   margin: 0 0 1.25rem;
   padding: 1rem 1.25rem;

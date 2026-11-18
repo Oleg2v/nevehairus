@@ -42,6 +42,9 @@
  *   a fixed 10-minute window and answers with one message;
  * - the consent version is the plugin's setting + 1, so every raise of the setting asks everyone again;
  * - no banner where the browser blocks site data (nothing could be kept there).
+ * 1.4.2 (18.11, after the check of the fixes): a valid phone number is kept as its digits; on phones the «נגישות»
+ * panel opened over the banner stands beside the floating column, the column and the panel keep below the v3.2
+ * pages' fixed masthead too, and a banner too tall for the column stands beside it (v4.js, v4.css).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -534,8 +537,9 @@ function nh_child_form_validation( $record, $ajax_handler ) {
 /**
  * `elementor_pro/forms/sanitize/tel` @20 (after Pro's own sanitize_text_field): a phone number as people write it.
  * Pro's own check of a tel field (run before the theme's) allows only digits and ()#&+*-=. — so «050 123 4567» or
- * «050–1234567» would be refused by the server after the page said the form was fine. Spaces go, and the other
- * dashes become «-»; the theme's check (0 and 8–9 more digits) then decides, as on the inner page's form (1.4.1).
+ * «050–1234567» would be refused by the server after the page said the form was fine. A valid number is kept as its
+ * digits; otherwise spaces go and the other dashes become «-»; the theme's check (0 and 8–9 more digits) decides, as
+ * on the inner page's form (1.4.1).
  *
  * @param mixed $value The field's value.
  * @return mixed
@@ -543,6 +547,12 @@ function nh_child_form_validation( $record, $ajax_handler ) {
 function nh_child_form_tel( $value ) {
 	if ( ! is_string( $value ) ) {
 		return $value;
+	}
+	// a valid Israeli number (0 and 8–9 more digits, the theme's own check) is kept as its digits, whatever was
+	// around them («050-1234567 (אמא)», «050_1234567»): Pro's check then always agrees with the theme's
+	$digits = preg_replace( '/\D+/', '', $value );
+	if ( preg_match( '/^0\d{8,9}$/', (string) $digits ) ) {
+		return (string) $digits;
 	}
 	$value = preg_replace( '/[\x{2010}-\x{2015}\x{2212}]/u', '-', $value );
 	// spaces of every kind, and the direction marks a number copied from Hebrew text may carry

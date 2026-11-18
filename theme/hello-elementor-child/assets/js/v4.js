@@ -1,5 +1,5 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.4.1 (research/09-v4-home-spec.md
+   v4.js — child theme hello-elementor-child 1.4.2 (research/09-v4-home-spec.md
    §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
    No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed
@@ -129,6 +129,7 @@
     const isOpen = () => !panel.hidden;
     const open = () => {
       panel.hidden = false;
+      panel.scrollTop = 0;                              // a short screen scrolls the panel: start at its first option
       btn.setAttribute("aria-expanded", "true");
       // the first control that shows (the plain option is hidden on a page without plain texts)
       const first = Array.from(panel.querySelectorAll("button:not([disabled]), a[href]")).find((el) => el.getClientRects().length);
@@ -175,6 +176,10 @@
               if (typeof w.nh.keepPlace === "function") w.nh.keepPlace(off); else off();
             } else if (setPlain) {
               setPlain(false, true);
+            } else {                                    // a page without plain texts of its own (no option shown)
+              html.classList.remove("nh-plainmode");
+              store.set("nh-plain", "off");
+              plainParam(false);
             }
           }
           announce("הגדרות הנגישות אופסו");
@@ -235,12 +240,15 @@
         if (!quiet) announce(on ? "הדף מוצג עכשיו בשפה פשוטה" : "הדף מוצג בשפה הרגילה");
       };
       sync();
+    }
+    // a page restored by «back» follows the choice made meanwhile on another page (or its address), with or
+    // without plain texts of its own; on a v3.2 page the plugin's own switches and widgets follow too
+    if (panel && !inEditor) {
       w.addEventListener("pageshow", (e) => {
         if (!e.persisted) return;
         const q = /[?&]plain=([01])/.exec(w.location.search);
         const was = isPlain();
         html.classList.toggle("nh-plainmode", q ? q[1] === "1" : store.get("nh-plain") === "on");
-        // a v3.2 page: the plugin's own switches and widgets follow the restored mode too
         if (pluginPlain() && isPlain() !== was) {
           if (typeof w.nh.syncToggles === "function") w.nh.syncToggles();
           d.dispatchEvent(new CustomEvent("nh:displaychange"));
@@ -441,9 +449,46 @@
       const title = d.getElementById("nh-cookies-title");
       const mainEl = d.querySelector("main") || d.getElementById("content");
       let opener = null;
+      // the bar that stays at the top of the screen (the v4 header, or the v3.2 pages' fixed masthead), whatever its
+      // markup: the fixed or sticky ancestor of what is at the top centre of the screen; 0 if none
+      const topBar = () => {
+        const hit = d.elementFromPoint(Math.round(w.innerWidth / 2), 1);
+        for (let el = hit; el && el !== d.body && el !== html; el = el.parentElement) {
+          if (cons.contains(el)) return 0;
+          const pos = w.getComputedStyle(el).position;
+          if (pos === "fixed" || pos === "sticky") {
+            const r = el.getBoundingClientRect();
+            return r.top <= 1 ? Math.max(0, Math.ceil(r.bottom)) : 0;
+          }
+        }
+        return 0;
+      };
+      const phoneMQ = typeof w.matchMedia === "function" ? w.matchMedia("(max-width: 767px)") : null;
+      // on phones the floating column (52 + 8 + 56px) rises above the banner; when the banner is too tall for that
+      // (zoom, large text, the settings open) it stands beside the column instead (html.nh-consent-tall, v4.css).
+      // Decided on the banner's full-width height, so it never flips back and forth; in the next frame, so the
+      // ResizeObserver that calls it never resizes what it observes during its own callback
+      let tallQueued = false;
+      const decideTall = () => {
+        tallQueued = false;
+        const top = topBar();
+        html.style.setProperty("--nh-top-h", top + "px");
+        const shown = html.classList.contains("nh-consent-ask") || html.classList.contains("nh-consent-open");
+        let tall = false;
+        if (shown && phoneMQ && phoneMQ.matches) {
+          html.classList.remove("nh-consent-tall");
+          tall = cons.getBoundingClientRect().height + 16 + 116 + 16 > w.innerHeight - top;
+        }
+        html.classList.toggle("nh-consent-tall", tall);
+        html.style.setProperty("--nh-consent-h", Math.ceil(cons.getBoundingClientRect().height) + "px");
+      };
       // its height, for the room the page keeps at its end and the floating buttons above it (v4.css)
-      const setCH = () => html.style.setProperty("--nh-consent-h", Math.ceil(cons.getBoundingClientRect().height) + "px");
+      const setCH = () => {
+        html.style.setProperty("--nh-consent-h", Math.ceil(cons.getBoundingClientRect().height) + "px");
+        if (!tallQueued) { tallQueued = true; w.requestAnimationFrame(decideTall); }
+      };
       if ("ResizeObserver" in w) new w.ResizeObserver(setCH).observe(cons);
+      w.addEventListener("resize", setCH, { passive: true });
       const showPrefs = (on) => {
         if (!prefs) return;
         prefs.hidden = !on;
@@ -529,9 +574,17 @@
         const c = cons.getBoundingClientRect();
         if (!c.height) return;
         const r = t.getBoundingClientRect();
-        if (!r.height || r.bottom <= c.top || r.top >= c.bottom || r.right <= c.left || r.left >= c.right) return;
-        const top = (headerFloats() ? headerLoc.getBoundingClientRect().bottom : 0) + 8;
-        const dy = r.height <= c.top - 16 - top ? r.bottom - (c.top - 16) : r.top - top;
+        if (!r.height) return;
+        const over = (b) => !(r.bottom <= b.top || r.top >= b.bottom || r.right <= b.left || r.left >= b.right);
+        // on phones the floating column sits right above the banner: a control is not left under it either
+        const fl = d.querySelector(".nh-float");
+        const f = fl ? fl.getBoundingClientRect() : null;
+        const col = !!(f && f.height && f.top < c.top);
+        if (!over(c) && !(col && over(f))) return;
+        const top = topBar() + 8;
+        let limit = c.top - 16;
+        if (col && !(r.right <= f.left || r.left >= f.right)) limit = Math.min(limit, f.top - 8);
+        const dy = r.height <= limit - top ? r.bottom - limit : r.top - top;
         if (dy > 0) w.scrollBy(0, dy);                    // instant (:root { scroll-behavior: auto })
       });
       // another tab chose
@@ -583,7 +636,9 @@
           wgt.insertAdjacentElement("afterend", q);        // after the widget: inside it the frame clips it
           // a key held down on the play button repeats onto «כן», which took the focus: consent must be its own
           // press, so repeats do nothing here (Enter acts on keydown, Space on keyup after a keydown)
-          q.addEventListener("keydown", (e) => { if (e.repeat) e.preventDefault(); }, true);
+          q.addEventListener("keydown", (e) => {
+            if (e.repeat && (e.key === "Enter" || e.key === " " || e.key === "Spacebar")) e.preventDefault();
+          }, true);
           q.addEventListener("click", (e) => {
             const b = e.target.closest("[data-ask]");
             if (!b) return;
@@ -666,6 +721,13 @@
         const group = input.closest(".elementor-field-group");
         const eid = "nh-err-" + fi + "-" + (input.id || input.name).replace(/\W+/g, "-");
         let p = d.getElementById(eid);
+        if (group) {
+          // the server's own error on this field (Pro's inline message) goes, in both cases: one message per field,
+          // and screen and reader agree
+          group.querySelectorAll(".elementor-form-help-inline").forEach((m) => m.remove());
+          group.classList.remove("elementor-error");
+          group.querySelectorAll(".elementor-error").forEach((x) => x.classList.remove("elementor-error"));
+        }
         if (msg) {
           if (!p) { p = d.createElement("p"); p.id = eid; p.className = "nh-field-error"; (group || input.parentElement).appendChild(p); }
           p.textContent = msg;
@@ -677,13 +739,13 @@
           input.removeAttribute("aria-invalid");
           if (baseDesc.has(input)) input.setAttribute("aria-describedby", baseDesc.get(input));
           else input.removeAttribute("aria-describedby");
-          if (group) {
-            group.classList.remove("nh-has-error");
-            // the server's own error on this field (Pro's inline message) goes too: screen and reader agree
-            group.querySelectorAll(".elementor-form-help-inline").forEach((m) => m.remove());
-            group.classList.remove("elementor-error");
-          }
+          if (group) group.classList.remove("nh-has-error");
         }
+      };
+      // every field is right again: the summary and Pro's form-level «נמצאו שגיאות בטופס.» go
+      const allFixed = () => {
+        sum.hidden = true;
+        form.querySelectorAll(".elementor-message-danger").forEach((m) => { if (!m.closest(".elementor-field-group")) m.remove(); });
       };
       // what Pro printed after the last send (its result and its field errors), as Pro clears it before a new send
       const clearPro = () => {
@@ -742,10 +804,15 @@
         if (i.getAttribute && i.getAttribute("aria-invalid") === "true") {
           const still = check().find(([x]) => x === i);
           setErr(i, still ? still[1] : "");
-          if (!form.querySelector('[aria-invalid="true"]')) sum.hidden = true;
+          if (!form.querySelector('[aria-invalid="true"]')) allFixed();
         }
       });
-      form.addEventListener("change", (e) => { if (e.target === consIn && consIn.checked) setErr(consIn, ""); });
+      form.addEventListener("change", (e) => {
+        if (e.target === consIn && consIn.checked) {
+          setErr(consIn, "");
+          if (!form.querySelector('[aria-invalid="true"]')) allFixed();
+        }
+      });
       // Pro's answer: its message gets the focus (role=alert already speaks it); its own field errors are tied
       if ("MutationObserver" in w) {
         new w.MutationObserver((recs) => {

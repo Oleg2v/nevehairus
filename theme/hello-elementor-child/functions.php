@@ -449,7 +449,8 @@ function nh_child_form_texts() {
  * `elementor_pro/forms/validation`: the contact form of the v4 home (its fields name / phone / consent, class
  * nh-contact-form), checked on the server as the inner page's form is: required fields, an Israeli phone number
  * (0 and 8–9 more digits, after removing spaces and dashes), the consent; and at most 5 sends in 10 minutes from one
- * address (only a counter under a salted hash of it is kept, in a transient; nothing the visitor typed).
+ * address (only a counter under a salted hash of it is kept, in a transient; nothing the visitor typed). The form's
+ * HTML fields are taken out of the record, so a stored submission holds only the visitor's answers.
  *
  * @param object $record       ElementorPro\Modules\Forms\Classes\Form_Record.
  * @param object $ajax_handler ElementorPro\Modules\Forms\Classes\Ajax_Handler.
@@ -464,6 +465,15 @@ function nh_child_form_validation( $record, $ajax_handler ) {
 	}
 	$t      = nh_child_form_texts();
 	$fields = (array) $record->get( 'fields' );
+	// the HTML fields (the required note, the hint, the privacy note) are text, not answers: they are not stored with
+	// the submission or sent by e-mail, so the name is the first column in Elementor → Submissions
+	if ( method_exists( $record, 'remove_field' ) ) {
+		foreach ( $fields as $id => $field ) {
+			if ( isset( $field['type'] ) && 'html' === $field['type'] ) {
+				$record->remove_field( $id );
+			}
+		}
+	}
 	foreach ( array( 'name', 'phone' ) as $id ) {
 		if ( isset( $fields[ $id ] ) && '' === trim( (string) $fields[ $id ]['value'] ) ) {
 			$ajax_handler->add_error( $id, $t['required'] );
@@ -487,10 +497,16 @@ function nh_child_form_validation( $record, $ajax_handler ) {
 	$key = 'nh_form_rate_' . substr( hash_hmac( 'sha256', $ip, wp_salt( 'nonce' ) ), 0, 32 );
 	$n   = (int) get_transient( $key );
 	if ( $n >= 5 ) {
-		// the general message says it; the error itself sits on the hidden trap field, so no visible field is blamed
-		$ajax_handler->add_error_message( $t['limited'] );
-		$ajax_handler->add_error( 'website', $t['limited'] );
-		return;
+		// answer here, before Elementor adds its general error and before any action runs: one message, no field is
+		// blamed (an error on the hidden trap field would print under it, and Elementor's «something went wrong»
+		// would follow the message)
+		wp_send_json_error(
+			array(
+				'message' => esc_html( $t['limited'] ),
+				'errors'  => array(),
+				'data'    => array(),
+			)
+		);
 	}
 	set_transient( $key, $n + 1, 10 * MINUTE_IN_SECONDS );
 }

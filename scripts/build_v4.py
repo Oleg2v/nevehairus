@@ -785,7 +785,10 @@ class Builder:
             accordion = self.widget(f"{p}/more", "nested-accordion", styled({
                 "items": [{"item_title": more_title, "element_css_id": "",
                            "_id": hex7(f"{self.doc}/{p}/more/items/0")}],
-                "default_state": "all_collapsed", "max_items_expended": "one",
+                # «multiple», not «one»: with «one» and a 0 ms animation Elementor 4.4 closes the item again right after
+                # opening it (its close-all animation of 0 ms finishes after the open; tested 18.11), so «להמשך קריאה»
+                # never opened, in v4.0–v4.2 too. There is one item, so nothing else changes. No animation (0 ms)
+                "default_state": "all_collapsed", "max_items_expended": "multiple",
                 "n_accordion_animation_duration": {"unit": "ms", "size": 0, "sizes": []},
                 # a span, not a div: Elementor prints the title inside a <span>; the summary is the control, no heading
                 "title_tag": "span", "accordion_item_title_icon": icon("plus"),

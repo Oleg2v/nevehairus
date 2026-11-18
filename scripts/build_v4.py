@@ -54,12 +54,14 @@ _element_id <name>, its Kit background, 5rem (phones 3.5rem) above and below; in
                  760px at most. v4.3: no large years (Itzik 18.11)
   (v4.3: the videos section joined «הבית שלנו»; «תודות והמלצות» left the home — Itzik 18.11)
   snoezelen      as v4; the Short in a phone (nh-phone-frame on the Video widget, 9:16, 300px)
-  special-needs  an 860px column: H2, the WHOLE live text open, in order (v4.3: no fold, as on the live site): the
-                 questions in the framed box (nh-framed, white), the lead, the rest; the plain twin after them
+  special-needs  an 860px column: H2, the questions in the framed box (nh-framed, white) and the lead open; at their
+                 end «להמשך קריאה» (nh-more, a Nested Accordion, collapsed) opens the rest of the live text, as in
+                 v4.0 (v4.3, Oleg 18.11, point 7; SPECIAL_READ_MORE = False opens it all); the plain twin after them
   contact        _element_id contact (the target of «צור קשר»): H2, the form's lead (the inner page's), and the visit
                  form of the inner page in a white card (nh-form-card): Elementor Pro's Form (nh-contact-form), the
                  texts of #33, submissions kept in the admin only («save-to-database», no IP or browser); the e-mail
-                 action to FORM_TO only at launch (LAUNCH). v4.3: no phone button, no WhatsApp (Itzik 18.11)
+                 action to FORM_TO only at launch (LAUNCH, from FORM_FROM: an authenticated nevehairus.com mailbox;
+                 the answers and the date and time only). v4.3: no phone button, no WhatsApp (Itzik 18.11)
 The header (header-v4): logo, the phone, «צור קשר»; the menu. v4.3: «בשפה פשוטה» is in the theme's «נגישות» panel.
 Every section is on the Kit's cream (v4.3, Itzik 18.11), the hero on its photo; the cards are white.
 nh-reveal (spec 10 §3) is on every section's inner column, the cards, the pro cells, the pro text, the video items and
@@ -130,6 +132,13 @@ YOUTUBE = "https://www.youtube.com/watch?v="
 OFF_BLOCKS = set()          # blocks of home.json kept, but deliberately not built (WhatsApp: closed, Itzik 18.11)
 LAUNCH = False              # True only for the live site: the contact form then also e-mails FORM_TO (Itzik 18.11)
 FORM_TO = "irus1@nevehairus.com"                      # the address of the live site's contact block
+# the sender of that e-mail, at launch: an existing nevehairus.com mailbox that the domain's mail (Microsoft 365)
+# accepts from the web host, i.e. the host is in the SPF record (or the mail goes through Microsoft 365) and signs
+# DKIM. Without it Elementor sends as email@<site domain>, which Microsoft 365 is likely to treat as a spoof of its
+# own domain and file as Junk, while the visitor reads «תודה!». The build refuses LAUNCH until this is set.
+FORM_FROM = None
+CONSENT_NAME = "אישור מדיניות הפרטיות"                 # the consent's name in the theme's error summary and the e-mail
+SPECIAL_READ_MORE = True    # «להמשך קריאה» at the end of the open text, as in v4.0 (Oleg 18.11, point 7); False: all open
 PHONE_TEL = "tel:089403047"
 PHONE_LABEL = "התקשרו: 08-9403047"                     # aria-label of the icon-only phone button (§4.0)
 CONTACT_ANCHOR = "#contact"                            # the contact band (spec 10 §1.1, §1.10)
@@ -753,9 +762,12 @@ class Builder:
 
     # ---- 9 special needs (10 §1.9) -------------------------------------------------------------------------------------------
     def special(self):
-        """v4.3 (Itzik 18.11): the whole live text open, as on the live site, no fold: the questions in the framed box
-        (white, its purple inline-start border), the lead, the rest; the plain twin after them. «להמשך קריאה» was the
-        v4 fold's own label, never a link of the live site, so it is gone (retired)."""
+        """v4.3 (Itzik and Oleg 18.11, point 7: «текст открыт, как было раньше, без сворачивания под плюс. Если раньше
+        в конце была ссылка «להמשך קריאה» на хвост текста, верни её так же»): as in v4.0 (spec 09 §4.5). The questions
+        in the framed box (white, its purple inline-start border) and the lead are open; at their end the nested
+        accordion «להמשך קריאה» opens the rest of the live text (it stays in the HTML for search engines). v4.1–v4.2
+        folded the whole text under it instead. The plain twin follows. SPECIAL_READ_MORE = False opens the rest too,
+        as on the live site, which has no «להמשך קריאה»."""
         plain = self.has_plain("special.plain_body")
         full = "nh-full" if plain else ""
         p = "special-needs/inner"
@@ -765,11 +777,32 @@ class Builder:
             "border_border": "solid", "border_width": dims(0, 4, 0, 0), "border_radius": dims(12),
             "css_classes": join("nh-framed", full)}, background_color="white", border_color="purple-700"),
             self.text_editor_block("special.framed", f"{p}/framed/text"), title="שאלות")
+        if SPECIAL_READ_MORE:
+            more_title = self.text("special.more_title", "full")
+            item = self.container(f"{p}/more/item-1", {**flex("column", 16, 16), "padding": dims(16, 0, 0, 0),
+                                                       "_title": more_title},
+                                  self.text_editor_block("special.rest", f"{p}/more/item-1/rest"))
+            accordion = self.widget(f"{p}/more", "nested-accordion", styled({
+                "items": [{"item_title": more_title, "element_css_id": "",
+                           "_id": hex7(f"{self.doc}/{p}/more/items/0")}],
+                "default_state": "all_collapsed", "max_items_expended": "one",
+                "n_accordion_animation_duration": {"unit": "ms", "size": 0, "sizes": []},
+                # a span, not a div: Elementor prints the title inside a <span>; the summary is the control, no heading
+                "title_tag": "span", "accordion_item_title_icon": icon("plus"),
+                "accordion_item_title_icon_active": icon("minus"),
+                "_css_classes": join("nh-more", full)},
+                {"title_typography_typography": "accent"},
+                normal_title_color="purple-700", hover_title_color="purple-800", active_title_color="purple-700",
+                normal_icon_color="purple-700", hover_icon_color="purple-800", active_icon_color="purple-700"), [item])
+            self.use("special.more_title", "full", accordion, "items.0.item_title")
+            rest = [accordion]
+        else:
+            rest = self.text_editor_block("special.rest", f"{p}/rest", full)
         return self.section("special-needs", "מעון לבעלי צרכים מיוחדים", "cream",
                             self.heading_block("special.title", f"{p}/title", "h2", "h2", "purple-700")
                             + [framed]
                             + self.text_editor_block("special.lead", f"{p}/lead", full)
-                            + self.text_editor_block("special.rest", f"{p}/rest", full)
+                            + rest
                             + self.text_editor_block("special.plain_body", f"{p}/plain"),
                             inner={"boxed_width": size(860)}, gap=24)
 
@@ -856,8 +889,15 @@ class Builder:
              "button_border_radius": dims(12), "button_text_padding": dims("1rem", "2rem"),
              "_css_classes": "nh-contact-form"}
         if LAUNCH:
-            s.update(email_to=FORM_TO, email_subject="בקשה לביקור — מעון נווה האירוס", email_content="[all-fields]",
-                     email_from_name="מעון נווה האירוס", email_content_type="plain", form_metadata=["date", "time", "page_url"])
+            # only the visitor's answers, each under its own label, and the date and time: no page address (it may
+            # carry a query string), no IP or browser (Elementor's defaults for a hand-added action would add them)
+            lines = [f"{self.text(b, 'full').rstrip('?')}: [field id=\"{cid}\"]" for cid, b in
+                     (("name", "contact.form.label_name"), ("phone", "contact.form.label_phone"),
+                      ("message", "contact.form.label_message"))]
+            lines.append(f"{CONSENT_NAME}: כן")           # the send is impossible without the box ticked
+            s.update(email_to=FORM_TO, email_from=FORM_FROM or "", email_from_name="מעון נווה האירוס",
+                     email_subject="בקשה לביקור — מעון נווה האירוס", email_content="\n".join(lines),
+                     email_content_type="plain", form_metadata=["date", "time"])
         w = self.widget(path, "form", styled(s, {"label_typography_typography": "accent",
                                                   "field_typography_typography": "text",
                                                   "button_typography_typography": "accent",
@@ -1204,6 +1244,11 @@ def page_problems(docs, media_list):
             problems.append(f"home/contact: required fields {sorted(req)}, not name, phone, consent")
         if LAUNCH and fs.get("email_to") != FORM_TO:
             problems.append(f"home/contact: at launch the form e-mails {FORM_TO}")
+        if LAUNCH and not re.fullmatch(r"[^@\s]+@nevehairus\.com", fs.get("email_from") or ""):
+            problems.append("home/contact: LAUNCH needs FORM_FROM, a nevehairus.com mailbox the domain's mail accepts "
+                            "from the web host (SPF/DKIM), or the e-mails land in Junk unseen")
+        if LAUNCH and any(m in (fs.get("form_metadata") or []) for m in ("remote_ip", "user_agent", "page_url")):
+            problems.append("home/contact: the e-mail carries only the date and time, no IP, browser or page address")
     for d in docs.values():
         for path, v in walk_values(d.get("elementor_data") or []):
             if isinstance(v, str) and "wa.me/" in v:

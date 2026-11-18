@@ -36,9 +36,12 @@
  *   settings, and a question in place before an Elementor video loads YouTube while embedded content is not allowed;
  * - the contact form of the v4 home (Elementor Pro's Form): its texts for the theme's error summary, the server-side
  *   check of the phone and the consent, and a rate limit.
- * 1.4.1 (18.11, after the checks on the test site): a stored submission holds only the visitor's answers (the
- * form's HTML fields are taken out of the record); at the send limit the server answers with that one message;
- * keyboard focus is never left under the cookie banner; from 1024px the banner sits beside the «נגישות» button.
+ * 1.4.1 (18.11, after the checks and the independent review on the test site):
+ * - the form: a stored submission holds only the visitor's answers (its HTML fields are taken out of the record);
+ *   a phone number with spaces or other dashes is normalised before Elementor Pro's own check; the send limit is
+ *   a fixed 10-minute window and answers with one message;
+ * - the consent version is the plugin's setting + 1, so every raise of the setting asks everyone again;
+ * - no banner where the browser blocks site data (nothing could be kept there).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -70,6 +73,7 @@ add_action( 'wp_enqueue_scripts', 'nh_child_v4_assets', 30 );
 add_action( 'wp_head', 'nh_child_v4_head', 2 );
 add_action( 'wp_footer', 'nh_child_v4_footer', 10 );
 add_action( 'elementor_pro/forms/validation', 'nh_child_form_validation', 10, 2 );
+add_filter( 'elementor_pro/forms/sanitize/tel', 'nh_child_form_tel', 20 );
 
 /**
  * `hello_elementor_page_title`: no Hello title on a page built with Elementor (its cover is the page's H1).
@@ -256,7 +260,9 @@ function nh_child_prepaint_js() {
 		. 'var q = /[?&]plain=([01])/.exec(s);'
 		. 'if (q ? q[1] === "1" : g("nh-plain") === "on") h.classList.add("nh-plainmode");'
 		. 'var c = null; try { c = JSON.parse(g("nh-consent-v1") || "null"); } catch (e) { c = null; }'
-		. 'if (!c || typeof c !== "object" || !(Number(c.v) >= ' . (int) nh_child_consent_version() . ')) h.classList.add("nh-consent-ask");'
+		// no banner where the browser blocks site data: nothing could be kept, it would come back on every page
+		. 'var ok = true; try { w.localStorage.setItem("nh-t", "1"); w.localStorage.removeItem("nh-t"); } catch (e) { ok = false; }'
+		. 'if (ok && (!c || typeof c !== "object" || !(Number(c.v) >= ' . (int) nh_child_consent_version() . '))) h.classList.add("nh-consent-ask");'
 		. '})(window, document);';
 }
 
@@ -316,8 +322,11 @@ function nh_child_supports() {
 }
 
 /**
- * The consent version: a stored choice older than this counts as none, so the banner asks again. At least 2: the
- * plugin's panel of the v3.2 pages saved version 1 before the banner existed (v4.3, 18.11.2026).
+ * The consent version: a stored choice older than this counts as none, so the banner asks again. It is the plugin's
+ * «גרסת ההסכמה» + 1: the plugin's panel of the v3.2 pages saved version 1 (the setting's default) before the banner
+ * existed, so the banner asks everyone once (v4.3, 18.11.2026); and every raise of the setting asks everyone again,
+ * as its label says (1.4.1: with a floor of 2 instead, raising it from 1 to 2 changed nothing). The plugin's own
+ * check (record version ≥ the setting) accepts the theme's records.
  *
  * @return int
  */
@@ -326,7 +335,7 @@ function nh_child_consent_version() {
 	if ( class_exists( 'NH_Settings', false ) && method_exists( 'NH_Settings', 'get' ) ) {
 		$v = (int) NH_Settings::get( 'consent_version' );
 	}
-	return max( 2, $v );
+	return max( 2, $v + 1 );
 }
 
 /**
@@ -498,7 +507,14 @@ function nh_child_form_validation( $record, $ajax_handler ) {
 	}
 	$ip  = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 	$key = 'nh_form_rate_' . substr( hash_hmac( 'sha256', $ip, wp_salt( 'nonce' ) ), 0, 32 );
-	$n   = (int) get_transient( $key );
+	// a fixed window from the first counted send (1.4.1: the expiry is not pushed on by later sends, so sends spread
+	// over an hour are never refused); a count and its start, nothing else
+	$now = time();
+	$rec = get_transient( $key );
+	if ( ! is_array( $rec ) || ! isset( $rec['n'], $rec['t0'] ) || $now - (int) $rec['t0'] >= 10 * MINUTE_IN_SECONDS ) {
+		$rec = array( 'n' => 0, 't0' => $now );
+	}
+	$n = (int) $rec['n'];
 	if ( $n >= 5 ) {
 		// answer here, before Elementor adds its general error and before any action runs: one message, no field is
 		// blamed (an error on the hidden trap field would print under it, and Elementor's «something went wrong»
@@ -511,5 +527,24 @@ function nh_child_form_validation( $record, $ajax_handler ) {
 			)
 		);
 	}
-	set_transient( $key, $n + 1, 10 * MINUTE_IN_SECONDS );
+	// what is left of the window; two sends at the same moment may both pass (no lock): harmless at this traffic
+	set_transient( $key, array( 'n' => $n + 1, 't0' => (int) $rec['t0'] ), max( 1, (int) $rec['t0'] + 10 * MINUTE_IN_SECONDS - $now ) );
+}
+
+/**
+ * `elementor_pro/forms/sanitize/tel` @20 (after Pro's own sanitize_text_field): a phone number as people write it.
+ * Pro's own check of a tel field (run before the theme's) allows only digits and ()#&+*-=. — so «050 123 4567» or
+ * «050–1234567» would be refused by the server after the page said the form was fine. Spaces go, and the other
+ * dashes become «-»; the theme's check (0 and 8–9 more digits) then decides, as on the inner page's form (1.4.1).
+ *
+ * @param mixed $value The field's value.
+ * @return mixed
+ */
+function nh_child_form_tel( $value ) {
+	if ( ! is_string( $value ) ) {
+		return $value;
+	}
+	$value = preg_replace( '/[\x{2010}-\x{2015}\x{2212}]/u', '-', $value );
+	// spaces of every kind, and the direction marks a number copied from Hebrew text may carry
+	return (string) preg_replace( '/[\s\x{00A0}\x{2007}\x{202F}\x{200E}\x{200F}\x{202A}-\x{202E}\x{2066}-\x{2069}]+/u', '', (string) $value );
 }

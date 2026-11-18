@@ -85,6 +85,15 @@
     // click time, because this script runs before the plugin's
     const pluginPlain = () => !d.querySelector(".nh-sec") && !!(w.nh && w.nh.__core);
     let setPlain = null;                               // part 2: (on, quiet) → the v4 page's plain language
+    // a ?plain= link keeps working after a reload: the address follows the choice (only where it has the parameter)
+    const plainParam = (on) => {
+      try {
+        const url = new URL(w.location.href);
+        if (!url.searchParams.has("plain")) return;
+        url.searchParams.set("plain", on ? "1" : "0");
+        w.history.replaceState(w.history.state, "", url);
+      } catch (e) { /* old browsers */ }
+    };
 
     // the classes on <html> and the panel's buttons follow `state`
     const sync = () => {
@@ -159,6 +168,7 @@
               const off = () => {
                 html.classList.remove("nh-plainmode");
                 store.set("nh-plain", "off");
+                plainParam(false);                      // a ?plain=1 link must not switch it back on after a reload
                 if (typeof w.nh.syncToggles === "function") w.nh.syncToggles();
                 d.dispatchEvent(new CustomEvent("nh:displaychange"));
               };
@@ -199,7 +209,8 @@
     const headerLoc = d.querySelector(".elementor-location-header");
     const headerFloats = () => !!headerLoc && /^(sticky|fixed)$/.test(w.getComputedStyle(headerLoc).position);
     const plainBtn = panel ? panel.querySelector('[data-a11y="plain"]') : null;
-    if (plainBtn && !inEditor && d.querySelector(".nh-plain, main .v3-plain")) {
+    // only inside the page's content: the cookie banner and the v4 footer have plain twins of their own on every page
+    if (plainBtn && !inEditor && d.querySelector("main .nh-plain, main .v3-plain")) {
       const li = plainBtn.closest("li");
       if (li) li.hidden = false;                          // only where the page has plain texts
       // nobody loses their place: the section at the top of the screen stays where it was, or, if it began
@@ -219,13 +230,7 @@
       setPlain = (on, quiet) => {
         keepPlace(() => html.classList.toggle("nh-plainmode", on));
         store.set("nh-plain", on ? "on" : "off");
-        try {                                             // a ?plain= link keeps working after a reload
-          const url = new URL(w.location.href);
-          if (url.searchParams.has("plain")) {
-            url.searchParams.set("plain", on ? "1" : "0");
-            w.history.replaceState(w.history.state, "", url);
-          }
-        } catch (e) { /* old browsers */ }
+        plainParam(on);
         sync();
         if (!quiet) announce(on ? "הדף מוצג עכשיו בשפה פשוטה" : "הדף מוצג בשפה הרגילה");
       };
@@ -233,7 +238,13 @@
       w.addEventListener("pageshow", (e) => {
         if (!e.persisted) return;
         const q = /[?&]plain=([01])/.exec(w.location.search);
+        const was = isPlain();
         html.classList.toggle("nh-plainmode", q ? q[1] === "1" : store.get("nh-plain") === "on");
+        // a v3.2 page: the plugin's own switches and widgets follow the restored mode too
+        if (pluginPlain() && isPlain() !== was) {
+          if (typeof w.nh.syncToggles === "function") w.nh.syncToggles();
+          d.dispatchEvent(new CustomEvent("nh:displaychange"));
+        }
         sync();
       });
     }
@@ -403,13 +414,21 @@
     const CKEY = "nh-consent-v1";                         // the plugin's record: the two read each other's choice
     const cons = d.getElementById("nh-cookies");
     const CV = cons ? Number(cons.getAttribute("data-v")) || 2 : 2;
+    // where the browser blocks site data (localStorage throws), a choice still holds for this page view: it is kept
+    // in memory, so the banner can be answered and «כן» before a video is remembered until the next page
+    let cMemo = null;
+    const cStorable = (() => {
+      try { const t = "nh-t"; w.localStorage.setItem(t, "1"); w.localStorage.removeItem(t); return true; } catch (e) { return false; }
+    })();
     const cRead = () => {
       let r = null;
       try { r = JSON.parse(store.get(CKEY) || "null"); } catch (e) { r = null; }
-      return r && typeof r === "object" && Number(r.v) >= CV ? r : null;   // an older version counts as none
+      if (!(r && typeof r === "object")) r = cMemo;
+      return r && Number(r.v) >= CV ? r : null;           // an older version counts as none
     };
     const cSave = (c) => {
       const rec = { necessary: true, stats: !!(c && c.stats), media: !!(c && c.media), date: new Date().toISOString(), v: CV };
+      cMemo = rec;
       store.set(CKEY, JSON.stringify(rec));
       html.classList.remove("nh-consent-ask");
       d.dispatchEvent(new CustomEvent("nh:consent", { detail: rec }));
@@ -452,7 +471,7 @@
         cons.classList.remove("is-open");
         html.classList.remove("nh-consent-open");
         showPrefs(false);
-        if (!cRead()) html.classList.add("nh-consent-ask");   // no choice yet: the banner stays
+        if (!cRead() && cStorable) html.classList.add("nh-consent-ask");   // no choice yet: the banner stays
         if (returnFocus) focusTo(back);
       };
       const chosen = (rec) => {
@@ -475,7 +494,7 @@
           if (on && media) media.focus();
         } else if (k === "close") {
           if (cRead() || isOpen()) hide(true);
-          else showPrefs(false);
+          else { showPrefs(false); if (prefsBtn) prefsBtn.focus(); }   // as Esc: the focused «סגירה» is hidden now
         }
       });
       // Esc: the settings close (the banner stays while nothing is chosen)
@@ -494,7 +513,11 @@
         open(a);
       });
       if (w.location.hash === "#nh-cookies") open(null);
-      if (!cRead()) html.classList.add("nh-consent-ask"); // the head script may have been dropped by a cache tool
+      // no choice yet: the banner (the head script may have been dropped by a cache tool). Not where the browser
+      // blocks site data: nothing could be kept there, the banner would come back on every page, and only the
+      // necessary storage is used anyway (a video still asks in place before YouTube loads)
+      if (!cRead() && cStorable) html.classList.add("nh-consent-ask");
+      if (!cStorable) html.classList.remove("nh-consent-ask");
       setCH();
       // keyboard focus never sits under the banner (WCAG 2.4.11): scroll-padding covers what the browser scrolls to,
       // but a control already on screen behind the banner is not scrolled by the browser; move it just above the
@@ -513,7 +536,7 @@
       });
       // another tab chose
       w.addEventListener("storage", (e) => {
-        if (e.key === CKEY || e.key === null) html.classList.toggle("nh-consent-ask", !cRead());
+        if (e.key === CKEY || e.key === null) html.classList.toggle("nh-consent-ask", !cRead() && cStorable);
       });
       // the plugin's widgets (the voices widget of the v3.2 pages) read and save through this (nh-core.js 0.2.7)
       // read() → the record or null; save({stats, media}) → the record (synchronous; dispatches nh:consent); open(src) →
@@ -543,6 +566,10 @@
         mo.observe(wgt, { childList: true, subtree: true });
         w.setTimeout(() => mo.disconnect(), 15000);
       };
+      const capOf = (wgt) => {
+        const cap = wgt.parentElement ? wgt.parentElement.querySelector(".nh-video__cap") : null;
+        return cap ? cap.textContent.trim() : "";
+      };
       const ask = (ov) => {
         const wgt = ov.closest(".elementor-widget-video");
         if (!wgt) return;
@@ -554,6 +581,9 @@
           q.setAttribute("aria-labelledby", qid);
           q.querySelector('[data-ask="yes"]').setAttribute("aria-describedby", qid);
           wgt.insertAdjacentElement("afterend", q);        // after the widget: inside it the frame clips it
+          // a key held down on the play button repeats onto «כן», which took the focus: consent must be its own
+          // press, so repeats do nothing here (Enter acts on keydown, Space on keyup after a keydown)
+          q.addEventListener("keydown", (e) => { if (e.repeat) e.preventDefault(); }, true);
           q.addEventListener("click", (e) => {
             const b = e.target.closest("[data-ask]");
             if (!b) return;
@@ -561,8 +591,7 @@
             if (b.getAttribute("data-ask") === "yes") {
               saveMedia();
               q.remove();
-              const cap = wgt.parentElement ? wgt.parentElement.querySelector(".nh-video__cap") : null;
-              focusPlayer(wgt, cap ? cap.textContent.trim() : "");
+              focusPlayer(wgt, capOf(wgt));
               passing = ov;
               ov.click();                                   // Elementor's own handler starts the video now
               passing = null;
@@ -577,8 +606,17 @@
       };
       const gate = (e) => {
         const ov = e.target && e.target.closest ? e.target.closest(".elementor-widget-video .elementor-custom-embed-image-overlay") : null;
-        if (!ov || ov === passing || mediaOK()) return;
-        if (e.type === "keydown" && !(e.key === "Enter" || e.key === " " || e.key === "Spacebar")) return;
+        if (!ov || ov === passing) return;
+        const key = e.type === "keydown";
+        if (key && !(e.key === "Enter" || e.key === " " || e.key === "Spacebar")) return;
+        if (mediaOK()) {
+          // allowed already: Elementor's own handler starts the video (nothing is stopped here). Space must not
+          // scroll the page away from it, and the player takes the focus, as after «כן»
+          if (key) e.preventDefault();
+          const wgt = ov.closest(".elementor-widget-video");
+          if (wgt && !(key && e.repeat)) focusPlayer(wgt, capOf(wgt));
+          return;
+        }
         e.preventDefault();
         e.stopImmediatePropagation();
         e.stopPropagation();
@@ -639,8 +677,18 @@
           input.removeAttribute("aria-invalid");
           if (baseDesc.has(input)) input.setAttribute("aria-describedby", baseDesc.get(input));
           else input.removeAttribute("aria-describedby");
-          if (group) group.classList.remove("nh-has-error");
+          if (group) {
+            group.classList.remove("nh-has-error");
+            // the server's own error on this field (Pro's inline message) goes too: screen and reader agree
+            group.querySelectorAll(".elementor-form-help-inline").forEach((m) => m.remove());
+            group.classList.remove("elementor-error");
+          }
         }
+      };
+      // what Pro printed after the last send (its result and its field errors), as Pro clears it before a new send
+      const clearPro = () => {
+        form.querySelectorAll(".elementor-message").forEach((m) => m.remove());
+        form.querySelectorAll(".elementor-error").forEach((g) => g.classList.remove("elementor-error"));
       };
       if (msgIn && hint) msgIn.setAttribute("aria-describedby", hint.id);
       const check = () => {
@@ -671,7 +719,10 @@
         });
         sum.querySelector(".nh-form-errors__title").textContent = errs.length === 1 ? T.summary1 : T.summaryN.replace("{n}", String(errs.length));
         sum.hidden = false;
-        sum.focus();
+        // its title at the top of the screen, under the header (scroll-padding-top), even at 400% zoom where the
+        // whole summary does not fit
+        sum.focus({ preventScroll: true });
+        sum.scrollIntoView({ block: "start" });
       };
       // on send: our checks first (capture phase, before Pro's handler); with errors Pro never sends
       form.addEventListener("submit", (e) => {
@@ -679,6 +730,7 @@
         if (errs.length) {
           e.preventDefault();
           e.stopImmediatePropagation();
+          clearPro();                                     // no old «תודה!» next to the new errors
           show(errs);
         } else {
           sum.hidden = true;

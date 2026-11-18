@@ -38,7 +38,8 @@
     "hero.cta_contact: in v4.1 the button links to #contact, the contact band, until the contact page exists (spec 10 §1.1); its label is unchanged.",
     "Typography only, no words changed (review 17.11): contacts.email.body has <wbr> before the @ of each visible address, so a narrow column breaks a line there and never inside the domain (the mailto: links are unchanged); contacts.address.body puts the P.O. box on a second line (<br>) and keeps «ת.ד. 28» and «נס ציונה» whole (&nbsp;).",
     "v4.3 (Itzik 18.11): the home drops the large years 1957/1985 (pro.year*), the testimonials band (testimonials.*) and WhatsApp (contact.whatsapp, question closed): all moved to retired_blocks. The cards and the videos are one section «הבית שלנו» (specialties.title; the live «תחומי התמחות» is kept as retired «specialties.title (v4.2)»). Every section is on one cream ground.",
-    "v4.3 (Itzik 18.11): «מעון לבעלי צרכים מיוחדים» is open (special.more_title retired); «בשפה פשוטה» is in the theme's «נגישות» panel (header.plain_toggle retired); the band «נשמח שתבואו להכיר אותנו» has the visit form of the inner page instead of the phone (contact.phone retired; contact.form.* are #33's texts; contact.sub is the form's lead, because the old subline repeated the last sentence of the now-open text just above it). The footer links gained «הגדרות עוגיות»."
+    "v4.3 (Itzik 18.11): «מעון לבעלי צרכים מיוחדים»: the questions and the lead are open and «להמשך קריאה» at their end opens the rest, as in v4.0 (Oleg 18.11, point 7: «если раньше в конце была ссылка «להמשך קריאה» на хвост текста, верни её так же»); «בשפה פשוטה» is in the theme's «נגישות» panel (header.plain_toggle retired); the band «נשמח שתבואו להכיר אותנו» has the visit form of the inner page instead of the phone (contact.phone retired; contact.form.* are #33's texts; contact.sub is the form's lead, because the old subline repeated the last sentence of the now-open text just above it). The footer links gained «הגדרות עוגיות».",
+    "v4.3 after the review (18.11): the consent label ends with the required star, as on the inner page's form (the note above the fields says starred fields are required). The plain privacy note names the controller (נוה האירוס) and gives the phone for seeing or correcting the details, as the full note does; still a draft for the lawyer."
   ],
   "menu": [
     {
@@ -312,6 +313,13 @@
       "plain_status": null,
       "source": "live home, module 5bb32d1fb3245: paragraphs 2–3 (from «נווה האירוס הוא מעון…» to the end of «…מעון לבעלי צרכים מיוחדים הוא מקום. בית. …»)"
     },
+    "special.more_title": {
+      "kind": "text",
+      "full": "להמשך קריאה",
+      "plain": null,
+      "plain_status": null,
+      "source": "UI label of the v4 accordion (spec 09 §4.5), not live copy; v4.3: back at the end of the open text, as in v4.0 (Oleg 18.11, point 7)"
+    },
     "special.rest": {
       "kind": "html",
       "full": "<p>מעון לבעלי צרכים מיוחדים צריך להיות כזה המאפשר גם למשפחות החוסים, לקחת חלק בחייהם, גם אם אינם גרים בביתם השורשי. האפשרות להגיע למעון, לבקר, לטייל בין החללים השונים, צריכה להיות מובנת מאליה ולא ממודרת. השיתוף בין הנהלת המעון, (אשר גם מנצחת על תהליך השיפור והשינוי במעון), הצוותים המטפלים השונים, לבין משפחות החוסים, מאפשר תקשורת פתוחה, שקיפות ושיתוף פעולה בכל הקשור לחיי היומיום במעון ולחזון העתידי שלו. משפחותיהם של החוסים מהווות חלק בלתי נפרד מהצוות התומך, המקיף את החוסה ועל כך, מעצימים את הביטחון שלו/ה, מאפשרים להתפנות לטיפולים השונים ולהתקדמות בדרך. התקשורת בין המשפחות לצוותים היא חלק בלתי נפרד מהצלחתו של מעון לבעלי צרכים מיוחדים, שכן, ישנם מעגלי תקשורת אשר נפתחים ונסגרים בכל פעם, והיות וישנם חוסים אשר נמצאים גם במסגרות חוץ, חד יומיות, חשוב להנהלת מעון נווה האירוס, להיות בקשר רציף עם המשפחות וזאת על מנת לשמר את תהליך הטיפול ולהתקדם בכל פעם, קצת, צעד צעד.</p><p>מעון לבעלי צרכים מיוחדים, הוא מקום מיוחד, ייחודי ורגיש מאד. העבודה עם אוכלוסייה בעלת צרכים מיוחדים היא זכות גדולה ועדיין לא כולם בוחרים בה ולכן, הצוותים בנווה האירוס נבחרו בקפידה תוך התייחסות ספציפית לכישורים מתאימים וכמובן, לב רחב וסבלנות אין קץ, שכן, הטיפול באוכלוסייה שכזו, אינו מניב תוצאות מיידיות (וכאלו שגם לא מניב כלל) ולכן, נדרשת סבלנות גדולה ונתינה ענקית.</p><p>הצוותים השונים, העובדים עם החוסים, עושים את המקסימום על מנת לאפשר לכל אחד מהדיירים במעון את הרווחה המגיעה לכל אחד ואחת מהם. הליווי, האכפתיות, תשומת הלב, גם לפרטים הקטנים ביותר, כי זהו חלק מהחזון שלנו בנווה האירוס, אותו אנו מגשימים בכל יום ויום וזמינים גם עבור משפחותיהם של הדיירים ומאפשרים ערוצי תקשורת פתוחים עם הנהלת המעון והצוותים הרלוונטיים.</p><p>מעון לבעלי צרכים מיוחדים נווה האירוס, הוא מקום מיוחד, עם אנשים מיוחדים לאנשים מיוחדים. נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.</p>",
@@ -510,15 +518,15 @@
     },
     "contact.form.consent": {
       "kind": "html",
-      "full": "קראתי את <a href=\"@home:/מדיניות-פרטיות/\">מדיניות הפרטיות</a> ואני מסכים/ה שתיצרו איתי קשר לגבי הביקור.",
-      "plain": "אני מסכים או מסכימה שתתקשרו אליי.<br><a href=\"@home:/מדיניות-פרטיות/\">מה עושים עם הפרטים שלי?</a>",
+      "full": "קראתי את <a href=\"@home:/מדיניות-פרטיות/\">מדיניות הפרטיות</a> ואני מסכים/ה שתיצרו איתי קשר לגבי הביקור.&nbsp;<span class=\"nh-req\" aria-hidden=\"true\">*</span>",
+      "plain": "אני מסכים או מסכימה שתתקשרו אליי.&nbsp;<span class=\"nh-req\" aria-hidden=\"true\">*</span><br><a href=\"@home:/מדיניות-פרטיות/\">מה עושים עם הפרטים שלי?</a>",
       "plain_status": "draft",
       "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11; the consent box (required); the link leads to the privacy policy (not on the test site yet)"
     },
     "contact.form.privacy": {
       "kind": "html",
       "full": "מסירת הפרטים אינה חובה לפי חוק, אך בלעדיהם לא נוכל לחזור אליכם. הפרטים ישמשו רק לתיאום הביקור ולמענה לבקשה, יישמרו במאגר המידע של נוה האירוס בע״מ ולא יועברו לגורם אחר. אפשר לבקש לעיין במידע ולתקן אותו: 08-9403047.",
-      "plain": "לא חייבים לתת לנו את הפרטים.<br>בלי הפרטים לא נוכל לחזור אליכם.<br>הפרטים נשמרים אצלנו רק כדי לקבוע ביקור.<br>לא נותנים אותם לאף אחד אחר.<br>אפשר לבקש לראות אותם או לתקן אותם.",
+      "plain": "לא חייבים לתת לנו את הפרטים.<br>בלי הפרטים לא נוכל לחזור אליכם.<br>הפרטים נשמרים אצלנו, בנוה האירוס, רק כדי לקבוע ביקור.<br>לא נותנים אותם לאף אחד אחר.<br>אפשר לבקש לראות אותם או לתקן אותם, בטלפון 08-9403047.",
       "plain_status": "draft",
       "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11; NH_Settings privacy_visit with {contact} = «: 08-9403047», and its plain twin"
     },
@@ -652,14 +660,6 @@
       "plain_status": "draft",
       "source": "live home, row «תחומי התמחות», heading module 5953a96b77f39",
       "retired": "v4.3, Itzik 18.11: the section is «הבית שלנו» now (specialties.title)"
-    },
-    "special.more_title": {
-      "kind": "text",
-      "full": "להמשך קריאה",
-      "plain": null,
-      "plain_status": null,
-      "source": "UI label of the v4 accordion (spec §4.5), not live copy",
-      "retired": "v4.3, Itzik 18.11: the text is open, as on the live site; «להמשך קריאה» was the v4 fold's own label, never a link of the live site"
     },
     "header.plain_toggle": {
       "kind": "button",

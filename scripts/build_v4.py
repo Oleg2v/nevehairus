@@ -138,6 +138,9 @@ FORM_TO = "irus1@nevehairus.com"                      # the address of the live 
 # own domain and file as Junk, while the visitor reads «תודה!». The build refuses LAUNCH until this is set.
 FORM_FROM = None
 CONSENT_NAME = "אישור מדיניות הפרטיות"                 # the consent's name in the theme's error summary and the e-mail
+# the hero's photo (a templates/v4/media.json name). v4.4 (Itzik 19.11): his new horizontal photo of the same corridor
+# replaces "hero-wide" once its original file is in templates/v4/media/ (the e-mail's screenshot is only 1179px wide)
+HERO_PHOTO = "hero-wide"
 SPECIAL_READ_MORE = True    # «להמשך קריאה» at the end of the open text, as in v4.0 (Oleg 18.11, point 7); False: all open
 PHONE_TEL = "tel:089403047"
 PHONE_LABEL = "התקשרו: 08-9403047"                     # aria-label of the icon-only phone button (§4.0)
@@ -611,7 +614,7 @@ class Builder:
         sub_font = {"typography_typography": "custom", "typography_font_family": FONT,
                     "typography_font_size": size("1.375rem"), "typography_font_weight": "600",
                     "typography_line_height": {"unit": "em", "size": 1.4, "sizes": []}}
-        photo = self.image("hero/photo", "hero-wide", join("nh-hero__img", self.focus_classes("hero-wide")),
+        photo = self.image("hero/photo", HERO_PHOTO, join("nh-hero__img", self.focus_classes(HERO_PHOTO)),
                            size_name="full", _title="תמונה")
         buttons = self.container("hero/content/buttons", {
             **flex("row", 12, 12, wrap="wrap", flex_align_items="center"), "padding": dims(8, 0, 0, 0)}, [
@@ -631,12 +634,20 @@ class Builder:
              "css_classes": "nh-sec nh-sec--hero nh-hero", "_element_id": "hero"}
         # v4.3: the photo's own shades (media.json "shade": the lightest that keep the white text at AA, measured on
         # its pixels) as the hero's Custom CSS; without them the theme's defaults (1.3.1's values) apply
-        shade = (self.media.get("hero-wide") or {}).get("shade") or {}
-        bad = {k: v for k, v in shade.items() if k not in ("top", "ambient", "text") or not 0 <= float(v) <= 1}
+        # v4.4: and their reach (top_hold, top_fade, top_min, text_rise, text_ramp: CSS lengths), so a photo whose middle
+        # should stay bright keeps the shades to the header and the text
+        shade = (self.media.get(HERO_PHOTO) or {}).get("shade") or {}
+        alphas, lengths = ("top", "ambient", "text"), ("top_hold", "top_fade", "top_min", "text_rise", "text_ramp")
+        bad = {k: v for k, v in shade.items()
+               if not ((k in alphas and isinstance(v, (int, float)) and 0 <= float(v) <= 1)
+                       or (k in lengths and isinstance(v, str) and re.fullmatch(r"0|\d+(\.\d+)?(px|rem|em)", v)))}
         if bad:
-            die(f"templates/v4/media.json: hero-wide: shade {bad} (top / ambient / text, 0–1)")
+            die(f"templates/v4/media.json: {HERO_PHOTO}: shade {bad} (top / ambient / text 0–1; {' / '.join(lengths)} "
+                "a length in px, rem or em)")
         if shade:
-            s["custom_css"] = "selector { " + " ".join(f"--nh-shade-{k}: {float(v):g};" for k, v in sorted(shade.items())) + " }"
+            decl = [f"--nh-shade-{k.replace('_', '-')}: {float(v):g};" if k in alphas else f"--nh-shade-{k.replace('_', '-')}: {v};"
+                    for k, v in sorted(shade.items())]
+            s["custom_css"] = "selector { " + " ".join(decl) + " }"
         return self.container("hero", styled(s, background_color="night"), [photo, content], inner=False, title="באנר")
 
     # ---- 3 specialties (10 §1.3) -------------------------------------------------------------------------------------------
@@ -1191,10 +1202,10 @@ def page_problems(docs, media_list):
         photo = next((k for k in kids if "nh-hero__img" in classes_of(k)), None)
         content = next((k for k in kids if "nh-hero__content" in classes_of(k)), None)
         if not photo or photo.get("widgetType") != "image" \
-                or (photo["settings"].get("image") or {}).get("id") != "@media:hero-wide":
-            problems.append("home/hero: no Image widget nh-hero__img with @media:hero-wide")
+                or (photo["settings"].get("image") or {}).get("id") != f"@media:{HERO_PHOTO}":
+            problems.append(f"home/hero: no Image widget nh-hero__img with @media:{HERO_PHOTO}")
         else:
-            focus = (media_list.get("hero-wide") or {}).get("focus")
+            focus = (media_list.get(HERO_PHOTO) or {}).get("focus")
             fx = sorted(c for c in classes_of(photo) if re.fullmatch(r"nh-f[xy]-\d+", c))
             if focus:
                 x, y = (int(5 * round(float(v) / 5)) for v in re.findall(r"\d+(?:\.\d+)?", focus)[:2])

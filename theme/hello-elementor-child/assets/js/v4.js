@@ -1,5 +1,5 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.4.4 (research/09-v4-home-spec.md
+   v4.js — child theme hello-elementor-child 1.4.5 (research/09-v4-home-spec.md
    §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
    No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed

@@ -5,7 +5,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "7ff72f53c86750e6128e857367c8b48e84b1540da5a161a178d71e2d98553383"
+  "inputs_sha256": "0515e5d19dcf663456caea3aa1c7d2c2e0300092d51f3c6177348257a85c3c65"
  },
  "name": "תפריט ראשי",
  "slug": "nh-main",

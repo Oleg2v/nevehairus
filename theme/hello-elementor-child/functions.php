@@ -47,6 +47,11 @@
  * pages' fixed masthead too, and a banner too tall for the column stands beside it (v4.js, v4.css).
  * 1.4.3: the form's check runs after Elementor Pro's own (priority 20), so a send its trap refused is not counted;
  * «להמשך קריאה»: its open region is named by its summary and has no frame; phone numbers in texts never break.
+ * 1.4.4–1.4.6 (v4.4, research/12-v4.4-home-spec.md, Itzik 19.11): v4.css and v4.js only (the life photo's corners,
+ * the snoezelen phone's width, the message field's height, the hero shades' reach as variables, the «הבית שלנו»
+ * videos' play button off the face).
+ * 1.4.7: the hero's landscape photo gets a `sizes` that follows the screen's height where the photo is shown by it
+ * (phones held upright, most desktops), so the browser picks a file big enough; the shades' edges are eased (v4.css).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -79,6 +84,7 @@ add_action( 'wp_head', 'nh_child_v4_head', 2 );
 add_action( 'wp_footer', 'nh_child_v4_footer', 10 );
 add_action( 'elementor_pro/forms/validation', 'nh_child_form_validation', 20, 2 );   // after Pro's own (its trap): a refused send is not counted
 add_filter( 'elementor_pro/forms/sanitize/tel', 'nh_child_form_tel', 20 );
+add_filter( 'wp_get_attachment_image_attributes', 'nh_child_hero_sizes', 10, 2 );
 
 /**
  * `hello_elementor_page_title`: no Hello title on a page built with Elementor (its cover is the page's H1).
@@ -559,4 +565,32 @@ function nh_child_form_tel( $value ) {
 	$value = preg_replace( '/[\x{2010}-\x{2015}\x{2212}]/u', '-', $value );
 	// spaces of every kind, and the direction marks a number copied from Hebrew text may carry
 	return (string) preg_replace( '/[\s\x{00A0}\x{2007}\x{202F}\x{200E}\x{200F}\x{202A}-\x{202E}\x{2066}-\x{2069}]+/u', '', (string) $value );
+}
+
+/**
+ * `wp_get_attachment_image_attributes`: the `sizes` of a landscape hero photo (an attachment titled «nh4:hero-…», the
+ * v4 home's first screen; 1.4.7, v4.4). The hero fills the screen (object-fit: cover), so wherever the screen is
+ * narrower than the photo's shape — every phone held upright, a 1440x900 or 1920x1080 desktop — the photo is shown by
+ * the screen's HEIGHT and is wider than the screen. WordPress's `sizes` (100vw up to the photo's width) then makes the
+ * browser pick a file too small: on an iPhone the 1536px-wide one, 819px high, for a screen 664–844px high at 3x.
+ * Here, while the screen is narrower than the photo, it is 100vh × the photo's width/height; otherwise 100vw. Portrait
+ * photos keep WordPress's value: the width decides for them.
+ *
+ * @param array<string,string> $attr       The img's attributes (srcset and sizes are set by now).
+ * @param mixed                $attachment The attachment's post.
+ * @return array<string,string>
+ */
+function nh_child_hero_sizes( $attr, $attachment ) {
+	if ( empty( $attr['srcset'] ) || ! ( $attachment instanceof WP_Post ) || 0 !== strpos( (string) $attachment->post_title, 'nh4:hero-' ) ) {
+		return $attr;
+	}
+	$meta = wp_get_attachment_metadata( $attachment->ID );
+	$w    = is_array( $meta ) && isset( $meta['width'] ) ? (int) $meta['width'] : 0;
+	$h    = is_array( $meta ) && isset( $meta['height'] ) ? (int) $meta['height'] : 0;
+	if ( $h <= 0 || $w <= $h ) {
+		return $attr;
+	}
+	$ratio         = rtrim( rtrim( number_format( $w / $h, 4, '.', '' ), '0' ), '.' );
+	$attr['sizes'] = sprintf( '(max-aspect-ratio: %1$d/%2$d) calc(100vh * %3$s), 100vw', $w, $h, $ratio );
+	return $attr;
 }

@@ -138,9 +138,9 @@ FORM_TO = "irus1@nevehairus.com"                      # the address of the live 
 # own domain and file as Junk, while the visitor reads «תודה!». The build refuses LAUNCH until this is set.
 FORM_FROM = None
 CONSENT_NAME = "אישור מדיניות הפרטיות"                 # the consent's name in the theme's error summary and the e-mail
-# the hero's photo (a templates/v4/media.json name). v4.4 (Itzik 19.11): his new horizontal photo of the same corridor
-# replaces "hero-wide" once its original file is in templates/v4/media/ (the e-mail's screenshot is only 1179px wide)
-HERO_PHOTO = "hero-wide"
+# the hero's photo (a templates/v4/media.json name). v4.4 (Itzik 19.11): his new horizontal photo of the same corridor,
+# "hero-corridor", in place of "hero-wide" (the file Oleg sent, 1717x916; to be replaced by the original when it comes)
+HERO_PHOTO = "hero-corridor"
 SPECIAL_READ_MORE = True    # «להמשך קריאה» at the end of the open text, as in v4.0 (Oleg 18.11, point 7); False: all open
 PHONE_TEL = "tel:089403047"
 PHONE_LABEL = "התקשרו: 08-9403047"                     # aria-label of the icon-only phone button (§4.0)

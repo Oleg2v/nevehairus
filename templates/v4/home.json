@@ -14,7 +14,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "0515e5d19dcf663456caea3aa1c7d2c2e0300092d51f3c6177348257a85c3c65",
+  "inputs_sha256": "1255548ae59084d25a934882005b65959fc62c6bd2c0837e0e8ff7f59bb8486a",
   "widgets": [
    "button",
    "form",
@@ -432,6 +432,7 @@
     "background_background": "classic",
     "css_classes": "nh-sec nh-sec--hero nh-hero",
     "_element_id": "hero",
+    "custom_css": "selector { --nh-shade-ambient: 0; --nh-shade-text: 0.62; --nh-shade-text-ramp: 4rem; --nh-shade-text-rise: 5rem; --nh-shade-top: 0.63; --nh-shade-top-fade: 2rem; --nh-shade-top-hold: 0px; --nh-shade-top-min: 0px; }",
     "background_color": "#1C1830",
     "__globals__": {
      "background_color": "globals/colors?id=42a392f"
@@ -445,13 +446,13 @@
      "settings": {
       "image": {
        "url": "",
-       "id": "@media:hero-wide",
+       "id": "@media:hero-corridor",
        "size": "",
        "alt": "",
        "source": "library"
       },
       "image_size": "full",
-      "_css_classes": "nh-hero__img nh-fx-50 nh-fy-30",
+      "_css_classes": "nh-hero__img nh-fx-50 nh-fy-40",
       "_title": "תמונה"
      },
      "elements": [],

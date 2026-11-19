@@ -207,7 +207,10 @@ body:where(:has(.e-con.nh-sec)) { background-color: #F7F1E7; }
 /* v4.4: their reach too (Itzik 19.11: «небо на потолке должно остаться ярким»): how far the top shade holds below the
    header and how long it then fades; how far above the text the text shade begins and how long it fades in. A photo
    whose middle should stay bright keeps the shades to the header and the text */
-.elementor-element.e-con.nh-hero:has(.nh-hero__img) {
+/* 1.4.8: the defaults weigh nothing (:where), so a photo's own values win. Elementor prints the hero's Custom CSS as
+   `.elementor-32 .elementor-element.elementor-element-<id>` (0,3,0); this rule without :where was 0,4,0, so from
+   1.4.0 to 1.4.7 the defaults overrode every photo's own values */
+:where(.elementor-element.e-con.nh-hero:has(.nh-hero__img)) {
   --nh-shade-top: .7;       /* under the floating header */
   --nh-shade-ambient: .6;   /* the photo's foot */
   --nh-shade-text: .6;      /* behind the text */
@@ -218,13 +221,26 @@ body:where(:has(.e-con.nh-sec)) { background-color: #F7F1E7; }
   --nh-shade-text-ramp: 6rem;
 }
 .elementor-element.e-con.nh-hero:has(.nh-hero__img)::before {
+  --nh-shade-top-end: calc(var(--nh4-header-h, 8.5rem) + var(--nh-shade-top-hold));
   top: 0;
   bottom: auto;
   height: calc(var(--nh4-header-h, 8.5rem) + var(--nh-shade-top-hold) + var(--nh-shade-top-fade));
   min-height: var(--nh-shade-top-min);
   /* 17.11 (1.3.1): 60% let the desktop menu over the brightest clouds fall to about 4.0:1 where the shade began to
      fade; 70% held 1rem past the header keeps white text at 6:1 or more even over a white pixel */
-  background: linear-gradient(to bottom, rgba(28, 24, 48, calc(var(--nh-shade-top) + .02)), rgba(28, 24, 48, var(--nh-shade-top)) calc(var(--nh4-header-h, 8.5rem) + var(--nh-shade-top-hold)), rgba(28, 24, 48, 0));
+  /* 1.4.7 (v4.4): the fade is eased, not straight: it drops fast below the header and lands softly, so no line shows
+     where it ends on a white wall or a bright sky (the «scrim» curve: 74% of the shade at 19% of the way, 38% at
+     47%, 8% at 80%, 2% at 91%). The header itself keeps the full shade */
+  background: linear-gradient(to bottom,
+    rgba(28, 24, 48, calc(var(--nh-shade-top) + .02)),
+    rgba(28, 24, 48, var(--nh-shade-top)) var(--nh-shade-top-end),
+    rgba(28, 24, 48, calc(var(--nh-shade-top) * .738)) calc(var(--nh-shade-top-end) + var(--nh-shade-top-fade) * .19),
+    rgba(28, 24, 48, calc(var(--nh-shade-top) * .541)) calc(var(--nh-shade-top-end) + var(--nh-shade-top-fade) * .34),
+    rgba(28, 24, 48, calc(var(--nh-shade-top) * .382)) calc(var(--nh-shade-top-end) + var(--nh-shade-top-fade) * .47),
+    rgba(28, 24, 48, calc(var(--nh-shade-top) * .194)) calc(var(--nh-shade-top-end) + var(--nh-shade-top-fade) * .65),
+    rgba(28, 24, 48, calc(var(--nh-shade-top) * .075)) calc(var(--nh-shade-top-end) + var(--nh-shade-top-fade) * .8),
+    rgba(28, 24, 48, calc(var(--nh-shade-top) * .021)) calc(var(--nh-shade-top-end) + var(--nh-shade-top-fade) * .91),
+    rgba(28, 24, 48, 0) calc(var(--nh-shade-top-end) + var(--nh-shade-top-fade)));
 }
 /* bottom: an ambient shade over the lower part of the photo … */
 .elementor-element.e-con.nh-hero:has(.nh-hero__img)::after {
@@ -261,7 +277,19 @@ body:where(:has(.e-con.nh-sec)) { background-color: #F7F1E7; }
   mix-blend-mode: normal;
   pointer-events: none;
   transition: none;
-  background: linear-gradient(to bottom, rgba(28, 24, 48, 0), rgba(28, 24, 48, var(--nh-shade-text)) var(--nh-shade-text-ramp, 6rem), rgba(28, 24, 48, var(--nh-shade-text)));
+  /* 1.4.7 (v4.4): it fades in eased, the same curve upside down: it begins as almost nothing, so no line shows where
+     it starts on a white wall or a bright floor, and it is full where the text begins */
+  --nh-shade-text-r: var(--nh-shade-text-ramp, 6rem);
+  background: linear-gradient(to bottom,
+    rgba(28, 24, 48, 0),
+    rgba(28, 24, 48, calc(var(--nh-shade-text) * .021)) calc(var(--nh-shade-text-r) * .09),
+    rgba(28, 24, 48, calc(var(--nh-shade-text) * .075)) calc(var(--nh-shade-text-r) * .2),
+    rgba(28, 24, 48, calc(var(--nh-shade-text) * .194)) calc(var(--nh-shade-text-r) * .35),
+    rgba(28, 24, 48, calc(var(--nh-shade-text) * .382)) calc(var(--nh-shade-text-r) * .53),
+    rgba(28, 24, 48, calc(var(--nh-shade-text) * .541)) calc(var(--nh-shade-text-r) * .66),
+    rgba(28, 24, 48, calc(var(--nh-shade-text) * .738)) calc(var(--nh-shade-text-r) * .81),
+    rgba(28, 24, 48, var(--nh-shade-text)) var(--nh-shade-text-r),
+    rgba(28, 24, 48, var(--nh-shade-text)));
 }
 @supports (height: 1svh) {
   .elementor-element.e-con.nh-hero .elementor-element.e-con.nh-hero__content { --padding-bottom: 12svh; }

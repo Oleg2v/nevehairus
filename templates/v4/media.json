@@ -139,5 +139,26 @@
   "height": null,
   "faces": "none",
   "note": "The live PDF «מפרט כניסות נגישות», byte-for-byte (sha256 f77510775b5e1c8cc0629243d81405922b60bde648db96971e55289de6dc8c1d, 554,483 bytes, 9 pages, Last-Modified 15.02.2025): an accessibility survey of the entrances with photos of doors, gates and parking, no people seen. Tagged PDF with form fields, no JavaScript. Width/height do not apply. The alt is only the document name; the link text on the page describes it."
+ },
+ "hero-corridor": {
+  "file": "templates/v4/media/hero-corridor.jpg",
+  "alt": "מסדרון הכניסה לאגף החדש עם תקרה מוארת בדמות שמיים ועננים, קירות לבנים, רצפה מבריקה ודלת זכוכית כפולה בקצהו",
+  "title": "nh4:hero-corridor",
+  "source_url": "",
+  "width": 2560,
+  "height": 1366,
+  "focus": "50% 40%",
+  "faces": "none",
+  "shade": {
+   "top": 0.63,
+   "ambient": 0,
+   "text": 0.62,
+   "top_hold": "0px",
+   "top_fade": "2rem",
+   "top_min": "0px",
+   "text_rise": "5rem",
+   "text_ramp": "4rem"
+  },
+  "note": "v4.4 (Itzik 19.11: «новое горизонтальное фото того же коридора с небом на потолке… поставь его на первый экран»). The file Oleg sent on 19.11 (from Itzik's e-mail): a PNG of 1717x916 with a 256-colour palette, no metadata — not the photographer's original. Cleaned of the palette's dither grain (ImageMagick -selective-blur 0x1.6+7%), enlarged to 2560 wide with Lanczos and a light unsharp mask, JPEG q86, no metadata. Real detail stays that of 1717x916: about as sharp as the old hero on desktops (1.0 image px per CSS px at 1440x900, the old one 1.25), softer on phones (1.4 at 390x664, the old one 2.8). Replace with the original file when it comes. Focus 50% 40%: the door at the vanishing point stays centred on phones, which show the sky panels and the door; wider screens than the photo keep more of the sky. No people: through the glass door only trees, planters and a building. Shades measured on its pixels (research/12 §5)."
  }
 }

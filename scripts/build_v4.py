@@ -34,10 +34,11 @@ entrance animation, Motion Effects, sticky, hover animation or transition): the 
 zoom, the fade-ins, the cards' lift, the header's change) is the child theme's, keyed to the classes below.
 
 The page (spec 10 §1). Every section is a top-level container: content_width full, css_classes «nh-sec nh-sec--<name>»,
-_element_id <name>, its Kit background, 5rem (phones 3.5rem) above and below; inside it one boxed container
+_element_id <name>, its Kit background, SECTION_PAD above and below (v4.4: 3.5rem, tablets 3rem, phones 2.5rem: 112 /
+96 / 80px between sections); inside it one boxed container
 (nh-sec__inner, the 1320px column with 40/32/20px gutters) unless stated:
   hero           nh-hero, at least 100vh (the theme makes it 100svh and adds the floating header's room), night until
-                 the photo shows; the Image widget nh-hero__img (@media:hero-wide, full size) with the focal point of
+                 the photo shows; the Image widget nh-hero__img (@media:<HERO_PHOTO>, full size) with the focal point of
                  media.json's "focus" as the theme's classes nh-fx-<x> nh-fy-<y> (steps of 5); the boxed nh-hero__content
                  at the bottom (flex end, 12vh under it, phones 9vh): H1 (Kit «כותרת באנר»), the subline, «צור קשר» →
                  #contact and the phone. No inner column, no nh-reveal (the first screen never waits)
@@ -53,7 +54,7 @@ _element_id <name>, its Kit background, 5rem (phones 3.5rem) above and below; in
                  the label as H3); then the rest of «קצת עלינו» (nh-pro__text nh-reveal) at the inline start (right),
                  760px at most. v4.3: no large years (Itzik 18.11)
   (v4.3: the videos section joined «הבית שלנו»; «תודות והמלצות» left the home — Itzik 18.11)
-  snoezelen      as v4; the Short in a phone (nh-phone-frame on the Video widget, 9:16, 300px)
+  snoezelen      as v4; the Short in a phone (nh-phone-frame on the Video widget, 9:16, 270px since v4.4)
   special-needs  an 860px column: H2, the questions in the framed box (nh-framed, white) and the lead open; at their
                  end «להמשך קריאה» (nh-more, a Nested Accordion, collapsed) opens the rest of the live text, as in
                  v4.0 (v4.3, Oleg 18.11, point 7; SPECIAL_READ_MORE = False opens it all); the plain twin after them
@@ -64,8 +65,9 @@ _element_id <name>, its Kit background, 5rem (phones 3.5rem) above and below; in
                  the answers and the date and time only). v4.3: no phone button, no WhatsApp (Itzik 18.11)
 The header (header-v4): logo, the phone, «צור קשר»; the menu. v4.3: «בשפה פשוטה» is in the theme's «נגישות» panel.
 Every section is on the Kit's cream (v4.3, Itzik 18.11), the hero on its photo; the cards are white.
-nh-reveal (spec 10 §3) is on every section's inner column, the cards, the pro cells, the pro text, the video items and
-the life text; a block holding other nh-reveal blocks stays put (the theme moves its children).
+nh-reveal (spec 10 §3) is on every section's inner column (the life section's too: since v4.4 its photo and text
+reveal as one block), the cards, the pro cells, the pro text and the video items; a block holding other nh-reveal
+blocks stays put (the theme moves its children).
 
 Tokens, resolved on deploy (scripts/test_site.py v4):
   @media:<name>    in a media control's id: the attachment (id, url, alt) of templates/v4/media.json's <name>;
@@ -636,11 +638,14 @@ class Builder:
         # its pixels) as the hero's Custom CSS; without them the theme's defaults (1.3.1's values) apply
         # v4.4: and their reach (top_hold, top_fade, top_min, text_rise, text_ramp: CSS lengths), so a photo whose middle
         # should stay bright keeps the shades to the header and the text
-        shade = (self.media.get(HERO_PHOTO) or {}).get("shade") or {}
+        shade = dict((self.media.get(HERO_PHOTO) or {}).get("shade") or {})
+        # a bare "0" is a <number> inside the theme's calc() (header + hold + fade), which drops the whole declaration:
+        # it is written as "0px" (independent review of v4.4)
+        shade = {k: ("0px" if v == "0" else v) for k, v in shade.items()}
         alphas, lengths = ("top", "ambient", "text"), ("top_hold", "top_fade", "top_min", "text_rise", "text_ramp")
         bad = {k: v for k, v in shade.items()
                if not ((k in alphas and isinstance(v, (int, float)) and 0 <= float(v) <= 1)
-                       or (k in lengths and isinstance(v, str) and re.fullmatch(r"0|\d+(\.\d+)?(px|rem|em)", v)))}
+                       or (k in lengths and isinstance(v, str) and re.fullmatch(r"(\d+(\.\d+)?|\.\d+)(px|rem|em)", v)))}
         if bad:
             die(f"templates/v4/media.json: {HERO_PHOTO}: shade {bad} (top / ambient / text 0–1; {' / '.join(lengths)} "
                 "a length in px, rem or em)")

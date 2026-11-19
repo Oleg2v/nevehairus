@@ -52,6 +52,8 @@
  * videos' play button off the face).
  * 1.4.7: the hero's landscape photo gets a `sizes` that follows the screen's height where the photo is shown by it
  * (phones held upright, most desktops), so the browser picks a file big enough; the shades' edges are eased (v4.css).
+ * 1.4.8: the hero shades' defaults weigh nothing (:where), so a photo's own values in the hero's Custom CSS apply.
+ * 1.4.9: the snoezelen phone's cover sits in its screen, so the bezel shows (v4.css).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child

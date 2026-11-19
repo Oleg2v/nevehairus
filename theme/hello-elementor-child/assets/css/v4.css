@@ -468,6 +468,10 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
 }
 .elementor-element.elementor-widget-video.nh-phone-frame :is(.elementor-wrapper, .elementor-custom-embed-image-overlay) { border-radius: 32px; }
 .elementor-element.elementor-widget-video.nh-phone-frame .elementor-wrapper { overflow: hidden; aspect-ratio: var(--video-aspect-ratio, 9 / 16); }
+/* 1.4.9: the cover sits in the screen, not over the bezel. Elementor's cover is absolute at inset 0; with the screen
+   (.elementor-wrapper) static it filled the whole frame and the 12px bezel never showed before play (since v4.1;
+   found by the independent review of v4.4). The play button stays in the middle of the screen */
+.elementor-element.elementor-widget-video.nh-phone-frame .elementor-wrapper { position: relative; }
 
 /* ---------- The framed box (§4.5): the inline-start border, a fallback the
    container's own border setting overrides ---------- */
@@ -1241,7 +1245,8 @@ body:has(.elementor-location-header .elementor-menu-toggle.elementor-active) .nh
   padding: .75rem 1rem;
   line-height: 1.4;
 }
-/* v4.4 (Itzik 19.11: the band 15% lower): three lines, 6rem (was 8rem); it can still be pulled taller */
+/* v4.4 (Itzik 19.11: the band 15% lower): the field's rows=3 (was 4) sets its height, about 108px (phones 104; it was
+   134 / 129); this min-height is only a floor (it was 8rem). It can still be pulled taller */
 .elementor .elementor-element.nh-contact-form .elementor-field-group textarea.elementor-field-textual { min-height: 6rem; resize: vertical; }
 .elementor .elementor-element.nh-contact-form .elementor-field-group .elementor-field-textual:focus,
 .elementor .elementor-element.nh-contact-form .elementor-field-group .elementor-field-textual:focus-visible {

@@ -371,6 +371,15 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
 /* v4.3: a video in a white card (.nh-video-item, «הבית שלנו»): the card's own radius and overflow round its top */
 .e-con.nh-video-item .elementor-element.elementor-widget-video.nh-video,
 .e-con.nh-video-item .elementor-element.elementor-widget-video.nh-video :is(.elementor-wrapper, .elementor-custom-embed-image-overlay) { border-radius: 0; }
+/* v4.4 (Itzik 19.11: the man on the bench gave his permission, so his face is to be seen): in these cards the play
+   button sits on the cover's end side, its centre 20% in, half-way down. In the middle it covered his face on phones;
+   there it is off the face and above the burned-in subtitles, the same on both videos. Elementor centres it with
+   logical insets and --direction-multiplier; these mirror that */
+.elementor .e-con.nh-video-item .elementor-element.elementor-widget-video.nh-video .elementor-custom-embed-play {
+  inset-inline-start: auto;
+  inset-inline-end: 20%;
+  transform: translate(calc(50% * var(--direction-multiplier, 1)), -50%);
+}
 
 /* ---------- v4.1 videos (§1.6) and the Snoezelen phone (§1.8): radius 16px, a
    large round play button — Elementor's play icon, white, on an 80px purple

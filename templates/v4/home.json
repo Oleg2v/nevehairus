@@ -14,7 +14,7 @@
    "templates/v4/media.json",
    "scripts/build_v4.py"
   ],
-  "inputs_sha256": "945ea8354ed1228d8b4ec74134d22cd52263a66a52fba1eb56a88c539ea37749",
+  "inputs_sha256": "7ff72f53c86750e6128e857367c8b48e84b1540da5a161a178d71e2d98553383",
   "widgets": [
    "button",
    "form",
@@ -247,17 +247,17 @@
    },
    "life.body": {
     "full": {
-     "element": "3836cf1",
+     "element": "c67b5c1",
      "field": "editor"
     },
     "plain": {
-     "element": "82a7801",
+     "element": "8d36edc",
      "field": "editor"
     }
    },
    "life.title": {
     "full": {
-     "element": "e903d3f",
+     "element": "854013a",
      "field": "title"
     }
    },
@@ -759,25 +759,25 @@
     "flex_wrap_mobile": "nowrap",
     "padding": {
      "unit": "custom",
-     "top": "5rem",
+     "top": "3.5rem",
      "right": "0",
-     "bottom": "5rem",
+     "bottom": "3.5rem",
      "left": "0",
      "isLinked": false
     },
     "padding_tablet": {
      "unit": "custom",
-     "top": "5rem",
+     "top": "3rem",
      "right": "0",
-     "bottom": "5rem",
+     "bottom": "3rem",
      "left": "0",
      "isLinked": false
     },
     "padding_mobile": {
      "unit": "custom",
-     "top": "3.5rem",
+     "top": "2.5rem",
      "right": "0",
-     "bottom": "3.5rem",
+     "bottom": "2.5rem",
      "left": "0",
      "isLinked": false
     },
@@ -2005,7 +2005,7 @@
             "show_image_overlay": "yes",
             "image_overlay": {
              "url": "",
-             "id": "@media:video-JQXm_Dku7tI-v43",
+             "id": "@media:video-JQXm_Dku7tI",
              "size": "",
              "alt": "",
              "source": "library"
@@ -2064,7 +2064,7 @@
    "settings": {
     "content_width": "full",
     "container_type": "flex",
-    "flex_direction": "row",
+    "flex_direction": "column",
     "flex_gap": {
      "column": "0",
      "row": "0",
@@ -2074,16 +2074,29 @@
     "flex_wrap": "nowrap",
     "flex_wrap_tablet": "nowrap",
     "flex_wrap_mobile": "nowrap",
-    "flex_direction_mobile": "column",
-    "flex_align_items": "center",
-    "flex_align_items_mobile": "stretch",
     "padding": {
-     "unit": "px",
-     "top": "0",
+     "unit": "custom",
+     "top": "3.5rem",
      "right": "0",
-     "bottom": "0",
+     "bottom": "3.5rem",
      "left": "0",
-     "isLinked": true
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
     },
     "background_background": "classic",
     "css_classes": "nh-sec nh-sec--life",
@@ -2096,173 +2109,210 @@
    },
    "elements": [
     {
-     "id": "fbc07a1",
+     "id": "e8d15ff",
      "elType": "container",
      "settings": {
-      "content_width": "full",
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
       "container_type": "flex",
       "flex_direction": "column",
       "flex_gap": {
-       "column": "0",
-       "row": "0",
+       "column": "32",
+       "row": "32",
        "isLinked": true,
        "unit": "px"
       },
       "flex_wrap": "nowrap",
       "flex_wrap_tablet": "nowrap",
       "flex_wrap_mobile": "nowrap",
-      "flex_justify_content": "center",
-      "width": {
-       "unit": "%",
-       "size": 50,
-       "sizes": []
-      },
-      "width_mobile": {
-       "unit": "%",
-       "size": 100,
-       "sizes": []
+      "flex_gap_mobile": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
       },
       "padding": {
        "unit": "px",
        "top": "0",
-       "right": "0",
+       "right": "40",
        "bottom": "0",
-       "left": "0",
-       "isLinked": true
-      },
-      "css_classes": "nh-life__media",
-      "_title": "תמונה"
-     },
-     "elements": [
-      {
-       "id": "b512733",
-       "elType": "widget",
-       "settings": {
-        "image": {
-         "url": "",
-         "id": "@media:life",
-         "size": "",
-         "alt": "",
-         "source": "library"
-        },
-        "image_size": "full",
-        "_css_classes": "nh-life__img nh-ratio-16x9",
-        "_title": "תמונה"
-       },
-       "elements": [],
-       "widgetType": "image"
-      }
-     ],
-     "isInner": true
-    },
-    {
-     "id": "519b251",
-     "elType": "container",
-     "settings": {
-      "content_width": "full",
-      "container_type": "flex",
-      "flex_direction": "column",
-      "flex_gap": {
-       "column": "16",
-       "row": "16",
-       "isLinked": true,
-       "unit": "px"
-      },
-      "flex_wrap": "nowrap",
-      "flex_wrap_tablet": "nowrap",
-      "flex_wrap_mobile": "nowrap",
-      "flex_justify_content": "center",
-      "width": {
-       "unit": "%",
-       "size": 50,
-       "sizes": []
-      },
-      "width_mobile": {
-       "unit": "%",
-       "size": 100,
-       "sizes": []
-      },
-      "padding": {
-       "unit": "custom",
-       "top": "4rem",
-       "right": "4rem",
-       "bottom": "4rem",
-       "left": "max(40px, calc((100% - 1320px) / 2))",
+       "left": "40",
        "isLinked": false
       },
       "padding_tablet": {
-       "unit": "custom",
-       "top": "3rem",
-       "right": "2.5rem",
-       "bottom": "3rem",
-       "left": "32px",
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
        "isLinked": false
       },
       "padding_mobile": {
-       "unit": "custom",
-       "top": "2.5rem",
-       "right": "20px",
-       "bottom": "3.5rem",
-       "left": "20px",
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
        "isLinked": false
       },
-      "css_classes": "nh-life__text nh-reveal",
-      "_title": "טקסט"
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
      },
      "elements": [
       {
-       "id": "e903d3f",
-       "elType": "widget",
+       "id": "6911eca",
+       "elType": "container",
        "settings": {
-        "title": "החיים בנווה האירוס",
-        "header_size": "h2",
-        "title_color": "#4A2D84",
-        "__globals__": {
-         "title_color": "globals/colors?id=primary",
-         "typography_typography": "globals/typography?id=603f9ca"
-        }
-       },
-       "elements": [],
-       "widgetType": "heading"
-      },
-      {
-       "id": "3836cf1",
-       "elType": "widget",
-       "settings": {
-        "editor": "<p>המעון מקיים כל העת תערוכות אמנות ופעילויות מרשימות בתחומים שונים</p><p>במעון ניתן למצוא חדר סנוזלן מתקדם בעל ציוד חדשני, מרפאת שיניים מתקדמת ומשוכללת, מועדון מתקדם לרווחת החניכים, חדרים נוחים ומאובזרים ועוד.</p>",
-        "_css_classes": "nh-full",
-        "text_color": "#1F2421",
-        "link_color": "#4A2D84",
-        "link_hover_color": "#3A2269",
-        "__globals__": {
-         "text_color": "globals/colors?id=text",
-         "link_color": "globals/colors?id=primary",
-         "link_hover_color": "globals/colors?id=78b4a18",
-         "typography_typography": "globals/typography?id=text"
-        }
-       },
-       "elements": [],
-       "widgetType": "text-editor"
-      },
-      {
-       "id": "82a7801",
-       "elType": "widget",
-       "settings": {
-        "editor": "<p>במעון יש כל הזמן תערוכות אמנות ופעילויות בנושאים שונים.</p><p>מה יש במעון? למשל:</p><ul><li>חדר סנוזלן מתקדם.</li><li>מרפאת שיניים מתקדמת.</li><li>מועדון לדיירים ולדיירות.</li><li>חדרים נוחים.</li></ul>",
-        "_css_classes": "nh-plain",
-        "text_color": "#1F2421",
-        "link_color": "#4A2D84",
-        "link_hover_color": "#3A2269",
-        "__globals__": {
-         "text_color": "globals/colors?id=text",
-         "link_color": "globals/colors?id=primary",
-         "link_hover_color": "globals/colors?id=78b4a18",
-         "typography_typography": "globals/typography?id=text"
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
         },
-        "_title": "שפה פשוטה — טיוטה"
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "center",
+        "_title": "תמונה וטקסט"
        },
-       "elements": [],
-       "widgetType": "text-editor"
+       "elements": [
+        {
+         "id": "5dbdf57",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:life",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "full",
+          "_css_classes": "nh-life__img nh-ratio-16x9",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "fc316a7",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "flex_justify_content": "center",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-life__text",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "854013a",
+           "elType": "widget",
+           "settings": {
+            "title": "החיים בנווה האירוס",
+            "header_size": "h2",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=603f9ca"
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "c67b5c1",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>המעון מקיים כל העת תערוכות אמנות ופעילויות מרשימות בתחומים שונים</p><p>במעון ניתן למצוא חדר סנוזלן מתקדם בעל ציוד חדשני, מרפאת שיניים מתקדמת ומשוכללת, מועדון מתקדם לרווחת החניכים, חדרים נוחים ומאובזרים ועוד.</p>",
+            "_css_classes": "nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "8d36edc",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>במעון יש כל הזמן תערוכות אמנות ופעילויות בנושאים שונים.</p><p>מה יש במעון? למשל:</p><ul><li>חדר סנוזלן מתקדם.</li><li>מרפאת שיניים מתקדמת.</li><li>מועדון לדיירים ולדיירות.</li><li>חדרים נוחים.</li></ul>",
+            "_css_classes": "nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        }
+       ],
+       "isInner": true
       }
      ],
      "isInner": true
@@ -2288,25 +2338,25 @@
     "flex_wrap_mobile": "nowrap",
     "padding": {
      "unit": "custom",
-     "top": "5rem",
+     "top": "3.5rem",
      "right": "0",
-     "bottom": "5rem",
+     "bottom": "3.5rem",
      "left": "0",
      "isLinked": false
     },
     "padding_tablet": {
      "unit": "custom",
-     "top": "5rem",
+     "top": "3rem",
      "right": "0",
-     "bottom": "5rem",
+     "bottom": "3rem",
      "left": "0",
      "isLinked": false
     },
     "padding_mobile": {
      "unit": "custom",
-     "top": "3.5rem",
+     "top": "2.5rem",
      "right": "0",
-     "bottom": "3.5rem",
+     "bottom": "2.5rem",
      "left": "0",
      "isLinked": false
     },
@@ -2972,25 +3022,25 @@
     "flex_wrap_mobile": "nowrap",
     "padding": {
      "unit": "custom",
-     "top": "5rem",
+     "top": "3.5rem",
      "right": "0",
-     "bottom": "5rem",
+     "bottom": "3.5rem",
      "left": "0",
      "isLinked": false
     },
     "padding_tablet": {
      "unit": "custom",
-     "top": "5rem",
+     "top": "3rem",
      "right": "0",
-     "bottom": "5rem",
+     "bottom": "3rem",
      "left": "0",
      "isLinked": false
     },
     "padding_mobile": {
      "unit": "custom",
-     "top": "3.5rem",
+     "top": "2.5rem",
      "right": "0",
-     "bottom": "3.5rem",
+     "bottom": "2.5rem",
      "left": "0",
      "isLinked": false
     },
@@ -3297,7 +3347,7 @@
             "_element_width": "initial",
             "_element_custom_width": {
              "unit": "px",
-             "size": 300,
+             "size": 270,
              "sizes": []
             },
             "_flex_align_self": "center",
@@ -3336,25 +3386,25 @@
     "flex_wrap_mobile": "nowrap",
     "padding": {
      "unit": "custom",
-     "top": "5rem",
+     "top": "3.5rem",
      "right": "0",
-     "bottom": "5rem",
+     "bottom": "3.5rem",
      "left": "0",
      "isLinked": false
     },
     "padding_tablet": {
      "unit": "custom",
-     "top": "5rem",
+     "top": "3rem",
      "right": "0",
-     "bottom": "5rem",
+     "bottom": "3rem",
      "left": "0",
      "isLinked": false
     },
     "padding_mobile": {
      "unit": "custom",
-     "top": "3.5rem",
+     "top": "2.5rem",
      "right": "0",
-     "bottom": "3.5rem",
+     "bottom": "2.5rem",
      "left": "0",
      "isLinked": false
     },
@@ -3670,25 +3720,25 @@
     "flex_wrap_mobile": "nowrap",
     "padding": {
      "unit": "custom",
-     "top": "5rem",
+     "top": "3.5rem",
      "right": "0",
-     "bottom": "5rem",
+     "bottom": "3.5rem",
      "left": "0",
      "isLinked": false
     },
     "padding_tablet": {
      "unit": "custom",
-     "top": "5rem",
+     "top": "3rem",
      "right": "0",
-     "bottom": "5rem",
+     "bottom": "3rem",
      "left": "0",
      "isLinked": false
     },
     "padding_mobile": {
      "unit": "custom",
-     "top": "3.5rem",
+     "top": "2.5rem",
      "right": "0",
-     "bottom": "3.5rem",
+     "bottom": "2.5rem",
      "left": "0",
      "isLinked": false
     },
@@ -3715,8 +3765,8 @@
       "container_type": "flex",
       "flex_direction": "column",
       "flex_gap": {
-       "column": "16",
-       "row": "16",
+       "column": "12",
+       "row": "12",
        "isLinked": true,
        "unit": "px"
       },
@@ -3724,8 +3774,8 @@
       "flex_wrap_tablet": "nowrap",
       "flex_wrap_mobile": "nowrap",
       "flex_gap_mobile": {
-       "column": "16",
-       "row": "16",
+       "column": "12",
+       "row": "12",
        "isLinked": true,
        "unit": "px"
       },
@@ -3858,10 +3908,10 @@
         "_flex_align_self": "center",
         "padding": {
          "unit": "custom",
-         "top": "2rem",
-         "right": "2rem",
-         "bottom": "2rem",
-         "left": "2rem",
+         "top": "1.5rem",
+         "right": "1.5rem",
+         "bottom": "1.5rem",
+         "left": "1.5rem",
          "isLinked": true
         },
         "padding_mobile": {
@@ -3932,7 +3982,7 @@
             "custom_id": "message",
             "field_type": "textarea",
             "width": "100",
-            "rows": 4,
+            "rows": 3,
             "field_label": "משהו שחשוב לנו לדעת?"
            },
            {
@@ -3994,7 +4044,7 @@
           },
           "row_gap": {
            "unit": "px",
-           "size": 20,
+           "size": 12,
            "sizes": []
           },
           "label_spacing": {

@@ -46,9 +46,9 @@ _element_id <name>, its Kit background, 5rem (phones 3.5rem) above and below; in
                  decorative), then the hidden H3 «סרטונים» and the two videos, each a white card too (nh-video-item
                  nh-reveal: the Video widget nh-video, its caption nh-video__cap, Kit «כיתוב»; lazy, privacy mode, our
                  thumbnails: nothing from YouTube before a click)
-  life           no inner column: two halves (column on phones, the photo first): nh-life__media with the 16:9 photo
-                 edge to edge (nh-ratio-16x9), nh-life__text nh-reveal with the H2 and the two live sentences; the text
-                 keeps to the 1320px column's edge on its outer side
+  life           v4.4: a section like the others (the column, its gutters and padding): a grid 7fr / 5fr (tablets 1fr /
+                 1fr, phones one column, the photo first) with the whole 16:9 photo (nh-life__img nh-ratio-16x9, the
+                 cards' 16px corners) and nh-life__text with the H2 and the two live sentences
   pro            H2; four cells (nh-pro__cell nh-reveal) with an Icon Box each (nh-pro__item: stacked white circle,
                  the label as H3); then the rest of «קצת עלינו» (nh-pro__text nh-reveal) at the inline start (right),
                  760px at most. v4.3: no large years (Itzik 18.11)
@@ -182,7 +182,10 @@ CUSTOM_TYPOGRAPHY = (("h1", "כותרת H1", 700, "clamp(2rem, 1.4rem + 2.4vw, 3
 CONTENT_WIDTH = 1320                                   # the content column (spec 10 §0)
 BPS = ("", "_tablet", "_mobile")                       # desktop, ≤1024, ≤767 (Elementor's breakpoints)
 GUTTER = {"": 40, "_tablet": 32, "_mobile": 20}        # px, phones/tablets/desktops (spec 10 §0)
-SECTION_PAD = {"": "5rem", "_tablet": "5rem", "_mobile": "3.5rem"}
+# v4.4 (Itzik 19.11: «одинаковые вертикальные отступы у всех секций на всех ширинах»): every section, «החיים בנווה
+# האירוס» too, has the same padding above and below; on the one cream ground two of them make the gap between sections:
+# 112px on desktops, 96 on tablets, 80 on phones (it was 160 / 160 / 112, and 80 next to the life photo, which had none)
+SECTION_PAD = {"": "3.5rem", "_tablet": "3rem", "_mobile": "2.5rem"}
 HERO_BOTTOM = {"": "12vh", "_tablet": "12vh", "_mobile": "9vh"}   # the theme refines them to svh (spec 10 §1.1)
 GRID_GAP = 24
 HEADER_WIDTH = CONTENT_WIDTH                           # the header keeps to the same column (its logo over the H1)
@@ -346,8 +349,9 @@ class Builder:
                 "widgetType": wtype}
 
     def section(self, name, title, bg, children, inner=None, gap=32, gap_mobile=24, inner_title="תוכן"):
-        """A top-level section (spec 10 §1): full width, its Kit background, 5rem (phones 3.5rem) above and below; inside
-        it one boxed container, the 1320px column with the gutters, marked nh-reveal (§3), holding the children."""
+        """A top-level section (spec 10 §1): full width, its Kit background, SECTION_PAD above and below (v4.4: 3.5rem,
+        tablets 3rem, phones 2.5rem); inside it one boxed container, the 1320px column with the gutters, marked
+        nh-reveal (§3), holding the children."""
         inner_s = {"content_width": "boxed", "boxed_width": size(CONTENT_WIDTH),
                    **flex("column", gap, gap), "flex_gap_mobile": gaps(gap_mobile, gap_mobile),
                    **per_bp("padding", lambda bp: dims(0, GUTTER[bp], 0, GUTTER[bp])),
@@ -637,8 +641,10 @@ class Builder:
 
     # ---- 3 specialties (10 §1.3) -------------------------------------------------------------------------------------------
     VIDEOS = ((1, "kLAGTCOIWQE"), (2, "JQXm_Dku7tI"))     # under the cards since v4.3 (10 §1.6)
-    # v4.3 (Itzik 18.11: only the faces blurred): the photos with faces use their blurred copies (media.json)
-    FACES_BLURRED = {"card-3": "card-3-v43", "video-JQXm_Dku7tI": "video-JQXm_Dku7tI-v43"}
+    # v4.3 (Itzik 18.11: only the faces blurred): the photos with faces use their blurred copies (media.json). v4.4
+    # (Itzik 19.11): the man on the bench of the second video has given his permission, so its own cover again; the
+    # group photo stays blurred
+    FACES_BLURRED = {"card-3": "card-3-v43"}
     CARDS = ((1, "@page:main-home"), (2, "@home:/מערך-דיור-בקהילה/"), (3, "@home:/מערך-דיור-בקהילה-אוטיזם/"),
              (4, "@home:/חדשות-ועדכונים/"))
 
@@ -692,29 +698,20 @@ class Builder:
 
     # ---- 4 life (10 §1.4) ----------------------------------------------------------------------------------------------------
     def life(self):
-        """Two halves, no inner column: the photo edge to edge on its side (the inline start, first on phones), the text
-        on the other, keeping to the 1320px column's edge (padding % is of the section's width)."""
-        photo = self.container("life/media", {
-            **flex("column", 0, 0, flex_justify_content="center"), "width": size("50%"), "width_mobile": size("100%"),
-            "padding": ZERO, "css_classes": "nh-life__media"},
-            [self.image("life/media/photo", "life", "nh-life__img nh-ratio-16x9", size_name="full", _title="תמונה")],
-            title="תמונה")
-        outer = f"max({GUTTER['']}px, calc((100% - {CONTENT_WIDTH}px) / 2))"
-        text = self.container("life/text", {
-            **flex("column", 16, 16, flex_justify_content="center"), "width": size("50%"), "width_mobile": size("100%"),
-            # RTL: the right side faces the photo, the left side the screen's edge
-            "padding": dims("4rem", "4rem", "4rem", outer),
-            "padding_tablet": dims("3rem", "2.5rem", "3rem", f"{GUTTER['_tablet']}px"),
-            "padding_mobile": dims("2.5rem", f"{GUTTER['_mobile']}px", SECTION_PAD["_mobile"], f"{GUTTER['_mobile']}px"),
-            "css_classes": "nh-life__text nh-reveal"},
-            self.heading_block("life.title", "life/text/title", "h2", "h2", "purple-700")
-            + self.text_editor_block("life.body", "life/text/body"), title="טקסט")
-        s = {**flex("row", 0, 0, wrap="nowrap", flex_direction_mobile="column", flex_align_items="center",
-                    flex_align_items_mobile="stretch"),
-             "padding": ZERO, "background_background": "classic",
-             "css_classes": "nh-sec nh-sec--life", "_element_id": "life"}
-        return self.container("life", styled(s, background_color="cream"), [photo, text], inner=False,
-                              title="החיים בנווה האירוס")
+        """v4.4 (Itzik 19.11: «фото прилипло к правому краю и обрезано. Выровняй по той же ширине и с теми же полями, что
+        у остальных секций»): a section like the others, in the 1320px column with its gutters and the same padding. Two
+        columns, 7fr / 5fr (tablets 1fr / 1fr): the photo at the inline start (right), whole (it is 16:9) with the cards'
+        16px corners, the text beside it, centred on it; on phones the photo first, then the text. Before v4.4 the photo
+        ran to the screen's edge, with no padding above or below the section."""
+        p = "life/inner/grid"
+        photo = self.image(f"{p}/photo", "life", "nh-life__img nh-ratio-16x9", size_name="full", _title="תמונה")
+        text = self.container(f"{p}/text", {**flex("column", 16, 16, flex_justify_content="center"), "padding": ZERO,
+                                            "css_classes": "nh-life__text"},
+                              self.heading_block("life.title", f"{p}/text/title", "h2", "h2", "purple-700")
+                              + self.text_editor_block("life.body", f"{p}/text/body"), title="טקסט")
+        body = self.container(p, grid("7fr 5fr", "1fr 1fr", 1, gap_column=48, gap_row=24, grid_align_items="center"),
+                              [photo, text], title="תמונה וטקסט")
+        return self.section("life", "החיים בנווה האירוס", "cream", [body])
 
     # ---- 5 pro (10 §1.5) -----------------------------------------------------------------------------------------------------
     PRO_ITEMS = (("pro.item1", "award"), ("pro.item2", "clipboard-list"), ("pro.item3", "hands-helping"),
@@ -753,7 +750,8 @@ class Builder:
                                                        typo="small", color="ink-2"), title="טקסט")
         video = self.container(f"{p}/video", {**flex("column", 0, 0, flex_align_items="center"), "padding": ZERO},
                                [self.video(f"{p}/video/short", "Tkbqa08a5Ro", ratio="916",
-                                           _element_width="initial", _element_custom_width=size(300),
+                                           # v4.4 (Itzik 19.11: the section 15% lower): 270px, was 300
+                                           _element_width="initial", _element_custom_width=size(270),
                                            _flex_align_self="center", _css_classes="nh-phone-frame")],
                                title="סרטון")
         body = self.container(p, grid("7fr 5fr", "7fr 5fr", 1, gap_column=48, gap_row=32, grid_align_items="center"),
@@ -818,20 +816,21 @@ class Builder:
         accessibility (v4.js / v4.css: the error summary, the links between fields, hints and errors)."""
         card = self.container("contact/inner/card", styled({
             **flex("column", 0, 0), "width": size("min(640px, 100%)"), "_flex_align_self": "center",
-            "padding": dims("2rem"), "padding_mobile": dims("1.25rem"), "background_background": "classic",
+            # v4.4 (Itzik 19.11: the band 15% lower): 1.5rem, was 2rem; phones keep 1.25rem
+            "padding": dims("1.5rem"), "padding_mobile": dims("1.25rem"), "background_background": "classic",
             "border_radius": dims(16), **SOFT_SHADOW, "css_classes": "nh-form-card nh-reveal"},
             background_color="white"), [self.contact_form("contact/inner/card/form")], title="טופס")
         return self.section("contact", "נשמח שתבואו להכיר אותנו", "cream",
                             self.heading_block("contact.title", "contact/inner/title", "h2", "h2", "purple-700",
                                                align="center")
                             + self.text_editor_block("contact.sub", "contact/inner/sub", align="center")
-                            + [card], inner={"flex_align_items": "stretch"}, gap=16, gap_mobile=16)
+                            + [card], inner={"flex_align_items": "stretch"}, gap=12, gap_mobile=12)
 
     FORM_FIELDS = (  # (custom_id, type, block, required, extra)
         ("note", "html", "contact.form.required_note", False, {}),
         ("name", "text", "contact.form.label_name", True, {}),
         ("phone", "tel", "contact.form.label_phone", True, {}),
-        ("message", "textarea", "contact.form.label_message", False, {"rows": 4}),
+        ("message", "textarea", "contact.form.label_message", False, {"rows": 3}),   # v4.4: 3 rows, was 4
         ("hint", "html", "contact.form.hint", False, {}),
         ("website", "honeypot", None, False, {}),
         ("consent", "acceptance", "contact.form.consent", True, {}),
@@ -887,7 +886,8 @@ class Builder:
              "server_message": self.text("contact.form.error", "full"),
              "invalid_message": self.text("contact.form.invalid", "full"),
              "required_field_message": self.text("contact.form.required", "full"),
-             "column_gap": size(0), "row_gap": size(20), "label_spacing": size(6),
+             # v4.4 (Itzik 19.11): 12px between the fields, was 20; the fields themselves stay 56px (v4.css)
+             "column_gap": size(0), "row_gap": size(12), "label_spacing": size(6),
              "field_border_width": dims(2), "field_border_radius": dims(8),
              "button_border_radius": dims(12), "button_text_padding": dims("1rem", "2rem"),
              "_css_classes": "nh-contact-form"}

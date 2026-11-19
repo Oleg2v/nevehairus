@@ -90,8 +90,8 @@ body:where(:has(.e-con.nh-sec)) { background-color: #F7F1E7; }
    in a card the card clips the photo (overflow: hidden), so its bottom corners stay square */
 .elementor-element.nh-ratio-4x3:where(:not(.nh-card *)) img { border-radius: 12px; }
 
-/* v4.1: a wide photo, 16:9 (research/10 §1.4: the life photo, edge to edge, so no radius). In the «life» section
-   every photo is 16:9 even without the class */
+/* v4.1: a wide photo, 16:9 (research/10 §1.4: the life photo). In the «life» section every photo is 16:9 even
+   without the class. v4.4: it sits in the column like the rest (Itzik 19.11), so it has the cards' 16px corners */
 .elementor-element.nh-ratio-16x9 img,
 .elementor-element.e-con.nh-sec--life .elementor-widget-image img {
   display: block;
@@ -100,7 +100,7 @@ body:where(:has(.e-con.nh-sec)) { background-color: #F7F1E7; }
   height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-radius: 0;
+  border-radius: 16px;
 }
 :is(.elementor-element.nh-ratio-16x9, .elementor-element.e-con.nh-sec--life .elementor-widget-image) :is(a, picture) { display: block; width: 100%; }
 .elementor-element.e-con.nh-sec--life .elementor-widget-image { width: 100%; }
@@ -396,11 +396,12 @@ body:not(.elementor-editor-active) .nh-card .nh-card__title a::after {
 }
 
 /* the Snoezelen short in a phone (CSS only): a 12px ink bezel (as padding, so the video keeps its own clipping),
-   radius 44px, the screen 32px, a small speaker bar in the top bezel, a soft shadow; 9:16, at most 300px wide */
+   radius 44px, the screen 32px, a small speaker bar in the top bezel, a soft shadow; 9:16, at most 270px wide (v4.4,
+   Itzik 19.11: the section 15% lower; it was 300) */
 .elementor .e-con .elementor-element.elementor-widget-video.nh-phone-frame {
   position: relative;
   width: 100%;
-  max-width: 300px;
+  max-width: 270px;
   margin-inline: auto;
   padding: 12px;
   border-radius: 44px;
@@ -1195,7 +1196,8 @@ body:has(.elementor-location-header .elementor-menu-toggle.elementor-active) .nh
   padding: .75rem 1rem;
   line-height: 1.4;
 }
-.elementor .elementor-element.nh-contact-form .elementor-field-group textarea.elementor-field-textual { min-height: 8rem; resize: vertical; }
+/* v4.4 (Itzik 19.11: the band 15% lower): three lines, 6rem (was 8rem); it can still be pulled taller */
+.elementor .elementor-element.nh-contact-form .elementor-field-group textarea.elementor-field-textual { min-height: 6rem; resize: vertical; }
 .elementor .elementor-element.nh-contact-form .elementor-field-group .elementor-field-textual:focus,
 .elementor .elementor-element.nh-contact-form .elementor-field-group .elementor-field-textual:focus-visible {
   outline: 3px solid #4A2D84;

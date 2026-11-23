@@ -1,5 +1,5 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.5.4 (research/09-v4-home-spec.md
+   v4.js — child theme hello-elementor-child 1.5.5 (research/09-v4-home-spec.md
    §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
    No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed
@@ -38,7 +38,9 @@
    9. 1.5.4 «הקראה» (Oleg 23.11): the page read aloud by the browser's own
       Hebrew voice (speechSynthesis; a voice of the device itself, nothing sent
       anywhere); in plain mode the plain texts; «השהיה» / «המשך» and «עצירה».
-      Shown only where the device has such a voice.
+      Shown only where the device has such a voice. 1.5.5 (after its review):
+      an outside interruption pauses at the sentence, the screen stays on while
+      it reads, forms' texts and phone buttons are read, the focus follows.
    ========================================================================= */
 (() => {
   "use strict";
@@ -891,15 +893,21 @@
       const ctrl = ttsLi.querySelector(".nh-a11y-tts");
       const pauseBtn = ttsLi.querySelector('[data-a11y="tts-pause"]');
       const stopBtn = ttsLi.querySelector('[data-a11y="tts-stop"]');
-      // what is never read: code, controls (buttons, and links styled as buttons), forms, what screen readers alone
-      // get or is hidden, our floating parts
+      // what is never read: code, controls (buttons; links styled as buttons, but for a phone or an e-mail), the
+      // fields of a form (its texts are read), what is hidden, our floating parts. Our own words for screen readers
+      // (.nh-visually-hidden: «כוכבית» for the required mark) are read, so a sentence keeps its word.
       const SKIP = 'script, style, noscript, template, svg, iframe, canvas, video, audio, button, select, textarea, '
-        + 'input, form, [hidden], [aria-hidden="true"], .nh-visually-hidden, .screen-reader-text, .elementor-screen-only, '
-        + '.nh-map__actions, .elementor-post__read-more, .elementor-button, .nh-float, #nh-cookies';
+        + 'input, [hidden], [aria-hidden="true"], .screen-reader-text, .elementor-screen-only, '
+        + '.nh-map__actions, .elementor-post__read-more, .elementor-button:not([href^="tel:"]):not([href^="mailto:"]), '
+        + '.nh-float, #nh-cookies, .nh-skip, #wpadminbar';
       // the nearest of these around a piece of text makes one block (one or more utterances)
       const BLOCK = 'h1, h2, h3, h4, h5, h6, p, li, dt, dd, th, td, caption, figcaption, blockquote, address, pre, '
         + '.elementor-post__meta-data, div, section, article, main';
       const MAX = 220;                                   // characters per utterance
+      // a letter or a digit somewhere in the text (\p{…} built at run time: an older engine would reject the file)
+      let wordy = /[0-9A-Za-z\u0590-\u05FF]/;
+      try { wordy = new RegExp("[\\p{L}\\p{N}]", "u"); } catch (e) { /* engines without \p{…} */ }
+      let lock = null;                                   // the screen kept on while it reads (Wake Lock)
       let voice = null, items = [], pos = 0, session = 0, active = false, paused = false;
 
       const pickVoice = () => {
@@ -948,8 +956,8 @@
         }
         const out = [];
         groups.forEach((g) => {
-          const text = g.join(" ").replace(/\s+/g, " ").trim();
-          if (/[\p{L}\p{N}]/u.test(text)) split(text).forEach((s) => out.push(s));
+          const text = g.join(" ").replace(/\s+/g, " ").replace(/־ /g, "־").trim();
+          if (wordy.test(text)) split(text).forEach((s) => out.push(s));
         });
         return out;
       };
@@ -965,11 +973,33 @@
           u.lang = voice.lang;
           u.onstart = () => { if (my === session) pos = k; };
           u.onend = () => { if (my === session && k === items.length - 1) stop(true); };
-          u.onerror = (e) => {
-            if (my === session && !/^(interrupted|canceled)$/.test(e && e.error)) stop(true);
+          // every cancel of ours moves the session first, so an error in this session came from outside (the screen
+          // went off, another app or tab, the engine): pause at this sentence, «המשך» reads it again; cancelling here
+          // keeps the browser from starting the next one
+          u.onerror = () => {
+            if (my !== session) return;
+            pos = k;
+            paused = true;
+            session++;
+            try { tts.cancel(); } catch (e) { /* idem */ }
+            setUI();
+            wake(false);
           };
           tts.speak(u);
         }
+      };
+      // the screen stays on while it reads (a phone that goes dark stops the voice); asked again when the page
+      // shows again, since the browser drops it whenever the page is hidden
+      const wake = (on) => {
+        if (!on) {
+          if (lock) lock.release().catch(() => {});
+          lock = null;
+          return;
+        }
+        if ((lock && !lock.released) || !w.navigator.wakeLock || d.hidden) return;
+        w.navigator.wakeLock.request("screen").then((l) => {
+          if (active && !paused) lock = l; else l.release().catch(() => {});
+        }).catch(() => { /* not allowed or not supported: the voice still works */ });
       };
       const speakFrom = (from) => {
         const my = ++session;
@@ -990,6 +1020,7 @@
         pos = 0;
         try { tts.cancel(); } catch (e) { /* nothing to stop */ }
         setUI();
+        wake(false);
         if (focusBack && hadFocus) ttsBtn.focus({ preventScroll: true });
       };
       const start = () => {
@@ -1000,6 +1031,7 @@
         paused = false;
         setUI();
         speakFrom(0);
+        wake(true);
       };
 
       ttsBtn.addEventListener("click", () => (active ? stop(false) : start()));
@@ -1009,14 +1041,22 @@
           paused = false;
           setUI();
           speakFrom(pos);                                 // the sentence it stopped in, from its start
+          wake(true);
         } else {
           paused = true;
           session++;                                      // the cancelled utterances' events are ignored
           try { tts.cancel(); } catch (e) { /* idem */ }
           setUI();
+          wake(false);
         }
+        pauseBtn.focus({ preventScroll: true });          // Safari does not focus a clicked button
       });
-      stopBtn.addEventListener("click", () => stop(true));
+      stopBtn.addEventListener("click", () => {
+        stop(false);
+        ttsBtn.focus({ preventScroll: true });           // the pressed control is gone: back to «הקראה»
+        if (ttsBtn.offsetTop < panel.scrollTop) panel.scrollTop = Math.max(0, ttsBtn.offsetTop - 8);
+      });
+      d.addEventListener("visibilitychange", () => { if (!d.hidden && active && !paused) wake(true); });
       const resetBtn = panel.querySelector('[data-a11y="reset"]');
       if (resetBtn) resetBtn.addEventListener("click", () => { if (active) stop(false); });
       // plain mode switched while reading: read the page again, now in the other mode (a paused reading just ends)
@@ -1031,7 +1071,7 @@
         if (items.length) speakFrom(0); else stop(false);
       }).observe(html, { attributes: true, attributeFilter: ["class"] });
       // leaving the page stops the voice; a page restored by «back» starts silent
-      w.addEventListener("pagehide", () => { session++; try { tts.cancel(); } catch (e) { /* idem */ } });
+      w.addEventListener("pagehide", () => { session++; try { tts.cancel(); } catch (e) { /* idem */ } wake(false); });
       w.addEventListener("pageshow", (e) => { if (e.persisted && active) stop(false); });
 
       pickVoice();

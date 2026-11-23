@@ -60,6 +60,8 @@
  * 1.5.3 (batch 3): v4.css only (the posts' archive cards, a post's video, the sitemap's list, the marker of a
  * missing fact).
  * 1.5.4 (Oleg 23.11): «הקראה» in the «נגישות» panel: the page read aloud by the browser's own Hebrew voice (v4.js 9).
+ * 1.5.5: after the independent review of «הקראה» (v4.js 9); <main id="content"> around Pro's archive template, so the
+ * category pages have the skip link's target; a photo smaller than its column keeps its own size (v4.css).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -85,6 +87,10 @@ foreach ( array( 'header-footer', 'canvas' ) as $nh_child_template ) {
 	add_action( "elementor/page_templates/{$nh_child_template}/after_content", 'nh_child_main_close' );
 }
 unset( $nh_child_template );
+// 1.5.5: Pro's archive template (the category pages) is printed by Hello's index.php without <main>: wrap it, so the
+// skip link has its target there too (Pro fires these only when it prints the location)
+add_action( 'elementor/theme/before_do_archive', 'nh_child_main_open' );
+add_action( 'elementor/theme/after_do_archive', 'nh_child_main_close' );
 
 add_action( 'wp_enqueue_scripts', 'nh_child_styles', 20 );
 add_action( 'wp_enqueue_scripts', 'nh_child_v4_assets', 30 );

@@ -2966,16 +2966,25 @@ def v4_inner_problems(url, doc, ids):
     if not url.startswith(BASE):
         return [f"its address {url!r} is not on {HOST}"]
     for attempt in (1, 2):
-        problems = v4_inner_once(url, doc, ids)
-        if not problems or attempt == 2:
+        problems, html = v4_inner_once(url, doc, ids)
+        if not problems:
             return problems
-        # the very first view right after the deploy printed some widgets late (seen 23.11 for the gallery and the
-        # HTML widget; the next view had them): look once more before calling it a problem
-        time.sleep(4)
-    return problems
+        if attempt == 1:
+            # the very first view right after the deploy printed some widgets late (seen 23.11 for the gallery and the
+            # HTML widget; the next view had them): look once more before calling it a problem
+            time.sleep(4)
+    # the page as it was served, to see what stood in place of the missing widgets (23.11, three deploys in a row: the
+    # gallery of «אודות» and the map of «צור קשר»; every later view, and a cache clear done as the deploy does it,
+    # had them)
+    os.makedirs(V4_RENDER_DIR, exist_ok=True)
+    path = os.path.join(V4_RENDER_DIR, f"failed-{doc.get('key', 'page')}-{time.strftime('%Y%m%d-%H%M%S')}.html")
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(html)
+    return problems + [f"(the page as served: {path})"]
 
 
 def v4_inner_once(url, doc, ids):
+    """(problems, the HTML as served)."""
     st, _, body = http(url + ("&" if "?" in url else "?") + urllib.parse.urlencode(bust()))
     html = body.decode("utf-8", "replace")
     problems = [] if st == 200 else [f"HTTP {st}"]
@@ -2993,7 +3002,7 @@ def v4_inner_once(url, doc, ids):
     external = v4_external_requests(html)
     if external:
         problems.append(f"requests to other hosts: {external[:6]}")
-    return problems
+    return problems, html
 
 
 V4_PLAN = """v4 will change the test site (research/09-v4-home-spec.md §7), each step idempotent:

@@ -1,0 +1,145 @@
+{
+ "key": "products-gallery",
+ "order": 13,
+ "title": "גלריית מוצרים למכירה",
+ "slug": "גלריית-מוצרים-למכירה",
+ "parent": "main-home",
+ "source": "live page, read 23.11.2026 (content/pages/main-home-products-gallery.md, snapshot 15.11.2026: not modified since)",
+ "notes": "The live page: the opening (italic on live: plain text here, Hebrew italics read worse) and the order details, then its three tabs as three parts one under the other (a tab hides its photos from a reader that does not open it): 60 products with their name and price as on live, 9 photos of the fair, 2 flyers (their text in the alt).",
+ "h1": "h1",
+ "blocks": {
+  "h1": {
+   "kind": "text",
+   "full": "גלריית מוצרים למכירה",
+   "plain": null,
+   "no_plain": "a name"
+  },
+  "intro": {
+   "kind": "html",
+   "full": "<p>בשעות הבוקר חלק מהדיירים עסוקים במרכז האומנויות, שם הם מתנסים בפעילות יצירה של פסיפס, אומנות שימושית, הכנת סבונים ועוד.</p><p>המדריכים דני, עדנה וליבי מסייעים לדיירים בפעילות יחד עם המטפלים המלווים בשיתוף פעולה המניב תפוקה חומרית מחד, והנאה רוחנית מאידך.</p><p>הפעילות תורמת לתחושת הביטחון והסיפוק העצמי של הדיירים, מעמיקה את קשריהם עם המדריכים ומוסיפה צבע וכיף במעון.</p><p>הנכם מוזמנים לצפות בגלריה ולהצטרף לחוויה <span aria-hidden=\"true\">♥♥</span></p><p><strong>לרכישה והזמנות: <a href=\"mailto:irus2@013net.net\"><span class=\"nh-ltr\">irus2@013net.net</span></a><br>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a> שלוחה 118</strong></p>",
+   "plain": "<p>בבוקר חלק מהדיירים עובדים במרכז האומנויות. הם עושים פסיפס, מוצרים לבית, סבונים ועוד.</p><p>המדריכים דני, עדנה וליבי עוזרים להם, יחד עם המטפלים.</p><p>העבודה נותנת לדיירים ביטחון והנאה, ומוסיפה שמחה במעון.</p><p>מוזמנים לראות את המוצרים בגלריה.</p><p><strong>לקנות ולהזמין: <a href=\"mailto:irus2@013net.net\"><span class=\"nh-ltr\">irus2@013net.net</span></a><br>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>, שלוחה 118</strong></p>"
+  },
+  "sale.h": {
+   "kind": "text",
+   "full": "מוצרים למכירה",
+   "plain": null,
+   "no_plain": "a name"
+  },
+  "fair.h": {
+   "kind": "text",
+   "full": "יריד חוצות היוצר",
+   "plain": null,
+   "no_plain": "a name"
+  },
+  "made.h": {
+   "kind": "text",
+   "full": "מוצרים מעוצבים",
+   "plain": null,
+   "no_plain": "a name"
+  }
+ },
+ "sections": [
+  {
+   "type": "text",
+   "id": "intro",
+   "text": "intro"
+  },
+  {
+   "type": "products",
+   "id": "sale",
+   "heading": "sale.h",
+   "captions": true,
+   "columns": 4,
+   "photos": [
+    "product-01",
+    "product-02",
+    "product-03",
+    "product-04",
+    "product-05",
+    "product-06",
+    "product-07",
+    "product-08",
+    "product-09",
+    "product-10",
+    "product-11",
+    "product-12",
+    "product-13",
+    "product-14",
+    "product-15",
+    "product-16",
+    "product-17",
+    "product-18",
+    "product-19",
+    "product-20",
+    "product-21",
+    "product-22",
+    "product-23",
+    "product-24",
+    "product-25",
+    "product-26",
+    "product-27",
+    "product-28",
+    "product-29",
+    "product-30",
+    "product-31",
+    "product-32",
+    "product-33",
+    "product-34",
+    "product-35",
+    "product-36",
+    "product-37",
+    "product-38",
+    "product-39",
+    "product-40",
+    "product-41",
+    "product-42",
+    "product-43",
+    "product-44",
+    "product-45",
+    "product-46",
+    "product-47",
+    "product-48",
+    "product-49",
+    "product-50",
+    "product-51",
+    "product-52",
+    "product-53",
+    "product-54",
+    "product-55",
+    "product-56",
+    "product-57",
+    "product-58",
+    "product-59",
+    "product-60"
+   ]
+  },
+  {
+   "type": "products",
+   "id": "fair",
+   "heading": "fair.h",
+   "columns": 3,
+   "photos": [
+    "fair-01",
+    "fair-02",
+    "fair-03",
+    "fair-04",
+    "fair-05",
+    "fair-06",
+    "fair-07",
+    "fair-08",
+    "fair-09"
+   ]
+  },
+  {
+   "type": "products",
+   "id": "made",
+   "heading": "made.h",
+   "columns": 2,
+   "whole": true,
+   "photos": [
+    "flyer-01",
+    "flyer-02"
+   ]
+  }
+ ]
+}

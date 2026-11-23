@@ -1,0 +1,2272 @@
+{
+ "key": "products-gallery",
+ "title": "גלריית מוצרים למכירה",
+ "slug": "גלריית-מוצרים-למכירה",
+ "parent": "main-home",
+ "front_page": false,
+ "post_type": "page",
+ "document_type": "wp-page",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/testimonials.json"
+  ],
+  "inputs_sha256": "4ac499556daefe4e0c0f5313c8d369fe913ca44ea91654bc352595171fedeb5a",
+  "widgets": [
+   "heading",
+   "image",
+   "text-editor"
+  ],
+  "blocks": {
+   "fair.h": {
+    "full": {
+     "element": "84fab5b",
+     "field": "title"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "839b82f",
+     "field": "title"
+    }
+   },
+   "intro": {
+    "full": {
+     "element": "54feb5b",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "db74a05",
+     "field": "editor"
+    }
+   },
+   "made.h": {
+    "full": {
+     "element": "6eb3d3f",
+     "field": "title"
+    }
+   },
+   "sale.h": {
+    "full": {
+     "element": "8d6a598",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "20c0e89",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--intro",
+    "_element_id": "intro",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "גלריית מוצרים למכירה"
+   },
+   "elements": [
+    {
+     "id": "44aa546",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "839b82f",
+       "elType": "widget",
+       "settings": {
+        "title": "גלריית מוצרים למכירה",
+        "header_size": "h1",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "5c0535b",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "54feb5b",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>בשעות הבוקר חלק מהדיירים עסוקים במרכז האומנויות, שם הם מתנסים בפעילות יצירה של פסיפס, אומנות שימושית, הכנת סבונים ועוד.</p><p>המדריכים דני, עדנה וליבי מסייעים לדיירים בפעילות יחד עם המטפלים המלווים בשיתוף פעולה המניב תפוקה חומרית מחד, והנאה רוחנית מאידך.</p><p>הפעילות תורמת לתחושת הביטחון והסיפוק העצמי של הדיירים, מעמיקה את קשריהם עם המדריכים ומוסיפה צבע וכיף במעון.</p><p>הנכם מוזמנים לצפות בגלריה ולהצטרף לחוויה <span aria-hidden=\"true\">♥♥</span></p><p><strong>לרכישה והזמנות: <a href=\"mailto:irus2@013net.net\"><span class=\"nh-ltr\">irus2@013net.net</span></a><br>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a> שלוחה 118</strong></p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "db74a05",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>בבוקר חלק מהדיירים עובדים במרכז האומנויות. הם עושים פסיפס, מוצרים לבית, סבונים ועוד.</p><p>המדריכים דני, עדנה וליבי עוזרים להם, יחד עם המטפלים.</p><p>העבודה נותנת לדיירים ביטחון והנאה, ומוסיפה שמחה במעון.</p><p>מוזמנים לראות את המוצרים בגלריה.</p><p><strong>לקנות ולהזמין: <a href=\"mailto:irus2@013net.net\"><span class=\"nh-ltr\">irus2@013net.net</span></a><br>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>, שלוחה 118</strong></p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "84073bf",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--sale",
+    "_element_id": "sale",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מוצרים למכירה"
+   },
+   "elements": [
+    {
+     "id": "b83941f",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "8d6a598",
+       "elType": "widget",
+       "settings": {
+        "title": "מוצרים למכירה",
+        "header_size": "h2",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "ecda2e7",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "fr",
+         "size": 4,
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "fr",
+         "size": 3,
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 2,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "24",
+         "row": "24",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_gaps_mobile": {
+         "column": "12",
+         "row": "16",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "_title": "תמונות"
+       },
+       "elements": [
+        {
+         "id": "96a5799",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-01",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "זוג פמוטי פרח אדום משובץ פסיפס ואבנים. 80 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "bad4498",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-02",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "כד אבני ירושלים כולל צלחת בגודל גדול. 95 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "14e0c10",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-03",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "כד כחול ירוק בגודל גדול כולל צלחת. 80 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "2eef9b6",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-04",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "כד עגול כחול כהה גדול. 110 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "2788c26",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-05",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "כד פסיפס צבעוני גדול. 70 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "5e0111e",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-06",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "כד פסיפס קרמי בגודל קטן. 60 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "76c599f",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-07",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "כד פסיפס תכלת בגודל בינוני. 50 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "cabe8f2",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-08",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "כד פרח ירוק כולל צלחת בגודל קטן. 65 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "6d637e6",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-09",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים. 15 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "e32ec3f",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-10",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים. 15 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "da79f70",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-11",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים. 15 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "b13c007",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-12",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים. 15 שח."
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "3d0e04b",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-13",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים. 15 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "458b541",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-14",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "3cdc715",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-15",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "e3ab348",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-16",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח."
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "919668b",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-17",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "ed46947",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-18",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח."
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "5173169",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-19",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "9693c90",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-20",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "סבונים מנצנצים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "17124b9",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-21",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "תחתית סיר קרמיקה מעוטרת. 35 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "57b46fc",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-22",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "תיבת תכשיטים אבני ירושלים בעיצוב רומנטי גודל בינוני. 80 שח"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "42c50fc",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-23",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "31b4453",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-24",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "fbb0666",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-25",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "7b76d0e",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-26",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "50f9f96",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-27",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "c65d84a",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-28",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "f630c2b",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-29",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "582e482",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-30",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "65694e5",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-31",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "e3be8c5",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-32",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "2f1f665",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-33",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "99b1234",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-34",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "373981d",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-35",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "a30a144",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-36",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "ce47014",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-37",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "2d9c52e",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-38",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "66e4a18",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-39",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "870426c",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-40",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "c263afb",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-41",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "be39480",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-42",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "8a69a73",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-43",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "fa95f62",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-44",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "ceca730",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-45",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "5fed71a",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-46",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "3e0df1a",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-47",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "ecb8343",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-48",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "1c57f43",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-49",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "5eee40e",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-50",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "257228d",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-51",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "9950711",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-52",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "ae7c276",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-53",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "442ac9d",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-54",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "3c95586",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-55",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "85bcd81",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-56",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "fb7a77c",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-57",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "277ae4f",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-58",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "8894219",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-59",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "f1f0ada",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:product-60",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "999b5be",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--fair",
+    "_element_id": "fair",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "יריד חוצות היוצר"
+   },
+   "elements": [
+    {
+     "id": "0217c33",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "84fab5b",
+       "elType": "widget",
+       "settings": {
+        "title": "יריד חוצות היוצר",
+        "header_size": "h2",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "f9eb4ac",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "fr",
+         "size": 3,
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "fr",
+         "size": 3,
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 2,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "24",
+         "row": "24",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_gaps_mobile": {
+         "column": "12",
+         "row": "16",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "_title": "תמונות"
+       },
+       "elements": [
+        {
+         "id": "1e99c61",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:fair-01",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "e737552",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:fair-02",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "d9c2b46",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:fair-03",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "7db88a7",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:fair-04",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "2703f67",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:fair-05",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "3e9518c",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:fair-06",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "0b99ca9",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:fair-07",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "b89d313",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:fair-08",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "1ac13cf",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:fair-09",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "5fee63d",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--made",
+    "_element_id": "made",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מוצרים מעוצבים"
+   },
+   "elements": [
+    {
+     "id": "f1069fa",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "6eb3d3f",
+       "elType": "widget",
+       "settings": {
+        "title": "מוצרים מעוצבים",
+        "header_size": "h2",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "a000df1",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "fr",
+         "size": 2,
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "fr",
+         "size": 2,
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 2,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "24",
+         "row": "24",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_gaps_mobile": {
+         "column": "12",
+         "row": "16",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "_title": "תמונות"
+       },
+       "elements": [
+        {
+         "id": "b65ea9a",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:flyer-01",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product nh-product--whole",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "3168442",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:flyer-02",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product nh-product--whole",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

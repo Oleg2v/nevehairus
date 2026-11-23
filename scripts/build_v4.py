@@ -1156,6 +1156,49 @@ class PageBuilder(Builder):
         return [self.container(p, grid("7fr 5fr", 1, 1, gap_column=48, gap_row=32, grid_align_items="start"),
                                [left, right], title="טופס ומפה")]
 
+    def sec_text_video(self, name, sec):
+        """Text beside a vertical YouTube video in the home's phone frame (the snoezelen Short's look): nothing from
+        YouTube before a click (the theme's question), our own cover."""
+        p = f"{name}/inner/grid"
+        text = self.container(f"{p}/text", {**flex("column", 16, 16), "padding": ZERO, "css_classes": "nh-page__text-col"},
+                              self.head(sec, f"{p}/text/h") + self.texts(sec, f"{p}/text"), title="טקסט")
+        video = self.container(f"{p}/video", {**flex("column", 0, 0, flex_align_items="center"), "padding": ZERO},
+                               [self.video(f"{p}/video/short", sec["video"], ratio="916", _element_width="initial",
+                                           _element_custom_width=size(270), _flex_align_self="center",
+                                           _css_classes="nh-phone-frame")], title="סרטון")
+        return [self.container(p, grid("7fr 5fr", "7fr 5fr", 1, gap_column=48, gap_row=32, grid_align_items="center"),
+                               [text, video], title="טקסט וסרטון")]
+
+    def sec_products(self, name, sec):
+        """A grid of photos, each with its caption under it (the product and its price, as the live gallery shows them;
+        a photo whose media entry has "caption": "" has none: on the live site its caption is only its file name);
+        each opens larger in Elementor's lightbox (one slideshow for the grid)."""
+        p = f"{name}/inner/grid"
+        cells = []
+        for n, photo in enumerate(sec["photos"]):
+            if photo not in self.media_names:
+                die(f"templates/v4/media.json has no {photo} (page {self.doc})")
+            entry = self.media.get(photo) or {}
+            caption = entry.get("caption", entry.get("alt")) if sec.get("captions") else ""
+            extra = {"link_to": "file", "open_lightbox": "yes", "_title": "תמונה"}
+            if caption:
+                extra.update(caption_source="custom", caption=caption)
+            cells.append(self.image(f"{p}/p{n}", photo, join("nh-product", "nh-product--whole" if sec.get("whole") else ""),
+                                    size_name="medium_large", **extra))
+        cols = sec.get("columns", 4)
+        return self.head(sec, f"{name}/inner/h") + [self.container(
+            p, grid(cols, min(cols, 3), 2, gap_column=24, gap_row=24, gap_mobile=(12, 16)), cells, title="תמונות")]
+
+    def sec_cards(self, name, sec):
+        """Items of the same kind one under the other, each in a white card with its heading (the jobs of «דרושים»)."""
+        p = f"{name}/inner/col"
+        cards = []
+        for n, item in enumerate(sec["items"]):
+            q = f"{p}/c{n}"
+            cards.append(self.card(q, self.heading_block(item["heading"], f"{q}/h", "h2", "h3", "purple-700")
+                                   + self.texts(item, q), self.text(item["heading"], "full")))
+        return [self.column(p, self.head(sec, f"{p}/h") + cards, title="כרטיסים")]
+
     def sec_map(self, name, sec):
         return self.map_widget(f"{name}/inner", sec)
 

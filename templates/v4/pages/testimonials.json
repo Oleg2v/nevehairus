@@ -1,0 +1,601 @@
+{
+ "key": "testimonials",
+ "title": "תודות והמלצות",
+ "slug": "תודות-והמלצות",
+ "parent": null,
+ "front_page": false,
+ "post_type": "page",
+ "document_type": "wp-page",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/testimonials.json"
+  ],
+  "inputs_sha256": "4ac499556daefe4e0c0f5313c8d369fe913ca44ea91654bc352595171fedeb5a",
+  "widgets": [
+   "heading",
+   "text-editor",
+   "video"
+  ],
+  "blocks": {
+   "h1": {
+    "full": {
+     "element": "002efdd",
+     "field": "title"
+    }
+   },
+   "letter": {
+    "full": {
+     "element": "951a77f",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "410137a",
+     "field": "editor"
+    }
+   },
+   "letter.h": {
+    "full": {
+     "element": "a5bb0b1",
+     "field": "title"
+    },
+    "plain": {
+     "element": "79b8b4e",
+     "field": "title"
+    }
+   },
+   "video": {
+    "full": {
+     "element": "4f19f52",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "fdab368",
+     "field": "editor"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "006aaac",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--video",
+    "_element_id": "video",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "תודות והמלצות"
+   },
+   "elements": [
+    {
+     "id": "679e8e8",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "002efdd",
+       "elType": "widget",
+       "settings": {
+        "title": "תודות והמלצות",
+        "header_size": "h1",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "782cbdd",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "32",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "center",
+        "_title": "טקסט וסרטון"
+       },
+       "elements": [
+        {
+         "id": "749f93f",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "4f19f52",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>פרגון חם ומחבק מפי הורה של דייר מנווה האירוס- שווה צפייה <span aria-hidden=\"true\">🙂</span></p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "fdab368",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>הורה של דייר מספר על נווה האירוס. אפשר לצפות בסרטון.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "1304935",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "0",
+           "row": "0",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "flex_align_items": "center",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "_title": "סרטון"
+         },
+         "elements": [
+          {
+           "id": "bb98d7a",
+           "elType": "widget",
+           "settings": {
+            "video_type": "youtube",
+            "youtube_url": "https://www.youtube.com/watch?v=JiaXto-WmJo",
+            "lazy_load": "yes",
+            "yt_privacy": "yes",
+            "rel": "",
+            "show_image_overlay": "yes",
+            "image_overlay": {
+             "url": "",
+             "id": "@media:video-JiaXto-WmJo",
+             "size": "",
+             "alt": "",
+             "source": "library"
+            },
+            "image_overlay_size": "full",
+            "show_play_icon": "yes",
+            "lightbox": "",
+            "aspect_ratio": "916",
+            "_element_width": "initial",
+            "_element_custom_width": {
+             "unit": "px",
+             "size": 270,
+             "sizes": []
+            },
+            "_flex_align_self": "center",
+            "_css_classes": "nh-phone-frame"
+           },
+           "elements": [],
+           "widgetType": "video"
+          }
+         ],
+         "isInner": true
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "0643e24",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--letter",
+    "_element_id": "letter",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "נווה האירוס - המלצה של אמא לדייר במוסד"
+   },
+   "elements": [
+    {
+     "id": "cd7e8c4",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "12f6a63",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "a5bb0b1",
+         "elType": "widget",
+         "settings": {
+          "title": "נווה האירוס - המלצה של אמא לדייר במוסד",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "79b8b4e",
+         "elType": "widget",
+         "settings": {
+          "title": "מכתב מאמא של דייר",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "951a77f",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>שלום רב,</p><p>שמי לילה ורבל, בני בן ה- 30 מתגורר בנווה האירוס מזה 11 שנה עקב בעיות התנהגות קשות, כגון אלימות פיזית. אני רוצה לציין לטובה את השינוי העצום שבוצע במוסד בשנתיים האחרונות וזאת עקב אי אלו בעיות מול ההנהלה הקודמת ובעיקר המנכ\"לית שלא גילתה כל אכפתיות ואף התעלמה מאיתנו ההורים וגם מהדיירים. עוד בטרם פרסום הכתבה במאקו החלו השינויים במוסד שכן אנו ההורים פנינו לבעלי המוסד שלא היו מודעים ככל הנראה למתרחש במקום. הם לא היססו לרגע, החליפו את כל צוות ההנהלה, לרבות המנכ\"לית ובמקומה גייסו מנכ\"ל איכותי מקצועי ונעים הליכות בשם דוד. הוא הוביל מהפך שלם בקרב הצוות המטפל ומאז המוסד מבינתי הנו בין הטובים שיש בישראל. רמת האכפתיות, הדאגה והמסירות לדיירים עולה על כל דמיון ולמעשה הבן שלי וחבריו מבלים מחוץ לכותלי המוסד מדי שבוע, אין מחלקה סגורה!! אלא מחלקה מוגנת בה המשמעות הנה יותר להשגחה וליווי ולא נעילה בחדרים.</p><p>מאז השינוי בהנהלה הדיירים יוצאים מדי שבוע לבתי קפה לסרטים ובילויים מחוץ למוסד והדבר יצר שינוי מהותי גם בקרב ההורים וגם בקרב הדיירים. האווירה השתנה לחלוטין ואין מקור להשוואה בכלל, לדעתי מדובר במוסד החוסים הטוב ביותר בישראל כיום. או לפחות בין הטובים והמוקפדים בניהם.</p><p>בנוסף לשינוי בשטח גם הוקם ועד הורים חדש אשר מטרתו לפקח ולנהל יחד את מהלך חיי היום יום במוסד ולהיות מעורבים ככל הניתן בחיי הילדים שלהם. הדבר תורם רבות לאווירה הטובה ולנוכחות הורים באופן שוטף במוסד בשעות שונות ומגוונות של היום והערב. במקביל הצוות הרפואי והמטפל נגישים בכל שעה ולכל שאלה, בין אם מדובר ברופאים ובצוות הרפואי בכללי ובין אם מדובר בצוות הסוציאלי. ישנה הקשבה מלאה והתייחסות כנה ואמיתית לצרכים.</p><p>כאמא שהבן שלה גר במקום 11 שנים אני יכולה להעיד על המהפך העצום במוסד, בצוות הרפואי והסוציאלי ולמעשה בכל תחום בחיי היום יום של הדיירים. ההבדל הוא בין שמיים לארץ ועל כך מגיעה תודה לדוד מנכ\"ל המוסד ולצוות העושה מלאכת קודש מדי יום ובאהבה.</p><p><strong>בברכה,</strong><br><strong>ליליה ורבל</strong></p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "410137a",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>אמא של דייר כתבה לנו מכתב.</p><p>הבן שלה גר בנווה האירוס 11 שנה.</p><p>היא כותבת שבשנתיים האחרונות היו במעון שינויים גדולים: הנהלה חדשה ומנהל חדש בשם דוד.</p><p>היום הדיירים יוצאים כל שבוע לבתי קפה, לסרטים ולבילויים. אין מחלקה נעולה.</p><p>יש ועד הורים חדש. ההורים מגיעים הרבה. הצוות הרפואי והסוציאלי זמין ומקשיב.</p><p>היא מודה לדוד ולצוות.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

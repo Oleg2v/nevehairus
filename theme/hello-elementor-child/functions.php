@@ -54,6 +54,9 @@
  * (phones held upright, most desktops), so the browser picks a file big enough; the shades' edges are eased (v4.css).
  * 1.4.8: the hero shades' defaults weigh nothing (:where), so a photo's own values in the hero's Custom CSS apply.
  * 1.4.9: the snoezelen phone's cover sits in its screen, so the bezel shows (v4.css).
+ * 1.5.0–1.5.1 (the inner pages, Oleg 23.11): v4.css and v4.js only (the inner pages' blocks: text, photo, quote,
+ * gallery, table, the products' grid, the map that loads on a click).
+ * 1.5.2: no emoji script on the site's pages: where a device has no emoji font it fetched pictures from s.w.org.
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -87,6 +90,7 @@ add_action( 'wp_footer', 'nh_child_v4_footer', 10 );
 add_action( 'elementor_pro/forms/validation', 'nh_child_form_validation', 20, 2 );   // after Pro's own (its trap): a refused send is not counted
 add_filter( 'elementor_pro/forms/sanitize/tel', 'nh_child_form_tel', 20 );
 add_filter( 'wp_get_attachment_image_attributes', 'nh_child_hero_sizes', 10, 2 );
+add_action( 'init', 'nh_child_no_emoji' );
 
 /**
  * `hello_elementor_page_title`: no Hello title on a page built with Elementor (its cover is the page's H1).
@@ -595,4 +599,18 @@ function nh_child_hero_sizes( $attr, $attachment ) {
 	$ratio         = rtrim( rtrim( number_format( $w / $h, 4, '.', '' ), '0' ), '.' );
 	$attr['sizes'] = sprintf( '(max-aspect-ratio: %1$d/%2$d) calc(100vh * %3$s), 100vw', $w, $h, $ratio );
 	return $attr;
+}
+
+/**
+ * `init`: WordPress's emoji script and its style off on the site's pages (1.5.2). Where a device has no emoji font, the
+ * script swaps every emoji for a picture from s.w.org: a request to another host, sent before any consent (the inner
+ * pages keep a few emoji of the live texts, e.g. «📍 מיקום» in «דרושים»). Every current phone and computer draws emoji
+ * itself. Feeds, e-mails and the admin stay as WordPress has them (hooks as registered by WordPress 7.1.5).
+ */
+function nh_child_no_emoji() {
+	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+	remove_action( 'embed_head', 'print_emoji_detection_script' );
+	remove_action( 'wp_enqueue_scripts', 'wp_enqueue_emoji_styles' );
+	remove_action( 'enqueue_embed_scripts', 'wp_enqueue_emoji_styles' );
+	remove_action( 'wp_print_styles', 'print_emoji_styles' );
 }

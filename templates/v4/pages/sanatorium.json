@@ -1,0 +1,794 @@
+{
+ "key": "sanatorium",
+ "title": "סנטוריום",
+ "slug": "סנטוריום",
+ "parent": "main-home",
+ "front_page": false,
+ "post_type": "page",
+ "document_type": "wp-page",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/testimonials.json"
+  ],
+  "inputs_sha256": "4ac499556daefe4e0c0f5313c8d369fe913ca44ea91654bc352595171fedeb5a",
+  "widgets": [
+   "heading",
+   "image",
+   "text-editor"
+  ],
+  "blocks": {
+   "dual": {
+    "full": {
+     "element": "267f57c",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "e734816",
+     "field": "editor"
+    }
+   },
+   "dual.h": {
+    "full": {
+     "element": "6d913ba",
+     "field": "title"
+    },
+    "plain": {
+     "element": "67e0a3d",
+     "field": "title"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "75136ba",
+     "field": "title"
+    }
+   },
+   "intro": {
+    "full": {
+     "element": "30df749",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "a17b8b3",
+     "field": "editor"
+    }
+   },
+   "work": {
+    "full": {
+     "element": "cc88fda",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "caeb75b",
+     "field": "editor"
+    }
+   },
+   "work.h": {
+    "full": {
+     "element": "5c2b4eb",
+     "field": "title"
+    },
+    "plain": {
+     "element": "b31c8dc",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "e850cdc",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--intro",
+    "_element_id": "intro",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "סנטוריום"
+   },
+   "elements": [
+    {
+     "id": "3492b38",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "75136ba",
+       "elType": "widget",
+       "settings": {
+        "title": "סנטוריום",
+        "header_size": "h1",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "312b14b",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "30df749",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p><strong>בארץ חיים היום כ-720 אלף איש המוגדרים כמוגבלים. הם מהווים 18% מהאוכלוסייה. 76% מהם סובלים מפגיעה באיברים הקשורים לניידות ותנועה. 10% מכלל המוגבלים מוגדרים כמוגבלים מאוד (393 איש). הם יכולים להיות אנשים הסובלים מבעיה פיזית בדרגת חומרה קשה, מבעיה שכלית, פיגור ועוד. יש כל מיני דרגות של לקות ופיגור ולפיכך נוצרו (בעיקר ע”י עמותות שונות) וועדות המתאימות מסגרות של דיור ותעסוקה, לסוג המגבלה, גיל, מצב משפחתי, רצון האדם ועוד.</strong></p><p>המטרה המשותפת של כל המסגרות הללו כולל סנטוריום “נווה האירוס” הוא לשמש בית ותמיכה עבור האוכלוסייה הזו. מדובר על מסגרת בה תומכים באנשים ברמה הרגשית, מנסים לחזק אותם ולטעת בהם ביטחון לצד עצמאות. ומן הצד השני מעניקים להם מקום בו הם יכולים לחיות את חייהם בצורה הכי טובה, לבטא את הכישורים והכישרונות שלהם, לחיוך לצד דיירים אחרים ולהיות שמחים ומאושרים.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "a17b8b3",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>בישראל חיים הרבה אנשים עם מוגבלות. יש מוגבלות בגוף, ויש מוגבלות שכלית.</p><p>יש מקומות שונים לגור ולעבוד בהם, לפי סוג המוגבלות, הגיל, המשפחה ומה שהאדם רוצה.</p><p>נווה האירוס הוא אחד המקומות האלה. כאן הדיירים מקבלים בית, תמיכה וביטחון. כאן הם יכולים לחיות טוב, להראות מה הם יודעים, לחייך ולשמוח.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "05bdea9",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--work",
+    "_element_id": "work",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "סנטוריום נס ציונה – כל אחד יכול להיות שמח בחלקו"
+   },
+   "elements": [
+    {
+     "id": "bf045a9",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "b94b4ab",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "start",
+        "_title": "טקסט ותמונה"
+       },
+       "elements": [
+        {
+         "id": "5d29637",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "5c2b4eb",
+           "elType": "widget",
+           "settings": {
+            "title": "סנטוריום נס ציונה – כל אחד יכול להיות שמח בחלקו",
+            "header_size": "h2",
+            "_css_classes": "nh-full",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=603f9ca"
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "b31c8dc",
+           "elType": "widget",
+           "settings": {
+            "title": "כל אחד יכול להיות שמח",
+            "header_size": "h2",
+            "_css_classes": "nh-plain",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=603f9ca"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "cc88fda",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>הסנטוריום בנס ציונה מספק לדייריו תעסוקה, שהיא תנאי הכרחי להרגיש מקובל ושווה לכולם, וגם להשתכר כלכלית. העובדה שאנשים מוגבלים מוצאים את עצמם עושים דברים מועילים ומרוויחים כסף, תורמת לתחושת הביטחון העצמי שלהם, וגם לתפקוד החיובי שלהם באופן כללי. כאשר נותנים לאדם אפשרות לעבוד זה משנה את הדימוי העצמי שלו בעיני עצמו והוא לא מרגיש שונה ודחוי. הוא מרגיש מועיל ורצוי.</p><p>דבר נוסף שקורה בסנטוריום הוא פעילות אישית משקמת. אפשר להצטרף לחוגי יצירה שונים כמו: יצירת תכשיטים, פסיפס, ציור על משי, דרמה, תנועה, מוסיקה ועוד. אפשר גם לפתח את העושר וללכת לחדר כושר לעסוק בספורט ועד להשתתפות בקבוצת רייקי וחוג מחשב.</p><p>אנשים מוגבלים, הם לא אנשים שלא מסוגלים לעשות כלום אלא שהם מוגבלים מבחינות מסוימות. גם הם כמו כל בני האדם מתעניינים בכל מיני תחומים, יש להם כישורים והם רוצים לבטא אותם. הם רוצים ליהנות, לשמוח ולבלות הם רוצים להיות שמחים והצוות של סנטוריום בנס ציונה דואג לזה שיהיה מגוון גדול של חוגים ופעילויות מהם הם יכולים לבחור במה שמעניין אותם.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "caeb75b",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>בנווה האירוס הדיירים עובדים. העבודה חשובה: היא נותנת הרגשה של שוויון, וגם כסף.</p><p>כשאדם עובד ומרוויח כסף, הוא מרגיש בטוח יותר, מועיל ורצוי.</p><p>יש גם חוגים: תכשיטים, פסיפס, ציור על משי, דרמה, תנועה, מוזיקה ועוד. יש גם חדר כושר, ספורט, רייקי וחוג מחשב.</p><p>לאנשים עם מוגבלות יש כישורים ותחומי עניין, כמו לכל אחד. הם רוצים ליהנות ולשמוח. הצוות דואג שיהיו הרבה חוגים ופעילויות, וכל אחד בוחר מה שמעניין אותו.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "506f9dc",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:sanatorium-garden",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "large",
+          "_css_classes": "nh-page__img",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "5a9f3df",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--dual",
+    "_element_id": "dual",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מהי אבחנה כפולה ולמה זה חשוב?"
+   },
+   "elements": [
+    {
+     "id": "3e2e168",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "a01fb82",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "6d913ba",
+         "elType": "widget",
+         "settings": {
+          "title": "מהי אבחנה כפולה ולמה זה חשוב?",
+          "header_size": "h3",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=fb57358"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "67e0a3d",
+         "elType": "widget",
+         "settings": {
+          "title": "מה זה אבחנה כפולה?",
+          "header_size": "h3",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=fb57358"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "267f57c",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>שיבוץ הדיירים בסנטוריום נעשה אחרי מבדקי התאמה ואבחון כאשר לצד המגורים במקום, הם גם מקבלים טיפול רפואי שוטף. כאשר מדובר בדיירים שיש לגביהם <a href=\"@home:/מעון-ראשי-בית-לחיים/אבחנה-כפולה/\">אבחנה כפולה</a> (יש להם שתי הפרעות רגשיות) צריך לדייק במתן הטיפול, שיועיל לשתי ההפרעות. בדרך כלל האבחון נעשה בשיתוף המשפחה שתקבל דיווח על מצבו של הדייר. במסגרת השהייה בסנטוריום יקבל הדייר טיפול רגשי ותמיכה, שיחזקו אותו ויגרמו להפחתה בסימנים המטרידים. בנוסף ילווה אותו איש מקצוע וכן במידה ויש צורך, הוא יקבל טיפול תרופתי מתאים ותומך.</p><p>שהייה בסנטוריום מבטיחה ליקירכם בית חם ותומך, מערך טיפול רגשי ותמיכה פיזית במגבלות, תוך חיזוק יכולות וכישורים והענקת ערך עצמי והנאה.</p><p><strong>קרא עוד:</strong> <a href=\"@home:/מוסדות-לסובלים-מפיגור-שכלי-קשה-ועמוק/\">מוסדות לסובלים מפיגור שכלי קשה ועמוק</a></p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "e734816",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>לפני שדייר מגיע לגור בנווה האירוס, בודקים אם המקום מתאים לו. הדיירים מקבלים כאן גם טיפול רפואי.</p><p>לחלק מהדיירים יש <a href=\"@home:/מעון-ראשי-בית-לחיים/אבחנה-כפולה/\">אבחנה כפולה</a>: שני קשיים רגשיים ביחד. לכן חשוב לתת להם טיפול שעוזר בשני הקשיים.</p><p>המשפחה משתתפת בבדיקה ומקבלת עדכונים. במעון הדייר מקבל תמיכה וטיפול רגשי. איש מקצוע מלווה אותו, ואם צריך, הוא מקבל גם תרופות.</p><p>כאן מחכה לדייר בית חם, עם טיפול ותמיכה, שעוזר לו להתחזק ולשמוח.</p><p><strong>לקריאה נוספת:</strong> <a href=\"@home:/מוסדות-לסובלים-מפיגור-שכלי-קשה-ועמוק/\">מאמר על סוגי דיור</a></p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

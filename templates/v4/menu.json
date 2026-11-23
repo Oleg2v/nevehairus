@@ -5,12 +5,17 @@
    "templates/v4/media.json",
    "scripts/build_v4.py",
    "content/v4/pages/about.json",
+   "content/v4/pages/careers.json",
    "content/v4/pages/community-housing-autism.json",
    "content/v4/pages/community-housing.json",
    "content/v4/pages/contact.json",
-   "content/v4/pages/main-home.json"
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/testimonials.json"
   ],
-  "inputs_sha256": "c6476ef61abd4ddabd7aabb5e834b6568799542d60d7adf1f744dbb6a44f6a3b"
+  "inputs_sha256": "4ac499556daefe4e0c0f5313c8d369fe913ca44ea91654bc352595171fedeb5a"
  },
  "name": "תפריט ראשי",
  "slug": "nh-main",

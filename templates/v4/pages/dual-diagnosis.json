@@ -1,0 +1,1033 @@
+{
+ "key": "dual-diagnosis",
+ "title": "אבחנה כפולה",
+ "slug": "אבחנה-כפולה",
+ "parent": "main-home",
+ "front_page": false,
+ "post_type": "page",
+ "document_type": "wp-page",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/testimonials.json"
+  ],
+  "inputs_sha256": "4ac499556daefe4e0c0f5313c8d369fe913ca44ea91654bc352595171fedeb5a",
+  "widgets": [
+   "heading",
+   "image",
+   "text-editor"
+  ],
+  "blocks": {
+   "care": {
+    "full": {
+     "element": "f76f8b3",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "444e755",
+     "field": "editor"
+    }
+   },
+   "care.h": {
+    "full": {
+     "element": "811ca38",
+     "field": "title"
+    },
+    "plain": {
+     "element": "57b755f",
+     "field": "title"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "ee800db",
+     "field": "title"
+    }
+   },
+   "intro": {
+    "full": {
+     "element": "f922076",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "5fc3754",
+     "field": "editor"
+    }
+   },
+   "signs": {
+    "full": {
+     "element": "75eb1ce",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "0ce57f6",
+     "field": "editor"
+    }
+   },
+   "signs.h": {
+    "full": {
+     "element": "b861628",
+     "field": "title"
+    },
+    "plain": {
+     "element": "79e79b6",
+     "field": "title"
+    }
+   },
+   "why": {
+    "full": {
+     "element": "d295307",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "25f5e52",
+     "field": "editor"
+    }
+   },
+   "why.h": {
+    "full": {
+     "element": "8b365f8",
+     "field": "title"
+    },
+    "plain": {
+     "element": "7eee5e4",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "eb77638",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--intro",
+    "_element_id": "intro",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "אבחנה כפולה"
+   },
+   "elements": [
+    {
+     "id": "002d53f",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "ee800db",
+       "elType": "widget",
+       "settings": {
+        "title": "אבחנה כפולה",
+        "header_size": "h1",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "2bed268",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "f922076",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p><strong>המונח אבחנה כפולה פירושה סיטואציה שאדם אובחן לפחות בשתי הפרעות רגשיות שמשבשות את מצבו הנפשי. המונח מגיע מתחום הפסיכיאטריה ובא להסביר מצבים שאדם למעשה חווה מספר קשיים או שילוב של הפרעה וכתוצאה מזה התמכרות. יש היום מספר סוגים של אבחנה כפולה כמו: חרדה יחד עם דכאון, הפרעה כלשהי אובססיבית וחרדה ועוד.</strong></p><p>בשל שתי הפרעות הקיימות או יותר, מצב זה עשוי לעתים להקשות על האבחנה במדויק וכך להקשות על הענקת הטיפול הנכון. או ישנם מצבים בהם העריכו אבחנה מסוימת שלא לוקחת בחשבון את ההפרעה השנייה ועלולה בשל ההתעלמות ממנה, \"לטפח\" אותה.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "5fc3754",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>\"אבחנה כפולה\" אומר שלאדם יש שני קשיים נפשיים ביחד. למשל: חרדה וגם דיכאון.</p><p>לפעמים יש קושי נפשי וגם התמכרות.</p><p>כשיש שני קשיים, קשה יותר לגלות מה בדיוק יש לאדם. ואז קשה יותר לתת לו את הטיפול הנכון.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "a4a1507",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--why",
+    "_element_id": "why",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "אבחנה או תחלואה כפולה?"
+   },
+   "elements": [
+    {
+     "id": "c3d53ec",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "3035065",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "start",
+        "_title": "טקסט ותמונה"
+       },
+       "elements": [
+        {
+         "id": "c1bdaae",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "8b365f8",
+           "elType": "widget",
+           "settings": {
+            "title": "אבחנה או תחלואה כפולה?",
+            "header_size": "h2",
+            "_css_classes": "nh-full",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=603f9ca"
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "7eee5e4",
+           "elType": "widget",
+           "settings": {
+            "title": "למה חשוב לגלות את שני הקשיים?",
+            "header_size": "h2",
+            "_css_classes": "nh-plain",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=603f9ca"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "d295307",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>במצבים כאלה, שהאבחנה אינה מדויקת או שאובחנה בעיה אחת ואת השנייה זנחו, אפשר יהיה לראות שהטיפול שהוגש למטופל לא תמיד יועיל, מה שלמעשה גורם למי שסובל לנסות כל מיני טיפולים בלי שום תוצאה או ללא כל שיפור במצבו. לכן חשוב להגיע לאבחון מדויק, כי הצלחה של טיפול תהיה תלויה לפני הכל בדיוק של האבחנה וזיהוי של כל סימפטום שמאפיין כל הפרעה וכך יהיה ניתן לשדך את הטיפול הראוי.</p><p>במצב שאדם שהתמכר למשהו, המונח אבחנה כפולה תתאר מצב של התמכרות לשני גורמי התמכרות, אך במצב של התמכרות יהיה נפוץ לזהות מצב של אבחנה כפולה, כי ההתמכרות לרוב מגיעה מקושי רגשי נוסף. כך לדוגמא אם אדם סובל מחרדה והוא משתמש בחומר מרגיע כמו סם או אלכוהול כדי להפחית את החרדה שלו או להשכיח את הדיכאון שהוא חווה, זה יוצר אצלו תלות ולבסוף התמכרות.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "25f5e52",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>אם מגלים רק קושי אחד, הטיפול לא תמיד עוזר. לכן חשוב לגלות בדיוק את כל הקשיים.</p><p>לפעמים אדם עם חרדה או דיכאון משתמש בסמים או באלכוהול, כדי להרגיש טוב יותר. כך הוא יכול להתמכר.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "de56ba5",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:dual-clinic",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "large",
+          "_css_classes": "nh-page__img",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "c6195d2",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--signs",
+    "_element_id": "signs",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "איך מזהים אבחנה כפולה?"
+   },
+   "elements": [
+    {
+     "id": "94a84cc",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "4eda73e",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "b861628",
+         "elType": "widget",
+         "settings": {
+          "title": "איך מזהים אבחנה כפולה?",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "79e79b6",
+         "elType": "widget",
+         "settings": {
+          "title": "איך יודעים שיש אבחנה כפולה?",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "75eb1ce",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>אפשר לזהות את מצבים של אבחנה כפולה כשמבחינים שהמטופל סובל מקושי רגשי שאינו קשור להתמכרות שאליה הגיע. שהוא עושה שימוש בחומרים ממכרים ויש לו קושי תפקודי, לא מסוגל לעבוד, לא מסוגל לשהות עם אנשים, חווה הפרעות התנהגויות קשות, אלימות קשה, פסיכוזה והזיות ועוד.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "0ce57f6",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>יש סימנים: לאדם יש קושי נפשי, והוא משתמש בחומרים ממכרים. קשה לו לעבוד ולהיות עם אנשים. לפעמים הוא מתנהג באלימות, או רואה ושומע דברים שלא קיימים.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "e01344e",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--care",
+    "_element_id": "care",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "איך מציגים את התופעה למטופל ולמשפחה?"
+   },
+   "elements": [
+    {
+     "id": "a525356",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "a252df6",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "811ca38",
+         "elType": "widget",
+         "settings": {
+          "title": "איך מציגים את התופעה למטופל ולמשפחה?",
+          "header_size": "h3",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=fb57358"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "57b755f",
+         "elType": "widget",
+         "settings": {
+          "title": "איך מטפלים?",
+          "header_size": "h3",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=fb57358"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "f76f8b3",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>המטופל מגיע לטיפול ראשוני שהוא האבחנה. את האבחנה מציגים בפני המשפחה ולעתים לא משתפים את המטופל, זה תלוי במצבו, וברמת הרגישות שהמטופל שוהה בה. הטיפול משלב גם פסיכולוג ופסיכיאטר ומותאם לזה גם טיפול תרופתי, טיפול רגשי ותמיכה משפחתית לאורך כל הדרך. המטופל וגם המשפחה יזכו לליווי על בסיס יומי של איש מקצוע ושל מסגרות שונות שתומכות במידה וקיים צורך כזה.</p><p>הטיפול הרגשי למעשה מטרתו למצוא את הקושי הרגשי לעבד אותו ולשחרר את מטופל ממנו וכך להוציא ממנו מחסומים רגשיים שליוו אותו שנים וגרמו להידרדרות שלו. הטיפול הוא מאוד אישי וכל מקרה לגופו. יש את הטיפול הדינמי שהוא עוזר לעבד את האירוע שחולל את כל המצוקות הרגשיות בהווה. יש את הטיפול הקוגניטיבי שהוא ניסיון לאמץ דפוסי התנהגות אחרים על מנת שיהיה ניתן לחיות אורח חיים בריא יותר ועוד.</p><p><strong>קרא עוד:</strong> <a href=\"@home:/מעון-ראשי-בית-לחיים/סנטוריום/\">סנטוריום</a></p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "444e755",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>קודם בודקים את האדם. מספרים למשפחה מה מצאו. לפעמים מספרים גם לאדם עצמו, לפי המצב שלו.</p><p>בטיפול עוזרים פסיכולוג ופסיכיאטר. יש טיפול בשיחות, תרופות ותמיכה של המשפחה. איש מקצוע מלווה את האדם ואת המשפחה כל יום.</p><p>הטיפול מותאם לכל אדם. הוא עוזר להבין את הקושי ולהשתחרר ממנו, וללמוד דרכים חדשות לחיות בריא יותר.</p><p><strong>לקריאה נוספת:</strong> <a href=\"@home:/מעון-ראשי-בית-לחיים/סנטוריום/\">סנטוריום</a></p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

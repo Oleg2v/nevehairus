@@ -1,0 +1,878 @@
+{
+ "key": "careers",
+ "title": "דרושים",
+ "slug": "דרושים",
+ "parent": null,
+ "front_page": false,
+ "post_type": "page",
+ "document_type": "wp-page",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/testimonials.json"
+  ],
+  "inputs_sha256": "4ac499556daefe4e0c0f5313c8d369fe913ca44ea91654bc352595171fedeb5a",
+  "widgets": [
+   "heading",
+   "text-editor"
+  ],
+  "blocks": {
+   "cook": {
+    "full": {
+     "element": "47d1b9e",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "7041763",
+     "field": "editor"
+    }
+   },
+   "cook.h": {
+    "full": {
+     "element": "b2b4be7",
+     "field": "title"
+    }
+   },
+   "coord": {
+    "full": {
+     "element": "a86dba1",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "cd8d037",
+     "field": "editor"
+    }
+   },
+   "coord.h": {
+    "full": {
+     "element": "a9f3ac8",
+     "field": "title"
+    },
+    "plain": {
+     "element": "bc89510",
+     "field": "title"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "e818efd",
+     "field": "title"
+    }
+   },
+   "mt": {
+    "full": {
+     "element": "7e49be0",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "1fb8a21",
+     "field": "editor"
+    }
+   },
+   "mt.h": {
+    "full": {
+     "element": "3f8315a",
+     "field": "title"
+    }
+   },
+   "ot": {
+    "full": {
+     "element": "1f3b330",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "7864e17",
+     "field": "editor"
+    }
+   },
+   "ot.h": {
+    "full": {
+     "element": "080c6ec",
+     "field": "title"
+    }
+   },
+   "sw": {
+    "full": {
+     "element": "98193e3",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "aa7c40d",
+     "field": "editor"
+    }
+   },
+   "sw.h": {
+    "full": {
+     "element": "f0e7c82",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "b13e81e",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--jobs",
+    "_element_id": "jobs",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "משרות"
+   },
+   "elements": [
+    {
+     "id": "fe7abea",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "e818efd",
+       "elType": "widget",
+       "settings": {
+        "title": "דרושים",
+        "header_size": "h1",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "b82181d",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "כרטיסים"
+       },
+       "elements": [
+        {
+         "id": "818c667",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "custom",
+           "top": "1.5rem",
+           "right": "1.5rem",
+           "bottom": "1.5rem",
+           "left": "1.5rem",
+           "isLinked": true
+          },
+          "padding_mobile": {
+           "unit": "custom",
+           "top": "1.25rem",
+           "right": "1.25rem",
+           "bottom": "1.25rem",
+           "left": "1.25rem",
+           "isLinked": true
+          },
+          "background_background": "classic",
+          "border_radius": {
+           "unit": "px",
+           "top": "16",
+           "right": "16",
+           "bottom": "16",
+           "left": "16",
+           "isLinked": true
+          },
+          "box_shadow_box_shadow_type": "yes",
+          "box_shadow_box_shadow": {
+           "horizontal": 0,
+           "vertical": 8,
+           "blur": 24,
+           "spread": -4,
+           "color": "rgba(28, 24, 48, 0.14)"
+          },
+          "css_classes": "nh-page__card",
+          "background_color": "#FFFFFF",
+          "__globals__": {
+           "background_color": "globals/colors?id=3efe2c1"
+          },
+          "_title": "עובדת סוציאלית"
+         },
+         "elements": [
+          {
+           "id": "f0e7c82",
+           "elType": "widget",
+           "settings": {
+            "title": "עובדת סוציאלית",
+            "header_size": "h2",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=fb57358"
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "98193e3",
+           "elType": "widget",
+           "settings": {
+            "editor": "<ul><li>היקף משרה הינו 50%-70% משרה עם אפשרות להגדלה ל100% משרה</li><li>לעזור לדייר בתקופת הסתגלותו למסגרת ובעת משבר</li><li>לדאוג לביצוע התוכנית האישית שנבנתה לדייר ולאפשר לדייר לקבל שיחות טיפוליות עם עו\"ס / פסיכולוג בהתאם לצורך</li><li>לקיים קשרים שוטפים בין הדייר למשפחתו או אפוטרופוס</li><li>לקיים קשר בין הדייר למוסדות וארגונים המצויים בקהילה</li><li>לקיים קשר עם רשויות הרווחה אשר טיפלו בדייר טרם השתלבותו במסגרת</li><li>לפעול לצורך השמתו של הדייר בתעסוקה ולעקוב אחרי השתלבותו בה</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "aa7c40d",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>משרה של 50%–70%, ואפשר להגדיל עד 100%.</p><p>מה עושים:</p><ul><li>עוזרים לדייר כשהוא מגיע למעון, וגם בזמן קשה.</li><li>דואגים שהדייר יקבל את מה שתוכנן לו, וגם שיחות עם עובד סוציאלי או פסיכולוג.</li><li>שומרים על קשר עם המשפחה או עם האפוטרופוס.</li><li>שומרים על קשר עם מקומות בקהילה ועם הרווחה.</li><li>עוזרים לדייר למצוא עבודה ומלווים אותו בה.</li></ul><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "be8bfa0",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "custom",
+           "top": "1.5rem",
+           "right": "1.5rem",
+           "bottom": "1.5rem",
+           "left": "1.5rem",
+           "isLinked": true
+          },
+          "padding_mobile": {
+           "unit": "custom",
+           "top": "1.25rem",
+           "right": "1.25rem",
+           "bottom": "1.25rem",
+           "left": "1.25rem",
+           "isLinked": true
+          },
+          "background_background": "classic",
+          "border_radius": {
+           "unit": "px",
+           "top": "16",
+           "right": "16",
+           "bottom": "16",
+           "left": "16",
+           "isLinked": true
+          },
+          "box_shadow_box_shadow_type": "yes",
+          "box_shadow_box_shadow": {
+           "horizontal": 0,
+           "vertical": 8,
+           "blur": 24,
+           "spread": -4,
+           "color": "rgba(28, 24, 48, 0.14)"
+          },
+          "css_classes": "nh-page__card",
+          "background_color": "#FFFFFF",
+          "__globals__": {
+           "background_color": "globals/colors?id=3efe2c1"
+          },
+          "_title": "מרפא בעיסוק"
+         },
+         "elements": [
+          {
+           "id": "080c6ec",
+           "elType": "widget",
+           "settings": {
+            "title": "מרפא בעיסוק",
+            "header_size": "h2",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=fb57358"
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "1f3b330",
+           "elType": "widget",
+           "settings": {
+            "editor": "<ul><li>היקף משרה - 6 שעות שבועיות</li><li>תיאור תפקיד: בניית תכניות אישיות לקידום הדיירים ברמה פרטנית וקבוצתית, ליווי והדרכת הצוות הטיפולי בתחום המקצועי שלו, עבודה ישירה עם הדיירים.</li><li>דרישות השכלה: תואר אקדמי ראשון לפחות ריפוי בעיסוק ותעודת מקצוע מטעם משרד הבריאות</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "7864e17",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>משרה של 6 שעות בשבוע.</p><p>מה עושים: בונים תכניות שעוזרות לדיירים להתקדם, לבד ובקבוצה. מדריכים את הצוות ועובדים עם הדיירים.</p><p>מה צריך: תואר בריפוי בעיסוק ותעודה ממשרד הבריאות.</p><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "2fec9b4",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "custom",
+           "top": "1.5rem",
+           "right": "1.5rem",
+           "bottom": "1.5rem",
+           "left": "1.5rem",
+           "isLinked": true
+          },
+          "padding_mobile": {
+           "unit": "custom",
+           "top": "1.25rem",
+           "right": "1.25rem",
+           "bottom": "1.25rem",
+           "left": "1.25rem",
+           "isLinked": true
+          },
+          "background_background": "classic",
+          "border_radius": {
+           "unit": "px",
+           "top": "16",
+           "right": "16",
+           "bottom": "16",
+           "left": "16",
+           "isLinked": true
+          },
+          "box_shadow_box_shadow_type": "yes",
+          "box_shadow_box_shadow": {
+           "horizontal": 0,
+           "vertical": 8,
+           "blur": 24,
+           "spread": -4,
+           "color": "rgba(28, 24, 48, 0.14)"
+          },
+          "css_classes": "nh-page__card",
+          "background_color": "#FFFFFF",
+          "__globals__": {
+           "background_color": "globals/colors?id=3efe2c1"
+          },
+          "_title": "עובד אחזקה"
+         },
+         "elements": [
+          {
+           "id": "3f8315a",
+           "elType": "widget",
+           "settings": {
+            "title": "עובד אחזקה",
+            "header_size": "h2",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=fb57358"
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "7e49be0",
+           "elType": "widget",
+           "settings": {
+            "editor": "<ul><li>היקף משרה - משרה מלאה 5 ימים בשבוע</li><li>תיאור תפקיד: ניקיון, תחזוקה וכיו\"ב.</li><li>ניסיון: ידע והבנה טכנאית עדיפות לבעלי תעודות מקצועיות.</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר מטעמי נוחות.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "1fb8a21",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>משרה מלאה, 5 ימים בשבוע.</p><p>מה עושים: ניקיון ותחזוקה.</p><p>מה צריך: ידע טכני. יש עדיפות למי שיש לו תעודה מקצועית.</p><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "1499603",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "custom",
+           "top": "1.5rem",
+           "right": "1.5rem",
+           "bottom": "1.5rem",
+           "left": "1.5rem",
+           "isLinked": true
+          },
+          "padding_mobile": {
+           "unit": "custom",
+           "top": "1.25rem",
+           "right": "1.25rem",
+           "bottom": "1.25rem",
+           "left": "1.25rem",
+           "isLinked": true
+          },
+          "background_background": "classic",
+          "border_radius": {
+           "unit": "px",
+           "top": "16",
+           "right": "16",
+           "bottom": "16",
+           "left": "16",
+           "isLinked": true
+          },
+          "box_shadow_box_shadow_type": "yes",
+          "box_shadow_box_shadow": {
+           "horizontal": 0,
+           "vertical": 8,
+           "blur": 24,
+           "spread": -4,
+           "color": "rgba(28, 24, 48, 0.14)"
+          },
+          "css_classes": "nh-page__card",
+          "background_color": "#FFFFFF",
+          "__globals__": {
+           "background_color": "globals/colors?id=3efe2c1"
+          },
+          "_title": "טבח"
+         },
+         "elements": [
+          {
+           "id": "b2b4be7",
+           "elType": "widget",
+           "settings": {
+            "title": "טבח",
+            "header_size": "h2",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=fb57358"
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "47d1b9e",
+           "elType": "widget",
+           "settings": {
+            "editor": "<ul><li>היקף משרה - משרה מלאה 6 ימים בשבוע</li><li>משמרת בוקר 07:00 -14:30 משמרת ערב 12:00-19:00</li><li>עבודה גם בשבתות וחגים.</li><li>המטבח מבשל כ-200 מנות ביום.</li><li>חובה ניסיון במטבח מוסדי כטבח או עוזר טבח.</li><li>עדיפות תינתן לבעלי תעודות מקצועיות.</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "7041763",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>משרה מלאה, 6 ימים בשבוע.</p><p>משמרת בוקר 07:00–14:30, משמרת ערב 12:00–19:00. עובדים גם בשבת ובחגים.</p><p>במטבח מבשלים כ-200 מנות ביום.</p><p>מה צריך: ניסיון במטבח גדול, כטבח או עוזר טבח. יש עדיפות למי שיש לו תעודה מקצועית.</p><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "3eeb66e",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "custom",
+           "top": "1.5rem",
+           "right": "1.5rem",
+           "bottom": "1.5rem",
+           "left": "1.5rem",
+           "isLinked": true
+          },
+          "padding_mobile": {
+           "unit": "custom",
+           "top": "1.25rem",
+           "right": "1.25rem",
+           "bottom": "1.25rem",
+           "left": "1.25rem",
+           "isLinked": true
+          },
+          "background_background": "classic",
+          "border_radius": {
+           "unit": "px",
+           "top": "16",
+           "right": "16",
+           "bottom": "16",
+           "left": "16",
+           "isLinked": true
+          },
+          "box_shadow_box_shadow_type": "yes",
+          "box_shadow_box_shadow": {
+           "horizontal": 0,
+           "vertical": 8,
+           "blur": 24,
+           "spread": -4,
+           "color": "rgba(28, 24, 48, 0.14)"
+          },
+          "css_classes": "nh-page__card",
+          "background_color": "#FFFFFF",
+          "__globals__": {
+           "background_color": "globals/colors?id=3efe2c1"
+          },
+          "_title": "דרושה רכזת דירה לדיור בקהילה – תחום האוטיזם"
+         },
+         "elements": [
+          {
+           "id": "a9f3ac8",
+           "elType": "widget",
+           "settings": {
+            "title": "דרושה רכזת דירה לדיור בקהילה – תחום האוטיזם",
+            "header_size": "h2",
+            "_css_classes": "nh-full",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=fb57358"
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "bc89510",
+           "elType": "widget",
+           "settings": {
+            "title": "רכזת לבית בקהילה – תחום האוטיזם",
+            "header_size": "h2",
+            "_css_classes": "nh-plain",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=fb57358"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "a86dba1",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p><strong>מחפשים עבודה עם משמעות אמיתית? הצטרפו אלינו!</strong></p><p><span aria-hidden=\"true\">📍 </span>מיקום: נס ציונה</p><p><span aria-hidden=\"true\">🕒 </span>היקף משרה: מלאה (עבודה במשמרות)</p><p><strong>התפקיד:</strong></p><p>הזדמנות לקחת חלק בעשייה משמעותית, ללוות אנשים על הספקטרום האוטיסטי בחיי היומיום שלהם, ולהוביל בית חם, תומך ומקדם.</p><p><strong>תחומי אחריות:</strong></p><ul><li>ליווי ותמיכה בדיירים בשגרה היומיומית</li><li>אחריות על בטיחות ורווחת הדיירים</li><li>ניהול שוטף של הבית והדירה</li><li>הובלת תוכניות קידום אישיות ופעילויות פנאי</li><li>ניהול מלאי (מזון, ציוד, לבוש ועוד)</li><li>מעקב אחר תיק רפואי (תרופות, תורים)</li><li>קשר עם משפחות ובית הספר</li><li>עבודה בצוות מקצועי ותומך</li></ul><p><strong>מה אנחנו מחפשים:</strong></p><ul><li>ניסיון בעבודה עם אנשים על רצף האוטיזם– יתרון</li><li>אחריות, סדר ויכולת הובלת צוות מדרכים</li><li>גישה שיקומית, סבלנות ויחסי אנוש מצוינים</li><li>יכולת עבודה בריבוי משימות</li><li>נכונות לעבודה במשמרות</li></ul><p><strong>למה אצלנו?</strong></p><ul><li>עבודה עם משמעות והשפעה אמיתית</li><li>צוות חם ומשפחתי</li><li>אפשרויות להתפתחות מקצועית</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "cd8d037",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>מחפשים רכזת לבית בקהילה של אנשים על הרצף האוטיסטי, בנס ציונה. משרה מלאה, במשמרות.</p><p>מה עושים: מלווים את הדיירים בכל יום, שומרים על הבטיחות שלהם, מנהלים את הבית, את הקניות ואת התיק הרפואי, ומדברים עם המשפחות ועם בית הספר.</p><p>מה צריך: אחריות, סדר, סבלנות, יחס טוב לאנשים, ויכולת להוביל צוות. ניסיון עם אנשים על הרצף – יתרון.</p><p>מה מקבלים: עבודה עם משמעות, צוות חם ואפשרות להתפתח.</p><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

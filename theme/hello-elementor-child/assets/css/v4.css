@@ -1482,6 +1482,13 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
   .elementor-widget-text-editor.nh-table td { padding: .125rem 0; border: 0; }
   .elementor-widget-text-editor.nh-table td::before { content: attr(data-label) ": "; font-weight: 700; }
 }
+/* 1.5.1: a grid of photos (the products of «גלריית מוצרים למכירה»): even square tiles, the caption (the product and
+   its price) under each; a flyer (nh-product--whole) whole, never cropped */
+.elementor-widget-image.nh-product img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 12px; }
+.elementor-widget-image.nh-product.nh-product--whole img { aspect-ratio: auto; object-fit: contain; }
+.elementor-widget-image.nh-product figure { margin: 0; }
+.elementor-widget-image.nh-product .widget-image-caption { margin: .5rem 0 0; font-size: 1rem; line-height: 1.4; color: #1F2421; text-align: start; }
+.elementor-widget-image.nh-product a:focus-visible { display: block; outline: 3px solid #4A2D84; outline-offset: 3px; border-radius: 12px; }
 /* the click-to-load map: the text and the button until a click (v4.js 8), then Google's frame */
 .nh-map { display: flex; flex-direction: column; gap: .75rem; }
 .nh-map__text, .nh-map__actions { margin: 0; }

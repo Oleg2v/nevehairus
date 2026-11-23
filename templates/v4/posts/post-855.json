@@ -1,0 +1,1157 @@
+{
+ "key": "post-855",
+ "title": "סוגי דיור לאנשים שסובלים מפיגור שכלי",
+ "slug": "מוסדות-לסובלים-מפיגור-שכלי-קשה-ועמוק",
+ "parent": null,
+ "front_page": false,
+ "post_type": "post",
+ "document_type": "wp-post",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/accessibility.json",
+   "content/v4/pages/archive.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/gallery.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/news.json",
+   "content/v4/pages/privacy.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/sitemap.json",
+   "content/v4/pages/testimonials.json",
+   "content/v4/posts/post-1017.json",
+   "content/v4/posts/post-1039.json",
+   "content/v4/posts/post-1041.json",
+   "content/v4/posts/post-1045.json",
+   "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-1055.json",
+   "content/v4/posts/post-1059.json",
+   "content/v4/posts/post-1061.json",
+   "content/v4/posts/post-1217.json",
+   "content/v4/posts/post-1227.json",
+   "content/v4/posts/post-1234.json",
+   "content/v4/posts/post-478.json",
+   "content/v4/posts/post-484.json",
+   "content/v4/posts/post-498.json",
+   "content/v4/posts/post-546.json",
+   "content/v4/posts/post-855.json",
+   "content/v4/posts/post-971.json",
+   "content/v4/posts/post-973.json",
+   "content/v4/posts/post-997.json"
+  ],
+  "inputs_sha256": "812e453082b65cd05437a3b45ca288ed8c87dee73343e8b31deab65f38f7b3cd",
+  "widgets": [
+   "heading",
+   "image",
+   "text-editor"
+  ],
+  "blocks": {
+   "community": {
+    "full": {
+     "element": "6f76c67",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "acc7c7a",
+     "field": "editor"
+    }
+   },
+   "community.h": {
+    "full": {
+     "element": "24fea4d",
+     "field": "title"
+    },
+    "plain": {
+     "element": "096cdf3",
+     "field": "title"
+    }
+   },
+   "goals": {
+    "full": {
+     "element": "d09d5f1",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "07f1518",
+     "field": "editor"
+    }
+   },
+   "goals.h": {
+    "full": {
+     "element": "75664a2",
+     "field": "title"
+    },
+    "plain": {
+     "element": "eea50fa",
+     "field": "title"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "5f674f8",
+     "field": "title"
+    },
+    "plain": {
+     "element": "94d57ff",
+     "field": "title"
+    }
+   },
+   "intro": {
+    "full": {
+     "element": "94ce966",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "5595ba2",
+     "field": "editor"
+    }
+   },
+   "options": {
+    "full": {
+     "element": "eaef8cd",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "a8d73fb",
+     "field": "editor"
+    }
+   },
+   "options.h": {
+    "full": {
+     "element": "8bc7b95",
+     "field": "title"
+    },
+    "plain": {
+     "element": "3e8f087",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "4439f4e",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--intro",
+    "_element_id": "intro",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "סוגי דיור לאנשים שסובלים מפיגור שכלי"
+   },
+   "elements": [
+    {
+     "id": "70c7023",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "5f674f8",
+       "elType": "widget",
+       "settings": {
+        "title": "סוגי דיור לאנשים שסובלים מפיגור שכלי",
+        "header_size": "h1",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "94d57ff",
+       "elType": "widget",
+       "settings": {
+        "title": "סוגי דיור לאנשים עם מוגבלות שכלית",
+        "header_size": "h1",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "f7fb6a2",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "start",
+        "_title": "טקסט ותמונה"
+       },
+       "elements": [
+        {
+         "id": "da39b68",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "94ce966",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p><strong>לא כולם נולדו שווה. יש בקרבנו אנשים שנולדו עם מוגבלויות וזקוקים לתמיכה כל חייהם. בשל כך הוקמו יחידות מגוונות ותומכות בכל רחבי הארץ ומוסדות לסובלים מפיגור שכלי קשה ועמוק בכל רמה, מהרמות הנמוכות עד לרמות הגבוהות והקשות. כל דיור שתומך באנשים אלו, מלווה באמצעות עמותה ציבורית כזו או אחרת או על ידי עמותה פרטית שמשרד הרווחה בחר בהן.</strong></p><p>על מנת לשבץ באופן הכי נכון את כל המטופלים שסובלים מפיגור, יש ועדות שהוקמו עבור זה ממש, שמתאימות לכל אדם את המקום והמסגרת הכי מתאימה לו, זאת בהתחשבות ברמות מסוגלות שלו ובתפקוד שלו ביום יום, לפי שיקולי גיל וגם בהתחשבות רצונותיה של המשפחה התומכת.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "5595ba2",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>יש אנשים שנולדים עם מוגבלות, וצריכים תמיכה כל החיים.</p><p>לכן בכל הארץ יש מקומות מגורים שונים שתומכים בהם. יש מקומות לאנשים עם מוגבלות שכלית קלה. ויש מקומות לאנשים עם מוגבלות שכלית קשה מאוד.</p><p>עמותה מלווה כל מקום מגורים כזה. משרד הרווחה בוחר את העמותות.</p><p>יש ועדות שמחליטות איפה כל אדם יגור. הן בוחרות בשבילו את המקום שהכי מתאים לו. הן בודקות מה הוא יכול לעשות ואיך הוא מסתדר בכל יום. הן בודקות גם בן כמה הוא, ומה המשפחה שלו רוצה.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "b1acf10",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-90",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "large",
+          "_css_classes": "nh-page__img",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "089cbde",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--goals",
+    "_element_id": "goals",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מטרות הטיפול במסגרות"
+   },
+   "elements": [
+    {
+     "id": "64bec6d",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "a7b8f88",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "start",
+        "_title": "טקסט ותמונה"
+       },
+       "elements": [
+        {
+         "id": "8881e6b",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "75664a2",
+           "elType": "widget",
+           "settings": {
+            "title": "מטרות הטיפול במסגרות",
+            "header_size": "h2",
+            "_css_classes": "nh-full",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=603f9ca"
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "eea50fa",
+           "elType": "widget",
+           "settings": {
+            "title": "מה המטרות של הטיפול?",
+            "header_size": "h2",
+            "_css_classes": "nh-plain",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=603f9ca"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "d09d5f1",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>כל המוסדות לסובלים מפיגור שכלי קשה ועמוק יעניקו תמיכה מכל סוג בצורה הכי אישית על מנת לאפשר לו לחיות את חייו באיכות הכי גבוהה ועם כמה שיותר תחושת עצמאית, זאת בהתאם לרמת המוגבלות של כל דייר ודייר. הדיור הזה משמש את הדיירים לביתם האישי, כששאר האנשים בו הם למעשה המשפחה הנוספת של הדייר, אך עדיין קיימת שמירה על פרטיות הדייר כשהעובדים והמטפלים במקום שומרים גם על בריאותו, על ביטחונו ודואגים לרווחתו הכללית.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "07f1518",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>מקומות המגורים נותנים לכל דייר תמיכה אישית, לפי המוגבלות שלו. המטרה: שיחיה חיים טובים, ושירגיש עצמאי ככל האפשר.</p><p>המקום הוא הבית של הדיירים. האנשים שגרים בו הם כמו משפחה נוספת. ובכל זאת, שומרים על הפרטיות של כל דייר.</p><p>העובדים והמטפלים שומרים על הבריאות של הדיירים ועל הביטחון שלהם. הם דואגים שיהיה להם טוב.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "d178e74",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-638",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "large",
+          "_css_classes": "nh-page__img",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "4e07679",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--community",
+    "_element_id": "community",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "להיטמע בקהילה"
+   },
+   "elements": [
+    {
+     "id": "9e28dd4",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "5482fae",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "24fea4d",
+         "elType": "widget",
+         "settings": {
+          "title": "להיטמע בקהילה",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "096cdf3",
+         "elType": "widget",
+         "settings": {
+          "title": "לגור בתוך הקהילה",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "6f76c67",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>יש מצבים בהם המטופלים משתלבים בקהילה בבתים פרטיים או בבניין דירות ועדיין מצליחים לקבל את כל שירותי הקהילה לצד עזרה תמיכה. משרד הרווחה ראה לנכון להקצות יחידות זעירות שנמצאות בלב הקהילה על מנת שהאדם יצליח להרגיש ככל אדם ובמטרה לתורם לקהילה כמו כל אדם נורמטיבי אחר.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "acc7c7a",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>יש אנשים עם מוגבלות שגרים בתוך הקהילה: בבית רגיל או בבניין של דירות. הם מקבלים את כל השירותים של הקהילה, וגם עזרה ותמיכה.</p><p>משרד הרווחה פתח מקומות מגורים קטנים בתוך הקהילה. כך כל אדם יכול להרגיש כמו כולם, ולתרום לקהילה כמו כולם.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "ed9c1f3",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--options",
+    "_element_id": "options",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "ליחידות של דיור כזה בקרב הקהילה יש שתי אופציות"
+   },
+   "elements": [
+    {
+     "id": "44bda3c",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "5588e56",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "8bc7b95",
+         "elType": "widget",
+         "settings": {
+          "title": "ליחידות של דיור כזה בקרב הקהילה יש שתי אופציות",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "3e8f087",
+         "elType": "widget",
+         "settings": {
+          "title": "סוגי הדיור בקהילה",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "eaef8cd",
+         "elType": "widget",
+         "settings": {
+          "editor": "<ul><li><strong>דירה בבניין</strong> – דירה שבה גרים עד שישה אנשים שסובלים מפיגור שכלי שרמת הפיגור ברמה שמאפשרת להם לחיות עצמאי, יש מדריך שהוא תומך שנמצא בכל דירה ומסייע להם לניהול חייהם. הם יוצאים לעבודה, הולכים לפעילויות שונות וקונים לעצמם את כל המצרכים להם הם זקוקים ביום יום כמו לבוש, מזון וכו’.</li><li><strong>בית קבוצתי</strong> – אותו רעיון כמו הדירה לעיל, אך מדובר בבתים גדולים יותר שמכילים מעל ל12 איש. גם כאן הם מקבלים תמיכה בניהול של חייהם.</li><li><strong>הוסטל</strong> – גם כאן מדובר ביחידות יחסית גדולות שיכולות להכיל עד 24 איש בכל מיני רמות של פיגור, כשהתמיכה ניתנת לכל אחד באופן אישי לפי רמת הפיגור השכלי שהוא סובל ממנה.</li><li><strong>מערך דיור</strong> – מדובר בצורת דיור שתומכת והיא כוללת מספר של יחידות מכל מינים סוגים, מה שמאפשר להעביר את הדיירים מסגנון דיור אחד לשני בהתאם לשינוי או לשיפור שחלו בהם, ולעשות זאת בצורה הדרגתית על מנת שזה לא יצור משברים.</li></ul><p><strong>קרא עוד:</strong> <a href=\"@home:/מעון-ראשי-בית-לחיים/סנטוריום/\">סנטוריום</a> | <a href=\"@home:/מעון-ראשי-בית-לחיים/אבחנה-כפולה/\">אבחנה כפולה</a></p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "a8d73fb",
+         "elType": "widget",
+         "settings": {
+          "editor": "<ul><li><strong>דירה בבניין:</strong> בדירה גרים עד 6 אנשים, שיכולים לחיות באופן עצמאי. בכל דירה יש מדריך שעוזר להם לנהל את החיים. הם יוצאים לעבודה ולפעילויות, וקונים לעצמם מה שהם צריכים, כמו בגדים ואוכל.</li><li><strong>בית קבוצתי:</strong> כמו דירה, אבל בבית גדול יותר. גרים בו יותר מ-12 אנשים. גם כאן הם מקבלים עזרה לנהל את החיים.</li><li><strong>הוסטל:</strong> מקום גדול יחסית. גרים בו עד 24 אנשים, עם מוגבלות קלה או קשה. כל אחד מקבל תמיכה אישית, לפי מה שהוא צריך.</li><li><strong>מערך דיור:</strong> כמה סוגים של מקומות מגורים ביחד. כשדייר משתנה או מתקדם, הוא יכול לעבור לסוג אחר של דיור. המעבר נעשה לאט, כדי שלא יהיה לו קשה.</li></ul><p><strong>לקריאה נוספת:</strong> <a href=\"@home:/מעון-ראשי-בית-לחיים/סנטוריום/\">סנטוריום</a> | <a href=\"@home:/מעון-ראשי-בית-לחיים/אבחנה-כפולה/\">אבחנה כפולה</a></p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ],
+ "post": {
+  "date": "2018-05-10T14:23:02",
+  "categories": [
+   {
+    "name": "ספרים ומאמרים",
+    "slug": "ספרים-ומאמרים"
+   }
+  ],
+  "featured": {
+   "url": "",
+   "id": "@media:live-90",
+   "size": "",
+   "alt": "",
+   "source": "library"
+  },
+  "excerpt": "לא כולם נולדו שווה. יש בקרבנו אנשים שנולדו עם מוגבלויות וזקוקים לתמיכה כל חייהם. בשל כך הוקמו יחידות מגוונות ותומכות בכל רחבי הארץ ומוסדות לסובלים מפיגור שכלי קשה ועמוק בכל…"
+ }
+}

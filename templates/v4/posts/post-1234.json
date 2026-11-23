@@ -1,0 +1,317 @@
+{
+ "key": "post-1234",
+ "title": "פסק דין נגד דימה פלקוביץ טוזלוב בגין הוצאת דיבה",
+ "slug": "הוצאת-דיבה-על-נווה-האירוס",
+ "parent": null,
+ "front_page": false,
+ "post_type": "post",
+ "document_type": "wp-post",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/accessibility.json",
+   "content/v4/pages/archive.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/gallery.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/news.json",
+   "content/v4/pages/privacy.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/sitemap.json",
+   "content/v4/pages/testimonials.json",
+   "content/v4/posts/post-1017.json",
+   "content/v4/posts/post-1039.json",
+   "content/v4/posts/post-1041.json",
+   "content/v4/posts/post-1045.json",
+   "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-1055.json",
+   "content/v4/posts/post-1059.json",
+   "content/v4/posts/post-1061.json",
+   "content/v4/posts/post-1217.json",
+   "content/v4/posts/post-1227.json",
+   "content/v4/posts/post-1234.json",
+   "content/v4/posts/post-478.json",
+   "content/v4/posts/post-484.json",
+   "content/v4/posts/post-498.json",
+   "content/v4/posts/post-546.json",
+   "content/v4/posts/post-855.json",
+   "content/v4/posts/post-971.json",
+   "content/v4/posts/post-973.json",
+   "content/v4/posts/post-997.json"
+  ],
+  "inputs_sha256": "812e453082b65cd05437a3b45ca288ed8c87dee73343e8b31deab65f38f7b3cd",
+  "widgets": [
+   "heading",
+   "text-editor"
+  ],
+  "blocks": {
+   "h1": {
+    "full": {
+     "element": "66908fe",
+     "field": "title"
+    },
+    "plain": {
+     "element": "353cddf",
+     "field": "title"
+    }
+   },
+   "ruling": {
+    "full": {
+     "element": "d8a6ef3",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "c674302",
+     "field": "editor"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "5fed221",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--ruling",
+    "_element_id": "ruling",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "פסק דין נגד דימה פלקוביץ טוזלוב בגין הוצאת דיבה"
+   },
+   "elements": [
+    {
+     "id": "f79be9f",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "66908fe",
+       "elType": "widget",
+       "settings": {
+        "title": "פסק דין נגד דימה פלקוביץ טוזלוב בגין הוצאת דיבה",
+        "header_size": "h1",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "353cddf",
+       "elType": "widget",
+       "settings": {
+        "title": "בית המשפט פסק לטובת נווה האירוס",
+        "header_size": "h1",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "7f123b7",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "d8a6ef3",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>אולי נתקלתם בכתבות לא אוהדות על המוסד האהוב שלנו, נווה האירוס. מקור הכתבות הוא מטפל לשעבר בשם דימה פלקוביץ -טוזלוקוב ,הנוכל פרסם שקרים אודות נווה האירוס, לרבות התעללות מבויימת בחסרי ישע. מעון נוה האירוס אינו הראשון שנופל קורבן לשקרים. עדות לכך ניתן לראות בכתבה הבאה בגין <a href=\"https://posta.co.il/article/%D7%90%D7%99%D7%A9%D7%95%D7%9D-%D7%A2%D7%A7%D7%A5-%D7%A2%D7%A9%D7%A8%D7%95%D7%AA-%D7%90%D7%A0%D7%A9%D7%99%D7%9D-%D7%95%D7%91%D7%AA%D7%99-%D7%A2%D7%A1%D7%A7-%D7%91%D7%99%D7%95%D7%AA%D7%A8-%D7%9E%D7%97/\">דימה פלקוביץ טוזלוקוב</a>.</p><p>במקביל לתביעות הרבות שהוגשו כנגד דימה, גם אנו תבענו אותו באמצעים המשפטיים המקובלים. התביעה שהתבררה בבית המשפט הסתיימה בהחלטה ברורה וחד משמעית ובקביעת בית המשפט נפסקו פיצויים בסך 200,000 ש”ח לטובת מעון נווה האירוס, בנוסף לכך חויב דימה פלקוביץ טוזלוקוב לשלם הוצאות משפט בסך אלפי שקלים.</p><p>פסק הדין בתיק מספר 14283-06-21 מופיע ברשומות הפתוחות באינטרנט.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "c674302",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>אולי ראיתם כתבות לא טובות על נווה האירוס. הכתבות האלה הגיעו ממטפל שעבד במעון בעבר. הוא פרסם שקרים על נווה האירוס.</p><p>תבענו אותו בבית המשפט. בית המשפט החליט לטובת נווה האירוס. בית המשפט קבע שהאיש צריך לשלם למעון 200,000 שקלים. הוא צריך לשלם גם הוצאות משפט של אלפי שקלים.</p><p>אפשר לקרוא את ההחלטה של בית המשפט באינטרנט. מספר התיק: 14283-06-21.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ],
+ "post": {
+  "date": "2021-12-26T11:18:36",
+  "categories": [
+   {
+    "name": "חדשות ועדכונים",
+    "slug": "חדשות-ועדכונים"
+   },
+   {
+    "name": "ספרים ומאמרים",
+    "slug": "ספרים-ומאמרים"
+   }
+  ],
+  "featured": null,
+  "excerpt": "אולי נתקלתם בכתבות לא אוהדות על המוסד האהוב שלנו, נווה האירוס. מקור הכתבות הוא מטפל לשעבר בשם דימה פלקוביץ -טוזלוקוב ,הנוכל פרסם שקרים אודות נווה האירוס, לרבות התעללות מבויימת בחסרי…"
+ }
+}

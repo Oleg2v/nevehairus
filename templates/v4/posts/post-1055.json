@@ -1,0 +1,858 @@
+{
+ "key": "post-1055",
+ "title": "דיור תומך לאנשים עם פיגור שכלי",
+ "slug": "דיור-תומך-לאנשים-עם-פיגור-שכלי",
+ "parent": null,
+ "front_page": false,
+ "post_type": "post",
+ "document_type": "wp-post",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/accessibility.json",
+   "content/v4/pages/archive.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/gallery.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/news.json",
+   "content/v4/pages/privacy.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/sitemap.json",
+   "content/v4/pages/testimonials.json",
+   "content/v4/posts/post-1017.json",
+   "content/v4/posts/post-1039.json",
+   "content/v4/posts/post-1041.json",
+   "content/v4/posts/post-1045.json",
+   "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-1055.json",
+   "content/v4/posts/post-1059.json",
+   "content/v4/posts/post-1061.json",
+   "content/v4/posts/post-1217.json",
+   "content/v4/posts/post-1227.json",
+   "content/v4/posts/post-1234.json",
+   "content/v4/posts/post-478.json",
+   "content/v4/posts/post-484.json",
+   "content/v4/posts/post-498.json",
+   "content/v4/posts/post-546.json",
+   "content/v4/posts/post-855.json",
+   "content/v4/posts/post-971.json",
+   "content/v4/posts/post-973.json",
+   "content/v4/posts/post-997.json"
+  ],
+  "inputs_sha256": "812e453082b65cd05437a3b45ca288ed8c87dee73343e8b31deab65f38f7b3cd",
+  "widgets": [
+   "heading",
+   "image",
+   "text-editor"
+  ],
+  "blocks": {
+   "community": {
+    "full": {
+     "element": "8c9de86",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "5282990",
+     "field": "editor"
+    }
+   },
+   "community.h": {
+    "full": {
+     "element": "8fdd2b1",
+     "field": "title"
+    },
+    "plain": {
+     "element": "c626e51",
+     "field": "title"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "0752021",
+     "field": "title"
+    },
+    "plain": {
+     "element": "649501c",
+     "field": "title"
+    }
+   },
+   "intro": {
+    "full": {
+     "element": "4b30412",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "af607f8",
+     "field": "editor"
+    }
+   },
+   "what": {
+    "full": {
+     "element": "94a8fc5",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "8def694",
+     "field": "editor"
+    }
+   },
+   "what.h": {
+    "full": {
+     "element": "290c7a8",
+     "field": "title"
+    },
+    "plain": {
+     "element": "b7b0560",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "20fa53f",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--intro",
+    "_element_id": "intro",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "דיור תומך לאנשים עם פיגור שכלי"
+   },
+   "elements": [
+    {
+     "id": "7334949",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "0752021",
+       "elType": "widget",
+       "settings": {
+        "title": "דיור תומך לאנשים עם פיגור שכלי",
+        "header_size": "h1",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "649501c",
+       "elType": "widget",
+       "settings": {
+        "title": "דיור תומך לאנשים עם מוגבלות שכלית התפתחותית",
+        "header_size": "h1",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "5b49e24",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "start",
+        "_title": "טקסט ותמונה"
+       },
+       "elements": [
+        {
+         "id": "fa6d35a",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "4b30412",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>רבות הכתבות על דיור מוגן בתוך הקהילה, בהם החוסים אינם מתקבלים בעין יפה בתוך הקהילה הסובבת. לא תמיד “קבלת השונה” יוצאת מתוך הסיסמא הכתובה אל הפועל, מה שמקשה מאד על שילוב בה. לכל אחד בכלל ולאנשים עם פיגור שכלי בפרט, הזכות הבסיסית לחיים בסביבה ובקהילה תומכת, כמו גם להתפתח ולגדול בביטחון פיזי, נפשי ובריאותי.</p><p>זהו הקו המנחה אותנו, בנוה האירוס, בכל הקשור לתמיכה באנשים עם פיגור שכלי, אשר חוסים במעון ואנו עושים מאמצים גדולים ביותר על מנת לאפשר זאת עבורם במסגרות הדיור התומך.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "af607f8",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>יש הרבה כתבות על דיור בתוך הקהילה. הכתבות מספרות שהאנשים שגרים מסביב לא תמיד מקבלים יפה את הדיירים. כך קשה מאוד להשתלב.</p><p>לכל אדם יש זכות לגור בקהילה שתומכת בו. גם לאנשים עם מוגבלות שכלית התפתחותית יש הזכות הזאת. לכל אדם יש זכות לגדול ולהתפתח. לכל אדם מגיע להיות בטוח ובריא, בגוף ובנפש.</p><p>זה מה שמנחה אותנו בנווה האירוס. אנחנו עושים מאמצים גדולים, כדי לתת את כל זה לדיירים שלנו בדיור התומך.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "570c2ca",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1056",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "large",
+          "_css_classes": "nh-page__img",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "830b4c4",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--what",
+    "_element_id": "what",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "דיור תומך – מה פירוש?"
+   },
+   "elements": [
+    {
+     "id": "ca4eca3",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "c38edd7",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "290c7a8",
+         "elType": "widget",
+         "settings": {
+          "title": "דיור תומך – מה פירוש?",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "b7b0560",
+         "elType": "widget",
+         "settings": {
+          "title": "מה זה דיור תומך?",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "94a8fc5",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>דיור תומך הינו למעשה, מסגרת דיור/ מגורים מוגן בתוך הקהילה, אשר מתוכננת לאפשר לחוסה להתפתח תפקודית באופן כזה בו יוכל לתפקד באופן עצמאי בקהילה וזאת תוך עידוד ותמיכה בו.</p><p>מסגרת הדיור התומך, אינה מהווה רק בית פיזי עבור הדיירים, אלא בית לכל דבר ועניין, בו מתקיימת שגרת מגורים יומיומית ולכל אחד מהדיירים ישנה תכנית השתלבות מותאמת לגילו ולמצב תפקודו, כאשר צוות המטפלים אחראי על יישומה באופן בו יוכל הדייר לקיים שגרת חיים “רגילה” ככל הניתן.</p><p>יחידות הדיור התומך חייבות להתאים גם לצרכים הפיזיים המיוחדים של הדיירים, בין אם בעניין הנגשה לכיסאות גלגלים/ נכויות פיזיות אחרות, המחייבות התאמה מראש ובעיקר דאגה לביטחונם.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "8def694",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>דיור תומך הוא בית מוגן בתוך הקהילה. בבית הזה הדייר לומד להסתדר לבד בקהילה. הצוות מעודד אותו ותומך בו.</p><p>זה לא רק מקום לגור בו. זה בית אמיתי, עם סדר יום רגיל.</p><p>לכל דייר יש תכנית משלו, שעוזרת לו להשתלב. התכנית מתאימה לגיל שלו ולמה שהוא יכול לעשות. הצוות עוזר לדייר לחיות חיים רגילים, כמה שאפשר.</p><p>הבית צריך להתאים גם לצרכים של הגוף. למשל, צריך שאפשר יהיה לנוע בו בכיסא גלגלים. והכי חשוב: לדאוג שהדיירים יהיו בטוחים.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "9b49cd4",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--community",
+    "_element_id": "community",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "אנשים עם פיגור שכלי – תמיכה מתוך הקהילה"
+   },
+   "elements": [
+    {
+     "id": "46f2cfe",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "0c27023",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "8fdd2b1",
+         "elType": "widget",
+         "settings": {
+          "title": "אנשים עם פיגור שכלי – תמיכה מתוך הקהילה",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "c626e51",
+         "elType": "widget",
+         "settings": {
+          "title": "תמיכה בתוך הקהילה",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "8c9de86",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>בנוה האירוס חוסים אנשים עם פיגור שכלי, אשר מקבלים מענה ומעטפת כוללת, המאפשרת להם להשתלב בחברה, תוך שימת דגש על שיתוף משפחותיהם באופן פעיל ורציף.</p><p>במעון פועלים הצוותים השונים על בסיס תכנית עבודה המסייעת לשלב אנשים עם פיגור שכלי במסגרת הקהילה הקרובה, בתחומי התעסוקה, תרבות ופנאי וזאת תוך ליווי מותאם, הדרכה ותמיכה.</p><p>דיור תומך לאנשים עם פיגור שכלי, מדגיש את מימוש זכותם של החוסים, להשתלב בחברה/ בקהילה, כל אחד עפ”י יכולותיו וצרכיו. המגורים בקהילה, מאפשרים מפגש רציף ויומיומי עם הסביבה הרגילה ושגרת היומיום ומכינה את החוסים להשתלבות טבעית יותר בקהילה, כמו גם היכרות של הקהילה את החוסים, הסרת המחסומים והדעות הקדומות, כך שנוצר מעגל תמיכה כולל המגביר את סיכויי הצלחת השילוב בה וזו למעשה, המטרה החשובה ביותר!</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "5282990",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>בנווה האירוס גרים אנשים עם מוגבלות שכלית התפתחותית. הם מקבלים כאן את כל העזרה שהם צריכים, כדי להשתלב בחברה. המשפחות שלהם משתתפות כל הזמן.</p><p>הצוותים במעון עובדים לפי תכנית. התכנית עוזרת לדיירים להשתלב בקהילה הקרובה: בעבודה, בתרבות ובשעות הפנאי. הצוות מלווה את הדיירים, מדריך אותם ותומך בהם.</p><p>לכל דייר יש זכות להשתלב בקהילה, לפי מה שהוא יכול ולפי מה שהוא צריך.</p><p>כשגרים בקהילה, פוגשים כל יום אנשים ומקומות רגילים. כך הדיירים מתרגלים לחיים בקהילה. גם האנשים בקהילה מכירים את הדיירים. כך יש פחות מחסומים ופחות דעות קדומות.</p><p>כשכולם תומכים, קל יותר להשתלב בקהילה. זו המטרה הכי חשובה.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ],
+ "post": {
+  "date": "2019-01-21T11:01:05",
+  "categories": [
+   {
+    "name": "ספרים ומאמרים",
+    "slug": "ספרים-ומאמרים"
+   }
+  ],
+  "featured": {
+   "url": "",
+   "id": "@media:live-1056",
+   "size": "",
+   "alt": "",
+   "source": "library"
+  },
+  "excerpt": "רבות הכתבות על דיור מוגן בתוך הקהילה, בהם החוסים אינם מתקבלים בעין יפה בתוך הקהילה הסובבת. לא תמיד “קבלת השונה” יוצאת מתוך הסיסמא הכתובה אל הפועל, מה שמקשה מאד על…"
+ }
+}

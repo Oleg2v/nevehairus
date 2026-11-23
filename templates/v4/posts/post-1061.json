@@ -1,0 +1,1097 @@
+{
+ "key": "post-1061",
+ "title": "נוה האירוס- אז, היום ומחר",
+ "slug": "נוה-האירוס-אז-היום-ומחר",
+ "parent": null,
+ "front_page": false,
+ "post_type": "post",
+ "document_type": "wp-post",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/accessibility.json",
+   "content/v4/pages/archive.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/gallery.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/news.json",
+   "content/v4/pages/privacy.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/sitemap.json",
+   "content/v4/pages/testimonials.json",
+   "content/v4/posts/post-1017.json",
+   "content/v4/posts/post-1039.json",
+   "content/v4/posts/post-1041.json",
+   "content/v4/posts/post-1045.json",
+   "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-1055.json",
+   "content/v4/posts/post-1059.json",
+   "content/v4/posts/post-1061.json",
+   "content/v4/posts/post-1217.json",
+   "content/v4/posts/post-1227.json",
+   "content/v4/posts/post-1234.json",
+   "content/v4/posts/post-478.json",
+   "content/v4/posts/post-484.json",
+   "content/v4/posts/post-498.json",
+   "content/v4/posts/post-546.json",
+   "content/v4/posts/post-855.json",
+   "content/v4/posts/post-971.json",
+   "content/v4/posts/post-973.json",
+   "content/v4/posts/post-997.json"
+  ],
+  "inputs_sha256": "812e453082b65cd05437a3b45ca288ed8c87dee73343e8b31deab65f38f7b3cd",
+  "widgets": [
+   "heading",
+   "image",
+   "text-editor"
+  ],
+  "blocks": {
+   "h1": {
+    "full": {
+     "element": "1ce9531",
+     "field": "title"
+    },
+    "plain": {
+     "element": "228fec9",
+     "field": "title"
+    }
+   },
+   "intro": {
+    "full": {
+     "element": "b331dfa",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "23c780d",
+     "field": "editor"
+    }
+   },
+   "then": {
+    "full": {
+     "element": "c68544f",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "e9f6dca",
+     "field": "editor"
+    }
+   },
+   "then.h": {
+    "full": {
+     "element": "18e4311",
+     "field": "title"
+    },
+    "plain": {
+     "element": "ec1b109",
+     "field": "title"
+    }
+   },
+   "today": {
+    "full": {
+     "element": "e73b5a7",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "f957c6a",
+     "field": "editor"
+    }
+   },
+   "today.h": {
+    "full": {
+     "element": "db58925",
+     "field": "title"
+    },
+    "plain": {
+     "element": "be494c6",
+     "field": "title"
+    }
+   },
+   "tomorrow": {
+    "full": {
+     "element": "55fc9ed",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "7493db4",
+     "field": "editor"
+    }
+   },
+   "tomorrow.h": {
+    "full": {
+     "element": "331848d",
+     "field": "title"
+    },
+    "plain": {
+     "element": "78856bd",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "e02ab10",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--intro",
+    "_element_id": "intro",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "נוה האירוס- אז, היום ומחר"
+   },
+   "elements": [
+    {
+     "id": "adf611e",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "1ce9531",
+       "elType": "widget",
+       "settings": {
+        "title": "נוה האירוס- אז, היום ומחר",
+        "header_size": "h1",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "228fec9",
+       "elType": "widget",
+       "settings": {
+        "title": "נווה האירוס: אז, היום ומחר",
+        "header_size": "h1",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "6ceaa41",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "start",
+        "_title": "טקסט ותמונה"
+       },
+       "elements": [
+        {
+         "id": "d3f6aa6",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "b331dfa",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>להיכנס בשערי נוה האירוס מעלה רגשות מעורבים שכן, מרגע בו עברתי את שער הכניסה, פסעתי דרך חצר קדמית מוריקה, עם פינות ישיבה מוצלות וצמחים יפים שצומחים מסביב, עברו בי המחשבות על האנשים הגרים פה, כמו גם על האנשים האמונים על הטיפול בהם.</p><p>מזה זמן ומאז שקרוב משפחה עבר להתגורר במעון לאנשים עם צרכים מיוחדים, אני מתעניינת במתרחש מאחורי הקלעים של אותם המוסדות ואחת לכמה חודשים, נפגשת עם צוותים/ מנהלים במוסדות כאלו ואחרים ומרגישה את הדופק מקרוב.</p><p>מרגישה כמעין “שליחה” עבור אותם אלו שאין ביכולתם לומר את אשר על ליבם באופן וורבלי או עבור משפחותיהם, אשר הסבל והקושי ניכר על פניהם וגופם ולא תמיד יש בכוחם ובאפשרותם, לדעת מה קורה עם יקירם באותו המעון/ המוסד, בו עבר להתגורר.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "23c780d",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>נכנסתי בשער של נווה האירוס, והרגשתי רגשות מעורבים. עברתי בחצר ירוקה, עם פינות ישיבה בצל וצמחים יפים. חשבתי על האנשים שגרים כאן, ועל האנשים שמטפלים בהם.</p><p>קרוב משפחה שלי עבר לגור במעון לאנשים עם מוגבלות. מאז אני רוצה לדעת מה קורה במעונות. כל כמה חודשים אני נפגשת עם צוותים ומנהלים במעונות שונים.</p><p>אני מרגישה כמו שליחה. אני מדברת בשביל אנשים שקשה להם לספר במילים מה הם מרגישים. אני מדברת גם בשביל המשפחות שלהם.</p><p>למשפחות קשה. הן לא תמיד יודעות מה קורה עם האדם שהן אוהבות.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "730fc5a",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1062",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "large",
+          "_css_classes": "nh-page__img",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "fbd861f",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--then",
+    "_element_id": "then",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "נוה האירוס. אז."
+   },
+   "elements": [
+    {
+     "id": "3e14f64",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "3e28dca",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "18e4311",
+         "elType": "widget",
+         "settings": {
+          "title": "נוה האירוס. אז.",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "ec1b109",
+         "elType": "widget",
+         "settings": {
+          "title": "נווה האירוס בעבר",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "c68544f",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>עובדה “ידועה” היא, כי מעונות/ דיור מוגן לאנשים עם מוגבלויות, הינם מקומות לא פשוטים, שלא לומר- מורכבים, הן מבחינת האנשים המטופלים והן מבחינת הצוותים המטפלים.</p><p>כאן, במאמר זה, אני מבקשת להחריג מאותה העובדה את נוה האירוס, שאינו מתאים או תואם ל”עובדה הידועה” אודות מעונות לאנשים עם מוגבלויות.</p><p>את נוה האירוס “אז”, לא חוויתי, אותו “אז” היה רחוק מאד ממה שרצו שיהיה מייסדיו. הכוונות היו טובות, בכך לא היה ספק, אלא שאלו שהיו אמונים על הפעלתו השוטפת, על כלל הצוותים, הטיפולים, המתקנים והמבנים השונים, לא עמדו בקנה אחד עם האחריות הרבה אשר ניתנה להם ולה היו מחויבים. כל ה”אז” המשיך בשלו, עד שהגיע היום. היום.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "e9f6dca",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>אומרים שמעונות לאנשים עם מוגבלות הם מקומות קשים: קשים לדיירים, וקשים גם לצוות.</p><p>במאמר הזה אני רוצה לספר שנווה האירוס לא כזה.</p><p>לא הכרתי את נווה האירוס של פעם. נווה האירוס של פעם היה רחוק ממה שהמייסדים רצו. הכוונות היו טובות. אבל האנשים שהיו אחראים על המעון לא עשו את העבודה כמו שצריך. הם היו אחראים על הצוות, על הטיפול ועל הבניינים.</p><p>כך היה, עד שהגיע היום.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "18c743b",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--today",
+    "_element_id": "today",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "נוה האירוס. היום."
+   },
+   "elements": [
+    {
+     "id": "e69f6b1",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "f352545",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "db58925",
+         "elType": "widget",
+         "settings": {
+          "title": "נוה האירוס. היום.",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "be494c6",
+         "elType": "widget",
+         "settings": {
+          "title": "נווה האירוס היום",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "e73b5a7",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>על מנת להגיע להישגים יוצאי דופן, יש לעשות שינויים יוצאי דופן, עמוקים ככל שיהיו וכך אני מתרשמת שעשו בנוה האירוס. מתוך הרצון האמתי לשינוי ושיפור, מתוך הכוונה לשקיפות מול משפחות החוסים ומול הגופים האחראיים במשרד הרווחה, נעשתה עבודה יסודית ומקיפה בכל התחומים במעון:</p><ul><li>צוות המטפלים הרפואי.</li><li>צוות המטפלים הפרא-רפואי.</li><li>צוות אנשי המנהלה והתחזוקה (הנהלה, מזכירות, ניקיון וסניטריה)</li><li>מגורי החוסים- שדרוג מבנים קיימים, בניית מבנים חדשים וחדישים.</li><li>חדרי טיפולים חדשניים משודרגים.</li><li>נראות כללית בכל רחבי המעון.</li><li>סדר יום ופעילות פנאי.</li><li>ועוד….</li></ul><p>בכל אחד מתחומים אלו חל שיפור מהפכני ומבורך, מיד עם היכנסו של מנהל המעון החדש, מר דוד אליהו, אשר לא פסח על דבר, הקפיד על תיקונים/ שדרוגים/ העשרה ועוד. החליף צוותים, חיזק את רמות הידע ואיכות הטיפול ובנה מערך אמון הדדי מול ועם משפחות החוסים, כמו גם הקמת וועד הורים אשר מעורב ושותף לכל ההחלטות הנוגעות ליקיריהם אשר חיים בנוה האירוס.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "f957c6a",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>כדי להצליח מאוד, צריך לעשות שינויים גדולים. לדעתי, זה מה שעשו בנווה האירוס.</p><p>במעון רצו באמת לשנות ולשפר. רצו גם לעבוד בגלוי מול המשפחות של הדיירים ומול משרד הרווחה. לכן עשו עבודה גדולה בכל המעון:</p><ul><li>הצוות הרפואי ושאר המטפלים.</li><li>ההנהלה, המזכירות, הניקיון והתחזוקה.</li><li>הבתים של הדיירים: שיפצו בניינים, ובנו בניינים חדשים.</li><li>חדרי טיפול חדשים.</li><li>המראה של כל המעון.</li><li>סדר היום ופעילויות בשעות הפנאי.</li><li>ועוד.</li></ul><p>בכל הדברים האלה היה שיפור גדול. השיפור התחיל כשהגיע למעון מנהל חדש: מר דוד אליהו.</p><p>הוא שם לב לכל דבר. הוא דאג לתיקונים ולשיפורים. הוא החליף צוותים. הוא דאג שהצוות יידע יותר, ושהטיפול יהיה טוב יותר.</p><p>הוא בנה אמון עם המשפחות של הדיירים. הוא גם הקים ועד הורים. ועד ההורים שותף בכל ההחלטות על הדיירים.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "355e1f8",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--tomorrow",
+    "_element_id": "tomorrow",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "נוה האירוס. מחר."
+   },
+   "elements": [
+    {
+     "id": "43b8ccc",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "069c1ae",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "331848d",
+         "elType": "widget",
+         "settings": {
+          "title": "נוה האירוס. מחר.",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "78856bd",
+         "elType": "widget",
+         "settings": {
+          "title": "נווה האירוס בעתיד",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "55fc9ed",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>כאיש עשייה אמיתי, פניו של דוד אליהו, מנהל נוה האירוס, מופנות קדימה, אל העתיד. אליהו, אינו “נח על זרי הדפנה” ומקפיד שלא להסתנוור מין השינוי המהפכני הבולט לעין כל כך ברחבי נוה האירוס. כאשר שואלים אותו לגבי תכניות עתידיות, הוא עונה בהתרגשות אך בנחרצות “הכוונה שלי היא להמשיך לנוע, לשפר ולהשתפר כל יום, אין לי אלא להצטער על מה שקרה פה בעבר, אך אין ביכולתי לשנות זאת, אלא רק להמשיך בעשייה עבור המטופלים היקרים שלנו כאן ועבור משפחותיהם. אני מכיר את תחושת חוסר האונים, כאשר בן משפחה הינו בעל צרכים מיוחדים ורואה בעבודתי, שליחות אמתית עבורם. כמי שאמון ואחראי על ביטחונם ובריאותם הפיזית והנפשית, נדרתי שלא לנוח ולא לשקוט, להיות עם היד על הדופק תמיד, כדי לרכוש את אמונם בכל יום מחדש”</p><p>אז איך אומרים?</p><p>“….אנשים טובים באמצע הדרך, אנשים טובים מאד, אנשים טובים יודעים את הדרך ואיתם אפשר לצעוד.</p><p>צעדתי לי וחייכתי.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "7493db4",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>דוד אליהו, המנהל של נווה האירוס, מסתכל קדימה, אל העתיד. הוא לא מסתפק בשינוי הגדול שכבר קרה.</p><p>שאלו אותו מה התכניות שלו לעתיד. הוא ענה בהתרגשות ובביטחון. הוא אמר שהוא רוצה להמשיך לשפר, כל יום.</p><p>הוא אמר שהוא מצטער על מה שקרה במעון בעבר. הוא לא יכול לשנות את העבר. אבל הוא יכול להמשיך לעבוד בשביל הדיירים ובשביל המשפחות שלהם.</p><p>הוא מכיר את ההרגשה הקשה של משפחה, כשלאחד מבני המשפחה יש מוגבלות. העבודה הזאת חשובה לו מאוד. הוא אחראי על הביטחון ועל הבריאות של הדיירים, בגוף ובנפש. לכן הוא לא נח. הוא רוצה שיסמכו עליו מחדש, בכל יום.</p><p>כמו שאומרים: \"אנשים טובים יודעים את הדרך ואיתם אפשר לצעוד\".</p><p>הלכתי וחייכתי.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ],
+ "post": {
+  "date": "2019-02-18T13:43:44",
+  "categories": [
+   {
+    "name": "ספרים ומאמרים",
+    "slug": "ספרים-ומאמרים"
+   }
+  ],
+  "featured": {
+   "url": "",
+   "id": "@media:live-1062",
+   "size": "",
+   "alt": "",
+   "source": "library"
+  },
+  "excerpt": "להיכנס בשערי נוה האירוס מעלה רגשות מעורבים שכן, מרגע בו עברתי את שער הכניסה, פסעתי דרך חצר קדמית מוריקה, עם פינות ישיבה מוצלות וצמחים יפים שצומחים מסביב, עברו בי המחשבות…"
+ }
+}

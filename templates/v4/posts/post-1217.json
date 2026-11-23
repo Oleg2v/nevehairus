@@ -1,0 +1,366 @@
+{
+ "key": "post-1217",
+ "title": "תעודת הוקרה מטעם משרד העבודה,הרווחה והשירותים החברתיים על ההתמודדות עם וירוס הקורונה",
+ "slug": "תעודת-הוקרה-משרד-העבודה-והרווחה-על-התמ",
+ "parent": null,
+ "front_page": false,
+ "post_type": "post",
+ "document_type": "wp-post",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/accessibility.json",
+   "content/v4/pages/archive.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/gallery.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/news.json",
+   "content/v4/pages/privacy.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/sitemap.json",
+   "content/v4/pages/testimonials.json",
+   "content/v4/posts/post-1017.json",
+   "content/v4/posts/post-1039.json",
+   "content/v4/posts/post-1041.json",
+   "content/v4/posts/post-1045.json",
+   "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-1055.json",
+   "content/v4/posts/post-1059.json",
+   "content/v4/posts/post-1061.json",
+   "content/v4/posts/post-1217.json",
+   "content/v4/posts/post-1227.json",
+   "content/v4/posts/post-1234.json",
+   "content/v4/posts/post-478.json",
+   "content/v4/posts/post-484.json",
+   "content/v4/posts/post-498.json",
+   "content/v4/posts/post-546.json",
+   "content/v4/posts/post-855.json",
+   "content/v4/posts/post-971.json",
+   "content/v4/posts/post-973.json",
+   "content/v4/posts/post-997.json"
+  ],
+  "inputs_sha256": "812e453082b65cd05437a3b45ca288ed8c87dee73343e8b31deab65f38f7b3cd",
+  "widgets": [
+   "heading",
+   "text-editor"
+  ],
+  "blocks": {
+   "h1": {
+    "full": {
+     "element": "eca61dd",
+     "field": "title"
+    },
+    "plain": {
+     "element": "94ab3fe",
+     "field": "title"
+    }
+   },
+   "intro": {
+    "full": {
+     "element": "27f6183",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "c57d3ea",
+     "field": "editor"
+    }
+   },
+   "pdf": {
+    "full": {
+     "element": "a42f392",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "057993f",
+     "field": "editor"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "6d58612",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--certificate",
+    "_element_id": "certificate",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "תעודת הוקרה מטעם משרד העבודה,הרווחה והשירותים החברתיים על ההתמודדות עם וירוס הקורונה"
+   },
+   "elements": [
+    {
+     "id": "36071fe",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "eca61dd",
+       "elType": "widget",
+       "settings": {
+        "title": "תעודת הוקרה מטעם משרד העבודה,הרווחה והשירותים החברתיים על ההתמודדות עם וירוס הקורונה",
+        "header_size": "h1",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "94ab3fe",
+       "elType": "widget",
+       "settings": {
+        "title": "תעודת הוקרה על תקופת הקורונה",
+        "header_size": "h1",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "09876c9",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "27f6183",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>מאז מרץ 2020 העולם שאנו מכירים השתנה בבוקר אחד וגרר את כל האנושות לסגרים ממושכים, אובדן עבודה ופרנסה ופגיעה בחוסן הנפשי. על אחת כמה וכמה כאשר מדובר בדיירים המיוחדים שלנו בעלי הצרכים המיוחדים להם. עבורם איבוד השגרה מהווה פגיעה קשה ביותר שכן כל יומם מבוסס על כך, לכן כל חריגה מהשגרה מוציאה מאיזון נפשי ועל אחת כמה וכמה את הדיירים האהובים שלנו. לכן מאז פרוץ המגפה אנו עושים ימים ולילות עבורם, ביתר תשומת לב והקפדה על בריאותם וחוסנם הנפשי והפיזי.</p><p>על כך ועל ניהול קפדני לטובת הדיירים קיבלנו אות הערכה ממשרד העבודה והרווחה המודע לקושי הרב שנוצר עקב המגפה, וליכולת שלנו בנווה האירוס לשמור על הדיירים בבריאות תקינה ובסביבה עוטפת ומכילה.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "c57d3ea",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>במרץ 2020 העולם השתנה מהר מאוד, בגלל הקורונה. היו סגרים ארוכים. אנשים איבדו את העבודה ואת הפרנסה. להרבה אנשים היה קשה בנפש.</p><p>לדיירים שלנו היה קשה עוד יותר. הם צריכים סדר יום קבוע. כל שינוי בסדר היום קשה להם מאוד.</p><p>לכן מאז שהמגפה התחילה, עבדנו יום ולילה בשביל הדיירים. שמרנו מאוד על הבריאות שלהם, בגוף ובנפש.</p><p>משרד העבודה והרווחה נתן לנו תעודת הוקרה. המשרד יודע כמה קשה היה בזמן המגפה. הוא אמר לנו תודה על ניהול זהיר לטובת הדיירים. המשרד ראה שבנווה האירוס שמרנו על הבריאות של הדיירים, ונתנו להם סביבה חמה ותומכת.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "a42f392",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p><a href=\"@media:live-1196\">תעודת הוקרה להתמדדות עם הקורונה-משרד הבריאות נווה האירוס</a></p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "057993f",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>אפשר לראות את התעודה כאן: <a href=\"@media:live-1196\">תעודת ההוקרה (קובץ PDF)</a></p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ],
+ "post": {
+  "date": "2021-12-20T14:16:14",
+  "categories": [
+   {
+    "name": "חדשות ועדכונים",
+    "slug": "חדשות-ועדכונים"
+   },
+   {
+    "name": "ספרים ומאמרים",
+    "slug": "ספרים-ומאמרים"
+   }
+  ],
+  "featured": null,
+  "excerpt": "מאז מרץ 2020 העולם שאנו מכירים השתנה בבוקר אחד וגרר את כל האנושות לסגרים ממושכים, אובדן עבודה ופרנסה ופגיעה בחוסן הנפשי. על אחת כמה וכמה כאשר מדובר בדיירים המיוחדים שלנו…"
+ }
+}

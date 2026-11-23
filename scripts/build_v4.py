@@ -1023,7 +1023,7 @@ CATEGORIES = {"ספרים ומאמרים": "ספרים-ומאמרים", "חדש�
 POST_DATE = re.compile(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d$")
 READING = 860                      # px: the reading column of a page's text (as the home's special-needs column)
 MAP_HOSTS = ("maps.google.com", "www.google.com")
-LINK_HOSTS = ("docs.google.com",)  # batch 3: hosts the live texts link to (a link only: nothing loads from them)      # the click-to-load map's frame (data-src, never loaded alone)
+LINK_HOSTS = ("docs.google.com", "posta.co.il")   # batch 3: hosts the live texts link to (a link: nothing loads from them)      # the click-to-load map's frame (data-src, never loaded alone)
 CONTACT_FIELDS = (  # the contact page's form (the live «צור קשר»: name, e-mail, phone and the message, all required)
     ("note", "html", "form.required_note", False, {}),
     ("name", "text", "form.label_name", True, {}),

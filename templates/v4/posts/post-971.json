@@ -1,0 +1,879 @@
+{
+ "key": "post-971",
+ "title": "אבחנה כפולה",
+ "slug": "אבחנה-כפולה",
+ "parent": null,
+ "front_page": false,
+ "post_type": "post",
+ "document_type": "wp-post",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/accessibility.json",
+   "content/v4/pages/archive.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/gallery.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/news.json",
+   "content/v4/pages/privacy.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/sitemap.json",
+   "content/v4/pages/testimonials.json",
+   "content/v4/posts/post-1017.json",
+   "content/v4/posts/post-1039.json",
+   "content/v4/posts/post-1041.json",
+   "content/v4/posts/post-1045.json",
+   "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-1055.json",
+   "content/v4/posts/post-1059.json",
+   "content/v4/posts/post-1061.json",
+   "content/v4/posts/post-1217.json",
+   "content/v4/posts/post-1227.json",
+   "content/v4/posts/post-1234.json",
+   "content/v4/posts/post-478.json",
+   "content/v4/posts/post-484.json",
+   "content/v4/posts/post-498.json",
+   "content/v4/posts/post-546.json",
+   "content/v4/posts/post-855.json",
+   "content/v4/posts/post-971.json",
+   "content/v4/posts/post-973.json",
+   "content/v4/posts/post-997.json"
+  ],
+  "inputs_sha256": "812e453082b65cd05437a3b45ca288ed8c87dee73343e8b31deab65f38f7b3cd",
+  "widgets": [
+   "heading",
+   "image",
+   "text-editor"
+  ],
+  "blocks": {
+   "care": {
+    "full": {
+     "element": "b3b5040",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "f5fb732",
+     "field": "editor"
+    }
+   },
+   "care.h": {
+    "full": {
+     "element": "6a8a8ec",
+     "field": "title"
+    },
+    "plain": {
+     "element": "471bf19",
+     "field": "title"
+    }
+   },
+   "dd.h": {
+    "full": {
+     "element": "6539d3b",
+     "field": "title"
+    },
+    "plain": {
+     "element": "1aa1937",
+     "field": "title"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "181825a",
+     "field": "title"
+    }
+   },
+   "intro": {
+    "full": {
+     "element": "e94f7ea",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "64c425d",
+     "field": "editor"
+    }
+   },
+   "source": {
+    "full": {
+     "element": "4497565",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "6a3b75f",
+     "field": "editor"
+    }
+   },
+   "source.h": {
+    "full": {
+     "element": "79d8518",
+     "field": "title"
+    },
+    "plain": {
+     "element": "9c7821f",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "7d8416f",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--intro",
+    "_element_id": "intro",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "אבחנה כפולה – Dual diagnosis"
+   },
+   "elements": [
+    {
+     "id": "982fd73",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "181825a",
+       "elType": "widget",
+       "settings": {
+        "title": "אבחנה כפולה",
+        "header_size": "h1",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "29b1041",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "start",
+        "_title": "טקסט ותמונה"
+       },
+       "elements": [
+        {
+         "id": "8c64186",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "6539d3b",
+           "elType": "widget",
+           "settings": {
+            "title": "אבחנה כפולה – Dual diagnosis",
+            "header_size": "h2",
+            "_css_classes": "nh-full",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=603f9ca"
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "1aa1937",
+           "elType": "widget",
+           "settings": {
+            "title": "מה זה אבחנה כפולה?",
+            "header_size": "h2",
+            "_css_classes": "nh-plain",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=603f9ca"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "e94f7ea",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>על מנת להבין מהי אבחנה כפולה, יש להבין ראשית, מהו ריבוי מוגבלויות</p><p>ריבוי מוגבלויות, מתאר אדם עם שילוב של שתי מוגבלויות או יותר, כמו למשל, מוגבלות פיזית משולבת במוגבלות שכלית. מחקרים מראים כי למחצית מבעלי המוגבלויות, ישנה יותר ממוגבלות אחת. לפיכך ניתן לפרש מהי אבחנה כפולה.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "64c425d",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>כדי להבין מה זה אבחנה כפולה, נתחיל ממשהו אחר: ריבוי מוגבלויות.</p><p>ריבוי מוגבלויות אומר שלאדם יש שתי מוגבלויות או יותר. למשל: מוגבלות בגוף וגם מוגבלות שכלית.</p><p>מחקרים מראים שלחצי מהאנשים עם מוגבלות יש יותר ממוגבלות אחת.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "79eb188",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-547",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "large",
+          "_css_classes": "nh-page__img",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "e32cdfa",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--source",
+    "_element_id": "source",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מהו המקור של אבחנה כפולה?"
+   },
+   "elements": [
+    {
+     "id": "5280d69",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "8837514",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "79d8518",
+         "elType": "widget",
+         "settings": {
+          "title": "מהו המקור של אבחנה כפולה?",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "9c7821f",
+         "elType": "widget",
+         "settings": {
+          "title": "מאיפה בא השם?",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "4497565",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>אבחנה כפולה, שייכת עולם הפסיכיאטריה ושלא כמו “ריבוי מוגבלויות”, היא מתארת מצבים בהם אדם חווה מספר קשיים או הפרעות יחדיו. ההפרעות יכולות להתבטא במגוון רחב של קשיים בתפקוד כמו למשל:</p><ul><li>התנהגות תוקפנית</li><li>אלימות מילולית ופיסית.</li><li>דיכאון קיצוני.</li><li>הפרעות אכילה.</li><li>בעיות בתפקוד היום יומי הבסיסי.</li><li>המטופל סובל מקושי רגשי, בלתי תלוי ההתמכרות שלו.</li><li>מפגין קשיים תפקודיים.</li><li>חסר יכולת לעבודה.</li><li>הפרעות התנהגותיות קשות.</li><li>הזיות</li></ul><p>ועוד….</p><p>אבחנה כפולה מאובחנת ע”י אנשי מקצוע מוסמכים לתחום ומסוכמת לאחר תקופת ליווי מוגדרת. לרוב נוכל לראות שילובים של מוגבלות שכלית ונפשית שזהו השילוב הנפוץ ביותר.</p><p>במעון נווה האירוס, מקפידים על דיוק בבניית תכנית הטיפולים המקיפה של המטופל/ הדייר, כאשר משפחתו שותפה מלאה בכל תהליך האבחון ותכנית הטיפול המוצעת, מתוך ראית טובתו הבלעדית של הדייר.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "6a3b75f",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>ריבוי מוגבלויות הוא כמה מוגבלויות ביחד. אבחנה כפולה היא משהו אחר. השם בא מהפסיכיאטריה, הרפואה של הנפש. הוא אומר שלאדם יש כמה קשיים או הפרעות ביחד.</p><p>הקשיים האלה יכולים להפריע לאדם בהרבה תחומים בחיים. למשל:</p><ul><li>התנהגות תוקפנית.</li><li>אלימות במילים או במעשים.</li><li>דיכאון קשה מאוד.</li><li>קשיים באכילה.</li><li>קושי לעשות דברים בסיסיים בכל יום.</li><li>קושי רגשי, שלא קשור להתמכרות.</li><li>קושי לעבוד.</li><li>התנהגות קשה מאוד.</li><li>לראות או לשמוע דברים שלא קיימים.</li></ul><p>ויש עוד.</p><p>אנשי מקצוע מומחים קובעים אם יש לאדם אבחנה כפולה. הם מחליטים אחרי שהם מלווים אותו זמן מסוים.</p><p>הכי הרבה פעמים, זו מוגבלות שכלית וגם קושי נפשי.</p><p>בנווה האירוס מקפידים לבנות לכל דייר תכנית טיפול מדויקת. המשפחה משתתפת בכל שלב: בבדיקות ובתכנון הטיפול. כל זה רק לטובת הדייר.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "da8145a",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--care",
+    "_element_id": "care",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "כיצד מטפלים באנשים בעלי אבחנה כפולה?"
+   },
+   "elements": [
+    {
+     "id": "dabb6d5",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "f267302",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "6a8a8ec",
+         "elType": "widget",
+         "settings": {
+          "title": "כיצד מטפלים באנשים בעלי אבחנה כפולה?",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "471bf19",
+         "elType": "widget",
+         "settings": {
+          "title": "איך עוזרים לאנשים עם אבחנה כפולה?",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "b3b5040",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>בנווה האירוס נמצאים צוותים מקצועיים, אשר מקיימים מבדקים ייעודיים להתאמה ואבחון ועל פי תוצאות המבדקים, משובצים הדיירים.</p><p>לאחר קבלת תוצאות האבחון, מזמנים את משפחתו של הדייר ומציגים בפניה את הממצאים, לעיתים בנוכחות או שלא, של הדייר (תלוי הקשר מצבו הרגשי, פיזי). עפ”י צורך טיפולי, נבדקת אפשרות לשילוב פסיכולוג קליני או פסיכיאטר.</p><p>לדיירים בעלי אבחנה כפולה מעניקים טיפולים רגשיים כמו גם תמיכה נפשית לחיזוק וצמצום תופעות ההפרעות הקיימות. היות ואנו מאמינים כי לכל הדיירים שלנו בנווה האירוס, מגיע הטיפול והיחס הטובים ביותר, אנו מקפידים על מתן מערך טיפולי מקיף, תוך שיתוף בני המשפחה הקרובה, דבר המעניק לדייר תחושה טובה, חיזוק פיזי ונפשי ורצון להיות חלק מהחברה הסובבת אותו.</p><p>מערך הטיפולי המקיף בנווה האירוס הינו:</p><ul><li>ניתוח התנהגותי.</li><li>הדרכת הורים.</li><li>הדרכת צוותים מקצועיים מתאימים.</li><li>ריפוי בעיסוק ו-ויסות חושי.</li><li>מעקב פסיכיאטרי עפ”י צורך.</li><li>טיפול רגשי.</li><li>טיפול דינאמי.</li><li>פסיכותרפיה.</li></ul><p>מערך הטיפולים המקיף את הדייר מסייע לו לשבור מחסומים רגשיים אשר חיוניים ביותר להתקדמות הטיפול. כל מערך טיפולי מתאים לצרכיו של הדייר ולכן הטיפולים אישיים וממוקדים.</p><p>הצוות המקצועי מסייע לדייר המטופל לצלוח סיטואציות רגשיות בצורה חיובית יותר מבעבר ומלווה אותו באופן מעשי לבניית אורח חיים עצמאי ובריא יותר, בתחילה בתוך המסגרת הטיפולית ולאחר מכן ובהתאם להתקדמות, במסגרות חיצוניות, חד יומיות.</p><p>אנו מזמינים אתכם, להגיע ולהתרשם מנווה האירוס. המבנה והחדרים המחודשים שלנו, כמו גם הצוותים המקצועיים והפרא רפואיים. הנהלת המעון תשמח להיפגש אתכם ולספר לכם אודות המעון ותכניות הטיפולים הייחודיות שלנו.</p><p>קרא עוד: <a href=\"@home:/מעון-ראשי-בית-לחיים/סנטוריום/\">סנטוריום</a></p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "f5fb732",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>בנווה האירוס יש צוותים מקצועיים. הם עושים בדיקות מיוחדות, כדי לדעת מה מתאים לכל דייר. לפי התוצאות מחליטים מה נכון לו.</p><p>אחרי הבדיקות, מזמינים את המשפחה ומספרים לה מה מצאו. לפעמים גם הדייר נמצא בפגישה, ולפעמים לא. זה תלוי במצב שלו. אם צריך, בודקים אם להוסיף לטיפול פסיכולוג או פסיכיאטר.</p><p>הדיירים עם אבחנה כפולה מקבלים טיפול רגשי ותמיכה נפשית. הטיפול עוזר להם להתחזק, ומקטין את הקשיים.</p><p>אנחנו מאמינים שמגיע לכל הדיירים שלנו הטיפול והיחס הכי טובים. לכן אנחנו נותנים טיפול מלא, יחד עם המשפחה הקרובה. כך הדייר מרגיש טוב יותר, חזק יותר בגוף ובנפש, ורוצה להיות חלק מהחברה.</p><p>הטיפול בנווה האירוס כולל:</p><ul><li>לימוד ההתנהגות של הדייר.</li><li>הדרכה להורים.</li><li>הדרכה לצוותים.</li><li>ריפוי בעיסוק, ועזרה לגוף להירגע ולהתארגן (ויסות חושי).</li><li>פסיכיאטר בודק את הדייר, כשצריך.</li><li>טיפול רגשי.</li><li>טיפול בשיחות (פסיכותרפיה).</li></ul><p>הטיפול עוזר לדייר להתגבר על קשיים רגשיים שעוצרים אותו. כך הוא יכול להתקדם. כל דייר מקבל טיפול אישי, שמתאים לו.</p><p>הצוות עוזר לדייר להתמודד טוב יותר עם רגשות. הצוות מלווה אותו בדרך לחיים עצמאיים ובריאים יותר: קודם בתוך המעון. אחר כך, לפי ההתקדמות שלו, גם במקומות מחוץ למעון, במשך היום.</p><p>אתם מוזמנים לבוא ולראות את נווה האירוס: את הבניין, את החדרים שחידשנו ואת הצוותים. ההנהלה תשמח להיפגש איתכם ולספר לכם על המעון ועל הטיפולים.</p><p>לקריאה נוספת: <a href=\"@home:/מעון-ראשי-בית-לחיים/סנטוריום/\">סנטוריום</a></p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ],
+ "post": {
+  "date": "2018-08-29T10:14:50",
+  "categories": [
+   {
+    "name": "ספרים ומאמרים",
+    "slug": "ספרים-ומאמרים"
+   }
+  ],
+  "featured": {
+   "url": "",
+   "id": "@media:live-547",
+   "size": "",
+   "alt": "",
+   "source": "library"
+  },
+  "excerpt": "על מנת להבין מהי אבחנה כפולה, יש להבין ראשית, מהו ריבוי מוגבלויות ריבוי מוגבלויות, מתאר אדם עם שילוב של שתי מוגבלויות או יותר, כמו למשל, מוגבלות פיזית משולבת במוגבלות שכלית.…"
+ }
+}

@@ -24,6 +24,7 @@
    "content/v4/pages/dual-diagnosis.json",
    "content/v4/pages/gallery.json",
    "content/v4/pages/main-home.json",
+   "content/v4/pages/news.json",
    "content/v4/pages/privacy.json",
    "content/v4/pages/products-gallery.json",
    "content/v4/pages/sanatorium.json",
@@ -34,9 +35,22 @@
    "content/v4/posts/post-1041.json",
    "content/v4/posts/post-1045.json",
    "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-1055.json",
+   "content/v4/posts/post-1059.json",
+   "content/v4/posts/post-1061.json",
+   "content/v4/posts/post-1217.json",
+   "content/v4/posts/post-1227.json",
+   "content/v4/posts/post-1234.json",
+   "content/v4/posts/post-478.json",
+   "content/v4/posts/post-484.json",
+   "content/v4/posts/post-498.json",
+   "content/v4/posts/post-546.json",
+   "content/v4/posts/post-855.json",
+   "content/v4/posts/post-971.json",
+   "content/v4/posts/post-973.json",
    "content/v4/posts/post-997.json"
   ],
-  "inputs_sha256": "5394e56ad0a8888d7c9b11ee4f2f470d3f1de871c3f37f8411fedaf1f4dece30",
+  "inputs_sha256": "812e453082b65cd05437a3b45ca288ed8c87dee73343e8b31deab65f38f7b3cd",
   "widgets": [
    "heading",
    "image"
@@ -235,7 +249,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "מעון נווה האירוס - פורים 2016"
          },
          "elements": [],
          "widgetType": "image"
@@ -315,7 +331,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "פורים 2016"
          },
          "elements": [],
          "widgetType": "image"
@@ -335,7 +353,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "חגיגות פורים"
          },
          "elements": [],
          "widgetType": "image"
@@ -395,7 +415,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "פינת אוכל באגף החדש"
          },
          "elements": [],
          "widgetType": "image"
@@ -435,7 +457,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "מסדרון כניסה לאגף החדש"
          },
          "elements": [],
          "widgetType": "image"
@@ -455,7 +479,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "מטבח באגף החדש"
          },
          "elements": [],
          "widgetType": "image"
@@ -475,7 +501,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "פינת אוכל"
          },
          "elements": [],
          "widgetType": "image"
@@ -495,7 +523,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "חדר רחצה באגף החדש"
          },
          "elements": [],
          "widgetType": "image"
@@ -515,7 +545,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "יצירות עצמיות של דיירים"
          },
          "elements": [],
          "widgetType": "image"
@@ -535,7 +567,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "חדר מגורים נוסף באגף החדש"
          },
          "elements": [],
          "widgetType": "image"
@@ -555,7 +589,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "חדר מגורים"
          },
          "elements": [],
          "widgetType": "image"
@@ -575,7 +611,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "פינת אוכל ומטבח באגף החדש"
          },
          "elements": [],
          "widgetType": "image"
@@ -595,7 +633,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "חדרי רחצה חדשים"
          },
          "elements": [],
          "widgetType": "image"
@@ -635,7 +675,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "סלון ופינת אוכל באגף החדש"
          },
          "elements": [],
          "widgetType": "image"
@@ -655,7 +697,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "חדר רחצה חדש"
          },
          "elements": [],
          "widgetType": "image"
@@ -715,7 +759,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "הדייר ישראל מקבל תוכונים אוסטלים"
          },
          "elements": [],
          "widgetType": "image"
@@ -935,7 +981,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "תאורת שמיים באגף החדש"
          },
          "elements": [],
          "widgetType": "image"
@@ -1095,7 +1143,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "שדרוג המעון עם הדיירת נירית"
          },
          "elements": [],
          "widgetType": "image"
@@ -1115,7 +1165,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "מסיבת שבועות במעון"
          },
          "elements": [],
          "widgetType": "image"
@@ -1135,7 +1187,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "אימון קבוצת פטאנק"
          },
          "elements": [],
          "widgetType": "image"
@@ -1155,7 +1209,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "חגיגות פורים"
          },
          "elements": [],
          "widgetType": "image"
@@ -1175,7 +1231,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "חגיגת חנוכה 2015"
          },
          "elements": [],
          "widgetType": "image"
@@ -1195,7 +1253,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "מסיבת שבועות 2012"
          },
          "elements": [],
          "widgetType": "image"
@@ -1255,7 +1315,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "מיטה בחדר מגורים"
          },
          "elements": [],
          "widgetType": "image"
@@ -1295,7 +1357,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "מסיבת שבועות 2012"
          },
          "elements": [],
          "widgetType": "image"
@@ -1315,7 +1379,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "חגיגות פורים"
          },
          "elements": [],
          "widgetType": "image"
@@ -1335,7 +1401,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "אימון פטאנק"
          },
          "elements": [],
          "widgetType": "image"
@@ -1355,7 +1423,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "בפסטיבל הפסלים רחובות"
          },
          "elements": [],
          "widgetType": "image"
@@ -1375,7 +1445,9 @@
           "_css_classes": "nh-product",
           "link_to": "file",
           "open_lightbox": "yes",
-          "_title": "תמונה"
+          "_title": "תמונה",
+          "caption_source": "custom",
+          "caption": "שדרוג המעון עם הדיירת נירית"
          },
          "elements": [],
          "widgetType": "image"

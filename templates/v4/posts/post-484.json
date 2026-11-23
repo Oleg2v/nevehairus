@@ -1,0 +1,619 @@
+{
+ "key": "post-484",
+ "title": "סיכונים ביציאות וטיולים מחוץ למעון וההתמודדות איתם",
+ "slug": "סיכונים-ביציאות-וטיולים-מחוץ-למעון-וה",
+ "parent": null,
+ "front_page": false,
+ "post_type": "post",
+ "document_type": "wp-post",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/accessibility.json",
+   "content/v4/pages/archive.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/gallery.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/news.json",
+   "content/v4/pages/privacy.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/sitemap.json",
+   "content/v4/pages/testimonials.json",
+   "content/v4/posts/post-1017.json",
+   "content/v4/posts/post-1039.json",
+   "content/v4/posts/post-1041.json",
+   "content/v4/posts/post-1045.json",
+   "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-1055.json",
+   "content/v4/posts/post-1059.json",
+   "content/v4/posts/post-1061.json",
+   "content/v4/posts/post-1217.json",
+   "content/v4/posts/post-1227.json",
+   "content/v4/posts/post-1234.json",
+   "content/v4/posts/post-478.json",
+   "content/v4/posts/post-484.json",
+   "content/v4/posts/post-498.json",
+   "content/v4/posts/post-546.json",
+   "content/v4/posts/post-855.json",
+   "content/v4/posts/post-971.json",
+   "content/v4/posts/post-973.json",
+   "content/v4/posts/post-997.json"
+  ],
+  "inputs_sha256": "812e453082b65cd05437a3b45ca288ed8c87dee73343e8b31deab65f38f7b3cd",
+  "widgets": [
+   "heading",
+   "image",
+   "text-editor"
+  ],
+  "blocks": {
+   "exits": {
+    "full": {
+     "element": "69bb7ab",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "d5b1060",
+     "field": "editor"
+    }
+   },
+   "exits.h": {
+    "full": {
+     "element": "9843bfc",
+     "field": "title"
+    },
+    "plain": {
+     "element": "ce9991b",
+     "field": "title"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "f42f402",
+     "field": "title"
+    },
+    "plain": {
+     "element": "8136436",
+     "field": "title"
+    }
+   },
+   "intro": {
+    "full": {
+     "element": "95427e5",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "18575cc",
+     "field": "editor"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "c0a408b",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--intro",
+    "_element_id": "intro",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "סיכונים ביציאות וטיולים מחוץ למעון וההתמודדות איתם"
+   },
+   "elements": [
+    {
+     "id": "a41f7ab",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "f42f402",
+       "elType": "widget",
+       "settings": {
+        "title": "סיכונים ביציאות וטיולים מחוץ למעון וההתמודדות איתם",
+        "header_size": "h1",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "8136436",
+       "elType": "widget",
+       "settings": {
+        "title": "יציאות מהמעון: איך שומרים על הדיירים",
+        "header_size": "h1",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "3c2862d",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "start",
+        "_title": "טקסט ותמונה"
+       },
+       "elements": [
+        {
+         "id": "00df2e6",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "95427e5",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p><strong>מעון נווה האירוס הוא מעון לאוכלוסייה בעלת מוגבלות שכלית התפתחותית. אוכלוסייה זו זקוקה לסיוע 24 שעות ביממה. בתוך חיי השגרה במעון קיים גם הצורך לצאת כמו כל אדם לרווחה, פנאי, תרבות, קניות, טיולים בטבע וגם לבדיקות רפואיות.</strong></p><p>מרכז חייהם של דיירי המעון הוא בין כתלי המעון, חלק ניכר מהשינויים במעון הינו צמצום רגעי חוסר המעש וריבוי אפשרויות התעסוקה, בעבודה שהיא פרודוקטיבית, יעילה שמאתגרת את הדיירים, זאת על מנת להעניק להם את תחושת השייכות, היעילות ולהגדיל את תחושת הערך העצמי וחשוב לא פחות הוא, למזער רגעים שעשויים להכניס אותם למצבי רוח מדוכדכים, לעצבות ולייאוש שזאת מנת חלקו של כל דייר.</p><p>ישנם כללי זהירות שבהם חייבים לנקוט על פי הנהלים של משרד הרווחה לגבי כל יציאה ממעון של דיירים מסוג זה.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "18575cc",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>בנווה האירוס גרים אנשים עם מוגבלות שכלית התפתחותית. הם צריכים עזרה 24 שעות ביום.</p><p>כמו כל אדם, גם הדיירים צריכים לצאת מהמעון: לבלות, לקניות, לטיולים בטבע ולפעילויות של תרבות. הם יוצאים גם לבדיקות אצל רופאים.</p><p>רוב החיים של הדיירים הם בתוך המעון. במעון היו הרבה שינויים. אחד מהם: יש פחות זמן בלי עיסוק, ויש יותר אפשרויות לעבוד. העבודה מועילה ומאתגרת.</p><p>העבודה עוזרת לדיירים להרגיש שייכים ומועילים, ולהעריך את עצמם. היא גם עוזרת להם להיות פחות עצובים.</p><p>לפי הכללים של משרד הרווחה, צריך להיזהר מאוד בכל יציאה של דיירים מהמעון.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "bf9b785",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-347",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "large",
+          "_css_classes": "nh-page__img",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "4aba0d3",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--exits",
+    "_element_id": "exits",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "התנהלות יציאות מהמעון"
+   },
+   "elements": [
+    {
+     "id": "355b5be",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "bbb2281",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "9843bfc",
+         "elType": "widget",
+         "settings": {
+          "title": "התנהלות יציאות מהמעון",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "ce9991b",
+         "elType": "widget",
+         "settings": {
+          "title": "איך יוצאים מהמעון",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "69bb7ab",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>צוות המטפלים דואג מאוד שבכל יציאה משטח המעון יעמדו בכל הכללים והתקנים הנחוצים. לבצע רישום מדויק של כל הדיירים ולוודא מי אילו המטפלים האחראים על כל קבוצה קטנה של דיירים בזמן השהייה מחוץ למעון. לשם יציאה מהמעון הצוות זקוק לאישור רפואי ואישור מהעובדת הסוציאלית, חשוב להבין שהמפגש של הדיירים עם האנשים בחוץ היא לא פשוטה, היא יכולה לעורר בהם רגשות ותחושות ותגובות רבות, שאינן תמיד צפויות, הם יכולים לנסות לפתע לברוח, זה יכול ליצור אצלם בעיה של בריחת צרכים בחברה, התקפים נפשיים, התנהגויות מוזרות ושונות שכול אלה הם תגובה לגירויים החיצוניים וליציאה מתחום המעון. לכן חשוב לדעת כיצד לנהוג במצבים אלה וכל המטפלים מקבלים את התדרוך הנכון והראוי לפני יציאות מהמעון.</p><p><a href=\"@home:/\">מעון נווה האירוס</a> מעניק לכל הדיירים שלו את הדיור הבטוח ואת המרחב הנעים והמרווח על מנת שיוכל לצמוח ולהרגיש שהוא מוגן ובסביבת אנשים שהם למעשה המשפחה שלו. גם צוות המטפלים דואגים כל העת להעניק חום ותחושת משפחתיות וטיפול אוהב ותומך שמסייע לכל דייר בכל דבר שלו הוא זקוק.</p><p><strong>קרא עוד:</strong> <a href=\"@home:/מעון-ראשי-בית-לחיים/אבחנה-כפולה/\">אבחנה כפולה</a></p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "d5b1060",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>הצוות שומר על כל הכללים בכל יציאה מהמעון.</p><p>רושמים בדיוק את כל הדיירים שיוצאים. קובעים איזה מטפל אחראי על כל קבוצה קטנה של דיירים.</p><p>כדי לצאת, הצוות צריך אישור מרופא ואישור מהעובדת הסוציאלית.</p><p>לפגוש אנשים בחוץ זה לא פשוט לדיירים. זה יכול לעורר בהם הרבה רגשות. לפעמים הם מגיבים בדרך שלא מצפים לה: מנסים לברוח, או מתנהגים אחרת מהרגיל.</p><p>לכן חשוב לדעת מה לעשות במצבים כאלה. לפני כל יציאה, כל המטפלים מקבלים הסבר.</p><p><a href=\"@home:/\">מעון נווה האירוס</a> נותן לכל הדיירים בית בטוח, נעים ומרווח. כאן הם יכולים להתפתח ולהרגיש מוגנים, עם אנשים שהם כמו משפחה. המטפלים נותנים לכל דייר חום, אהבה ותמיכה, ועוזרים לו בכל מה שהוא צריך.</p><p><strong>לקריאה נוספת:</strong> <a href=\"@home:/מעון-ראשי-בית-לחיים/אבחנה-כפולה/\">אבחנה כפולה</a></p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ],
+ "post": {
+  "date": "2018-01-08T15:43:31",
+  "categories": [
+   {
+    "name": "ספרים ומאמרים",
+    "slug": "ספרים-ומאמרים"
+   }
+  ],
+  "featured": {
+   "url": "",
+   "id": "@media:live-347",
+   "size": "",
+   "alt": "",
+   "source": "library"
+  },
+  "excerpt": "מעון נווה האירוס הוא מעון לאוכלוסייה בעלת מוגבלות שכלית התפתחותית. אוכלוסייה זו זקוקה לסיוע 24 שעות ביממה. בתוך חיי השגרה במעון קיים גם הצורך לצאת כמו כל אדם לרווחה, פנאי,…"
+ }
+}

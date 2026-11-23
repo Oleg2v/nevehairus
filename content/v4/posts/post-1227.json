@@ -5,7 +5,7 @@
  "slug": "פתיחת-האגף-החדש-בהשתתפות-ראש-עיריית-נס",
  "parent": null,
  "source": "live page, read 23.11.2026 (content/posts/2021-12-21-1227.md, snapshot 15.11.2026: not modified since)",
- "notes": "The live post in its order: H1 (the title, once); two paragraphs; the photo of the «שמיים» ceiling (live media 1216, inline, with its live caption «תאורת שמיים באגף החדש»: a products grid of one, so that the caption stays under the photo; the caption goes to media.json); the sentence before the guests; the guests, one line each as on live (a list of names: no plain twin); the closing sentence and the note «הרשימה הנה לפי סדר האלף -בית.» (its «*» left out, like the footnote mark of «דרושים»); the YouTube video kLAGTCOIWQE (landscape, the same video as on the home) at its live place, the end of the post. No featured image on live. Left out: the theme's share line «שתף מאמר זה:» under the post (not the post's text).",
+ "notes": "The live post in its order: H1 (the title, once); two paragraphs; the photo of the «שמיים» ceiling (live media 1216, inline, with its live caption «תאורת שמיים באגף החדש»: a products grid of one, so that the caption stays under the photo; the caption goes to media.json; \"whole\": the portrait photo uncropped, as the live 225×300 thumbnail shows it, not the grid's square crop); the sentence before the guests; the guests, one line each as on live (a list of names: no plain twin); the closing sentence and the note «הרשימה הנה לפי סדר האלף -בית.» (its «*» left out, like the footnote mark of «דרושים»); the YouTube video kLAGTCOIWQE (landscape, the same video as on the home) at its live place, the end of the post. No featured image on live. Left out: the theme's share line «שתף מאמר זה:» under the post (not the post's text).",
  "post_type": "post",
  "date": "2021-12-21T10:51:54",
  "categories": [
@@ -54,6 +54,7 @@
    "title": "תמונה",
    "captions": true,
    "columns": 3,
+   "whole": true,
    "photos": [
     "live-1216"
    ]

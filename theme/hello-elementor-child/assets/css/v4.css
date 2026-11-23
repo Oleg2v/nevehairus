@@ -1697,6 +1697,27 @@ html.nh-lightbox-open :is(.nh-float, .nh-consent) { display: none !important; }
    lightbox closes. The counter reads «1 / 86» as numbers do in Hebrew text, not «86 / 1». */
 html.nh-lightbox-open .elementor-location-header { visibility: hidden; }
 .elementor-lightbox .elementor-slideshow__counter { direction: ltr; unicode-bidi: isolate; }
+/* 1.5.13 (Oleg 23.11): the arrows as Hebrew reads: «next» at the left pointing left, «previous» at the right pointing
+   right (Elementor puts them the other way round, while its keys and swipe already go this way: ArrowLeft, and a
+   finger moving to the right, show the next photo). The icons are mirrored; the whole 15–20% strip at each edge stays
+   the button, as before. The tab order stays toolbar → next → previous, which is left to right on the screen. */
+body.rtl .elementor-lightbox .elementor-swiper-button-next,
+body.rtl .elementor-lightbox .swiper .elementor-swiper-button-next,
+body.rtl .elementor-lightbox .swiper ~ .elementor-swiper-button-next { left: 0; right: auto; }
+body.rtl .elementor-lightbox .elementor-swiper-button-prev,
+body.rtl .elementor-lightbox .swiper .elementor-swiper-button-prev,
+body.rtl .elementor-lightbox .swiper ~ .elementor-swiper-button-prev { right: 0; left: auto; }
+body.rtl .elementor-lightbox :is(.elementor-swiper-button-next, .elementor-swiper-button-prev) :is(svg, i) { transform: scaleX(-1); }
+/* up to 767px Elementor keeps each icon at the inner side of its strip (flex-start / flex-end, in this right-to-left row);
+   the two swap sides with the buttons, so the icons keep their distance from the screen's edge */
+@media (max-width: 767px) {
+  body.rtl .elementor-lightbox .elementor-swiper-button-next { justify-content: flex-start; }
+  body.rtl .elementor-lightbox .elementor-swiper-button-prev { justify-content: flex-end; }
+}
+/* 1.5.13: no «שיתוף» in the enlarged photo (Oleg 23.11; Elementor's Site Settings → Lightbox → Share is off, which is the
+   switch): the same here, so the share button and its menu (Facebook, X, Pinterest, the download of the photo) never
+   show where that setting did not come along (a copy of the site, the live site's import) */
+.elementor-lightbox :is(.e-eicon-share-arrow, .eicon-share-arrow, .elementor-slideshow__share-menu) { display: none !important; }
 /* 1.5.10: with the bar (up to 1024px, at least 501px high) the cookie banner opens at the top, under the header (as on
    phones before 1.5.7), not above the bar: the hero's heading and buttons at the foot of the first screen stay seen.
    Phones: the whole width; tablets: 32rem at the inline end. The page's end then needs only the bar's room.

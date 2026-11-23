@@ -1,5 +1,5 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.5.12 (research/09-v4-home-spec.md
+   v4.js — child theme hello-elementor-child 1.5.13 (research/09-v4-home-spec.md
    §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
    No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed
@@ -54,6 +54,7 @@
       grid photo's alt, the arrows Hebrew names, and Esc returns the focus.
       1.5.12: any set of one photo (a Basic Gallery's too); watched however it
       opens (a shared link); a dialog with a name, the focus inside, Tab round.
+      1.5.13: no share button; «next» at the left, «previous» at the right (v4.css).
   12. 1.5.9 a form field focused above the bar: the field and its hint.
       1.5.12: and its labels, clear of the cookie banner too; on a short
       screen on the screen, when the keys move the focus.
@@ -1196,12 +1197,9 @@
         sets.set(k, (sets.get(k) || []).concat([a]));
       });
       sets.forEach((list) => { if (list.length === 1) list[0].removeAttribute("data-elementor-lightbox-slideshow"); });
-      // 1.5.12: Elementor's own words that are not Hebrew or not right («Share on X»; «מיקוד», 'focus', for the zoom)
+      // 1.5.12: Elementor's own word for the zoom button is «מיקוד» ('focus'): «הגדלה»
       const L = w.elementorFrontendConfig && w.elementorFrontendConfig.i18n;
-      if (L) {
-        if (/^share on x$/i.test(L.shareOnX || "")) L.shareOnX = "שתף ב־X";
-        if (L.zoom === "מיקוד") L.zoom = "הגדלה";
-      }
+      if (L && L.zoom === "מיקוד") L.zoom = "הגדלה";
       d.querySelectorAll("a[data-elementor-open-lightbox]").forEach((a) => {
         const fig = a.closest("figure");
         const cap = fig ? fig.querySelector("figcaption") : null;
@@ -1222,9 +1220,10 @@
       // 1.5.12: whatever opens it, a click or a shared link (Elementor opens that one by itself on load, and the header
       // showed through it): watched from the moment Elementor adds it to the page. The photo's alt is always the
       // grid photo's when there is one (Elementor's is the caption, which a screen reader then heard twice); the window
-      // and the share button get a role and a name; the focus goes into the window (Elementor left it on the photo
-      // behind the dark cover), and Tab goes round inside it (Elementor's own Tab let it out after the arrows, and
-      // Shift+Tab stuck on «סגור»)
+      // gets a role and a name; the focus goes into the window (Elementor left it on the photo behind the dark
+      // cover), and Tab goes round inside it (Elementor's own Tab let it out after the arrows, and Shift+Tab stuck
+      // on «סגור»). 1.5.13: no share button (Kit setting off, v4.css hides it otherwise); the arrows as Hebrew reads
+      // (v4.css)
       let opener = null, isOpen = false;
       const shown = (el) => !!el && el.isConnected && w.getComputedStyle(el).display !== "none";
       const openBox = () => Array.from(d.querySelectorAll(".elementor-lightbox")).find(shown) || null;
@@ -1238,11 +1237,6 @@
         });
         lb.querySelectorAll(".elementor-swiper-button-next").forEach((b) => name(b, "התמונה הבאה"));
         lb.querySelectorAll(".elementor-swiper-button-prev").forEach((b) => name(b, "התמונה הקודמת"));
-        lb.querySelectorAll(".e-eicon-share-arrow, .eicon-share-arrow").forEach((b) => {
-          if (b.getAttribute("role") !== "button") b.setAttribute("role", "button");
-          name(b, "שיתוף");
-          if (!b.hasAttribute("aria-expanded")) b.setAttribute("aria-expanded", "false");
-        });
       };
       const sync = () => {
         const lb = openBox();
@@ -1279,10 +1273,8 @@
         if (!lb) return;
         const sw = lb.querySelector(".swiper");
         if (sw) sw.dispatchEvent(new w.MouseEvent("mousemove", { bubbles: true }));   // Elementor shows its toolbar on a key
-        // the share menu's links only while it is open (closed, it is folded away but its links stay in the page)
         const list = Array.from(lb.querySelectorAll("a[href], button, input, select, textarea, iframe, video[controls], [tabindex]")).filter((el) =>
-          el !== lb && el.tabIndex >= 0 && el.getClientRects().length && w.getComputedStyle(el).visibility !== "hidden"
-          && !(el.closest(".elementor-slideshow__share-menu") && !el.closest(".elementor-slideshow--share-mode")));
+          el !== lb && el.tabIndex >= 0 && el.getClientRects().length && w.getComputedStyle(el).visibility !== "hidden");
         if (!list.length) return;
         e.preventDefault();
         e.stopImmediatePropagation();                     // Elementor's own Tab, after this one, moved it again

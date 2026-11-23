@@ -17,6 +17,16 @@
                                                            (saves nothing on the site); HTML to DIR
     python3 -I scripts/test_site.py v4 --go                build the v4 home (research/09-v4-home-spec.md §7)
     python3 -I scripts/test_site.py v4 --rollback          page #32 back to its v3.2 backup; v4 header/footer off
+    python3 -I scripts/test_site.py tidy [--go]            follow-ups of the external check (Oleg 23.11): the Kit's lightbox
+                                                           share off; WordPress's sample post and page to drafts
+
+tidy (Oleg 23.11, after the external check; plan only without --go): (1) the active Kit's setting
+lightbox_enable_share (Site Settings → Lightbox → Share) switched off, so Elementor's enlarged photo has no share
+button or share menu (Facebook, X, Pinterest, the photo's download): one PHP step, the Kit's other settings read back
+unchanged, Elementor's CSS cache emptied; (2) WordPress's own sample post «Hello world!» (#1, slug hello-world) and
+sample page «Sample Page» (#2, slug sample-page) moved from published to draft over REST (a draft is kept, not
+deleted; only if they are still untouched: same slug and title); (3) ezCache purged; the Kit's value is read from the
+page the site serves and the two addresses must answer 404 to visitors. The old values go to the change log.
 
 Safety rules built in:
   * every request, including redirects, must stay on https://HOST; anything else stops the script;
@@ -3558,6 +3568,137 @@ def v4_rollback(me):
          "header-v4 and footer-v4 are drafts")
 
 
+# --- tidy (Oleg 23.11) --------------------------------------------------------------------------------------------
+TIDY_KIT_PHP = r"""
+		$nh_author = __NH_AUTHOR__;
+		// The snippet runs on wp_loaded, before WordPress accepts the application password: act as the script's user.
+		wp_set_current_user( $nh_author );
+		if ( get_current_user_id() !== $nh_author || ! current_user_can( 'manage_options' ) ) {
+			throw new Exception( "user #$nh_author does not exist or cannot manage options" );
+		}
+		if ( ! defined( 'ELEMENTOR_VERSION' ) || ! class_exists( '\Elementor\Plugin' ) ) {
+			throw new Exception( 'Elementor is not active' );
+		}
+		$nh_el      = \Elementor\Plugin::$instance;
+		$nh_kit_doc = $nh_el->kits_manager->get_active_kit();
+		$nh_kid     = $nh_kit_doc ? (int) $nh_kit_doc->get_id() : 0;
+		if ( ! $nh_kid ) {
+			throw new Exception( 'no active Elementor Kit' );
+		}
+		$nh_old = get_post_meta( $nh_kid, '_elementor_page_settings', true );
+		$nh_old = is_array( $nh_old ) ? $nh_old : array();
+		$log['before'] = array(
+			'kit'                   => $nh_kid,
+			'lightbox_enable_share' => array_key_exists( 'lightbox_enable_share', $nh_old ) ? $nh_old['lightbox_enable_share'] : '(unset: Elementor shows the share button)',
+			'settings'              => $nh_old,
+		);
+		if ( ! array_key_exists( 'lightbox_enable_share', $nh_old ) || '' !== $nh_old['lightbox_enable_share'] ) {
+			$nh_new                          = $nh_old;
+			$nh_new['lightbox_enable_share'] = '';
+			// as Document::update_settings() does after its merge (here only this one key changes)
+			\Elementor\Core\Settings\Manager::get_settings_managers( 'page' )->save_settings( $nh_new, $nh_kid );
+			$log['kit'] = "Kit #$nh_kid: lightbox_enable_share switched off";
+		} else {
+			$log['kit'] = "Kit #$nh_kid: lightbox_enable_share was already off";
+		}
+		$nh_back = get_post_meta( $nh_kid, '_elementor_page_settings', true );
+		if ( ! is_array( $nh_back ) || ! array_key_exists( 'lightbox_enable_share', $nh_back ) || '' !== $nh_back['lightbox_enable_share'] ) {
+			$log['warnings'][] = 'Kit: lightbox_enable_share does not read back as off';
+		}
+		foreach ( $nh_old as $nh_k => $nh_v ) {       // nothing else may have changed
+			if ( 'lightbox_enable_share' !== $nh_k && ( ! is_array( $nh_back ) || ! array_key_exists( $nh_k, $nh_back ) || $nh_back[ $nh_k ] !== $nh_v ) ) {
+				$log['warnings'][] = "Kit: $nh_k changed by the save";
+			}
+		}
+		$nh_el->files_manager->clear_cache();
+"""
+
+TIDY_SAMPLES = (("posts", 1, "hello-world", "Hello world!"), ("pages", 2, "sample-page", "Sample Page"))
+TIDY_GALLERY = urllib.parse.quote("גלריית-תמונות") + "/"
+
+
+def tidy_served_share():
+    """lightbox_enable_share as the site serves it (elementorFrontendConfig.kit on the gallery page): 'yes', or 'off' (the
+    key is left out of the config, or empty, while the other lightbox keys are there); otherwise what is wrong."""
+    st, _, body = http(url_for(query=bust(), path=TIDY_GALLERY))
+    if st != 200:
+        return f"HTTP {st}"
+    m = re.search(rb"elementorFrontendConfig\s*=\s*", body)
+    if not m:
+        return "no elementorFrontendConfig on the page"
+    try:
+        cfg, _ = json.JSONDecoder().raw_decode(body[m.end():].decode("utf-8", "replace"))
+    except ValueError:
+        return "the page's elementorFrontendConfig does not parse"
+    kit = cfg.get("kit") or {}
+    if "lightbox_enable_counter" not in kit:
+        return "the Kit's lightbox settings are missing from the page"
+    return "off" if not kit.get("lightbox_enable_share") else str(kit["lightbox_enable_share"])
+
+
+def tidy_sample_state():
+    """[(kind, id, slug, title, status or HTTP error)] of WordPress's two sample items, over REST."""
+    out = []
+    for kind, pid, slug, title in TIDY_SAMPLES:
+        st, item, _ = api(f"/wp/v2/{kind}/{pid}", query={"context": "edit", "_fields": "id,slug,status,title,modified"})
+        if st != 200 or not isinstance(item, dict):
+            out.append((kind, pid, slug, title, f"HTTP {st}"))
+        else:
+            same = item.get("slug") == slug and (item.get("title") or {}).get("raw") == title
+            out.append((kind, pid, slug, title, item.get("status") if same else f"changed since WordPress made it (slug {item.get('slug')!r}): left alone"))
+    return out
+
+
+def cmd_tidy(args):
+    """The follow-ups of the external check (Oleg 23.11): the Kit's lightbox share off; the sample post and page to drafts."""
+    me = whoami(("manage_options", "edit_posts", "edit_pages"))
+    share = tidy_served_share()
+    samples = tidy_sample_state()
+    step(f"signed in as user #{me['id']}; the site serves lightbox_enable_share = {share!r}")
+    for kind, pid, slug, title, status in samples:
+        step(f"{kind}/{pid} «{title}» ({slug}): {status}")
+    if not args.go:
+        print("tidy will switch the Kit's lightbox share off (one PHP step through Code Snippets, which is switched on "
+              "for it and off again), move the two sample items to drafts (REST), purge ezCache and check the result. "
+              "Old values go to the change log. Run with --go.")
+        return
+    need(not smoke(), f"the site is not healthy before tidy: {smoke()}")
+    with Helper():
+        body = TIDY_KIT_PHP.replace("__NH_AUTHOR__", str(int(me["id"])))
+        lint_php("tidy kit", body)
+        log = run_php("tidy: Kit lightbox share off", body)
+    shown = json.loads(json.dumps(log))
+    if isinstance(shown.get("before"), dict):
+        record({"change": "tidy: Kit lightbox share (old settings: log.before.settings)", "log": log})
+        shown["before"] = {k: v for k, v in shown["before"].items() if k != "settings"}
+    print(json.dumps(shown, ensure_ascii=False, indent=1))
+    need("exception" not in log and log.get("kit"), f"the Kit step failed: {log.get('exception')}")
+    for w in log.get("warnings") or []:
+        print("!!", w)
+    for kind, pid, slug, title, status in samples:
+        if status != "publish":
+            step(f"{kind}/{pid} is {status}: nothing to do")
+            continue
+        st, item, _ = api(f"/wp/v2/{kind}/{pid}", "POST", {"status": "draft"})
+        need(st == 200 and item.get("status") == "draft", f"could not move {kind}/{pid} to a draft ({st} {err(item)})")
+        record({"change": f"tidy: {kind}/{pid} «{title}» ({slug}) status publish -> draft (WordPress's own sample; kept, not deleted)"})
+        step(f"{kind}/{pid} «{title}»: draft")
+    st_c, _, _ = api("/ezcache/v1/cache", "DELETE")
+    step(f"ezCache page cache purged ({st_c})")
+    problems = []
+    now = tidy_served_share()
+    if now != "off":
+        problems.append(f"the page does not serve the share as off: {now!r}")
+    for kind, pid, slug, title in TIDY_SAMPLES:
+        st, _, _ = http(url_for(query=bust(), path=slug + "/"))
+        if st != 404:
+            problems.append(f"/{slug}/ answers {st} to a visitor (404 expected)")
+    problems += smoke() or []
+    record({"change": "tidy: ezCache purged, checks", "ezcache": st_c, "served_share": now, "problems": problems})
+    need(not problems, f"tidy ran, but: {problems}")
+    step("done: no share button in the enlarged photo; the sample post and page are drafts")
+
+
 def main():
     ap = argparse.ArgumentParser(description="Work on the TEST site only: " + HOST,
                                  formatter_class=argparse.RawDescriptionHelpFormatter, epilog=__doc__)
@@ -3582,6 +3723,9 @@ def main():
     p = sub.add_parser("health")
     p.add_argument("--no-browser", action="store_true", help="skip the Chromium console check")
     p.set_defaults(fn=cmd_health)
+    p = sub.add_parser("tidy", help="the follow-ups of the external check (Oleg 23.11); without a flag: the plan")
+    p.add_argument("--go", action="store_true", help="apply (without it: print the plan only)")
+    p.set_defaults(fn=cmd_tidy)
     p = sub.add_parser("v4", help="the v4 home (research/09-v4-home-spec.md §7); without a flag: the plan")
     p.add_argument("--go", action="store_true", help="apply §7 steps 1-6")
     p.add_argument("--rollback", action="store_true", help="only: page #32 back to its backup, v4 header/footer to drafts")

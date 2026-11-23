@@ -79,6 +79,8 @@
  *         was lost); a focused field with its label; the round button's room up to 1479px; a one-photo set without
  *         «1 / 1»; the lightbox watched however it opens, with the focus inside; Back after the header's «צור קשר»;
  *         «הקראה» skips page numbers and reads what «להמשך קריאה» folds; one <main> on the archives (v4.js, v4.css).
+ * 1.5.13: (Oleg 23.11) no share button in the enlarged photo (v4.css; Elementor's Site Settings → Lightbox → Share is off,
+ *         set by `test_site.py tidy`); its arrows as Hebrew reads: «next» at the left, «previous» at the right (v4.css).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child

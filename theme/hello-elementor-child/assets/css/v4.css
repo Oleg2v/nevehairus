@@ -1558,6 +1558,9 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
    end with that room, a focused control or an anchor is scrolled above it,
    and the cookie banner and the «נגישות» panel open above it. From 1025px the
    floating button as before (the text column keeps clear of it there).
+   1.5.9: the bar only on a screen at least 501px high; a shorter one (a phone
+   on its side, a 200% zoom) keeps the floating column, and the text keeps a
+   gutter at that end instead (below).
    ========================================================================= */
 /* the buttons' words: for screen readers only, but in the bar */
 .nh-float__label {
@@ -1572,7 +1575,7 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
   clip-path: inset(50%);
   white-space: nowrap;
 }
-@media (max-width: 1024px) {
+@media (max-width: 1024px) and (min-height: 501px) {
   :root { --nh-bar-h: 56px; }
   .nh-float,
   html:is(.nh-consent-ask, .nh-consent-open) .nh-float,
@@ -1637,7 +1640,7 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
   html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) { scroll-padding-block-end: calc(var(--nh-consent-h, 14rem) + var(--nh-bar-h) + 24px); }
   html:is(.nh-consent-ask, .nh-consent-open) body:has(.nh-float) .e-con.nh-footer-v4 { padding-block-end: calc(var(--nh-consent-h, 14rem) + var(--nh-bar-h) + 24px + env(safe-area-inset-bottom, 0px)) !important; }
 }
-@media (max-width: 1024px) and (forced-colors: active) {
+@media (max-width: 1024px) and (min-height: 501px) and (forced-colors: active) {
   .nh-float { border-block-start: 1px solid CanvasText; }
 }
 /* 1.5.8: from 1025px the round «נגישות» button floats at the inline end (24px + 52px). Until the 1320px column has
@@ -1645,4 +1648,64 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
    stays): a text in a wide grid never runs under the button (the home's «החיים» part at 1280px did) */
 @media (min-width: 1025px) and (max-width: 1415px) {
   .e-con.nh-sec__inner { padding-inline-end: 88px !important; }
+}
+
+/* =========================================================================
+   1.5.9 (after the independent check of 1.5.7)
+   ========================================================================= */
+/* a short screen up to 1024px (a phone on its side, a 200% zoom): no bar — with the header and a first visit's banner
+   it left too little of the page; the floating column at the inline end as before 1.5.7, and the text keeps an 84px
+   gutter at that end, so it never runs under the column */
+@media (max-width: 1024px) and (max-height: 500px) {
+  .e-con.nh-sec__inner,
+  .e-con.nh-hero__content,
+  .e-con.nh-footer-v4 { padding-inline-end: 84px !important; }
+}
+@media (max-width: 1024px) and (min-height: 501px) {
+  /* «נגישות» opens right above its own button, with the pages' soft shadow */
+  .nh-float .nh-a11y { position: relative; }
+  .nh-float .nh-a11y-panel,
+  html:is(.nh-consent-ask, .nh-consent-open) .nh-float .nh-a11y-panel {
+    position: absolute;
+    bottom: calc(100% + 14px);
+    inset-inline-start: 0;
+    inset-inline-end: auto;
+    width: min(22rem, calc(100vw - 24px));
+    box-shadow: 0 16px 40px -12px rgba(28, 24, 48, .32);
+  }
+  /* high contrast: the bar stays opaque (the column's rule made the float transparent) */
+  html.nh-a11y-contrast .nh-float { background-color: #000000 !important; border-block-start-color: #FFFFFF; }
+}
+/* tablets: the cookie banner at the inline end above the bar, so the hero's text and buttons at the start stay seen */
+@media (min-width: 768px) and (max-width: 1024px) and (min-height: 501px) {
+  .nh-consent,
+  html:is(.nh-consent-ask, .nh-consent-open) .nh-consent,
+  html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) .nh-consent {
+    inset-inline-start: auto;
+    inset-inline-end: 8px;
+    width: min(32rem, calc(100vw - 16px));
+  }
+}
+/* Elementor's lightbox: nothing of ours shows through it (the bar, the banner: v4.js 11 sets the class while it is
+   open), and a slide's alt never flashes as text while its photo loads */
+html.nh-lightbox-open :is(.nh-float, .nh-consent) { display: none !important; }
+.elementor-lightbox .elementor-lightbox-image { color: transparent; }
+/* 1.5.10: with the bar (up to 1024px, at least 501px high) the cookie banner opens at the top, under the header (as on
+   phones before 1.5.7), not above the bar: the hero's heading and buttons at the foot of the first screen stay seen.
+   Phones: the whole width; tablets: 32rem at the inline end. The page's end then needs only the bar's room. */
+@media (max-width: 1024px) and (min-height: 501px) {
+  .nh-consent,
+  html:is(.nh-consent-ask, .nh-consent-open) .nh-consent,
+  html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) .nh-consent {
+    top: calc(var(--nh-top-h, var(--nh4-header-h, 69px)) + 8px);
+    bottom: auto;
+    max-height: calc(100vh - var(--nh-top-h, var(--nh4-header-h, 69px)) - var(--nh-bar-h) - 24px);
+    max-height: calc(100dvh - var(--nh-top-h, var(--nh4-header-h, 69px)) - var(--nh-bar-h) - 24px);
+  }
+  html:is(.nh-consent-ask, .nh-consent-open),
+  html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) {
+    scroll-padding-block-start: calc(var(--nh-top-h, 0px) + var(--nh-consent-h, 14rem) + 16px);
+    scroll-padding-block-end: calc(var(--nh-bar-h) + 12px + env(safe-area-inset-bottom, 0px));
+  }
+  html:is(.nh-consent-ask, .nh-consent-open) body:has(.nh-float) .e-con.nh-footer-v4 { padding-block-end: calc(var(--nh-bar-h) + 16px + env(safe-area-inset-bottom, 0px)) !important; }
 }

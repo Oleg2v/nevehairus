@@ -68,6 +68,11 @@
  * slideshow and the lightbox never shows a media title «nh4:…» (v4.js 11, and nh_child_media_title here); «הקראה»
  * looks for the voices again when the panel opens (v4.js 9).
  * 1.5.8: from 1025 to 1415px a section's column ends clear of the round «נגישות» button (v4.css).
+ * 1.5.9 (after the independent check of 1.5.7): the bar only on screens at least 501px high, a short one keeps the
+ * column and the text a gutter (v4.css); the lightbox's arrows (Elementor's Swiper styles on pages with a photo grid,
+ * nh_child_swiper_style), its alt, Hebrew arrow names, focus, our parts hidden under it (v4.js 11); a focused form
+ * field and its hint above the bar (v4.js 12); the header's «צור קשר» focuses the form's first field (v4.js 10).
+ * 1.5.10: with the bar the cookie banner opens under the header, so the first screen's text stays seen (v4.css).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -107,6 +112,7 @@ add_filter( 'elementor_pro/forms/sanitize/tel', 'nh_child_form_tel', 20 );
 add_filter( 'wp_get_attachment_image_attributes', 'nh_child_hero_sizes', 10, 2 );
 add_action( 'init', 'nh_child_no_emoji' );
 add_filter( 'the_title', 'nh_child_media_title', 10, 2 );
+add_action( 'wp_enqueue_scripts', 'nh_child_swiper_style', 40 );
 
 /**
  * `hello_elementor_page_title`: no Hello title on a page built with Elementor (its cover is the page's H1).
@@ -641,8 +647,9 @@ function nh_child_no_emoji() {
 
 /**
  * `the_title`: on the site's pages an attachment titled «nh4:…» (the deploy's marker, templates/v4/media.json) has no
- * title (1.5.7). Elementor's lightbox showed it under the enlarged photo («nh4:live-151»); a photo's real caption is
- * set by v4.js from the grid. The admin and the REST API keep the title: the deploy finds its files by it.
+ * title (1.5.7), wherever WordPress's get_the_title() prints it. Elementor's lightbox reads the post's title directly,
+ * so there v4.js part 11 replaces it (the photo's own caption, or nothing) before any click. The admin and the REST
+ * API keep the title: the deploy finds its files by it.
  *
  * @param string $title The title.
  * @param int    $id    The post's ID.
@@ -653,4 +660,19 @@ function nh_child_media_title( $title, $id = 0 ) {
 		return $title;
 	}
 	return 'attachment' === get_post_type( $id ) ? '' : $title;
+}
+
+/**
+ * `wp_enqueue_scripts` @40: Elementor's Swiper styles (registered by Elementor, served from this site) on a page with a
+ * photo grid (.nh-product, 1.5.9). Its lightbox browses such a grid as a slideshow (v4.js part 11), and without these
+ * styles the previous/next arrows were drawn below the screen (a Basic Gallery loads them by itself).
+ */
+function nh_child_swiper_style() {
+	if ( is_admin() || ! is_singular() || ! wp_style_is( 'e-swiper', 'registered' ) ) {
+		return;
+	}
+	$data = (string) get_post_meta( (int) get_queried_object_id(), '_elementor_data', true );
+	if ( false !== strpos( $data, 'nh-product' ) ) {
+		wp_enqueue_style( 'e-swiper' );
+	}
 }

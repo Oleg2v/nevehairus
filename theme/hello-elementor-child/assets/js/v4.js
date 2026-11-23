@@ -1,5 +1,5 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.5.8 (research/09-v4-home-spec.md
+   v4.js — child theme hello-elementor-child 1.5.10 (research/09-v4-home-spec.md
    §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
    No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed
@@ -47,6 +47,10 @@
       is one, else the contact page (the header template's link).
   11. 1.5.7 the photos' lightbox: a grid of photos browses as one slideshow;
       the title is the photo's own caption or nothing (never «nh4:…»).
+      1.5.9: one photo stays a single photo (no «1 / 1»); while it is open
+      html.nh-lightbox-open (our bar and banner hide), each slide gets the
+      grid photo's alt, the arrows Hebrew names, and Esc returns the focus.
+  12. 1.5.9 a form field focused above the bar: the field and its hint.
    ========================================================================= */
 (() => {
   "use strict";
@@ -1087,6 +1091,10 @@
       // after the load and whenever the panel opens, so a Hebrew voice that is there always shows the option
       [400, 1500, 4000].forEach((ms) => w.setTimeout(pickVoice, ms));
       if (btn) btn.addEventListener("click", pickVoice);
+      // 1.5.9: and while the panel stays open (a voice listed later still shows the option)
+      panel.addEventListener("focusin", pickVoice);
+      panel.addEventListener("pointerenter", pickVoice);
+      w.setInterval(() => { if (!panel.hidden && ttsLi.hidden) pickVoice(); }, 2000);
     }
 
     /* ---------- 10. 1.5.7 the header's «צור קשר» (Oleg 23.11) ---------------------------- */
@@ -1095,7 +1103,19 @@
     const ownForm = d.querySelector(".nh-sec .nh-contact-form");
     const formSec = ownForm ? ownForm.closest(".nh-sec[id]") : null;
     if (formSec && !inEditor) {
-      d.querySelectorAll(".elementor-location-header .nh-header__contact a[href]").forEach((a) => a.setAttribute("href", "#" + formSec.id));
+      d.querySelectorAll(".elementor-location-header .nh-header__contact a[href]").forEach((a) => {
+        a.setAttribute("href", "#" + formSec.id);
+        // 1.5.9: a visible result even where the form is already on the screen: the section at the top, the focus
+        // in its first field
+        a.addEventListener("click", (e) => {
+          const first = Array.from(formSec.querySelectorAll("input, textarea, select")).find((el) => el.type !== "hidden"
+            && el.getClientRects().length && !el.closest(".elementor-field-type-honeypot"));
+          e.preventDefault();
+          formSec.scrollIntoView({ block: "start" });
+          if (first) first.focus({ preventScroll: true });
+          try { w.history.replaceState(w.history.state, "", "#" + formSec.id); } catch (err) { /* old browsers */ }
+        });
+      });
     }
 
     /* ---------- 11. 1.5.7 the photos' lightbox (Oleg 23.11) ------------------------------ */
@@ -1106,8 +1126,8 @@
     if (!inEditor) {
       d.querySelectorAll(".elementor-widget-image.nh-product a[data-elementor-open-lightbox]").forEach((a) => {
         const grid = a.closest(".elementor-widget-image").parentElement;
-        const gid = (grid && grid.getAttribute("data-id")) || "grid";
-        a.setAttribute("data-elementor-lightbox-slideshow", "nh-" + gid);
+        if (!grid || grid.querySelectorAll(".elementor-widget-image.nh-product a[data-elementor-open-lightbox]").length < 2) return;
+        a.setAttribute("data-elementor-lightbox-slideshow", "nh-" + (grid.getAttribute("data-id") || "grid"));
       });
       d.querySelectorAll("a[data-elementor-open-lightbox]").forEach((a) => {
         const fig = a.closest("figure");
@@ -1118,7 +1138,69 @@
         const desc = a.getAttribute("data-elementor-lightbox-description");
         if (desc !== null && (!desc.trim() || /^nh4:/.test(desc))) a.removeAttribute("data-elementor-lightbox-description");
       });
+      // 1.5.9: while a lightbox is open: html.nh-lightbox-open (v4.css hides our bar and banner), each slide's photo
+      // gets the grid photo's alt (Elementor takes it from the title, which is gone), the arrows Hebrew names; when it
+      // closes the focus goes back to the photo that opened it
+      const altOf = new Map();
+      d.querySelectorAll("a[data-elementor-open-lightbox]").forEach((a) => {
+        const img = a.querySelector("img");
+        if (img && img.alt) altOf.set(a.href, img.alt);
+      });
+      let opener = null;
+      const shown = (el) => !!el && w.getComputedStyle(el).display !== "none";
+      const dress = (lb) => {
+        lb.querySelectorAll("img.elementor-lightbox-image").forEach((im) => {
+          if (im.hasAttribute("alt") && im.alt && !/^nh4:/.test(im.alt)) return;
+          im.alt = altOf.get(im.getAttribute("src") || "") || altOf.get(im.getAttribute("data-src") || "") || "";
+        });
+        lb.querySelectorAll(".elementor-swiper-button-next").forEach((b) => b.setAttribute("aria-label", "התמונה הבאה"));
+        lb.querySelectorAll(".elementor-swiper-button-prev").forEach((b) => b.setAttribute("aria-label", "התמונה הקודמת"));
+      };
+      const watch = () => {
+        let tries = 0;
+        const find = () => {
+          const lb = Array.from(d.querySelectorAll(".elementor-lightbox")).find(shown);
+          if (!lb) { if (tries++ < 90) w.requestAnimationFrame(find); return; }
+          html.classList.add("nh-lightbox-open");
+          dress(lb);
+          const mo = new w.MutationObserver(() => {
+            if (shown(lb)) { dress(lb); return; }
+            mo.disconnect();
+            html.classList.remove("nh-lightbox-open");
+            if (opener && d.contains(opener)) opener.focus({ preventScroll: true });
+          });
+          mo.observe(lb, { attributes: true, attributeFilter: ["style", "src", "class"], childList: true, subtree: true });
+        };
+        w.requestAnimationFrame(find);
+      };
+      d.addEventListener("click", (e) => {
+        const a = e.target.closest ? e.target.closest("a[data-elementor-open-lightbox]") : null;
+        if (a && !html.classList.contains("nh-lightbox-open")) { opener = a; watch(); }
+      }, true);
     }
+
+    /* ---------- 12. 1.5.9 a focused form field above the bar ----------------------------- */
+    // Up to 1024px (the bar: .nh-float in a row) a browser scrolls only a textarea's caret into view: the field and its
+    // hint (aria-describedby: «אין צורך לפרט כאן מידע רפואי…») could stay under the bar. After the browser's own
+    // scroll, the page moves just enough for both to show above the bar, never pushing the field under the header.
+    const bar = d.querySelector(".nh-float");
+    d.addEventListener("focusin", (e) => {
+      const f = e.target;
+      if (!bar || inEditor || !f.matches || !f.matches("input, textarea, select")) return;
+      w.requestAnimationFrame(() => {
+        if (w.getComputedStyle(bar).flexDirection !== "row" || d.activeElement !== f) return;
+        let bottom = f.getBoundingClientRect().bottom;
+        (f.getAttribute("aria-describedby") || "").split(/\s+/).forEach((id) => {
+          const el = id ? d.getElementById(id) : null;
+          if (el && el.getClientRects().length) bottom = Math.max(bottom, el.getBoundingClientRect().bottom);
+        });
+        const limit = bar.getBoundingClientRect().top - 8;
+        if (bottom <= limit) return;
+        const head = headerFloats() ? headerLoc.getBoundingClientRect().bottom : 0;
+        const room = f.getBoundingClientRect().top - head - 8;
+        if (room > 0) w.scrollBy(0, Math.min(bottom - limit, room));
+      });
+    });
   };
 
   if (d.readyState === "loading") d.addEventListener("DOMContentLoaded", init, { once: true });

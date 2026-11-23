@@ -1690,6 +1690,11 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
    open), and a slide's alt never flashes as text while its photo loads */
 html.nh-lightbox-open :is(.nh-float, .nh-consent) { display: none !important; }
 .elementor-lightbox .elementor-lightbox-image { color: transparent; }
+/* 1.5.11: the lightbox dims the page to 20%, so the sticky header showed through under its toolbar (the close, share,
+   zoom and full-screen icons over «צור קשר», the phone and the menu). The header keeps its room and comes back when the
+   lightbox closes. The counter reads «1 / 86» as numbers do in Hebrew text, not «86 / 1». */
+html.nh-lightbox-open .elementor-location-header { visibility: hidden; }
+.elementor-lightbox .elementor-slideshow__counter { direction: ltr; unicode-bidi: isolate; }
 /* 1.5.10: with the bar (up to 1024px, at least 501px high) the cookie banner opens at the top, under the header (as on
    phones before 1.5.7), not above the bar: the hero's heading and buttons at the foot of the first screen stay seen.
    Phones: the whole width; tablets: 32rem at the inline end. The page's end then needs only the bar's room. */

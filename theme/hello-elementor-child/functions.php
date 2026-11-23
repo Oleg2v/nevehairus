@@ -73,6 +73,7 @@
  * nh_child_swiper_style), its alt, Hebrew arrow names, focus, our parts hidden under it (v4.js 11); a focused form
  * field and its hint above the bar (v4.js 12); the header's «צור קשר» focuses the form's first field (v4.js 10).
  * 1.5.10: with the bar the cookie banner opens under the header, so the first screen's text stays seen (v4.css).
+ * 1.5.11: the header hidden under the lightbox, its counter «1 / 86» (v4.css).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child

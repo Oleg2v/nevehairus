@@ -1549,3 +1549,94 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
   .elementor-widget-archive-posts.nh-archive .elementor-post__card { border: 1px solid CanvasText; }
   .elementor-widget-text-editor mark.nh-todo { border: 2px solid CanvasText; }
 }
+
+/* =========================================================================
+   1.5.7 (Oleg 23.11, after an external check): on phones and tablets the
+   floating buttons never sit on the text. Up to 1024px «נגישות» and
+   «התקשרו» stand side by side, with their words, in one opaque bar along the
+   foot of the screen (--nh-bar-h and the safe area); the page and the footer
+   end with that room, a focused control or an anchor is scrolled above it,
+   and the cookie banner and the «נגישות» panel open above it. From 1025px the
+   floating button as before (the text column keeps clear of it there).
+   ========================================================================= */
+/* the buttons' words: for screen readers only, but in the bar */
+.nh-float__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (max-width: 1024px) {
+  :root { --nh-bar-h: 56px; }
+  .nh-float,
+  html:is(.nh-consent-ask, .nh-consent-open) .nh-float,
+  html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) .nh-float {
+    inset-inline: 0;
+    bottom: 0;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px 12px calc(6px + env(safe-area-inset-bottom, 0px));
+    border-block-start: 1px solid #D9DCE3;
+    background-color: #FFFFFF;
+    box-shadow: 0 -4px 16px rgba(28, 24, 48, .08);
+  }
+  .nh-float .nh-a11y { display: flex; flex: 1 1 0; max-width: 16rem; }
+  .nh-float :is(.nh-a11y-btn, .nh-call-btn) {
+    display: inline-flex;
+    flex: 1 1 0;
+    gap: .5rem;
+    width: auto;
+    max-width: 16rem;
+    height: 44px;
+    padding: 0 .875rem;
+    border-radius: 8px;
+    box-shadow: none;
+    font: 600 1.0625rem/1.2 "Assistant", "Arial Hebrew", Arial, sans-serif;
+  }
+  .nh-float .nh-a11y-btn { width: 100%; max-width: none; }
+  .nh-float :is(.nh-a11y-btn, .nh-call-btn) svg { width: 22px; height: 22px; }
+  .nh-float .nh-float__label { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; clip-path: none; }
+  .nh-float :is(.nh-a11y-btn, .nh-call-btn):focus-visible { outline: 3px solid #4A2D84; outline-offset: 2px; box-shadow: none; }
+  /* the page's end: the footer's own bottom padding is the bar's room (and 16px) */
+  body:has(.nh-float) .e-con.nh-footer-v4 { padding-block-end: calc(var(--nh-bar-h) + 16px + env(safe-area-inset-bottom, 0px)) !important; }
+  body:has(.nh-float):not(:has(.e-con.nh-footer-v4)) { padding-block-end: calc(var(--nh-bar-h) + 16px + env(safe-area-inset-bottom, 0px)); }
+  html:has(.e-con.nh-footer-v4),
+  html:has(.nh-float) { scroll-padding-block-end: calc(var(--nh-bar-h) + 12px + env(safe-area-inset-bottom, 0px)); }
+  /* «נגישות» opens above the bar, as wide as the screen allows, and scrolls within the room up to the top */
+  .nh-float .nh-a11y-panel,
+  html:is(.nh-consent-ask, .nh-consent-open) .nh-float .nh-a11y-panel {
+    position: fixed;
+    top: auto;
+    bottom: calc(var(--nh-bar-h) + 8px + env(safe-area-inset-bottom, 0px));
+    inset-inline-start: auto;
+    inset-inline-end: 8px;
+    width: min(22rem, calc(100vw - 16px));
+    max-height: calc(100vh - var(--nh-bar-h) - 24px - env(safe-area-inset-bottom, 0px));
+    max-height: calc(100dvh - var(--nh-bar-h) - 24px - env(safe-area-inset-bottom, 0px));
+  }
+  /* the cookie banner above the bar, the whole width */
+  .nh-consent,
+  html:is(.nh-consent-ask, .nh-consent-open) .nh-consent,
+  html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) .nh-consent {
+    top: auto;
+    bottom: calc(var(--nh-bar-h) + 8px + env(safe-area-inset-bottom, 0px));
+    inset-inline: 8px;
+    width: auto;
+    max-height: calc(100vh - var(--nh-bar-h) - var(--nh-top-h, 0px) - 24px);
+    max-height: calc(100dvh - var(--nh-bar-h) - var(--nh-top-h, 0px) - 24px);
+  }
+  html:is(.nh-consent-ask, .nh-consent-open),
+  html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) { scroll-padding-block-end: calc(var(--nh-consent-h, 14rem) + var(--nh-bar-h) + 24px); }
+  html:is(.nh-consent-ask, .nh-consent-open) body:has(.nh-float) .e-con.nh-footer-v4 { padding-block-end: calc(var(--nh-consent-h, 14rem) + var(--nh-bar-h) + 24px + env(safe-area-inset-bottom, 0px)) !important; }
+}
+@media (max-width: 1024px) and (forced-colors: active) {
+  .nh-float { border-block-start: 1px solid CanvasText; }
+}

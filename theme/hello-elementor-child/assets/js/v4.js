@@ -1,5 +1,5 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.5.6 (research/09-v4-home-spec.md
+   v4.js — child theme hello-elementor-child 1.5.7 (research/09-v4-home-spec.md
    §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
    No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed
@@ -41,6 +41,12 @@
       Shown only where the device has such a voice. 1.5.5 (after its review):
       an outside interruption pauses at the sentence, the screen stays on while
       it reads, forms' texts and phone buttons are read, the focus follows.
+      1.5.7: the voices are looked for again when the panel opens and shortly
+      after the load (Safari may list them late without voiceschanged).
+  10. 1.5.7 the header's «צור קשר»: the page's own contact form where there
+      is one, else the contact page (the header template's link).
+  11. 1.5.7 the photos' lightbox: a grid of photos browses as one slideshow;
+      the title is the photo's own caption or nothing (never «nh4:…»).
    ========================================================================= */
 (() => {
   "use strict";
@@ -913,7 +919,7 @@
       const pickVoice = () => {
         let list = [];
         try { list = tts.getVoices() || []; } catch (e) { list = []; }
-        const he = list.filter((v) => /^(he|iw)([-_]|$)/i.test(v.lang || "") && v.localService !== false);
+        const he = list.filter((v) => /^(he|iw|heb)([-_]|$)/i.test(v.lang || "") && v.localService !== false);
         voice = he.find((v) => v.default) || he.find((v) => /^he[-_]IL$/i.test(v.lang)) || he[0] || null;
         ttsLi.hidden = !voice;
         if (!voice && active) stop(false);
@@ -1077,6 +1083,41 @@
       pickVoice();
       if (typeof tts.addEventListener === "function") tts.addEventListener("voiceschanged", pickVoice);
       else tts.onvoiceschanged = pickVoice;
+      // 1.5.7: some engines list their voices late and say nothing (Safari without voiceschanged): look again shortly
+      // after the load and whenever the panel opens, so a Hebrew voice that is there always shows the option
+      [400, 1500, 4000].forEach((ms) => w.setTimeout(pickVoice, ms));
+      if (btn) btn.addEventListener("click", pickVoice);
+    }
+
+    /* ---------- 10. 1.5.7 the header's «צור קשר» (Oleg 23.11) ---------------------------- */
+    // The header template links it to the contact page; on a page with a contact form of its own (the home's
+    // #contact, «מעון ראשי – בית לחיים», «צור קשר») it leads to that form's section instead.
+    const ownForm = d.querySelector(".nh-sec .nh-contact-form");
+    const formSec = ownForm ? ownForm.closest(".nh-sec[id]") : null;
+    if (formSec && !inEditor) {
+      d.querySelectorAll(".elementor-location-header .nh-header__contact a[href]").forEach((a) => a.setAttribute("href", "#" + formSec.id));
+    }
+
+    /* ---------- 11. 1.5.7 the photos' lightbox (Oleg 23.11) ------------------------------ */
+    // Elementor's lightbox reads these attributes at the click. A grid of photos (.nh-product: the products and
+    // «גלריית תמונות») browses as one slideshow: its links share data-elementor-lightbox-slideshow (a Basic Gallery
+    // has its own). The title under an enlarged photo is the photo's own caption, or nothing: never the attachment's
+    // title (nh4:… is the deploy's marker; functions.php drops it too).
+    if (!inEditor) {
+      d.querySelectorAll(".elementor-widget-image.nh-product a[data-elementor-open-lightbox]").forEach((a) => {
+        const grid = a.closest(".elementor-widget-image").parentElement;
+        const gid = (grid && grid.getAttribute("data-id")) || "grid";
+        a.setAttribute("data-elementor-lightbox-slideshow", "nh-" + gid);
+      });
+      d.querySelectorAll("a[data-elementor-open-lightbox]").forEach((a) => {
+        const fig = a.closest("figure");
+        const cap = fig ? fig.querySelector("figcaption") : null;
+        const text = cap ? cap.textContent.replace(/\s+/g, " ").trim() : "";
+        if (text) a.setAttribute("data-elementor-lightbox-title", text);
+        else a.removeAttribute("data-elementor-lightbox-title");
+        const desc = a.getAttribute("data-elementor-lightbox-description");
+        if (desc !== null && (!desc.trim() || /^nh4:/.test(desc))) a.removeAttribute("data-elementor-lightbox-description");
+      });
     }
   };
 

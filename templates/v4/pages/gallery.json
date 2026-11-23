@@ -50,7 +50,7 @@
    "content/v4/posts/post-973.json",
    "content/v4/posts/post-997.json"
   ],
-  "inputs_sha256": "485d0f20e42555f2a7547990ec82404a9f5e6598cb53be1867d6a0e27409ab21",
+  "inputs_sha256": "f5bb05c072d145dfdfa8311cca9ce63fdc49096fb92c7c051c9027fecc528969",
   "widgets": [
    "heading",
    "image"

@@ -63,6 +63,10 @@
  * 1.5.5: after the independent review of «הקראה» (v4.js 9); <main id="content"> around Pro's archive template, so the
  * category pages have the skip link's target; a photo smaller than its column keeps its own size (v4.css).
  * 1.5.6: a photo smaller than its tile fills the tile in a photo grid (v4.css).
+ * 1.5.7 (Oleg 23.11, after an external check): ≤1024px the floating buttons are a labelled bar at the foot (v4.css);
+ * the header's «צור קשר» reaches the page's own form or the contact page (v4.js 10); a photo grid browses as one
+ * slideshow and the lightbox never shows a media title «nh4:…» (v4.js 11, and nh_child_media_title here); «הקראה»
+ * looks for the voices again when the panel opens (v4.js 9).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -101,6 +105,7 @@ add_action( 'elementor_pro/forms/validation', 'nh_child_form_validation', 20, 2 
 add_filter( 'elementor_pro/forms/sanitize/tel', 'nh_child_form_tel', 20 );
 add_filter( 'wp_get_attachment_image_attributes', 'nh_child_hero_sizes', 10, 2 );
 add_action( 'init', 'nh_child_no_emoji' );
+add_filter( 'the_title', 'nh_child_media_title', 10, 2 );
 
 /**
  * `hello_elementor_page_title`: no Hello title on a page built with Elementor (its cover is the page's H1).
@@ -314,7 +319,7 @@ function nh_child_v4_footer() {
 	$out  = '<aside class="nh-float" aria-label="' . esc_attr__( 'נגישות ויצירת קשר', 'hello-elementor-child' ) . '">';
 	$out .= '<div class="nh-a11y">';
 	$out .= '<button type="button" class="nh-a11y-btn" aria-expanded="false" aria-controls="nh-a11y-panel" aria-label="' . esc_attr__( 'נגישות', 'hello-elementor-child' ) . '">'
-		. $a11y_icon . '<span class="nh-visually-hidden">' . esc_html__( 'נגישות', 'hello-elementor-child' ) . '</span></button>';
+		. $a11y_icon . '<span class="nh-float__label">' . esc_html__( 'נגישות', 'hello-elementor-child' ) . '</span></button>';
 	$out .= '<div id="nh-a11y-panel" class="nh-a11y-panel" role="dialog" aria-label="' . esc_attr__( 'תפריט נגישות', 'hello-elementor-child' ) . '" hidden>';
 	$out .= '<h2 class="nh-a11y-panel__title">' . esc_html__( 'נגישות', 'hello-elementor-child' ) . '</h2>';
 	$out .= '<ul class="nh-a11y-panel__list" role="list">';
@@ -341,7 +346,7 @@ function nh_child_v4_footer() {
 	$out .= '<a class="nh-a11y-panel__statement" href="' . esc_url( home_url( '/הצהרת-נגישות/' ) ) . '">' . esc_html__( 'הצהרת נגישות', 'hello-elementor-child' ) . '</a>';
 	$out .= '</div>'; // .nh-a11y-panel
 	$out .= '</div>'; // .nh-a11y
-	$out .= '<a class="nh-call-btn" href="tel:089403047" aria-label="' . esc_attr__( 'התקשרו אלינו: 08-9403047', 'hello-elementor-child' ) . '">' . $phone_icon . '</a>';
+	$out .= '<a class="nh-call-btn" href="tel:089403047" aria-label="' . esc_attr__( 'התקשרו אלינו: 08-9403047', 'hello-elementor-child' ) . '">' . $phone_icon . '<span class="nh-float__label">' . esc_html__( 'התקשרו', 'hello-elementor-child' ) . '</span></a>';
 	$out .= '<p id="nh-v4-live" class="nh-visually-hidden" role="status" aria-live="polite"></p>';
 	$out .= '</aside>';
 
@@ -631,4 +636,20 @@ function nh_child_no_emoji() {
 	remove_action( 'wp_enqueue_scripts', 'wp_enqueue_emoji_styles' );
 	remove_action( 'enqueue_embed_scripts', 'wp_enqueue_emoji_styles' );
 	remove_action( 'wp_print_styles', 'print_emoji_styles' );
+}
+
+/**
+ * `the_title`: on the site's pages an attachment titled «nh4:…» (the deploy's marker, templates/v4/media.json) has no
+ * title (1.5.7). Elementor's lightbox showed it under the enlarged photo («nh4:live-151»); a photo's real caption is
+ * set by v4.js from the grid. The admin and the REST API keep the title: the deploy finds its files by it.
+ *
+ * @param string $title The title.
+ * @param int    $id    The post's ID.
+ * @return string
+ */
+function nh_child_media_title( $title, $id = 0 ) {
+	if ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || ! $id || 0 !== strpos( (string) $title, 'nh4:' ) ) {
+		return $title;
+	}
+	return 'attachment' === get_post_type( $id ) ? '' : $title;
 }

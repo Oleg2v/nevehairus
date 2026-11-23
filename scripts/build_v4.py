@@ -89,7 +89,8 @@ Where the data goes beyond the letter of the specs (each for one of their own ru
     stands over the hero's H1: the theme makes it float and turns it transparent at the top (spec 10 §2), so the data
     hold the solid state (white, ink and purple), which is also what a visitor without scripts gets; the logo's white
     badge is the theme's;
-  - «צור קשר» in the header links to #contact, as in the hero (the menu item keeps /צור-קשר/);
+  - «צור קשר» in the header links to the contact page /צור-קשר/ (23.11: #contact is only on the home); v4.js points
+    it at the page's own contact form where there is one (the home's #contact, the forms of the inner pages);
   - card 4's subline is an empty Text Editor («leave empty»): nothing is printed, the client can fill it;
   - the WhatsApp button (when WHATSAPP is set) has no hover colour of its own (no Kit colour fits): the theme
     darkens it;
@@ -147,6 +148,7 @@ SPECIAL_READ_MORE = True    # «להמשך קריאה» at the end of the open t
 PHONE_TEL = "tel:089403047"
 PHONE_LABEL = "התקשרו: 08-9403047"                     # aria-label of the icon-only phone button (§4.0)
 CONTACT_ANCHOR = "#contact"                            # the contact band (spec 10 §1.1, §1.10)
+CONTACT_PAGE = "@home:/צור-קשר/"                       # the header's «צור קשר» (1.5.7; v4.js: the page's own form)
 IN_PAGE_OK = ("#nh-cookies",)                          # the theme's cookie settings (printed on every page, v4.3)
 
 # ---- design tokens (09 §1, 10 §0) and the Kit (09 §2) ---------------------------------------------------------------------
@@ -569,8 +571,10 @@ class Builder:
                         hide=("tablet", "mobile")),
             self.button(None, "header/top/actions/phone-icon", PHONE_TEL, "soft", icon_name="phone-alt",
                         aria_label=PHONE_LABEL, hide=("desktop",)),
-            self.button("header.contact", "header/top/actions/contact", CONTACT_ANCHOR, "primary",
-                        hide=("tablet", "mobile")),
+            # 1.5.7 (external check 23.11): #contact exists only on the home; the contact page on every page, and
+            # v4.js points the button at the page's own form where it has one (the home's #contact included)
+            self.button("header.contact", "header/top/actions/contact", CONTACT_PAGE, "primary",
+                        classes="nh-header__contact", hide=("tablet", "mobile")),
         ], title="כפתורים")
         top = self.container("header/top", {
             "content_width": "boxed", "boxed_width": size(HEADER_WIDTH),
@@ -1625,11 +1629,13 @@ def page_problems(docs, media_list):
             for path, url in link_urls(e):
                 if url.startswith("#") and url not in IN_PAGE_OK and url[1:] not in targets:
                     problems.append(f"{key}/{path}: {url} has no target on the page")
-    for key in ("home", "header-v4"):
+    # «צור קשר»: the hero's to the home's #contact; the header's (on every page, 1.5.7) to the contact page — v4.js
+    # points it at a page's own form where there is one
+    for key, want in (("home", CONTACT_ANCHOR), ("header-v4", CONTACT_PAGE)):
         n = sum(1 for e in walk_elements((docs.get(key) or {}).get("elementor_data") or [])
-                for _, url in link_urls(e) if url == CONTACT_ANCHOR)
+                for _, url in link_urls(e) if url == want)
         if n != 1:
-            problems.append(f"{key}: {n} link(s) to {CONTACT_ANCHOR}, expected one («צור קשר», spec 10 §1.1)")
+            problems.append(f"{key}: {n} link(s) to {want}, expected one («צור קשר», spec 10 §1.1)")
     if "contact" not in targets:
         problems.append("home: no element with the id contact (the target of «צור קשר»)")
     # the contacts template: only in the footer, once, before the bottom row

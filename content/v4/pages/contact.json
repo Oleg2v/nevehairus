@@ -1,0 +1,140 @@
+{
+ "key": "contact",
+ "order": 90,
+ "title": "צור קשר",
+ "slug": "צור-קשר",
+ "parent": null,
+ "source": "live page, read 23.11.2026 (content/pages/contact.md, snapshot 15.11.2026: not modified since)",
+ "notes": "The live page: H1, the form (name, e-mail, phone, the message: all required) beside the map of נס ציונה. The form as the home's (consent, the privacy note naming the owner of the data and the phone); submissions kept in the admin, no e-mail on the test site. The map loads Google's frame only after a click (the theme).",
+ "h1": "h1",
+ "blocks": {
+  "h1": {
+   "kind": "text",
+   "full": "צור קשר",
+   "plain": null,
+   "no_plain": "a name"
+  },
+  "form.name": {
+   "kind": "text",
+   "full": "פנייה מהאתר",
+   "plain": null,
+   "no_plain": "the form's name in the admin"
+  },
+  "form.required_note": {
+   "kind": "html",
+   "full": "שדות המסומנים ב־<span class=\"nh-req\" aria-hidden=\"true\">*</span><span class=\"nh-visually-hidden\">כוכבית</span> הם שדות חובה.",
+   "plain": "צריך למלא את השדות עם כוכבית <span class=\"nh-req\" aria-hidden=\"true\">*</span>.",
+   "plain_status": "draft",
+   "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11"
+  },
+  "form.label_name": {
+   "kind": "text",
+   "full": "שם מלא",
+   "plain": null,
+   "no_plain": "a label"
+  },
+  "form.label_email": {
+   "kind": "text",
+   "full": "דוא\"ל",
+   "plain": null,
+   "no_plain": "a label"
+  },
+  "form.label_phone": {
+   "kind": "text",
+   "full": "טלפון",
+   "plain": null,
+   "no_plain": "a label"
+  },
+  "form.label_message": {
+   "kind": "text",
+   "full": "תוכן הפנייה",
+   "plain": null,
+   "no_plain": "a label (the live form's placeholder «אנא הכניסו את תוכן הפניה»)"
+  },
+  "form.hint": {
+   "kind": "text",
+   "full": "אין צורך לפרט כאן מידע רפואי. נדבר על הכול בשיחה.",
+   "plain": "לא צריך לכתוב כאן מידע רפואי. נדבר על זה בשיחה.",
+   "plain_status": "draft",
+   "source": "the visit form of the inner page (#33: plugin nh-door / NH_Forms «visit», its texts and NH_Settings messages); v4.3, Itzik 18.11; under the message field, linked to it (aria-describedby)"
+  },
+  "form.consent": {
+   "kind": "html",
+   "full": "קראתי את <a href=\"@home:/מדיניות-פרטיות/\">מדיניות הפרטיות</a> ואני מסכים/ה שתיצרו איתי קשר בעניין הפנייה.&nbsp;<span class=\"nh-req\" aria-hidden=\"true\">*</span>",
+   "plain": "אני מסכים או מסכימה שתתקשרו אליי.&nbsp;<span class=\"nh-req\" aria-hidden=\"true\">*</span><br><a href=\"@home:/מדיניות-פרטיות/\">מה עושים עם הפרטים שלי?</a>"
+  },
+  "form.privacy": {
+   "kind": "html",
+   "full": "מסירת הפרטים אינה חובה לפי חוק, אך בלעדיהם לא נוכל לחזור אליכם. הפרטים ישמשו רק למענה לפנייה, יישמרו במאגר המידע של נוה האירוס בע״מ ולא יועברו לגורם אחר. אפשר לבקש לעיין במידע ולתקן אותו: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.",
+   "plain": "לא חייבים לתת לנו את הפרטים.<br>בלי הפרטים לא נוכל לחזור אליכם.<br>הפרטים נשמרים אצלנו, בנוה האירוס, רק כדי לענות לכם.<br>לא נותנים אותם לאף אחד אחר.<br>אפשר לבקש לראות אותם או לתקן אותם, בטלפון <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>."
+  },
+  "form.submit": {
+   "kind": "text",
+   "full": "שליחת הפנייה",
+   "plain": null,
+   "no_plain": "a button"
+  },
+  "form.success": {
+   "kind": "text",
+   "full": "תודה! הפנייה התקבלה. נחזור אליכם בהקדם.",
+   "plain": null,
+   "no_plain": "a short message"
+  },
+  "form.error": {
+   "kind": "text",
+   "full": "משהו השתבש בשליחה. אפשר לנסות שוב, או להתקשר: 08-9403047",
+   "plain": null,
+   "no_plain": "a short message"
+  },
+  "form.invalid": {
+   "kind": "text",
+   "full": "נמצאו שגיאות בטופס.",
+   "plain": null,
+   "no_plain": "a short message"
+  },
+  "form.required": {
+   "kind": "text",
+   "full": "צריך למלא את השדה הזה.",
+   "plain": null,
+   "no_plain": "a short message"
+  },
+  "map.label": {
+   "kind": "text",
+   "full": "מפה: נס ציונה",
+   "plain": null,
+   "no_plain": "a name"
+  },
+  "map.text": {
+   "kind": "text",
+   "full": "המפה מגיעה מ־Google. היא נטענת רק אחרי לחיצה על הכפתור.",
+   "plain": "המפה של Google תופיע רק אחרי שתלחצו על הכפתור."
+  },
+  "map.button": {
+   "kind": "text",
+   "full": "הצגת המפה",
+   "plain": null,
+   "no_plain": "a button"
+  },
+  "map.link": {
+   "kind": "text",
+   "full": "פתיחה ב־Google Maps",
+   "plain": null,
+   "no_plain": "a link"
+  }
+ },
+ "sections": [
+  {
+   "type": "form-map",
+   "id": "contact-form",
+   "title": "טופס ומפה",
+   "map": {
+    "src": "https://maps.google.com/maps?q=%D7%A0%D7%A1+%D7%A6%D7%99%D7%95%D7%A0%D7%94&iwloc=near&output=embed&hl=iw&region=IL",
+    "href": "https://maps.google.com/maps?q=%D7%A0%D7%A1+%D7%A6%D7%99%D7%95%D7%A0%D7%94",
+    "label": "map.label",
+    "text": "map.text",
+    "button": "map.button",
+    "link": "map.link"
+   }
+  }
+ ]
+}

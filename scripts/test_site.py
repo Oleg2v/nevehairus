@@ -1822,7 +1822,8 @@ V4_PRELUDE_PHP = r"""
 		$nh_kit    = json_decode( base64_decode( '__NH_KIT_B64__' ), true );
 		$nh_menu   = json_decode( base64_decode( '__NH_MENU_B64__' ), true );
 		$nh_author = __NH_AUTHOR__;
-		if ( ! is_array( $nh_docs ) || 4 !== count( $nh_docs ) || ! is_array( $nh_kit ) || ! is_array( $nh_menu ) ) {
+		// the home's four documents, then the inner pages (23.11)
+		if ( ! is_array( $nh_docs ) || count( $nh_docs ) < 4 || ! is_array( $nh_kit ) || ! is_array( $nh_menu ) ) {
 			throw new Exception( 'the v4 data did not decode' );
 		}
 		// The snippet runs on wp_loaded, before WordPress accepts the application password: act as the script's user.
@@ -1925,6 +1926,16 @@ V4_RENDER_PHP = r"""
 			$nh_f                    = $nh_find( $nh_key, $nh_type );
 			$log['found'][ $nh_key ] = $nh_f ? $nh_f[0] : null;
 			$nh_ids[ $nh_key ]       = $nh_f ? $nh_f[0] : 990000 + $nh_n;   // a placeholder id where the post is not there yet
+		}
+		// 23.11: the inner pages, found by their key too (a placeholder id where the page is not there yet)
+		foreach ( $nh_docs as $nh_doc ) {
+			$nh_key = (string) $nh_doc['key'];
+			if ( ! isset( $nh_ids[ $nh_key ] ) ) {
+				$nh_n++;
+				$nh_f                    = $nh_find( $nh_key, (string) $nh_doc['post_type'] );
+				$log['found'][ $nh_key ] = $nh_f ? $nh_f[0] : null;
+				$nh_ids[ $nh_key ]       = $nh_f ? $nh_f[0] : 990000 + $nh_n;
+			}
 		}
 		$nh_links = array(
 			'home'      => home_url( '/' ),
@@ -2376,7 +2387,13 @@ V4_DOCS_PHP = r"""
 					wp_untrash_post( $nh_id );   // WordPress restores it as a draft
 				}
 				if ( 'home' !== $nh_key ) {
-					$nh_res = wp_update_post( wp_slash( array( 'ID' => $nh_id, 'post_title' => (string) $nh_doc['title'] ) ), true );
+					$nh_up = array( 'ID' => $nh_id, 'post_title' => (string) $nh_doc['title'] );
+					// 23.11: an inner page keeps the live address: its slug and its parent
+					if ( 'page' === $nh_type ) {
+						$nh_up['post_name']   = sanitize_title( (string) $nh_doc['slug'] );
+						$nh_up['post_parent'] = empty( $nh_doc['parent'] ) ? 0 : (int) ( $nh_ids[ $nh_doc['parent'] ] ?? 0 );
+					}
+					$nh_res = wp_update_post( wp_slash( $nh_up ), true );
 					if ( is_wp_error( $nh_res ) ) {
 						throw new Exception( "$nh_key: " . $nh_res->get_error_message() );
 					}
@@ -2387,6 +2404,7 @@ V4_DOCS_PHP = r"""
 					'post_status'    => 'draft',
 					'post_title'     => (string) $nh_doc['title'],
 					'post_name'      => sanitize_title( (string) $nh_doc['slug'] ),
+					'post_parent'    => empty( $nh_doc['parent'] ) ? 0 : (int) ( $nh_ids[ $nh_doc['parent'] ] ?? 0 ),
 					'post_author'    => $nh_author,
 					'post_content'   => '',
 					'comment_status' => 'closed',
@@ -2404,6 +2422,9 @@ V4_DOCS_PHP = r"""
 			}
 			$nh_ids[ $nh_key ]      = (int) $nh_id;
 			$log['docs'][ $nh_key ] = array( 'id' => (int) $nh_id, 'action' => $nh_was ? ( 'trash' === $nh_was ? 'restored from the trash, updated' : 'updated' ) : 'created', 'was' => $nh_was );
+			if ( ! empty( $nh_doc['parent'] ) && empty( $nh_ids[ $nh_doc['parent'] ] ) ) {
+				throw new Exception( "$nh_key: its parent {$nh_doc['parent']} was not written before it" );
+			}
 		}
 		$nh_main          = $nh_find( 'main-home', 'page' );
 		$nh_ids['main-home'] = $nh_main ? $nh_main[0] : 0;
@@ -2469,6 +2490,32 @@ V4_DOCS_PHP = r"""
 			}
 		}
 
+		// 23.11: the v4 header and footer are on every page (include/general); the v3.2 ones (_nh_page_key header and
+		// footer, #34 and #35) lose their display conditions, so Pro never picks them. Nothing is deleted: the old
+		// conditions are in log.before.v32_conditions, and the templates stay as they are.
+		foreach ( array( 'header', 'footer' ) as $nh_old ) {
+			foreach ( $nh_find( $nh_old, 'elementor_library' ) as $nh_oid ) {
+				$nh_c = get_post_meta( $nh_oid, '_elementor_conditions', true );
+				if ( ! empty( $nh_c ) ) {
+					$log['before']['v32_conditions'][ "$nh_old #$nh_oid" ] = $nh_c;
+					delete_post_meta( $nh_oid, '_elementor_conditions' );
+					$log['v32'][] = "the v3.2 $nh_old #$nh_oid: display conditions removed (the template is kept)";
+				}
+			}
+		}
+		// the inner pages' addresses, read back (a slug taken by another post would get «-2»)
+		foreach ( $nh_docs as $nh_doc ) {
+			if ( 'page' === $nh_doc['post_type'] && 'home' !== $nh_doc['key'] ) {
+				$nh_pid  = $nh_ids[ $nh_doc['key'] ];
+				$nh_want = home_url( user_trailingslashit( implode( '/', array_merge(
+					empty( $nh_doc['parent'] ) ? array() : array( urldecode( (string) get_post_field( 'post_name', $nh_ids[ $nh_doc['parent'] ], 'raw' ) ) ),
+					array( (string) $nh_doc['slug'] ) ) ) ) );
+				$nh_is   = urldecode( (string) get_permalink( $nh_pid ) );
+				if ( $nh_is !== urldecode( $nh_want ) ) {
+					$log['warnings'][] = "{$nh_doc['key']}: its address is $nh_is, not $nh_want";
+				}
+			}
+		}
 		// Theme Builder conditions: Pro rebuilds its cache from every template's _elementor_conditions.
 		$log['conditions'] = $nh_conditions_cache();
 		$nh_opt = get_option( 'elementor_pro_theme_builder_conditions' );
@@ -2476,8 +2523,9 @@ V4_DOCS_PHP = r"""
 			$nh_all = ( is_array( $nh_opt ) && isset( $nh_opt[ $nh_loc ] ) ) ? (array) $nh_opt[ $nh_loc ] : array();
 			$log['conditions_cache'][ $nh_key ] = isset( $nh_all[ $nh_ids[ $nh_key ] ] ) ? $nh_all[ $nh_ids[ $nh_key ] ] : 'missing';
 			foreach ( $nh_all as $nh_tid => $nh_conds ) {
-				if ( (int) $nh_tid !== $nh_ids[ $nh_key ] && in_array( 'include/singular/front_page', (array) $nh_conds, true ) ) {
-					$log['warnings'][] = "$nh_loc: template #$nh_tid also has include/singular/front_page; Pro may show it instead";
+				if ( (int) $nh_tid !== $nh_ids[ $nh_key ] && ( in_array( 'include/singular/front_page', (array) $nh_conds, true )
+						|| in_array( 'include/general', (array) $nh_conds, true ) ) ) {
+					$log['warnings'][] = "$nh_loc: template #$nh_tid also has display conditions; Pro may show it instead";
 				}
 			}
 		}
@@ -2578,7 +2626,9 @@ def load_v4():
     if (docs, kit, menu) != fresh:
         problems.append("templates/v4/*.json are not what this tree's inputs make: run python3 -I scripts/build_v4.py")
     need(not problems, "templates/v4 does not pass scripts/build_v4.py check:\n  " + "\n  ".join(problems[:20]))
-    return bv, [docs[k] for k in V4_KEYS], kit, menu, media_list
+    # 23.11: the inner pages (templates/v4/pages/*.json), in their order: a parent before its children
+    pages = [docs[sp["key"]] for sp in bv.page_specs()]
+    return bv, [docs[k] for k in V4_KEYS] + pages, kit, menu, media_list
 
 
 def v4_media_files(media_list):
@@ -2910,6 +2960,42 @@ def v4_page_problems(url, docs, ids):
                       "cache": hdr.get("x-ezcache") or hdr.get("x-cache") or ""}
 
 
+def v4_inner_problems(url, doc, ids):
+    """An inner page as a visitor gets it (23.11): 200, no PHP error, its widgets, the v4 header and footer, no
+    unresolved token, nothing loaded from another host."""
+    if not url.startswith(BASE):
+        return [f"its address {url!r} is not on {HOST}"]
+    for attempt in (1, 2):
+        problems = v4_inner_once(url, doc, ids)
+        if not problems or attempt == 2:
+            return problems
+        # the very first view right after the deploy printed some widgets late (seen 23.11 for the gallery and the
+        # HTML widget; the next view had them): look once more before calling it a problem
+        time.sleep(4)
+    return problems
+
+
+def v4_inner_once(url, doc, ids):
+    st, _, body = http(url + ("&" if "?" in url else "?") + urllib.parse.urlencode(bust()))
+    html = body.decode("utf-8", "replace")
+    problems = [] if st == 200 else [f"HTTP {st}"]
+    if any(c in html for c in CRITICAL):
+        problems.append("a PHP error on the page")
+    for wt in v4_widget_types(doc):
+        if f"elementor-widget-{V4_WRAPPER_CLASS.get(wt, wt)}" not in html:
+            problems.append(f"widget {wt} is missing")
+    for key, loc in (("header-v4", "header"), ("footer-v4", "footer")):
+        m = re.search(r'<(\w+)\s[^>]*\bdata-elementor-type="' + loc + r'"[^>]*\bdata-elementor-id="(\d+)"', html)
+        if not m or int(m.group(2)) != int(ids.get(key) or 0):
+            problems.append(f"the v4 {loc} is not on the page")
+    if V4_UNRESOLVED.search(html):
+        problems.append("an unresolved token in the page")
+    external = v4_external_requests(html)
+    if external:
+        problems.append(f"requests to other hosts: {external[:6]}")
+    return problems
+
+
 V4_PLAN = """v4 will change the test site (research/09-v4-home-spec.md §7), each step idempotent:
   1. backup of the home page #{home}: {backup}
   2. media: {upload} file(s) to upload (titled nh4:<name>, Hebrew alt text; the PDF too), {reuse} already there;
@@ -2921,7 +3007,8 @@ V4_PLAN = """v4 will change the test site (research/09-v4-home-spec.md §7), eac
 {docs}
      written as Elementor saves them, the templates published, Pro's conditions cache rebuilt, Elementor's CSS cache
      emptied; Settings → Reading is not changed (the front page is #{front})
-     The v3.2 header #34 and footer #35 keep include/general: they stay on every other page (the house page too).
+     23.11: header-v4 and footer-v4 on every page (include/general); the v3.2 header #34 and footer #35 lose their
+     display conditions (kept as templates); the inner pages get their live slugs and parents.
   6. ezCache purged; the home page smoke-tested (200, no PHP error, every widget and section, the v4 header/footer,
      no unresolved token, no request to a host other than ours or YouTube)
   Link targets on the test site (the live slugs; not there yet ≠ an error of v4): {targets}
@@ -3028,7 +3115,10 @@ def cmd_v4(args):
     lines = []
     lib_by_slug = {p.get("slug"): p for p in library}
     for d in docs:
-        if d["post_type"] == "page":
+        if d["post_type"] == "page" and d["key"] != "home":
+            where = (f"inner page /{(d.get('parent') or '') and (d['parent'] + '/…/')}{d['slug']}/ (found by _nh_page_key "
+                     f"{d['key']} or created; slug and parent as on the live site)")
+        elif d["post_type"] == "page":
             where = f"page #{home['id'] if home else '?'} (the front page: data and meta replaced; title, slug, status kept)"
         else:
             found = lib_by_slug.get(d["slug"])
@@ -3363,6 +3453,9 @@ def v4_go(me, docs, kit, menu, files, media_map, state):
     step(f"ezCache page cache purged ({st_c})")
     ids = {k: v.get("id") for k, v in log["docs"].items()}
     problems, facts = v4_page_problems(str(log["docs"]["home"].get("url") or BASE), docs, ids)
+    for d in docs:
+        if d["post_type"] == "page" and d["key"] != "home":
+            problems += [f"{d['key']}: {p}" for p in v4_inner_problems(str(log["docs"][d["key"]].get("url") or ""), d, ids)]
     site = smoke()
     record({"change": "v4 step 6: ezCache purged, smoke test", "ezcache": st_c, "home": facts, "problems": problems,
             "site": site})

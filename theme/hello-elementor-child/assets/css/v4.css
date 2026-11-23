@@ -1443,3 +1443,58 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
   .elementor-element.e-con.nh-hero .elementor-element.nh-hero__img img { height: auto !important; max-height: 9cm !important; }
   .elementor-element.e-con.nh-hero:has(.nh-hero__img) :is(.elementor-heading-title, .elementor-widget-text-editor) { color: #1F2421 !important; text-shadow: none !important; }
 }
+
+/* =========================================================================
+   1.5.0 (23.11, Oleg: every page of the live menu and footer on the home's design) — the inner pages, built by
+   scripts/build_v4.py (PageBuilder) from Elementor's own widgets: the same sections, column, cards and reveal as
+   the home; here only what Elementor has no control for.
+   ========================================================================= */
+/* the reading column's text: paragraphs and lists spaced like the home's long text */
+.elementor-widget-text-editor:is(.nh-page__text, .nh-page__lead) :is(p, ul, ol) { margin: 0 0 1em; }
+.elementor-widget-text-editor:is(.nh-page__text, .nh-page__lead) > :last-child,
+.elementor-widget-text-editor:is(.nh-page__text, .nh-page__lead) .elementor-widget-container > :last-child { margin-bottom: 0; }
+.elementor-widget-text-editor.nh-page__text :is(ul, ol) { padding-inline-start: 1.5em; }
+.elementor-widget-text-editor.nh-page__text li + li { margin-top: .5em; }
+/* the photo beside the text: the whole photo, the cards' corners */
+.elementor-widget-image.nh-page__img img { display: block; width: 100%; height: auto; border-radius: 16px; }
+/* a quotation (the song on «אודות»): a green rule at the inline start, the attribution smaller */
+.elementor-widget-text-editor.nh-quote { padding-inline-start: 1.25rem; border-inline-start: 4px solid #8CC05C; }
+.elementor-widget-text-editor.nh-quote p { margin: 0; }
+.elementor-widget-text-editor.nh-quote .nh-quote__cite { margin-top: .5rem; font-size: 1rem; line-height: 1.5; color: #4F5550; }
+/* the gallery (Elementor's Basic Gallery): even tiles, the whole photo opens larger in Elementor's lightbox */
+.elementor-widget-image-gallery.nh-gallery .gallery-item img {
+  display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border: 0; border-radius: 12px;
+}
+.elementor-widget-image-gallery.nh-gallery .gallery-item a:focus-visible { outline: 3px solid #4A2D84; outline-offset: 3px; border-radius: 12px; }
+@media (max-width: 767px) {   /* the Basic Gallery has one column count: two on phones */
+  .elementor-widget-image-gallery.nh-gallery .gallery .gallery-item { max-width: 50%; }
+}
+/* a table (the roles on «אודות»); on phones each row is a small block, the column's name before each value */
+.elementor-widget-text-editor.nh-table table { width: 100%; border-collapse: collapse; margin: 0; }
+.elementor-widget-text-editor.nh-table :is(th, td) { padding: .75rem .5rem; text-align: start; vertical-align: top; border: 0; border-bottom: 1px solid #D9DCE3; }
+.elementor-widget-text-editor.nh-table th { font-weight: 700; color: #4A2D84; }
+.elementor-widget-text-editor.nh-table tbody tr:last-child td { border-bottom: 0; }
+@media (max-width: 767px) {
+  .elementor-widget-text-editor.nh-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .elementor-widget-text-editor.nh-table :is(table, tbody, tr, td) { display: block; }
+  .elementor-widget-text-editor.nh-table tr { padding: .75rem 0; border-bottom: 1px solid #D9DCE3; }
+  .elementor-widget-text-editor.nh-table tbody tr:last-child { border-bottom: 0; }
+  .elementor-widget-text-editor.nh-table td { padding: .125rem 0; border: 0; }
+  .elementor-widget-text-editor.nh-table td::before { content: attr(data-label) ": "; font-weight: 700; }
+}
+/* the click-to-load map: the text and the button until a click (v4.js 8), then Google's frame */
+.nh-map { display: flex; flex-direction: column; gap: .75rem; }
+.nh-map__text, .nh-map__actions { margin: 0; }
+.nh-map__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; }
+.nh-map__btn {
+  min-height: 48px; padding: .75rem 1.5rem; border: 0; border-radius: 8px; background-color: #4A2D84; color: #FFFFFF;
+  font: inherit; font-weight: 600; line-height: 1.5; cursor: pointer;
+}
+.nh-map__btn:hover { background-color: #3A2269; }
+.nh-map__btn:focus-visible { outline: 3px solid #4A2D84; outline-offset: 3px; }
+.nh-map__link { color: #4A2D84; text-decoration: underline; text-underline-offset: .2em; }
+.nh-map__frame { display: block; width: 100%; aspect-ratio: 4 / 3; border: 0; border-radius: 12px; }
+@media (forced-colors: active) {
+  .nh-map__btn { border: 2px solid ButtonText; }
+  .elementor-widget-text-editor.nh-quote { border-inline-start-color: CanvasText; }
+}

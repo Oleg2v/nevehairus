@@ -160,5 +160,105 @@
    "text_ramp": "4rem"
   },
   "note": "v4.4 (Itzik 19.11: «новое горизонтальное фото того же коридора с небом на потолке… поставь его на первый экран»). The file Oleg sent on 19.11 (from Itzik's e-mail): a PNG of 1717x916 with a 256-colour palette, no metadata — not the photographer's original. Cleaned of the palette's dither grain (ImageMagick -selective-blur 0x1.6+7%), enlarged to 2560 wide with Lanczos and a light unsharp mask, JPEG q86, no metadata. Real detail stays that of 1717x916: about as sharp as the old hero on desktops (1.0 image px per CSS px at 1440x900, the old one 1.25), softer on phones (1.4 at 390x664, the old one 2.8). Replace with the original file when it comes. Focus 50% 40%: the door at the vanishing point stays centred on phones, which show the sky panels and the door; wider screens than the photo keep more of the sky. No people: through the glass door only trees, planters and a building. Shades measured on its pixels (research/12 §5)."
+ },
+ "main-home-purim": {
+  "file": "templates/v4/media/main-home-purim.jpg",
+  "alt": "חוגגים מחופשים מתקבצים במעגל בחצר המעון בחגיגת פורים, ביניהם גבר במדי צבא ואישה בתחפושת פיה תכלת; הפנים מטושטשות",
+  "title": "nh4:main-home-purim",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2018/02/20180228_103824.jpg",
+  "width": 2000,
+  "height": 1500,
+  "faces": "blurred (faces only)",
+  "note": "23.11 (Oleg: «на обычных фото лица размыть»): live media 786, every visible face blurred by scripts/blur_faces.py (28 found with OpenCV's YuNet and checked by eye); everything else unchanged. Long side ≤2000 px, JPEG q82, no metadata."
+ },
+ "about-residents": {
+  "file": "templates/v4/media/about-residents.jpg",
+  "alt": "קבוצת דיירים בחולצות כחולות תואמות עומדת ליד גדר מכלאה בחוות בעלי חיים ומביטה בפרות; הפנים מטושטשות",
+  "title": "nh4:about-residents",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2017/12/דיירים.jpg",
+  "width": 1600,
+  "height": 900,
+  "faces": "blurred (faces only)",
+  "note": "23.11 (Oleg: «на обычных фото лица размыть»): live media 1271, every visible face blurred by scripts/blur_faces.py (8 found with OpenCV's YuNet and checked by eye); everything else unchanged. Long side ≤1600 px, JPEG q82, no metadata."
+ },
+ "about-shopping": {
+  "file": "templates/v4/media/about-shopping.jpg",
+  "alt": "אישה בחולצה כחולה וקרדיגן שחור עומדת בחנות בגדים, בין מדפים עמוסי בגדים מקופלים; הפנים מטושטשות",
+  "title": "nh4:about-shopping",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2025/12/נוה-האירוס-בכייף.png",
+  "width": 1200,
+  "height": 1600,
+  "faces": "pixelated on the live site",
+  "note": "23.11: live media 1312 as it is (its faces were pixelated on the live site; the detector finds none), from the 256-colour PNG to JPEG q82, no metadata."
+ },
+ "about-pool": {
+  "file": "templates/v4/media/about-pool.jpg",
+  "alt": "שלוש נשים במים בבריכה מקורה, עם אטריית שחייה כתומה וכדור ירוק, וברקע ציוד כושר כחול; הפנים מטושטשות",
+  "title": "nh4:about-pool",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2025/12/נוה-האירוס-נהנים-בבריכה.png",
+  "width": 1600,
+  "height": 1204,
+  "faces": "pixelated on the live site",
+  "note": "23.11: live media 1335 as it is (its faces were pixelated on the live site; the detector finds none), from the 256-colour PNG to JPEG q82, no metadata."
+ },
+ "about-riding": {
+  "file": "templates/v4/media/about-riding.jpg",
+  "alt": "גבר בחולצה לבנה רוכב על סוס בהיר במגרש רכיבה חולי, ולצידו אדם המחזיק את הסוס בחבל; הפנים מטושטשות",
+  "title": "nh4:about-riding",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2025/12/יוצרים-ונהנים-בנוה-האירוס.png",
+  "width": 738,
+  "height": 1600,
+  "faces": "pixelated on the live site",
+  "note": "23.11: live media 1307 as it is (its faces were pixelated on the live site; the detector finds none), from the 256-colour PNG to JPEG q82, no metadata."
+ },
+ "about-cinema": {
+  "file": "templates/v4/media/about-cinema.jpg",
+  "alt": "קבוצת חברים אוכלת ליד שולחנות עגולים בלובי של בית קולנוע, עם מגשי אוכל ופחיות שתייה; הפנים מטושטשות",
+  "title": "nh4:about-cinema",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2025/12/סרט-פופקורן-וחברים-נווה-האירוס.png",
+  "width": 1599,
+  "height": 1201,
+  "faces": "blurred (faces only)",
+  "note": "23.11 (Oleg: «на обычных фото лица размыть»): live media 1316, every visible face blurred by scripts/blur_faces.py (3 found with OpenCV's YuNet and checked by eye); everything else unchanged. Long side ≤1599 px, JPEG q82, no metadata."
+ },
+ "about-shavuot": {
+  "file": "templates/v4/media/about-shavuot.jpg",
+  "alt": "קבוצת אנשים בבגדים לבנים ובזרי פרחים רוקדים במעגל בחצר עם אלומות חיטה וסרטים צבעוניים, במסיבת שבועות; הפנים מטושטשות",
+  "title": "nh4:about-shavuot",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2017/12/מסיבת-שבועות-2020.jpg",
+  "width": 1600,
+  "height": 1200,
+  "faces": "blurred (faces only)",
+  "note": "23.11 (Oleg: «на обычных фото лица размыть»): live media 1158, every visible face blurred by scripts/blur_faces.py (11 found with OpenCV's YuNet and checked by eye); everything else unchanged. Long side ≤1600 px, JPEG q82, no metadata."
+ },
+ "about-purim": {
+  "file": "templates/v4/media/about-purim.jpg",
+  "alt": "חוגגים רוקדים בזוגות יד ביד בחצר המעון בחגיגת פורים, ביניהם אישה בכובע סגול נוצץ ואישה בכובע ורוד; הפנים מטושטשות",
+  "title": "nh4:about-purim",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2018/02/20180228_103815.jpg",
+  "width": 1600,
+  "height": 1200,
+  "faces": "blurred (faces only)",
+  "note": "23.11 (Oleg: «на обычных фото лица размыть»): live media 784, every visible face blurred by scripts/blur_faces.py (15 found with OpenCV's YuNet and checked by eye); everything else unchanged. Long side ≤1600 px, JPEG q82, no metadata."
+ },
+ "about-drums": {
+  "file": "templates/v4/media/about-drums.jpg",
+  "alt": "מעגל תופים בחצר תחת רשת צל: שתי נשים רוקדות יד ביד, ואנשים יושבים סביבן עם תופים; הפנים מטושטשות",
+  "title": "nh4:about-drums",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2018/01/20170809_1831370_censored-1_640x360-1.jpg",
+  "width": 640,
+  "height": 360,
+  "faces": "blurred (faces only)",
+  "note": "23.11 (Oleg: «на обычных фото лица размыть»): live media 579, every visible face blurred by scripts/blur_faces.py (12 found with OpenCV's YuNet and checked by eye); everything else unchanged. Long side ≤640 px, JPEG q82, no metadata."
+ },
+ "about-painting": {
+  "file": "templates/v4/media/about-painting.jpg",
+  "alt": "אישה יושבת מול כן ציור ומציירת בטוש שחור על בד לבן פנים מעוטרות בדוגמאות; הפנים מטושטשות",
+  "title": "nh4:about-painting",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2017/07/20171206_111241.jpg",
+  "width": 900,
+  "height": 1600,
+  "faces": "blurred (faces only)",
+  "note": "23.11 (Oleg: «на обычных фото лица размыть»): live media 625, every visible face blurred by scripts/blur_faces.py (2 found with OpenCV's YuNet and checked by eye; the face drawn on the canvas and a hand the detector also marked are not people, left as they are); everything else unchanged. Long side ≤1600 px, JPEG q82, no metadata."
  }
 }

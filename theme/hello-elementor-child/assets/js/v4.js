@@ -1,5 +1,5 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.4.9 (research/09-v4-home-spec.md
+   v4.js — child theme hello-elementor-child 1.5.0 (research/09-v4-home-spec.md
    §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
    No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed
@@ -847,6 +847,28 @@
           }));
         }).observe(form, { childList: true, subtree: true });
       }
+    });
+
+    /* ---------- 8. 1.5.0 the click-to-load map (.nh-map, the inner pages) --------------- */
+    // Google's frame is never in the page until a click on «הצגת המפה» (nothing from Google before: the cookie
+    // settings' rule for embedded content, as for YouTube). The click loads it for this view only; the link to Google
+    // Maps stays beside it. The frame takes the focus, so the keyboard does not fall back to the page's top.
+    d.querySelectorAll(".nh-map[data-src]").forEach((box) => {
+      const btn = box.querySelector(".nh-map__btn");
+      if (!btn || inEditor) return;
+      btn.addEventListener("click", () => {
+        const f = d.createElement("iframe");
+        f.src = box.getAttribute("data-src");
+        f.title = box.getAttribute("data-title") || "מפה";
+        f.setAttribute("referrerpolicy", "no-referrer-when-downgrade");
+        f.setAttribute("allowfullscreen", "");
+        f.className = "nh-map__frame";
+        const text = box.querySelector(".nh-map__text");
+        if (text) text.remove();
+        btn.remove();
+        box.insertBefore(f, box.firstChild);
+        f.focus();
+      });
     });
   };
 

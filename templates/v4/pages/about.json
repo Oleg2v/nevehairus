@@ -1,0 +1,1340 @@
+{
+ "key": "about",
+ "title": "אודות",
+ "slug": "אודות",
+ "parent": null,
+ "front_page": false,
+ "post_type": "page",
+ "document_type": "wp-page",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/main-home.json"
+  ],
+  "inputs_sha256": "c6476ef61abd4ddabd7aabb5e834b6568799542d60d7adf1f744dbb6a44f6a3b",
+  "widgets": [
+   "heading",
+   "image-gallery",
+   "text-editor"
+  ],
+  "blocks": {
+   "h1": {
+    "full": {
+     "element": "1ff2ad7",
+     "field": "title"
+    },
+    "plain": {
+     "element": "c25a38c",
+     "field": "title"
+    }
+   },
+   "home": {
+    "full": {
+     "element": "bfe7b07",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "2a28ca6",
+     "field": "editor"
+    }
+   },
+   "home.h": {
+    "full": {
+     "element": "fa79856",
+     "field": "title"
+    },
+    "plain": {
+     "element": "3bc6cb1",
+     "field": "title"
+    }
+   },
+   "intro": {
+    "full": {
+     "element": "f6268fa",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "fa3d859",
+     "field": "editor"
+    }
+   },
+   "song": {
+    "full": {
+     "element": "2fdfcc3",
+     "field": "editor"
+    }
+   },
+   "staff": {
+    "full": {
+     "element": "6d0ade8",
+     "field": "editor"
+    }
+   },
+   "staff.h": {
+    "full": {
+     "element": "5a729c0",
+     "field": "title"
+    },
+    "plain": {
+     "element": "e500a90",
+     "field": "title"
+    }
+   },
+   "story": {
+    "full": {
+     "element": "2fd4339",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "b006af3",
+     "field": "editor"
+    }
+   },
+   "story.h": {
+    "full": {
+     "element": "577d044",
+     "field": "title"
+    },
+    "plain": {
+     "element": "ffed6bc",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "2cab5ce",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--history",
+    "_element_id": "history",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "אודות - נוה האירוס"
+   },
+   "elements": [
+    {
+     "id": "660c476",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "1ff2ad7",
+       "elType": "widget",
+       "settings": {
+        "title": "אודות - נוה האירוס",
+        "header_size": "h1",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "c25a38c",
+       "elType": "widget",
+       "settings": {
+        "title": "על נווה האירוס",
+        "header_size": "h1",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "112eb27",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "f6268fa",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>מעון נוה האירוס ובשמו ההיסטורי סנטוריום נס ציונה הוקם בשנת 1957 ע\"י המשפחות שטיינהרט, רשו וקוגן.</p><p>משנת 1995 נמצא המעון בפיקוח מלא של משרד הרווחה - האגף לטיפול באדם עם מוגבלות שכלית התפתחותית.</p><p>המעון מהווה בית חם לאנשים המתמודדים עם מוגבלות שכלית התפתחותית, הפרעות נפשיות וקשיי התנהגות ואשר זקוקים לתמיכה בחייהם היום יומיים.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "fa3d859",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>נווה האירוס הוא מעון בנס ציונה. פעם קראו לו \"סנטוריום נס ציונה\".</p><p>המעון נפתח בשנת 1957. שלוש משפחות הקימו אותו: שטיינהרט, רשו וקוגן.</p><p>משנת 1995 משרד הרווחה מפקח על המעון.</p><p>המעון הוא בית חם לאנשים עם מוגבלות שכלית התפתחותית. לחלק מהם יש גם קשיים נפשיים או קשיים בהתנהגות. במעון הם מקבלים עזרה בחיי היום-יום.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "6168bea",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--song",
+    "_element_id": "song",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "ציטוט: שלמה ארצי"
+   },
+   "elements": [
+    {
+     "id": "2706f64",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "2398379",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "ציטוט"
+       },
+       "elements": [
+        {
+         "id": "2fdfcc3",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>\"...תתארו לכם עולם יפה<br>פחות עצוב ממה שהוא ככה<br>ואנחנו שם הולכים עם שמש בכיסים....\"</p><p class=\"nh-quote__cite\">(מילים ולחן שלמה ארצי)</p>",
+          "_css_classes": "nh-quote",
+          "text_color": "#3A2269",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=78b4a18",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=3cb992f"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "b93c6ba",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--photos",
+    "_element_id": "photos",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "תמונות"
+   },
+   "elements": [
+    {
+     "id": "78e50cd",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "ecaa68c",
+       "elType": "widget",
+       "settings": {
+        "wp_gallery": [
+         {
+          "id": "@media:about-residents",
+          "url": ""
+         },
+         {
+          "id": "@media:about-shopping",
+          "url": ""
+         },
+         {
+          "id": "@media:about-pool",
+          "url": ""
+         },
+         {
+          "id": "@media:about-riding",
+          "url": ""
+         },
+         {
+          "id": "@media:about-cinema",
+          "url": ""
+         },
+         {
+          "id": "@media:about-shavuot",
+          "url": ""
+         },
+         {
+          "id": "@media:about-purim",
+          "url": ""
+         },
+         {
+          "id": "@media:about-drums",
+          "url": ""
+         },
+         {
+          "id": "@media:about-painting",
+          "url": ""
+         }
+        ],
+        "thumbnail_size": "medium_large",
+        "gallery_columns": "3",
+        "gallery_link": "file",
+        "open_lightbox": "yes",
+        "gallery_rand": "",
+        "gallery_display_caption": "none",
+        "image_spacing": "custom",
+        "image_spacing_custom": {
+         "unit": "px",
+         "size": 16,
+         "sizes": []
+        },
+        "image_border_radius": {
+         "unit": "px",
+         "top": "12",
+         "right": "12",
+         "bottom": "12",
+         "left": "12",
+         "isLinked": true
+        },
+        "_css_classes": "nh-gallery"
+       },
+       "elements": [],
+       "widgetType": "image-gallery"
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "02cbb73",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--story",
+    "_element_id": "story",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מעון נווה האירוס, סיפור של הצלחה עבור דיירינו !"
+   },
+   "elements": [
+    {
+     "id": "324bfba",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "b86c681",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "577d044",
+         "elType": "widget",
+         "settings": {
+          "title": "מעון נווה האירוס, סיפור של הצלחה עבור דיירינו !",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "ffed6bc",
+         "elType": "widget",
+         "settings": {
+          "title": "סיפור של הצלחה",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "2fd4339",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>מוסד נווה האירוס הינו מוסד וותיק אשר מהווה בית חם לאנשים המתמודדים עם מוגבלויות שונות, הפרעות נפשיות וקושי התנהגותי והינם זקוקים לתמיכה רגשית, פיזית, נפשית ומנטלית בחיי היומיום. המוסד נמצא תחת פיקוח מלא של משרד הרווחה- האגף לטיפול באדם עם מוגבלות שכלית והתפתחותית.</p><p>כמי שחרט על דגלו \"לקום מחר בבוקר עם שיר חדש בלב..\" דודי אליהו, מנהלו של המעון מקפיד שבנווה האירוס תנשוב רוח טובה, אהבה, כבוד הדדי ובעיקר, רוח של משפחה. על הרוח הזו, רצינו לספר לכם.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "b006af3",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>נווה האירוס הוא מעון ותיק. הוא בית חם לאנשים עם מוגבלויות שונות. חלקם צריכים גם עזרה נפשית או עזרה בהתנהגות.</p><p>משרד הרווחה מפקח על המעון.</p><p>דודי אליהו מנהל את המעון. חשוב לו שבמעון תהיה אווירה טובה: אהבה, כבוד ותחושה של משפחה.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "99db990",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--home",
+    "_element_id": "home",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מעון נווה האירוס, בית חם לחיים עם חיוך (:"
+   },
+   "elements": [
+    {
+     "id": "dbf4c93",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "9650865",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "fa79856",
+         "elType": "widget",
+         "settings": {
+          "title": "מעון נווה האירוס, בית חם לחיים עם חיוך (:",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "3bc6cb1",
+         "elType": "widget",
+         "settings": {
+          "title": "בית חם עם חיוך",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "bfe7b07",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>אנו גאים מאד בנווה האירוס, בצוות המטפלים, במדריכים השונים, החלטנו שלא להתפשר, להתעקש על הטוב ביותר עבור דיירינו:</p><ul><li><strong>שקיפות -</strong> שיתוף פעולה בין הנהלת המעון לבין משפחות הדיירים והחניכים, תוך מינוי וועד הורים ושיתופו בשוטף.</li><li><strong>צוותים -</strong> מיטב התקנים המקצועיים והכשרות לצוותים, כמו גם צוותים רפואיים מלאים לרבות רופאים מעולים וצוותים פרא רפואיים מהטובים בארץ.</li><li><strong>חדרי טיפול לדיירים והחניכים -</strong> במעון מיטב חדרי טיפול חדשים, מרווחים ומזמינים.</li><li><strong>קידום הדיירים והבאתם ליכולת מגורים בקהילה -</strong> במעון תכניות קידום מקצועיות לתעסוקה וקידום הדיירים. במידה וישנה אפשרות, דיירינו שלאחר קידום במסגרת המעון התקדמו ונמצאו מתאימים יכולים לעבור למגורים בקהילה, באמצעות וילות יוקרתיות העומדות לרשותם בלווי והשגחה צמודים.</li><li><strong>תעסוקה -</strong> ידוע כי ללא עבודה ותעסוקה, אין טעם לקימה בבוקר, גם באלו אנו מתרכזים ויוצרים רצף של ביתני מגורים מחוץ למעון על מנת שהדיירים והחניכים יוכלו לצאת לעבודה ולסגל שגרת חיים רגילה.</li><li><strong>טיפול ודאגה לאושרו של הדייר -</strong> צוות המטפלים עובר באופן קבוע השתלמויות בתחומים שונים תוך הקפדה על המבט בעיניים ותשומת הלב בין המטופל למטפל.</li><li><strong>פעילויות -</strong> במעון מגוון פעילויות ואפשרויות לזמן הפנאי, תוך דגש על שיפור מיומנויות.</li><li><strong>טיפול מותאם אישית -</strong> צוות המטפלים המקצועיים שלנו, קיבל, מקבל וימשיך לקבל על בסיס קבוע, הדרכות והכשרות מקצועיות על מנת לדייק את אופן הטיפול המתאים לכל אחת ואחד מהדיירים והחניכים במעון נווה האירוס.</li><li><strong>חיוכים - אנחנו מאמינים כי חיוך = כוח = מוטיבציה להתקדם ולהשתפר.</strong></li><li><strong>יותר. יותר. יותר -</strong> למה? כי מגיע. מגיע לכולם, מגיע לדיירים והחניכים, מגיע למשפחותיהם, מגיע לצוות המוסד על כל המחלקות.</li></ul><p><strong>כיום, מוסד נווה האירוס הינו מוסד הדוגל בשיתוף ושקיפות מול ההורים ומשפחות דיירים וחניכים, תוך יישום יומיומי של אורח חיים מקדם ותומך.</strong></p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "2a28ca6",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>אנחנו גאים בנווה האירוס ובצוות שלנו. אנחנו רוצים את הטוב ביותר בשביל הדיירים:</p><ul><li><strong>שקיפות:</strong> אנחנו עובדים יחד עם המשפחות. יש ועד הורים, ואנחנו משתפים אותו כל הזמן.</li><li><strong>צוותים:</strong> יש לנו צוות מקצועי שלומד כל הזמן, וגם רופאים ומטפלים טובים מאוד.</li><li><strong>חדרי טיפול:</strong> במעון יש חדרי טיפול חדשים, גדולים ונעימים.</li><li><strong>להתקדם ולגור בקהילה:</strong> יש תכניות שעוזרות לדיירים להתקדם בעבודה ובחיים. דייר שהתקדם ומתאים לזה יכול לעבור לגור בווילה בקהילה, עם ליווי והשגחה.</li><li><strong>עבודה:</strong> עבודה נותנת סיבה לקום בבוקר. יש בתים מחוץ למעון, כדי שהדיירים יוכלו לצאת לעבודה ולחיות חיים רגילים.</li><li><strong>טיפול ודאגה:</strong> המטפלים לומדים כל הזמן. הם מסתכלים לכל דייר בעיניים ושמים לב אליו.</li><li><strong>פעילויות:</strong> במעון יש הרבה פעילויות לשעות הפנאי. הן עוזרות לדיירים ללמוד דברים חדשים.</li><li><strong>טיפול אישי:</strong> המטפלים לומדים כל הזמן איך לטפל בכל דייר ודיירת בדרך שמתאימה להם.</li><li><strong>חיוכים:</strong> אנחנו מאמינים שחיוך נותן כוח להתקדם.</li><li><strong>יותר ויותר:</strong> כי מגיע לכולם: לדיירים, למשפחות ולצוות.</li></ul><p><strong>אנחנו עובדים יחד עם ההורים והמשפחות, בשקיפות, ועוזרים לדיירים להתקדם בכל יום.</strong></p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "6b93004",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--staff",
+    "_element_id": "staff",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "בעלי תפקידים ופרטי קשר – מעון נווה האירוס"
+   },
+   "elements": [
+    {
+     "id": "1544c22",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "5a729c0",
+       "elType": "widget",
+       "settings": {
+        "title": "בעלי תפקידים ופרטי קשר – מעון נווה האירוס",
+        "header_size": "h2",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "e500a90",
+       "elType": "widget",
+       "settings": {
+        "title": "אנשי קשר במעון",
+        "header_size": "h2",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "87350dc",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "padding": {
+         "unit": "custom",
+         "top": "1.5rem",
+         "right": "1.5rem",
+         "bottom": "1.5rem",
+         "left": "1.5rem",
+         "isLinked": true
+        },
+        "padding_mobile": {
+         "unit": "custom",
+         "top": "1.25rem",
+         "right": "1.25rem",
+         "bottom": "1.25rem",
+         "left": "1.25rem",
+         "isLinked": true
+        },
+        "background_background": "classic",
+        "border_radius": {
+         "unit": "px",
+         "top": "16",
+         "right": "16",
+         "bottom": "16",
+         "left": "16",
+         "isLinked": true
+        },
+        "box_shadow_box_shadow_type": "yes",
+        "box_shadow_box_shadow": {
+         "horizontal": 0,
+         "vertical": 8,
+         "blur": 24,
+         "spread": -4,
+         "color": "rgba(28, 24, 48, 0.14)"
+        },
+        "css_classes": "nh-page__card",
+        "background_color": "#FFFFFF",
+        "__globals__": {
+         "background_color": "globals/colors?id=3efe2c1"
+        },
+        "_title": "טבלה"
+       },
+       "elements": [
+        {
+         "id": "6d0ade8",
+         "elType": "widget",
+         "settings": {
+          "editor": "<table><thead><tr><th scope=\"col\">תפקיד</th><th scope=\"col\">שם</th><th scope=\"col\">כתובת דוא\"ל</th></tr></thead><tbody><tr><td data-label=\"תפקיד\">מנהל המסגרת</td><td data-label=\"שם\">דוד אליהו</td><td data-label=\"כתובת דוא&quot;ל\"><a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a></td></tr><tr><td data-label=\"תפקיד\">מזכירות המעון</td><td data-label=\"שם\">דנה עובדיה</td><td data-label=\"כתובת דוא&quot;ל\"><a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a></td></tr><tr><td data-label=\"תפקיד\">מנהל חשבונות</td><td data-label=\"שם\">דוידה סודאי</td><td data-label=\"כתובת דוא&quot;ל\"><a href=\"mailto:irus4@nevehairus.com\"><span class=\"nh-ltr\">irus4@nevehairus.com</span></a></td></tr><tr><td data-label=\"תפקיד\">מנהלת מחלקה סוציאלית וסגנית מנהל המעון</td><td data-label=\"שם\">עו\"ס איילת שטיינמן</td><td data-label=\"כתובת דוא&quot;ל\"><a href=\"mailto:irus7@nevehairus.com\"><span class=\"nh-ltr\">irus7@nevehairus.com</span></a></td></tr><tr><td data-label=\"תפקיד\">רכזת שירות סוציאלי</td><td data-label=\"שם\">ט'קם גטו</td><td data-label=\"כתובת דוא&quot;ל\"><a href=\"mailto:irus5@nevehairus.com\"><span class=\"nh-ltr\">irus5@nevehairus.com</span></a></td></tr><tr><td data-label=\"תפקיד\">רכזת תכניות קידום</td><td data-label=\"שם\">אירית רוזנברגר</td><td data-label=\"כתובת דוא&quot;ל\"><a href=\"mailto:irus6@nevehairus.com\"><span class=\"nh-ltr\">irus6@nevehairus.com</span></a></td></tr><tr><td data-label=\"תפקיד\">מנהל המרפאה</td><td data-label=\"שם\">מוחמד עקל</td><td data-label=\"כתובת דוא&quot;ל\"><a href=\"mailto:irus8@nevehairus.com\"><span class=\"nh-ltr\">irus8@nevehairus.com</span></a></td></tr><tr><td data-label=\"תפקיד\">מנהלת תחום תעסוקה ופנאי</td><td data-label=\"שם\">תמי שחר</td><td data-label=\"כתובת דוא&quot;ל\"><a href=\"mailto:irus9@nevehairus.com\"><span class=\"nh-ltr\">irus9@nevehairus.com</span></a></td></tr><tr><td data-label=\"תפקיד\">מנהל קפסולה ב' ומנהל פרויקטים</td><td data-label=\"שם\">וונדיפראו אבי זגייה</td><td data-label=\"כתובת דוא&quot;ל\"><a href=\"mailto:irus2@nevehairus.com\"><span class=\"nh-ltr\">irus2@nevehairus.com</span></a></td></tr><tr><td data-label=\"תפקיד\">אם בית קפסולה ב'</td><td data-label=\"שם\">מימי הררי</td><td data-label=\"כתובת דוא&quot;ל\"><a href=\"mailto:irus10@nevehairus.com\"><span class=\"nh-ltr\">irus10@nevehairus.com</span></a></td></tr><tr><td data-label=\"תפקיד\">אם בית קפסולה א'</td><td data-label=\"שם\">שרה טטרואשווילי</td><td data-label=\"כתובת דוא&quot;ל\"><a href=\"mailto:irus11@nevehairus.com\"><span class=\"nh-ltr\">irus11@nevehairus.com</span></a></td></tr></tbody></table>",
+          "_css_classes": "nh-table",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

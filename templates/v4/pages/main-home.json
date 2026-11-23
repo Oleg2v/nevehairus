@@ -1,0 +1,850 @@
+{
+ "key": "main-home",
+ "title": "מעון ראשי – בית לחיים",
+ "slug": "מעון-ראשי-בית-לחיים",
+ "parent": null,
+ "front_page": false,
+ "post_type": "page",
+ "document_type": "wp-page",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/main-home.json"
+  ],
+  "inputs_sha256": "c6476ef61abd4ddabd7aabb5e834b6568799542d60d7adf1f744dbb6a44f6a3b",
+  "widgets": [
+   "form",
+   "heading",
+   "image",
+   "text-editor"
+  ],
+  "blocks": {
+   "body": {
+    "full": {
+     "element": "45d7ec7",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "1b001fe",
+     "field": "editor"
+    }
+   },
+   "contact.form.consent": {
+    "full": {
+     "element": "c6fd6f6",
+     "field": "form_fields.6.acceptance_text#full"
+    },
+    "plain": {
+     "element": "c6fd6f6",
+     "field": "form_fields.6.acceptance_text#plain"
+    }
+   },
+   "contact.form.error": {
+    "full": {
+     "element": "c6fd6f6",
+     "field": "error_message"
+    }
+   },
+   "contact.form.hint": {
+    "full": {
+     "element": "c6fd6f6",
+     "field": "form_fields.4.field_html#full"
+    },
+    "plain": {
+     "element": "c6fd6f6",
+     "field": "form_fields.4.field_html#plain"
+    }
+   },
+   "contact.form.invalid": {
+    "full": {
+     "element": "c6fd6f6",
+     "field": "invalid_message"
+    }
+   },
+   "contact.form.label_message": {
+    "full": {
+     "element": "c6fd6f6",
+     "field": "form_fields.3.field_label"
+    }
+   },
+   "contact.form.label_name": {
+    "full": {
+     "element": "c6fd6f6",
+     "field": "form_fields.1.field_label"
+    }
+   },
+   "contact.form.label_phone": {
+    "full": {
+     "element": "c6fd6f6",
+     "field": "form_fields.2.field_label"
+    }
+   },
+   "contact.form.name": {
+    "full": {
+     "element": "c6fd6f6",
+     "field": "form_name"
+    }
+   },
+   "contact.form.privacy": {
+    "full": {
+     "element": "c6fd6f6",
+     "field": "form_fields.7.field_html#full"
+    },
+    "plain": {
+     "element": "c6fd6f6",
+     "field": "form_fields.7.field_html#plain"
+    }
+   },
+   "contact.form.required": {
+    "full": {
+     "element": "c6fd6f6",
+     "field": "required_field_message"
+    }
+   },
+   "contact.form.required_note": {
+    "full": {
+     "element": "c6fd6f6",
+     "field": "form_fields.0.field_html#full"
+    },
+    "plain": {
+     "element": "c6fd6f6",
+     "field": "form_fields.0.field_html#plain"
+    }
+   },
+   "contact.form.submit": {
+    "full": {
+     "element": "c6fd6f6",
+     "field": "button_text"
+    }
+   },
+   "contact.form.success": {
+    "full": {
+     "element": "c6fd6f6",
+     "field": "success_message"
+    }
+   },
+   "contact.sub": {
+    "full": {
+     "element": "2dd2fd8",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "e1bdd3a",
+     "field": "editor"
+    }
+   },
+   "contact.title": {
+    "full": {
+     "element": "a5977f7",
+     "field": "title"
+    },
+    "plain": {
+     "element": "2e5701b",
+     "field": "title"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "1441d15",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "9a6a0bf",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--about-home",
+    "_element_id": "about-home",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מעון ראשי - בית לחיים"
+   },
+   "elements": [
+    {
+     "id": "0a63248",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "1441d15",
+       "elType": "widget",
+       "settings": {
+        "title": "מעון ראשי - בית לחיים",
+        "header_size": "h1",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "880a1f9",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "start",
+        "_title": "טקסט ותמונה"
+       },
+       "elements": [
+        {
+         "id": "59aca03",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "45d7ec7",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>מעון נווה האירוס מאכלס מעל ל-100 דיירים ודיירות<br>בתוך המעון ובאמצעות 2 שלוחות של המעון בקהילה.</p><p><strong>דירות המעון מחולקות לשתי יחידות ניהוליות (קפסולות), כאשר לכל קפסולה יש צוות ניהולי נפרד הכולל:</strong></p><ul><li>מנהל קפסולה</li><li>עובדת סוציאלית</li><li>אם בית</li><li>רכזות דירה</li></ul><p><strong>הצלחות עם דיירים</strong></p><ol><li>לאחר מאמצים ועבודה עקבית הצלחנו להוציא דייר מהמעון להשתלב בוילה בקהילה המהווה שלוחה של המעון.</li><li>דיירת שהגיע אלינו עם בעיות התנהגות וחוסר הסכמה ללבוש בגדים, הצלחנו להגיע איתה לשיתוף פעולה וכיום היא מתלבשת ויוצאת לפעילויות</li><li>דייר המתגורר במעון שנים רבות והיה חשש להוציאו משטח המעון, אך בזכות רכזת הדירה שלקחה אותו כפרויקט אישי ולבסוף הצליחה לגרום לדייר להסכים לצאת מהמעון ולהשתלב בטיולי יום מחוץ למעון.</li></ol>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "1b001fe",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>במעון נווה האירוס גרים יותר מ-100 דיירים ודיירות.</p><p>חלק מהם גרים במעון, וחלק גרים בשני בתים של המעון בתוך הקהילה.</p><p><strong>במעון יש שתי קבוצות של דירות. לכל קבוצה יש צוות משלה:</strong></p><ul><li>מנהל</li><li>עובדת סוציאלית</li><li>אם בית</li><li>רכזות דירה</li></ul><p><strong>סיפורים טובים מהמעון</strong></p><ol><li>דייר אחד עבר מהמעון לגור בווילה בקהילה.</li><li>דיירת אחת לא רצתה ללבוש בגדים. עבדנו איתה יחד. היום היא מתלבשת ויוצאת לפעילויות.</li><li>דייר אחד גר במעון שנים רבות ולא יצא ממנו. רכזת הדירה עזרה לו. היום הוא יוצא לטיולי יום.</li></ol>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "7295369",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:main-home-purim",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "large",
+          "_css_classes": "nh-page__img",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "09f753e",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--visit",
+    "_element_id": "visit",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "נשמח שתבואו להכיר אותנו"
+   },
+   "elements": [
+    {
+     "id": "39ef1f1",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "a5977f7",
+       "elType": "widget",
+       "settings": {
+        "title": "נשמח שתבואו להכיר אותנו",
+        "header_size": "h2",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "2e5701b",
+       "elType": "widget",
+       "settings": {
+        "title": "בואו להכיר אותנו",
+        "header_size": "h2",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=603f9ca"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "2dd2fd8",
+       "elType": "widget",
+       "settings": {
+        "editor": "<p>השאירו פרטים ונחזור אליכם לתיאום מפגש היכרות.</p>",
+        "_css_classes": "nh-page__text nh-full",
+        "text_color": "#1F2421",
+        "link_color": "#4A2D84",
+        "link_hover_color": "#3A2269",
+        "__globals__": {
+         "text_color": "globals/colors?id=text",
+         "link_color": "globals/colors?id=primary",
+         "link_hover_color": "globals/colors?id=78b4a18",
+         "typography_typography": "globals/typography?id=text"
+        }
+       },
+       "elements": [],
+       "widgetType": "text-editor"
+      },
+      {
+       "id": "e1bdd3a",
+       "elType": "widget",
+       "settings": {
+        "editor": "<p>אפשר להשאיר פרטים. נתקשר אליכם כדי לקבוע פגישת היכרות.</p>",
+        "_css_classes": "nh-page__text nh-plain",
+        "text_color": "#1F2421",
+        "link_color": "#4A2D84",
+        "link_hover_color": "#3A2269",
+        "__globals__": {
+         "text_color": "globals/colors?id=text",
+         "link_color": "globals/colors?id=primary",
+         "link_hover_color": "globals/colors?id=78b4a18",
+         "typography_typography": "globals/typography?id=text"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "text-editor"
+      },
+      {
+       "id": "ff4f1c9",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "padding": {
+         "unit": "custom",
+         "top": "1.5rem",
+         "right": "1.5rem",
+         "bottom": "1.5rem",
+         "left": "1.5rem",
+         "isLinked": true
+        },
+        "padding_mobile": {
+         "unit": "custom",
+         "top": "1.25rem",
+         "right": "1.25rem",
+         "bottom": "1.25rem",
+         "left": "1.25rem",
+         "isLinked": true
+        },
+        "background_background": "classic",
+        "border_radius": {
+         "unit": "px",
+         "top": "16",
+         "right": "16",
+         "bottom": "16",
+         "left": "16",
+         "isLinked": true
+        },
+        "box_shadow_box_shadow_type": "yes",
+        "box_shadow_box_shadow": {
+         "horizontal": 0,
+         "vertical": 8,
+         "blur": 24,
+         "spread": -4,
+         "color": "rgba(28, 24, 48, 0.14)"
+        },
+        "css_classes": "nh-page__card nh-form-card",
+        "width": {
+         "unit": "custom",
+         "size": "min(640px, 100%)",
+         "sizes": []
+        },
+        "_flex_align_self": "flex-start",
+        "background_color": "#FFFFFF",
+        "__globals__": {
+         "background_color": "globals/colors?id=3efe2c1"
+        },
+        "_title": "טופס"
+       },
+       "elements": [
+        {
+         "id": "c6fd6f6",
+         "elType": "widget",
+         "settings": {
+          "form_name": "בקשה לביקור",
+          "form_fields": [
+           {
+            "_id": "8df0e2e",
+            "custom_id": "note",
+            "field_type": "html",
+            "width": "100",
+            "field_label": "טקסט: שדות חובה",
+            "field_html": "<p class=\"nh-form__note\" id=\"nh-form-note\"><span class=\"nh-full\">שדות המסומנים ב־<span class=\"nh-req\" aria-hidden=\"true\">*</span><span class=\"nh-visually-hidden\">כוכבית</span> הם שדות חובה.</span><span class=\"nh-plain\">צריך למלא את השדות עם כוכבית <span class=\"nh-req\" aria-hidden=\"true\">*</span>.</span></p>"
+           },
+           {
+            "_id": "8725ddc",
+            "custom_id": "name",
+            "field_type": "text",
+            "width": "100",
+            "required": "true",
+            "field_label": "שם מלא"
+           },
+           {
+            "_id": "4d6e761",
+            "custom_id": "phone",
+            "field_type": "tel",
+            "width": "100",
+            "required": "true",
+            "field_label": "טלפון"
+           },
+           {
+            "_id": "ab7e71e",
+            "custom_id": "message",
+            "field_type": "textarea",
+            "width": "100",
+            "rows": 3,
+            "field_label": "משהו שחשוב לנו לדעת?"
+           },
+           {
+            "_id": "9d7de75",
+            "custom_id": "hint",
+            "field_type": "html",
+            "width": "100",
+            "field_label": "טקסט: הסבר להודעה",
+            "field_html": "<p class=\"nh-form__hint\" id=\"nh-form-hint\"><span class=\"nh-full\">אין צורך לפרט כאן מידע רפואי. נדבר על הכול בשיחה.</span><span class=\"nh-plain\">לא צריך לכתוב כאן מידע רפואי. נדבר על זה בשיחה.</span></p>"
+           },
+           {
+            "_id": "0c12311",
+            "custom_id": "website",
+            "field_type": "honeypot",
+            "width": "100",
+            "field_label": "אתר"
+           },
+           {
+            "_id": "0e7d231",
+            "custom_id": "consent",
+            "field_type": "acceptance",
+            "width": "100",
+            "required": "true",
+            "field_label": "",
+            "acceptance_text": "<span class=\"nh-full\">קראתי את <a href=\"@home:/מדיניות-פרטיות/\">מדיניות הפרטיות</a> ואני מסכים/ה שתיצרו איתי קשר לגבי הביקור.&nbsp;<span class=\"nh-req\" aria-hidden=\"true\">*</span></span><span class=\"nh-plain\">אני מסכים או מסכימה שתתקשרו אליי.&nbsp;<span class=\"nh-req\" aria-hidden=\"true\">*</span><br><a href=\"@home:/מדיניות-פרטיות/\">מה עושים עם הפרטים שלי?</a></span>"
+           },
+           {
+            "_id": "2922127",
+            "custom_id": "privacy",
+            "field_type": "html",
+            "width": "100",
+            "field_label": "טקסט: פרטיות",
+            "field_html": "<p class=\"nh-form__privacy\" id=\"nh-form-privacy\"><span class=\"nh-full\">מסירת הפרטים אינה חובה לפי חוק, אך בלעדיהם לא נוכל לחזור אליכם. הפרטים ישמשו רק לתיאום הביקור ולמענה לבקשה, יישמרו במאגר המידע של נוה האירוס בע״מ ולא יועברו לגורם אחר. אפשר לבקש לעיין במידע ולתקן אותו: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</span><span class=\"nh-plain\">לא חייבים לתת לנו את הפרטים.<br>בלי הפרטים לא נוכל לחזור אליכם.<br>הפרטים נשמרים אצלנו, בנוה האירוס, רק כדי לקבוע ביקור.<br>לא נותנים אותם לאף אחד אחר.<br>אפשר לבקש לראות אותם או לתקן אותם, בטלפון <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</span></p>"
+           }
+          ],
+          "input_size": "md",
+          "show_labels": "true",
+          "mark_required": "yes",
+          "label_position": "above",
+          "button_text": "שליחת הבקשה",
+          "button_size": "md",
+          "button_width": "100",
+          "button_align": "stretch",
+          "submit_actions": [
+           "save-to-database"
+          ],
+          "submissions_metadata": [],
+          "form_validation": "custom",
+          "custom_messages": "yes",
+          "success_message": "תודה! הבקשה התקבלה. נחזור אליכם בהקדם לתיאום הביקור.",
+          "error_message": "משהו השתבש בשליחה. אפשר לנסות שוב, או להתקשר: 08-9403047",
+          "server_message": "משהו השתבש בשליחה. אפשר לנסות שוב, או להתקשר: 08-9403047",
+          "invalid_message": "נמצאו שגיאות בטופס.",
+          "required_field_message": "צריך למלא את השדה הזה.",
+          "column_gap": {
+           "unit": "px",
+           "size": 0,
+           "sizes": []
+          },
+          "row_gap": {
+           "unit": "px",
+           "size": 12,
+           "sizes": []
+          },
+          "label_spacing": {
+           "unit": "px",
+           "size": 6,
+           "sizes": []
+          },
+          "field_border_width": {
+           "unit": "px",
+           "top": "2",
+           "right": "2",
+           "bottom": "2",
+           "left": "2",
+           "isLinked": true
+          },
+          "field_border_radius": {
+           "unit": "px",
+           "top": "8",
+           "right": "8",
+           "bottom": "8",
+           "left": "8",
+           "isLinked": true
+          },
+          "button_border_radius": {
+           "unit": "px",
+           "top": "12",
+           "right": "12",
+           "bottom": "12",
+           "left": "12",
+           "isLinked": true
+          },
+          "button_text_padding": {
+           "unit": "custom",
+           "top": "1rem",
+           "right": "2rem",
+           "bottom": "1rem",
+           "left": "2rem",
+           "isLinked": false
+          },
+          "_css_classes": "nh-contact-form",
+          "label_color": "#1F2421",
+          "mark_required_color": "#A8261B",
+          "html_color": "#4F5550",
+          "field_text_color": "#1F2421",
+          "field_background_color": "#FFFFFF",
+          "field_border_color": "#4F5550",
+          "button_background_color": "#4A2D84",
+          "button_text_color": "#FFFFFF",
+          "button_background_hover_color": "#3A2269",
+          "button_hover_color": "#FFFFFF",
+          "success_message_color": "#2F6B2A",
+          "error_message_color": "#A8261B",
+          "inline_message_color": "#A8261B",
+          "__globals__": {
+           "label_color": "globals/colors?id=text",
+           "mark_required_color": "globals/colors?id=a269239",
+           "html_color": "globals/colors?id=161ef55",
+           "field_text_color": "globals/colors?id=text",
+           "field_background_color": "globals/colors?id=3efe2c1",
+           "field_border_color": "globals/colors?id=161ef55",
+           "button_background_color": "globals/colors?id=primary",
+           "button_text_color": "globals/colors?id=3efe2c1",
+           "button_background_hover_color": "globals/colors?id=78b4a18",
+           "button_hover_color": "globals/colors?id=3efe2c1",
+           "success_message_color": "globals/colors?id=dda5945",
+           "error_message_color": "globals/colors?id=a269239",
+           "inline_message_color": "globals/colors?id=a269239",
+           "label_typography_typography": "globals/typography?id=accent",
+           "field_typography_typography": "globals/typography?id=text",
+           "button_typography_typography": "globals/typography?id=accent",
+           "html_typography_typography": "globals/typography?id=504434a",
+           "message_typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "form"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

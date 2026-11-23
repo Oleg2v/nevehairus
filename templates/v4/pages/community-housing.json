@@ -1,0 +1,333 @@
+{
+ "key": "community-housing",
+ "title": "מערך דיור בקהילה",
+ "slug": "מערך-דיור-בקהילה",
+ "parent": null,
+ "front_page": false,
+ "post_type": "page",
+ "document_type": "wp-page",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/main-home.json"
+  ],
+  "inputs_sha256": "c6476ef61abd4ddabd7aabb5e834b6568799542d60d7adf1f744dbb6a44f6a3b",
+  "widgets": [
+   "heading",
+   "image",
+   "text-editor"
+  ],
+  "blocks": {
+   "body": {
+    "full": {
+     "element": "862c36f",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "30b745e",
+     "field": "editor"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "9692ad0",
+     "field": "title"
+    },
+    "plain": {
+     "element": "57cfef5",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "6e19d5c",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--housing",
+    "_element_id": "housing",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מערך דיור בקהילה - אוכלוסיית מש\"ה"
+   },
+   "elements": [
+    {
+     "id": "76b942e",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "9692ad0",
+       "elType": "widget",
+       "settings": {
+        "title": "מערך דיור בקהילה - אוכלוסיית מש\"ה",
+        "header_size": "h1",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "57cfef5",
+       "elType": "widget",
+       "settings": {
+        "title": "דיור בקהילה לאנשים עם מוגבלות שכלית התפתחותית",
+        "header_size": "h1",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "22c07e5",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "start",
+        "_title": "טקסט ותמונה"
+       },
+       "elements": [
+        {
+         "id": "aca20e8",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "862c36f",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>אוכלוסיית מש״ה (מוגבלות שכלית התפתחותית) כוללת אנשים המתמודדים עם קשיים בלמידה, בהבנה ובמיומנויות תפקוד יומיומיות.</p><p>לצד האתגרים, לכל אדם יכולות, חוזקות וקצב התפתחות אישי.</p><p>רבים מהם נעזרים בתמיכה ובהכוונה בתחומי החינוך, התעסוקה והחיים בקהילה.</p><p>סביבה תומכת ומכבדת מאפשרת להם לרכוש מיומנויות, עצמאות וביטחון. שילוב בקהילה תורם לאיכות חייהם ומעשיר את החברה כולה.</p><p>נווה האירוס מפעילים מערך דיור בקהילה עבור אוכלוסייה זו על מנת ליצור עבור הדיירים מסגרת חיים בתוך הקהילה ובשאיפה להשתלבות מיטבית בקהילה.</p><p>צוות הדיור שלנו מאוד מקצועי, מנוסה ובעיקר עובדים עם המון נשמה ולב.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "30b745e",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>אנשים עם מוגבלות שכלית התפתחותית לומדים ומבינים לאט יותר. גם דברים של כל יום קשים להם יותר.</p><p>לכל אדם יש כוחות ויכולות משלו. כל אחד מתפתח בקצב שלו.</p><p>הרבה מהם מקבלים עזרה בלימודים, בעבודה ובחיים בקהילה.</p><p>כשהסביבה תומכת ומכבדת, הם לומדים דברים חדשים, נעשים עצמאיים יותר ומרגישים בטוחים יותר. חיים בתוך הקהילה טובים להם, וטובים לכולנו.</p><p>נווה האירוס מפעיל בתים בתוך הקהילה. הדיירים גרים בהם וחיים בתוך הקהילה.</p><p>הצוות שלנו מקצועי ומנוסה, ועובד באהבה.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "4cf8370",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:card-2",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "large",
+          "_css_classes": "nh-page__img",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

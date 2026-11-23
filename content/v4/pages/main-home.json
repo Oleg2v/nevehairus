@@ -1,0 +1,38 @@
+{
+ "key": "main-home",
+ "order": 10,
+ "title": "מעון ראשי – בית לחיים",
+ "slug": "מעון-ראשי-בית-לחיים",
+ "parent": null,
+ "source": "live page, read 23.11.2026 (content/pages/main-home.md, snapshot 15.11.2026: not modified since)",
+ "notes": "The live page: its H1, the text beside the photo, the global contact block (our footer). Oleg 23.11, point 4: the v3.2 page's other blocks are gone; the visit form stays at the end (as on v3.2), its privacy note naming the owner of the data (נוה האירוס בע״מ) and the phone: the home's form, its texts the home's blocks.",
+ "h1": "h1",
+ "blocks": {
+  "h1": {
+   "kind": "text",
+   "full": "מעון ראשי - בית לחיים",
+   "plain": null,
+   "no_plain": "a name"
+  },
+  "body": {
+   "kind": "html",
+   "full": "<p>מעון נווה האירוס מאכלס מעל ל-100 דיירים ודיירות<br>בתוך המעון ובאמצעות 2 שלוחות של המעון בקהילה.</p><p><strong>דירות המעון מחולקות לשתי יחידות ניהוליות (קפסולות), כאשר לכל קפסולה יש צוות ניהולי נפרד הכולל:</strong></p><ul><li>מנהל קפסולה</li><li>עובדת סוציאלית</li><li>אם בית</li><li>רכזות דירה</li></ul><p><strong>הצלחות עם דיירים</strong></p><ol><li>לאחר מאמצים ועבודה עקבית הצלחנו להוציא דייר מהמעון להשתלב בוילה בקהילה המהווה שלוחה של המעון.</li><li>דיירת שהגיע אלינו עם בעיות התנהגות וחוסר הסכמה ללבוש בגדים, הצלחנו להגיע איתה לשיתוף פעולה וכיום היא מתלבשת ויוצאת לפעילויות</li><li>דייר המתגורר במעון שנים רבות והיה חשש להוציאו משטח המעון, אך בזכות רכזת הדירה שלקחה אותו כפרויקט אישי ולבסוף הצליחה לגרום לדייר להסכים לצאת מהמעון ולהשתלב בטיולי יום מחוץ למעון.</li></ol>",
+   "plain": "<p>במעון נווה האירוס גרים יותר מ-100 דיירים ודיירות.</p><p>חלק מהם גרים במעון, וחלק גרים בשני בתים של המעון בתוך הקהילה.</p><p><strong>במעון יש שתי קבוצות של דירות. לכל קבוצה יש צוות משלה:</strong></p><ul><li>מנהל</li><li>עובדת סוציאלית</li><li>אם בית</li><li>רכזות דירה</li></ul><p><strong>סיפורים טובים מהמעון</strong></p><ol><li>דייר אחד עבר מהמעון לגור בווילה בקהילה.</li><li>דיירת אחת לא רצתה ללבוש בגדים. עבדנו איתה יחד. היום היא מתלבשת ויוצאת לפעילויות.</li><li>דייר אחד גר במעון שנים רבות ולא יצא ממנו. רכזת הדירה עזרה לו. היום הוא יוצא לטיולי יום.</li></ol>"
+  }
+ },
+ "sections": [
+  {
+   "type": "text-photo",
+   "id": "about-home",
+   "text": "body",
+   "photo": "main-home-purim"
+  },
+  {
+   "type": "form",
+   "id": "visit",
+   "form": "visit",
+   "heading": "contact.title",
+   "lead": "contact.sub"
+  }
+ ]
+}

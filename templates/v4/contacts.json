@@ -12,9 +12,14 @@
   "inputs": [
    "content/v4/home.json",
    "templates/v4/media.json",
-   "scripts/build_v4.py"
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/main-home.json"
   ],
-  "inputs_sha256": "6132e90b12262b9ccb765f4eb2437b0de84038d8d0d0ec1b418792d9f65ee50c",
+  "inputs_sha256": "c6476ef61abd4ddabd7aabb5e834b6568799542d60d7adf1f744dbb6a44f6a3b",
   "widgets": [
    "heading",
    "icon",

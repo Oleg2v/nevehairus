@@ -196,7 +196,8 @@ GRID_GAP = 24
 HEADER_WIDTH = CONTENT_WIDTH                           # the header keeps to the same column (its logo over the H1)
 
 ALLOWED_WIDGETS = {"heading", "text-editor", "image", "button", "video", "icon", "icon-box",    # Elementor
-                   "nested-accordion", "nav-menu", "template", "form"}                          # Elementor / Pro
+                   "nested-accordion", "nav-menu", "template", "form",                          # Elementor / Pro
+                   "image-gallery", "html"}         # the inner pages (23.11): a gallery; the click-to-load map
 HEX7 = re.compile(r"^[0-9a-f]{7}$")
 TOKEN_IN_TEXT = re.compile(r"@(media|page|page-id|home):([^\s\"'<>]*)")
 URL_IN_TEXT = re.compile(r"(?:https?:)?//[^\s\"'<>)]+", re.I)
@@ -865,9 +866,12 @@ class Builder:
         inner = part("full") + (part("plain") if self.has_plain(block) else "")
         return f"<{tag}{attrs}>{inner}</{tag}>" if tag else inner
 
-    def contact_form(self, path):
+    def contact_form(self, path, prefix="contact.form", fields=None, subject="בקשה לביקור — מעון נווה האירוס"):
+        """Elementor Pro's Form with the theme's accessibility (nh-contact-form). prefix: the blocks of its texts
+        (<prefix>.name, .submit, .success, .error, .invalid, .required); fields: (custom_id, type, block, required,
+        extra), the visit form's by default (23.11: the contact page has its own, with an e-mail field)."""
         items, uses = [], []
-        for n, (cid, ftype, block, required, extra) in enumerate(self.FORM_FIELDS):
+        for n, (cid, ftype, block, required, extra) in enumerate(fields or self.FORM_FIELDS):
             it = {"_id": hex7(f"{self.doc}/{path}/fields/{cid}"), "custom_id": cid, "field_type": ftype,
                   "width": "100", **extra}
             if required:
@@ -890,18 +894,18 @@ class Builder:
                 it["field_label"] = self.text(block, "full")
                 uses.append((block, f"form_fields.{n}.field_label"))
             items.append(it)
-        s = {"form_name": self.text("contact.form.name", "full"), "form_fields": items, "input_size": "md",
+        s = {"form_name": self.text(f"{prefix}.name", "full"), "form_fields": items, "input_size": "md",
              "show_labels": "true", "mark_required": "yes", "label_position": "above",
-             "button_text": self.text("contact.form.submit", "full"), "button_size": "md", "button_width": "100",
+             "button_text": self.text(f"{prefix}.submit", "full"), "button_size": "md", "button_width": "100",
              "button_align": "stretch",
              # submissions are kept in the admin; no visitor's IP or browser is stored with them (privacy)
              "submit_actions": ["save-to-database"] + (["email"] if LAUNCH else []), "submissions_metadata": [],
              "form_validation": "custom", "custom_messages": "yes",
-             "success_message": self.text("contact.form.success", "full"),
-             "error_message": self.text("contact.form.error", "full"),
-             "server_message": self.text("contact.form.error", "full"),
-             "invalid_message": self.text("contact.form.invalid", "full"),
-             "required_field_message": self.text("contact.form.required", "full"),
+             "success_message": self.text(f"{prefix}.success", "full"),
+             "error_message": self.text(f"{prefix}.error", "full"),
+             "server_message": self.text(f"{prefix}.error", "full"),
+             "invalid_message": self.text(f"{prefix}.invalid", "full"),
+             "required_field_message": self.text(f"{prefix}.required", "full"),
              # v4.4 (Itzik 19.11): 12px between the fields, was 20; the fields themselves stay 56px (v4.css)
              "column_gap": size(0), "row_gap": size(12), "label_spacing": size(6),
              "field_border_width": dims(2), "field_border_radius": dims(8),
@@ -910,12 +914,11 @@ class Builder:
         if LAUNCH:
             # only the visitor's answers, each under its own label, and the date and time: no page address (it may
             # carry a query string), no IP or browser (Elementor's defaults for a hand-added action would add them)
-            lines = [f"{self.text(b, 'full').rstrip('?')}: [field id=\"{cid}\"]" for cid, b in
-                     (("name", "contact.form.label_name"), ("phone", "contact.form.label_phone"),
-                      ("message", "contact.form.label_message"))]
+            lines = [f"{self.text(b, 'full').rstrip('?')}: [field id=\"{cid}\"]" for cid, ftype, b, _, _ in
+                     (fields or self.FORM_FIELDS) if ftype in ("text", "tel", "email", "textarea")]
             lines.append(f"{CONSENT_NAME}: כן")           # the send is impossible without the box ticked
             s.update(email_to=FORM_TO, email_from=FORM_FROM or "", email_from_name="מעון נווה האירוס",
-                     email_subject="בקשה לביקור — מעון נווה האירוס", email_content="\n".join(lines),
+                     email_subject=subject, email_content="\n".join(lines),
                      email_content_type="plain", form_metadata=["date", "time"])
         w = self.widget(path, "form", styled(s, {"label_typography_typography": "accent",
                                                   "field_typography_typography": "text",
@@ -934,12 +937,12 @@ class Builder:
                 self.use(block, "plain", w, field + "#plain")
             else:
                 self.use(block, "full", w, field)
-        self.use("contact.form.name", "full", w, "form_name")
-        self.use("contact.form.submit", "full", w, "button_text")
-        self.use("contact.form.success", "full", w, "success_message")
-        self.use("contact.form.error", "full", w, "error_message")
-        self.use("contact.form.invalid", "full", w, "invalid_message")
-        self.use("contact.form.required", "full", w, "required_field_message")
+        self.use(f"{prefix}.name", "full", w, "form_name")
+        self.use(f"{prefix}.submit", "full", w, "button_text")
+        self.use(f"{prefix}.success", "full", w, "success_message")
+        self.use(f"{prefix}.error", "full", w, "error_message")
+        self.use(f"{prefix}.invalid", "full", w, "invalid_message")
+        self.use(f"{prefix}.required", "full", w, "required_field_message")
         return w
 
     # ---- the contacts block: the shared template, in the footer (09 §4.7, 10 §1.11) ----------------------------------------
@@ -1009,6 +1012,200 @@ class Builder:
                 self.snoezelen(), self.special(), self.contact()]
 
 
+
+# ---- inner pages (Oleg 23.11: every page of the live menu and footer, on the home's design) ---------------------------
+PAGES_SRC = os.path.join(ROOT, "content", "v4", "pages")
+PAGES_OUT = os.path.join(OUT, "pages")
+READING = 860                      # px: the reading column of a page's text (as the home's special-needs column)
+MAP_HOSTS = ("maps.google.com", "www.google.com")      # the click-to-load map's frame (data-src, never loaded alone)
+CONTACT_FIELDS = (  # the contact page's form (the live «צור קשר»: name, e-mail, phone and the message, all required)
+    ("note", "html", "form.required_note", False, {}),
+    ("name", "text", "form.label_name", True, {}),
+    ("email", "email", "form.label_email", True, {}),
+    ("phone", "tel", "form.label_phone", True, {}),
+    ("message", "textarea", "form.label_message", True, {"rows": 4}),
+    ("hint", "html", "form.hint", False, {}),
+    ("website", "honeypot", None, False, {}),
+    ("consent", "acceptance", "form.consent", True, {}),
+    ("privacy", "html", "form.privacy", False, {}),
+)
+
+
+def page_specs():
+    """content/v4/pages/<key>.json in their order ("order"; a parent before its children)."""
+    out = []
+    if os.path.isdir(PAGES_SRC):
+        for name in sorted(os.listdir(PAGES_SRC)):
+            if not name.endswith(".json"):
+                continue
+            with open(os.path.join(PAGES_SRC, name), encoding="utf-8") as fh:
+                spec = json.load(fh)
+            if spec.get("key") != name[:-5]:
+                die(f"content/v4/pages/{name}: its key is {spec.get('key')!r}, not {name[:-5]!r}")
+            out.append(spec)
+    out.sort(key=lambda sp: (sp.get("order", 999), sp["key"]))
+    keys = [sp["key"] for sp in out]
+    for sp in out:
+        parent = sp.get("parent")
+        if parent and (parent not in keys or keys.index(parent) > keys.index(sp["key"])):
+            die(f"content/v4/pages/{sp['key']}.json: parent {parent!r} is not a page built before it")
+    return out
+
+
+def page_inputs():
+    return sorted(os.path.relpath(os.path.join(PAGES_SRC, n), ROOT) for n in os.listdir(PAGES_SRC)
+                  if n.endswith(".json")) if os.path.isdir(PAGES_SRC) else []
+
+
+class PageBuilder(Builder):
+    """An inner page from content/v4/pages/<key>.json, made of the home's parts: sections on the cream ground with the
+    same padding (SECTION_PAD), the 1320px column, nh-reveal, Heading and Text Editor widgets through the Kit, every
+    text with its plain twin (the «נגישות» panel's «בשפה פשוטה»), photos from templates/v4/media.json. The first
+    section opens with the page's H1; then one section per entry of "sections", in the live page's order:
+      text        [heading] and text blocks in the reading column (860px)
+      text-photo  [heading] and text beside a photo (the live column order: text at the start, the photo at the end;
+                  on phones the text first)
+      quote       a quotation in the reading column
+      gallery     [heading] and Elementor's Basic Gallery (links to the files, Elementor's lightbox)
+      table       [heading] and a table (a text block of kind html) in a white card
+      form        [heading], [lead] and Elementor Pro's Form in a white card: «visit» = the home's visit form (its texts
+                  are the home's blocks), «contact» = the contact page's own (CONTACT_FIELDS, the page's form.* blocks)
+      map         the click-to-load map (the theme loads Google's frame only after a click: nothing before)"""
+
+    def __init__(self, spec, home_blocks, media_list):
+        super().__init__({"blocks": {**home_blocks, **spec["blocks"]}}, media_list)
+        self.spec = spec
+        self.doc = spec["key"]
+
+    def column(self, path, children, title="עמודת קריאה"):
+        return self.container(path, {**flex("column", 16, 16), "width": size(f"min({READING}px, 100%)"),
+                                     "padding": ZERO, "css_classes": "nh-page__col"}, children, title=title)
+
+    def head(self, sec, path, tag="h2"):
+        return self.heading_block(sec["heading"], path, tag, tag, "purple-700") if sec.get("heading") else []
+
+    def texts(self, sec, path):
+        blocks = sec.get("text") or []
+        blocks = blocks if isinstance(blocks, list) else [blocks]
+        out = []
+        for i, block in enumerate(blocks):
+            out += self.text_editor_block(block, f"{path}/t{i}", "nh-page__text")
+        return out
+
+    def sec_text(self, name, sec):
+        p = f"{name}/inner/col"
+        return [self.column(p, self.head(sec, f"{p}/h", sec.get("tag", "h2")) + self.texts(sec, p))]
+
+    def sec_text_photo(self, name, sec):
+        p = f"{name}/inner/grid"
+        text = self.container(f"{p}/text", {**flex("column", 16, 16), "padding": ZERO, "css_classes": "nh-page__text-col"},
+                              self.head(sec, f"{p}/text/h") + self.texts(sec, f"{p}/text"), title="טקסט")
+        photo = self.image(f"{p}/photo", sec["photo"], "nh-page__img", size_name="large", _title="תמונה")
+        return [self.container(p, grid("7fr 5fr", "1fr 1fr", 1, gap_column=48, gap_row=24, grid_align_items="start"),
+                               [text, photo], title="טקסט ותמונה")]
+
+    def sec_quote(self, name, sec):
+        p = f"{name}/inner/col"
+        return [self.column(p, self.text_editor_block(sec["text"], f"{p}/q", "nh-quote", typo="quote",
+                                                      color="purple-800"), title="ציטוט")]
+
+    def sec_gallery(self, name, sec):
+        for n in sec["photos"]:
+            if n not in self.media_names:
+                die(f"templates/v4/media.json has no {n} (page {self.doc})")
+        s = {"wp_gallery": [{"id": f"@media:{n}", "url": ""} for n in sec["photos"]], "thumbnail_size": "medium_large",
+             "gallery_columns": str(sec.get("columns", 3)),        # one value: phones get 2 columns from the theme
+             "gallery_link": "file", "open_lightbox": "yes", "gallery_rand": "", "gallery_display_caption": "none",
+             "image_spacing": "custom", "image_spacing_custom": size(16), "image_border_radius": dims(12),
+             "_css_classes": "nh-gallery"}
+        return self.head(sec, f"{name}/inner/h") + [self.widget(f"{name}/inner/gallery", "image-gallery", s)]
+
+    def card(self, path, children, title, extra=None):
+        return self.container(path, styled({
+            **flex("column", 16, 16), "padding": dims("1.5rem"), "padding_mobile": dims("1.25rem"),
+            "background_background": "classic", "border_radius": dims(16), **SOFT_SHADOW,
+            "css_classes": "nh-page__card", **(extra or {})}, background_color="white"), children, title=title)
+
+    def sec_table(self, name, sec):
+        p = f"{name}/inner"
+        return self.head(sec, f"{p}/h") + [self.card(f"{p}/card", self.text_editor_block(
+            sec["table"], f"{p}/card/table", "nh-table"), "טבלה")]
+
+    def sec_form(self, name, sec):
+        p = f"{name}/inner"
+        if sec["form"] == "visit":
+            form = self.contact_form(f"{p}/card/form")
+        else:
+            form = self.contact_form(f"{p}/card/form", prefix="form", fields=CONTACT_FIELDS,
+                                     subject="פנייה מהאתר — מעון נווה האירוס")
+        card = self.card(f"{p}/card", [form], "טופס", {"width": size("min(640px, 100%)"), "_flex_align_self": "flex-start",
+                                                         "css_classes": "nh-page__card nh-form-card"})   # under its heading
+        lead = self.text_editor_block(sec["lead"], f"{p}/lead", "nh-page__text") if sec.get("lead") else []
+        return self.head(sec, f"{p}/h") + lead + [card]
+
+    def sec_form_map(self, name, sec):
+        """The live «צור קשר»: the form and the map side by side (phones: the form first)."""
+        p = f"{name}/inner/grid"
+        form = self.contact_form(f"{p}/form/card/form", prefix="form", fields=CONTACT_FIELDS,
+                                 subject="פנייה מהאתר — מעון נווה האירוס")
+        left = self.container(f"{p}/form", {**flex("column", 16, 16), "padding": ZERO},
+                              self.head(sec, f"{p}/form/h") + [self.card(f"{p}/form/card", [form], "טופס", {
+                                  "css_classes": "nh-page__card nh-form-card"})], title="טופס")
+        right = self.container(f"{p}/map", {**flex("column", 16, 16), "padding": ZERO},
+                               self.map_widget(f"{p}/map", sec["map"]), title="מפה")
+        return [self.container(p, grid("7fr 5fr", 1, 1, gap_column=48, gap_row=32, grid_align_items="start"),
+                               [left, right], title="טופס ומפה")]
+
+    def sec_map(self, name, sec):
+        return self.map_widget(f"{name}/inner", sec)
+
+    def map_widget(self, path, sec):
+        src = sec["src"]
+        if urllib.parse.urlsplit(src).hostname not in MAP_HOSTS:
+            die(f"page {self.doc}: map {src!r} is not on {', '.join(MAP_HOSTS)}")
+        label = html.escape(self.text(sec["label"], "full"), quote=True)
+        body = self.twin_html(sec["text"], "p", ' class="nh-map__text"')
+        button = self.twin_html(sec["button"], "button", ' type="button" class="nh-map__btn"')
+        link_ = self.twin_html(sec["link"], "a", f' class="nh-map__link" href="{html.escape(sec["href"], quote=True)}"'
+                               ' target="_blank" rel="noopener"')
+        code = (f'<div class="nh-map" data-src="{html.escape(src, quote=True)}" data-title="{label}" role="region" '
+                f'aria-label="{label}">{body}<p class="nh-map__actions">{button}{link_}</p></div>')
+        w = self.widget(f"{path}/map", "html", {"html": code, "_css_classes": "nh-map-widget"})
+        for block in (sec["text"], sec["button"], sec["link"]):     # inside the code: checked as contained
+            self.use(block, "full", w, "html#full" if self.has_plain(block) else "html#in")
+            if self.has_plain(block):
+                self.use(block, "plain", w, "html#plain")
+        self.use(sec["label"], "full", w, "html#label")
+        return [self.card(f"{path}/card", [w], "מפה")]
+
+    def page(self):
+        self.doc = self.spec["key"]
+        out = []
+        for n, sec in enumerate(self.spec["sections"]):
+            name = sec.get("id") or f"s{n + 1}"
+            make = getattr(self, "sec_" + sec["type"].replace("-", "_"), None)
+            if make is None:
+                die(f"page {self.doc}: unknown section type {sec['type']!r}")
+            kids = []
+            if n == 0:       # the page's H1 (and its lead) open the first section
+                kids += self.heading_block(self.spec["h1"], f"{name}/inner/h1", "h1", "h1", "purple-700")
+                if self.spec.get("lead"):
+                    kids += self.text_editor_block(self.spec["lead"], f"{name}/inner/lead", "nh-page__lead")
+            kids += make(name, sec)
+            out.append(self.section(name, sec.get("title") or self.text(sec.get("heading") or self.spec["h1"], "full"),
+                                    "cream", kids, gap=24, gap_mobile=16))
+        return out
+
+
+def page_doc(spec, data, uses, src):
+    return {"key": spec["key"], "title": spec["title"], "slug": spec["slug"], "parent": spec.get("parent"),
+            "front_page": False, "post_type": "page", "document_type": "wp-page", "template": "elementor_header_footer",
+            "conditions": [], "page_settings": {},
+            "built_from": {**src, "widgets": sorted({e["widgetType"] for e in walk_elements(data)
+                                                     if e["elType"] == "widget"}),
+                           "blocks": {k: uses[k] for k in sorted(uses)}},
+            "elementor_data": data}
+
 # the setting that holds a block's text, per widget type
 FIELDS = {"heading": "title", "text-editor": "editor", "button": "text", "icon-box": "title_text"}
 
@@ -1017,11 +1214,11 @@ DOCS = {
              "document_type": "wp-page", "template": "elementor_header_footer", "conditions": [], "page_settings": {}},
     "header-v4": {"title": "כותרת עליונה v4 — נווה האירוס", "slug": "nh-header-v4", "front_page": False,
                   "post_type": "elementor_library", "document_type": "header", "template": "",
-                  "conditions": ["include/singular/front_page"],
+                  "conditions": ["include/general"],          # 23.11: every page (was the front page only)
                   "page_settings": {"content_wrapper_html_tag": "header"}},
     "footer-v4": {"title": "כותרת תחתונה v4 — נווה האירוס", "slug": "nh-footer-v4", "front_page": False,
                   "post_type": "elementor_library", "document_type": "footer", "template": "",
-                  "conditions": ["include/singular/front_page"],
+                  "conditions": ["include/general"],          # 23.11: every page (was the front page only)
                   "page_settings": {"content_wrapper_html_tag": "footer"}},
     "contacts": {"title": "פרטי קשר — בלוק משותף", "slug": "nh-contacts", "front_page": False,
                  "post_type": "elementor_library", "document_type": "container", "template": "", "conditions": [],
@@ -1035,8 +1232,10 @@ def files_sha256(paths):
 
 
 def source_info():
-    """What templates/v4/*.json are built from (scripts/test_site.py v4 compares it with the files)."""
-    return {"inputs": list(INPUTS), "inputs_sha256": files_sha256(INPUTS)}
+    """What templates/v4/*.json are built from (scripts/test_site.py v4 compares it with the files). 23.11: the inner
+    pages' specs (content/v4/pages/*.json) too."""
+    inputs = list(INPUTS) + page_inputs()
+    return {"inputs": inputs, "inputs_sha256": files_sha256(inputs)}
 
 
 def load_inputs():
@@ -1099,6 +1298,13 @@ def build():
                                                               if e["elType"] == "widget"}),
                                     "blocks": {k: uses[k] for k in sorted(uses)}},
                      "elementor_data": data[key]}
+    for spec in page_specs():
+        pb = PageBuilder(spec, content["blocks"], media_list)
+        data = pb.page()
+        uses = {}
+        for block, mode, doc, element, field in pb.uses:
+            uses.setdefault(block, {})[mode] = {"element": element, "field": field}
+        docs[spec["key"]] = page_doc(spec, data, uses, src)
     kit = {"built_from": src, **kit_json()}
     menu = {"built_from": src, **menu_json(content)}
     return docs, kit, menu
@@ -1246,7 +1452,8 @@ def page_problems(docs, media_list):
     # the contact band (v4.3, Itzik 18.11): the visit form, kept in the admin; e-mail only at launch; no WhatsApp
     band = list(walk_elements([by_name.get("contact", {})])) if by_name.get("contact") else []
     forms = [e for e in band if e.get("widgetType") == "form"]
-    all_forms = [e for d in docs.values() for e in walk_elements(d.get("elementor_data") or []) if e.get("widgetType") == "form"]
+    all_forms = [e for k, d in docs.items() if k in DOC_KEYS
+                 for e in walk_elements(d.get("elementor_data") or []) if e.get("widgetType") == "form"]
     if len(forms) != 1 or len(all_forms) != 1:
         problems.append(f"home/contact: one Form widget there and nowhere else ({len(forms)} there, {len(all_forms)} in all)")
     for f in forms:
@@ -1304,10 +1511,14 @@ def page_problems(docs, media_list):
 
 def check(docs, kit, menu, content, media_list):
     problems = []
-    blocks = content["blocks"]
+    home_blocks = content["blocks"]
+    specs = {sp["key"]: sp for sp in page_specs()}
     all_ids = []
     used = {}
-    for key in DOC_KEYS:
+    for key in list(DOC_KEYS) + list(specs):
+        page = specs.get(key)
+        # a page's texts: its own blocks, and the home's (its visit form uses the home's form texts)
+        blocks = {**home_blocks, **page["blocks"]} if page else home_blocks
         doc = docs.get(key)
         if not doc:
             problems.append(f"{key}: missing")
@@ -1382,7 +1593,8 @@ def check(docs, kit, menu, content, media_list):
                 for url in URL_IN_TEXT.findall(v):
                     host = urllib.parse.urlsplit(url if url.startswith("http") else "https:" + url).hostname or ""
                     if not ((host in ("youtube.com", "www.youtube.com") and path.endswith("/youtube_url"))
-                            or url == FACEBOOK):
+                            or url == FACEBOOK
+                            or (host in MAP_HOSTS and el.get("widgetType") == "html" and "nh-map-widget" in classes_of(el))):
                         problems.append(f"{path}: external URL {url}")
             # styled through the Kit
             glob = s.get("__globals__") or {}
@@ -1401,6 +1613,11 @@ def check(docs, kit, menu, content, media_list):
                     problems.append(f"{where}: {wt} without a Kit global for {control}")
             if wt == "heading" and "typography_typography" not in glob and s.get("typography_typography") != "custom":
                 problems.append(f"{where}: heading without a font (Kit global or local)")
+            if wt == "image-gallery":
+                for i, item in enumerate(s.get("wp_gallery") or []):
+                    m = re.fullmatch(r"@media:([A-Za-z0-9_-]+)", str(item.get("id")))
+                    if not m or m.group(1) not in media_list or list(item) != ["id", "url"]:
+                        problems.append(f"{where}: gallery item {i} {item!r} is not {{id: @media:<media.json name>, url}}")
             if wt == "icon-box" and s.get("description_text") != "":
                 problems.append(f"{where}: an Icon Box without description_text \"\" prints Elementor's sample text")
             for control, ref in glob.items():
@@ -1426,7 +1643,8 @@ def check(docs, kit, menu, content, media_list):
         # blocks used in this document: the element and its text, verbatim
         for block, modes in ((doc.get("built_from") or {}).get("blocks") or {}).items():
             for mode, ref in modes.items():
-                used.setdefault((block, mode), []).append(key)
+                if not page:
+                    used.setdefault((block, mode), []).append(key)
                 el = elements.get(ref.get("element"))
                 text = (blocks.get(block) or {}).get(mode)
                 if el is None or text is None:
@@ -1441,6 +1659,14 @@ def check(docs, kit, menu, content, media_list):
                         else html.escape(text, quote=False))
                 if el.get("widgetType") == "text-editor" and kind != "html":
                     want = f"<p>{want}</p>" if want else ""
+                if twin == "in":            # inside a code (the map): the text, verbatim
+                    if want not in str(value or ""):
+                        problems.append(f"{key}/{el['id']}: block {block} ({mode}) is not in the code")
+                    continue
+                if twin == "label":         # the map's name (its region's aria-label)
+                    if f'aria-label="{html.escape(text, quote=True)}"' not in str(value or ""):
+                        problems.append(f"{key}/{el['id']}: block {block} is not the code's aria-label")
+                    continue
                 if twin:                    # a form field holds both (v4.3): the span of this mode, verbatim
                     if f'<span class="nh-{twin}">{want}</span>' not in str(value or ""):
                         problems.append(f"{key}/{el['id']}: block {block} ({mode}) is not in the field's nh-{twin} span")
@@ -1460,16 +1686,57 @@ def check(docs, kit, menu, content, media_list):
                 problems.append(f"{key}: headings of the footer's own (only the contacts template brings any)")
             if key == "contacts" and levels and levels[0][0] != 2:
                 problems.append(f"{key} ({mode}): the template starts at h{levels[0][0]}, not h2 (a part of the page)")
-            heading_order(levels, f"{key} ({mode})", problems, one_h1=key == "home")
-    # the page as a whole: the header, the home, the footer with the contacts template (spec 09 §8: h1 → h2 → h3)
+            heading_order(levels, f"{key} ({mode})", problems, one_h1=key == "home" or key in specs)
+    # the page as a whole: the header, the home (or an inner page), the footer with the contacts template (spec 09
+    # §8: h1 → h2 → h3)
     if all(k in docs for k in DOC_KEYS):
-        for mode in ("full", "plain"):
-            page = []
-            for key in ("header-v4", "home", "footer-v4"):
-                page += headings(docs[key]["elementor_data"], docs, mode)
-            heading_order(page, f"the page ({mode})", problems, one_h1=True)
+        for body in ["home"] + [k for k in specs if k in docs]:
+            for mode in ("full", "plain"):
+                whole = []
+                for key in ("header-v4", body, "footer-v4"):
+                    whole += headings(docs[key]["elementor_data"], docs, mode)
+                heading_order(whole, f"the page {body} ({mode})", problems, one_h1=True)
         problems += page_problems(docs, media_list)
-    # every block once (its full text, its plain twin if set)
+    # the inner pages: their own fields; every block of theirs used once in them
+    for key, sp in specs.items():
+        doc = docs.get(key) or {}
+        for field in ("title", "slug"):
+            if not str(sp.get(field) or "").strip():
+                problems.append(f"page {key}: no {field}")
+        if doc.get("parent") != sp.get("parent"):
+            problems.append(f"page {key}: parent {doc.get('parent')!r}, the spec says {sp.get('parent')!r}")
+        # a page's forms: kept in the admin only (e-mail at launch), no IP or browser, labels shown, the required
+        # fields of their kind (the visit form: name, phone, consent; the contact form: all but the hint)
+        for f in [e for e in walk_elements(doc.get("elementor_data") or []) if e.get("widgetType") == "form"]:
+            fs = f["settings"]
+            if list(fs.get("submit_actions") or []) != (["save-to-database", "email"] if LAUNCH else ["save-to-database"]):
+                problems.append(f"page {key}: the form's actions are {fs.get('submit_actions')}")
+            if fs.get("submissions_metadata") != [] or fs.get("show_labels") != "true":
+                problems.append(f"page {key}: the form keeps metadata or hides its labels")
+            ids = [i.get("custom_id") for i in fs.get("form_fields") or []]
+            req = {i.get("custom_id") for i in fs.get("form_fields") or [] if i.get("required") == "true"}
+            want = {"name", "email", "phone", "message", "consent"} if "email" in ids else {"name", "phone", "consent"}
+            if req != want or "nh-contact-form" not in classes_of(f):
+                problems.append(f"page {key}: the form's required fields {sorted(req)} (want {sorted(want)}) or no "
+                                "nh-contact-form (the theme's checks)")
+        page_used = {}
+        for block, modes in ((doc.get("built_from") or {}).get("blocks") or {}).items():
+            for mode in modes:
+                page_used[(block, mode)] = page_used.get((block, mode), 0) + 1
+        for block, b in sp["blocks"].items():
+            if block in home_blocks:
+                problems.append(f"page {key}: block {block} has the name of a block of home.json")
+            for mode in ("full", "plain"):
+                text = b.get(mode)
+                if text is None or (mode == "plain" and text == ""):
+                    continue
+                if (block, mode) not in page_used:
+                    problems.append(f"page {key}: block {block} ({mode}) is not used")
+            if b.get("full") and b.get("kind") != "label" and b.get("plain") in (None, "") and not b.get("no_plain"):
+                problems.append(f"page {key}: block {block} has no plain twin (every page has a plain version; "
+                                "\"no_plain\": a reason, where the text is plain already)")
+    # every block of home.json once in the home's documents (its full text, its plain twin if set)
+    blocks = home_blocks
     for block, b in blocks.items():
         for mode in ("full", "plain"):
             text = b.get(mode)
@@ -1530,12 +1797,15 @@ def check(docs, kit, menu, content, media_list):
 
 def write(docs, kit, menu):
     os.makedirs(OUT, exist_ok=True)
-    for name, obj in [(f"{k}.json", docs[k]) for k in DOC_KEYS] + [("kit.json", kit), ("menu.json", menu)]:
+    os.makedirs(PAGES_OUT, exist_ok=True)
+    pages = [k for k in docs if k not in DOC_KEYS]
+    for name, obj in ([(f"{k}.json", docs[k]) for k in DOC_KEYS] + [("kit.json", kit), ("menu.json", menu)]
+                      + [(f"pages/{k}.json", docs[k]) for k in pages]):
         path = os.path.join(OUT, name)
         with open(path, "w", encoding="utf-8") as fh:
             json.dump(obj, fh, ensure_ascii=False, indent=1)
             fh.write("\n")
-        if name in [f"{k}.json" for k in DOC_KEYS]:
+        if name in [f"{k}.json" for k in DOC_KEYS] + [f"pages/{k}.json" for k in pages]:
             els = list(walk_elements(obj["elementor_data"]))
             n_w = sum(1 for e in els if e["elType"] == "widget")
             print(f"· {os.path.relpath(path, ROOT)}: {obj['post_type']} {obj['document_type']}, "
@@ -1552,6 +1822,12 @@ def read_outputs():
             die(f"templates/v4/{key}.json is missing: run python3 -I scripts/build_v4.py")
         with open(path, encoding="utf-8") as fh:
             docs[key] = json.load(fh)
+    for spec in page_specs():
+        path = os.path.join(PAGES_OUT, f"{spec['key']}.json")
+        if not os.path.isfile(path):
+            die(f"templates/v4/pages/{spec['key']}.json is missing: run python3 -I scripts/build_v4.py")
+        with open(path, encoding="utf-8") as fh:
+            docs[spec["key"]] = json.load(fh)
     out = []
     for name in ("kit", "menu"):
         path = os.path.join(OUT, f"{name}.json")
@@ -1592,15 +1868,17 @@ def main():
     problems = check(docs, kit, menu, content, media_list)
     fresh = build()
     if (docs, kit, menu) != (fresh[0], fresh[1], fresh[2]):
-        stale = [k for k in DOC_KEYS if docs.get(k) != fresh[0][k]] + [n for n, a, b in (("kit", kit, fresh[1]),
+        stale = [k for k in fresh[0] if docs.get(k) != fresh[0][k]] + [n for n, a, b in (("kit", kit, fresh[1]),
                                                                                        ("menu", menu, fresh[2])) if a != b]
         problems.append("templates/v4 is not what the current inputs make (" + ", ".join(stale)
                         + "): run python3 -I scripts/build_v4.py")
     if problems:
         die("check failed:\n  " + "\n  ".join(problems))
     summary(docs, content)
-    n = sum(1 for k in DOC_KEYS for e in walk_elements(docs[k]["elementor_data"]) if e["elType"] == "widget")
-    print(f"· check: passed ({len(DOC_KEYS)} documents, {n} widgets, kit and menu)")
+    n = sum(1 for k in docs for e in walk_elements(docs[k]["elementor_data"]) if e["elType"] == "widget")
+    pages = [k for k in docs if k not in DOC_KEYS]
+    print(f"· check: passed ({len(docs)} documents{f', {len(pages)} of them inner pages' if pages else ''}, "
+          f"{n} widgets, kit and menu)")
 
 
 if __name__ == "__main__":

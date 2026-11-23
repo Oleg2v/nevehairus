@@ -1,0 +1,333 @@
+{
+ "key": "community-housing-autism",
+ "title": "מערך דיור בקהילה – אוטיזם",
+ "slug": "מערך-דיור-בקהילה-אוטיזם",
+ "parent": null,
+ "front_page": false,
+ "post_type": "page",
+ "document_type": "wp-page",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/main-home.json"
+  ],
+  "inputs_sha256": "c6476ef61abd4ddabd7aabb5e834b6568799542d60d7adf1f744dbb6a44f6a3b",
+  "widgets": [
+   "heading",
+   "image",
+   "text-editor"
+  ],
+  "blocks": {
+   "body": {
+    "full": {
+     "element": "29d59b3",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "3b80cb3",
+     "field": "editor"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "5703ab9",
+     "field": "title"
+    },
+    "plain": {
+     "element": "15048bf",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "9368846",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--housing",
+    "_element_id": "housing",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מערך דיור בקהילה - צעירים על הרצף האוטיסטי"
+   },
+   "elements": [
+    {
+     "id": "1a735c4",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "5703ab9",
+       "elType": "widget",
+       "settings": {
+        "title": "מערך דיור בקהילה - צעירים על הרצף האוטיסטי",
+        "header_size": "h1",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "15048bf",
+       "elType": "widget",
+       "settings": {
+        "title": "דיור בקהילה לצעירים על הרצף האוטיסטי",
+        "header_size": "h1",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "8016048",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "start",
+        "_title": "טקסט ותמונה"
+       },
+       "elements": [
+        {
+         "id": "4b72a28",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "29d59b3",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>אוכלוסיית צעירים על הרצף האוטיסטי כוללת צעירים המתמודדים עם שונות נוירולוגית המשפיעה על תקשורת, אינטראקציה חברתית ועיבוד מידע.</p><p>רבים מהם בעלי יכולות, כישרונות ותחומי עניין ייחודיים.</p><p>לעיתים הם זקוקים לתמיכה מותאמת בלימודים, בתעסוקה ובחיי היומיום.</p><p>סביבה מכילה והבנה חברתית מאפשרות להם להתפתח ולממש את הפוטנציאל האישי שלהם. שילוב נכון בקהילה תורם הן לצעירים עצמם והן לחברה כולה.</p><p>נווה האירוס מפעילים מערך דיור בקהילה עבור אוכלוסייה זו במטרה ליצור עבור הדיירים חיים מיטביים בתוך הקהילה תוך השתלבות מקסימלית בקהילה.</p><p>צוות הדיור הינו מקצועי ומנוסה ובעיקר עובדים עם המון נשמה ולב ותחושת שליחות אדירה.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "3b80cb3",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>אצל צעירים על הרצף האוטיסטי המוח עובד בדרך קצת אחרת. זה משפיע על הדיבור, על הקשר עם אנשים ועל ההבנה של מידע.</p><p>להרבה מהם יש כישרונות ותחומי עניין מיוחדים.</p><p>לפעמים הם צריכים עזרה שמתאימה להם, בלימודים, בעבודה ובחיים של כל יום.</p><p>כשהסביבה מבינה ומקבלת אותם, הם מתפתחים ומצליחים. חיים בתוך הקהילה טובים להם, וטובים לכולנו.</p><p>נווה האירוס מפעיל בתים בתוך הקהילה גם לצעירים האלה, כדי שיחיו טוב בתוך הקהילה.</p><p>הצוות שלנו מקצועי ומנוסה, ועובד באהבה ובתחושת שליחות.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "f3afefd",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:card-3-v43",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "large",
+          "_css_classes": "nh-page__img",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

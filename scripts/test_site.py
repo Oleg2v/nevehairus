@@ -2979,14 +2979,17 @@ def walk_v4(elements):
 
 
 def v4_page_problems(url, docs, ids):
-    """§7.6: the home page as a visitor gets it. -> (problems, facts)"""
+    """§7.6: the home page as a visitor gets it. -> (problems, facts). Only the home's own documents (V4_KEYS: the
+    home, the header, the footer and its contacts template) are looked for on it. Until 23.11 every document of the
+    deploy was, so the inner pages' own widgets (the gallery of «אודות», the map of «צור קשר», …) were reported
+    «missing» from the home page, which never had them; the inner pages are checked one by one (v4_inner_problems)."""
     _check_url(url)
     st, hdr, body = http(url + ("&" if "?" in url else "?") + urllib.parse.urlencode(bust()))
     html = body.decode("utf-8", "replace")
     problems = [] if st == 200 else [f"HTTP {st}"]
     if any(c in html for c in CRITICAL):
         problems.append("a PHP error on the page")
-    for d in docs:
+    for d in [d for d in docs if d["key"] in V4_KEYS]:
         for wt in v4_widget_types(d):
             if wt == "template":
                 continue   # its wrapper is checked by the contacts band's id
@@ -3017,17 +3020,10 @@ def v4_inner_problems(url, doc, ids):
     unresolved token, nothing loaded from another host."""
     if not url.startswith(BASE):
         return [f"its address {url!r} is not on {HOST}"]
-    for attempt in (1, 2):
-        problems, html = v4_inner_once(url, doc, ids)
-        if not problems:
-            return problems
-        if attempt == 1:
-            # the very first view right after the deploy printed some widgets late (seen 23.11 for the gallery and the
-            # HTML widget; the next view had them): look once more before calling it a problem
-            time.sleep(4)
-    # the page as it was served, to see what stood in place of the missing widgets (23.11, three deploys in a row: the
-    # gallery of «אודות» and the map of «צור קשר»; every later view, and a cache clear done as the deploy does it,
-    # had them)
+    problems, html = v4_inner_once(url, doc, ids)
+    if not problems:
+        return problems
+    # the page as it was served, kept to see what stood in place of what is missing
     os.makedirs(V4_RENDER_DIR, exist_ok=True)
     path = os.path.join(V4_RENDER_DIR, f"failed-{doc.get('key', 'page')}-{time.strftime('%Y%m%d-%H%M%S')}.html")
     with open(path, "w", encoding="utf-8") as fh:

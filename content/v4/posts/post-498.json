@@ -1,0 +1,55 @@
+{
+ "key": "post-498",
+ "order": 202,
+ "title": "פנאי – מרחב של חרות (תמר שחר)",
+ "slug": "הספר-של-תמי-שחר-פנאי-מרחב-של-חירות",
+ "parent": null,
+ "post_type": "post",
+ "date": "2018-01-11T14:33:57",
+ "categories": [
+  "ספרים ומאמרים"
+ ],
+ "featured": "live-508",
+ "source": "live page, read 23.11.2026 (content/posts/2018-01-11-498.md, snapshot 15.11.2026: not modified since)",
+ "notes": "The live post in its order: H1; the featured image (live media 508, a 150px thumbnail beside the text on live) with the paragraph on the four principles; the photo of live media 521 (on live a 150px float inside that paragraph, after the first principle: here a one-photo gallery right after the paragraph, so the paragraph stays one block); the link to the book and «קרא עוד: סנטוריום». Left out: the live H2 under the H1, the same words as the H1 (the title once). The stray «01» before «גיוון» is in the live text: kept. The book is a PDF of the live site (live media 499): linked as @media:live-499, which needs its media.json entry (as pdf-entrances). Not moved: the post template's category line, share row and previous/next links.",
+ "h1": "h1",
+ "blocks": {
+  "h1": {
+   "kind": "text",
+   "full": "פנאי – מרחב של חרות (תמר שחר)",
+   "plain": "ספר על שעות הפנאי"
+  },
+  "intro": {
+   "kind": "html",
+   "full": "<p>בבואנו לפתח תכניות פנאי חשוב שניתן את דעתנו לעקרונות המרכזיים המסייעים לנו בתכנון, בהבהרת המטרות ובהערכת התוצאות. בבסיס פעילויות הפנאי עומדים ארבעת העקרונות הבאים: בחירה חופשית – טיפוח תפיסת עולם המבוססת על ההכרה בזכות ובחובה להכוונה עצמית, לבחירה חופשית, להצבת מטרות, למימושן ולהערכת התוצאות. 01 גיוון – היצע מגוון רב ממדי של תחומי פעולה המאפשר למשתתפים לבחור פעילויות התואמות לצורכיהם ורצונותיהם האישיים. הנאה וטיפוח – שילוב בין היבטים הפגתים ובידוריים של הפעילויות לבין היבטים של טיפוח הפוטנציאל, הכשרים והיכולות הייחודיות של המשתתפים. ניסוי וטעייה – האפשרות להתנסות במגוון תפקידים וחוויות עם טווח הרשאה רחב לניסוי וטעייה. ההתנסות מוגדרת כלגיטימית, כאשר התגובה אליה הנה הסבר ועידוד לניסוי מחודש.</p>",
+   "plain": "<p>כשאנחנו מתכננים פעילויות לשעות הפנאי, אנחנו חושבים על כמה כללים חשובים. הכללים עוזרים לנו לתכנן, להחליט מה המטרות ולבדוק מה הצלחנו. יש ארבעה כללים:</p><ul><li><strong>בחירה חופשית:</strong> כל אדם יכול וצריך להחליט בעצמו. הוא בוחר מטרות, מנסה להגיע אליהן ובודק מה הצליח.</li><li><strong>גיוון:</strong> יש הרבה סוגים של פעילויות. כל אחד בוחר מה שמתאים לו ומה שהוא רוצה.</li><li><strong>הנאה והתפתחות:</strong> הפעילויות נעימות ומשעשעות. הן גם עוזרות לכל אחד לפתח את הכישרונות והיכולות שלו.</li><li><strong>לנסות ולטעות:</strong> מותר לנסות הרבה דברים, ומותר לטעות. כשמישהו טועה, מסבירים לו ומעודדים אותו לנסות שוב.</li></ul>"
+  },
+  "book": {
+   "kind": "html",
+   "full": "<p>לקריאת הספר לחץ כאן – <a href=\"@media:live-499\">פנאי מרחב של חירות</a></p><p><strong>קרא עוד:</strong> <a href=\"@home:/מעון-ראשי-בית-לחיים/סנטוריום/\">סנטוריום</a></p>",
+   "plain": "<p>אפשר לקרוא את הספר: <a href=\"@media:live-499\">פנאי מרחב של חירות</a></p><p><strong>לקריאה נוספת:</strong> <a href=\"@home:/מעון-ראשי-בית-לחיים/סנטוריום/\">סנטוריום</a></p>"
+  }
+ },
+ "sections": [
+  {
+   "type": "text_photo",
+   "id": "intro",
+   "text": "intro",
+   "photo": "live-508"
+  },
+  {
+   "type": "gallery",
+   "id": "photo",
+   "columns": 3,
+   "photos": [
+    "live-521"
+   ]
+  },
+  {
+   "type": "text",
+   "id": "book",
+   "tag": "h2",
+   "text": "book"
+  }
+ ]
+}

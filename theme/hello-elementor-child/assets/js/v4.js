@@ -1,5 +1,5 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.5.3 (research/09-v4-home-spec.md
+   v4.js — child theme hello-elementor-child 1.5.4 (research/09-v4-home-spec.md
    §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
    No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed
@@ -34,6 +34,11 @@
       nh-contact-form) at the inner page's form's accessibility: checks on send,
       an error summary that takes the focus, each error tied to its field, the
       hint tied to the message field, the result message focused.
+   8. 1.5.0 the click-to-load map of the inner pages.
+   9. 1.5.4 «הקראה» (Oleg 23.11): the page read aloud by the browser's own
+      Hebrew voice (speechSynthesis; a voice of the device itself, nothing sent
+      anywhere); in plain mode the plain texts; «השהיה» / «המשך» and «עצירה».
+      Shown only where the device has such a voice.
    ========================================================================= */
 (() => {
   "use strict";
@@ -870,6 +875,169 @@
         f.focus();
       });
     });
+
+    /* ---------- 9. 1.5.4 «הקראה»: the page read aloud (Oleg 23.11) -------------------- */
+    // The browser's own speech (speechSynthesis) with a Hebrew voice that runs on the device (localService): no
+    // library, nothing sent to another server (a browser's network voices are not used). The option shows only where
+    // such a voice exists; Chrome lists its voices late (voiceschanged). It reads the text of <main> that is displayed,
+    // in document order: in plain mode the plain twins (the full texts are not displayed then). One short utterance
+    // per block or sentence: some browsers cut a long one after ~15 s. «השהיה» stops and keeps the place (the
+    // browsers' own pause fails on Android), «המשך» goes on from the sentence it was in; «עצירה», «איפוס», leaving the
+    // page and the end of the text stop it; switching plain mode on or off reads the page again in the new mode.
+    const tts = w.speechSynthesis;
+    const ttsLi = panel ? panel.querySelector(".nh-a11y-panel__tts") : null;
+    if (ttsLi && tts && typeof w.SpeechSynthesisUtterance === "function" && !inEditor) {
+      const ttsBtn = ttsLi.querySelector('[data-a11y="tts"]');
+      const ctrl = ttsLi.querySelector(".nh-a11y-tts");
+      const pauseBtn = ttsLi.querySelector('[data-a11y="tts-pause"]');
+      const stopBtn = ttsLi.querySelector('[data-a11y="tts-stop"]');
+      // what is never read: code, controls (buttons, and links styled as buttons), forms, what screen readers alone
+      // get or is hidden, our floating parts
+      const SKIP = 'script, style, noscript, template, svg, iframe, canvas, video, audio, button, select, textarea, '
+        + 'input, form, [hidden], [aria-hidden="true"], .nh-visually-hidden, .screen-reader-text, .elementor-screen-only, '
+        + '.nh-map__actions, .elementor-post__read-more, .elementor-button, .nh-float, #nh-cookies';
+      // the nearest of these around a piece of text makes one block (one or more utterances)
+      const BLOCK = 'h1, h2, h3, h4, h5, h6, p, li, dt, dd, th, td, caption, figcaption, blockquote, address, pre, '
+        + '.elementor-post__meta-data, div, section, article, main';
+      const MAX = 220;                                   // characters per utterance
+      let voice = null, items = [], pos = 0, session = 0, active = false, paused = false;
+
+      const pickVoice = () => {
+        let list = [];
+        try { list = tts.getVoices() || []; } catch (e) { list = []; }
+        const he = list.filter((v) => /^(he|iw)([-_]|$)/i.test(v.lang || "") && v.localService !== false);
+        voice = he.find((v) => v.default) || he.find((v) => /^he[-_]IL$/i.test(v.lang)) || he[0] || null;
+        ttsLi.hidden = !voice;
+        if (!voice && active) stop(false);
+      };
+      // sentences of at most MAX characters (a longer sentence is cut at a space)
+      const split = (text) => {
+        if (text.length <= MAX) return [text];
+        const out = [];
+        let cur = "";
+        text.replace(/([.!?…]["'״”’)]*)\s+/g, "$1\u0000").split("\u0000").forEach((s) => {
+          if (cur && (cur + " " + s).length > MAX) { out.push(cur); cur = ""; }
+          cur = cur ? cur + " " + s : s;
+          while (cur.length > MAX + 80) {
+            let cut = cur.lastIndexOf(" ", MAX);
+            if (cut < 40) cut = MAX;
+            out.push(cur.slice(0, cut).trim());
+            cur = cur.slice(cut).trim();
+          }
+        });
+        if (cur) out.push(cur);
+        return out;
+      };
+      const collect = () => {
+        const root = d.querySelector("main") || d.body;
+        const walker = d.createTreeWalker(root, w.NodeFilter.SHOW_TEXT);
+        const range = d.createRange();
+        const groups = [];
+        let last = null;
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+          if (!n.nodeValue || !n.nodeValue.trim()) continue;
+          const el = n.parentElement;
+          if (!el || el.closest(SKIP)) continue;
+          range.selectNodeContents(n);
+          if (!range.getClientRects().length) continue;            // not displayed: the other twin, a closed part
+          const vis = w.getComputedStyle(el).visibility;
+          if (vis === "hidden" || vis === "collapse") continue;
+          const block = el.closest(BLOCK);
+          if (!groups.length || block !== last) { groups.push([]); last = block; }
+          groups[groups.length - 1].push(n.nodeValue);
+        }
+        const out = [];
+        groups.forEach((g) => {
+          const text = g.join(" ").replace(/\s+/g, " ").trim();
+          if (/[\p{L}\p{N}]/u.test(text)) split(text).forEach((s) => out.push(s));
+        });
+        return out;
+      };
+      const setUI = () => {
+        ttsBtn.setAttribute("aria-pressed", String(active));
+        ctrl.hidden = !active;
+        pauseBtn.textContent = paused ? "המשך" : "השהיה";
+      };
+      const queue = (from, my) => {
+        for (let k = from; k < items.length; k++) {
+          const u = new w.SpeechSynthesisUtterance(items[k]);
+          u.voice = voice;
+          u.lang = voice.lang;
+          u.onstart = () => { if (my === session) pos = k; };
+          u.onend = () => { if (my === session && k === items.length - 1) stop(true); };
+          u.onerror = (e) => {
+            if (my === session && !/^(interrupted|canceled)$/.test(e && e.error)) stop(true);
+          };
+          tts.speak(u);
+        }
+      };
+      const speakFrom = (from) => {
+        const my = ++session;
+        pos = from;
+        if (tts.speaking || tts.pending) {
+          tts.cancel();
+          w.setTimeout(() => { if (my === session) queue(from, my); }, 60);   // Chrome drops a speak() right after cancel()
+        } else {
+          queue(from, my);                                // inside the click: what iOS needs to start speaking
+        }
+      };
+      const stop = (focusBack) => {
+        const hadFocus = ctrl.contains(d.activeElement);
+        session++;
+        active = false;
+        paused = false;
+        items = [];
+        pos = 0;
+        try { tts.cancel(); } catch (e) { /* nothing to stop */ }
+        setUI();
+        if (focusBack && hadFocus) ttsBtn.focus({ preventScroll: true });
+      };
+      const start = () => {
+        if (!voice) return;
+        items = collect();
+        if (!items.length) return;
+        active = true;
+        paused = false;
+        setUI();
+        speakFrom(0);
+      };
+
+      ttsBtn.addEventListener("click", () => (active ? stop(false) : start()));
+      pauseBtn.addEventListener("click", () => {
+        if (!active) return;
+        if (paused) {
+          paused = false;
+          setUI();
+          speakFrom(pos);                                 // the sentence it stopped in, from its start
+        } else {
+          paused = true;
+          session++;                                      // the cancelled utterances' events are ignored
+          try { tts.cancel(); } catch (e) { /* idem */ }
+          setUI();
+        }
+      });
+      stopBtn.addEventListener("click", () => stop(true));
+      const resetBtn = panel.querySelector('[data-a11y="reset"]');
+      if (resetBtn) resetBtn.addEventListener("click", () => { if (active) stop(false); });
+      // plain mode switched while reading: read the page again, now in the other mode (a paused reading just ends)
+      let plainWas = isPlain();
+      new w.MutationObserver(() => {
+        const now = isPlain();
+        if (now === plainWas) return;
+        plainWas = now;
+        if (!active) return;
+        if (paused) { stop(false); return; }
+        items = collect();
+        if (items.length) speakFrom(0); else stop(false);
+      }).observe(html, { attributes: true, attributeFilter: ["class"] });
+      // leaving the page stops the voice; a page restored by «back» starts silent
+      w.addEventListener("pagehide", () => { session++; try { tts.cancel(); } catch (e) { /* idem */ } });
+      w.addEventListener("pageshow", (e) => { if (e.persisted && active) stop(false); });
+
+      pickVoice();
+      if (typeof tts.addEventListener === "function") tts.addEventListener("voiceschanged", pickVoice);
+      else tts.onvoiceschanged = pickVoice;
+    }
   };
 
   if (d.readyState === "loading") d.addEventListener("DOMContentLoaded", init, { once: true });

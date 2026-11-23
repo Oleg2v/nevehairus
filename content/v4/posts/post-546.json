@@ -1,0 +1,55 @@
+{
+ "key": "post-546",
+ "order": 203,
+ "title": "מכתב למשפחות של סמנכ”ל בכיר וראש מנהל המוגבלויות גדעון שלום",
+ "slug": "מכתב-למשפחות-של-סמנכל-בכיר-וראש-מנהל",
+ "parent": null,
+ "post_type": "post",
+ "date": "2018-01-23T11:32:19",
+ "categories": [
+  "ספרים ומאמרים"
+ ],
+ "featured": "live-547",
+ "source": "live page, read 23.11.2026 (content/posts/2018-01-23-546.md, snapshot 15.11.2026: not modified since)",
+ "notes": "The live post in its order: H1; the featured image (live media 547, a 150px thumbnail beside the text on live) with the link «לצפייה לחץ כאן» (bold and centred on live: bold here); the image of the leaflet's cover (live media 548: on live a link to the same PDF; here a one-photo gallery that opens it larger, the PDF being the link above it); «קרא עוד» (the home and the dual diagnosis page under מעון ראשי). The letter itself is the PDF «meyda.pdf» (live media 545: 4 pages, «דף מידע למשפחות», January 2018, opening with «דבר ראש מינהל מוגבלויות»): linked as @media:live-545, which needs its media.json entry (as pdf-entrances). Not moved: the post template's category line, share row and previous/next links.",
+ "h1": "h1",
+ "blocks": {
+  "h1": {
+   "kind": "text",
+   "full": "מכתב למשפחות של סמנכ”ל בכיר וראש מנהל המוגבלויות גדעון שלום",
+   "plain": "מכתב למשפחות מראש מינהל המוגבלויות"
+  },
+  "view": {
+   "kind": "html",
+   "full": "<p><strong><a href=\"@media:live-545\">לצפייה לחץ כאן</a></strong></p>",
+   "plain": "<p><a href=\"@media:live-545\">לקריאת המכתב</a></p>"
+  },
+  "more": {
+   "kind": "html",
+   "full": "<p>קרא עוד: <a href=\"@home:/\">מעון לבעלי צרכים מיוחדים</a> | <a href=\"@home:/מעון-ראשי-בית-לחיים/אבחנה-כפולה/\">אבחנה כפולה</a></p>",
+   "plain": "<p><strong>לקריאה נוספת:</strong> <a href=\"@home:/\">מעון נווה האירוס</a> | <a href=\"@home:/מעון-ראשי-בית-לחיים/אבחנה-כפולה/\">אבחנה כפולה</a></p>"
+  }
+ },
+ "sections": [
+  {
+   "type": "text_photo",
+   "id": "intro",
+   "text": "view",
+   "photo": "live-547"
+  },
+  {
+   "type": "gallery",
+   "id": "leaflet",
+   "columns": 3,
+   "photos": [
+    "live-548"
+   ]
+  },
+  {
+   "type": "text",
+   "id": "more",
+   "tag": "h2",
+   "text": "more"
+  }
+ ]
+}

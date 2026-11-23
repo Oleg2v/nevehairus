@@ -59,6 +59,7 @@
  * 1.5.2: no emoji script on the site's pages: where a device has no emoji font it fetched pictures from s.w.org.
  * 1.5.3 (batch 3): v4.css only (the posts' archive cards, a post's video, the sitemap's list, the marker of a
  * missing fact).
+ * 1.5.4 (Oleg 23.11): «הקראה» in the «נגישות» panel: the page read aloud by the browser's own Hebrew voice (v4.js 9).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -312,12 +313,20 @@ function nh_child_v4_footer() {
 	$out .= '<ul class="nh-a11y-panel__list" role="list">';
 	// v4.3: «בשפה פשוטה» (it left the v4 header): first, a toggle; shown by v4.js only where the page has plain texts
 	$out .= '<li class="nh-a11y-panel__plain" hidden><button type="button" class="nh-a11y-opt" data-a11y="plain" data-plain-toggle aria-pressed="false"><span>' . esc_html__( 'בשפה פשוטה', 'hello-elementor-child' ) . '</span></button></li>';
+	// 1.5.4 (Oleg 23.11): «הקראה» reads the page aloud with the browser's own voice (speechSynthesis, a Hebrew voice of
+	// the device itself: nothing is sent anywhere); v4.js shows it only where such a voice exists. «השהיה» (then
+	// «המשך») and «עצירה» show while it reads.
+	$out .= '<li class="nh-a11y-panel__tts" hidden>'
+		. '<button type="button" class="nh-a11y-opt" data-a11y="tts" aria-pressed="false"><span>' . esc_html__( 'הקראה', 'hello-elementor-child' ) . '</span></button>'
+		. '<div class="nh-a11y-tts" hidden>'
+		. '<button type="button" class="nh-a11y-act" data-a11y="tts-pause">' . esc_html__( 'השהיה', 'hello-elementor-child' ) . '</button>'
+		. '<button type="button" class="nh-a11y-act" data-a11y="tts-stop">' . esc_html__( 'עצירה', 'hello-elementor-child' ) . '</button>'
+		. '</div></li>';
 	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="text" aria-pressed="false"><span>' . esc_html__( 'הגדלת טקסט', 'hello-elementor-child' ) . '</span> <span class="nh-a11y-opt__state" dir="ltr">100%</span></button></li>';
 	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="contrast" aria-pressed="false"><span>' . esc_html__( 'ניגודיות גבוהה', 'hello-elementor-child' ) . '</span></button></li>';
 	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="links" aria-pressed="false"><span>' . esc_html__( 'הדגשת קישורים', 'hello-elementor-child' ) . '</span></button></li>';
 	$out .= '<li><button type="button" class="nh-a11y-opt" data-a11y="still" aria-pressed="false"><span>' . esc_html__( 'עצירת אנימציות', 'hello-elementor-child' ) . '</span></button></li>';
 	$out .= '</ul>';
-	$out .= '<!-- text-to-speech (research/09 §5.3) comes here later: a «הקראה» button; not built yet -->';
 	$out .= '<div class="nh-a11y-panel__row">'
 		. '<button type="button" class="nh-a11y-act" data-a11y="reset">' . esc_html__( 'איפוס', 'hello-elementor-child' ) . '</button>'
 		. '<button type="button" class="nh-a11y-act" data-a11y="close">' . esc_html__( 'סגירה', 'hello-elementor-child' ) . '</button>'

@@ -67,6 +67,7 @@
  * the header's «צור קשר» reaches the page's own form or the contact page (v4.js 10); a photo grid browses as one
  * slideshow and the lightbox never shows a media title «nh4:…» (v4.js 11, and nh_child_media_title here); «הקראה»
  * looks for the voices again when the panel opens (v4.js 9).
+ * 1.5.8: from 1025 to 1415px a section's column ends clear of the round «נגישות» button (v4.css).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child

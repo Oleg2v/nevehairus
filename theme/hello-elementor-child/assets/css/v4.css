@@ -1640,3 +1640,9 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
 @media (max-width: 1024px) and (forced-colors: active) {
   .nh-float { border-block-start: 1px solid CanvasText; }
 }
+/* 1.5.8: from 1025px the round «נגישות» button floats at the inline end (24px + 52px). Until the 1320px column has
+   that room by itself (1416px), a section's column ends 88px from that edge (its start, aligned with the header,
+   stays): a text in a wide grid never runs under the button (the home's «החיים» part at 1280px did) */
+@media (min-width: 1025px) and (max-width: 1415px) {
+  .e-con.nh-sec__inner { padding-inline-end: 88px !important; }
+}

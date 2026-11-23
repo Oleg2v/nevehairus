@@ -1058,7 +1058,7 @@
   "width": 768,
   "height": 431,
   "faces": "pending",
-  "caption": "",
+  "caption": "חגיגות פורים",
   "note": "live media 137 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-138": {
@@ -1069,7 +1069,7 @@
   "width": 768,
   "height": 431,
   "faces": "pending",
-  "caption": "",
+  "caption": "חגיגות פורים",
   "note": "live media 138 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-139": {
@@ -1080,7 +1080,7 @@
   "width": 768,
   "height": 576,
   "faces": "pending",
-  "caption": "",
+  "caption": "חגיגות פורים",
   "note": "live media 139 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-146": {
@@ -1091,7 +1091,7 @@
   "width": 768,
   "height": 576,
   "faces": "pending",
-  "caption": "",
+  "caption": "חגיגת חנוכה 2015",
   "note": "live media 146 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-148": {
@@ -1102,7 +1102,7 @@
   "width": 768,
   "height": 576,
   "faces": "pending",
-  "caption": "",
+  "caption": "מסיבת שבועות 2012",
   "note": "live media 148 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-149": {
@@ -1113,7 +1113,7 @@
   "width": 768,
   "height": 576,
   "faces": "pending",
-  "caption": "",
+  "caption": "מסיבת שבועות 2012",
   "note": "live media 149 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-150": {
@@ -1124,7 +1124,7 @@
   "width": 768,
   "height": 431,
   "faces": "pending",
-  "caption": "",
+  "caption": "פורים 2016",
   "note": "live media 150 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-151": {
@@ -1135,7 +1135,7 @@
   "width": 768,
   "height": 431,
   "faces": "pending",
-  "caption": "",
+  "caption": "מעון נווה האירוס - פורים 2016",
   "note": "live media 151 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-175": {
@@ -1146,7 +1146,7 @@
   "width": 768,
   "height": 1202,
   "faces": "pending",
-  "caption": "",
+  "caption": "אימון פטאנק",
   "note": "live media 175 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-179": {
@@ -1157,7 +1157,7 @@
   "width": 768,
   "height": 432,
   "faces": "pending",
-  "caption": "",
+  "caption": "אימון קבוצת פטאנק",
   "note": "live media 179 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-180": {
@@ -1168,7 +1168,7 @@
   "width": 768,
   "height": 1365,
   "faces": "pending",
-  "caption": "",
+  "caption": "בפסטיבל הפסלים רחובות",
   "note": "live media 180 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-183": {
@@ -1179,7 +1179,7 @@
   "width": 768,
   "height": 432,
   "faces": "pending",
-  "caption": "",
+  "caption": "הדייר ישראל מקבל תוכונים אוסטלים",
   "note": "live media 183 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-186": {
@@ -1190,7 +1190,7 @@
   "width": 768,
   "height": 432,
   "faces": "pending",
-  "caption": "",
+  "caption": "מסיבת שבועות במעון",
   "note": "live media 186 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-191": {
@@ -1201,7 +1201,7 @@
   "width": 576,
   "height": 1024,
   "faces": "pending",
-  "caption": "",
+  "caption": "שדרוג המעון עם הדיירת נירית",
   "note": "live media 191 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-192": {
@@ -1212,7 +1212,7 @@
   "width": 576,
   "height": 1024,
   "faces": "pending",
-  "caption": "",
+  "caption": "שדרוג המעון עם הדיירת נירית",
   "note": "live media 192 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-347": {
@@ -1358,17 +1358,6 @@
   "caption": "",
   "note": "live media 522 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
- "live-523": {
-  "file": "templates/v4/media/live-523.jpg",
-  "alt": "דייר בחולצה אדומה מקבל כלוב סגול ובו שני תוכונים, צהוב ואפור, על שולחן במשרד",
-  "title": "nh4:live-523",
-  "source_url": "https://www.nevehairus.com/wp-content/uploads/2018/01/הדייר-ישראל-מקבל-תוכונים-אוסטלים_640x360.jpg",
-  "width": 640,
-  "height": 360,
-  "faces": "pending",
-  "caption": "",
-  "note": "live media 523 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
- },
  "live-524": {
   "file": "templates/v4/media/live-524.jpg",
   "alt": "אישה בחולצה ורודה מחייכת ליד שולחן עבודה, ולפניה קופסה עם כפיות פלסטיק צבעוניות וכוסות שקופות",
@@ -1401,17 +1390,6 @@
   "faces": "none",
   "caption": "",
   "note": "live media 548 (post-546); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
- },
- "live-553": {
-  "file": "templates/v4/media/live-553.jpg",
-  "alt": "שתי נשים בכובעי שמש ושני גברים יושבים יחד על ספסל בפארק, והנשים מחייכות למצלמה",
-  "title": "nh4:live-553",
-  "source_url": "https://www.nevehairus.com/wp-content/uploads/2018/01/20170718_104150_censored_640x480.jpg",
-  "width": 640,
-  "height": 480,
-  "faces": "pending",
-  "caption": "",
-  "note": "live media 553 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-554": {
   "file": "templates/v4/media/live-554.jpg",
@@ -2147,7 +2125,7 @@
   "width": 768,
   "height": 576,
   "faces": "none",
-  "caption": "",
+  "caption": "פינת אוכל ומטבח באגף החדש",
   "note": "live media 1202 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1204": {
@@ -2158,7 +2136,7 @@
   "width": 768,
   "height": 1024,
   "faces": "none",
-  "caption": "",
+  "caption": "פינת אוכל",
   "note": "live media 1204 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1205": {
@@ -2169,7 +2147,7 @@
   "width": 768,
   "height": 1024,
   "faces": "none",
-  "caption": "",
+  "caption": "מטבח באגף החדש",
   "note": "live media 1205 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1206": {
@@ -2180,7 +2158,7 @@
   "width": 768,
   "height": 1024,
   "faces": "none",
-  "caption": "",
+  "caption": "חדר רחצה חדש",
   "note": "live media 1206 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1207": {
@@ -2191,7 +2169,7 @@
   "width": 768,
   "height": 1024,
   "faces": "pending",
-  "caption": "",
+  "caption": "יצירות עצמיות של דיירים",
   "note": "live media 1207 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1208": {
@@ -2202,7 +2180,7 @@
   "width": 768,
   "height": 576,
   "faces": "none",
-  "caption": "",
+  "caption": "חדר מגורים נוסף באגף החדש",
   "note": "live media 1208 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1209": {
@@ -2213,7 +2191,7 @@
   "width": 768,
   "height": 1024,
   "faces": "none",
-  "caption": "",
+  "caption": "חדר מגורים",
   "note": "live media 1209 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1210": {
@@ -2224,7 +2202,7 @@
   "width": 768,
   "height": 1024,
   "faces": "none",
-  "caption": "",
+  "caption": "חדר רחצה באגף החדש",
   "note": "live media 1210 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1211": {
@@ -2235,7 +2213,7 @@
   "width": 768,
   "height": 1024,
   "faces": "none",
-  "caption": "",
+  "caption": "מסדרון כניסה לאגף החדש",
   "note": "live media 1211 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1212": {
@@ -2246,7 +2224,7 @@
   "width": 768,
   "height": 1024,
   "faces": "none",
-  "caption": "",
+  "caption": "חדרי רחצה חדשים",
   "note": "live media 1212 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1213": {
@@ -2257,7 +2235,7 @@
   "width": 768,
   "height": 1024,
   "faces": "none",
-  "caption": "",
+  "caption": "מיטה בחדר מגורים",
   "note": "live media 1213 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1214": {
@@ -2268,7 +2246,7 @@
   "width": 768,
   "height": 576,
   "faces": "none",
-  "caption": "",
+  "caption": "סלון ופינת אוכל באגף החדש",
   "note": "live media 1214 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1215": {
@@ -2279,7 +2257,7 @@
   "width": 768,
   "height": 1024,
   "faces": "none",
-  "caption": "",
+  "caption": "פינת אוכל באגף החדש",
   "note": "live media 1215 (page-111); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1216": {
@@ -2290,7 +2268,7 @@
   "width": 768,
   "height": 1024,
   "faces": "none",
-  "caption": "",
+  "caption": "תאורת שמיים באגף החדש",
   "note": "live media 1216 (page-111, post-1227); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
  },
  "live-1267": {

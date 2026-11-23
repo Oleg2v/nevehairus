@@ -1,0 +1,121 @@
+{
+ "key": "accessibility",
+ "order": 93,
+ "title": "הצהרת נגישות",
+ "slug": "הצהרת-נגישות",
+ "parent": null,
+ "source": "Itzik's Word file «הצהרת נגישות» (sent by Oleg 23.11); no such page on the live site",
+ "notes": "The text as it is in the file. Layout only: its short title lines are H2 headings, Word's list paragraphs lists, e-mail and phone links. The coordinator's details as Oleg gave them 23.11 (דוד אליהו, irus1@nevehairus.com, 08-9403047; the file has the phone as 089403047). The file has no date of the accessibility check: a visible marker stands after the paragraph on the browsers.",
+ "h1": "h1",
+ "blocks": {
+  "h1": {
+   "kind": "text",
+   "full": "הצהרת נגישות",
+   "plain": null,
+   "no_plain": "the page's name"
+  },
+  "s1": {
+   "kind": "html",
+   "full": "<p>אתר נוה האירוס, בבעלות נוה האירוס בע\"מ ח.פ 510158611</p><p>בהצהרה זו מטרתנו לייעל את השימוש ולשפר את השירות שלנו בכל הנוגע לנגישות ושוויון זכויות לאנשים בעלי מוגבלויות.</p><p>התאמת הנגישות שלנו בוצעה בהתאם לתקנה 35 בתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות) התשע\"ג 2013 לרמה AA בכפוף לשינויים והתאמות שבוצעו במסמך התקן הישראלי.</p><p>התאמת הנגישות נבדקה בדפדפנים כרום, פיירפוקס, ספארי, מוזילה ואדג'.</p><p><mark class=\"nh-todo\">תאריך בדיקת הנגישות: [ממתין לתאריך]</mark></p>",
+   "plain": null,
+   "no_plain": "legal text as the client sent it (Oleg 23.11: as is, not rewritten)"
+  },
+  "s2.h": {
+   "kind": "text",
+   "full": "אמצעי נגישות הקיימים באתר:",
+   "plain": null,
+   "no_plain": "legal text as the client sent it (Oleg 23.11: as is, not rewritten)"
+  },
+  "s2": {
+   "kind": "html",
+   "full": "<ul><li>תמיכה בכל הדפדפנים התקניים המקובלים (כמו Chrome, Explorer, FireFox, Opera, Mozila).</li><li>תכני האתר נכתבו בשפה ברורה ונעשה שימוש בפונטים קריאים</li><li>מבניות האתר בנויה מכותרות, פסקאות ורשימות</li><li>התמצאות באתר היא פשוטה ונוחה וכוללת תפריטים זמינים וברורים</li><li>הקישורים באתר ברורים ומסבירים להיכן מועברים לאחר לחיצה עליהם</li><li>קישורים בתחילת הדף המאפשרים דילוג לתוכן</li><li>תיאור טקסטואלי לתמונות ואייקונים עבור טכנולוגיות מסייעות</li><li>התאמת האתר לסביבות עבודה ברזולוציות שונות (רספונסיביות)</li><li>כפתורי עצירה והפעלה של גלריות סרטונים</li><li>הוטמעו חוקי ARIA העוזרים לפרש את תוכן האתר בצורה מדויקת וטובה יותר</li><li>הנגשת תפריטים, טפסים ושדות, היררכיית כותרות, רכיבי טאבים, חלונות קופצים ועוד</li></ul>",
+   "plain": null,
+   "no_plain": "legal text as the client sent it (Oleg 23.11: as is, not rewritten)"
+  },
+  "s3.h": {
+   "kind": "text",
+   "full": "שינוי תצוגה באתר",
+   "plain": null,
+   "no_plain": "legal text as the client sent it (Oleg 23.11: as is, not rewritten)"
+  },
+  "s3": {
+   "kind": "html",
+   "full": "<ul><li>ניתן להגדיל או להקטין את תצוגת האתר באמצעות לחיצה על אחד מכפתורי ה- “CTRL” ביחד עם גלגלת העכבר או ביחד עם הסימן “+” עבור הגדלה או ביחד עם הסימן “-” עבור הקטנת התצוגה. כל לחיצה תקטין או תגדיל את המסך בעשרה אחוזים (10%)</li><li>שינוי גודל הגופן ייעשה באמצעות שימוש בתפריט הנגישות המצוי באתר</li><li>גולשים אשר אין ברשותן עכבר או שאינם/ ינן יכולים לעשות שימוש בעכבר יכולים להפעיל את התכונות המצויות באתר על ידי לחיצה על המקש “TAB”. כל לחיצה תעביר את הסמן אל האפשרות הבאה באתר<br>לחיצה על מקש ה- “Enter” תפעיל את הקישור עליו נמצא הסמן</li><li>האתר אינו כולל הבהובים, ריצודים ותכנים בתנועה. במקומות אשר נמצאים תכנים כאלה, ניתן לעצור אותם בעמידה עליהם ולחיצה על העכבר או מעבר אליהם על ידי מקש ה- “TAB” ולחיצה על מקש ה- “Enter\"</li></ul>",
+   "plain": null,
+   "no_plain": "legal text as the client sent it (Oleg 23.11: as is, not rewritten)"
+  },
+  "s4.h": {
+   "kind": "text",
+   "full": "התאמת אתר למוגבלי ראייה ושמיעה",
+   "plain": null,
+   "no_plain": "legal text as the client sent it (Oleg 23.11: as is, not rewritten)"
+  },
+  "s4": {
+   "kind": "html",
+   "full": "<ul><li>מגדילי ראות (רזולוציה) בסיסיים</li><li>תוכנות זיהוי קולי</li><li>חבילות זיהוי קולי של מערכות ההפעלה</li></ul>",
+   "plain": null,
+   "no_plain": "legal text as the client sent it (Oleg 23.11: as is, not rewritten)"
+  },
+  "s5.h": {
+   "kind": "text",
+   "full": "סייגים לנגישות",
+   "plain": null,
+   "no_plain": "legal text as the client sent it (Oleg 23.11: as is, not rewritten)"
+  },
+  "s5": {
+   "kind": "html",
+   "full": "<p>הנהלת האתר עושה ככל שניתן על מנת לוודא כי כלל הדפים המוצגים יהיו מונגשים. יחד עם זאת, יתכן וישנם דפים שטרם הונגשו, או שטרם נמצא פתרון טכנולוגי מתאים לצורך הנגשתם. בנוסף, ייתכן ובמודעות חיצוניות, אשר הוכנסו על ידי בעלי עסקים המפרסמים באתר, ההנגשה לא תהיה שלמה או מספקת.</p>",
+   "plain": null,
+   "no_plain": "legal text as the client sent it (Oleg 23.11: as is, not rewritten)"
+  },
+  "s6.h": {
+   "kind": "text",
+   "full": "נתקלתם בבעיה? אנחנו כאן כדי לסייע!",
+   "plain": null,
+   "no_plain": "legal text as the client sent it (Oleg 23.11: as is, not rewritten)"
+  },
+  "s6": {
+   "kind": "html",
+   "full": "<p><strong>פרטי אחראי נגישות באתר :</strong><br>שם: דוד אליהו<br>אימייל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a><br>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p>",
+   "plain": null,
+   "no_plain": "legal text as the client sent it (Oleg 23.11: as is, not rewritten)"
+  }
+ },
+ "sections": [
+  {
+   "type": "text",
+   "id": "s1",
+   "text": "s1"
+  },
+  {
+   "type": "text",
+   "id": "s2",
+   "heading": "s2.h",
+   "text": "s2"
+  },
+  {
+   "type": "text",
+   "id": "s3",
+   "heading": "s3.h",
+   "text": "s3"
+  },
+  {
+   "type": "text",
+   "id": "s4",
+   "heading": "s4.h",
+   "text": "s4"
+  },
+  {
+   "type": "text",
+   "id": "s5",
+   "heading": "s5.h",
+   "text": "s5"
+  },
+  {
+   "type": "text",
+   "id": "s6",
+   "heading": "s6.h",
+   "text": "s6"
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "key": "post-1017",
+ "order": 208,
+ "title": "איזה גן אירועים זה?",
+ "slug": "איזה-גן-אירועים-זה",
+ "parent": null,
+ "source": "live page, read 23.11.2026 (content/posts/2018-10-25-1017.md, snapshot 15.11.2026: not modified since)",
+ "notes": "The live post in its order: H1 (the title, once), the featured image (live media 1018: on live a 150×150 thumbnail at the top, under the title; here beside the opening, the first section), its one line (the emoji not read aloud; «הזו ,» with the space before the comma as on live). Left out: the theme's share line «שתף מאמר זה:» under the post (not the post's text).",
+ "post_type": "post",
+ "date": "2018-10-25T11:23:17",
+ "categories": [
+  "חדשות ועדכונים"
+ ],
+ "featured": "live-1018",
+ "h1": "h1",
+ "blocks": {
+  "h1": {
+   "kind": "text",
+   "full": "איזה גן אירועים זה?",
+   "plain": "זה גן אירועים?"
+  },
+  "intro": {
+   "kind": "html",
+   "full": "<p>אז זהו שזה המעון שלנו <span aria-hidden=\"true\">🙂</span> עם התאורה המרהיבה הזו , גם לנו מגיע לראות נעים בעיניים.</p>",
+   "plain": "<p>זה לא גן אירועים. זה המעון שלנו!</p><p>יש אצלנו תאורה יפה מאוד. גם לנו מגיע לראות דברים יפים.</p>"
+  }
+ },
+ "sections": [
+  {
+   "type": "text_photo",
+   "id": "intro",
+   "text": "intro",
+   "photo": "live-1018"
+  }
+ ]
+}

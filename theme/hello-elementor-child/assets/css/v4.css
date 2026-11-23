@@ -1505,3 +1505,39 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
   .nh-map__btn { border: 2px solid ButtonText; }
   .elementor-widget-text-editor.nh-quote { border-inline-start-color: CanvasText; }
 }
+
+/* =========================================================================
+   1.5.3 (23.11, batch 3): the posts' archive, a post's video, the sitemap, the legal pages' marker
+   ========================================================================= */
+/* the archive template (Pro's Archive Posts, Cards skin, class nh-archive): white cards on the cream ground with the
+   pages' soft shadow and 16px corners; the title is the link (purple, underlined on hover and focus), the date and
+   the start of the text in ink; «להמשך קריאה» as a text link */
+.elementor-widget-archive-posts.nh-archive .elementor-post__card {
+  border: 0; border-radius: 16px; background-color: #FFFFFF; overflow: hidden;
+  box-shadow: 0 6px 16px -4px rgba(28, 24, 48, .14);
+}
+.elementor-widget-archive-posts.nh-archive .elementor-post__thumbnail__link { margin-bottom: 0; }
+.elementor-widget-archive-posts.nh-archive .elementor-post__text { padding: 1.25rem 1.5rem 0; }
+.elementor-widget-archive-posts.nh-archive .elementor-post__title { margin: 0 0 .5rem; font-size: 1.25rem; line-height: 1.35; }
+.elementor-widget-archive-posts.nh-archive .elementor-post__title a { color: #4A2D84; text-decoration: none; }
+.elementor-widget-archive-posts.nh-archive .elementor-post__title a:hover,
+.elementor-widget-archive-posts.nh-archive .elementor-post__title a:focus-visible { text-decoration: underline; text-underline-offset: .2em; }
+.elementor-widget-archive-posts.nh-archive .elementor-post__excerpt p { margin: 0 0 1rem; font-size: 1rem; line-height: 1.6; color: #1F2421; }
+.elementor-widget-archive-posts.nh-archive .elementor-post__meta-data { padding: .75rem 1.5rem; border-top: 1px solid #ECE8F3; font-size: .9375rem; color: #4D5350; }
+.elementor-widget-archive-posts.nh-archive .elementor-post__read-more { display: inline-block; margin-bottom: 1.25rem; font-size: 1rem; font-weight: 600; color: #4A2D84; text-decoration: underline; text-underline-offset: .2em; }
+.elementor-widget-archive-posts.nh-archive a:focus-visible { outline: 3px solid #4A2D84; outline-offset: 3px; border-radius: 4px; }
+.elementor-widget-archive-posts.nh-archive .elementor-pagination { margin-top: 2rem; font-size: 1.0625rem; }
+.elementor-widget-archive-posts.nh-archive .elementor-pagination .page-numbers { display: inline-block; min-width: 44px; min-height: 44px; padding: .5rem; line-height: 28px; text-align: center; }
+.elementor-widget-archive-posts.nh-archive .elementor-pagination a.page-numbers { color: #4A2D84; }
+.elementor-widget-archive-posts.nh-archive .elementor-pagination .page-numbers.current { color: #FFFFFF; background-color: #4A2D84; border-radius: 8px; }
+/* a post's landscape video: as wide as the reading column, the home's corners */
+.elementor-widget-video.nh-page__video { width: 100%; }
+.elementor-widget-video.nh-page__video .elementor-wrapper { border-radius: 12px; overflow: hidden; }
+/* the sitemap's list: the pages under «מעון ראשי – בית לחיים» one step in */
+.elementor-widget-text-editor.nh-page__text ul.nh-sitemap ul { margin-top: .5em; }
+/* a marker where a fact is still missing (the accessibility statement's date): seen, not mistaken for text */
+.elementor-widget-text-editor mark.nh-todo { padding: .125em .375em; border-radius: 4px; background-color: #FFF0A8; color: #1F2421; }
+@media (forced-colors: active) {
+  .elementor-widget-archive-posts.nh-archive .elementor-post__card { border: 1px solid CanvasText; }
+  .elementor-widget-text-editor mark.nh-todo { border: 2px solid CanvasText; }
+}

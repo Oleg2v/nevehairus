@@ -1,0 +1,222 @@
+{
+ "key": "archive",
+ "title": "ארכיון פוסטים v4 — נווה האירוס",
+ "slug": "nh-archive-v4",
+ "parent": null,
+ "front_page": false,
+ "post_type": "elementor_library",
+ "document_type": "archive",
+ "template": "",
+ "conditions": [
+  "include/archive"
+ ],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/accessibility.json",
+   "content/v4/pages/archive.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/gallery.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/privacy.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/sitemap.json",
+   "content/v4/pages/testimonials.json",
+   "content/v4/posts/post-1017.json",
+   "content/v4/posts/post-1039.json",
+   "content/v4/posts/post-1041.json",
+   "content/v4/posts/post-1045.json",
+   "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-997.json"
+  ],
+  "inputs_sha256": "5394e56ad0a8888d7c9b11ee4f2f470d3f1de871c3f37f8411fedaf1f4dece30",
+  "widgets": [
+   "archive-posts",
+   "theme-archive-title"
+  ],
+  "blocks": {
+   "empty": {
+    "full": {
+     "element": "747a681",
+     "field": "nothing_found_message"
+    }
+   },
+   "more": {
+    "full": {
+     "element": "747a681",
+     "field": "archive_cards_read_more_text"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "cec4dcf",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--posts",
+    "_element_id": "posts",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "פוסטים"
+   },
+   "elements": [
+    {
+     "id": "9ad50c6",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "43ded72",
+       "elType": "widget",
+       "settings": {
+        "header_size": "h1",
+        "__dynamic__": {
+         "title": "[elementor-tag id=\"nh4arch\" name=\"archive-title\" settings=\"%7B%22include_context%22%3A%22%22%7D\"]"
+        },
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "theme-archive-title"
+      },
+      {
+       "id": "747a681",
+       "elType": "widget",
+       "settings": {
+        "_skin": "archive_cards",
+        "archive_cards_columns": "3",
+        "archive_cards_columns_tablet": "2",
+        "archive_cards_columns_mobile": "1",
+        "archive_cards_thumbnail_size_size": "medium_large",
+        "archive_cards_item_ratio": {
+         "unit": "px",
+         "size": 0.62,
+         "sizes": []
+        },
+        "archive_cards_title_tag": "h2",
+        "archive_cards_meta_data": [
+         "date"
+        ],
+        "archive_cards_show_excerpt": "yes",
+        "archive_cards_excerpt_length": 30,
+        "archive_cards_show_read_more": "yes",
+        "archive_cards_read_more_text": "להמשך קריאה",
+        "archive_cards_show_badge": "",
+        "archive_cards_show_avatar": "",
+        "pagination_type": "numbers",
+        "nothing_found_message": "אין עדיין פוסטים כאן.",
+        "_css_classes": "nh-archive"
+       },
+       "elements": [],
+       "widgetType": "archive-posts"
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

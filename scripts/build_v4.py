@@ -197,7 +197,8 @@ HEADER_WIDTH = CONTENT_WIDTH                           # the header keeps to the
 
 ALLOWED_WIDGETS = {"heading", "text-editor", "image", "button", "video", "icon", "icon-box",    # Elementor
                    "nested-accordion", "nav-menu", "template", "form",                          # Elementor / Pro
-                   "image-gallery", "html"}         # the inner pages (23.11): a gallery; the click-to-load map
+                   "image-gallery", "html",         # the inner pages (23.11): a gallery; the click-to-load map
+                   "theme-archive-title", "archive-posts"}     # Pro's archive template (23.11, batch 3)
 HEX7 = re.compile(r"^[0-9a-f]{7}$")
 TOKEN_IN_TEXT = re.compile(r"@(media|page|page-id|home):([^\s\"'<>]*)")
 URL_IN_TEXT = re.compile(r"(?:https?:)?//[^\s\"'<>)]+", re.I)
@@ -1016,8 +1017,13 @@ class Builder:
 # ---- inner pages (Oleg 23.11: every page of the live menu and footer, on the home's design) ---------------------------
 PAGES_SRC = os.path.join(ROOT, "content", "v4", "pages")
 PAGES_OUT = os.path.join(OUT, "pages")
+POSTS_SRC = os.path.join(ROOT, "content", "v4", "posts")      # 23.11, batch 3: the live posts, one file each
+POSTS_OUT = os.path.join(OUT, "posts")
+CATEGORIES = {"ספרים ומאמרים": "ספרים-ומאמרים", "חדשות ועדכונים": "חדשות-ועדכונים"}    # the live categories: name → slug
+POST_DATE = re.compile(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d$")
 READING = 860                      # px: the reading column of a page's text (as the home's special-needs column)
-MAP_HOSTS = ("maps.google.com", "www.google.com")      # the click-to-load map's frame (data-src, never loaded alone)
+MAP_HOSTS = ("maps.google.com", "www.google.com")
+LINK_HOSTS = ("docs.google.com",)  # batch 3: hosts the live texts link to (a link only: nothing loads from them)      # the click-to-load map's frame (data-src, never loaded alone)
 CONTACT_FIELDS = (  # the contact page's form (the live «צור קשר»: name, e-mail, phone and the message, all required)
     ("note", "html", "form.required_note", False, {}),
     ("name", "text", "form.label_name", True, {}),
@@ -1032,16 +1038,33 @@ CONTACT_FIELDS = (  # the contact page's form (the live «צור קשר»: name,
 
 
 def page_specs():
-    """content/v4/pages/<key>.json in their order ("order"; a parent before its children)."""
+    """content/v4/pages/<key>.json and (batch 3) content/v4/posts/<key>.json in their order ("order"; a parent before
+    its children). A page spec may also be a Theme Builder template ("post_type": "elementor_library", with its
+    "document_type" and "conditions": the archive template)."""
     out = []
-    if os.path.isdir(PAGES_SRC):
-        for name in sorted(os.listdir(PAGES_SRC)):
+    for src, kind in ((PAGES_SRC, "page"), (POSTS_SRC, "post")):
+        if not os.path.isdir(src):
+            continue
+        for name in sorted(os.listdir(src)):
             if not name.endswith(".json"):
                 continue
-            with open(os.path.join(PAGES_SRC, name), encoding="utf-8") as fh:
+            rel = os.path.relpath(os.path.join(src, name), ROOT)
+            with open(os.path.join(src, name), encoding="utf-8") as fh:
                 spec = json.load(fh)
             if spec.get("key") != name[:-5]:
-                die(f"content/v4/pages/{name}: its key is {spec.get('key')!r}, not {name[:-5]!r}")
+                die(f"{rel}: its key is {spec.get('key')!r}, not {name[:-5]!r}")
+            ptype = spec.get("post_type", "page")
+            if (kind == "post") != (ptype == "post") or ptype not in ("page", "post", "elementor_library"):
+                die(f"{rel}: post_type {ptype!r} does not belong in {os.path.relpath(src, ROOT)}")
+            if ptype == "post":
+                if not re.fullmatch(r"post-\d+", spec["key"]) or spec.get("parent"):
+                    die(f"{rel}: a post's key is post-<live id>, and a post has no parent")
+                if not POST_DATE.match(str(spec.get("date"))):
+                    die(f"{rel}: date {spec.get('date')!r} is not the live date as YYYY-MM-DDTHH:MM:SS")
+                if not spec.get("categories") or any(c not in CATEGORIES for c in spec["categories"]):
+                    die(f"{rel}: categories {spec.get('categories')!r}: each one of {', '.join(CATEGORIES)}")
+            if ptype == "elementor_library" and (spec.get("document_type") != "archive" or not spec.get("conditions")):
+                die(f"{rel}: a template here is the archive template, with its display conditions")
             out.append(spec)
     out.sort(key=lambda sp: (sp.get("order", 999), sp["key"]))
     keys = [sp["key"] for sp in out]
@@ -1053,8 +1076,26 @@ def page_specs():
 
 
 def page_inputs():
-    return sorted(os.path.relpath(os.path.join(PAGES_SRC, n), ROOT) for n in os.listdir(PAGES_SRC)
-                  if n.endswith(".json")) if os.path.isdir(PAGES_SRC) else []
+    return sorted(os.path.relpath(os.path.join(src, n), ROOT) for src in (PAGES_SRC, POSTS_SRC) if os.path.isdir(src)
+                  for n in os.listdir(src) if n.endswith(".json"))
+
+
+def spec_out(spec):
+    """Where a spec's document is written: templates/v4/posts/ for a post, templates/v4/pages/ otherwise."""
+    return os.path.join(POSTS_OUT if spec.get("post_type") == "post" else PAGES_OUT, f"{spec['key']}.json")
+
+
+def excerpt(spec, words=30):
+    """A post's excerpt for the archive's cards: the start of its first text, as the live post has it (full text)."""
+    for sec in spec["sections"]:
+        blocks = sec.get("text") or []
+        for block in (blocks if isinstance(blocks, list) else [blocks]):
+            full = spec["blocks"][block]["full"]
+            text = html.unescape(re.sub(r"<[^>]+>", " ", full))
+            ws = text.split()
+            if ws:
+                return " ".join(ws[:words]) + ("…" if len(ws) > words else "")
+    return ""
 
 
 class PageBuilder(Builder):
@@ -1070,7 +1111,12 @@ class PageBuilder(Builder):
       table       [heading] and a table (a text block of kind html) in a white card
       form        [heading], [lead] and Elementor Pro's Form in a white card: «visit» = the home's visit form (its texts
                   are the home's blocks), «contact» = the contact page's own (CONTACT_FIELDS, the page's form.* blocks)
-      map         the click-to-load map (the theme loads Google's frame only after a click: nothing before)"""
+      map         the click-to-load map (the theme loads Google's frame only after a click: nothing before)
+    Batch 3 (23.11): gallery also takes text blocks under its heading (a news item: heading, text, photos); video = a
+    landscape YouTube video with [heading] and text (our cover, nothing from YouTube before a click); a post
+    (content/v4/posts/) is built the same way, its H1 is its title; the archive template (post_type elementor_library,
+    "archive": true) opens with Pro's Archive Title as the H1 (the category's name, without «קטגוריה:») and lists the
+    posts with Pro's Archive Posts (archive_posts)."""
 
     def __init__(self, spec, home_blocks, media_list):
         super().__init__({"blocks": {**home_blocks, **spec["blocks"]}}, media_list)
@@ -1118,7 +1164,8 @@ class PageBuilder(Builder):
              "gallery_link": "file", "open_lightbox": "yes", "gallery_rand": "", "gallery_display_caption": "none",
              "image_spacing": "custom", "image_spacing_custom": size(16), "image_border_radius": dims(12),
              "_css_classes": "nh-gallery"}
-        return self.head(sec, f"{name}/inner/h") + [self.widget(f"{name}/inner/gallery", "image-gallery", s)]
+        texts = self.texts(sec, f"{name}/inner") if sec.get("text") else []
+        return self.head(sec, f"{name}/inner/h") + texts + [self.widget(f"{name}/inner/gallery", "image-gallery", s)]
 
     def card(self, path, children, title, extra=None):
         return self.container(path, styled({
@@ -1168,6 +1215,38 @@ class PageBuilder(Builder):
                                            _css_classes="nh-phone-frame")], title="סרטון")
         return [self.container(p, grid("7fr 5fr", "7fr 5fr", 1, gap_column=48, gap_row=32, grid_align_items="center"),
                                [text, video], title="טקסט וסרטון")]
+
+    def sec_video(self, name, sec):
+        """[heading] and text in the reading column, then a landscape YouTube video (16:9) as wide as the column: our
+        cover (templates/v4/media.json video-<id>), nothing from YouTube before a click."""
+        p = f"{name}/inner/col"
+        return [self.column(p, self.head(sec, f"{p}/h", sec.get("tag", "h2")) + self.texts(sec, p)
+                            + [self.video(f"{p}/video", sec["youtube"], _css_classes="nh-page__video")],
+                            title="סרטון")]
+
+    def archive_title(self, path):
+        """Pro's Archive Title as the H1, styled as every page's H1; its tag without the context, so a category's page
+        is called by the category's name only (the live «ספרים ומאמרים»)."""
+        tag = '[elementor-tag id="nh4arch" name="archive-title" settings="%7B%22include_context%22%3A%22%22%7D"]'
+        s = {"header_size": "h1", "__dynamic__": {"title": tag}}
+        return self.widget(path, "theme-archive-title", styled(s, {"typography_typography": "h1"},
+                                                               title_color="purple-700"))
+
+    def sec_archive_posts(self, name, sec):
+        """The archive's posts (Pro's Archive Posts, its Cards skin): the featured image, the title as an H2 link, the
+        date and the excerpt; numbered pages. The cards' look is the theme's (.nh-archive in v4.css)."""
+        sk = "archive_cards"
+        s = {"_skin": sk, f"{sk}_columns": "3", f"{sk}_columns_tablet": "2", f"{sk}_columns_mobile": "1",
+             f"{sk}_thumbnail_size_size": "medium_large", f"{sk}_item_ratio": size(0.62),
+             f"{sk}_title_tag": "h2", f"{sk}_meta_data": ["date"], f"{sk}_show_excerpt": "yes",
+             f"{sk}_excerpt_length": 30, f"{sk}_show_read_more": "yes",
+             f"{sk}_read_more_text": self.text(sec["more"], "full"), f"{sk}_show_badge": "", f"{sk}_show_avatar": "",
+             "pagination_type": "numbers", "nothing_found_message": self.text(sec["empty"], "full"),
+             "_css_classes": "nh-archive"}
+        w = self.widget(f"{name}/inner/posts", "archive-posts", s)
+        self.use(sec["more"], "full", w, f"{sk}_read_more_text")
+        self.use(sec["empty"], "full", w, "nothing_found_message")
+        return [w]
 
     def sec_products(self, name, sec):
         """A grid of photos, each with its caption under it (the product and its price, as the live gallery shows them;
@@ -1230,24 +1309,38 @@ class PageBuilder(Builder):
             if make is None:
                 die(f"page {self.doc}: unknown section type {sec['type']!r}")
             kids = []
-            if n == 0:       # the page's H1 (and its lead) open the first section
+            if n == 0 and self.spec.get("archive"):     # the archive's H1: the category's (archive's) own name
+                kids.append(self.archive_title(f"{name}/inner/h1"))
+            elif n == 0:     # the page's H1 (and its lead) open the first section
                 kids += self.heading_block(self.spec["h1"], f"{name}/inner/h1", "h1", "h1", "purple-700")
                 if self.spec.get("lead"):
                     kids += self.text_editor_block(self.spec["lead"], f"{name}/inner/lead", "nh-page__lead")
             kids += make(name, sec)
-            out.append(self.section(name, sec.get("title") or self.text(sec.get("heading") or self.spec["h1"], "full"),
+            out.append(self.section(name, sec.get("title") or (self.text(sec["heading"], "full") if sec.get("heading")
+                                                               else self.spec["title"]),
                                     "cream", kids, gap=24, gap_mobile=16))
         return out
 
 
 def page_doc(spec, data, uses, src):
-    return {"key": spec["key"], "title": spec["title"], "slug": spec["slug"], "parent": spec.get("parent"),
-            "front_page": False, "post_type": "page", "document_type": "wp-page", "template": "elementor_header_footer",
-            "conditions": [], "page_settings": {},
-            "built_from": {**src, "widgets": sorted({e["widgetType"] for e in walk_elements(data)
-                                                     if e["elType"] == "widget"}),
-                           "blocks": {k: uses[k] for k in sorted(uses)}},
-            "elementor_data": data}
+    ptype = spec.get("post_type", "page")
+    doc = {"key": spec["key"], "title": spec["title"], "slug": spec["slug"], "parent": spec.get("parent"),
+           "front_page": False, "post_type": ptype,
+           "document_type": {"page": "wp-page", "post": "wp-post"}.get(ptype) or spec["document_type"],
+           "template": "" if ptype == "elementor_library" else "elementor_header_footer",
+           "conditions": list(spec.get("conditions") or []), "page_settings": {},
+           "built_from": {**src, "widgets": sorted({e["widgetType"] for e in walk_elements(data)
+                                                    if e["elType"] == "widget"}),
+                          "blocks": {k: uses[k] for k in sorted(uses)}},
+           "elementor_data": data}
+    if ptype == "post":
+        # 23.11, batch 3: the live post's date, categories (created with the live slugs) and featured image; the
+        # excerpt the archive's cards show (the start of the live text)
+        doc["post"] = {"date": spec["date"],
+                       "categories": [{"name": c, "slug": CATEGORIES[c]} for c in spec["categories"]],
+                       "featured": media(spec["featured"]) if spec.get("featured") else None,
+                       "excerpt": excerpt(spec)}
+    return doc
 
 # the setting that holds a block's text, per widget type
 FIELDS = {"heading": "title", "text-editor": "editor", "button": "text", "icon-box": "title_text"}
@@ -1379,7 +1472,7 @@ def heading_level(el):
     """The level of a heading the element prints (Heading h1–h6, an Icon Box's title), else None."""
     s = el.get("settings") or {}
     tag = None
-    if el.get("widgetType") == "heading":
+    if el.get("widgetType") in ("heading", "theme-archive-title"):
         tag = s.get("header_size")
     elif el.get("widgetType") == "icon-box" and s.get("title_text"):
         tag = s.get("title_size") or "h3"
@@ -1635,9 +1728,15 @@ def check(docs, kit, menu, content, media_list):
                         problems.append(f"{path}: @home:{arg} is not a path")
                 for url in URL_IN_TEXT.findall(v):
                     host = urllib.parse.urlsplit(url if url.startswith("http") else "https:" + url).hostname or ""
+                    in_attr = re.search(r'(?:href|src|srcset|data-src)\s*=\s*["\']?' + re.escape(url), v)
                     if not ((host in ("youtube.com", "www.youtube.com") and path.endswith("/youtube_url"))
                             or url == FACEBOOK
-                            or (host in MAP_HOSTS and el.get("widgetType") == "html" and "nh-map-widget" in classes_of(el))):
+                            or (host in MAP_HOSTS and el.get("widgetType") == "html" and "nh-map-widget" in classes_of(el))
+                            # batch 3: an address printed as text (the privacy policy names the site), and the few
+                            # links of the live texts to other sites (a link loads nothing until it is followed)
+                            or not in_attr
+                            or (host in LINK_HOSTS and re.search(r'href\s*=\s*"' + re.escape(url), v)
+                                and not re.search(r'(?:src|srcset|data-src)\s*=\s*["\']?' + re.escape(url), v))):
                         problems.append(f"{path}: external URL {url}")
             # styled through the Kit
             glob = s.get("__globals__") or {}
@@ -1841,14 +1940,16 @@ def check(docs, kit, menu, content, media_list):
 def write(docs, kit, menu):
     os.makedirs(OUT, exist_ok=True)
     os.makedirs(PAGES_OUT, exist_ok=True)
+    os.makedirs(POSTS_OUT, exist_ok=True)
     pages = [k for k in docs if k not in DOC_KEYS]
+    folder = {k: "posts" if docs[k]["post_type"] == "post" else "pages" for k in pages}
     for name, obj in ([(f"{k}.json", docs[k]) for k in DOC_KEYS] + [("kit.json", kit), ("menu.json", menu)]
-                      + [(f"pages/{k}.json", docs[k]) for k in pages]):
+                      + [(f"{folder[k]}/{k}.json", docs[k]) for k in pages]):
         path = os.path.join(OUT, name)
         with open(path, "w", encoding="utf-8") as fh:
             json.dump(obj, fh, ensure_ascii=False, indent=1)
             fh.write("\n")
-        if name in [f"{k}.json" for k in DOC_KEYS] + [f"pages/{k}.json" for k in pages]:
+        if name in [f"{k}.json" for k in DOC_KEYS] + [f"{folder[k]}/{k}.json" for k in pages]:
             els = list(walk_elements(obj["elementor_data"]))
             n_w = sum(1 for e in els if e["elType"] == "widget")
             print(f"· {os.path.relpath(path, ROOT)}: {obj['post_type']} {obj['document_type']}, "
@@ -1866,9 +1967,9 @@ def read_outputs():
         with open(path, encoding="utf-8") as fh:
             docs[key] = json.load(fh)
     for spec in page_specs():
-        path = os.path.join(PAGES_OUT, f"{spec['key']}.json")
+        path = spec_out(spec)
         if not os.path.isfile(path):
-            die(f"templates/v4/pages/{spec['key']}.json is missing: run python3 -I scripts/build_v4.py")
+            die(f"{os.path.relpath(path, ROOT)} is missing: run python3 -I scripts/build_v4.py")
         with open(path, encoding="utf-8") as fh:
             docs[spec["key"]] = json.load(fh)
     out = []

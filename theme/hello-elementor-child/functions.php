@@ -57,6 +57,8 @@
  * 1.5.0–1.5.1 (the inner pages, Oleg 23.11): v4.css and v4.js only (the inner pages' blocks: text, photo, quote,
  * gallery, table, the products' grid, the map that loads on a click).
  * 1.5.2: no emoji script on the site's pages: where a device has no emoji font it fetched pictures from s.w.org.
+ * 1.5.3 (batch 3): v4.css only (the posts' archive cards, a post's video, the sitemap's list, the marker of a
+ * missing fact).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child

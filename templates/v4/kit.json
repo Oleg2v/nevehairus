@@ -5,17 +5,28 @@
    "templates/v4/media.json",
    "scripts/build_v4.py",
    "content/v4/pages/about.json",
+   "content/v4/pages/accessibility.json",
+   "content/v4/pages/archive.json",
    "content/v4/pages/careers.json",
    "content/v4/pages/community-housing-autism.json",
    "content/v4/pages/community-housing.json",
    "content/v4/pages/contact.json",
    "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/gallery.json",
    "content/v4/pages/main-home.json",
+   "content/v4/pages/privacy.json",
    "content/v4/pages/products-gallery.json",
    "content/v4/pages/sanatorium.json",
-   "content/v4/pages/testimonials.json"
+   "content/v4/pages/sitemap.json",
+   "content/v4/pages/testimonials.json",
+   "content/v4/posts/post-1017.json",
+   "content/v4/posts/post-1039.json",
+   "content/v4/posts/post-1041.json",
+   "content/v4/posts/post-1045.json",
+   "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-997.json"
   ],
-  "inputs_sha256": "4ac499556daefe4e0c0f5313c8d369fe913ca44ea91654bc352595171fedeb5a"
+  "inputs_sha256": "5394e56ad0a8888d7c9b11ee4f2f470d3f1de871c3f37f8411fedaf1f4dece30"
  },
  "system_colors": [
   {

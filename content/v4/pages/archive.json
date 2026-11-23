@@ -1,0 +1,38 @@
+{
+ "key": "archive",
+ "order": 300,
+ "title": "ארכיון פוסטים v4 — נווה האירוס",
+ "slug": "nh-archive-v4",
+ "parent": null,
+ "post_type": "elementor_library",
+ "document_type": "archive",
+ "conditions": [
+  "include/archive"
+ ],
+ "archive": true,
+ "source": "the live site's category pages (/category/ספרים-ומאמרים/, the menu's «מאמרים וכתבות»; /category/חדשות-ועדכונים/)",
+ "notes": "Elementor Pro's archive template (Theme Builder, every archive): the category's name as the H1 (Pro's Archive Title, without «קטגוריה:»), then the category's posts as cards (Pro's Archive Posts: the featured image, the title as an H2 link, the date, the start of the text, «להמשך קריאה»), numbered pages. The header and the footer are the site's.",
+ "blocks": {
+  "more": {
+   "kind": "text",
+   "full": "להמשך קריאה",
+   "plain": null,
+   "no_plain": "a link's two words, as on the home page"
+  },
+  "empty": {
+   "kind": "text",
+   "full": "אין עדיין פוסטים כאן.",
+   "plain": null,
+   "no_plain": "a short sentence"
+  }
+ },
+ "sections": [
+  {
+   "type": "archive_posts",
+   "id": "posts",
+   "title": "פוסטים",
+   "more": "more",
+   "empty": "empty"
+  }
+ ]
+}

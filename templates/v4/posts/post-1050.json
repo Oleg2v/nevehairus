@@ -1,0 +1,1126 @@
+{
+ "key": "post-1050",
+ "title": "מעון לטיפול באדם עם מוגבלות שכלית התפתחותית",
+ "slug": "מעון-לטיפול-באדם-עם-מוגבלות-שכלית-התפת",
+ "parent": null,
+ "front_page": false,
+ "post_type": "post",
+ "document_type": "wp-post",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/accessibility.json",
+   "content/v4/pages/archive.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/gallery.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/privacy.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/sitemap.json",
+   "content/v4/pages/testimonials.json",
+   "content/v4/posts/post-1017.json",
+   "content/v4/posts/post-1039.json",
+   "content/v4/posts/post-1041.json",
+   "content/v4/posts/post-1045.json",
+   "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-997.json"
+  ],
+  "inputs_sha256": "5394e56ad0a8888d7c9b11ee4f2f470d3f1de871c3f37f8411fedaf1f4dece30",
+  "widgets": [
+   "heading",
+   "image",
+   "text-editor"
+  ],
+  "blocks": {
+   "care": {
+    "full": {
+     "element": "8d19c1b",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "b0487a6",
+     "field": "editor"
+    }
+   },
+   "care.h": {
+    "full": {
+     "element": "4b53aae",
+     "field": "title"
+    },
+    "plain": {
+     "element": "5aed8fb",
+     "field": "title"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "ef1ac3e",
+     "field": "title"
+    },
+    "plain": {
+     "element": "b9db73a",
+     "field": "title"
+    }
+   },
+   "home": {
+    "full": {
+     "element": "14484a8",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "7489ef4",
+     "field": "editor"
+    }
+   },
+   "home.h": {
+    "full": {
+     "element": "8116209",
+     "field": "title"
+    },
+    "plain": {
+     "element": "15edcca",
+     "field": "title"
+    }
+   },
+   "nh": {
+    "full": {
+     "element": "1301cf9",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "5bb1e07",
+     "field": "editor"
+    }
+   },
+   "nh.h": {
+    "full": {
+     "element": "e91f0a9",
+     "field": "title"
+    },
+    "plain": {
+     "element": "c489d74",
+     "field": "title"
+    }
+   },
+   "what": {
+    "full": {
+     "element": "42d6ce8",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "36c4470",
+     "field": "editor"
+    }
+   },
+   "what.h": {
+    "full": {
+     "element": "8376789",
+     "field": "title"
+    },
+    "plain": {
+     "element": "aa75c9c",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "8845b6d",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--intro",
+    "_element_id": "intro",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מהי מוגבלות שכלית התפתחותית?"
+   },
+   "elements": [
+    {
+     "id": "63617b8",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "ef1ac3e",
+       "elType": "widget",
+       "settings": {
+        "title": "מעון לטיפול באדם עם מוגבלות שכלית התפתחותית",
+        "header_size": "h1",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "b9db73a",
+       "elType": "widget",
+       "settings": {
+        "title": "מעון לאנשים עם מוגבלות שכלית התפתחותית",
+        "header_size": "h1",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "9ad69ff",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "start",
+        "_title": "טקסט ותמונה"
+       },
+       "elements": [
+        {
+         "id": "bd6f737",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "8376789",
+           "elType": "widget",
+           "settings": {
+            "title": "מהי מוגבלות שכלית התפתחותית?",
+            "header_size": "h2",
+            "_css_classes": "nh-full",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=603f9ca"
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "aa75c9c",
+           "elType": "widget",
+           "settings": {
+            "title": "מה זה מוגבלות שכלית התפתחותית?",
+            "header_size": "h2",
+            "_css_classes": "nh-plain",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=603f9ca"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "42d6ce8",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>אדם עם מוגבלות שכלית התפתחותית עפ”י החוק, הינו “אדם שמחמת חוסר התפתחות, או התפתחות לקויה, של כושרו השכלי, מוגבלת יכולתו להתנהגות מסתגלת והוא נזקק לטיפול”</p><p>מוסיפה על כך, האגודה האמריקאית למוגבלות שכלית התפתחותית וטוענת, כי “מוגבלות שכלית מתאפיינת במוגבלות משמעותית בתפקוד השכלי ובהתנהגות המסתגלת כפי שהן באות לידי ביטוי במיומנויות תפיסתיות, חברתיות ומעשיות. מוגבלות זו ראשיתה לפני גיל שמונה עשרה”</p><p>אדם עם מוגבלות שכלית התפתחותית הוא אדם עם צרכים מיוחדים אשר לא יכולים להינתן לו בביתו הפרטי, עם משפחתו.</p><p>צרכיו של אדם בעל מוגבלות שכלית התפתחותית, הינם רבים ומורכבים ולכל אחד, המוגבלות המאפיינת אותו וברור, כי אין ביכולתה של המשפחה לדאוג להשלמת צרכיו, בבית. זהו בדיוק תפקידו של מעון לטיפול באדם עם מוגבלות שכלית התפתחותית.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "36c4470",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>לפי החוק, אדם עם מוגבלות שכלית התפתחותית הוא אדם שהיכולת השכלית שלו התפתחה פחות. בגלל זה קשה לו להסתדר בחיים, והוא צריך טיפול.</p><p>ארגון אמריקאי למוגבלות שכלית מוסיף: לאדם עם מוגבלות שכלית קשה יותר לחשוב וללמוד. קשה לו גם בדברים של כל יום: להבין, להיות עם אנשים ולעשות דברים מעשיים. המוגבלות מתחילה לפני גיל 18.</p><p>לאדם עם מוגבלות שכלית התפתחותית יש הרבה צרכים. לכל אחד יש מוגבלות משלו.</p><p>המשפחה לא יכולה לתת לו את כל מה שהוא צריך בבית. בשביל זה יש מעון.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "699e99b",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-926",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "large",
+          "_css_classes": "nh-page__img",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "7178e03",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--nh",
+    "_element_id": "nh",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "נוה האירוס- מעון לטיפול באדם עם מוגבלות שכלית התפתחותית"
+   },
+   "elements": [
+    {
+     "id": "36f4b82",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "1526b7f",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "e91f0a9",
+         "elType": "widget",
+         "settings": {
+          "title": "נוה האירוס- מעון לטיפול באדם עם מוגבלות שכלית התפתחותית",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "c489d74",
+         "elType": "widget",
+         "settings": {
+          "title": "נווה האירוס: מעון לאנשים עם מוגבלות שכלית",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "1301cf9",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>מעון נוה האירוס, הינו מעון לאנשים בעלי צרכים מיוחדים, אשר ביניהם, מטופלים אנשים עם מוגבלות שכלית התפתחותית.</p><p>על מנת להעניק מענה נרחב ביותר עבור החוסים במעון נוה האירוס, אנו מתאימים תכנית טיפולית אישית לכל חוסה וחוסה. התכנית מקיפה וכוללת את כל תחומי החיים והיומיומיים.</p><p>הטיפולים הניתנים לחוסים, הינם תואמי גיל, רמת תפקוד ורמת המוגבלות השכלית, כאשר הצוות המקצועי/ טיפולי/ פרא-רפואי, קובע בשיתוף המשפחה, את תכנית הטיפול האישית עבור יקירם. שיתוף פעולה שכזה, מבטיח טיפול מלא ומגביר את יעילותו.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "5bb1e07",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>נווה האירוס הוא מעון לאנשים עם מוגבלות. חלק מהדיירים הם אנשים עם מוגבלות שכלית התפתחותית.</p><p>לכל דייר ודיירת יש תכנית טיפול אישית. התכנית כוללת את כל התחומים של החיים.</p><p>הטיפול מתאים לגיל של הדייר, למה שהוא יכול לעשות ולמוגבלות שלו.</p><p>הצוות והמשפחה בונים את התכנית יחד. כשעובדים יחד, הטיפול שלם ועוזר יותר.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "0bd4cfa",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--care",
+    "_element_id": "care",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "אילו טיפולים מוענקים במעון לטיפול באדם עם מוגבלות שכלית התפתחותית?"
+   },
+   "elements": [
+    {
+     "id": "5373267",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "a892bd4",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "4b53aae",
+         "elType": "widget",
+         "settings": {
+          "title": "אילו טיפולים מוענקים במעון לטיפול באדם עם מוגבלות שכלית התפתחותית?",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "5aed8fb",
+         "elType": "widget",
+         "settings": {
+          "title": "איזה טיפולים יש במעון?",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "8d19c1b",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>בנוה האירוס הטיפולים המוענקים לחוסים מבוססים על תכנית מעמיקה ומקצועית, המשלבת צוות רפואי, פרא רפואי ונוגעת בכל אספקט במוגבלותו של החוסה. בנוה האירוס, מרפאה פעילה 24/7 ומרפאת שיניים חדישה ומתקדמת. צוות רפואי מלא הכולל- 3 רופאים, אח ואחיות ופסיכיאטר אשר זמין כל העת.</p><p>בנוסף לטיפולים הרפואיים הנדרשים לחוסים במעון, אנו מעניקים טיפולים פרא רפואיים משולבים וזאת על מנת לכסות את כל הצרכים של המטופל. צוות המעון, מעניק לכל אחד מהחוסים יחס חם ואישי. המטפלים מכירים היטב את החוסים והאווירה נעימה ומכילה ומאפשרת לכל אחד לקבל את הטיפול לו הוא זקוק, כמו גם למידה ומפגשים חברתיים.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "b0487a6",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>בנווה האירוס הטיפול בנוי לפי תכנית מקצועית. בטיפול עובדים יחד רופאים ומטפלים. הטיפול עוזר בכל מה שקשור למוגבלות של הדייר.</p><p>במעון יש מרפאה שפתוחה 24 שעות ביום, 7 ימים בשבוע. יש גם מרפאת שיניים חדשה.</p><p>בצוות הרפואי יש 3 רופאים, אח ואחיות, ופסיכיאטר שאפשר לפנות אליו בכל זמן.</p><p>חוץ מהטיפול הרפואי, יש גם טיפולים אחרים. כך הדיירים מקבלים את כל מה שהם צריכים.</p><p>הצוות מכיר היטב את הדיירים, ונותן לכל אחד יחס חם ואישי. האווירה נעימה. כל אחד מקבל את הטיפול שהוא צריך.</p><p>הדיירים גם לומדים ונפגשים יחד.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "e6316e5",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--home",
+    "_element_id": "home",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "בית שהוא בית"
+   },
+   "elements": [
+    {
+     "id": "d9923a5",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "3da504d",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "8116209",
+         "elType": "widget",
+         "settings": {
+          "title": "בית שהוא בית",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "15edcca",
+         "elType": "widget",
+         "settings": {
+          "title": "בית אמיתי",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "14484a8",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>נוה האירוס הינו בית אמיתי לדיירים החוסים בו. המעון שופץ ותואם צרכים נגישים, כך שכל המתחמים המשותפים, ויחידות הדיור מותאמות לצרכי הדיירים ומשדרות אווירה ביתית, חמה ונעימה.</p><p>את הזמן בין הטיפולים אנו מקדישים להנאה, פנאי ואמנות ומקיימים פעילות קבועה בתחומים רבים:</p><ul><li>אמנות: פסיפס, תכשיטנות, ציור בטכניקות שונות. אמנות שיקומית. אמנות פלסטית</li><li>תנועה וגוף: פעילות בחדר כושר, מפגשי ספורט מודרכים, תנועה, דרמה. פטאנק, זומבה</li><li>אלטרנטיבי: מוסיקה בשיטת נועה בלס, סנוזלן, רייקי.</li><li>מוסיקה: מקהלה, מוסיקה כלית, שירה בציבור.</li><li>וגם: שיעורי מחשב, מועדון הסרט הטוב</li></ul><p>ועוד…..</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "7489ef4",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>נווה האירוס הוא בית אמיתי לדיירים.</p><p>המעון שופץ, והוא נגיש. כל המקומות המשותפים וכל המקומות שגרים בהם מתאימים לדיירים. יש בהם אווירה של בית, חמה ונעימה.</p><p>בין הטיפולים יש זמן להנאה, לפנאי ולאמנות. יש פעילויות קבועות בהרבה תחומים:</p><ul><li>אמנות: פסיפס, תכשיטים וציור.</li><li>תנועה וספורט: חדר כושר, ספורט עם מדריך, תנועה, דרמה, פטאנק וזומבה.</li><li>טיפול אלטרנטיבי: מוזיקה, סנוזלן ורייקי.</li><li>מוזיקה: מקהלה, נגינה ושירה ביחד.</li><li>וגם: שיעורי מחשב ומועדון סרטים.</li></ul><p>ועוד.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ],
+ "post": {
+  "date": "2019-01-07T15:33:28",
+  "categories": [
+   {
+    "name": "ספרים ומאמרים",
+    "slug": "ספרים-ומאמרים"
+   }
+  ],
+  "featured": {
+   "url": "",
+   "id": "@media:live-926",
+   "size": "",
+   "alt": "",
+   "source": "library"
+  },
+  "excerpt": "אדם עם מוגבלות שכלית התפתחותית עפ”י החוק, הינו “אדם שמחמת חוסר התפתחות, או התפתחות לקויה, של כושרו השכלי, מוגבלת יכולתו להתנהגות מסתגלת והוא נזקק לטיפול” מוסיפה על כך, האגודה האמריקאית…"
+ }
+}

@@ -1,0 +1,844 @@
+{
+ "key": "post-1045",
+ "title": "מעון חוסים",
+ "slug": "מעון-חוסים",
+ "parent": null,
+ "front_page": false,
+ "post_type": "post",
+ "document_type": "wp-post",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/accessibility.json",
+   "content/v4/pages/archive.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/gallery.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/privacy.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/sitemap.json",
+   "content/v4/pages/testimonials.json",
+   "content/v4/posts/post-1017.json",
+   "content/v4/posts/post-1039.json",
+   "content/v4/posts/post-1041.json",
+   "content/v4/posts/post-1045.json",
+   "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-997.json"
+  ],
+  "inputs_sha256": "5394e56ad0a8888d7c9b11ee4f2f470d3f1de871c3f37f8411fedaf1f4dece30",
+  "widgets": [
+   "heading",
+   "image",
+   "text-editor"
+  ],
+  "blocks": {
+   "family": {
+    "full": {
+     "element": "35f132f",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "c4aea66",
+     "field": "editor"
+    }
+   },
+   "family.h": {
+    "full": {
+     "element": "8c71b44",
+     "field": "title"
+    },
+    "plain": {
+     "element": "a8d39bc",
+     "field": "title"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "84f16c7",
+     "field": "title"
+    },
+    "plain": {
+     "element": "b4e6183",
+     "field": "title"
+    }
+   },
+   "intro": {
+    "full": {
+     "element": "ed8e164",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "3cc309f",
+     "field": "editor"
+    }
+   },
+   "nh": {
+    "full": {
+     "element": "d388b42",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "d2a1d6f",
+     "field": "editor"
+    }
+   },
+   "nh.h": {
+    "full": {
+     "element": "12ca7fc",
+     "field": "title"
+    },
+    "plain": {
+     "element": "b9224a4",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "4baddfd",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--intro",
+    "_element_id": "intro",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מעון חוסים"
+   },
+   "elements": [
+    {
+     "id": "8dcb1cd",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "84f16c7",
+       "elType": "widget",
+       "settings": {
+        "title": "מעון חוסים",
+        "header_size": "h1",
+        "_css_classes": "nh-full",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "b4e6183",
+       "elType": "widget",
+       "settings": {
+        "title": "מעון: בית לאנשים עם מוגבלות",
+        "header_size": "h1",
+        "_css_classes": "nh-plain",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        },
+        "_title": "שפה פשוטה — טיוטה"
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "973c67b",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "1fr 1fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "24",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "start",
+        "_title": "טקסט ותמונה"
+       },
+       "elements": [
+        {
+         "id": "4ab783c",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "css_classes": "nh-page__text-col",
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "ed8e164",
+           "elType": "widget",
+           "settings": {
+            "editor": "<ul><li>“חוסה” – אישה או גבר מוגבלים פיזית/ נוירולוגית פסיכולוגית, אשר שוהים במסגרת חוץ ביתית.</li><li>“מעון”- מקום המהווה פתרון חוץ ביתי/ שיקומי לדיירים (חוסים), אשר אינם עצמאים ואינם יכולים לנהל שגרת חיים שוטפת וזקוקים למסגרת לטווח ארוך אשר נותנת מענה מיטבי עבור כל צרכיהם הפיזיים, מנטליים של החוסים.</li></ul><p>מעון חוסים אינו פנימייה רגילה, למרות שמתנהלים בו, כביכול, חיים פנימייתיים מלאים. מעון חוסים הוא בראשיתו מקום אשר אמור להגן ולדאוג לכל צרכיהם של אנשים בעלי מוגבלויות שונות, לשמור על בריאותם הגופנית והמנטלית, לטפל בהם ולדאוג לאיכות חייהם שתהיה מכבדת ומקדמת, כל זאת בהתאם למוגבלותו של כל חוסה וחוסה.</p>",
+            "_css_classes": "nh-page__text nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "3cc309f",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>מעון הוא מקום מגורים מחוץ לבית המשפחה.</p><p>במעון גרים נשים וגברים עם מוגבלות בגוף או בנפש. הם לא יכולים לחיות לבד בלי עזרה.</p><p>הם צריכים מקום לזמן ארוך, שייתן להם את כל מה שהם צריכים, לגוף ולנפש.</p><p>מעון הוא לא פנימייה רגילה, גם אם החיים בו דומים לחיים בפנימייה.</p><p>המעון צריך לשמור על הדיירים ולדאוג לכל מה שהם צריכים. הוא שומר על הבריאות שלהם, בגוף ובנפש. הוא מטפל בהם, ודואג שיחיו בכבוד ויתקדמו.</p><p>כל זה לפי המוגבלות של כל דייר ודיירת.</p>",
+            "_css_classes": "nh-page__text nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "eeea272",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1046",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "large",
+          "_css_classes": "nh-page__img",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "bd73af6",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--family",
+    "_element_id": "family",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מעון חוסים – לא רק"
+   },
+   "elements": [
+    {
+     "id": "350cf11",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "3836f38",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "8c71b44",
+         "elType": "widget",
+         "settings": {
+          "title": "מעון חוסים – לא רק",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "a8d39bc",
+         "elType": "widget",
+         "settings": {
+          "title": "גם בשביל המשפחות",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "35f132f",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>מתוך הבנה כי מעון חוסים אינו מקום קל, ישנו מעגל טיפולי שלם עבור החוסים, הכולל גם את משפחתו הקרובה ומעגלי הקרבה הנוספים הקשורים אליו. לא תמיד מצליחה המשפחה להתמודד עם הסיטואציה המורכבת והדאגה הרבה לבן משפחתם מדירה שינה מעיניהם. מעון חוסים נוה האירוס דואג גם לבני המשפחה המודאגים ומוודאת כי יהיו חלק ממערך הטיפול ביקירם ולא על בסיס עדכון בלבד. משפחתו של החוסה הינה פרמטר בלתי נפרד ממצבו הנפשי והמנטלי של החוסה ומשמשת עבורו כוח ריפוי חזק במיוחד. צוות ההנהלה בנוה האירוס דואג לתחזק ולחזק את קשרי המשפחה של החוסים ומשפחותיהם ודואגים לשקיפות מקסימלית לכלל הנוגעים לטיפולו של החוסה.</p><p>במעון חוסים נוה האירוס ישנו וועד הורים פעיל, מעורב ושותף, אשר לוקח חלק בפעילויות השונות ומצטרף לאירועים השונים וחגיגות בחגים.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "c4aea66",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>מעון הוא לא מקום קל. לכן הטיפול הוא לא רק בדייר. הטיפול כולל גם את המשפחה ואת האנשים הקרובים אליו.</p><p>לפעמים קשה למשפחה. היא דואגת מאוד לבן המשפחה, והדאגה לא נותנת לה לישון.</p><p>בנווה האירוס אנחנו דואגים גם למשפחות. המשפחות לא רק שומעות עדכונים. הן חלק מהטיפול.</p><p>המשפחה חשובה מאוד לדייר. היא עוזרת לו להרגיש טוב יותר.</p><p>ההנהלה שומרת על הקשר בין הדיירים למשפחות שלהם. ההנהלה משתפת את המשפחות בכל מה שקשור לטיפול.</p><p>יש לנו ועד הורים פעיל. ההורים משתתפים בפעילויות, באירועים ובחגיגות של החגים.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "941a4c0",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--nh",
+    "_element_id": "nh",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "מעון חוסים נוה האירוס"
+   },
+   "elements": [
+    {
+     "id": "b4838d7",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "2a2a69b",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "עמודת קריאה"
+       },
+       "elements": [
+        {
+         "id": "12ca7fc",
+         "elType": "widget",
+         "settings": {
+          "title": "מעון חוסים נוה האירוס",
+          "header_size": "h2",
+          "_css_classes": "nh-full",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          }
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "b9224a4",
+         "elType": "widget",
+         "settings": {
+          "title": "נווה האירוס",
+          "header_size": "h2",
+          "_css_classes": "nh-plain",
+          "title_color": "#4A2D84",
+          "__globals__": {
+           "title_color": "globals/colors?id=primary",
+           "typography_typography": "globals/typography?id=603f9ca"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "heading"
+        },
+        {
+         "id": "d388b42",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>בשנים בהם פועל מעון חוסים נוה האירוס, עברו בשערינו אנשים בעלי צרכים מיוחדים אשר נזקקו לסיוע וטיפול באספקטים רבים ומגוונים ולכן חשוב מאד להקפיד על איכותם של הצוותים המטפלים השונים. במעון חוסים קיים מערך שיקומי היקפי ומלא הן ברמה הטיפולית רפואית, כאשר כל אחד מהחוסים במעון, מקבל את הטיפול המתאים לו עפ”י תכנית מותאמת לצרכים והמלצות רפואיות והן ברמת שעות הפנאי והתעסוקה, שכן, חלק בלתי נפרד מחיזוק הנפש ושמירה על מצב רוח חיובי, היא התעסוקה. בנוה האירוס דואגים למלא את היום בפעילויות שונות, מתאימות לכל אחד ומאפשרות מפגשים חברתיים בין החוסים, כמו גם אינטראקציות ושיתופים בחוויות יומיומיות, פעילותיו הפנאי בנוה האירוס כוללות בין היתר:</p><ul><li>אמנות: פסיפס, תכשיטנות, ציור בטכניקות שונות. אמנות שיקומית. אמנות פלסטית</li><li>תנועה וגוף: פעילות בחדר כושר, מפגשי ספורט מודרכים, תנועה, דרמה. פטאנק, זומבה</li><li>אלטרנטיבי: מוסיקה בשיטת נועה בלס, סנוזלן, רייקי,</li><li>מוסיקה: מקהלה, מוסיקה כלית, שירה בציבור.</li><li>וגם: שיעורי מחשב, מועדון הסרט הטוב ועוד…..</li></ul><p>על מנת לשמור על איכות הטיפולים השונים ועל מקצועיות עדכנית של הצוותים המלווים והמטפלים של החוסים, אנו מקפידים על קיום סדנאות מקצועיות בתחומים טיפוליים אשר משפרים את מיומנויותיהם של המשתתפים כמו גם מרחיבים את הידע בכל הקשור לשיטות טיפול חדשניות ועדכניות.</p>",
+          "_css_classes": "nh-page__text nh-full",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          }
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        },
+        {
+         "id": "d2a1d6f",
+         "elType": "widget",
+         "settings": {
+          "editor": "<p>במשך השנים הגיעו לנווה האירוס הרבה אנשים עם מוגבלות. הם היו צריכים עזרה וטיפול בהרבה תחומים.</p><p>לכן חשוב מאוד שהצוות יהיה טוב.</p><p>כל דייר ודיירת מקבלים טיפול רפואי לפי תכנית שמתאימה להם, ולפי מה שהרופאים ממליצים.</p><p>יש גם עבודה וזמן פנאי. העבודה מחזקת את הנפש ושומרת על מצב רוח טוב.</p><p>אנחנו ממלאים את היום בפעילויות שמתאימות לכל אחד. בפעילויות הדיירים נפגשים ועושים דברים יחד.</p><p>הנה חלק מהפעילויות:</p><ul><li>אמנות: פסיפס, תכשיטים וציור.</li><li>תנועה וספורט: חדר כושר, ספורט עם מדריך, תנועה, דרמה, פטאנק וזומבה.</li><li>טיפול אלטרנטיבי: מוזיקה, סנוזלן ורייקי.</li><li>מוזיקה: מקהלה, נגינה ושירה ביחד.</li><li>וגם: שיעורי מחשב, מועדון סרטים ועוד.</li></ul><p>אנשי הצוות לומדים בסדנאות מקצועיות. שם הם לומדים דרכים חדשות לטפל בדיירים.</p>",
+          "_css_classes": "nh-page__text nh-plain",
+          "text_color": "#1F2421",
+          "link_color": "#4A2D84",
+          "link_hover_color": "#3A2269",
+          "__globals__": {
+           "text_color": "globals/colors?id=text",
+           "link_color": "globals/colors?id=primary",
+           "link_hover_color": "globals/colors?id=78b4a18",
+           "typography_typography": "globals/typography?id=text"
+          },
+          "_title": "שפה פשוטה — טיוטה"
+         },
+         "elements": [],
+         "widgetType": "text-editor"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ],
+ "post": {
+  "date": "2018-12-04T16:11:53",
+  "categories": [
+   {
+    "name": "ספרים ומאמרים",
+    "slug": "ספרים-ומאמרים"
+   }
+  ],
+  "featured": {
+   "url": "",
+   "id": "@media:live-1046",
+   "size": "",
+   "alt": "",
+   "source": "library"
+  },
+  "excerpt": "“חוסה” – אישה או גבר מוגבלים פיזית/ נוירולוגית פסיכולוגית, אשר שוהים במסגרת חוץ ביתית. “מעון”- מקום המהווה פתרון חוץ ביתי/ שיקומי לדיירים (חוסים), אשר אינם עצמאים ואינם יכולים לנהל שגרת…"
+ }
+}

@@ -1,0 +1,1953 @@
+{
+ "key": "gallery",
+ "title": "גלריית תמונות",
+ "slug": "גלריית-תמונות",
+ "parent": null,
+ "front_page": false,
+ "post_type": "page",
+ "document_type": "wp-page",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/accessibility.json",
+   "content/v4/pages/archive.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/gallery.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/privacy.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/sitemap.json",
+   "content/v4/pages/testimonials.json",
+   "content/v4/posts/post-1017.json",
+   "content/v4/posts/post-1039.json",
+   "content/v4/posts/post-1041.json",
+   "content/v4/posts/post-1045.json",
+   "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-997.json"
+  ],
+  "inputs_sha256": "5394e56ad0a8888d7c9b11ee4f2f470d3f1de871c3f37f8411fedaf1f4dece30",
+  "widgets": [
+   "heading",
+   "image"
+  ],
+  "blocks": {
+   "h1": {
+    "full": {
+     "element": "54e8093",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "c3e91fc",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--photos",
+    "_element_id": "photos",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "גלריית תמונות"
+   },
+   "elements": [
+    {
+     "id": "9520700",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "54e8093",
+       "elType": "widget",
+       "settings": {
+        "title": "גלריית תמונות",
+        "header_size": "h1",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "9e33ff2",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "fr",
+         "size": 3,
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "fr",
+         "size": 3,
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 2,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "24",
+         "row": "24",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_gaps_mobile": {
+         "column": "12",
+         "row": "16",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "_title": "תמונות"
+       },
+       "elements": [
+        {
+         "id": "c3f8b52",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-151",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "603547b",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1308",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "88b521d",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-587",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "89cbfdc",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-636",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "b8c5325",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-150",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "b92a942",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-137",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "18c153b",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1312",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "a2e7720",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1314",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "3a6aeaa",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1215",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "34aedb0",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1316",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "fee8309",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1211",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "68e2edb",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1205",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "83980b7",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1204",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "1c91026",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1210",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "ceafb73",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1207",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "bb17e0d",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1208",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "dc33830",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1209",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "c139872",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1202",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "80d8a44",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1212",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "a3a8f12",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-638",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "9ecd518",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1214",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "6dec6f1",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1206",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "7d9664b",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-637",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "f3f7456",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-635",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "b475412",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-183",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "8469868",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-633",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "e67a381",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-632",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "b0d50ac",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1310",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "635bb86",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-629",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "e1d3d6b",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1309",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "f75f647",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-627",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "7d22ff3",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-625",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "fa67efc",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-624",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "80374e1",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-623",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "7ad003b",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-620",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "281a416",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1216",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "4a0e066",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-619",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "d994ade",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-570",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "92bc1ea",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-588",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "f20d652",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-514",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "e4a6df6",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-519",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "3ab85da",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-520",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "c660649",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-521",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "2d5acb9",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-191",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "a509c94",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-186",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "b7e99b4",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-179",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "544c451",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-139",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "57428e8",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-146",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "60b0968",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-149",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "b0bcd04",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1315",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "1e6ca47",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1313",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "f957d69",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1213",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "02bcdef",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-1311",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "e46fd03",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-148",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "2b8c7a8",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-138",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "07f4b51",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-175",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "b34a995",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-180",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "cdcbfff",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-192",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "4c0d278",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-524",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "a1bc83b",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-522",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "80c6287",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-518",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "7d31bea",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-517",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "fe5b1b8",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-516",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "5b8b101",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-515",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "43ff250",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-513",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "78324b0",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-592",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "4db9d62",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-586",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "f5aff33",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-584",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "590b2ea",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-583",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "339740f",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-582",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "d714a31",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-581",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "4f120f2",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-580",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "f7af3e4",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-579",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "88b2c30",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-578",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "dd6ca75",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-555",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "f582a73",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-554",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "1063b23",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-621",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "afa21a7",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-622",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "0ca4939",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-626",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "1914662",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-628",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "fbb944c",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-630",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "1d9e405",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-631",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "e6c06b8",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-634",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "5482ba8",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-639",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "c28e5e1",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-640",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        },
+        {
+         "id": "05286d5",
+         "elType": "widget",
+         "settings": {
+          "image": {
+           "url": "",
+           "id": "@media:live-641",
+           "size": "",
+           "alt": "",
+           "source": "library"
+          },
+          "image_size": "medium_large",
+          "_css_classes": "nh-product",
+          "link_to": "file",
+          "open_lightbox": "yes",
+          "_title": "תמונה"
+         },
+         "elements": [],
+         "widgetType": "image"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

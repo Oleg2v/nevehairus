@@ -2079,6 +2079,19 @@ V4_RENDER_PHP = r"""
 			}
 			$controls = $type->get_controls();
 			foreach ( (array) $el['settings'] as $k => $v ) {
+				// batch 3: a dynamic tag (the archive's title) only on a control that takes one, and only a tag
+				if ( '__dynamic__' === $k ) {
+					foreach ( (array) $v as $dk => $dv ) {
+						if ( ! isset( $controls[ $dk ] ) ) {
+							$problems[] = "$where: __dynamic__.$dk is not a control";
+						} elseif ( empty( $controls[ $dk ]['dynamic']['active'] ) ) {
+							$problems[] = "$where: $dk takes no dynamic tag";
+						} elseif ( ! preg_match( '/^\[elementor-tag id="[^"]+" name="[a-z0-9-]+" settings="[^"]*"\]$/', (string) $dv ) ) {
+							$problems[] = "$where: __dynamic__.$dk is not one dynamic tag";
+						}
+					}
+					continue;
+				}
 				if ( '__globals__' === $k ) {
 					foreach ( (array) $v as $gk => $gv ) {
 						if ( ! isset( $controls[ $gk ] ) ) {
@@ -2393,13 +2406,26 @@ V4_DOCS_PHP = r"""
 						$nh_up['post_name']   = sanitize_title( (string) $nh_doc['slug'] );
 						$nh_up['post_parent'] = empty( $nh_doc['parent'] ) ? 0 : (int) ( $nh_ids[ $nh_doc['parent'] ] ?? 0 );
 					}
+					// batch 3: a post keeps the live slug, date (site time) and our excerpt
+					if ( 'post' === $nh_type ) {
+						$nh_up['post_name']     = sanitize_title( (string) $nh_doc['slug'] );
+						$nh_up['post_date']     = (string) $nh_doc['post']['date'];
+						$nh_up['post_date_gmt'] = get_gmt_from_date( (string) $nh_doc['post']['date'] );
+						$nh_up['post_excerpt']  = (string) $nh_doc['post']['excerpt'];
+						$nh_up['edit_date']     = true;
+					}
 					$nh_res = wp_update_post( wp_slash( $nh_up ), true );
 					if ( is_wp_error( $nh_res ) ) {
 						throw new Exception( "$nh_key: " . $nh_res->get_error_message() );
 					}
 				}
 			} else {
-				$nh_id = wp_insert_post( wp_slash( array(
+				$nh_post_extra = 'post' === $nh_type ? array(
+					'post_date'     => (string) $nh_doc['post']['date'],
+					'post_date_gmt' => get_gmt_from_date( (string) $nh_doc['post']['date'] ),
+					'post_excerpt'  => (string) $nh_doc['post']['excerpt'],
+				) : array();
+				$nh_id = wp_insert_post( wp_slash( $nh_post_extra + array(
 					'post_type'      => $nh_type,
 					'post_status'    => 'draft',
 					'post_title'     => (string) $nh_doc['title'],
@@ -2422,6 +2448,32 @@ V4_DOCS_PHP = r"""
 			}
 			$nh_ids[ $nh_key ]      = (int) $nh_id;
 			$log['docs'][ $nh_key ] = array( 'id' => (int) $nh_id, 'action' => $nh_was ? ( 'trash' === $nh_was ? 'restored from the trash, updated' : 'updated' ) : 'created', 'was' => $nh_was );
+			// batch 3: a post's categories (made once, with the live slugs) and its featured image
+			if ( 'post' === $nh_type ) {
+				$nh_cats = array();
+				foreach ( (array) $nh_doc['post']['categories'] as $nh_c ) {
+					$nh_slug = sanitize_title( (string) $nh_c['slug'] );
+					$nh_term = get_term_by( 'slug', $nh_slug, 'category' );
+					if ( ! $nh_term ) {
+						$nh_new = wp_insert_term( (string) $nh_c['name'], 'category', array( 'slug' => $nh_slug ) );
+						if ( is_wp_error( $nh_new ) ) {
+							throw new Exception( "$nh_key: category {$nh_c['name']}: " . $nh_new->get_error_message() );
+						}
+						$nh_cats[] = (int) $nh_new['term_id'];
+						$log['categories_created'][ (string) $nh_c['name'] ] = (int) $nh_new['term_id'];
+					} else {
+						$nh_cats[] = (int) $nh_term->term_id;
+					}
+				}
+				$log['before']['post_categories'][ $nh_key ] = $nh_was ? wp_get_post_categories( $nh_id ) : array();
+				wp_set_post_categories( $nh_id, $nh_cats, false );
+				$nh_feat = (int) ( $nh_doc['post']['featured']['id'] ?? 0 );
+				if ( $nh_feat ) {
+					set_post_thumbnail( $nh_id, $nh_feat );
+				} else {
+					delete_post_thumbnail( $nh_id );
+				}
+			}
 			if ( ! empty( $nh_doc['parent'] ) && empty( $nh_ids[ $nh_doc['parent'] ] ) ) {
 				throw new Exception( "$nh_key: its parent {$nh_doc['parent']} was not written before it" );
 			}
@@ -2505,7 +2557,7 @@ V4_DOCS_PHP = r"""
 		}
 		// the inner pages' addresses, read back (a slug taken by another post would get «-2»)
 		foreach ( $nh_docs as $nh_doc ) {
-			if ( 'page' === $nh_doc['post_type'] && 'home' !== $nh_doc['key'] ) {
+			if ( in_array( $nh_doc['post_type'], array( 'page', 'post' ), true ) && 'home' !== $nh_doc['key'] ) {
 				$nh_pid  = $nh_ids[ $nh_doc['key'] ];
 				$nh_want = home_url( user_trailingslashit( implode( '/', array_merge(
 					empty( $nh_doc['parent'] ) ? array() : array( urldecode( (string) get_post_field( 'post_name', $nh_ids[ $nh_doc['parent'] ], 'raw' ) ) ),
@@ -3339,6 +3391,8 @@ def v4_render_check(me, docs, kit, menu, files, state, out):
                 continue           # empty on purpose (card 4 has no subline on live): Elementor prints nothing
             if el.get("widgetType") == "template" and not (log.get("found") or {}).get("contacts"):
                 continue           # the template is not on the site yet: rendered on its own (contacts.html)
+            if el.get("widgetType") == "theme-archive-title" and d.get("document_type") == "archive":
+                continue           # batch 3: its text is the archive being viewed; there is none in this render
             missing.append(f"{el.get('widgetType') or 'container'} {el['id']}")
         warnings = [e for e in r.get("errors") or [] if V4_ERROR_LEVELS.get(e.get("level"), e.get("level"))
                     not in ("E_DEPRECATED", "E_USER_DEPRECATED", "E_STRICT", "deprecated_function_run",
@@ -3463,8 +3517,11 @@ def v4_go(me, docs, kit, menu, files, media_map, state):
     ids = {k: v.get("id") for k, v in log["docs"].items()}
     problems, facts = v4_page_problems(str(log["docs"]["home"].get("url") or BASE), docs, ids)
     for d in docs:
-        if d["post_type"] == "page" and d["key"] != "home":
+        if d["post_type"] in ("page", "post") and d["key"] != "home":
             problems += [f"{d['key']}: {p}" for p in v4_inner_problems(str(log["docs"][d["key"]].get("url") or ""), d, ids)]
+        elif d["document_type"] == "archive":     # batch 3: the archive template, on the live category's address
+            url = BASE + urllib.parse.quote("category/ספרים-ומאמרים/")
+            problems += [f"{d['key']}: {p}" for p in v4_inner_problems(url, d, ids)]
     site = smoke()
     record({"change": "v4 step 6: ezCache purged, smoke test", "ezcache": st_c, "home": facts, "problems": problems,
             "site": site})

@@ -1644,9 +1644,11 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
   .nh-float { border-block-start: 1px solid CanvasText; }
 }
 /* 1.5.8: from 1025px the round «נגישות» button floats at the inline end (24px + 52px). Until the 1320px column has
-   that room by itself (1416px), a section's column ends 88px from that edge (its start, aligned with the header,
-   stays): a text in a wide grid never runs under the button (the home's «החיים» part at 1280px did) */
-@media (min-width: 1025px) and (max-width: 1415px) {
+   that room by itself, a section's column ends 88px from that edge (its start, aligned with the header,
+   stays): a text in a wide grid never runs under the button (the home's «החיים» part at 1280px did).
+   1.5.12: the room is the button with its 2px ring and a gap (24 + 52 + 2 + 2 = 80px) on each side of the column:
+   1320 + 2 × 80 = 1480px (to 1415px only, the photos of the galleries ran under the button at 1416–1479px) */
+@media (min-width: 1025px) and (max-width: 1479px) {
   .e-con.nh-sec__inner { padding-inline-end: 88px !important; }
 }
 
@@ -1697,20 +1699,23 @@ html.nh-lightbox-open .elementor-location-header { visibility: hidden; }
 .elementor-lightbox .elementor-slideshow__counter { direction: ltr; unicode-bidi: isolate; }
 /* 1.5.10: with the bar (up to 1024px, at least 501px high) the cookie banner opens at the top, under the header (as on
    phones before 1.5.7), not above the bar: the hero's heading and buttons at the foot of the first screen stay seen.
-   Phones: the whole width; tablets: 32rem at the inline end. The page's end then needs only the bar's room. */
+   Phones: the whole width; tablets: 32rem at the inline end. The page's end then needs only the bar's room.
+   1.5.12: only where the header floats over the hero (the home). Elsewhere the header scrolls away with the page up to
+   1024px, and a banner at the top lay over it (the logo, the phone, «תפריט») and over the page's title: there the
+   banner stays above the bar, as in 1.5.9, so the header and the title stay seen and usable. */
 @media (max-width: 1024px) and (min-height: 501px) {
-  .nh-consent,
-  html:is(.nh-consent-ask, .nh-consent-open) .nh-consent,
-  html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) .nh-consent {
+  body:has(.nh-hero__img) .nh-consent,
+  html:is(.nh-consent-ask, .nh-consent-open) body:has(.nh-hero__img) .nh-consent,
+  html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) body:has(.nh-hero__img) .nh-consent {
     top: calc(var(--nh-top-h, var(--nh4-header-h, 69px)) + 8px);
     bottom: auto;
     max-height: calc(100vh - var(--nh-top-h, var(--nh4-header-h, 69px)) - var(--nh-bar-h) - 24px);
     max-height: calc(100dvh - var(--nh-top-h, var(--nh4-header-h, 69px)) - var(--nh-bar-h) - 24px);
   }
-  html:is(.nh-consent-ask, .nh-consent-open),
-  html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) {
+  html:is(.nh-consent-ask, .nh-consent-open):has(.nh-hero__img),
+  html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open):has(.nh-hero__img) {
     scroll-padding-block-start: calc(var(--nh-top-h, 0px) + var(--nh-consent-h, 14rem) + 16px);
     scroll-padding-block-end: calc(var(--nh-bar-h) + 12px + env(safe-area-inset-bottom, 0px));
   }
-  html:is(.nh-consent-ask, .nh-consent-open) body:has(.nh-float) .e-con.nh-footer-v4 { padding-block-end: calc(var(--nh-bar-h) + 16px + env(safe-area-inset-bottom, 0px)) !important; }
+  html:is(.nh-consent-ask, .nh-consent-open) body:has(.nh-float):has(.nh-hero__img) .e-con.nh-footer-v4 { padding-block-end: calc(var(--nh-bar-h) + 16px + env(safe-area-inset-bottom, 0px)) !important; }
 }

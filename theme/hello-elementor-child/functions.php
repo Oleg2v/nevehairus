@@ -74,6 +74,11 @@
  * field and its hint above the bar (v4.js 12); the header's «צור קשר» focuses the form's first field (v4.js 10).
  * 1.5.10: with the bar the cookie banner opens under the header, so the first screen's text stays seen (v4.css).
  * 1.5.11: the header hidden under the lightbox, its counter «1 / 86» (v4.css).
+ * 1.5.12: the independent re-check of 1.5.11: on the inner pages up to 1024px the cookie banner above the bar again,
+ *         not over the header; the banner's focus code moves only what the keys focus (a tap on a photo half under it
+ *         was lost); a focused field with its label; the round button's room up to 1479px; a one-photo set without
+ *         «1 / 1»; the lightbox watched however it opens, with the focus inside; Back after the header's «צור קשר»;
+ *         «הקראה» skips page numbers and reads what «להמשך קריאה» folds; one <main> on the archives (v4.js, v4.css).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -175,14 +180,32 @@ function nh_child_skip_link() {
  * `elementor/page_templates/{header-footer|canvas}/before_content`: Elementor's templates have no `<main>`.
  */
 function nh_child_main_open() {
-	echo '<main id="content" class="site-main" tabindex="-1">';
+	if ( 1 === nh_child_main_depth( 1 ) ) {
+		echo '<main id="content" class="site-main" tabindex="-1">';
+	}
 }
 
 /**
  * `elementor/page_templates/{header-footer|canvas}/after_content`.
  */
 function nh_child_main_close() {
-	echo '</main>';
+	if ( nh_child_main_depth( 0 ) > 0 && 0 === nh_child_main_depth( -1 ) ) {
+		echo '</main>';
+	}
+}
+
+/**
+ * 1.5.12: one <main> a page. An archive printed through the Full Width template ran both pairs of hooks (the
+ * template's and the archive's), and the category pages had two nested <main id="content">: the inner pair now
+ * prints nothing, and a close without an open neither.
+ *
+ * @param int $step +1 for an open, -1 for a close, 0 to read.
+ * @return int How many are open after the step.
+ */
+function nh_child_main_depth( $step ) {
+	static $depth = 0;
+	$depth = max( 0, $depth + (int) $step );
+	return $depth;
 }
 
 /**

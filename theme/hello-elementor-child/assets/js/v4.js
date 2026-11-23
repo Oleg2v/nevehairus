@@ -1,5 +1,5 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.5.11 (research/09-v4-home-spec.md
+   v4.js — child theme hello-elementor-child 1.5.12 (research/09-v4-home-spec.md
    §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
    No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed
@@ -43,14 +43,20 @@
       it reads, forms' texts and phone buttons are read, the focus follows.
       1.5.7: the voices are looked for again when the panel opens and shortly
       after the load (Safari may list them late without voiceschanged).
+      1.5.12: page numbers are not read; the text «להמשך קריאה» folds is.
   10. 1.5.7 the header's «צור קשר»: the page's own contact form where there
-      is one, else the contact page (the header template's link).
+      is one, else the contact page (the header template's link). 1.5.12: a
+      step in the history, as a link to a place on the page; Ctrl+click as usual.
   11. 1.5.7 the photos' lightbox: a grid of photos browses as one slideshow;
       the title is the photo's own caption or nothing (never «nh4:…»).
       1.5.9: one photo stays a single photo (no «1 / 1»); while it is open
       html.nh-lightbox-open (our bar and banner hide), each slide gets the
       grid photo's alt, the arrows Hebrew names, and Esc returns the focus.
+      1.5.12: any set of one photo (a Basic Gallery's too); watched however it
+      opens (a shared link); a dialog with a name, the focus inside, Tab round.
   12. 1.5.9 a form field focused above the bar: the field and its hint.
+      1.5.12: and its labels, clear of the cookie banner too; on a short
+      screen on the screen, when the keys move the focus.
    ========================================================================= */
 (() => {
   "use strict";
@@ -451,6 +457,7 @@
     const CKEY = "nh-consent-v1";                         // the plugin's record: the two read each other's choice
     const cons = d.getElementById("nh-cookies");
     const CV = cons ? Number(cons.getAttribute("data-v")) || 2 : 2;
+    let consentAtTop = () => false;                       // set below where the banner is ours; part 12 reads it too
     // where the browser blocks site data (localStorage throws), a choice still holds for this page view: it is kept
     // in memory, so the banner can be answered and «כן» before a video is remembered until the next page
     let cMemo = null;
@@ -491,6 +498,16 @@
           }
         }
         return 0;
+      };
+      // 1.5.12: the banner at the top (the home up to 1024px, v4.css 1.5.10) or at the foot (everywhere else). At the
+      // top it stands exactly 8px under --nh-top-h and always ends at least 16px above the bar; at the foot it ends
+      // 8px above the bar or the screen's foot (24px on desktops), however tall it grows (the settings open, large
+      // text), so a tall banner at the foot is never taken for one at the top
+      consentAtTop = (c) => {
+        const fl = d.querySelector(".nh-float");
+        const foot = fl && w.getComputedStyle(fl).flexDirection === "row" ? fl.getBoundingClientRect().top : w.innerHeight;
+        const topH = parseFloat(w.getComputedStyle(html).getPropertyValue("--nh-top-h")) || 0;
+        return Math.abs(c.top - (topH + 8)) <= 2 && foot - c.bottom > 12;
       };
       const phoneMQ = typeof w.matchMedia === "function" ? w.matchMedia("(max-width: 767px)") : null;
       // on phones the floating column (52 + 8 + 56px) rises above the banner; when the banner is too tall for that
@@ -595,11 +612,19 @@
       setCH();
       // keyboard focus never sits under the banner (WCAG 2.4.11): scroll-padding covers what the browser scrolls to,
       // but a control already on screen behind the banner is not scrolled by the browser; move it just above the
-      // banner, and if it is too tall for the room left, bring its top just under the header
+      // banner, and if it is too tall for the room left, bring its top just under the header.
+      // 1.5.12: only for keyboard focus (:focus-visible). A tap or a click focuses a link as well, and scrolling
+      // between the press and the release sent the click elsewhere: a photo or a link half under the banner did not
+      // open. Under a banner at the top (the home up to 1024px, 1.5.10) the control moves down, just below it. The
+      // fields of a form are part 12's, with their labels and hints.
       d.addEventListener("focusin", (e) => {
         const t = e.target;
         if (!t || !t.getBoundingClientRect || cons.contains(t) || !html.matches(".nh-consent-ask, .nh-consent-open")) return;
-        if (t.closest(".elementor-location-header, .nh-float, .nh-a11y-panel, .nh-a11y")) return;   // fixed: scrolling does not move them
+        if (t.closest(".elementor-location-header, .nh-float, .nh-a11y-panel, .nh-a11y, .nh-skip, .elementor-lightbox")) return;   // fixed: scrolling does not move them
+        if (t.matches && t.matches("input, textarea, select")) return;
+        let byKeys = true;
+        try { byKeys = t.matches(":focus-visible"); } catch (err) { byKeys = true; }   // an engine without :focus-visible
+        if (!byKeys) return;
         const c = cons.getBoundingClientRect();
         if (!c.height) return;
         const r = t.getBoundingClientRect();
@@ -610,6 +635,11 @@
         const f = fl ? fl.getBoundingClientRect() : null;
         const col = !!(f && f.height && f.top < c.top);
         if (!over(c) && !(col && over(f))) return;
+        if (consentAtTop(c)) {                            // the banner at the top: the control just below it
+          const up = r.top - (c.bottom + 16);
+          if (up < 0) w.scrollBy(0, up);
+          return;
+        }
         const top = topBar() + 8;
         let limit = c.top - 16;
         if (col && !(r.right <= f.left || r.left >= f.right)) limit = Math.min(limit, f.top - 8);
@@ -906,10 +936,12 @@
       // what is never read: code, controls (buttons; links styled as buttons, but for a phone or an e-mail), the
       // fields of a form (its texts are read), what is hidden, our floating parts. Our own words for screen readers
       // (.nh-visually-hidden: «כוכבית» for the required mark) are read, so a sentence keeps its word.
+      // 1.5.12: and the page numbers of a list (nav: «1 2» at the end of «מאמרים וכתבות») and the control of a folded
+      // part (summary: «להמשך קריאה»; what it folds is read, below)
       const SKIP = 'script, style, noscript, template, svg, iframe, canvas, video, audio, button, select, textarea, '
         + 'input, [hidden], [aria-hidden="true"], .screen-reader-text, .elementor-screen-only, '
         + '.nh-map__actions, .elementor-post__read-more, .elementor-button:not([href^="tel:"]):not([href^="mailto:"]), '
-        + '.nh-float, #nh-cookies, .nh-skip, #wpadminbar';
+        + 'nav, .elementor-pagination, summary, .nh-float, #nh-cookies, .nh-skip, #wpadminbar';
       // the nearest of these around a piece of text makes one block (one or more utterances)
       const BLOCK = 'h1, h2, h3, h4, h5, h6, p, li, dt, dd, th, td, caption, figcaption, blockquote, address, pre, '
         + '.elementor-post__meta-data, div, section, article, main';
@@ -925,8 +957,16 @@
         try { list = tts.getVoices() || []; } catch (e) { list = []; }
         const he = list.filter((v) => /^(he|iw|heb)([-_]|$)/i.test(v.lang || "") && v.localService !== false);
         voice = he.find((v) => v.default) || he.find((v) => /^he[-_]IL$/i.test(v.lang)) || he[0] || null;
+        // 1.5.12: the option goes while it has the focus (the device dropped its voice): the focus to the panel's next
+        // option, not lost to the page
+        const had = !voice && !ttsLi.hidden && ttsLi.contains(d.activeElement);
         ttsLi.hidden = !voice;
         if (!voice && active) stop(false);
+        if (had) {
+          const all = Array.from(panel.querySelectorAll("button, a[href], input")).filter((el) => !ttsLi.contains(el) && el.getClientRects().length);
+          const next = all.find((el) => ttsLi.compareDocumentPosition(el) & 4) || all[all.length - 1] || btn;   // 4: following
+          if (next) next.focus({ preventScroll: true });
+        }
       };
       // sentences of at most MAX characters (a longer sentence is cut at a space)
       const split = (text) => {
@@ -946,6 +986,18 @@
         if (cur) out.push(cur);
         return out;
       };
+      // 1.5.12: the text folded in a closed «להמשך קריאה» (an accordion, <details>) is the page's text all the same: it
+      // is read where it stands. Not when the fold itself is not displayed (the other twin), or when something between
+      // the text and the fold's panel is hidden (the panel itself is: Elementor hides it while the fold is closed)
+      const folded = (el) => {
+        const det = el.closest("details:not([open])");
+        if (!det || !det.getClientRects().length) return false;
+        for (let x = el; x && x !== det && x.parentElement !== det; x = x.parentElement) {
+          const cs = w.getComputedStyle(x);
+          if (cs.display === "none" || cs.visibility === "hidden" || cs.visibility === "collapse") return false;
+        }
+        return true;
+      };
       const collect = () => {
         const root = d.querySelector("main") || d.body;
         const walker = d.createTreeWalker(root, w.NodeFilter.SHOW_TEXT);
@@ -957,7 +1009,7 @@
           const el = n.parentElement;
           if (!el || el.closest(SKIP)) continue;
           range.selectNodeContents(n);
-          if (!range.getClientRects().length) continue;            // not displayed: the other twin, a closed part
+          if (!range.getClientRects().length && !folded(el)) continue;   // not displayed: the other twin, a closed part
           const vis = w.getComputedStyle(el).visibility;
           if (vis === "hidden" || vis === "collapse") continue;
           const block = el.closest(BLOCK);
@@ -1107,13 +1159,18 @@
         a.setAttribute("href", "#" + formSec.id);
         // 1.5.9: a visible result even where the form is already on the screen: the section at the top, the focus
         // in its first field
+        // 1.5.12: as an ordinary link to a place on the page: a step in the history (Back returns to where the visitor
+        // was), and Ctrl, Cmd or Shift with the click opens a new tab or window, as the browser does
         a.addEventListener("click", (e) => {
+          if (e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
           const first = Array.from(formSec.querySelectorAll("input, textarea, select")).find((el) => el.type !== "hidden"
             && el.getClientRects().length && !el.closest(".elementor-field-type-honeypot"));
           e.preventDefault();
+          if (w.location.hash !== "#" + formSec.id) {
+            try { w.history.pushState(null, "", "#" + formSec.id); } catch (err) { /* old browsers */ }
+          }
           formSec.scrollIntoView({ block: "start" });
           if (first) first.focus({ preventScroll: true });
-          try { w.history.replaceState(w.history.state, "", "#" + formSec.id); } catch (err) { /* old browsers */ }
         });
       });
     }
@@ -1129,6 +1186,22 @@
         if (!grid || grid.querySelectorAll(".elementor-widget-image.nh-product a[data-elementor-open-lightbox]").length < 2) return;
         a.setAttribute("data-elementor-lightbox-slideshow", "nh-" + (grid.getAttribute("data-id") || "grid"));
       });
+      // 1.5.12: a set of one photo opens as a single photo. A Basic Gallery gives even one photo a slideshow of its
+      // own, which read «1 / 1» («חדשות ועדכונים», the post «הספר של תמי שחר»). Counted as Elementor counts a set:
+      // every link with the same name on the page, the copies a slider makes left out
+      const sets = new Map();
+      d.querySelectorAll("a[data-elementor-open-lightbox][data-elementor-lightbox-slideshow]").forEach((a) => {
+        if (a.closest(".swiper-slide-duplicate, .slick-cloned")) return;
+        const k = a.getAttribute("data-elementor-lightbox-slideshow");
+        sets.set(k, (sets.get(k) || []).concat([a]));
+      });
+      sets.forEach((list) => { if (list.length === 1) list[0].removeAttribute("data-elementor-lightbox-slideshow"); });
+      // 1.5.12: Elementor's own words that are not Hebrew or not right («Share on X»; «מיקוד», 'focus', for the zoom)
+      const L = w.elementorFrontendConfig && w.elementorFrontendConfig.i18n;
+      if (L) {
+        if (/^share on x$/i.test(L.shareOnX || "")) L.shareOnX = "שתף ב־X";
+        if (L.zoom === "מיקוד") L.zoom = "הגדלה";
+      }
       d.querySelectorAll("a[data-elementor-open-lightbox]").forEach((a) => {
         const fig = a.closest("figure");
         const cap = fig ? fig.querySelector("figcaption") : null;
@@ -1146,36 +1219,76 @@
         const img = a.querySelector("img");
         if (img && img.alt) altOf.set(a.href, img.alt);
       });
-      let opener = null;
-      const shown = (el) => !!el && w.getComputedStyle(el).display !== "none";
+      // 1.5.12: whatever opens it, a click or a shared link (Elementor opens that one by itself on load, and the header
+      // showed through it): watched from the moment Elementor adds it to the page. The photo's alt is always the
+      // grid photo's when there is one (Elementor's is the caption, which a screen reader then heard twice); the window
+      // and the share button get a role and a name; the focus goes into the window (Elementor left it on the photo
+      // behind the dark cover), and Tab goes round inside it (Elementor's own Tab let it out after the arrows, and
+      // Shift+Tab stuck on «סגור»)
+      let opener = null, isOpen = false;
+      const shown = (el) => !!el && el.isConnected && w.getComputedStyle(el).display !== "none";
+      const openBox = () => Array.from(d.querySelectorAll(".elementor-lightbox")).find(shown) || null;
+      const name = (el, label) => { if (el.getAttribute("aria-label") !== label) el.setAttribute("aria-label", label); };
       const dress = (lb) => {
+        if (lb.getAttribute("role") !== "dialog") lb.setAttribute("role", "dialog");
+        name(lb, "תמונה מוגדלת");
         lb.querySelectorAll("img.elementor-lightbox-image").forEach((im) => {
-          if (im.hasAttribute("alt") && im.alt && !/^nh4:/.test(im.alt)) return;
-          im.alt = altOf.get(im.getAttribute("src") || "") || altOf.get(im.getAttribute("data-src") || "") || "";
+          const own = altOf.get(im.getAttribute("src") || "") || altOf.get(im.getAttribute("data-src") || "");
+          if (own) { if (im.alt !== own) im.alt = own; } else if (!im.hasAttribute("alt") || /^nh4:/.test(im.alt)) im.alt = "";
         });
-        lb.querySelectorAll(".elementor-swiper-button-next").forEach((b) => b.setAttribute("aria-label", "התמונה הבאה"));
-        lb.querySelectorAll(".elementor-swiper-button-prev").forEach((b) => b.setAttribute("aria-label", "התמונה הקודמת"));
+        lb.querySelectorAll(".elementor-swiper-button-next").forEach((b) => name(b, "התמונה הבאה"));
+        lb.querySelectorAll(".elementor-swiper-button-prev").forEach((b) => name(b, "התמונה הקודמת"));
+        lb.querySelectorAll(".e-eicon-share-arrow, .eicon-share-arrow").forEach((b) => {
+          if (b.getAttribute("role") !== "button") b.setAttribute("role", "button");
+          name(b, "שיתוף");
+          if (!b.hasAttribute("aria-expanded")) b.setAttribute("aria-expanded", "false");
+        });
       };
-      const watch = () => {
-        let tries = 0;
-        const find = () => {
-          const lb = Array.from(d.querySelectorAll(".elementor-lightbox")).find(shown);
-          if (!lb) { if (tries++ < 90) w.requestAnimationFrame(find); return; }
-          html.classList.add("nh-lightbox-open");
-          dress(lb);
-          const mo = new w.MutationObserver(() => {
-            if (shown(lb)) { dress(lb); return; }
-            mo.disconnect();
-            html.classList.remove("nh-lightbox-open");
-            if (opener && d.contains(opener)) opener.focus({ preventScroll: true });
-          });
-          mo.observe(lb, { attributes: true, attributeFilter: ["style", "src", "class"], childList: true, subtree: true });
-        };
-        w.requestAnimationFrame(find);
+      const sync = () => {
+        const lb = openBox();
+        if (lb) dress(lb);
+        if (!!lb === isOpen) return;
+        isOpen = !!lb;
+        html.classList.toggle("nh-lightbox-open", isOpen);
+        if (lb) {
+          const x = lb.querySelector(".dialog-close-button");
+          if (!lb.contains(d.activeElement)) (x || lb).focus({ preventScroll: true });
+        } else {
+          if (opener && d.contains(opener)) opener.focus({ preventScroll: true });
+          opener = null;
+        }
       };
+      const seen = typeof w.WeakSet === "function" ? new w.WeakSet() : null;
+      const scan = () => {
+        d.querySelectorAll(".elementor-lightbox").forEach((lb) => {
+          if (!seen || seen.has(lb)) return;
+          seen.add(lb);
+          new w.MutationObserver(sync).observe(lb, { attributes: true, attributeFilter: ["style", "class", "src"], childList: true, subtree: true });
+        });
+        sync();
+      };
+      new w.MutationObserver(scan).observe(d.body, { childList: true });
+      scan();
       d.addEventListener("click", (e) => {
         const a = e.target.closest ? e.target.closest("a[data-elementor-open-lightbox]") : null;
-        if (a && !html.classList.contains("nh-lightbox-open")) { opener = a; watch(); }
+        if (a && !isOpen) opener = a;
+      }, true);
+      w.addEventListener("keydown", (e) => {
+        if (e.key !== "Tab" || !isOpen || e.altKey || e.ctrlKey || e.metaKey) return;
+        const lb = openBox();
+        if (!lb) return;
+        const sw = lb.querySelector(".swiper");
+        if (sw) sw.dispatchEvent(new w.MouseEvent("mousemove", { bubbles: true }));   // Elementor shows its toolbar on a key
+        // the share menu's links only while it is open (closed, it is folded away but its links stay in the page)
+        const list = Array.from(lb.querySelectorAll("a[href], button, input, select, textarea, iframe, video[controls], [tabindex]")).filter((el) =>
+          el !== lb && el.tabIndex >= 0 && el.getClientRects().length && w.getComputedStyle(el).visibility !== "hidden"
+          && !(el.closest(".elementor-slideshow__share-menu") && !el.closest(".elementor-slideshow--share-mode")));
+        if (!list.length) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();                     // Elementor's own Tab, after this one, moved it again
+        const at = list.indexOf(d.activeElement);
+        const to = e.shiftKey ? (at <= 0 ? list.length - 1 : at - 1) : (at < 0 || at >= list.length - 1 ? 0 : at + 1);
+        list[to].focus();
       }, true);
     }
 
@@ -1183,22 +1296,51 @@
     // Up to 1024px (the bar: .nh-float in a row) a browser scrolls only a textarea's caret into view: the field and its
     // hint (aria-describedby: «אין צורך לפרט כאן מידע רפואי…») could stay under the bar. After the browser's own
     // scroll, the page moves just enough for both to show above the bar, never pushing the field under the header.
+    // 1.5.12: the field with its labels too (the consent's three lines beside its box), clear of the cookie banner as
+    // well (above it at the foot, below it at the top), and on a short screen (no bar) on the screen, when the keys
+    // move the focus (a tap leaves it to the browser and its on-screen keyboard). Shift+Tab: a label left under the
+    // header comes down, as long as the field stays clear at the foot.
     const bar = d.querySelector(".nh-float");
+    let byKeys = false;
+    d.addEventListener("keydown", (e) => { if (e.key === "Tab") byKeys = true; }, true);
+    d.addEventListener("pointerdown", () => { byKeys = false; }, true);
     d.addEventListener("focusin", (e) => {
       const f = e.target;
       if (!bar || inEditor || !f.matches || !f.matches("input, textarea, select")) return;
+      if (f.closest(".nh-consent, .nh-float, .elementor-location-header, .elementor-lightbox")) return;   // fixed: scrolling does not move them
       w.requestAnimationFrame(() => {
-        if (w.getComputedStyle(bar).flexDirection !== "row" || d.activeElement !== f) return;
-        let bottom = f.getBoundingClientRect().bottom;
-        (f.getAttribute("aria-describedby") || "").split(/\s+/).forEach((id) => {
-          const el = id ? d.getElementById(id) : null;
-          if (el && el.getClientRects().length) bottom = Math.max(bottom, el.getBoundingClientRect().bottom);
-        });
-        const limit = bar.getBoundingClientRect().top - 8;
-        if (bottom <= limit) return;
-        const head = headerFloats() ? headerLoc.getBoundingClientRect().bottom : 0;
-        const room = f.getBoundingClientRect().top - head - 8;
-        if (room > 0) w.scrollBy(0, Math.min(bottom - limit, room));
+        if (d.activeElement !== f || !f.getClientRects().length) return;
+        const row = w.getComputedStyle(bar).flexDirection === "row";
+        if (!row && !byKeys) return;
+        const fr = f.getBoundingClientRect();
+        let top = fr.top, bottom = fr.bottom, left = fr.left, right = fr.right;
+        const add = (el) => {
+          if (!el || !el.getClientRects().length) return;
+          const r = el.getBoundingClientRect();
+          top = Math.min(top, r.top); bottom = Math.max(bottom, r.bottom);
+          left = Math.min(left, r.left); right = Math.max(right, r.right);
+        };
+        Array.from(f.labels || []).forEach(add);
+        (f.getAttribute("aria-describedby") || "").split(/\s+/).forEach((id) => add(id ? d.getElementById(id) : null));
+        let limit = (row ? bar.getBoundingClientRect().top : w.innerHeight) - 8;
+        let head = headerFloats() ? headerLoc.getBoundingClientRect().bottom : 0;
+        if (cons && html.matches(".nh-consent-ask, .nh-consent-open")) {
+          const c = cons.getBoundingClientRect();
+          if (c.height && !(right <= c.left || left >= c.right)) {
+            if (consentAtTop(c)) head = Math.max(head, c.bottom);
+            else limit = Math.min(limit, c.top - 8);
+          }
+        }
+        head += 8;
+        if (bottom > limit) {
+          // never its label's top under the header; where the room is too short for both, the field's own top
+          let room = top - head;
+          if (room <= 0) room = fr.top - head;
+          if (room > 0) w.scrollBy(0, Math.min(bottom - limit, room));
+        } else if (top < head && byKeys) {
+          const down = Math.max(top - head, bottom - limit);
+          if (down < 0) w.scrollBy(0, down);
+        }
       });
     });
   };

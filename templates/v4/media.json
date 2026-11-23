@@ -2556,5 +2556,38 @@
   "faces": "pending",
   "caption": "",
   "note": "live media 1456 (page-408); ≤2048px, JPEG q85, no metadata (23.11, batch 3)"
+ },
+ "live-499": {
+  "file": "templates/v4/media/live-499.pdf",
+  "alt": "פנאי – מרחב של חירות (PDF)",
+  "title": "nh4:live-499",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2018/01/פנאי-מרחב-של-חירות.pdf",
+  "width": null,
+  "height": null,
+  "faces": "none",
+  "caption": "",
+  "note": "The live PDF linked from post-498, byte for byte (sha256 499f64aaacd093e7fea5e226283e50f6cc95c87181c24982a84e67b6e28752d1, 1,179,983 bytes); no JavaScript. The alt is only the document's name; the link text on the page describes it (23.11, batch 3)."
+ },
+ "live-545": {
+  "file": "templates/v4/media/live-545.pdf",
+  "alt": "מכתב למשפחות (PDF)",
+  "title": "nh4:live-545",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2018/01/meyda.pdf",
+  "width": null,
+  "height": null,
+  "faces": "none",
+  "caption": "",
+  "note": "The live PDF linked from post-546, byte for byte (sha256 a6f7f95da12cef8bce4c178e130f25477e650e77a08d5ab54a01232412c6faf2, 700,559 bytes); no JavaScript. The alt is only the document's name; the link text on the page describes it (23.11, batch 3)."
+ },
+ "live-1196": {
+  "file": "templates/v4/media/live-1196.pdf",
+  "alt": "תעודת הוקרה (PDF)",
+  "title": "nh4:live-1196",
+  "source_url": "https://www.nevehairus.com/wp-content/uploads/2021/12/תעודת-הוקרה-להתמדדות-עם-הקורונה-משרד-הבריאות-נווה-האירוס.pdf",
+  "width": null,
+  "height": null,
+  "faces": "none",
+  "caption": "",
+  "note": "The live PDF linked from post-1217, byte for byte (sha256 fe9852a2ca782976cba9b48c95562d4e482ce84da30a0b30083def15848e53db, 323,306 bytes); no JavaScript. The alt is only the document's name; the link text on the page describes it (23.11, batch 3)."
  }
 }

@@ -11,13 +11,13 @@
  ],
  "archive": true,
  "source": "the live site's category pages (/category/ספרים-ומאמרים/, the menu's «מאמרים וכתבות»; /category/חדשות-ועדכונים/)",
- "notes": "Elementor Pro's archive template (Theme Builder, every archive): the category's name as the H1 (Pro's Archive Title, without «קטגוריה:»), then the category's posts as cards (Pro's Archive Posts: the featured image, the title as an H2 link, the date, the start of the text, «להמשך קריאה»), numbered pages. The header and the footer are the site's.",
+ "notes": "Elementor Pro's archive template (Theme Builder, every archive): the category's name as the H1 (Pro's Archive Title, without «קטגוריה:»), then the category's posts as cards (Pro's Archive Posts: the featured image, the title as an H2 link, the date, the start of the text, «קרא עוד» (the start of the link's accessible name in Pro, «קרא עוד אודות …»)), numbered pages. The header and the footer are the site's.",
  "blocks": {
   "more": {
    "kind": "text",
-   "full": "להמשך קריאה",
+   "full": "קרא עוד",
    "plain": null,
-   "no_plain": "a link's two words, as on the home page"
+   "no_plain": "two words; they match the start of the link's name in Pro («קרא עוד אודות …»), so voice control can say them (WCAG 2.5.3)"
   },
   "empty": {
    "kind": "text",

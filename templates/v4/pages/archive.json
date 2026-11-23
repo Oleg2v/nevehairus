@@ -52,7 +52,7 @@
    "content/v4/posts/post-973.json",
    "content/v4/posts/post-997.json"
   ],
-  "inputs_sha256": "003b602cc13af300a466a01504f73302bc4b98f24dd9862cf5e4151950b0422c",
+  "inputs_sha256": "485d0f20e42555f2a7547990ec82404a9f5e6598cb53be1867d6a0e27409ab21",
   "widgets": [
    "archive-posts",
    "theme-archive-title"
@@ -216,7 +216,7 @@
         "archive_cards_show_excerpt": "yes",
         "archive_cards_excerpt_length": 30,
         "archive_cards_show_read_more": "yes",
-        "archive_cards_read_more_text": "להמשך קריאה",
+        "archive_cards_read_more_text": "קרא עוד",
         "archive_cards_show_badge": "",
         "archive_cards_show_avatar": "",
         "pagination_type": "numbers",

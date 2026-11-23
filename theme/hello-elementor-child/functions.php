@@ -62,6 +62,7 @@
  * 1.5.4 (Oleg 23.11): «הקראה» in the «נגישות» panel: the page read aloud by the browser's own Hebrew voice (v4.js 9).
  * 1.5.5: after the independent review of «הקראה» (v4.js 9); <main id="content"> around Pro's archive template, so the
  * category pages have the skip link's target; a photo smaller than its column keeps its own size (v4.css).
+ * 1.5.6: a photo smaller than its tile fills the tile in a photo grid (v4.css).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child

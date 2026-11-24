@@ -1039,11 +1039,11 @@ PAGES_SRC = os.path.join(ROOT, "content", "v4", "pages")
 PAGES_OUT = os.path.join(OUT, "pages")
 POSTS_SRC = os.path.join(ROOT, "content", "v4", "posts")      # 23.11, batch 3: the live posts, one file each
 POSTS_OUT = os.path.join(OUT, "posts")
-CATEGORIES = {"ספרים ומאמרים": "ספרים-ומאמרים", "חדשות ועדכונים": "חדשות-ועדכונים"}    # the live categories: name → slug
+CATEGORIES = {"מאמרים וכתבות": "ספרים-ומאמרים", "חדשות ועדכונים": "חדשות-ועדכונים"}    # the live categories: name → slug
 POST_DATE = re.compile(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d$")
 READING = 860                      # px: the reading column of a page's text (as the home's special-needs column)
 MAP_HOSTS = ("maps.google.com", "www.google.com")
-LINK_HOSTS = ("docs.google.com", "posta.co.il")   # batch 3: hosts the live texts link to (a link: nothing loads from them)      # the click-to-load map's frame (data-src, never loaded alone)
+LINK_HOSTS = ("docs.google.com", "posta.co.il", "www.openstreetmap.org")   # batch 3: hosts the live texts link to (a link: nothing loads from them)      # the click-to-load map's frame (data-src, never loaded alone)
 CONTACT_FIELDS = (  # the contact page's form (the live «צור קשר»: name, e-mail, phone and the message, all required)
     ("note", "html", "form.required_note", False, {}),
     ("name", "text", "form.label_name", True, {}),
@@ -1233,12 +1233,27 @@ class PageBuilder(Builder):
         left = self.container(f"{p}/form", {**flex("column", 16, 16), "padding": ZERO},
                               self.head(sec, f"{p}/form/h") + [self.card(f"{p}/form/card", [form], "טופס", {
                                   "css_classes": "nh-page__card nh-form-card"})], title="טופס")
-        right = self.container(f"{p}/details", {**flex("column", 16, 16), "padding": ZERO},
-                               [self.card(f"{p}/details/card", self.text_editor_block(
-                                   sec["details"], f"{p}/details/card/list", "nh-page__text nh-contact-details-box"),
-                                   "פרטי קשר", {"css_classes": "nh-page__card nh-details-card"})], title="פרטי קשר")
+        kids = [self.card(f"{p}/details/card", self.text_editor_block(
+            sec["details"], f"{p}/details/card/list", "nh-page__text nh-contact-details-box"),
+            "פרטי קשר", {"css_classes": "nh-page__card nh-details-card"})]
+        if sec.get("map"):
+            kids.append(self.static_map(f"{p}/details/map", sec["map"]))
+        right = self.container(f"{p}/details", {**flex("column", 16, 16), "padding": ZERO}, kids, title="פרטי קשר")
         return [self.container(p, grid("7fr 5fr", 1, 1, gap_column=48, gap_row=32, grid_align_items="start"),
                                [left, right], title="טופס ופרטי קשר")]
+
+    def static_map(self, path, m):
+        """24.11 (Itzik): a static picture of the map (our own file in the media library, its OpenStreetMap tiles cut and
+        stitched by scripts/build_contact_map.py: nothing is loaded from another server). The whole picture is a link to Waze
+        in a new tab; its alt and caption are «ניווט עם Waze»; the credit «© OpenStreetMap» (a link, loads nothing) under it."""
+        cap = self.text(m["caption"], "full")
+        img = self.image(f"{path}/img", m["photo"], "nh-map-img", size_name="large", url=m["url"],
+                         link_attributes=f"aria-label|{cap} (נפתח בלשונית חדשה),rel|noopener noreferrer", caption_source="custom",
+                         caption=html.escape(cap, quote=False), _title="מפה")
+        img["settings"]["link"]["is_external"] = "on"
+        self.use(m["caption"], "full", img, "caption")
+        credit = self.text_editor_block(m["credit"], f"{path}/credit", "nh-map-credit", typo="small", color="ink-2")
+        return self.card(path, [img] + credit, "מפה", {"css_classes": "nh-page__card nh-map-card"})
 
     def sec_text_video(self, name, sec):
         """Text beside a vertical YouTube video in the home's phone frame (the snoezelen Short's look): nothing from
@@ -1263,7 +1278,7 @@ class PageBuilder(Builder):
 
     def archive_title(self, path):
         """Pro's Archive Title as the H1, styled as every page's H1; its tag without the context, so a category's page
-        is called by the category's name only (the live «ספרים ומאמרים»)."""
+        is called by the category's name only (the live «ספרים ומאמרים», renamed «מאמרים וכתבות» 24.11, slug kept)."""
         tag = '[elementor-tag id="nh4arch" name="archive-title" settings="%7B%22include_context%22%3A%22%22%7D"]'
         s = {"header_size": "h1", "__dynamic__": {"title": tag}}
         return self.widget(path, "theme-archive-title", styled(s, {"typography_typography": "h1"},

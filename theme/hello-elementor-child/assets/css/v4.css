@@ -1920,3 +1920,24 @@ html:has(dialog.nh-apply-dialog[open]) { overflow: hidden; }
   color: #4A2D84; font: inherit; font-weight: 600; cursor: pointer;
 }
 .nh-apply-form .elementor-upload-field:focus-visible { outline: 3px solid #4A2D84; outline-offset: 2px; }
+
+/* 1.6.1 (Itzik 24.11, second round): the job cards of «דרושים» 15% smaller: the column 860 -> 731px from 768px up (phones keep
+   the screen's width), the cards' padding and the space between their parts 15% less. The text keeps its size (18px on
+   phones, never under 16px); the card titles were already 15% smaller with the inner pages' headings (1.6.0). The CV
+   dialog's card is not a direct child of the column, so it is not touched. */
+@media (min-width: 768px) {
+  .nh-sec--jobs .nh-page__col { width: min(731px, 100%) !important; }
+}
+.nh-sec--jobs .nh-page__col > .nh-page__card { padding: 1.275rem !important; gap: .85rem !important; }
+@media (max-width: 767px) {
+  .nh-sec--jobs .nh-page__col > .nh-page__card { padding: 1.0625rem !important; }
+}
+
+/* «צור קשר»: the static map picture under the contact details */
+.nh-map-card { padding: .75rem !important; gap: .5rem !important; }
+.nh-map-card .nh-map-img a { display: block; border-radius: 12px; overflow: hidden; }
+.nh-map-card .nh-map-img img { display: block; width: 100%; height: auto; border-radius: 12px; }
+.nh-map-card .nh-map-img a:focus-visible { outline: 3px solid #4A2D84; outline-offset: 3px; }
+.nh-map-card .nh-map-img .widget-image-caption { margin: .5rem 0 0; font-weight: 600; color: #4A2D84; text-align: start; }
+.nh-map-card .nh-map-credit, .nh-map-card .nh-map-credit p { margin: 0; }
+.nh-map-card .nh-map-credit a { color: #4A2D84; text-decoration-line: underline; text-underline-offset: .2em; }

@@ -50,10 +50,11 @@
    "content/v4/posts/post-973.json",
    "content/v4/posts/post-997.json"
   ],
-  "inputs_sha256": "453212a640d954bde70fbde11c803217dcbe18a81bc9555602da7d7c19bcb955",
+  "inputs_sha256": "650efdf9251d24874d659a42449a3e1ad53a08c100b1c67b61f4fd8d19ce9629",
   "widgets": [
    "form",
    "heading",
+   "image",
    "text-editor"
   ],
   "blocks": {
@@ -167,6 +168,18 @@
     "full": {
      "element": "fdebab0",
      "field": "title"
+    }
+   },
+   "map.caption": {
+    "full": {
+     "element": "d4580ec",
+     "field": "caption"
+    }
+   },
+   "map.credit": {
+    "full": {
+     "element": "106d0ad",
+     "field": "editor"
     }
    }
   }
@@ -708,6 +721,112 @@
                "link_color": "globals/colors?id=primary",
                "link_hover_color": "globals/colors?id=78b4a18",
                "typography_typography": "globals/typography?id=text"
+              }
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            }
+           ],
+           "isInner": true
+          },
+          {
+           "id": "9fc5030",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "16",
+             "row": "16",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "custom",
+             "top": "1.5rem",
+             "right": "1.5rem",
+             "bottom": "1.5rem",
+             "left": "1.5rem",
+             "isLinked": true
+            },
+            "padding_mobile": {
+             "unit": "custom",
+             "top": "1.25rem",
+             "right": "1.25rem",
+             "bottom": "1.25rem",
+             "left": "1.25rem",
+             "isLinked": true
+            },
+            "background_background": "classic",
+            "border_radius": {
+             "unit": "px",
+             "top": "16",
+             "right": "16",
+             "bottom": "16",
+             "left": "16",
+             "isLinked": true
+            },
+            "box_shadow_box_shadow_type": "yes",
+            "box_shadow_box_shadow": {
+             "horizontal": 0,
+             "vertical": 8,
+             "blur": 24,
+             "spread": -4,
+             "color": "rgba(28, 24, 48, 0.14)"
+            },
+            "css_classes": "nh-page__card nh-map-card",
+            "background_color": "#FFFFFF",
+            "__globals__": {
+             "background_color": "globals/colors?id=3efe2c1"
+            },
+            "_title": "מפה"
+           },
+           "elements": [
+            {
+             "id": "d4580ec",
+             "elType": "widget",
+             "settings": {
+              "image": {
+               "url": "",
+               "id": "@media:contact-map",
+               "size": "",
+               "alt": "",
+               "source": "library"
+              },
+              "image_size": "large",
+              "link_to": "custom",
+              "link": {
+               "url": "https://waze.com/ul?ll=31.9365373,34.7995074&navigate=yes",
+               "is_external": "on",
+               "nofollow": "",
+               "custom_attributes": "aria-label|ניווט עם Waze (נפתח בלשונית חדשה),rel|noopener noreferrer"
+              },
+              "_css_classes": "nh-map-img",
+              "caption_source": "custom",
+              "caption": "ניווט עם Waze",
+              "_title": "מפה"
+             },
+             "elements": [],
+             "widgetType": "image"
+            },
+            {
+             "id": "106d0ad",
+             "elType": "widget",
+             "settings": {
+              "editor": "<span class=\"nh-ltr\">© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a></span>",
+              "_css_classes": "nh-map-credit",
+              "text_color": "#4F5550",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=161ef55",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=504434a"
               }
              },
              "elements": [],

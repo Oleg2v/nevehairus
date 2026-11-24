@@ -95,6 +95,7 @@
  * 1.6.0: (Itzik 24.11) an invisible guard on every form (honeypot, a minimum fill time, a signed token fetched by the page's script:
  *         nh_child_form_guard and /wp-json/nh/v1/form-token, v4.js part 13); the CV form of «דרושים» in a dialog (v4.js part 14);
  *         the headings of the inner pages 15% smaller and the contact form 15% smaller (v4.css); no map on «צור קשר».
+ * 1.6.1: (Itzik 24.11) the job cards of «דרושים» 15% smaller; the static map picture of «צור קשר» (v4.css).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child

@@ -3701,6 +3701,15 @@ def cmd_tidy(args):
         step(f"category #1: «Uncategorized» -> «{TIDY_CATEGORY}»")
     else:
         step(f"category #1: {cat.get('name') if isinstance(cat, dict) else f'HTTP {st}'} (nothing to rename)")
+    # the articles category (Itzik 24.11): «ספרים ומאמרים» -> «מאמרים וכתבות», the slug (the address) stays
+    st, cats, _ = api("/wp/v2/categories", query={"slug": "ספרים-ומאמרים", "context": "edit", "_fields": "id,name,slug"})
+    if st == 200 and isinstance(cats, list) and cats and cats[0].get("name") != "מאמרים וכתבות":
+        st2, res, _ = api(f"/wp/v2/categories/{cats[0]['id']}", "POST", {"name": "מאמרים וכתבות"})
+        need(st2 == 200 and res.get("name") == "מאמרים וכתבות", f"could not rename the articles category ({st2} {err(res)})")
+        record({"change": "tidy: category #%s renamed «%s» -> «מאמרים וכתבות» (slug ספרים-ומאמרים stays)" % (cats[0]["id"], cats[0].get("name"))})
+        step(f"category #{cats[0]['id']}: «{cats[0].get('name')}» -> «מאמרים וכתבות»")
+    else:
+        step("articles category: nothing to rename")
     st_c, _, _ = api("/ezcache/v1/cache", "DELETE")
     step(f"ezCache page cache purged ({st_c})")
     problems = []

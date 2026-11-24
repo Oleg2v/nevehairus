@@ -50,7 +50,7 @@
    "content/v4/posts/post-973.json",
    "content/v4/posts/post-997.json"
   ],
-  "inputs_sha256": "453212a640d954bde70fbde11c803217dcbe18a81bc9555602da7d7c19bcb955",
+  "inputs_sha256": "650efdf9251d24874d659a42449a3e1ad53a08c100b1c67b61f4fd8d19ce9629",
   "widgets": [
    "heading",
    "text-editor"
@@ -356,7 +356,7 @@
     "slug": "חדשות-ועדכונים"
    },
    {
-    "name": "ספרים ומאמרים",
+    "name": "מאמרים וכתבות",
     "slug": "ספרים-ומאמרים"
    }
   ],

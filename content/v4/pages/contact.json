@@ -5,7 +5,7 @@
  "slug": "צור-קשר",
  "parent": null,
  "source": "live page, read 23.11.2026 (content/pages/contact.md, snapshot 15.11.2026: not modified since)",
- "notes": "The live page: H1 and the form (name, e-mail, phone, the message: all required). 24.11 (Itzik): the Google map is gone; beside the form, top to bottom: the phone 08-9403047, irus1@nevehairus.com, רחוב המאה ואחת 8001, נס ציונה. The form as the home's (consent, the privacy note naming the owner of the data and the phone); submissions kept in the admin, no e-mail on the test site.",
+ "notes": "The live page: H1 and the form (name, e-mail, phone, the message: all required). 24.11 (Itzik): the Google map is gone; beside the form, top to bottom: the phone 08-9403047, irus1@nevehairus.com, רחוב המאה ואחת 8001, נס ציונה. The form as the home's (consent, the privacy note naming the owner of the data and the phone); submissions kept in the admin, no e-mail on the test site. 24.11 (Itzik, second round): under the details a static picture of the map (OpenStreetMap tiles, cut once by scripts/build_contact_map.py, in the media library: nothing loads from another server), a pin on המאה ואחד 1, נס ציונה (31.9365373, 34.7995074: Nominatim's house node 2347223818 for the registry address); the whole picture links to Waze in a new tab; «© OpenStreetMap» under it.",
  "h1": "h1",
  "blocks": {
   "h1": {
@@ -103,6 +103,18 @@
    "full": "<ul class=\"nh-contact-details\"><li><span class=\"nh-contact-details__k\">טלפון</span> <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></li><li><a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a></li><li>רחוב המאה ואחת 8001, נס ציונה</li></ul>",
    "plain": null,
    "no_plain": "the contact details as Itzik gave them (24.11): plain already"
+  },
+  "map.caption": {
+   "kind": "text",
+   "full": "ניווט עם Waze",
+   "plain": null,
+   "no_plain": "a caption"
+  },
+  "map.credit": {
+   "kind": "html",
+   "full": "<span class=\"nh-ltr\">© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a></span>",
+   "plain": null,
+   "no_plain": "a credit"
   }
  },
  "sections": [
@@ -110,7 +122,13 @@
    "type": "form-details",
    "id": "contact-form",
    "title": "טופס ופרטי קשר",
-   "details": "details"
+   "details": "details",
+   "map": {
+    "photo": "contact-map",
+    "url": "https://waze.com/ul?ll=31.9365373,34.7995074&navigate=yes",
+    "caption": "map.caption",
+    "credit": "map.credit"
+   }
   }
  ]
 }

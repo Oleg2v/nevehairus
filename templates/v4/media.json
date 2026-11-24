@@ -2589,5 +2589,15 @@
   "faces": "none",
   "caption": "",
   "note": "The live PDF linked from post-1217, byte for byte (sha256 fe9852a2ca782976cba9b48c95562d4e482ce84da30a0b30083def15848e53db, 323,306 bytes); no JavaScript. The alt is only the document's name; the link text on the page describes it (23.11, batch 3)."
+ },
+ "contact-map": {
+  "file": "templates/v4/media/contact-map.jpg",
+  "alt": "ניווט עם Waze",
+  "title": "nh4:contact-map",
+  "source_url": "https://www.openstreetmap.org/?mlat=31.9365373&mlon=34.7995074#map=17/31.9365373/34.7995074",
+  "width": 900,
+  "height": 600,
+  "faces": "none",
+  "note": "24.11: static map of «צור קשר», OpenStreetMap tiles (© OpenStreetMap contributors, ODbL), made by scripts/build_contact_map.py; JPEG"
  }
 }

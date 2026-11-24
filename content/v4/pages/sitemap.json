@@ -5,7 +5,7 @@
  "slug": "מפת-אתר",
  "parent": null,
  "source": "live page, read 23.11.2026 (content/pages/sitemap.md, snapshot 15.11.2026)",
- "notes": "The live page: H1 and the list «עמודים» of the site's pages (its order, «מעון ראשי – בית לחיים» with its three pages under it), each a link here. «הצהרת נגישות» is added: it is a page of this site (the live site has none).",
+ "notes": "The live page: H1 and the list «עמודים» of the site's pages (its order, «מעון ראשי – בית לחיים» with its three pages under it), each a link here. «הצהרת נגישות» is added: it is a page of this site (the live site has none). 24.11 (Itzik): «מאמרים וכתבות» (the articles category, in the menu) is listed too.",
  "h1": "h1",
  "blocks": {
   "h1": {
@@ -22,7 +22,7 @@
   },
   "pages": {
    "kind": "html",
-   "full": "<ul class=\"nh-sitemap\"><li><a href=\"@home:/אודות/\">אודות</a></li><li><a href=\"@home:/גלריית-תמונות/\">גלריית תמונות</a></li><li><a href=\"@home:/\">דף הבית</a></li><li><a href=\"@home:/דרושים/\">דרושים</a></li><li><a href=\"@home:/הצהרת-נגישות/\">הצהרת נגישות</a></li><li><a href=\"@home:/חדשות-ועדכונים/\">חדשות ועדכונים</a></li><li><a href=\"@home:/מדיניות-פרטיות/\">מדיניות פרטיות</a></li><li><a href=\"@home:/מעון-ראשי-בית-לחיים/\">מעון ראשי – בית לחיים</a><ul><li><a href=\"@home:/מעון-ראשי-בית-לחיים/אבחנה-כפולה/\">אבחנה כפולה</a></li><li><a href=\"@home:/מעון-ראשי-בית-לחיים/גלריית-מוצרים-למכירה/\">גלריית מוצרים</a></li><li><a href=\"@home:/מעון-ראשי-בית-לחיים/סנטוריום/\">סנטוריום</a></li></ul></li><li><a href=\"@home:/מערך-דיור-בקהילה/\">מערך דיור בקהילה</a></li><li><a href=\"@home:/מערך-דיור-בקהילה-אוטיזם/\">מערך דיור בקהילה – אוטיזם</a></li><li><a href=\"@home:/מפת-אתר/\">מפת אתר</a></li><li><a href=\"@home:/צור-קשר/\">צור קשר</a></li><li><a href=\"@home:/תודות-והמלצות/\">תודות והמלצות</a></li></ul>",
+   "full": "<ul class=\"nh-sitemap\"><li><a href=\"@home:/אודות/\">אודות</a></li><li><a href=\"@home:/גלריית-תמונות/\">גלריית תמונות</a></li><li><a href=\"@home:/\">דף הבית</a></li><li><a href=\"@home:/דרושים/\">דרושים</a></li><li><a href=\"@home:/הצהרת-נגישות/\">הצהרת נגישות</a></li><li><a href=\"@home:/חדשות-ועדכונים/\">חדשות ועדכונים</a></li><li><a href=\"@home:/category/ספרים-ומאמרים/\">מאמרים וכתבות</a></li><li><a href=\"@home:/מדיניות-פרטיות/\">מדיניות פרטיות</a></li><li><a href=\"@home:/מעון-ראשי-בית-לחיים/\">מעון ראשי – בית לחיים</a><ul><li><a href=\"@home:/מעון-ראשי-בית-לחיים/אבחנה-כפולה/\">אבחנה כפולה</a></li><li><a href=\"@home:/מעון-ראשי-בית-לחיים/גלריית-מוצרים-למכירה/\">גלריית מוצרים</a></li><li><a href=\"@home:/מעון-ראשי-בית-לחיים/סנטוריום/\">סנטוריום</a></li></ul></li><li><a href=\"@home:/מערך-דיור-בקהילה/\">מערך דיור בקהילה</a></li><li><a href=\"@home:/מערך-דיור-בקהילה-אוטיזם/\">מערך דיור בקהילה – אוטיזם</a></li><li><a href=\"@home:/מפת-אתר/\">מפת אתר</a></li><li><a href=\"@home:/צור-קשר/\">צור קשר</a></li><li><a href=\"@home:/תודות-והמלצות/\">תודות והמלצות</a></li></ul>",
    "plain": null,
    "no_plain": "the names of the pages, as links"
   }

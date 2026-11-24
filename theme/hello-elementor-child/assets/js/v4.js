@@ -1,5 +1,5 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.5.14 (research/09-v4-home-spec.md
+   v4.js — child theme hello-elementor-child 1.5.15 (research/09-v4-home-spec.md
    §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
    No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed
@@ -56,6 +56,9 @@
       opens (a shared link); a dialog with a name, the focus inside, Tab round.
       1.5.13: no share button; «next» at the left, «previous» at the right (v4.css).
       1.5.14: Enter and Space work on «הגדלה» and «מסך מלא»; white focus rings.
+      1.5.15: the arrows never lie over the photo (round buttons under it up to
+      1024px, side room for them above); the focus rings only after a key press
+      (html.nh-kbd).
   12. 1.5.9 a form field focused above the bar: the field and its hint.
       1.5.12: and its labels, clear of the cookie banner too; on a short
       screen on the screen, when the keys move the focus.
@@ -92,6 +95,10 @@
     const motionOK = () => !inEditor && !html.classList.contains("nh-a11y-still") && !(reduce && reduce.matches);
     const onMotionOff = [];                            // what stops when motion is switched off (part 4)
     const motionChanged = () => { if (!motionOK()) onMotionOff.forEach((f) => f()); };
+    // 1.5.15: html.nh-kbd while the last input was the keyboard (not a touch or a mouse press): the enlarged photo's focus
+    // rings (v4.css) show only then; iOS Safari matched :focus-visible after a tap and drew a ring round the arrow touched
+    w.addEventListener("keydown", (e) => { if (!/^(Shift|Control|Alt|Meta|CapsLock)$/.test(e.key)) html.classList.add("nh-kbd"); }, true);   // on window, before the lightbox's own Tab handler (part 11) stops the event
+    ["pointerdown", "mousedown", "touchstart"].forEach((t) => d.addEventListener(t, () => html.classList.remove("nh-kbd"), { capture: true, passive: true }));
     // 1.5.14: the skip link's target takes the focus on every page (functions.php gives it tabindex="-1"; Hello's 404 page
     // prints its own <main id="content"> without it, and the jump left the focus where it was)
     const skipTarget = d.getElementById("content");

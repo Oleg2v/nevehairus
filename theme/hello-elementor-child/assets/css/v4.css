@@ -1749,22 +1749,25 @@ body.rtl .elementor-lightbox :is(.elementor-swiper-button-next, .elementor-swipe
    1.5.14 (after the third independent check)
    ========================================================================= */
 /* The enlarged photo's keyboard focus ring: white on its dark cover (the site's purple ring was 1.2:1 there, and the
-   arrows had none up to 767px, where Elementor takes the outline away). On the arrows the ring goes round the icon, not
-   round the whole 15–20% strip. Yellow in the high-contrast mode, as the rest of the site. */
-.elementor-lightbox :is(.dialog-lightbox-close-button, .elementor-slideshow__header > svg, .elementor-slideshow__header > i):focus-visible {
+   arrows had none up to 767px, where Elementor takes the outline away). 1.5.15: only while the last input was the
+   keyboard (html.nh-kbd, v4.js): iOS Safari matched :focus-visible after a tap and drew the ring round the arrow it had
+   touched. On the arrows at the sides the ring goes round the icon, not round the whole 15–20% strip. Yellow in the
+   high-contrast mode, as the rest of the site. */
+html:not(.nh-kbd) .elementor-lightbox :focus-visible { outline: none; box-shadow: none; }
+html.nh-kbd .elementor-lightbox :is(.dialog-lightbox-close-button, .elementor-slideshow__header > svg, .elementor-slideshow__header > i):focus-visible {
   outline: 3px solid #FFFFFF;
   outline-offset: 2px;
   box-shadow: 0 0 0 8px rgba(0, 0, 0, .6);     /* a dark halo round the ring: it shows on a white photo too */
 }
 body .elementor-lightbox .elementor-swiper-button:focus-visible { outline: none; }
-body .elementor-lightbox .elementor-swiper-button:focus-visible :is(svg, i) {
+html.nh-kbd body .elementor-lightbox .elementor-swiper-button:focus-visible :is(svg, i) {
   outline: 3px solid #FFFFFF;
   outline-offset: 8px;
   border-radius: 50%;
   box-shadow: 0 0 0 15px rgba(0, 0, 0, .6);
 }
-html.nh-a11y-contrast .elementor-lightbox :is(.dialog-lightbox-close-button, .elementor-slideshow__header > svg, .elementor-slideshow__header > i):focus-visible,
-html.nh-a11y-contrast body .elementor-lightbox .elementor-swiper-button:focus-visible :is(svg, i) { outline-color: #FFE600; }
+html.nh-kbd.nh-a11y-contrast .elementor-lightbox :is(.dialog-lightbox-close-button, .elementor-slideshow__header > svg, .elementor-slideshow__header > i):focus-visible,
+html.nh-kbd.nh-a11y-contrast body .elementor-lightbox .elementor-swiper-button:focus-visible :is(svg, i) { outline-color: #FFE600; }
 /* Windows high contrast: the cover turns to the system's Canvas, so the icons (Elementor paints them #eee) turn to the
    system's text colour */
 @media (forced-colors: active) {
@@ -1776,4 +1779,54 @@ html.nh-a11y-contrast body .elementor-lightbox .elementor-swiper-button:focus-vi
    page keeps the banner's room. */
 @media (max-width: 1024px) and (max-height: 500px) {
   html:not(.nh-consent-ask):not(.nh-consent-open) body:has(.nh-float) .e-con.nh-footer-v4 { padding-block-end: 0 !important; }
+}
+
+/* =========================================================================
+   1.5.15 (Oleg 24.11, from his iPhone: the arrows lay over the faces in the enlarged photo)
+   The arrows never lie over the photo now.
+   ========================================================================= */
+/* Phones and tablets (up to 1024px wide, at least 501px high): the arrows leave the photo. Two round buttons under it, at
+   the bottom corners («next» at the left, «previous» at the right); the photo keeps the room above them (96px under it,
+   Elementor leaves 70px) and stays as wide as the screen; the caption stands between the buttons and does not catch the
+   taps meant for them. The buttons do not fade away when the rest of the window does. */
+@media (max-width: 1024px) and (min-height: 501px) {
+  body.rtl .elementor-lightbox .elementor-lightbox-item { padding-bottom: 96px; }
+  body.rtl .elementor-lightbox .swiper .elementor-swiper-button-next,
+  body.rtl .elementor-lightbox .swiper .elementor-swiper-button-prev {
+    top: auto;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    width: 56px;
+    height: 56px;
+    margin: 0;
+    transform: none;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, .6);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, .45);
+    z-index: 7;
+  }
+  body.rtl .elementor-lightbox .swiper .elementor-swiper-button-next { left: 16px; right: auto; }
+  body.rtl .elementor-lightbox .swiper .elementor-swiper-button-prev { right: 16px; left: auto; }
+  .elementor-lightbox .elementor-slideshow__footer { padding-inline: 88px; pointer-events: none; }
+  .elementor-lightbox .swiper:not(.elementor-slideshow--zoom-mode) .elementor-swiper-button { opacity: 1; }
+  /* the keyboard ring goes round the button itself here */
+  html.nh-kbd body .elementor-lightbox .swiper .elementor-swiper-button:focus-visible {
+    outline: 3px solid #FFFFFF;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, .45), 0 0 0 8px rgba(0, 0, 0, .6);
+  }
+  html.nh-kbd body .elementor-lightbox .swiper .elementor-swiper-button:focus-visible :is(svg, i) { outline: none; box-shadow: none; }
+  html.nh-kbd.nh-a11y-contrast body .elementor-lightbox .swiper .elementor-swiper-button:focus-visible { outline-color: #FFE600; }
+}
+/* Computers (from 1025px), and a phone on its side (the arrows stay at the sides there): the photo keeps clear of the
+   strips that hold the arrows: the icon sits at the middle of its strip (15% of the screen wide; 20% up to 767px, where
+   it hugs the inner side), so the photo's side room is that, the icon and a little air */
+@media (min-width: 1025px) {
+  body.rtl .elementor-lightbox .elementor-lightbox-item { padding-inline: calc(7.5vw + 24px); }
+}
+@media (min-width: 768px) and (max-width: 1024px) and (max-height: 500px) {
+  body.rtl .elementor-lightbox .elementor-lightbox-item { padding-inline: calc(7.5vw + 24px); }
+}
+@media (max-width: 767px) and (max-height: 500px) {
+  body.rtl .elementor-lightbox .elementor-lightbox-item { padding-inline: calc(20vw + 8px); }
 }

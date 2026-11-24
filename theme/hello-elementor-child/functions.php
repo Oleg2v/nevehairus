@@ -87,6 +87,9 @@
  *         autocomplete="email"; the skip target's tabindex on the 404 page; the nh4 marker never printed into the page
  *         (this file); no role="list" on an empty list; no empty band under the footer on a landscape phone; the round
  *         button's room up to 1494px; a tall banner never over the header of an inner page.
+ * 1.5.15: (Oleg 24.11, from his iPhone) the enlarged photo's arrows never lie over the photo: up to 1024px they are two round
+ *         buttons under it, from 1025px the photo keeps side room for them (v4.css); its focus rings show only after a
+ *         key press, not after a touch (html.nh-kbd, v4.js).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child

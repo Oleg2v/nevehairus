@@ -90,6 +90,8 @@
  * 1.5.15: (Oleg 24.11, from his iPhone) the enlarged photo's arrows never lie over the photo: up to 1024px they are two round
  *         buttons under it, from 1025px the photo keeps side room for them (v4.css); its focus rings show only after a
  *         key press, not after a touch (html.nh-kbd, v4.js).
+ * 1.5.16: (Oleg 24.11) no author archives (/?author=1, /author/<name>/ go to the home page: the user's login name showed);
+ *         a category without posts answers 404 (the default «Uncategorized» is empty).
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -131,6 +133,8 @@ add_action( 'init', 'nh_child_no_emoji' );
 add_filter( 'the_title', 'nh_child_media_title', 10, 2 );
 add_filter( 'elementor/widget/render_content', 'nh_child_widget_content', 10, 2 );
 add_action( 'wp_enqueue_scripts', 'nh_child_swiper_style', 40 );
+add_action( 'template_redirect', 'nh_child_no_author_archives', 1 );
+add_action( 'template_redirect', 'nh_child_no_empty_category', 2 );
 
 /**
  * `hello_elementor_page_title`: no Hello title on a page built with Elementor (its cover is the page's H1).
@@ -723,6 +727,31 @@ function nh_child_widget_content( $content, $widget ) {
 		$content = str_replace( ' role="list"', '', $content );
 	}
 	return $content;
+}
+
+/**
+ * `template_redirect` @1 (1.5.16, Oleg 24.11): no author archives. /?author=1 and /author/<name>/ (and their feeds) showed
+ * the WordPress user's login name as the page's title; they go to the home page (301), before WordPress's own canonical
+ * redirect (to /author/<name>/) can run.
+ */
+function nh_child_no_author_archives() {
+	if ( is_author() ) {
+		wp_safe_redirect( home_url( '/' ), 301 );
+		exit;
+	}
+}
+
+/**
+ * `template_redirect` @2 (1.5.16, Oleg 24.11): a category without posts is not a page (WordPress answers 200 with «אין עדיין
+ * פוסטים כאן»; the default «Uncategorized»/«כללי» is empty here): 404, as for a page beyond the last one of a list.
+ */
+function nh_child_no_empty_category() {
+	if ( is_category() && ! is_feed() && ! have_posts() ) {
+		global $wp_query;
+		$wp_query->set_404();
+		status_header( 404 );
+		nocache_headers();
+	}
 }
 
 /**

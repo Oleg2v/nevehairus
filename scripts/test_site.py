@@ -17,16 +17,20 @@
                                                            (saves nothing on the site); HTML to DIR
     python3 -I scripts/test_site.py v4 --go                build the v4 home (research/09-v4-home-spec.md §7)
     python3 -I scripts/test_site.py v4 --rollback          page #32 back to its v3.2 backup; v4 header/footer off
-    python3 -I scripts/test_site.py tidy [--go]            follow-ups of the external check (Oleg 23.11): the Kit's lightbox
-                                                           share off; WordPress's sample post and page to drafts
+    python3 -I scripts/test_site.py tidy [--go]            follow-ups of the external check (Oleg 23.11, 24.11): the Kit's
+                                                           lightbox share off; WordPress's sample post and page to drafts;
+                                                           the default category «Uncategorized» renamed «כללי»
 
 tidy (Oleg 23.11, after the external check; plan only without --go): (1) the active Kit's setting
 lightbox_enable_share (Site Settings → Lightbox → Share) switched off, so Elementor's enlarged photo has no share
 button or share menu (Facebook, X, Pinterest, the photo's download): one PHP step, the Kit's other settings read back
 unchanged, Elementor's CSS cache emptied; (2) WordPress's own sample post «Hello world!» (#1, slug hello-world) and
 sample page «Sample Page» (#2, slug sample-page) moved from published to draft over REST (a draft is kept, not
-deleted; only if they are still untouched: same slug and title); (3) ezCache purged; the Kit's value is read from the
-page the site serves and the two addresses must answer 404 to visitors. The old values go to the change log.
+deleted; only if they are still untouched: same slug and title); (3) the default category (#1, slug uncategorized)
+renamed from «Uncategorized» to «כללי» over REST (Oleg 24.11; the slug stays, and the theme answers 404 for a category
+without posts); (4) ezCache purged; the Kit's value is read from the page the site serves and the two addresses must
+answer 404 to visitors. The old values go to the change log. A second run changes nothing that is already as wanted (the
+Kit step, which needs Code Snippets, is skipped when the page already serves the share as off).
 
 Safety rules built in:
   * every request, including redirects, must stay on https://HOST; anything else stops the script;
@@ -3614,6 +3618,7 @@ TIDY_KIT_PHP = r"""
 """
 
 TIDY_SAMPLES = (("posts", 1, "hello-world", "Hello world!"), ("pages", 2, "sample-page", "Sample Page"))
+TIDY_CATEGORY = "כללי"
 TIDY_GALLERY = urllib.parse.quote("גלריית-תמונות") + "/"
 
 
@@ -3659,22 +3664,26 @@ def cmd_tidy(args):
         step(f"{kind}/{pid} «{title}» ({slug}): {status}")
     if not args.go:
         print("tidy will switch the Kit's lightbox share off (one PHP step through Code Snippets, which is switched on "
-              "for it and off again), move the two sample items to drafts (REST), purge ezCache and check the result. "
-              "Old values go to the change log. Run with --go.")
+              "for it and off again; skipped when it is already off), move the two sample items to drafts and rename the "
+              "default category «Uncategorized» to «%s» (REST), purge ezCache and check the result. "
+              "Old values go to the change log. Run with --go." % TIDY_CATEGORY)
         return
     need(not smoke(), f"the site is not healthy before tidy: {smoke()}")
-    with Helper():
-        body = TIDY_KIT_PHP.replace("__NH_AUTHOR__", str(int(me["id"])))
-        lint_php("tidy kit", body)
-        log = run_php("tidy: Kit lightbox share off", body)
-    shown = json.loads(json.dumps(log))
-    if isinstance(shown.get("before"), dict):
-        record({"change": "tidy: Kit lightbox share (old settings: log.before.settings)", "log": log})
-        shown["before"] = {k: v for k, v in shown["before"].items() if k != "settings"}
-    print(json.dumps(shown, ensure_ascii=False, indent=1))
-    need("exception" not in log and log.get("kit"), f"the Kit step failed: {log.get('exception')}")
-    for w in log.get("warnings") or []:
-        print("!!", w)
+    if share == "off":
+        step("the Kit's lightbox share is already off: that step is skipped")
+    else:
+        with Helper():
+            body = TIDY_KIT_PHP.replace("__NH_AUTHOR__", str(int(me["id"])))
+            lint_php("tidy kit", body)
+            log = run_php("tidy: Kit lightbox share off", body)
+        shown = json.loads(json.dumps(log))
+        if isinstance(shown.get("before"), dict):
+            record({"change": "tidy: Kit lightbox share (old settings: log.before.settings)", "log": log})
+            shown["before"] = {k: v for k, v in shown["before"].items() if k != "settings"}
+        print(json.dumps(shown, ensure_ascii=False, indent=1))
+        need("exception" not in log and log.get("kit"), f"the Kit step failed: {log.get('exception')}")
+        for w in log.get("warnings") or []:
+            print("!!", w)
     for kind, pid, slug, title, status in samples:
         if status != "publish":
             step(f"{kind}/{pid} is {status}: nothing to do")
@@ -3683,6 +3692,15 @@ def cmd_tidy(args):
         need(st == 200 and item.get("status") == "draft", f"could not move {kind}/{pid} to a draft ({st} {err(item)})")
         record({"change": f"tidy: {kind}/{pid} «{title}» ({slug}) status publish -> draft (WordPress's own sample; kept, not deleted)"})
         step(f"{kind}/{pid} «{title}»: draft")
+    # the default category (Oleg 24.11): «Uncategorized» -> «כללי» (the slug stays; the theme gives a category without posts a 404)
+    st, cat, _ = api("/wp/v2/categories/1", query={"context": "edit", "_fields": "id,name,slug,count"})
+    if st == 200 and isinstance(cat, dict) and cat.get("slug") == "uncategorized" and cat.get("name") == "Uncategorized":
+        st2, res, _ = api("/wp/v2/categories/1", "POST", {"name": TIDY_CATEGORY})
+        need(st2 == 200 and res.get("name") == TIDY_CATEGORY, f"could not rename the default category ({st2} {err(res)})")
+        record({"change": "tidy: category #1 renamed «Uncategorized» -> «%s» (slug uncategorized stays, %s posts)" % (TIDY_CATEGORY, cat.get("count"))})
+        step(f"category #1: «Uncategorized» -> «{TIDY_CATEGORY}»")
+    else:
+        step(f"category #1: {cat.get('name') if isinstance(cat, dict) else f'HTTP {st}'} (nothing to rename)")
     st_c, _, _ = api("/ezcache/v1/cache", "DELETE")
     step(f"ezCache page cache purged ({st_c})")
     problems = []

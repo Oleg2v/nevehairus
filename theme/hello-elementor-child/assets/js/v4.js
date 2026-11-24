@@ -765,6 +765,7 @@
       required: "צריך למלא את השדה הזה.", tel: "מספר הטלפון לא תקין: צריך 9 או 10 ספרות, ובהתחלה 0.",
       consent: "צריך לסמן את התיבה כדי לשלוח.", summary1: "נמצאה שגיאה אחת בטופס:", summaryN: "נמצאו {n} שגיאות בטופס:",
       consentName: "אישור מדיניות הפרטיות",
+      fileType: "אפשר לצרף רק קובץ PDF, DOC או DOCX.", fileSize: "הקובץ גדול מדי: עד 5 מ״ב.",
     }, w.nhFormText || {});
     d.querySelectorAll(".nh-contact-form form.elementor-form").forEach((form, fi) => {
       if (inEditor) return;
@@ -772,6 +773,9 @@
       const telIn = form.querySelector('[name="form_fields[phone]"]');
       const msgIn = form.querySelector('[name="form_fields[message]"]');
       const consIn = form.querySelector('[name="form_fields[consent]"]');
+      // 1.6.0 the CV form of «דרושים»: the job and the file (PDF, DOC, DOCX, up to 5 MB)
+      const jobIn = form.querySelector('[name="form_fields[job]"]');
+      const fileIn = form.querySelector('[name="form_fields[cv]"]');
       form.setAttribute("novalidate", "");
       if (!form.getAttribute("aria-label")) form.setAttribute("aria-label", form.getAttribute("name") || "בקשה לביקור");
       if (nameIn) nameIn.setAttribute("autocomplete", "name");
@@ -836,17 +840,24 @@
       if (msgIn && hint) msgIn.setAttribute("aria-describedby", hint.id);
       const check = () => {
         const errs = [];
+        if (jobIn && !jobIn.value) errs.push([jobIn, T.required]);
         if (nameIn && !nameIn.value.trim()) errs.push([nameIn, T.required]);
         if (telIn) {
           const v = telIn.value.trim();
           if (!v) errs.push([telIn, T.required]);
           else if (!/^0\d{8,9}$/.test(v.replace(/\D+/g, ""))) errs.push([telIn, T.tel]);
         }
+        if (fileIn) {
+          const f = fileIn.files && fileIn.files[0];
+          if (!f) errs.push([fileIn, T.required]);
+          else if (!/\.(pdf|docx?)$/i.test(f.name)) errs.push([fileIn, T.fileType]);
+          else if (f.size > 5 * 1024 * 1024) errs.push([fileIn, T.fileSize]);
+        }
         if (consIn && !consIn.checked) errs.push([consIn, T.consent]);
         return errs;
       };
       const show = (errs) => {
-        [nameIn, telIn, consIn].forEach((i) => i && setErr(i, ""));
+        [jobIn, nameIn, telIn, fileIn, consIn].forEach((i) => i && setErr(i, ""));
         errs.forEach(([i, m]) => setErr(i, m));
         const list = sum.querySelector("ul");
         list.textContent = "";
@@ -1174,7 +1185,7 @@
     /* ---------- 10. 1.5.7 the header's «צור קשר» (Oleg 23.11) ---------------------------- */
     // The header template links it to the contact page; on a page with a contact form of its own (the home's
     // #contact, «מעון ראשי – בית לחיים», «צור קשר») it leads to that form's section instead.
-    const ownForm = d.querySelector(".nh-sec .nh-contact-form");
+    const ownForm = d.querySelector(".nh-sec .nh-contact-form:not(.nh-apply-form)");
     const formSec = ownForm ? ownForm.closest(".nh-sec[id]") : null;
     if (formSec && !inEditor) {
       d.querySelectorAll(".elementor-location-header .nh-header__contact a[href]").forEach((a) => {
@@ -1373,7 +1384,7 @@
     d.addEventListener("focusin", (e) => {
       const f = e.target;
       if (!bar || inEditor || !f.matches || !f.matches("input, textarea, select")) return;
-      if (f.closest(".nh-consent, .nh-float, .elementor-location-header, .elementor-lightbox")) return;   // fixed: scrolling does not move them
+      if (f.closest(".nh-consent, .nh-float, .elementor-location-header, .elementor-lightbox, dialog")) return;   // fixed: scrolling does not move them
       // 1.5.14: a mouse press on a checkbox, a radio, a select or a button is never followed by a scroll: the page moving
       // between the press and the release sent the click elsewhere (the consent box near the bar or the banner did not
       // toggle). Text fields are lifted as before; Tab to any of them too
@@ -1413,6 +1424,91 @@
         }
       });
     });
+
+    /* ---------- 13. 1.6.0 the invisible guard of the forms (Itzik 24.11) ------------------------ */
+    // Every Elementor Form gets a token from this site (GET /wp-json/nh/v1/form-token: a signed time) as a hidden field
+    // nh_tk; the server (functions.php, nh_child_form_guard) refuses a send without a valid one, one made less than 3
+    // seconds before (a robot posts at once), or a day old, and a send with the honeypot field filled. No box, no
+    // picture, nothing from outside. A form that stays open for hours gets a new token when it is used again.
+    if (!inEditor && w.nhFormToken && typeof w.fetch === "function") {
+      const guarded = Array.from(d.querySelectorAll("form.elementor-form"));
+      if (guarded.length) {
+        let tokenAt = 0, asking = null;
+        const putToken = (t) => guarded.forEach((f) => {
+          let i = f.querySelector('input[name="nh_tk"]');
+          if (!i) { i = d.createElement("input"); i.type = "hidden"; i.name = "nh_tk"; f.appendChild(i); }
+          i.value = t;
+        });
+        const askToken = () => {
+          if (asking) return asking;
+          const u = w.nhFormToken + (w.nhFormToken.indexOf("?") < 0 ? "?" : "&") + "_=" + Date.now();
+          asking = w.fetch(u, { credentials: "omit", cache: "no-store" })
+            .then((r) => (r.ok ? r.json() : null))
+            .then((j) => { if (j && j.token) { putToken(j.token); tokenAt = Date.now(); } })
+            .catch(() => {})
+            .then(() => { asking = null; });
+          return asking;
+        };
+        askToken();
+        guarded.forEach((f) => f.addEventListener("focusin", () => {
+          if (!tokenAt || Date.now() - tokenAt > 6 * 3600 * 1000) askToken();
+        }));
+      }
+    }
+
+    /* ---------- 14. 1.6.0 «שליחת קו"ח» of «דרושים» (Itzik 24.11) -------------------------------- */
+    // Each job's button (a link to #nh-apply, which works without this script: the form is at the foot of the page)
+    // opens the page's one CV form in a modal dialog (the browser's own <dialog>: the focus stays inside, Esc closes,
+    // the page behind is inert), with the job chosen. The dialog is made in place, so the form keeps the page's styles.
+    const applyBox = d.getElementById("nh-apply");
+    const applyBtns = Array.from(d.querySelectorAll(".nh-apply__btn"));
+    if (applyBox && applyBtns.length && !inEditor && typeof w.HTMLDialogElement === "function") {
+      const dlg = d.createElement("dialog");
+      dlg.className = "nh-apply-dialog";
+      applyBox.parentNode.insertBefore(dlg, applyBox);
+      dlg.appendChild(applyBox);
+      const heading = applyBox.querySelector(".elementor-heading-title");
+      const baseTitle = heading ? heading.textContent.trim() : "";
+      if (heading) { heading.id = "nh-apply-title"; dlg.setAttribute("aria-labelledby", heading.id); }
+      const closeBtn = d.createElement("button");
+      closeBtn.type = "button";
+      closeBtn.className = "nh-apply-dialog__close";
+      closeBtn.setAttribute("aria-label", "סגירה");
+      closeBtn.innerHTML = '<span aria-hidden="true">\u00D7</span>';
+      dlg.insertBefore(closeBtn, dlg.firstChild);
+      const jobSel = applyBox.querySelector('select[name="form_fields[job]"]');
+      let opener = null;
+      const retitle = () => {
+        if (heading) heading.textContent = baseTitle + (jobSel && jobSel.value ? " \u2014 " + jobSel.value : "");
+      };
+      if (jobSel) jobSel.addEventListener("change", retitle);
+      const openFor = (btn) => {
+        opener = btn;
+        const job = btn.getAttribute("data-job") || "";
+        if (jobSel) {
+          const o = Array.from(jobSel.options).find((x) => x.value === job || x.textContent.trim() === job);
+          if (o) jobSel.value = o.value;
+          retitle();
+        }
+        if (!dlg.open) dlg.showModal();
+        const first = applyBox.querySelector('input[name="form_fields[name]"]');
+        if (first) first.focus();
+      };
+      applyBtns.forEach((b) => {
+        b.setAttribute("role", "button");
+        b.setAttribute("aria-haspopup", "dialog");
+        b.addEventListener("click", (e) => {
+          if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+          e.preventDefault();
+          openFor(b);
+        });
+        b.addEventListener("keydown", (e) => { if (e.key === " ") { e.preventDefault(); b.click(); } });
+      });
+      closeBtn.addEventListener("click", () => dlg.close());
+      // a press on the dim area (the dialog's own box, outside its content) closes it
+      dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+      dlg.addEventListener("close", () => { if (opener && opener.isConnected) opener.focus(); });
+    }
   };
 
   if (d.readyState === "loading") d.addEventListener("DOMContentLoaded", init, { once: true });

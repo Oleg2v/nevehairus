@@ -5,7 +5,7 @@
  "slug": "דרושים",
  "parent": null,
  "source": "live page, read 23.11.2026 (content/pages/careers.md, snapshot 15.11.2026: not modified since)",
- "notes": "The live page's five jobs in their order, each in a card with its title. Not moved: the live jobs' pictures (AI-made illustrations, not photos: Oleg 23.11 «фото только настоящие»). Fixed: «צפיות שכר» → «ציפיות שכר» (a typo, five times); the footnote's «**» and the decorative emoji are not read aloud.",
+ "notes": "The live page's five jobs in their order, each in a card with its title. Not moved: the live jobs' pictures (AI-made illustrations, not photos: Oleg 23.11 «фото только настоящие»). Fixed: «צפיות שכר» → «ציפיות שכר» (a typo, five times); the footnote's «**» and the decorative emoji are not read aloud. 24.11 (Itzik): each job has the button «שליחת קו\"ח»; it opens one form (name, phone, the job, a CV file PDF/DOC/DOCX up to 5 MB) with the job chosen; the job's title is in the submission (field «המשרה») and, at launch, in the e-mail's subject; the test site keeps the submissions in the admin and sends nothing, the live site e-mails irus1@nevehairus.com. The old «irus3» address in the texts is replaced by irus1.",
  "h1": "h1",
  "blocks": {
   "h1": {
@@ -22,8 +22,8 @@
   },
   "sw": {
    "kind": "html",
-   "full": "<ul><li>היקף משרה הינו 50%-70% משרה עם אפשרות להגדלה ל100% משרה</li><li>לעזור לדייר בתקופת הסתגלותו למסגרת ובעת משבר</li><li>לדאוג לביצוע התוכנית האישית שנבנתה לדייר ולאפשר לדייר לקבל שיחות טיפוליות עם עו\"ס / פסיכולוג בהתאם לצורך</li><li>לקיים קשרים שוטפים בין הדייר למשפחתו או אפוטרופוס</li><li>לקיים קשר בין הדייר למוסדות וארגונים המצויים בקהילה</li><li>לקיים קשר עם רשויות הרווחה אשר טיפלו בדייר טרם השתלבותו במסגרת</li><li>לפעול לצורך השמתו של הדייר בתעסוקה ולעקוב אחרי השתלבותו בה</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
-   "plain": "<p>משרה של 50%–70%, ואפשר להגדיל עד 100%.</p><p>מה עושים:</p><ul><li>עוזרים לדייר כשהוא מגיע למעון, וגם בזמן קשה.</li><li>דואגים שהדייר יקבל את מה שתוכנן לו, וגם שיחות עם עובד סוציאלי או פסיכולוג.</li><li>שומרים על קשר עם המשפחה או עם האפוטרופוס.</li><li>שומרים על קשר עם מקומות בקהילה ועם הרווחה.</li><li>עוזרים לדייר למצוא עבודה ומלווים אותו בה.</li></ul><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>"
+   "full": "<ul><li>היקף משרה הינו 50%-70% משרה עם אפשרות להגדלה ל100% משרה</li><li>לעזור לדייר בתקופת הסתגלותו למסגרת ובעת משבר</li><li>לדאוג לביצוע התוכנית האישית שנבנתה לדייר ולאפשר לדייר לקבל שיחות טיפוליות עם עו\"ס / פסיכולוג בהתאם לצורך</li><li>לקיים קשרים שוטפים בין הדייר למשפחתו או אפוטרופוס</li><li>לקיים קשר בין הדייר למוסדות וארגונים המצויים בקהילה</li><li>לקיים קשר עם רשויות הרווחה אשר טיפלו בדייר טרם השתלבותו במסגרת</li><li>לפעול לצורך השמתו של הדייר בתעסוקה ולעקוב אחרי השתלבותו בה</li></ul><p>קו\"ח אפשר לשלוח בלחיצה על הכפתור «שליחת קו\"ח», או למייל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
+   "plain": "<p>משרה של 50%–70%, ואפשר להגדיל עד 100%.</p><p>מה עושים:</p><ul><li>עוזרים לדייר כשהוא מגיע למעון, וגם בזמן קשה.</li><li>דואגים שהדייר יקבל את מה שתוכנן לו, וגם שיחות עם עובד סוציאלי או פסיכולוג.</li><li>שומרים על קשר עם המשפחה או עם האפוטרופוס.</li><li>שומרים על קשר עם מקומות בקהילה ועם הרווחה.</li><li>עוזרים לדייר למצוא עבודה ומלווים אותו בה.</li></ul><p>שולחים קורות חיים בלחיצה על הכפתור «שליחת קו\"ח», או למייל <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>. כותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>"
   },
   "ot.h": {
    "kind": "text",
@@ -33,8 +33,8 @@
   },
   "ot": {
    "kind": "html",
-   "full": "<ul><li>היקף משרה - 6 שעות שבועיות</li><li>תיאור תפקיד: בניית תכניות אישיות לקידום הדיירים ברמה פרטנית וקבוצתית, ליווי והדרכת הצוות הטיפולי בתחום המקצועי שלו, עבודה ישירה עם הדיירים.</li><li>דרישות השכלה: תואר אקדמי ראשון לפחות ריפוי בעיסוק ותעודת מקצוע מטעם משרד הבריאות</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
-   "plain": "<p>משרה של 6 שעות בשבוע.</p><p>מה עושים: בונים תכניות שעוזרות לדיירים להתקדם, לבד ובקבוצה. מדריכים את הצוות ועובדים עם הדיירים.</p><p>מה צריך: תואר בריפוי בעיסוק ותעודה ממשרד הבריאות.</p><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>"
+   "full": "<ul><li>היקף משרה - 6 שעות שבועיות</li><li>תיאור תפקיד: בניית תכניות אישיות לקידום הדיירים ברמה פרטנית וקבוצתית, ליווי והדרכת הצוות הטיפולי בתחום המקצועי שלו, עבודה ישירה עם הדיירים.</li><li>דרישות השכלה: תואר אקדמי ראשון לפחות ריפוי בעיסוק ותעודת מקצוע מטעם משרד הבריאות</li></ul><p>קו\"ח אפשר לשלוח בלחיצה על הכפתור «שליחת קו\"ח», או למייל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
+   "plain": "<p>משרה של 6 שעות בשבוע.</p><p>מה עושים: בונים תכניות שעוזרות לדיירים להתקדם, לבד ובקבוצה. מדריכים את הצוות ועובדים עם הדיירים.</p><p>מה צריך: תואר בריפוי בעיסוק ותעודה ממשרד הבריאות.</p><p>שולחים קורות חיים בלחיצה על הכפתור «שליחת קו\"ח», או למייל <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>. כותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>"
   },
   "mt.h": {
    "kind": "text",
@@ -44,8 +44,8 @@
   },
   "mt": {
    "kind": "html",
-   "full": "<ul><li>היקף משרה - משרה מלאה 5 ימים בשבוע</li><li>תיאור תפקיד: ניקיון, תחזוקה וכיו\"ב.</li><li>ניסיון: ידע והבנה טכנאית עדיפות לבעלי תעודות מקצועיות.</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר מטעמי נוחות.</p>",
-   "plain": "<p>משרה מלאה, 5 ימים בשבוע.</p><p>מה עושים: ניקיון ותחזוקה.</p><p>מה צריך: ידע טכני. יש עדיפות למי שיש לו תעודה מקצועית.</p><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>"
+   "full": "<ul><li>היקף משרה - משרה מלאה 5 ימים בשבוע</li><li>תיאור תפקיד: ניקיון, תחזוקה וכיו\"ב.</li><li>ניסיון: ידע והבנה טכנאית עדיפות לבעלי תעודות מקצועיות.</li></ul><p>קו\"ח אפשר לשלוח בלחיצה על הכפתור «שליחת קו\"ח», או למייל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר מטעמי נוחות.</p>",
+   "plain": "<p>משרה מלאה, 5 ימים בשבוע.</p><p>מה עושים: ניקיון ותחזוקה.</p><p>מה צריך: ידע טכני. יש עדיפות למי שיש לו תעודה מקצועית.</p><p>שולחים קורות חיים בלחיצה על הכפתור «שליחת קו\"ח», או למייל <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>. כותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>"
   },
   "cook.h": {
    "kind": "text",
@@ -55,8 +55,8 @@
   },
   "cook": {
    "kind": "html",
-   "full": "<ul><li>היקף משרה - משרה מלאה 6 ימים בשבוע</li><li>משמרת בוקר 07:00 -14:30 משמרת ערב 12:00-19:00</li><li>עבודה גם בשבתות וחגים.</li><li>המטבח מבשל כ-200 מנות ביום.</li><li>חובה ניסיון במטבח מוסדי כטבח או עוזר טבח.</li><li>עדיפות תינתן לבעלי תעודות מקצועיות.</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
-   "plain": "<p>משרה מלאה, 6 ימים בשבוע.</p><p>משמרת בוקר 07:00–14:30, משמרת ערב 12:00–19:00. עובדים גם בשבת ובחגים.</p><p>במטבח מבשלים כ-200 מנות ביום.</p><p>מה צריך: ניסיון במטבח גדול, כטבח או עוזר טבח. יש עדיפות למי שיש לו תעודה מקצועית.</p><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>"
+   "full": "<ul><li>היקף משרה - משרה מלאה 6 ימים בשבוע</li><li>משמרת בוקר 07:00 -14:30 משמרת ערב 12:00-19:00</li><li>עבודה גם בשבתות וחגים.</li><li>המטבח מבשל כ-200 מנות ביום.</li><li>חובה ניסיון במטבח מוסדי כטבח או עוזר טבח.</li><li>עדיפות תינתן לבעלי תעודות מקצועיות.</li></ul><p>קו\"ח אפשר לשלוח בלחיצה על הכפתור «שליחת קו\"ח», או למייל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
+   "plain": "<p>משרה מלאה, 6 ימים בשבוע.</p><p>משמרת בוקר 07:00–14:30, משמרת ערב 12:00–19:00. עובדים גם בשבת ובחגים.</p><p>במטבח מבשלים כ-200 מנות ביום.</p><p>מה צריך: ניסיון במטבח גדול, כטבח או עוזר טבח. יש עדיפות למי שיש לו תעודה מקצועית.</p><p>שולחים קורות חיים בלחיצה על הכפתור «שליחת קו\"ח», או למייל <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>. כותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>"
   },
   "coord.h": {
    "kind": "text",
@@ -65,8 +65,102 @@
   },
   "coord": {
    "kind": "html",
-   "full": "<p><strong>מחפשים עבודה עם משמעות אמיתית? הצטרפו אלינו!</strong></p><p><span aria-hidden=\"true\">📍 </span>מיקום: נס ציונה</p><p><span aria-hidden=\"true\">🕒 </span>היקף משרה: מלאה (עבודה במשמרות)</p><p><strong>התפקיד:</strong></p><p>הזדמנות לקחת חלק בעשייה משמעותית, ללוות אנשים על הספקטרום האוטיסטי בחיי היומיום שלהם, ולהוביל בית חם, תומך ומקדם.</p><p><strong>תחומי אחריות:</strong></p><ul><li>ליווי ותמיכה בדיירים בשגרה היומיומית</li><li>אחריות על בטיחות ורווחת הדיירים</li><li>ניהול שוטף של הבית והדירה</li><li>הובלת תוכניות קידום אישיות ופעילויות פנאי</li><li>ניהול מלאי (מזון, ציוד, לבוש ועוד)</li><li>מעקב אחר תיק רפואי (תרופות, תורים)</li><li>קשר עם משפחות ובית הספר</li><li>עבודה בצוות מקצועי ותומך</li></ul><p><strong>מה אנחנו מחפשים:</strong></p><ul><li>ניסיון בעבודה עם אנשים על רצף האוטיזם– יתרון</li><li>אחריות, סדר ויכולת הובלת צוות מדרכים</li><li>גישה שיקומית, סבלנות ויחסי אנוש מצוינים</li><li>יכולת עבודה בריבוי משימות</li><li>נכונות לעבודה במשמרות</li></ul><p><strong>למה אצלנו?</strong></p><ul><li>עבודה עם משמעות והשפעה אמיתית</li><li>צוות חם ומשפחתי</li><li>אפשרויות להתפתחות מקצועית</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
-   "plain": "<p>מחפשים רכזת לבית בקהילה של אנשים על הרצף האוטיסטי, בנס ציונה. משרה מלאה, במשמרות.</p><p>מה עושים: מלווים את הדיירים בכל יום, שומרים על הבטיחות שלהם, מנהלים את הבית, את הקניות ואת התיק הרפואי, ומדברים עם המשפחות ועם בית הספר.</p><p>מה צריך: אחריות, סדר, סבלנות, יחס טוב לאנשים, ויכולת להוביל צוות. ניסיון עם אנשים על הרצף – יתרון.</p><p>מה מקבלים: עבודה עם משמעות, צוות חם ואפשרות להתפתח.</p><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>"
+   "full": "<p><strong>מחפשים עבודה עם משמעות אמיתית? הצטרפו אלינו!</strong></p><p><span aria-hidden=\"true\">📍 </span>מיקום: נס ציונה</p><p><span aria-hidden=\"true\">🕒 </span>היקף משרה: מלאה (עבודה במשמרות)</p><p><strong>התפקיד:</strong></p><p>הזדמנות לקחת חלק בעשייה משמעותית, ללוות אנשים על הספקטרום האוטיסטי בחיי היומיום שלהם, ולהוביל בית חם, תומך ומקדם.</p><p><strong>תחומי אחריות:</strong></p><ul><li>ליווי ותמיכה בדיירים בשגרה היומיומית</li><li>אחריות על בטיחות ורווחת הדיירים</li><li>ניהול שוטף של הבית והדירה</li><li>הובלת תוכניות קידום אישיות ופעילויות פנאי</li><li>ניהול מלאי (מזון, ציוד, לבוש ועוד)</li><li>מעקב אחר תיק רפואי (תרופות, תורים)</li><li>קשר עם משפחות ובית הספר</li><li>עבודה בצוות מקצועי ותומך</li></ul><p><strong>מה אנחנו מחפשים:</strong></p><ul><li>ניסיון בעבודה עם אנשים על רצף האוטיזם– יתרון</li><li>אחריות, סדר ויכולת הובלת צוות מדרכים</li><li>גישה שיקומית, סבלנות ויחסי אנוש מצוינים</li><li>יכולת עבודה בריבוי משימות</li><li>נכונות לעבודה במשמרות</li></ul><p><strong>למה אצלנו?</strong></p><ul><li>עבודה עם משמעות והשפעה אמיתית</li><li>צוות חם ומשפחתי</li><li>אפשרויות להתפתחות מקצועית</li></ul><p>קו\"ח אפשר לשלוח בלחיצה על הכפתור «שליחת קו\"ח», או למייל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
+   "plain": "<p>מחפשים רכזת לבית בקהילה של אנשים על הרצף האוטיסטי, בנס ציונה. משרה מלאה, במשמרות.</p><p>מה עושים: מלווים את הדיירים בכל יום, שומרים על הבטיחות שלהם, מנהלים את הבית, את הקניות ואת התיק הרפואי, ומדברים עם המשפחות ועם בית הספר.</p><p>מה צריך: אחריות, סדר, סבלנות, יחס טוב לאנשים, ויכולת להוביל צוות. ניסיון עם אנשים על הרצף – יתרון.</p><p>מה מקבלים: עבודה עם משמעות, צוות חם ואפשרות להתפתח.</p><p>שולחים קורות חיים בלחיצה על הכפתור «שליחת קו\"ח», או למייל <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>. כותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>"
+  },
+  "apply.button": {
+   "kind": "text",
+   "full": "שליחת קו\"ח",
+   "plain": null,
+   "no_plain": "a button"
+  },
+  "apply.heading": {
+   "kind": "text",
+   "full": "שליחת קו\"ח",
+   "plain": null,
+   "no_plain": "a name"
+  },
+  "apply.name": {
+   "kind": "text",
+   "full": "קורות חיים",
+   "plain": null,
+   "no_plain": "the form's name in the admin (the job is its own field)"
+  },
+  "apply.required_note": {
+   "kind": "html",
+   "full": "שדות המסומנים ב־<span class=\"nh-req\" aria-hidden=\"true\">*</span><span class=\"nh-visually-hidden\">כוכבית</span> הם שדות חובה.",
+   "plain": "צריך למלא את השדות עם כוכבית <span class=\"nh-req\" aria-hidden=\"true\">*</span>.",
+   "plain_status": "draft"
+  },
+  "apply.label_job": {
+   "kind": "text",
+   "full": "המשרה",
+   "plain": null,
+   "no_plain": "a label"
+  },
+  "apply.job_choose": {
+   "kind": "text",
+   "full": "בחרו משרה",
+   "plain": null,
+   "no_plain": "a label"
+  },
+  "apply.label_name": {
+   "kind": "text",
+   "full": "שם מלא",
+   "plain": null,
+   "no_plain": "a label"
+  },
+  "apply.label_phone": {
+   "kind": "text",
+   "full": "טלפון",
+   "plain": null,
+   "no_plain": "a label"
+  },
+  "apply.label_cv": {
+   "kind": "text",
+   "full": "קורות חיים: PDF, DOC, DOCX, עד 5 מ״ב",
+   "plain": null,
+   "no_plain": "a label"
+  },
+  "apply.consent": {
+   "kind": "html",
+   "full": "קראתי את <a href=\"@home:/מדיניות-פרטיות/\">מדיניות הפרטיות</a> ואני מסכים/ה שתיצרו איתי קשר בעניין המשרה.&nbsp;<span class=\"nh-req\" aria-hidden=\"true\">*</span>",
+   "plain": "אני מסכים או מסכימה שתתקשרו אליי.&nbsp;<span class=\"nh-req\" aria-hidden=\"true\">*</span><br><a href=\"@home:/מדיניות-פרטיות/\">מה עושים עם הפרטים שלי?</a>"
+  },
+  "apply.privacy": {
+   "kind": "html",
+   "full": "מסירת הפרטים אינה חובה לפי חוק, אך בלעדיהם לא נוכל לשקול את המועמדות. הפרטים וקורות החיים ישמשו רק לבדיקת המועמדות למשרה, יישמרו במאגר המידע של נוה האירוס בע״מ ולא יועברו לגורם אחר. אפשר לבקש לעיין במידע ולתקן אותו: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.",
+   "plain": "לא חייבים לתת לנו את הפרטים.<br>בלי הפרטים לא נוכל לבדוק את הבקשה.<br>הפרטים וקורות החיים נשמרים אצלנו, בנוה האירוס, רק כדי לבדוק את הבקשה למשרה.<br>לא נותנים אותם לאף אחד אחר.<br>אפשר לבקש לראות אותם או לתקן אותם, בטלפון <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>."
+  },
+  "apply.submit": {
+   "kind": "text",
+   "full": "שליחה",
+   "plain": null,
+   "no_plain": "a button"
+  },
+  "apply.success": {
+   "kind": "text",
+   "full": "תודה! קורות החיים התקבלו.",
+   "plain": null,
+   "no_plain": "a short message"
+  },
+  "apply.error": {
+   "kind": "text",
+   "full": "משהו השתבש בשליחה. אפשר לנסות שוב, לשלוח למייל irus1@nevehairus.com או להתקשר: 08-9403047",
+   "plain": null,
+   "no_plain": "a short message"
+  },
+  "apply.invalid": {
+   "kind": "text",
+   "full": "נמצאו שגיאות בטופס.",
+   "plain": null,
+   "no_plain": "a short message"
+  },
+  "apply.required": {
+   "kind": "text",
+   "full": "צריך למלא את השדה הזה.",
+   "plain": null,
+   "no_plain": "a short message"
   }
  },
  "sections": [
@@ -95,7 +189,19 @@
      "heading": "coord.h",
      "text": "coord"
     }
-   ]
+   ],
+   "apply": {
+    "button": "apply.button",
+    "heading": "apply.heading",
+    "prefix": "apply",
+    "jobs": [
+     "sw.h",
+     "ot.h",
+     "mt.h",
+     "cook.h",
+     "coord.h"
+    ]
+   }
   }
  ]
 }

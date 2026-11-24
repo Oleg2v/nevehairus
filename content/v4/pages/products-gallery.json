@@ -1,27 +1,27 @@
 {
  "key": "products-gallery",
  "order": 13,
- "title": "גלריית מוצרים למכירה",
+ "title": "גלריית מוצרים",
  "slug": "גלריית-מוצרים-למכירה",
  "parent": "main-home",
  "source": "live page, read 23.11.2026 (content/pages/main-home-products-gallery.md, snapshot 15.11.2026: not modified since)",
- "notes": "The live page: the opening (italic on live: plain text here, Hebrew italics read worse) and the order details, then its three tabs as three parts one under the other (a tab hides its photos from a reader that does not open it): 60 products with their name and price as on live, 9 photos of the fair, 2 flyers (their text in the alt).",
+ "notes": "The live page: the opening (italic on live: plain text here, Hebrew italics read worse) and the order details, then its three tabs as three parts one under the other (a tab hides its photos from a reader that does not open it): 60 products with their name as on live (no prices, no order details: Itzik 24.11), 9 photos of the fair, 2 flyers (their text in the alt). 24.11 (Itzik): no «למכירה» and no selling anywhere: the title, the H1, the menu, the sitemap, the sub-heading «מוצרים», the prices in the captions and the purchase paragraph are gone; the address (slug) is as it was.",
  "h1": "h1",
  "blocks": {
   "h1": {
    "kind": "text",
-   "full": "גלריית מוצרים למכירה",
+   "full": "גלריית מוצרים",
    "plain": null,
    "no_plain": "a name"
   },
   "intro": {
    "kind": "html",
-   "full": "<p>בשעות הבוקר חלק מהדיירים עסוקים במרכז האומנויות, שם הם מתנסים בפעילות יצירה של פסיפס, אומנות שימושית, הכנת סבונים ועוד.</p><p>המדריכים דני, עדנה וליבי מסייעים לדיירים בפעילות יחד עם המטפלים המלווים בשיתוף פעולה המניב תפוקה חומרית מחד, והנאה רוחנית מאידך.</p><p>הפעילות תורמת לתחושת הביטחון והסיפוק העצמי של הדיירים, מעמיקה את קשריהם עם המדריכים ומוסיפה צבע וכיף במעון.</p><p>הנכם מוזמנים לצפות בגלריה ולהצטרף לחוויה <span aria-hidden=\"true\">♥♥</span></p><p><strong>לרכישה והזמנות: <a href=\"mailto:irus2@013net.net\"><span class=\"nh-ltr\">irus2@013net.net</span></a><br>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a> שלוחה 118</strong></p>",
-   "plain": "<p>בבוקר חלק מהדיירים עובדים במרכז האומנויות. הם עושים פסיפס, מוצרים לבית, סבונים ועוד.</p><p>המדריכים דני, עדנה וליבי עוזרים להם, יחד עם המטפלים.</p><p>העבודה נותנת לדיירים ביטחון והנאה, ומוסיפה שמחה במעון.</p><p>מוזמנים לראות את המוצרים בגלריה.</p><p><strong>לקנות ולהזמין: <a href=\"mailto:irus2@013net.net\"><span class=\"nh-ltr\">irus2@013net.net</span></a><br>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>, שלוחה 118</strong></p>"
+   "full": "<p>בשעות הבוקר חלק מהדיירים עסוקים במרכז האומנויות, שם הם מתנסים בפעילות יצירה של פסיפס, אומנות שימושית, הכנת סבונים ועוד.</p><p>המדריכים דני, עדנה וליבי מסייעים לדיירים בפעילות יחד עם המטפלים המלווים בשיתוף פעולה המניב תפוקה חומרית מחד, והנאה רוחנית מאידך.</p><p>הפעילות תורמת לתחושת הביטחון והסיפוק העצמי של הדיירים, מעמיקה את קשריהם עם המדריכים ומוסיפה צבע וכיף במעון.</p><p>הנכם מוזמנים לצפות בגלריה ולהצטרף לחוויה <span aria-hidden=\"true\">♥♥</span></p>",
+   "plain": "<p>בבוקר חלק מהדיירים עובדים במרכז האומנויות. הם עושים פסיפס, מוצרים לבית, סבונים ועוד.</p><p>המדריכים דני, עדנה וליבי עוזרים להם, יחד עם המטפלים.</p><p>העבודה נותנת לדיירים ביטחון והנאה, ומוסיפה שמחה במעון.</p><p>מוזמנים לראות את המוצרים בגלריה.</p>"
   },
   "sale.h": {
    "kind": "text",
-   "full": "מוצרים למכירה",
+   "full": "מוצרים",
    "plain": null,
    "no_plain": "a name"
   },

@@ -5,7 +5,7 @@
  "slug": "צור-קשר",
  "parent": null,
  "source": "live page, read 23.11.2026 (content/pages/contact.md, snapshot 15.11.2026: not modified since)",
- "notes": "The live page: H1, the form (name, e-mail, phone, the message: all required) beside the map of נס ציונה. The form as the home's (consent, the privacy note naming the owner of the data and the phone); submissions kept in the admin, no e-mail on the test site. The map loads Google's frame only after a click (the theme).",
+ "notes": "The live page: H1 and the form (name, e-mail, phone, the message: all required). 24.11 (Itzik): the Google map is gone; beside the form, top to bottom: the phone 08-9403047, irus1@nevehairus.com, רחוב המאה ואחת 8001, נס ציונה. The form as the home's (consent, the privacy note naming the owner of the data and the phone); submissions kept in the admin, no e-mail on the test site.",
  "h1": "h1",
  "blocks": {
   "h1": {
@@ -98,43 +98,19 @@
    "plain": null,
    "no_plain": "a short message"
   },
-  "map.label": {
-   "kind": "text",
-   "full": "מפה: נס ציונה",
+  "details": {
+   "kind": "html",
+   "full": "<ul class=\"nh-contact-details\"><li><span class=\"nh-contact-details__k\">טלפון</span> <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></li><li><a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a></li><li>רחוב המאה ואחת 8001, נס ציונה</li></ul>",
    "plain": null,
-   "no_plain": "a name"
-  },
-  "map.text": {
-   "kind": "text",
-   "full": "המפה מגיעה מ־Google. היא נטענת רק אחרי לחיצה על הכפתור.",
-   "plain": "המפה של Google תופיע רק אחרי שתלחצו על הכפתור."
-  },
-  "map.button": {
-   "kind": "text",
-   "full": "הצגת המפה",
-   "plain": null,
-   "no_plain": "a button"
-  },
-  "map.link": {
-   "kind": "text",
-   "full": "פתיחה ב־Google Maps",
-   "plain": null,
-   "no_plain": "a link"
+   "no_plain": "the contact details as Itzik gave them (24.11): plain already"
   }
  },
  "sections": [
   {
-   "type": "form-map",
+   "type": "form-details",
    "id": "contact-form",
-   "title": "טופס ומפה",
-   "map": {
-    "src": "https://maps.google.com/maps?q=%D7%A0%D7%A1+%D7%A6%D7%99%D7%95%D7%A0%D7%94&iwloc=near&output=embed&hl=iw&region=IL",
-    "href": "https://maps.google.com/maps?q=%D7%A0%D7%A1+%D7%A6%D7%99%D7%95%D7%A0%D7%94",
-    "label": "map.label",
-    "text": "map.text",
-    "button": "map.button",
-    "link": "map.link"
-   }
+   "title": "טופס ופרטי קשר",
+   "details": "details"
   }
  ]
 }

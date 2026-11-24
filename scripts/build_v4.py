@@ -871,7 +871,8 @@ class Builder:
         inner = part("full") + (part("plain") if self.has_plain(block) else "")
         return f"<{tag}{attrs}>{inner}</{tag}>" if tag else inner
 
-    def contact_form(self, path, prefix="contact.form", fields=None, subject="בקשה לביקור — מעון נווה האירוס"):
+    def contact_form(self, path, prefix="contact.form", fields=None, subject="בקשה לביקור — מעון נווה האירוס",
+                     extra_class=""):
         """Elementor Pro's Form with the theme's accessibility (nh-contact-form). prefix: the blocks of its texts
         (<prefix>.name, .submit, .success, .error, .invalid, .required); fields: (custom_id, type, block, required,
         extra), the visit form's by default (23.11: the contact page has its own, with an e-mail field)."""
@@ -895,6 +896,19 @@ class Builder:
                 uses.append((block, f"form_fields.{n}.acceptance_text"))
             elif ftype == "honeypot":
                 it["field_label"] = "אתר"                     # never seen; a person never fills it
+            elif ftype == "select":                           # 24.11: the job of the CV form; extra: jobs (blocks), choose (block)
+                choose, jobs = extra["choose"], extra["jobs"]
+                it["field_label"] = self.text(block, "full")
+                it["field_options"] = "\n".join([f"{self.text(choose, 'full')}|"] + [self.text(j, "full") for j in jobs])
+                it.pop("choose", None)
+                it.pop("jobs", None)
+                uses.append((block, f"form_fields.{n}.field_label"))
+                uses.append((choose, f"form_fields.{n}.field_options#in"))
+                uses += [(j, f"form_fields.{n}.field_options#in") for j in jobs]
+            elif ftype == "upload":                           # 24.11: the CV; the file is a link in the admin, and at
+                it["field_label"] = self.text(block, "full")  # launch also an attachment of the e-mail (Pro: «both»)
+                it.update(file_sizes="5", file_types="pdf,doc,docx", attachment_type="both" if LAUNCH else "link")
+                uses.append((block, f"form_fields.{n}.field_label"))
             else:
                 it["field_label"] = self.text(block, "full")
                 uses.append((block, f"form_fields.{n}.field_label"))
@@ -915,12 +929,14 @@ class Builder:
              "column_gap": size(0), "row_gap": size(12), "label_spacing": size(6),
              "field_border_width": dims(2), "field_border_radius": dims(8),
              "button_border_radius": dims(12), "button_text_padding": dims("1rem", "2rem"),
-             "_css_classes": "nh-contact-form"}
+             "_css_classes": join("nh-contact-form", extra_class)}
+        if any(f[1] == "select" for f in (fields or self.FORM_FIELDS)):
+            s["email_subject"] = subject            # «… [field id="job"] …»: the job's title in the subject (24.11)
         if LAUNCH:
             # only the visitor's answers, each under its own label, and the date and time: no page address (it may
             # carry a query string), no IP or browser (Elementor's defaults for a hand-added action would add them)
             lines = [f"{self.text(b, 'full').rstrip('?')}: [field id=\"{cid}\"]" for cid, ftype, b, _, _ in
-                     (fields or self.FORM_FIELDS) if ftype in ("text", "tel", "email", "textarea")]
+                     (fields or self.FORM_FIELDS) if ftype in ("text", "tel", "email", "textarea", "select", "upload")]
             lines.append(f"{CONSENT_NAME}: כן")           # the send is impossible without the box ticked
             s.update(email_to=FORM_TO, email_from=FORM_FROM or "", email_from_name="מעון נווה האירוס",
                      email_subject=subject, email_content="\n".join(lines),
@@ -937,7 +953,7 @@ class Builder:
                                              button_hover_color="white", success_message_color="green-700",
                                              error_message_color="red-700", inline_message_color="red-700"))
         for block, field in uses:
-            if self.has_plain(block) and not field.endswith(".field_label"):
+            if self.has_plain(block) and not field.endswith(".field_label") and "#" not in field:
                 self.use(block, "full", w, field + "#full")
                 self.use(block, "plain", w, field + "#plain")
             else:
@@ -1039,6 +1055,20 @@ CONTACT_FIELDS = (  # the contact page's form (the live «צור קשר»: name,
     ("consent", "acceptance", "form.consent", True, {}),
     ("privacy", "html", "form.privacy", False, {}),
 )
+
+
+APPLY_FIELDS = (  # 24.11 (Itzik): the CV form of «דרושים» — one form for the page, opened by each job's button (no duplicated
+    # field ids on the page); the job is a field of its own, so its title is in the submission and in the e-mail's subject
+    ("note", "html", "apply.required_note", False, {}),
+    ("job", "select", "apply.label_job", True, {"choose": "apply.job_choose", "jobs": []}),
+    ("name", "text", "apply.label_name", True, {}),
+    ("phone", "tel", "apply.label_phone", True, {}),
+    ("cv", "upload", "apply.label_cv", True, {}),
+    ("website", "honeypot", None, False, {}),
+    ("consent", "acceptance", "apply.consent", True, {}),
+    ("privacy", "html", "apply.privacy", False, {}),
+)
+APPLY_SUBJECT = 'קו"ח למשרה: [field id="job"] — מעון נווה האירוס'
 
 
 def page_specs():
@@ -1194,18 +1224,21 @@ class PageBuilder(Builder):
         lead = self.text_editor_block(sec["lead"], f"{p}/lead", "nh-page__text") if sec.get("lead") else []
         return self.head(sec, f"{p}/h") + lead + [card]
 
-    def sec_form_map(self, name, sec):
-        """The live «צור קשר»: the form and the map side by side (phones: the form first)."""
+    def sec_form_details(self, name, sec):
+        """The live «צור קשר», 24.11 (Itzik): the form (15% smaller, the theme's nh-form--s85) and beside it the contact
+        details, top to bottom (no map any more); phones: the form first."""
         p = f"{name}/inner/grid"
         form = self.contact_form(f"{p}/form/card/form", prefix="form", fields=CONTACT_FIELDS,
-                                 subject="פנייה מהאתר — מעון נווה האירוס")
+                                 subject="פנייה מהאתר — מעון נווה האירוס", extra_class="nh-form--s85")
         left = self.container(f"{p}/form", {**flex("column", 16, 16), "padding": ZERO},
                               self.head(sec, f"{p}/form/h") + [self.card(f"{p}/form/card", [form], "טופס", {
                                   "css_classes": "nh-page__card nh-form-card"})], title="טופס")
-        right = self.container(f"{p}/map", {**flex("column", 16, 16), "padding": ZERO},
-                               self.map_widget(f"{p}/map", sec["map"]), title="מפה")
+        right = self.container(f"{p}/details", {**flex("column", 16, 16), "padding": ZERO},
+                               [self.card(f"{p}/details/card", self.text_editor_block(
+                                   sec["details"], f"{p}/details/card/list", "nh-page__text nh-contact-details-box"),
+                                   "פרטי קשר", {"css_classes": "nh-page__card nh-details-card"})], title="פרטי קשר")
         return [self.container(p, grid("7fr 5fr", 1, 1, gap_column=48, gap_row=32, grid_align_items="start"),
-                               [left, right], title="טופס ומפה")]
+                               [left, right], title="טופס ופרטי קשר")]
 
     def sec_text_video(self, name, sec):
         """Text beside a vertical YouTube video in the home's phone frame (the snoezelen Short's look): nothing from
@@ -1273,14 +1306,35 @@ class PageBuilder(Builder):
             p, grid(cols, min(cols, 3), 2, gap_column=24, gap_row=24, gap_mobile=(12, 16)), cells, title="תמונות")]
 
     def sec_cards(self, name, sec):
-        """Items of the same kind one under the other, each in a white card with its heading (the jobs of «דרושים»)."""
+        """Items of the same kind one under the other, each in a white card with its heading (the jobs of «דרושים»).
+        sec["apply"] (24.11): each card ends with the button of the CV form, and the form (one, a card of its own) closes
+        the section; the theme opens it in a dialog from the button (the link works without a script too)."""
         p = f"{name}/inner/col"
+        apply_ = sec.get("apply")
         cards = []
         for n, item in enumerate(sec["items"]):
             q = f"{p}/c{n}"
+            extra = []
+            if apply_:
+                label = html.escape(self.text(apply_["button"], "full"), quote=False)
+                job = html.escape(self.text(item["heading"], "full"), quote=True)
+                code = (f'<p class="nh-apply__row"><a class="nh-apply__btn" href="#nh-apply" data-job="{job}">{label}</a></p>')
+                w = self.widget(f"{q}/apply", "html", {"html": code, "_css_classes": "nh-apply-widget"})
+                self.use(apply_["button"], "full", w, "html#in")
+                extra = [w]
             cards.append(self.card(q, self.heading_block(item["heading"], f"{q}/h", "h2", "h3", "purple-700")
-                                   + self.texts(item, q), self.text(item["heading"], "full")))
-        return [self.column(p, self.head(sec, f"{p}/h") + cards, title="כרטיסים")]
+                                   + self.texts(item, q) + extra, self.text(item["heading"], "full")))
+        tail = []
+        if apply_:
+            fields = tuple((c, t, b, r, ({**e, "jobs": apply_["jobs"]} if t == "select" else e))
+                           for c, t, b, r, e in APPLY_FIELDS)
+            form = self.contact_form(f"{p}/apply/card/form", prefix=apply_["prefix"], fields=fields,
+                                     subject=APPLY_SUBJECT, extra_class="nh-apply-form")
+            card = self.card(f"{p}/apply/card", self.heading_block(apply_["heading"], f"{p}/apply/h", "h2", "h3", "purple-700")
+                             + [form], "טופס שליחת קו\"ח", {"css_classes": "nh-page__card nh-form-card"})
+            tail = [self.container(f"{p}/apply", {**flex("column", 0, 0), "padding": ZERO, "_element_id": "nh-apply",
+                                                   "css_classes": "nh-apply"}, [card], title="טופס שליחת קו\"ח")]
+        return [self.column(p, self.head(sec, f"{p}/h") + cards + tail, title="כרטיסים")]
 
     def sec_map(self, name, sec):
         return self.map_widget(f"{name}/inner", sec)
@@ -1864,6 +1918,16 @@ def check(docs, kit, menu, content, media_list):
             ids = [i.get("custom_id") for i in fs.get("form_fields") or []]
             req = {i.get("custom_id") for i in fs.get("form_fields") or [] if i.get("required") == "true"}
             want = {"name", "email", "phone", "message", "consent"} if "email" in ids else {"name", "phone", "consent"}
+            if "cv" in ids:                  # 24.11: the CV form of «דרושים»
+                want = {"name", "phone", "job", "cv", "consent"}
+                up = next(i for i in fs["form_fields"] if i.get("custom_id") == "cv")
+                if (up.get("file_types"), up.get("file_sizes")) != ("pdf,doc,docx", "5") \
+                        or up.get("attachment_type") != ("both" if LAUNCH else "link"):
+                    problems.append(f"page {key}: the CV field takes pdf,doc,docx up to 5 MB ({'both' if LAUNCH else 'link'})")
+                if "[field id=\"job\"]" not in str(fs.get("email_subject")):
+                    problems.append(f"page {key}: the e-mail's subject must carry the job's title ([field id=\"job\"])")
+            if "website" not in ids:         # 24.11: the invisible trap of every form (the theme's checks add the rest)
+                problems.append(f"page {key}: the form has no honeypot field «website»")
             if req != want or "nh-contact-form" not in classes_of(f):
                 problems.append(f"page {key}: the form's required fields {sorted(req)} (want {sorted(want)}) or no "
                                 "nh-contact-form (the theme's checks)")

@@ -50,13 +50,19 @@
    "content/v4/posts/post-973.json",
    "content/v4/posts/post-997.json"
   ],
-  "inputs_sha256": "f5bb05c072d145dfdfa8311cca9ce63fdc49096fb92c7c051c9027fecc528969",
+  "inputs_sha256": "453212a640d954bde70fbde11c803217dcbe18a81bc9555602da7d7c19bcb955",
   "widgets": [
    "form",
    "heading",
-   "html"
+   "text-editor"
   ],
   "blocks": {
+   "details": {
+    "full": {
+     "element": "27f4968",
+     "field": "editor"
+    }
+   },
    "form.consent": {
     "full": {
      "element": "6375e2f",
@@ -162,34 +168,6 @@
      "element": "fdebab0",
      "field": "title"
     }
-   },
-   "map.button": {
-    "full": {
-     "element": "11cb33d",
-     "field": "html#in"
-    }
-   },
-   "map.label": {
-    "full": {
-     "element": "11cb33d",
-     "field": "html#label"
-    }
-   },
-   "map.link": {
-    "full": {
-     "element": "11cb33d",
-     "field": "html#in"
-    }
-   },
-   "map.text": {
-    "full": {
-     "element": "11cb33d",
-     "field": "html#full"
-    },
-    "plain": {
-     "element": "11cb33d",
-     "field": "html#plain"
-    }
    }
   }
  },
@@ -241,7 +219,7 @@
     "__globals__": {
      "background_color": "globals/colors?id=349c69f"
     },
-    "_title": "טופס ומפה"
+    "_title": "טופס ופרטי קשר"
    },
    "elements": [
     {
@@ -355,7 +333,7 @@
          "isLinked": true
         },
         "grid_align_items": "start",
-        "_title": "טופס ומפה"
+        "_title": "טופס ופרטי קשר"
        },
        "elements": [
         {
@@ -588,7 +566,7 @@
                "left": "2rem",
                "isLinked": false
               },
-              "_css_classes": "nh-contact-form",
+              "_css_classes": "nh-contact-form nh-form--s85",
               "label_color": "#1F2421",
               "mark_required_color": "#A8261B",
               "html_color": "#4F5550",
@@ -633,7 +611,7 @@
          "isInner": true
         },
         {
-         "id": "2a8498a",
+         "id": "6654013",
          "elType": "container",
          "settings": {
           "content_width": "full",
@@ -656,11 +634,11 @@
            "left": "0",
            "isLinked": true
           },
-          "_title": "מפה"
+          "_title": "פרטי קשר"
          },
          "elements": [
           {
-           "id": "f0c70c1",
+           "id": "e347401",
            "elType": "container",
            "settings": {
             "content_width": "full",
@@ -708,23 +686,32 @@
              "spread": -4,
              "color": "rgba(28, 24, 48, 0.14)"
             },
-            "css_classes": "nh-page__card",
+            "css_classes": "nh-page__card nh-details-card",
             "background_color": "#FFFFFF",
             "__globals__": {
              "background_color": "globals/colors?id=3efe2c1"
             },
-            "_title": "מפה"
+            "_title": "פרטי קשר"
            },
            "elements": [
             {
-             "id": "11cb33d",
+             "id": "27f4968",
              "elType": "widget",
              "settings": {
-              "html": "<div class=\"nh-map\" data-src=\"https://maps.google.com/maps?q=%D7%A0%D7%A1+%D7%A6%D7%99%D7%95%D7%A0%D7%94&amp;iwloc=near&amp;output=embed&amp;hl=iw&amp;region=IL\" data-title=\"מפה: נס ציונה\" role=\"region\" aria-label=\"מפה: נס ציונה\"><p class=\"nh-map__text\"><span class=\"nh-full\">המפה מגיעה מ־Google. היא נטענת רק אחרי לחיצה על הכפתור.</span><span class=\"nh-plain\">המפה של Google תופיע רק אחרי שתלחצו על הכפתור.</span></p><p class=\"nh-map__actions\"><button type=\"button\" class=\"nh-map__btn\">הצגת המפה</button><a class=\"nh-map__link\" href=\"https://maps.google.com/maps?q=%D7%A0%D7%A1+%D7%A6%D7%99%D7%95%D7%A0%D7%94\" target=\"_blank\" rel=\"noopener\">פתיחה ב־Google Maps</a></p></div>",
-              "_css_classes": "nh-map-widget"
+              "editor": "<ul class=\"nh-contact-details\"><li><span class=\"nh-contact-details__k\">טלפון</span> <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></li><li><a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a></li><li>רחוב המאה ואחת 8001, נס ציונה</li></ul>",
+              "_css_classes": "nh-page__text nh-contact-details-box",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              }
              },
              "elements": [],
-             "widgetType": "html"
+             "widgetType": "text-editor"
             }
            ],
            "isInner": true

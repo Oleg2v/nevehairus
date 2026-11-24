@@ -1,6 +1,6 @@
 {
  "key": "products-gallery",
- "title": "גלריית מוצרים למכירה",
+ "title": "גלריית מוצרים",
  "slug": "גלריית-מוצרים-למכירה",
  "parent": "main-home",
  "front_page": false,
@@ -50,7 +50,7 @@
    "content/v4/posts/post-973.json",
    "content/v4/posts/post-997.json"
   ],
-  "inputs_sha256": "f5bb05c072d145dfdfa8311cca9ce63fdc49096fb92c7c051c9027fecc528969",
+  "inputs_sha256": "453212a640d954bde70fbde11c803217dcbe18a81bc9555602da7d7c19bcb955",
   "widgets": [
    "heading",
    "image",
@@ -141,7 +141,7 @@
     "__globals__": {
      "background_color": "globals/colors?id=349c69f"
     },
-    "_title": "גלריית מוצרים למכירה"
+    "_title": "גלריית מוצרים"
    },
    "elements": [
     {
@@ -203,7 +203,7 @@
        "id": "839b82f",
        "elType": "widget",
        "settings": {
-        "title": "גלריית מוצרים למכירה",
+        "title": "גלריית מוצרים",
         "header_size": "h1",
         "title_color": "#4A2D84",
         "__globals__": {
@@ -251,7 +251,7 @@
          "id": "54feb5b",
          "elType": "widget",
          "settings": {
-          "editor": "<p>בשעות הבוקר חלק מהדיירים עסוקים במרכז האומנויות, שם הם מתנסים בפעילות יצירה של פסיפס, אומנות שימושית, הכנת סבונים ועוד.</p><p>המדריכים דני, עדנה וליבי מסייעים לדיירים בפעילות יחד עם המטפלים המלווים בשיתוף פעולה המניב תפוקה חומרית מחד, והנאה רוחנית מאידך.</p><p>הפעילות תורמת לתחושת הביטחון והסיפוק העצמי של הדיירים, מעמיקה את קשריהם עם המדריכים ומוסיפה צבע וכיף במעון.</p><p>הנכם מוזמנים לצפות בגלריה ולהצטרף לחוויה <span aria-hidden=\"true\">♥♥</span></p><p><strong>לרכישה והזמנות: <a href=\"mailto:irus2@013net.net\"><span class=\"nh-ltr\">irus2@013net.net</span></a><br>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a> שלוחה 118</strong></p>",
+          "editor": "<p>בשעות הבוקר חלק מהדיירים עסוקים במרכז האומנויות, שם הם מתנסים בפעילות יצירה של פסיפס, אומנות שימושית, הכנת סבונים ועוד.</p><p>המדריכים דני, עדנה וליבי מסייעים לדיירים בפעילות יחד עם המטפלים המלווים בשיתוף פעולה המניב תפוקה חומרית מחד, והנאה רוחנית מאידך.</p><p>הפעילות תורמת לתחושת הביטחון והסיפוק העצמי של הדיירים, מעמיקה את קשריהם עם המדריכים ומוסיפה צבע וכיף במעון.</p><p>הנכם מוזמנים לצפות בגלריה ולהצטרף לחוויה <span aria-hidden=\"true\">♥♥</span></p>",
           "_css_classes": "nh-page__text nh-full",
           "text_color": "#1F2421",
           "link_color": "#4A2D84",
@@ -270,7 +270,7 @@
          "id": "db74a05",
          "elType": "widget",
          "settings": {
-          "editor": "<p>בבוקר חלק מהדיירים עובדים במרכז האומנויות. הם עושים פסיפס, מוצרים לבית, סבונים ועוד.</p><p>המדריכים דני, עדנה וליבי עוזרים להם, יחד עם המטפלים.</p><p>העבודה נותנת לדיירים ביטחון והנאה, ומוסיפה שמחה במעון.</p><p>מוזמנים לראות את המוצרים בגלריה.</p><p><strong>לקנות ולהזמין: <a href=\"mailto:irus2@013net.net\"><span class=\"nh-ltr\">irus2@013net.net</span></a><br>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>, שלוחה 118</strong></p>",
+          "editor": "<p>בבוקר חלק מהדיירים עובדים במרכז האומנויות. הם עושים פסיפס, מוצרים לבית, סבונים ועוד.</p><p>המדריכים דני, עדנה וליבי עוזרים להם, יחד עם המטפלים.</p><p>העבודה נותנת לדיירים ביטחון והנאה, ומוסיפה שמחה במעון.</p><p>מוזמנים לראות את המוצרים בגלריה.</p>",
           "_css_classes": "nh-page__text nh-plain",
           "text_color": "#1F2421",
           "link_color": "#4A2D84",
@@ -342,7 +342,7 @@
     "__globals__": {
      "background_color": "globals/colors?id=349c69f"
     },
-    "_title": "מוצרים למכירה"
+    "_title": "מוצרים"
    },
    "elements": [
     {
@@ -404,7 +404,7 @@
        "id": "8d6a598",
        "elType": "widget",
        "settings": {
-        "title": "מוצרים למכירה",
+        "title": "מוצרים",
         "header_size": "h2",
         "title_color": "#4A2D84",
         "__globals__": {
@@ -481,7 +481,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "זוג פמוטי פרח אדום משובץ פסיפס ואבנים. 80 שח"
+          "caption": "זוג פמוטי פרח אדום משובץ פסיפס ואבנים"
          },
          "elements": [],
          "widgetType": "image"
@@ -503,7 +503,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "כד אבני ירושלים כולל צלחת בגודל גדול. 95 שח"
+          "caption": "כד אבני ירושלים כולל צלחת בגודל גדול"
          },
          "elements": [],
          "widgetType": "image"
@@ -525,7 +525,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "כד כחול ירוק בגודל גדול כולל צלחת. 80 שח"
+          "caption": "כד כחול ירוק בגודל גדול כולל צלחת"
          },
          "elements": [],
          "widgetType": "image"
@@ -547,7 +547,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "כד עגול כחול כהה גדול. 110 שח"
+          "caption": "כד עגול כחול כהה גדול"
          },
          "elements": [],
          "widgetType": "image"
@@ -569,7 +569,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "כד פסיפס צבעוני גדול. 70 שח"
+          "caption": "כד פסיפס צבעוני גדול"
          },
          "elements": [],
          "widgetType": "image"
@@ -591,7 +591,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "כד פסיפס קרמי בגודל קטן. 60 שח"
+          "caption": "כד פסיפס קרמי בגודל קטן"
          },
          "elements": [],
          "widgetType": "image"
@@ -613,7 +613,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "כד פסיפס תכלת בגודל בינוני. 50 שח"
+          "caption": "כד פסיפס תכלת בגודל בינוני"
          },
          "elements": [],
          "widgetType": "image"
@@ -635,7 +635,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "כד פרח ירוק כולל צלחת בגודל קטן. 65 שח"
+          "caption": "כד פרח ירוק כולל צלחת בגודל קטן"
          },
          "elements": [],
          "widgetType": "image"
@@ -657,7 +657,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים. 15 שח"
+          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים"
          },
          "elements": [],
          "widgetType": "image"
@@ -679,7 +679,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים. 15 שח"
+          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים"
          },
          "elements": [],
          "widgetType": "image"
@@ -701,7 +701,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים. 15 שח"
+          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים"
          },
          "elements": [],
          "widgetType": "image"
@@ -723,7 +723,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים. 15 שח."
+          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים"
          },
          "elements": [],
          "widgetType": "image"
@@ -745,7 +745,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים. 15 שח"
+          "caption": "מגוון שקיות ריח בצבעים וריחות מרהיבים"
          },
          "elements": [],
          "widgetType": "image"
@@ -767,7 +767,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח"
+          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים"
          },
          "elements": [],
          "widgetType": "image"
@@ -789,7 +789,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח"
+          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים"
          },
          "elements": [],
          "widgetType": "image"
@@ -811,7 +811,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח."
+          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים"
          },
          "elements": [],
          "widgetType": "image"
@@ -833,7 +833,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח"
+          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים"
          },
          "elements": [],
          "widgetType": "image"
@@ -855,7 +855,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח."
+          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים"
          },
          "elements": [],
          "widgetType": "image"
@@ -877,7 +877,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח"
+          "caption": "סבונים ארוזים במגוון צורות, צבעים וריחות רעננים"
          },
          "elements": [],
          "widgetType": "image"
@@ -899,7 +899,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "סבונים מנצנצים ארוזים במגוון צורות, צבעים וריחות רעננים. 25 שח"
+          "caption": "סבונים מנצנצים ארוזים במגוון צורות, צבעים וריחות רעננים"
          },
          "elements": [],
          "widgetType": "image"
@@ -921,7 +921,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "תחתית סיר קרמיקה מעוטרת. 35 שח"
+          "caption": "תחתית סיר קרמיקה מעוטרת"
          },
          "elements": [],
          "widgetType": "image"
@@ -943,7 +943,7 @@
           "open_lightbox": "yes",
           "_title": "תמונה",
           "caption_source": "custom",
-          "caption": "תיבת תכשיטים אבני ירושלים בעיצוב רומנטי גודל בינוני. 80 שח"
+          "caption": "תיבת תכשיטים אבני ירושלים בעיצוב רומנטי גודל בינוני"
          },
          "elements": [],
          "widgetType": "image"

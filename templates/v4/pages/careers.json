@@ -50,12 +50,122 @@
    "content/v4/posts/post-973.json",
    "content/v4/posts/post-997.json"
   ],
-  "inputs_sha256": "f5bb05c072d145dfdfa8311cca9ce63fdc49096fb92c7c051c9027fecc528969",
+  "inputs_sha256": "453212a640d954bde70fbde11c803217dcbe18a81bc9555602da7d7c19bcb955",
   "widgets": [
+   "form",
    "heading",
+   "html",
    "text-editor"
   ],
   "blocks": {
+   "apply.button": {
+    "full": {
+     "element": "38747e8",
+     "field": "html#in"
+    }
+   },
+   "apply.consent": {
+    "full": {
+     "element": "d167614",
+     "field": "form_fields.6.acceptance_text#full"
+    },
+    "plain": {
+     "element": "d167614",
+     "field": "form_fields.6.acceptance_text#plain"
+    }
+   },
+   "apply.error": {
+    "full": {
+     "element": "d167614",
+     "field": "error_message"
+    }
+   },
+   "apply.heading": {
+    "full": {
+     "element": "58ab292",
+     "field": "title"
+    }
+   },
+   "apply.invalid": {
+    "full": {
+     "element": "d167614",
+     "field": "invalid_message"
+    }
+   },
+   "apply.job_choose": {
+    "full": {
+     "element": "d167614",
+     "field": "form_fields.1.field_options#in"
+    }
+   },
+   "apply.label_cv": {
+    "full": {
+     "element": "d167614",
+     "field": "form_fields.4.field_label"
+    }
+   },
+   "apply.label_job": {
+    "full": {
+     "element": "d167614",
+     "field": "form_fields.1.field_label"
+    }
+   },
+   "apply.label_name": {
+    "full": {
+     "element": "d167614",
+     "field": "form_fields.2.field_label"
+    }
+   },
+   "apply.label_phone": {
+    "full": {
+     "element": "d167614",
+     "field": "form_fields.3.field_label"
+    }
+   },
+   "apply.name": {
+    "full": {
+     "element": "d167614",
+     "field": "form_name"
+    }
+   },
+   "apply.privacy": {
+    "full": {
+     "element": "d167614",
+     "field": "form_fields.7.field_html#full"
+    },
+    "plain": {
+     "element": "d167614",
+     "field": "form_fields.7.field_html#plain"
+    }
+   },
+   "apply.required": {
+    "full": {
+     "element": "d167614",
+     "field": "required_field_message"
+    }
+   },
+   "apply.required_note": {
+    "full": {
+     "element": "d167614",
+     "field": "form_fields.0.field_html#full"
+    },
+    "plain": {
+     "element": "d167614",
+     "field": "form_fields.0.field_html#plain"
+    }
+   },
+   "apply.submit": {
+    "full": {
+     "element": "d167614",
+     "field": "button_text"
+    }
+   },
+   "apply.success": {
+    "full": {
+     "element": "d167614",
+     "field": "success_message"
+    }
+   },
    "cook": {
     "full": {
      "element": "47d1b9e",
@@ -68,8 +178,8 @@
    },
    "cook.h": {
     "full": {
-     "element": "b2b4be7",
-     "field": "title"
+     "element": "d167614",
+     "field": "form_fields.1.field_options#in"
     }
    },
    "coord": {
@@ -84,8 +194,8 @@
    },
    "coord.h": {
     "full": {
-     "element": "a9f3ac8",
-     "field": "title"
+     "element": "d167614",
+     "field": "form_fields.1.field_options#in"
     },
     "plain": {
      "element": "bc89510",
@@ -110,8 +220,8 @@
    },
    "mt.h": {
     "full": {
-     "element": "3f8315a",
-     "field": "title"
+     "element": "d167614",
+     "field": "form_fields.1.field_options#in"
     }
    },
    "ot": {
@@ -126,8 +236,8 @@
    },
    "ot.h": {
     "full": {
-     "element": "080c6ec",
-     "field": "title"
+     "element": "d167614",
+     "field": "form_fields.1.field_options#in"
     }
    },
    "sw": {
@@ -142,8 +252,8 @@
    },
    "sw.h": {
     "full": {
-     "element": "f0e7c82",
-     "field": "title"
+     "element": "d167614",
+     "field": "form_fields.1.field_options#in"
     }
    }
   }
@@ -378,7 +488,7 @@
            "id": "98193e3",
            "elType": "widget",
            "settings": {
-            "editor": "<ul><li>היקף משרה הינו 50%-70% משרה עם אפשרות להגדלה ל100% משרה</li><li>לעזור לדייר בתקופת הסתגלותו למסגרת ובעת משבר</li><li>לדאוג לביצוע התוכנית האישית שנבנתה לדייר ולאפשר לדייר לקבל שיחות טיפוליות עם עו\"ס / פסיכולוג בהתאם לצורך</li><li>לקיים קשרים שוטפים בין הדייר למשפחתו או אפוטרופוס</li><li>לקיים קשר בין הדייר למוסדות וארגונים המצויים בקהילה</li><li>לקיים קשר עם רשויות הרווחה אשר טיפלו בדייר טרם השתלבותו במסגרת</li><li>לפעול לצורך השמתו של הדייר בתעסוקה ולעקוב אחרי השתלבותו בה</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
+            "editor": "<ul><li>היקף משרה הינו 50%-70% משרה עם אפשרות להגדלה ל100% משרה</li><li>לעזור לדייר בתקופת הסתגלותו למסגרת ובעת משבר</li><li>לדאוג לביצוע התוכנית האישית שנבנתה לדייר ולאפשר לדייר לקבל שיחות טיפוליות עם עו\"ס / פסיכולוג בהתאם לצורך</li><li>לקיים קשרים שוטפים בין הדייר למשפחתו או אפוטרופוס</li><li>לקיים קשר בין הדייר למוסדות וארגונים המצויים בקהילה</li><li>לקיים קשר עם רשויות הרווחה אשר טיפלו בדייר טרם השתלבותו במסגרת</li><li>לפעול לצורך השמתו של הדייר בתעסוקה ולעקוב אחרי השתלבותו בה</li></ul><p>קו\"ח אפשר לשלוח בלחיצה על הכפתור «שליחת קו\"ח», או למייל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
             "_css_classes": "nh-page__text nh-full",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -397,7 +507,7 @@
            "id": "aa7c40d",
            "elType": "widget",
            "settings": {
-            "editor": "<p>משרה של 50%–70%, ואפשר להגדיל עד 100%.</p><p>מה עושים:</p><ul><li>עוזרים לדייר כשהוא מגיע למעון, וגם בזמן קשה.</li><li>דואגים שהדייר יקבל את מה שתוכנן לו, וגם שיחות עם עובד סוציאלי או פסיכולוג.</li><li>שומרים על קשר עם המשפחה או עם האפוטרופוס.</li><li>שומרים על קשר עם מקומות בקהילה ועם הרווחה.</li><li>עוזרים לדייר למצוא עבודה ומלווים אותו בה.</li></ul><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
+            "editor": "<p>משרה של 50%–70%, ואפשר להגדיל עד 100%.</p><p>מה עושים:</p><ul><li>עוזרים לדייר כשהוא מגיע למעון, וגם בזמן קשה.</li><li>דואגים שהדייר יקבל את מה שתוכנן לו, וגם שיחות עם עובד סוציאלי או פסיכולוג.</li><li>שומרים על קשר עם המשפחה או עם האפוטרופוס.</li><li>שומרים על קשר עם מקומות בקהילה ועם הרווחה.</li><li>עוזרים לדייר למצוא עבודה ומלווים אותו בה.</li></ul><p>שולחים קורות חיים בלחיצה על הכפתור «שליחת קו\"ח», או למייל <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>. כותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
             "_css_classes": "nh-page__text nh-plain",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -412,6 +522,16 @@
            },
            "elements": [],
            "widgetType": "text-editor"
+          },
+          {
+           "id": "9e634a7",
+           "elType": "widget",
+           "settings": {
+            "html": "<p class=\"nh-apply__row\"><a class=\"nh-apply__btn\" href=\"#nh-apply\" data-job=\"עובדת סוציאלית\">שליחת קו\"ח</a></p>",
+            "_css_classes": "nh-apply-widget"
+           },
+           "elements": [],
+           "widgetType": "html"
           }
          ],
          "isInner": true
@@ -492,7 +612,7 @@
            "id": "1f3b330",
            "elType": "widget",
            "settings": {
-            "editor": "<ul><li>היקף משרה - 6 שעות שבועיות</li><li>תיאור תפקיד: בניית תכניות אישיות לקידום הדיירים ברמה פרטנית וקבוצתית, ליווי והדרכת הצוות הטיפולי בתחום המקצועי שלו, עבודה ישירה עם הדיירים.</li><li>דרישות השכלה: תואר אקדמי ראשון לפחות ריפוי בעיסוק ותעודת מקצוע מטעם משרד הבריאות</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
+            "editor": "<ul><li>היקף משרה - 6 שעות שבועיות</li><li>תיאור תפקיד: בניית תכניות אישיות לקידום הדיירים ברמה פרטנית וקבוצתית, ליווי והדרכת הצוות הטיפולי בתחום המקצועי שלו, עבודה ישירה עם הדיירים.</li><li>דרישות השכלה: תואר אקדמי ראשון לפחות ריפוי בעיסוק ותעודת מקצוע מטעם משרד הבריאות</li></ul><p>קו\"ח אפשר לשלוח בלחיצה על הכפתור «שליחת קו\"ח», או למייל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
             "_css_classes": "nh-page__text nh-full",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -511,7 +631,7 @@
            "id": "7864e17",
            "elType": "widget",
            "settings": {
-            "editor": "<p>משרה של 6 שעות בשבוע.</p><p>מה עושים: בונים תכניות שעוזרות לדיירים להתקדם, לבד ובקבוצה. מדריכים את הצוות ועובדים עם הדיירים.</p><p>מה צריך: תואר בריפוי בעיסוק ותעודה ממשרד הבריאות.</p><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
+            "editor": "<p>משרה של 6 שעות בשבוע.</p><p>מה עושים: בונים תכניות שעוזרות לדיירים להתקדם, לבד ובקבוצה. מדריכים את הצוות ועובדים עם הדיירים.</p><p>מה צריך: תואר בריפוי בעיסוק ותעודה ממשרד הבריאות.</p><p>שולחים קורות חיים בלחיצה על הכפתור «שליחת קו\"ח», או למייל <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>. כותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
             "_css_classes": "nh-page__text nh-plain",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -526,6 +646,16 @@
            },
            "elements": [],
            "widgetType": "text-editor"
+          },
+          {
+           "id": "beb5660",
+           "elType": "widget",
+           "settings": {
+            "html": "<p class=\"nh-apply__row\"><a class=\"nh-apply__btn\" href=\"#nh-apply\" data-job=\"מרפא בעיסוק\">שליחת קו\"ח</a></p>",
+            "_css_classes": "nh-apply-widget"
+           },
+           "elements": [],
+           "widgetType": "html"
           }
          ],
          "isInner": true
@@ -606,7 +736,7 @@
            "id": "7e49be0",
            "elType": "widget",
            "settings": {
-            "editor": "<ul><li>היקף משרה - משרה מלאה 5 ימים בשבוע</li><li>תיאור תפקיד: ניקיון, תחזוקה וכיו\"ב.</li><li>ניסיון: ידע והבנה טכנאית עדיפות לבעלי תעודות מקצועיות.</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר מטעמי נוחות.</p>",
+            "editor": "<ul><li>היקף משרה - משרה מלאה 5 ימים בשבוע</li><li>תיאור תפקיד: ניקיון, תחזוקה וכיו\"ב.</li><li>ניסיון: ידע והבנה טכנאית עדיפות לבעלי תעודות מקצועיות.</li></ul><p>קו\"ח אפשר לשלוח בלחיצה על הכפתור «שליחת קו\"ח», או למייל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר מטעמי נוחות.</p>",
             "_css_classes": "nh-page__text nh-full",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -625,7 +755,7 @@
            "id": "1fb8a21",
            "elType": "widget",
            "settings": {
-            "editor": "<p>משרה מלאה, 5 ימים בשבוע.</p><p>מה עושים: ניקיון ותחזוקה.</p><p>מה צריך: ידע טכני. יש עדיפות למי שיש לו תעודה מקצועית.</p><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
+            "editor": "<p>משרה מלאה, 5 ימים בשבוע.</p><p>מה עושים: ניקיון ותחזוקה.</p><p>מה צריך: ידע טכני. יש עדיפות למי שיש לו תעודה מקצועית.</p><p>שולחים קורות חיים בלחיצה על הכפתור «שליחת קו\"ח», או למייל <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>. כותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
             "_css_classes": "nh-page__text nh-plain",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -640,6 +770,16 @@
            },
            "elements": [],
            "widgetType": "text-editor"
+          },
+          {
+           "id": "4dc66f0",
+           "elType": "widget",
+           "settings": {
+            "html": "<p class=\"nh-apply__row\"><a class=\"nh-apply__btn\" href=\"#nh-apply\" data-job=\"עובד אחזקה\">שליחת קו\"ח</a></p>",
+            "_css_classes": "nh-apply-widget"
+           },
+           "elements": [],
+           "widgetType": "html"
           }
          ],
          "isInner": true
@@ -720,7 +860,7 @@
            "id": "47d1b9e",
            "elType": "widget",
            "settings": {
-            "editor": "<ul><li>היקף משרה - משרה מלאה 6 ימים בשבוע</li><li>משמרת בוקר 07:00 -14:30 משמרת ערב 12:00-19:00</li><li>עבודה גם בשבתות וחגים.</li><li>המטבח מבשל כ-200 מנות ביום.</li><li>חובה ניסיון במטבח מוסדי כטבח או עוזר טבח.</li><li>עדיפות תינתן לבעלי תעודות מקצועיות.</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
+            "editor": "<ul><li>היקף משרה - משרה מלאה 6 ימים בשבוע</li><li>משמרת בוקר 07:00 -14:30 משמרת ערב 12:00-19:00</li><li>עבודה גם בשבתות וחגים.</li><li>המטבח מבשל כ-200 מנות ביום.</li><li>חובה ניסיון במטבח מוסדי כטבח או עוזר טבח.</li><li>עדיפות תינתן לבעלי תעודות מקצועיות.</li></ul><p>קו\"ח אפשר לשלוח בלחיצה על הכפתור «שליחת קו\"ח», או למייל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
             "_css_classes": "nh-page__text nh-full",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -739,7 +879,7 @@
            "id": "7041763",
            "elType": "widget",
            "settings": {
-            "editor": "<p>משרה מלאה, 6 ימים בשבוע.</p><p>משמרת בוקר 07:00–14:30, משמרת ערב 12:00–19:00. עובדים גם בשבת ובחגים.</p><p>במטבח מבשלים כ-200 מנות ביום.</p><p>מה צריך: ניסיון במטבח גדול, כטבח או עוזר טבח. יש עדיפות למי שיש לו תעודה מקצועית.</p><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
+            "editor": "<p>משרה מלאה, 6 ימים בשבוע.</p><p>משמרת בוקר 07:00–14:30, משמרת ערב 12:00–19:00. עובדים גם בשבת ובחגים.</p><p>במטבח מבשלים כ-200 מנות ביום.</p><p>מה צריך: ניסיון במטבח גדול, כטבח או עוזר טבח. יש עדיפות למי שיש לו תעודה מקצועית.</p><p>שולחים קורות חיים בלחיצה על הכפתור «שליחת קו\"ח», או למייל <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>. כותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
             "_css_classes": "nh-page__text nh-plain",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -754,6 +894,16 @@
            },
            "elements": [],
            "widgetType": "text-editor"
+          },
+          {
+           "id": "92b2331",
+           "elType": "widget",
+           "settings": {
+            "html": "<p class=\"nh-apply__row\"><a class=\"nh-apply__btn\" href=\"#nh-apply\" data-job=\"טבח\">שליחת קו\"ח</a></p>",
+            "_css_classes": "nh-apply-widget"
+           },
+           "elements": [],
+           "widgetType": "html"
           }
          ],
          "isInner": true
@@ -852,7 +1002,7 @@
            "id": "a86dba1",
            "elType": "widget",
            "settings": {
-            "editor": "<p><strong>מחפשים עבודה עם משמעות אמיתית? הצטרפו אלינו!</strong></p><p><span aria-hidden=\"true\">📍 </span>מיקום: נס ציונה</p><p><span aria-hidden=\"true\">🕒 </span>היקף משרה: מלאה (עבודה במשמרות)</p><p><strong>התפקיד:</strong></p><p>הזדמנות לקחת חלק בעשייה משמעותית, ללוות אנשים על הספקטרום האוטיסטי בחיי היומיום שלהם, ולהוביל בית חם, תומך ומקדם.</p><p><strong>תחומי אחריות:</strong></p><ul><li>ליווי ותמיכה בדיירים בשגרה היומיומית</li><li>אחריות על בטיחות ורווחת הדיירים</li><li>ניהול שוטף של הבית והדירה</li><li>הובלת תוכניות קידום אישיות ופעילויות פנאי</li><li>ניהול מלאי (מזון, ציוד, לבוש ועוד)</li><li>מעקב אחר תיק רפואי (תרופות, תורים)</li><li>קשר עם משפחות ובית הספר</li><li>עבודה בצוות מקצועי ותומך</li></ul><p><strong>מה אנחנו מחפשים:</strong></p><ul><li>ניסיון בעבודה עם אנשים על רצף האוטיזם– יתרון</li><li>אחריות, סדר ויכולת הובלת צוות מדרכים</li><li>גישה שיקומית, סבלנות ויחסי אנוש מצוינים</li><li>יכולת עבודה בריבוי משימות</li><li>נכונות לעבודה במשמרות</li></ul><p><strong>למה אצלנו?</strong></p><ul><li>עבודה עם משמעות והשפעה אמיתית</li><li>צוות חם ומשפחתי</li><li>אפשרויות להתפתחות מקצועית</li></ul><p>קו\"ח יש לשלוח למייל: <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
+            "editor": "<p><strong>מחפשים עבודה עם משמעות אמיתית? הצטרפו אלינו!</strong></p><p><span aria-hidden=\"true\">📍 </span>מיקום: נס ציונה</p><p><span aria-hidden=\"true\">🕒 </span>היקף משרה: מלאה (עבודה במשמרות)</p><p><strong>התפקיד:</strong></p><p>הזדמנות לקחת חלק בעשייה משמעותית, ללוות אנשים על הספקטרום האוטיסטי בחיי היומיום שלהם, ולהוביל בית חם, תומך ומקדם.</p><p><strong>תחומי אחריות:</strong></p><ul><li>ליווי ותמיכה בדיירים בשגרה היומיומית</li><li>אחריות על בטיחות ורווחת הדיירים</li><li>ניהול שוטף של הבית והדירה</li><li>הובלת תוכניות קידום אישיות ופעילויות פנאי</li><li>ניהול מלאי (מזון, ציוד, לבוש ועוד)</li><li>מעקב אחר תיק רפואי (תרופות, תורים)</li><li>קשר עם משפחות ובית הספר</li><li>עבודה בצוות מקצועי ותומך</li></ul><p><strong>מה אנחנו מחפשים:</strong></p><ul><li>ניסיון בעבודה עם אנשים על רצף האוטיזם– יתרון</li><li>אחריות, סדר ויכולת הובלת צוות מדרכים</li><li>גישה שיקומית, סבלנות ויחסי אנוש מצוינים</li><li>יכולת עבודה בריבוי משימות</li><li>נכונות לעבודה במשמרות</li></ul><p><strong>למה אצלנו?</strong></p><ul><li>עבודה עם משמעות והשפעה אמיתית</li><li>צוות חם ומשפחתי</li><li>אפשרויות להתפתחות מקצועית</li></ul><p>קו\"ח אפשר לשלוח בלחיצה על הכפתור «שליחת קו\"ח», או למייל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a> <strong>נא לציין ציפיות שכר</strong>.</p><p>טלפון לפניות: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p class=\"nh-note\">המשרות מיועדות לנשים וגברים, ומנוסחות בלשון זכר/נקבה מטעמי נוחות.</p>",
             "_css_classes": "nh-page__text nh-full",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -871,7 +1021,7 @@
            "id": "cd8d037",
            "elType": "widget",
            "settings": {
-            "editor": "<p>מחפשים רכזת לבית בקהילה של אנשים על הרצף האוטיסטי, בנס ציונה. משרה מלאה, במשמרות.</p><p>מה עושים: מלווים את הדיירים בכל יום, שומרים על הבטיחות שלהם, מנהלים את הבית, את הקניות ואת התיק הרפואי, ומדברים עם המשפחות ועם בית הספר.</p><p>מה צריך: אחריות, סדר, סבלנות, יחס טוב לאנשים, ויכולת להוביל צוות. ניסיון עם אנשים על הרצף – יתרון.</p><p>מה מקבלים: עבודה עם משמעות, צוות חם ואפשרות להתפתח.</p><p>שולחים קורות חיים למייל <a href=\"mailto:irus3@nevehairus.com\"><span class=\"nh-ltr\">irus3@nevehairus.com</span></a>, וכותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
+            "editor": "<p>מחפשים רכזת לבית בקהילה של אנשים על הרצף האוטיסטי, בנס ציונה. משרה מלאה, במשמרות.</p><p>מה עושים: מלווים את הדיירים בכל יום, שומרים על הבטיחות שלהם, מנהלים את הבית, את הקניות ואת התיק הרפואי, ומדברים עם המשפחות ועם בית הספר.</p><p>מה צריך: אחריות, סדר, סבלנות, יחס טוב לאנשים, ויכולת להוביל צוות. ניסיון עם אנשים על הרצף – יתרון.</p><p>מה מקבלים: עבודה עם משמעות, צוות חם ואפשרות להתפתח.</p><p>שולחים קורות חיים בלחיצה על הכפתור «שליחת קו\"ח», או למייל <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>. כותבים כמה שכר רוצים.</p><p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a></p><p class=\"nh-note\">המשרות מתאימות לנשים ולגברים.</p>",
             "_css_classes": "nh-page__text nh-plain",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -886,6 +1036,303 @@
            },
            "elements": [],
            "widgetType": "text-editor"
+          },
+          {
+           "id": "38747e8",
+           "elType": "widget",
+           "settings": {
+            "html": "<p class=\"nh-apply__row\"><a class=\"nh-apply__btn\" href=\"#nh-apply\" data-job=\"דרושה רכזת דירה לדיור בקהילה – תחום האוטיזם\">שליחת קו\"ח</a></p>",
+            "_css_classes": "nh-apply-widget"
+           },
+           "elements": [],
+           "widgetType": "html"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "21ece1a",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "0",
+           "row": "0",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "_element_id": "nh-apply",
+          "css_classes": "nh-apply",
+          "_title": "טופס שליחת קו\"ח"
+         },
+         "elements": [
+          {
+           "id": "318c09e",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "16",
+             "row": "16",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "custom",
+             "top": "1.5rem",
+             "right": "1.5rem",
+             "bottom": "1.5rem",
+             "left": "1.5rem",
+             "isLinked": true
+            },
+            "padding_mobile": {
+             "unit": "custom",
+             "top": "1.25rem",
+             "right": "1.25rem",
+             "bottom": "1.25rem",
+             "left": "1.25rem",
+             "isLinked": true
+            },
+            "background_background": "classic",
+            "border_radius": {
+             "unit": "px",
+             "top": "16",
+             "right": "16",
+             "bottom": "16",
+             "left": "16",
+             "isLinked": true
+            },
+            "box_shadow_box_shadow_type": "yes",
+            "box_shadow_box_shadow": {
+             "horizontal": 0,
+             "vertical": 8,
+             "blur": 24,
+             "spread": -4,
+             "color": "rgba(28, 24, 48, 0.14)"
+            },
+            "css_classes": "nh-page__card nh-form-card",
+            "background_color": "#FFFFFF",
+            "__globals__": {
+             "background_color": "globals/colors?id=3efe2c1"
+            },
+            "_title": "טופס שליחת קו\"ח"
+           },
+           "elements": [
+            {
+             "id": "58ab292",
+             "elType": "widget",
+             "settings": {
+              "title": "שליחת קו\"ח",
+              "header_size": "h2",
+              "title_color": "#4A2D84",
+              "__globals__": {
+               "title_color": "globals/colors?id=primary",
+               "typography_typography": "globals/typography?id=fb57358"
+              }
+             },
+             "elements": [],
+             "widgetType": "heading"
+            },
+            {
+             "id": "d167614",
+             "elType": "widget",
+             "settings": {
+              "form_name": "קורות חיים",
+              "form_fields": [
+               {
+                "_id": "dfd6295",
+                "custom_id": "note",
+                "field_type": "html",
+                "width": "100",
+                "field_label": "טקסט: שדות חובה",
+                "field_html": "<p class=\"nh-form__note\" id=\"nh-form-note\"><span class=\"nh-full\">שדות המסומנים ב־<span class=\"nh-req\" aria-hidden=\"true\">*</span><span class=\"nh-visually-hidden\">כוכבית</span> הם שדות חובה.</span><span class=\"nh-plain\">צריך למלא את השדות עם כוכבית <span class=\"nh-req\" aria-hidden=\"true\">*</span>.</span></p>"
+               },
+               {
+                "_id": "138b144",
+                "custom_id": "job",
+                "field_type": "select",
+                "width": "100",
+                "required": "true",
+                "field_label": "המשרה",
+                "field_options": "בחרו משרה|\nעובדת סוציאלית\nמרפא בעיסוק\nעובד אחזקה\nטבח\nדרושה רכזת דירה לדיור בקהילה – תחום האוטיזם"
+               },
+               {
+                "_id": "674a51b",
+                "custom_id": "name",
+                "field_type": "text",
+                "width": "100",
+                "required": "true",
+                "field_label": "שם מלא"
+               },
+               {
+                "_id": "dfa667e",
+                "custom_id": "phone",
+                "field_type": "tel",
+                "width": "100",
+                "required": "true",
+                "field_label": "טלפון"
+               },
+               {
+                "_id": "d829ad2",
+                "custom_id": "cv",
+                "field_type": "upload",
+                "width": "100",
+                "required": "true",
+                "field_label": "קורות חיים: PDF, DOC, DOCX, עד 5 מ״ב",
+                "file_sizes": "5",
+                "file_types": "pdf,doc,docx",
+                "attachment_type": "link"
+               },
+               {
+                "_id": "6f1d15f",
+                "custom_id": "website",
+                "field_type": "honeypot",
+                "width": "100",
+                "field_label": "אתר"
+               },
+               {
+                "_id": "d8151fc",
+                "custom_id": "consent",
+                "field_type": "acceptance",
+                "width": "100",
+                "required": "true",
+                "field_label": "",
+                "acceptance_text": "<span class=\"nh-full\">קראתי את <a href=\"@home:/מדיניות-פרטיות/\">מדיניות הפרטיות</a> ואני מסכים/ה שתיצרו איתי קשר בעניין המשרה.&nbsp;<span class=\"nh-req\" aria-hidden=\"true\">*</span></span><span class=\"nh-plain\">אני מסכים או מסכימה שתתקשרו אליי.&nbsp;<span class=\"nh-req\" aria-hidden=\"true\">*</span><br><a href=\"@home:/מדיניות-פרטיות/\">מה עושים עם הפרטים שלי?</a></span>"
+               },
+               {
+                "_id": "b814013",
+                "custom_id": "privacy",
+                "field_type": "html",
+                "width": "100",
+                "field_label": "טקסט: פרטיות",
+                "field_html": "<p class=\"nh-form__privacy\" id=\"nh-form-privacy\"><span class=\"nh-full\">מסירת הפרטים אינה חובה לפי חוק, אך בלעדיהם לא נוכל לשקול את המועמדות. הפרטים וקורות החיים ישמשו רק לבדיקת המועמדות למשרה, יישמרו במאגר המידע של נוה האירוס בע״מ ולא יועברו לגורם אחר. אפשר לבקש לעיין במידע ולתקן אותו: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</span><span class=\"nh-plain\">לא חייבים לתת לנו את הפרטים.<br>בלי הפרטים לא נוכל לבדוק את הבקשה.<br>הפרטים וקורות החיים נשמרים אצלנו, בנוה האירוס, רק כדי לבדוק את הבקשה למשרה.<br>לא נותנים אותם לאף אחד אחר.<br>אפשר לבקש לראות אותם או לתקן אותם, בטלפון <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</span></p>"
+               }
+              ],
+              "input_size": "md",
+              "show_labels": "true",
+              "mark_required": "yes",
+              "label_position": "above",
+              "button_text": "שליחה",
+              "button_size": "md",
+              "button_width": "100",
+              "button_align": "stretch",
+              "submit_actions": [
+               "save-to-database"
+              ],
+              "submissions_metadata": [],
+              "form_validation": "custom",
+              "custom_messages": "yes",
+              "success_message": "תודה! קורות החיים התקבלו.",
+              "error_message": "משהו השתבש בשליחה. אפשר לנסות שוב, לשלוח למייל irus1@nevehairus.com או להתקשר: 08-9403047",
+              "server_message": "משהו השתבש בשליחה. אפשר לנסות שוב, לשלוח למייל irus1@nevehairus.com או להתקשר: 08-9403047",
+              "invalid_message": "נמצאו שגיאות בטופס.",
+              "required_field_message": "צריך למלא את השדה הזה.",
+              "column_gap": {
+               "unit": "px",
+               "size": 0,
+               "sizes": []
+              },
+              "row_gap": {
+               "unit": "px",
+               "size": 12,
+               "sizes": []
+              },
+              "label_spacing": {
+               "unit": "px",
+               "size": 6,
+               "sizes": []
+              },
+              "field_border_width": {
+               "unit": "px",
+               "top": "2",
+               "right": "2",
+               "bottom": "2",
+               "left": "2",
+               "isLinked": true
+              },
+              "field_border_radius": {
+               "unit": "px",
+               "top": "8",
+               "right": "8",
+               "bottom": "8",
+               "left": "8",
+               "isLinked": true
+              },
+              "button_border_radius": {
+               "unit": "px",
+               "top": "12",
+               "right": "12",
+               "bottom": "12",
+               "left": "12",
+               "isLinked": true
+              },
+              "button_text_padding": {
+               "unit": "custom",
+               "top": "1rem",
+               "right": "2rem",
+               "bottom": "1rem",
+               "left": "2rem",
+               "isLinked": false
+              },
+              "_css_classes": "nh-contact-form nh-apply-form",
+              "email_subject": "קו\"ח למשרה: [field id=\"job\"] — מעון נווה האירוס",
+              "label_color": "#1F2421",
+              "mark_required_color": "#A8261B",
+              "html_color": "#4F5550",
+              "field_text_color": "#1F2421",
+              "field_background_color": "#FFFFFF",
+              "field_border_color": "#4F5550",
+              "button_background_color": "#4A2D84",
+              "button_text_color": "#FFFFFF",
+              "button_background_hover_color": "#3A2269",
+              "button_hover_color": "#FFFFFF",
+              "success_message_color": "#2F6B2A",
+              "error_message_color": "#A8261B",
+              "inline_message_color": "#A8261B",
+              "__globals__": {
+               "label_color": "globals/colors?id=text",
+               "mark_required_color": "globals/colors?id=a269239",
+               "html_color": "globals/colors?id=161ef55",
+               "field_text_color": "globals/colors?id=text",
+               "field_background_color": "globals/colors?id=3efe2c1",
+               "field_border_color": "globals/colors?id=161ef55",
+               "button_background_color": "globals/colors?id=primary",
+               "button_text_color": "globals/colors?id=3efe2c1",
+               "button_background_hover_color": "globals/colors?id=78b4a18",
+               "button_hover_color": "globals/colors?id=3efe2c1",
+               "success_message_color": "globals/colors?id=dda5945",
+               "error_message_color": "globals/colors?id=a269239",
+               "inline_message_color": "globals/colors?id=a269239",
+               "label_typography_typography": "globals/typography?id=accent",
+               "field_typography_typography": "globals/typography?id=text",
+               "button_typography_typography": "globals/typography?id=accent",
+               "html_typography_typography": "globals/typography?id=504434a",
+               "message_typography_typography": "globals/typography?id=text"
+              }
+             },
+             "elements": [],
+             "widgetType": "form"
+            }
+           ],
+           "isInner": true
           }
          ],
          "isInner": true

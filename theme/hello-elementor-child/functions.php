@@ -92,6 +92,9 @@
  *         key press, not after a touch (html.nh-kbd, v4.js).
  * 1.5.16: (Oleg 24.11) no author archives (/?author=1, /author/<name>/ go to the home page: the user's login name showed);
  *         a category without posts answers 404 (the default «Uncategorized» is empty).
+ * 1.6.0: (Itzik 24.11) an invisible guard on every form (honeypot, a minimum fill time, a signed token fetched by the page's script:
+ *         nh_child_form_guard and /wp-json/nh/v1/form-token, v4.js part 13); the CV form of «דרושים» in a dialog (v4.js part 14);
+ *         the headings of the inner pages 15% smaller and the contact form 15% smaller (v4.css); no map on «צור קשר».
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -135,6 +138,8 @@ add_filter( 'elementor/widget/render_content', 'nh_child_widget_content', 10, 2 
 add_action( 'wp_enqueue_scripts', 'nh_child_swiper_style', 40 );
 add_action( 'template_redirect', 'nh_child_no_author_archives', 1 );
 add_action( 'template_redirect', 'nh_child_no_empty_category', 2 );
+add_action( 'elementor_pro/forms/validation', 'nh_child_form_guard', 1, 2 );   // 1.6.0: the invisible guard of every form, before Pro's own checks
+add_action( 'rest_api_init', 'nh_child_form_token_route' );
 
 /**
  * `hello_elementor_page_title`: no Hello title on a page built with Elementor (its cover is the page's H1).
@@ -291,7 +296,7 @@ function nh_child_v4_assets() {
 		)
 	);
 	// v4.3: the texts of the contact form's checks (the plugin's settings, else its defaults)
-	wp_add_inline_script( 'nh-child-v4', 'window.nhFormText = ' . wp_json_encode( nh_child_form_texts(), JSON_UNESCAPED_UNICODE ) . ';', 'before' );
+	wp_add_inline_script( 'nh-child-v4', 'window.nhFormText = ' . wp_json_encode( nh_child_form_texts(), JSON_UNESCAPED_UNICODE ) . ';window.nhFormToken = ' . wp_json_encode( esc_url_raw( rest_url( 'nh/v1/form-token' ) ) ) . ';', 'before' );
 }
 
 /**
@@ -541,6 +546,7 @@ function nh_child_form_texts() {
 		'summaryN' => $get( 'msg_summary_many', 'נמצאו {n} שגיאות בטופס:' ),
 		'limited'  => str_replace( '{phone}', '08-9403047', $get( 'msg_limited', 'נשלחו כבר כמה בקשות מהמכשיר הזה. אפשר לנסות שוב בעוד כמה דקות, או להתקשר: {phone}' ) ),
 		'consentName' => 'אישור מדיניות הפרטיות',
+		'spam'     => str_replace( '{phone}', '08-9403047', $get( 'msg_spam', 'לא הצלחנו לשלוח את הטופס. אפשר לרענן את הדף ולנסות שוב, או להתקשר: {phone}' ) ),
 	);
 }
 
@@ -766,5 +772,103 @@ function nh_child_swiper_style() {
 	$data = (string) get_post_meta( (int) get_queried_object_id(), '_elementor_data', true );
 	if ( false !== strpos( $data, 'nh-product' ) ) {
 		wp_enqueue_style( 'e-swiper' );
+	}
+}
+
+/**
+ * 1.6.0 (Itzik 24.11): an invisible guard on every form, with no box to tick and no picture, no new plugin and no outside
+ * service: (1) a honeypot field a person never sees (every Elementor Form of the site has «website»; a filled one is a
+ * robot); (2) a minimum time to fill the form (3 seconds from the page's load: a robot posts at once); (3) a token the
+ * page's script fetches from this site (v4.js part 13) and sends with the form: a signed time (HMAC with the site's salt),
+ * so a robot that does not run the page's script has none, and a made-up or too old one fails. Nothing about the visitor
+ * is stored: the token holds a time only.
+ */
+const NH_CHILD_FORM_MIN_SECONDS = 3;
+const NH_CHILD_FORM_MAX_SECONDS = 86400;
+
+/**
+ * A fresh token: «<unix time>.<first 32 hex of HMAC-SHA256 of the time>».
+ *
+ * @return string
+ */
+function nh_child_form_token_make() {
+	$t = time();
+	return $t . '.' . substr( hash_hmac( 'sha256', 'nh-form|' . $t, wp_salt( 'auth' ) ), 0, 32 );
+}
+
+/**
+ * What a token is worth: 'ok', 'missing', 'bad' (not ours), 'fast' (under the minimum time) or 'old'.
+ *
+ * @param string $token The token as posted.
+ * @return string
+ */
+function nh_child_form_token_state( $token ) {
+	$token = is_string( $token ) ? trim( $token ) : '';
+	if ( '' === $token ) {
+		return 'missing';
+	}
+	if ( ! preg_match( '/^(\d{9,11})\.([0-9a-f]{32})$/', $token, $m ) ) {
+		return 'bad';
+	}
+	$want = substr( hash_hmac( 'sha256', 'nh-form|' . $m[1], wp_salt( 'auth' ) ), 0, 32 );
+	if ( ! hash_equals( $want, $m[2] ) ) {
+		return 'bad';
+	}
+	$age = time() - (int) $m[1];
+	if ( $age < NH_CHILD_FORM_MIN_SECONDS ) {
+		return 'fast';
+	}
+	return $age > NH_CHILD_FORM_MAX_SECONDS ? 'old' : 'ok';
+}
+
+/**
+ * `rest_api_init`: GET /wp-json/nh/v1/form-token → {"token": "…"}, never cached. Public (a robot may ask too: the minimum
+ * time and the signature still hold).
+ */
+function nh_child_form_token_route() {
+	register_rest_route(
+		'nh/v1',
+		'/form-token',
+		array(
+			'methods'             => 'GET',
+			'permission_callback' => '__return_true',
+			'callback'            => static function () {
+				$response = new WP_REST_Response( array( 'token' => nh_child_form_token_make() ) );
+				$response->header( 'Cache-Control', 'no-store, max-age=0' );
+				return $response;
+			},
+		)
+	);
+}
+
+/**
+ * `elementor_pro/forms/validation` @1 (every Elementor Form of the site, before Pro's own checks and before the rate limit):
+ * a filled honeypot, a missing, made-up, too fast or too old token ends the send with one general message (no field is
+ * blamed: the robot learns nothing, a person who was too quick or left the page open for a day refreshes and sends again).
+ *
+ * @param object $record       ElementorPro\Modules\Forms\Classes\Form_Record.
+ * @param object $ajax_handler ElementorPro\Modules\Forms\Classes\Ajax_Handler.
+ */
+function nh_child_form_guard( $record, $ajax_handler ) {
+	if ( ! is_object( $record ) || ! method_exists( $record, 'get' ) ) {
+		return;
+	}
+	$bad = false;
+	foreach ( (array) $record->get( 'fields' ) as $field ) {
+		if ( isset( $field['type'], $field['value'] ) && 'honeypot' === $field['type'] && '' !== trim( (string) $field['value'] ) ) {
+			$bad = true;
+		}
+	}
+	// phpcs:ignore WordPress.Security.NonceVerification.Missing -- a public form: the token below is the proof.
+	$token = isset( $_POST['nh_tk'] ) ? sanitize_text_field( wp_unslash( $_POST['nh_tk'] ) ) : '';
+	if ( $bad || 'ok' !== nh_child_form_token_state( $token ) ) {
+		$t = nh_child_form_texts();
+		wp_send_json_error(
+			array(
+				'message' => esc_html( $t['spam'] ),
+				'errors'  => array(),
+				'data'    => array(),
+			)
+		);
 	}
 }

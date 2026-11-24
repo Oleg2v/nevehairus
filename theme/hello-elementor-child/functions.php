@@ -81,6 +81,12 @@
  *         «הקראה» skips page numbers and reads what «להמשך קריאה» folds; one <main> on the archives (v4.js, v4.css).
  * 1.5.13: (Oleg 23.11) no share button in the enlarged photo (v4.css; Elementor's Site Settings → Lightbox → Share is off,
  *         set by `test_site.py tidy`); its arrows as Hebrew reads: «next» at the left, «previous» at the right (v4.css).
+ * 1.5.14: the third independent check: Enter and Space work on the enlarged photo's «הגדלה» and «מסך מלא», white focus
+ *         rings, Windows high-contrast icons, the page behind not left scrolled, full-screen state kept right (v4.js 11,
+ *         v4.css); a mouse click on the consent box no longer lost, the banner not thrown off by a lightbox (v4.js 5, 12);
+ *         autocomplete="email"; the skip target's tabindex on the 404 page; the nh4 marker never printed into the page
+ *         (this file); no role="list" on an empty list; no empty band under the footer on a landscape phone; the round
+ *         button's room up to 1494px; a tall banner never over the header of an inner page.
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child
@@ -120,6 +126,7 @@ add_filter( 'elementor_pro/forms/sanitize/tel', 'nh_child_form_tel', 20 );
 add_filter( 'wp_get_attachment_image_attributes', 'nh_child_hero_sizes', 10, 2 );
 add_action( 'init', 'nh_child_no_emoji' );
 add_filter( 'the_title', 'nh_child_media_title', 10, 2 );
+add_filter( 'elementor/widget/render_content', 'nh_child_widget_content', 10, 2 );
 add_action( 'wp_enqueue_scripts', 'nh_child_swiper_style', 40 );
 
 /**
@@ -686,6 +693,33 @@ function nh_child_media_title( $title, $id = 0 ) {
 		return $title;
 	}
 	return 'attachment' === get_post_type( $id ) ? '' : $title;
+}
+
+/**
+ * `elementor/widget/render_content` (1.5.14): what a widget prints.
+ * (1) The test site's photos carry the deploy's marker «nh4:…» as their title, and Elementor writes the title and the
+ * description into data-elementor-lightbox-title / -description of every photo link (it reads the attachment itself, so the
+ * `the_title` filter above never reaches it): the marker showed as the enlarged photo's caption wherever v4.js did not run.
+ * Those attributes go when they hold the marker; v4.js adds the photo's real caption.
+ * (2) An empty list of posts (a search without hits) was printed with role="list" and no item: the role goes with it
+ * (WCAG 1.3.1).
+ *
+ * @param string                 $content The widget's HTML.
+ * @param \Elementor\Widget_Base $widget  The widget.
+ * @return string
+ */
+function nh_child_widget_content( $content, $widget ) {
+	unset( $widget );
+	if ( ! is_string( $content ) || is_admin() ) {
+		return $content;
+	}
+	if ( false !== strpos( $content, 'nh4:' ) ) {
+		$content = preg_replace( '/\sdata-elementor-lightbox-(?:title|description)="nh4:[^"]*"/u', '', $content );
+	}
+	if ( false !== strpos( $content, 'elementor-posts-nothing-found' ) ) {
+		$content = str_replace( ' role="list"', '', $content );
+	}
+	return $content;
 }
 
 /**

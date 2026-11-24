@@ -1,5 +1,5 @@
 /* =========================================================================
-   v4.js — child theme hello-elementor-child 1.5.13 (research/09-v4-home-spec.md
+   v4.js — child theme hello-elementor-child 1.5.14 (research/09-v4-home-spec.md
    §5.3–§5.5; research/10-v4.1-home-spec.md §2–§3; research/11-v4.3-home-spec.md).
    No libraries; deferred; on every page.
    1. The accessibility menu (the floating «נגישות» button and its panel, printed
@@ -55,9 +55,12 @@
       1.5.12: any set of one photo (a Basic Gallery's too); watched however it
       opens (a shared link); a dialog with a name, the focus inside, Tab round.
       1.5.13: no share button; «next» at the left, «previous» at the right (v4.css).
+      1.5.14: Enter and Space work on «הגדלה» and «מסך מלא»; white focus rings.
   12. 1.5.9 a form field focused above the bar: the field and its hint.
       1.5.12: and its labels, clear of the cookie banner too; on a short
       screen on the screen, when the keys move the focus.
+  Also 1.5.14: the e-mail field of «צור קשר» has autocomplete="email" (part 7);
+  the skip link's target always takes the focus, the 404 page too.
    ========================================================================= */
 (() => {
   "use strict";
@@ -89,6 +92,10 @@
     const motionOK = () => !inEditor && !html.classList.contains("nh-a11y-still") && !(reduce && reduce.matches);
     const onMotionOff = [];                            // what stops when motion is switched off (part 4)
     const motionChanged = () => { if (!motionOK()) onMotionOff.forEach((f) => f()); };
+    // 1.5.14: the skip link's target takes the focus on every page (functions.php gives it tabindex="-1"; Hello's 404 page
+    // prints its own <main id="content"> without it, and the jump left the focus where it was)
+    const skipTarget = d.getElementById("content");
+    if (skipTarget && !skipTarget.hasAttribute("tabindex")) skipTarget.setAttribute("tabindex", "-1");
 
     /* ---------- 1. the accessibility menu ------------------------------------------ */
     const KEY = "nh-a11y";
@@ -488,7 +495,10 @@
       let opener = null;
       // the bar that stays at the top of the screen (the v4 header, or the v3.2 pages' fixed masthead), whatever its
       // markup: the fixed or sticky ancestor of what is at the top centre of the screen; 0 if none
-      const topBar = () => {
+      // 1.5.14: not while a lightbox is open: its cover is the fixed element at the top then (the banner got a top of one
+      // screen's height and flickered when the lightbox closed); the last value holds
+      let topLast = 0;
+      const topBarNow = () => {
         const hit = d.elementFromPoint(Math.round(w.innerWidth / 2), 1);
         for (let el = hit; el && el !== d.body && el !== html; el = el.parentElement) {
           if (cons.contains(el)) return 0;
@@ -500,6 +510,7 @@
         }
         return 0;
       };
+      const topBar = () => (html.classList.contains("nh-lightbox-open") ? topLast : (topLast = topBarNow()));
       // 1.5.12: the banner at the top (the home up to 1024px, v4.css 1.5.10) or at the foot (everywhere else). At the
       // top it stands exactly 8px under --nh-top-h and always ends at least 16px above the bar; at the foot it ends
       // 8px above the bar or the screen's foot (24px on desktops), however tall it grows (the settings open, large
@@ -758,6 +769,9 @@
       if (!form.getAttribute("aria-label")) form.setAttribute("aria-label", form.getAttribute("name") || "בקשה לביקור");
       if (nameIn) nameIn.setAttribute("autocomplete", "name");
       if (telIn) { telIn.setAttribute("autocomplete", "tel"); telIn.setAttribute("inputmode", "tel"); telIn.setAttribute("dir", "ltr"); }
+      // 1.5.14 (WCAG 1.3.5): the e-mail field of «צור קשר» names its purpose as the other two do
+      const mailIn = form.querySelector('[name="form_fields[email]"]');
+      if (mailIn) mailIn.setAttribute("autocomplete", "email");
       const hint = form.querySelector("#nh-form-hint");
       // the message field and its hint (the hint stays tied; an error is added in front of it)
       const baseDesc = new Map();
@@ -1224,7 +1238,7 @@
       // cover), and Tab goes round inside it (Elementor's own Tab let it out after the arrows, and Shift+Tab stuck
       // on «סגור»). 1.5.13: no share button (Kit setting off, v4.css hides it otherwise); the arrows as Hebrew reads
       // (v4.css)
-      let opener = null, isOpen = false;
+      let opener = null, isOpen = false, openY = 0;
       const shown = (el) => !!el && el.isConnected && w.getComputedStyle(el).display !== "none";
       const openBox = () => Array.from(d.querySelectorAll(".elementor-lightbox")).find(shown) || null;
       const name = (el, label) => { if (el.getAttribute("aria-label") !== label) el.setAttribute("aria-label", label); };
@@ -1237,6 +1251,11 @@
         });
         lb.querySelectorAll(".elementor-swiper-button-next").forEach((b) => name(b, "התמונה הבאה"));
         lb.querySelectorAll(".elementor-swiper-button-prev").forEach((b) => name(b, "התמונה הקודמת"));
+        // 1.5.14: «הגדלה» and «מסך מלא» are two icons each (Elementor shows one at a time, and leaves a stale aria-checked on
+        // the one it shows again): the second icon of a pair is the switch turned on, the first one turned off
+        const setChecked = (sel, v) => lb.querySelectorAll(sel).forEach((b) => { if (b.getAttribute("aria-checked") !== v) b.setAttribute("aria-checked", v); });
+        setChecked(".e-eicon-zoom-in-bold, .e-eicon-frame-expand", "false");
+        setChecked(".e-eicon-zoom-out-bold, .e-eicon-frame-minimize", "true");
       };
       const sync = () => {
         const lb = openBox();
@@ -1245,10 +1264,20 @@
         isOpen = !!lb;
         html.classList.toggle("nh-lightbox-open", isOpen);
         if (lb) {
+          openY = w.scrollY;
           const x = lb.querySelector(".dialog-close-button");
           if (!lb.contains(d.activeElement)) (x || lb).focus({ preventScroll: true });
         } else {
-          if (opener && d.contains(opener)) opener.focus({ preventScroll: true });
+          // 1.5.14: the page behind scrolled (wheel, End, PageDown): the photo that was opened is where it was; the focus
+          // goes back to it, and again shortly after when leaving full screen took it to the page
+          if (Math.abs(w.scrollY - openY) > 2) w.scrollTo(w.scrollX, openY);
+          const back = opener;
+          if (back && d.contains(back)) {
+            back.focus({ preventScroll: true });
+            [80, 300].forEach((ms) => w.setTimeout(() => {
+              if (!isOpen && d.contains(back) && (!d.activeElement || d.activeElement === d.body)) back.focus({ preventScroll: true });
+            }, ms));
+          }
           opener = null;
         }
       };
@@ -1263,18 +1292,56 @@
       };
       new w.MutationObserver(scan).observe(d.body, { childList: true });
       scan();
+      // 1.5.14: the browser's own Esc leaves full screen first, and Elementor does not hear it: the toolbar kept showing
+      // «exit full screen». Here it is put back, and the focus stays in the window
+      const fsChange = () => {
+        if (!isOpen || d.fullscreenElement || d.webkitFullscreenElement) return;
+        const lb = openBox();
+        if (!lb) return;
+        const sw = lb.querySelector(".swiper");
+        if (sw) sw.classList.remove("elementor-slideshow--fullscreen-mode");
+        const ex = lb.querySelector(".e-eicon-frame-expand"), mn = lb.querySelector(".e-eicon-frame-minimize");
+        if (ex) ex.classList.remove("elementor-hidden");
+        if (mn) mn.classList.add("elementor-hidden");
+        dress(lb);
+        // the focus stays in the window (the browser may take it to the page a moment after leaving full screen: asked again)
+        const keep = () => { if (isOpen && (!d.activeElement || d.activeElement === d.body || !lb.contains(d.activeElement))) (ex || lb.querySelector(".dialog-close-button") || lb).focus({ preventScroll: true }); };
+        keep();
+        [80, 300].forEach((ms) => w.setTimeout(keep, ms));
+      };
+      d.addEventListener("fullscreenchange", fsChange);
+      d.addEventListener("webkitfullscreenchange", fsChange);
       d.addEventListener("click", (e) => {
         const a = e.target.closest ? e.target.closest("a[data-elementor-open-lightbox]") : null;
         if (a && !isOpen) opener = a;
       }, true);
       w.addEventListener("keydown", (e) => {
-        if (e.key !== "Tab" || !isOpen || e.altKey || e.ctrlKey || e.metaKey) return;
+        if (!isOpen || e.altKey || e.ctrlKey || e.metaKey) return;
         const lb = openBox();
         if (!lb) return;
+        // 1.5.14: Elementor leaves «הגדלה» and «מסך מלא» (SVG switches) out of its Enter/Space handling: they took the focus
+        // and did nothing. Here Enter or Space clicks them, inside the key press (full screen needs it); the pressed icon
+        // hides and its twin shows, so the focus goes to the twin
+        const on = d.activeElement;
+        if ((e.key === "Enter" || e.key === " ") && on && lb.contains(on) && on.matches && on.matches('[role="switch"]')) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          on.dispatchEvent(new w.MouseEvent("click", { bubbles: true, cancelable: true, view: w }));
+          w.requestAnimationFrame(() => {
+            if (on.getClientRects().length) return;
+            const label = on.getAttribute("aria-label");
+            const twin = Array.from(lb.querySelectorAll('[role="switch"]')).find((x) => x !== on && x.getAttribute("aria-label") === label && x.getClientRects().length);
+            if (twin) twin.focus();
+          });
+          return;
+        }
+        if (e.key !== "Tab") return;
         const sw = lb.querySelector(".swiper");
         if (sw) sw.dispatchEvent(new w.MouseEvent("mousemove", { bubbles: true }));   // Elementor shows its toolbar on a key
+        const zoomed = !!lb.querySelector(".elementor-slideshow--zoom-mode");      // the arrows are not there to use then
         const list = Array.from(lb.querySelectorAll("a[href], button, input, select, textarea, iframe, video[controls], [tabindex]")).filter((el) =>
-          el !== lb && el.tabIndex >= 0 && el.getClientRects().length && w.getComputedStyle(el).visibility !== "hidden");
+          el !== lb && el.tabIndex >= 0 && el.getClientRects().length && w.getComputedStyle(el).visibility !== "hidden"
+          && !(zoomed && el.matches(".elementor-swiper-button")));
         if (!list.length) return;
         e.preventDefault();
         e.stopImmediatePropagation();                     // Elementor's own Tab, after this one, moved it again
@@ -1300,6 +1367,10 @@
       const f = e.target;
       if (!bar || inEditor || !f.matches || !f.matches("input, textarea, select")) return;
       if (f.closest(".nh-consent, .nh-float, .elementor-location-header, .elementor-lightbox")) return;   // fixed: scrolling does not move them
+      // 1.5.14: a mouse press on a checkbox, a radio, a select or a button is never followed by a scroll: the page moving
+      // between the press and the release sent the click elsewhere (the consent box near the bar or the banner did not
+      // toggle). Text fields are lifted as before; Tab to any of them too
+      if (!byKeys && (/^(checkbox|radio|submit|button|reset|image|file)$/.test(f.type || "") || f.tagName === "SELECT")) return;
       w.requestAnimationFrame(() => {
         if (d.activeElement !== f || !f.getClientRects().length) return;
         const row = w.getComputedStyle(bar).flexDirection === "row";

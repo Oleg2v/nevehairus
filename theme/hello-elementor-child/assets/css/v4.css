@@ -1633,8 +1633,10 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
     bottom: calc(var(--nh-bar-h) + 8px + env(safe-area-inset-bottom, 0px));
     inset-inline: 8px;
     width: auto;
-    max-height: calc(100vh - var(--nh-bar-h) - var(--nh-top-h, 0px) - 24px);
-    max-height: calc(100dvh - var(--nh-bar-h) - var(--nh-top-h, 0px) - 24px);
+    /* 1.5.14: and never over the header at the top of an inner page (72px: its height on a phone; it is static there, so
+       --nh-top-h is 0), however tall the banner grows (settings opened, large text): it scrolls inside instead */
+    max-height: calc(100vh - var(--nh-bar-h) - 72px - 24px);
+    max-height: calc(100dvh - var(--nh-bar-h) - 72px - 24px);
   }
   html:is(.nh-consent-ask, .nh-consent-open),
   html.nh-consent-tall:is(.nh-consent-ask, .nh-consent-open) { scroll-padding-block-end: calc(var(--nh-consent-h, 14rem) + var(--nh-bar-h) + 24px); }
@@ -1647,8 +1649,10 @@ html.nh-a11y-links a[href]:is(:hover, :focus-visible) svg { fill: currentColor !
    that room by itself, a section's column ends 88px from that edge (its start, aligned with the header,
    stays): a text in a wide grid never runs under the button (the home's «החיים» part at 1280px did).
    1.5.12: the room is the button with its 2px ring and a gap (24 + 52 + 2 + 2 = 80px) on each side of the column:
-   1320 + 2 × 80 = 1480px (to 1415px only, the photos of the galleries ran under the button at 1416–1479px) */
-@media (min-width: 1025px) and (max-width: 1479px) {
+   1320 + 2 × 80 = 1480px (to 1415px only, the photos of the galleries ran under the button at 1416–1479px).
+   1.5.14: a classic scrollbar (15px, at the left in a right-to-left page) takes its width from the layout, not from
+   the media query: up to 1494px */
+@media (min-width: 1025px) and (max-width: 1494px) {
   .e-con.nh-sec__inner { padding-inline-end: 88px !important; }
 }
 
@@ -1739,4 +1743,37 @@ body.rtl .elementor-lightbox :is(.elementor-swiper-button-next, .elementor-swipe
     scroll-padding-block-end: calc(var(--nh-bar-h) + 12px + env(safe-area-inset-bottom, 0px));
   }
   html:is(.nh-consent-ask, .nh-consent-open) body:has(.nh-float):has(.nh-hero__img) .e-con.nh-footer-v4 { padding-block-end: calc(var(--nh-bar-h) + 16px + env(safe-area-inset-bottom, 0px)) !important; }
+}
+
+/* =========================================================================
+   1.5.14 (after the third independent check)
+   ========================================================================= */
+/* The enlarged photo's keyboard focus ring: white on its dark cover (the site's purple ring was 1.2:1 there, and the
+   arrows had none up to 767px, where Elementor takes the outline away). On the arrows the ring goes round the icon, not
+   round the whole 15–20% strip. Yellow in the high-contrast mode, as the rest of the site. */
+.elementor-lightbox :is(.dialog-lightbox-close-button, .elementor-slideshow__header > svg, .elementor-slideshow__header > i):focus-visible {
+  outline: 3px solid #FFFFFF;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 8px rgba(0, 0, 0, .6);     /* a dark halo round the ring: it shows on a white photo too */
+}
+body .elementor-lightbox .elementor-swiper-button:focus-visible { outline: none; }
+body .elementor-lightbox .elementor-swiper-button:focus-visible :is(svg, i) {
+  outline: 3px solid #FFFFFF;
+  outline-offset: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 15px rgba(0, 0, 0, .6);
+}
+html.nh-a11y-contrast .elementor-lightbox :is(.dialog-lightbox-close-button, .elementor-slideshow__header > svg, .elementor-slideshow__header > i):focus-visible,
+html.nh-a11y-contrast body .elementor-lightbox .elementor-swiper-button:focus-visible :is(svg, i) { outline-color: #FFE600; }
+/* Windows high contrast: the cover turns to the system's Canvas, so the icons (Elementor paints them #eee) turn to the
+   system's text colour */
+@media (forced-colors: active) {
+  .elementor-lightbox :is(.dialog-lightbox-close-button, .elementor-swiper-button, .elementor-slideshow__header) svg { fill: CanvasText; }
+  .elementor-lightbox :is(.dialog-lightbox-close-button, .elementor-swiper-button, .elementor-slideshow__header) { color: CanvasText; }
+}
+/* A landscape phone up to 767px wide (the buttons are a side column there, with their gutter, as above): no room under the
+   footer's end for buttons at the foot, which left about half a screen of empty band. With the cookie banner open the
+   page keeps the banner's room. */
+@media (max-width: 1024px) and (max-height: 500px) {
+  html:not(.nh-consent-ask):not(.nh-consent-open) body:has(.nh-float) .e-con.nh-footer-v4 { padding-block-end: 0 !important; }
 }

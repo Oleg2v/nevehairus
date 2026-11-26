@@ -40,29 +40,14 @@
     "v4.3 (Itzik 18.11): the home drops the large years 1957/1985 (pro.year*), the testimonials band (testimonials.*) and WhatsApp (contact.whatsapp, question closed): all moved to retired_blocks. The cards and the videos are one section «הבית שלנו» (specialties.title; the live «תחומי התמחות» is kept as retired «specialties.title (v4.2)»). Every section is on one cream ground.",
     "v4.3 (Itzik 18.11): «מעון לבעלי צרכים מיוחדים»: the questions and the lead are open and «להמשך קריאה» at their end opens the rest, as in v4.0 (Oleg 18.11, point 7: «если раньше в конце была ссылка «להמשך קריאה» на хвост текста, верни её так же»); «בשפה פשוטה» is in the theme's «נגישות» panel (header.plain_toggle retired); the band «נשמח שתבואו להכיר אותנו» has the visit form of the inner page instead of the phone (contact.phone retired; contact.form.* are #33's texts; contact.sub is the form's lead, because the old subline repeated the last sentence of the now-open text just above it). The footer links gained «הגדרות עוגיות».",
     "v4.3 after the review (18.11): the consent label ends with the required star, as on the inner page's form (the note above the fields says starred fields are required). The plain privacy note names the controller (נוה האירוס) and gives the phone for seeing or correcting the details, as the full note does; still a draft for the lawyer.",
-    "26.11 (client): the page «שאלות ותשובות נפוצות» (content/v4/pages/faq.json) is in the menu under «אודות» and in the footer's «קישורים נוספים»; it is a page of the new site, not of the live one."
+    "26.11 (client): the page «שאלות ותשובות נפוצות» (content/v4/pages/faq.json) is in the menu under «אודות» and in the footer's «קישורים נוספים»; it is a page of the new site, not of the live one.",
+    "26.11 (client, round 2): «סנטוריום», «אבחנה כפולה» and «גלריית מוצרים» left the main menu (no sub-menu under «דף הבית» any more) and are links in the footer's «קישורים נוספים»; their pages and addresses are as they were."
   ],
   "menu": [
     {
       "label": "דף הבית",
       "live_href": "https://www.nevehairus.com/",
-      "children": [
-        {
-          "label": "גלריית מוצרים",
-          "live_href": "https://www.nevehairus.com/%d7%9e%d7%a2%d7%95%d7%9f-%d7%a8%d7%90%d7%a9%d7%99-%d7%91%d7%99%d7%aa-%d7%9c%d7%97%d7%99%d7%99%d7%9d/%d7%92%d7%9c%d7%a8%d7%99%d7%99%d7%aa-%d7%9e%d7%95%d7%a6%d7%a8%d7%99%d7%9d-%d7%9c%d7%9e%d7%9b%d7%99%d7%a8%d7%94/",
-          "children": []
-        },
-        {
-          "label": "אבחנה כפולה",
-          "live_href": "https://www.nevehairus.com/%d7%9e%d7%a2%d7%95%d7%9f-%d7%a8%d7%90%d7%a9%d7%99-%d7%91%d7%99%d7%aa-%d7%9c%d7%97%d7%99%d7%99%d7%9d/%d7%90%d7%91%d7%97%d7%a0%d7%94-%d7%9b%d7%a4%d7%95%d7%9c%d7%94/",
-          "children": []
-        },
-        {
-          "label": "סנטוריום",
-          "live_href": "https://www.nevehairus.com/%d7%9e%d7%a2%d7%95%d7%9f-%d7%a8%d7%90%d7%a9%d7%99-%d7%91%d7%99%d7%aa-%d7%9c%d7%97%d7%99%d7%99%d7%9d/%d7%a1%d7%a0%d7%98%d7%95%d7%a8%d7%99%d7%95%d7%9d/",
-          "children": []
-        }
-      ]
+      "children": []
     },
     {
       "label": "אודות",
@@ -123,7 +108,7 @@
       "title": "אגף המגורים בנוה האירוס מספק מענה מלא לכל צורך של הדיירים. מעניק סביבת מחיה נוחה ונעימה."
     },
     "JQXm_Dku7tI": {
-      "title": "נוה האירוס מעון דיירים נס ציונה"
+      "title": "נוה האירוס – מעון לאנשים עם מוגבלות בנס ציונה"
     },
     "Tkbqa08a5Ro": {
       "title": "חדר סנוזלן - מעון נוה האירוס"
@@ -293,7 +278,7 @@
     },
     "about.video2.caption": {
       "kind": "text",
-      "full": "נוה האירוס מעון דיירים נס ציונה",
+      "full": "נוה האירוס – מעון לאנשים עם מוגבלות בנס ציונה",
       "plain": null,
       "plain_status": null,
       "source": "YouTube title of JQXm_Dku7tI (oEmbed, channel «נוה האירוס»); live video module 61d17540b78ff, no caption on live"
@@ -412,7 +397,7 @@
     },
     "contacts.links.body": {
       "kind": "html",
-      "full": "<p><a href=\"https://www.facebook.com/neveirus/\">נווה האירוס בפייסבוק</a></p><p><a href=\"@home:/שאלות-ותשובות-נפוצות/\">שאלות ותשובות נפוצות</a></p><p><a href=\"@home:/מפת-אתר/\">מפת אתר</a></p>",
+      "full": "<p><a href=\"https://www.facebook.com/neveirus/\">נווה האירוס בפייסבוק</a></p><p><a href=\"@home:/מעון-ראשי-בית-לחיים/סנטוריום/\">סנטוריום</a></p><p><a href=\"@home:/מעון-ראשי-בית-לחיים/אבחנה-כפולה/\">אבחנה כפולה</a></p><p><a href=\"@home:/מעון-ראשי-בית-לחיים/גלריית-מוצרים-למכירה/\">גלריית מוצרים</a></p><p><a href=\"@home:/שאלות-ותשובות-נפוצות/\">שאלות ותשובות נפוצות</a></p><p><a href=\"@home:/מפת-אתר/\">מפת אתר</a></p>",
       "plain": null,
       "plain_status": null,
       "source": "live contacts block: Facebook icon module 5b72b2952372e (an icon without text on live; label «נווה האירוס בפייסבוק» per spec) and rich text module 5986c6b6636cd «מפת אתר»"

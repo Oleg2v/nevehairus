@@ -28,9 +28,7 @@
    "content/v4/posts/post-1050.json",
    "content/v4/posts/post-1055.json",
    "content/v4/posts/post-1059.json",
-   "content/v4/posts/post-1061.json",
    "content/v4/posts/post-1217.json",
-   "content/v4/posts/post-1227.json",
    "content/v4/posts/post-1234.json",
    "content/v4/posts/post-478.json",
    "content/v4/posts/post-484.json",
@@ -41,7 +39,7 @@
    "content/v4/posts/post-973.json",
    "content/v4/posts/post-997.json"
   ],
-  "inputs_sha256": "3796f30a310607cd34bc73b1534d4fa602ad66e1aa2afc5922ce0a1ad95cdd11"
+  "inputs_sha256": "781a38dddd647a43a9d6a466b64b132564b99a0a60c3e2facb0ff3d2cd07fc30"
  },
  "system_colors": [
   {

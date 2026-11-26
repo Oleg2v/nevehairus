@@ -98,6 +98,8 @@
  * 1.6.1: (Itzik 24.11) the job cards of «דרושים» 15% smaller; the static map picture of «צור קשר» (v4.css).
  * 1.7.0: (client 26.11) the page «שאלות ותשובות נפוצות»: its accordion's look (v4.css); the texts, the menu, the footer and the home's section order
  *         are content and builder changes (scripts/build_v4.py), deployed with the pages.
+ * 1.7.1: (client 26.11, round 2) content only: «פיגור שכלי» → «מוגבלות שכלית התפתחותית», «מוסד» → «מעון», two article titles,
+ *         «סנטוריום» / «אבחנה כפולה» / «גלריית מוצרים» from the menu to the footer, two articles to drafts.
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child

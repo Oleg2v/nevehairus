@@ -1,0 +1,107 @@
+{
+ "key": "faq",
+ "order": 85,
+ "title": "שאלות ותשובות נפוצות",
+ "slug": "שאלות-ותשובות-נפוצות",
+ "parent": null,
+ "source": "client edit 26.11 (item 4): five questions with answers, each made only of what the site already says: the contact form and the phone (home contact band), the tests before placement (page «אבחנה כפולה» and the article on it), the number of residents, the capsules and the community housing (pages «מעון ראשי» and «מערך דיור בקהילה»), the medical staff and the activities (the article «מעון לטיפול באדם עם מוגבלות שכלית התפתחותית»), the families and the parents' committee (the home's «מעון לבעלי צרכים מיוחדים» and the article «מעון דיירים»), the footer's contact details.",
+ "notes": "New page, an accordion of five questions (all closed). It adds nothing the site does not already say; there are no visiting hours, prices or waiting lists on it, because the site has none.",
+ "h1": "h1",
+ "blocks": {
+  "h1": {
+   "kind": "text",
+   "full": "שאלות ותשובות נפוצות",
+   "plain": null,
+   "no_plain": "a name"
+  },
+  "faq.q1": {
+   "kind": "text",
+   "full": "איך מתחילים תהליך קליטה במעון?",
+   "plain": null,
+   "no_plain": "a question"
+  },
+  "faq.q2": {
+   "kind": "text",
+   "full": "מי גר במעון, ואילו מסגרות דיור יש?",
+   "plain": null,
+   "no_plain": "a question"
+  },
+  "faq.q3": {
+   "kind": "text",
+   "full": "איזה טיפול וליווי מקבלים הדיירים?",
+   "plain": null,
+   "no_plain": "a question"
+  },
+  "faq.q4": {
+   "kind": "text",
+   "full": "איך נשמר הקשר עם המשפחות, ואפשר לבקר במעון?",
+   "plain": null,
+   "no_plain": "a question"
+  },
+  "faq.q5": {
+   "kind": "text",
+   "full": "איך יוצרים קשר עם המעון?",
+   "plain": null,
+   "no_plain": "a question"
+  },
+  "faq.a1": {
+   "kind": "html",
+   "full": "<p>כדי להכיר את המעון אפשר להשאיר פרטים בטופס באתר, ואנו נחזור אליכם לתיאום מפגש היכרות. אפשר גם להתקשר: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p>שיבוץ דייר נעשה אחרי מבדקי התאמה ואבחון, שמקיימים הצוותים המקצועיים של המעון. לאחר קבלת תוצאות האבחון מזמנים את משפחת הדייר ומציגים בפניה את הממצאים.</p>",
+   "plain": "<p>רוצים להכיר את המעון? אפשר להשאיר פרטים בטופס באתר. אנחנו נחזור אליכם ונקבע פגישה להיכרות. אפשר גם להתקשר: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p>לפני שדייר מגיע, הצוות עושה בדיקות כדי לדעת מה מתאים לו.</p><p>אחרי הבדיקות מזמינים את המשפחה ומספרים לה מה מצאו.</p>",
+   "plain_status": "draft"
+  },
+  "faq.a2": {
+   "kind": "html",
+   "full": "<p>המעון מאכלס מעל 100 דיירים ודיירות, בתוך המעון ובאמצעות 2 שלוחות של המעון בקהילה. דירות המעון מחולקות לשתי יחידות ניהוליות (קפסולות), ולכל קפסולה צוות ניהולי נפרד.</p><p>בנוסף, נווה האירוס מפעיל מערך דיור בקהילה לאוכלוסיית מש״ה (מוגבלות שכלית התפתחותית) ולצעירים על הרצף האוטיסטי.</p>",
+   "plain": "<p>במעון גרים יותר ממאה דיירים ודיירות. חלקם גרים בתוך המעון, וחלקם בשתי שלוחות של המעון בקהילה.</p><p>הדירות במעון מחולקות לשתי יחידות. לכל יחידה יש צוות ניהול משלה.</p><p>יש גם דיור בקהילה, לאנשים עם מוגבלות שכלית התפתחותית ולצעירים על הרצף האוטיסטי.</p>",
+   "plain_status": "draft"
+  },
+  "faq.a3": {
+   "kind": "html",
+   "full": "<p>לכל דייר ודיירת נבנית תכנית טיפול אישית, בשיתוף המשפחה. במעון יש מרפאה פעילה 24/7 ומרפאת שיניים, צוות רפואי הכולל 3 רופאים, אח ואחיות ופסיכיאטר, וכן טיפולים פרא רפואיים.</p><p>לצד הטיפול יש פעילויות פנאי ותעסוקה, למשל יצירה ופסיפס, תנועה ודרמה, מוזיקה, חדר כושר וחדר סנוזלן.</p>",
+   "plain": "<p>לכל דייר ודיירת יש תכנית טיפול אישית. המשפחה לוקחת חלק בתכנית.</p><p>במעון יש מרפאה שפועלת כל היום והלילה, ומרפאת שיניים. יש שלושה רופאים, אח ואחיות ופסיכיאטר. יש גם טיפולים נוספים.</p><p>בין הטיפולים יש פעילויות ותעסוקה: יצירה, פסיפס, תנועה, דרמה, מוזיקה, חדר כושר וחדר סנוזלן.</p>",
+   "plain_status": "draft"
+  },
+  "faq.a4": {
+   "kind": "html",
+   "full": "<p>המעון רואה במשפחות חלק בלתי נפרד מהצוות התומך. הנהלת המעון והצוותים בקשר רציף עם המשפחות, ובמעון פועל ועד הורים.</p><p>האפשרות של המשפחות להגיע למעון, לבקר ולטייל בין החללים השונים צריכה להיות מובנת מאליה. לתיאום ביקור אפשר להשאיר פרטים בטופס באתר, או להתקשר: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p>",
+   "plain": "<p>המשפחות הן חלק חשוב מהצוות שתומך בדייר. ההנהלה והצוות בקשר קבוע עם המשפחות. במעון יש גם ועד הורים.</p><p>חשוב לנו שהמשפחות יוכלו לבוא, לבקר ולהסתובב במעון.</p><p>רוצים לבוא לבקר? אפשר להשאיר פרטים בטופס באתר, או להתקשר: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p>",
+   "plain_status": "draft"
+  },
+  "faq.a5": {
+   "kind": "html",
+   "full": "<p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>, פקס: <span class=\"nh-ltr\">08-9400805</span>.</p><p>דוא״ל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>.</p><p>כתובת למשלוח דואר: ת.ד. 28 נס ציונה 70450.</p><p>אפשר גם למלא את הטופס בעמוד <a href=\"@home:/צור-קשר/\">צור קשר</a>.</p>",
+   "plain": "<p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p>פקס: <span class=\"nh-ltr\">08-9400805</span>.</p><p>דוא״ל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>.</p><p>כתובת לדואר: ת.ד. 28 נס ציונה 70450.</p><p>אפשר גם למלא טופס בעמוד <a href=\"@home:/צור-קשר/\">צור קשר</a>.</p>",
+   "plain_status": "draft"
+  }
+ },
+ "sections": [
+  {
+   "type": "faq",
+   "id": "faq",
+   "title": "שאלות ותשובות",
+   "items": [
+    {
+     "q": "faq.q1",
+     "a": "faq.a1"
+    },
+    {
+     "q": "faq.q2",
+     "a": "faq.a2"
+    },
+    {
+     "q": "faq.q3",
+     "a": "faq.a3"
+    },
+    {
+     "q": "faq.q4",
+     "a": "faq.a4"
+    },
+    {
+     "q": "faq.q5",
+     "a": "faq.a5"
+    }
+   ]
+  }
+ ]
+}

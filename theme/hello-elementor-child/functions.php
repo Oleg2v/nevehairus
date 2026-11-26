@@ -96,6 +96,8 @@
  *         nh_child_form_guard and /wp-json/nh/v1/form-token, v4.js part 13); the CV form of «דרושים» in a dialog (v4.js part 14);
  *         the headings of the inner pages 15% smaller and the contact form 15% smaller (v4.css); no map on «צור קשר».
  * 1.6.1: (Itzik 24.11) the job cards of «דרושים» 15% smaller; the static map picture of «צור קשר» (v4.css).
+ * 1.7.0: (client 26.11) the page «שאלות ותשובות נפוצות»: its accordion's look (v4.css); the texts, the menu, the footer and the home's section order
+ *         are content and builder changes (scripts/build_v4.py), deployed with the pages.
  * Verified against Hello Elementor 3.5.2 and Elementor 4.4.0 (16.11.2026).
  *
  * @package hello-elementor-child

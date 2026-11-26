@@ -21,6 +21,7 @@
    "content/v4/pages/community-housing.json",
    "content/v4/pages/contact.json",
    "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/faq.json",
    "content/v4/pages/gallery.json",
    "content/v4/pages/main-home.json",
    "content/v4/pages/news.json",
@@ -49,7 +50,7 @@
    "content/v4/posts/post-973.json",
    "content/v4/posts/post-997.json"
   ],
-  "inputs_sha256": "650efdf9251d24874d659a42449a3e1ad53a08c100b1c67b61f4fd8d19ce9629",
+  "inputs_sha256": "3796f30a310607cd34bc73b1534d4fa602ad66e1aa2afc5922ce0a1ad95cdd11",
   "widgets": [
    "button",
    "form",
@@ -546,7 +547,7 @@
        "id": "2d8aaf4",
        "elType": "widget",
        "settings": {
-        "title": "לחיות בבית שעוצב והותאם ממש בשבילך",
+        "title": "נווה האירוס – בית חם לחיים",
         "header_size": "h1",
         "_css_classes": "nh-full",
         "title_color": "#FFFFFF",
@@ -562,7 +563,7 @@
        "id": "9c97281",
        "elType": "widget",
        "settings": {
-        "title": "לגור בבית שמתאים לך",
+        "title": "נווה האירוס – בית חם לחיים",
         "header_size": "h1",
         "_css_classes": "nh-plain",
         "title_color": "#FFFFFF",
@@ -579,7 +580,7 @@
        "id": "06f1284",
        "elType": "widget",
        "settings": {
-        "title": "שיפור מקצועי והתאמה אישית",
+        "title": "בית. משפחה. מקצועיות. איכות חיים.",
         "header_size": "p",
         "_css_classes": "nh-full",
         "typography_typography": "custom",
@@ -607,7 +608,7 @@
        "id": "bc27355",
        "elType": "widget",
        "settings": {
-        "title": "אנחנו משתפרים בעבודה שלנו. אנחנו מתאימים את העבודה שלנו לכל אחד ואחת.",
+        "title": "בית. משפחה. מקצועיות. איכות חיים.",
         "header_size": "p",
         "_css_classes": "nh-plain",
         "typography_typography": "custom",
@@ -1953,7 +1954,7 @@
            "id": "d8e2463",
            "elType": "widget",
            "settings": {
-            "editor": "<p>אגף המגורים החדש בנוה האירוס מספק מענה מלא לכל צורך של הדיירים. מעניק סביבת מחייה נוחה ונעימה.</p>",
+            "editor": "<p>אגף המגורים בנוה האירוס מספק מענה מלא לכל צורך של הדיירים. מעניק סביבת מחיה נוחה ונעימה.</p>",
             "_padding": {
              "unit": "custom",
              "top": ".875rem",
@@ -2059,7 +2060,7 @@
            "id": "b78d999",
            "elType": "widget",
            "settings": {
-            "editor": "<p>נוה האירוס מעון חוסים נס ציונה</p>",
+            "editor": "<p>נוה האירוס מעון דיירים נס ציונה</p>",
             "_padding": {
              "unit": "custom",
              "top": ".875rem",
@@ -2309,7 +2310,7 @@
            "id": "c67b5c1",
            "elType": "widget",
            "settings": {
-            "editor": "<p>המעון מקיים כל העת תערוכות אמנות ופעילויות מרשימות בתחומים שונים</p><p>במעון ניתן למצוא חדר סנוזלן מתקדם בעל ציוד חדשני, מרפאת שיניים מתקדמת ומשוכללת, מועדון מתקדם לרווחת החניכים, חדרים נוחים ומאובזרים ועוד.</p>",
+            "editor": "<p>המעון מקיים כל העת תערוכות אמנות ופעילויות מרשימות בתחומים שונים.</p><p>במעון ניתן למצוא חדר סנוזלן מתקדם בעל ציוד חדשני, מרפאת שיניים מתקדמת ומשוכללת, מועדון מתקדם לרווחת החניכים, חדרים נוחים ומאובזרים ועוד.</p>",
             "_css_classes": "nh-full",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -2343,6 +2344,370 @@
            },
            "elements": [],
            "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  },
+  {
+   "id": "9b4982b",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--snoezelen",
+    "_element_id": "snoezelen",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "חדר סנוזלן"
+   },
+   "elements": [
+    {
+     "id": "67fdea9",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "32",
+       "row": "32",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "36b02f5",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "grid",
+        "grid_columns_grid": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_tablet": {
+         "unit": "custom",
+         "size": "7fr 5fr",
+         "sizes": []
+        },
+        "grid_columns_grid_mobile": {
+         "unit": "fr",
+         "size": 1,
+         "sizes": []
+        },
+        "grid_rows_grid": {
+         "unit": "custom",
+         "size": "auto",
+         "sizes": []
+        },
+        "grid_gaps": {
+         "column": "48",
+         "row": "32",
+         "isLinked": false,
+         "unit": "px"
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "grid_align_items": "center",
+        "_title": "טקסט וסרטון"
+       },
+       "elements": [
+        {
+         "id": "29b0afc",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "16",
+           "row": "16",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "_title": "טקסט"
+         },
+         "elements": [
+          {
+           "id": "6fd8892",
+           "elType": "widget",
+           "settings": {
+            "title": "חדר סנוזלן בנוה האירוס",
+            "header_size": "h2",
+            "title_color": "#4A2D84",
+            "__globals__": {
+             "title_color": "globals/colors?id=primary",
+             "typography_typography": "globals/typography?id=603f9ca"
+            }
+           },
+           "elements": [],
+           "widgetType": "heading"
+          },
+          {
+           "id": "fa6a3b1",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>חדר סנוזלן הוא סביבה רב-חושית מבוקרת, המשלבת גירויים אופטיים, קוליים, ריחיים ותחושתיים (מגע) להרפיה, ויסות רגשי וטיפול. החדר המרופד מציע חוויה מותאמת אישית, לרוב לילדים ואנשים עם מוגבלויות, אוטיזם, או קשיים בוויסות החושי, ומטרתו ליצור איזון בין רוגע לעוררות:</p>",
+            "_css_classes": "nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "2f5ae35",
+           "elType": "widget",
+           "settings": {
+            "editor": "<ul><li><strong>סביבה רב-חושית</strong>: שילוב של אורות, צלילים, ריחות ומרקמים שונים.</li><li><strong>עיצוב מרגיע</strong>: חדר מרופד, לעיתים קרובות לבן, המשרה תחושת ביטחון ונעימות.</li><li><strong>גירויים מותאמים</strong>: סיבים אופטיים, עמודי בועות, מקרנים, מוזיקה רגועה ואביזרי מגע.</li><li><strong>התאמה אישית</strong>: המטפל מתאים את עוצמת הגירויים למטופל, במטרה להביא להרפיה.</li></ul>",
+            "_css_classes": "nh-checklist nh-full",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "91501b1",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>חדר סנוזלן הוא חדר שיש בו דברים לראות, לשמוע, להריח ולגעת.</p><p>משתמשים בחדר כדי להירגע. משתמשים בו גם לטיפול.</p><p>חדר כזה מתאים בדרך כלל לאנשים עם מוגבלות או עם אוטיזם.</p><p>בחדר כזה יש:</p><ul><li>חוטים שמאירים.</li><li>עמודים עם בועות.</li><li>מקרנים.</li><li>מוזיקה רגועה.</li><li>דברים לגעת בהם.</li></ul><p>החדר מרופד, והרבה פעמים הוא לבן. בחדר מרגישים בטוחים, ונעים להיות בו.</p><p>המטפל או המטפלת מתאימים את החדר לכל אדם. למשל, הם קובעים כמה חזקים יהיו האורות והצלילים. המטרה היא לעזור לאדם להירגע.</p>",
+            "_css_classes": "nh-plain",
+            "text_color": "#1F2421",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=text",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=text"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "7fc77d7",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>חדר הסנוזלן הוקם בסיוע ובאדיבות המוסד לביטוח לאומי</p>",
+            "_css_classes": "nh-credit nh-full",
+            "text_color": "#4F5550",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=161ef55",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=504434a"
+            }
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          },
+          {
+           "id": "4edd22a",
+           "elType": "widget",
+           "settings": {
+            "editor": "<p>ביטוח לאומי עזר להקים את החדר.</p>",
+            "_css_classes": "nh-credit nh-plain",
+            "text_color": "#4F5550",
+            "link_color": "#4A2D84",
+            "link_hover_color": "#3A2269",
+            "__globals__": {
+             "text_color": "globals/colors?id=161ef55",
+             "link_color": "globals/colors?id=primary",
+             "link_hover_color": "globals/colors?id=78b4a18",
+             "typography_typography": "globals/typography?id=504434a"
+            },
+            "_title": "שפה פשוטה — טיוטה"
+           },
+           "elements": [],
+           "widgetType": "text-editor"
+          }
+         ],
+         "isInner": true
+        },
+        {
+         "id": "7c4c19a",
+         "elType": "container",
+         "settings": {
+          "content_width": "full",
+          "container_type": "flex",
+          "flex_direction": "column",
+          "flex_gap": {
+           "column": "0",
+           "row": "0",
+           "isLinked": true,
+           "unit": "px"
+          },
+          "flex_wrap": "nowrap",
+          "flex_wrap_tablet": "nowrap",
+          "flex_wrap_mobile": "nowrap",
+          "flex_align_items": "center",
+          "padding": {
+           "unit": "px",
+           "top": "0",
+           "right": "0",
+           "bottom": "0",
+           "left": "0",
+           "isLinked": true
+          },
+          "_title": "סרטון"
+         },
+         "elements": [
+          {
+           "id": "90a4dc0",
+           "elType": "widget",
+           "settings": {
+            "video_type": "youtube",
+            "youtube_url": "https://www.youtube.com/watch?v=Tkbqa08a5Ro",
+            "lazy_load": "yes",
+            "yt_privacy": "yes",
+            "rel": "",
+            "show_image_overlay": "yes",
+            "image_overlay": {
+             "url": "",
+             "id": "@media:video-Tkbqa08a5Ro",
+             "size": "",
+             "alt": "",
+             "source": "library"
+            },
+            "image_overlay_size": "full",
+            "show_play_icon": "yes",
+            "lightbox": "",
+            "aspect_ratio": "916",
+            "_element_width": "initial",
+            "_element_custom_width": {
+             "unit": "px",
+             "size": 270,
+             "sizes": []
+            },
+            "_flex_align_self": "center",
+            "_css_classes": "nh-phone-frame"
+           },
+           "elements": [],
+           "widgetType": "video"
           }
          ],
          "isInner": true
@@ -2996,7 +3361,7 @@
          "id": "64abd23",
          "elType": "widget",
          "settings": {
-          "editor": "<p>אבן הפינה למעון \"נווה האירוס\" הונחה בשנת 1957 ע\"י המשפחות : שטיינהרט, רשו וקוגן.</p><p>במתכונתו הנוכחית מאז 1985 בפיקוח מלא של משרד הרווחה - האגף לטיפול באדם עם מוגבלות שכלית התפתחותית.</p><p>ייחודו של המעון בשיטות טיפול מתקדמות, יחס אישי ודואג לכל חניך ופעילות תרפויטית ייחודית.</p>",
+          "editor": "מאז 1957, נווה האירוס מעניק מסגרות מגורים, טיפול, ליווי וקידום אישי לאנשים עם מוגבלויות, תוך שמירה על כבוד האדם, טיפוח עצמאות ושיתוף פעולה עם המשפחות.",
           "_css_classes": "nh-full",
           "text_color": "#1F2421",
           "link_color": "#4A2D84",
@@ -3015,7 +3380,7 @@
          "id": "6d4a2ca",
          "elType": "widget",
          "settings": {
-          "editor": "<p>בשנת 1957 כמה משפחות התחילו להקים את נווה האירוס.</p><p>משנת 1985 המעון עובד כמו היום.</p><p>משרד הרווחה מפקח על המעון באופן מלא. מי שמפקח הוא האגף שמטפל באנשים עם מוגבלות שכלית התפתחותית.</p><p>מה מיוחד במעון?</p><ul><li>יש שיטות טיפול מתקדמות.</li><li>דואגים לכל דייר ודיירת באופן אישי.</li><li>יש פעילות טיפולית מיוחדת.</li></ul>",
+          "editor": "מאז 1957 נווה האירוס נותן לאנשים עם מוגבלות מקום לגור בו, טיפול, ליווי ועזרה להתקדם. אנחנו שומרים על כבוד האדם, עוזרים לדיירים להיות עצמאיים, ועובדים יחד עם המשפחות.",
           "_css_classes": "nh-plain",
           "text_color": "#1F2421",
           "link_color": "#4A2D84",
@@ -3030,370 +3395,6 @@
          },
          "elements": [],
          "widgetType": "text-editor"
-        }
-       ],
-       "isInner": true
-      }
-     ],
-     "isInner": true
-    }
-   ],
-   "isInner": false
-  },
-  {
-   "id": "9b4982b",
-   "elType": "container",
-   "settings": {
-    "content_width": "full",
-    "container_type": "flex",
-    "flex_direction": "column",
-    "flex_gap": {
-     "column": "0",
-     "row": "0",
-     "isLinked": true,
-     "unit": "px"
-    },
-    "flex_wrap": "nowrap",
-    "flex_wrap_tablet": "nowrap",
-    "flex_wrap_mobile": "nowrap",
-    "padding": {
-     "unit": "custom",
-     "top": "3.5rem",
-     "right": "0",
-     "bottom": "3.5rem",
-     "left": "0",
-     "isLinked": false
-    },
-    "padding_tablet": {
-     "unit": "custom",
-     "top": "3rem",
-     "right": "0",
-     "bottom": "3rem",
-     "left": "0",
-     "isLinked": false
-    },
-    "padding_mobile": {
-     "unit": "custom",
-     "top": "2.5rem",
-     "right": "0",
-     "bottom": "2.5rem",
-     "left": "0",
-     "isLinked": false
-    },
-    "background_background": "classic",
-    "css_classes": "nh-sec nh-sec--snoezelen",
-    "_element_id": "snoezelen",
-    "background_color": "#F7F1E7",
-    "__globals__": {
-     "background_color": "globals/colors?id=349c69f"
-    },
-    "_title": "חדר סנוזלן"
-   },
-   "elements": [
-    {
-     "id": "67fdea9",
-     "elType": "container",
-     "settings": {
-      "content_width": "boxed",
-      "boxed_width": {
-       "unit": "px",
-       "size": 1320,
-       "sizes": []
-      },
-      "container_type": "flex",
-      "flex_direction": "column",
-      "flex_gap": {
-       "column": "32",
-       "row": "32",
-       "isLinked": true,
-       "unit": "px"
-      },
-      "flex_wrap": "nowrap",
-      "flex_wrap_tablet": "nowrap",
-      "flex_wrap_mobile": "nowrap",
-      "flex_gap_mobile": {
-       "column": "24",
-       "row": "24",
-       "isLinked": true,
-       "unit": "px"
-      },
-      "padding": {
-       "unit": "px",
-       "top": "0",
-       "right": "40",
-       "bottom": "0",
-       "left": "40",
-       "isLinked": false
-      },
-      "padding_tablet": {
-       "unit": "px",
-       "top": "0",
-       "right": "32",
-       "bottom": "0",
-       "left": "32",
-       "isLinked": false
-      },
-      "padding_mobile": {
-       "unit": "px",
-       "top": "0",
-       "right": "20",
-       "bottom": "0",
-       "left": "20",
-       "isLinked": false
-      },
-      "css_classes": "nh-sec__inner nh-reveal",
-      "_title": "תוכן"
-     },
-     "elements": [
-      {
-       "id": "36b02f5",
-       "elType": "container",
-       "settings": {
-        "content_width": "full",
-        "container_type": "grid",
-        "grid_columns_grid": {
-         "unit": "custom",
-         "size": "7fr 5fr",
-         "sizes": []
-        },
-        "grid_columns_grid_tablet": {
-         "unit": "custom",
-         "size": "7fr 5fr",
-         "sizes": []
-        },
-        "grid_columns_grid_mobile": {
-         "unit": "fr",
-         "size": 1,
-         "sizes": []
-        },
-        "grid_rows_grid": {
-         "unit": "custom",
-         "size": "auto",
-         "sizes": []
-        },
-        "grid_gaps": {
-         "column": "48",
-         "row": "32",
-         "isLinked": false,
-         "unit": "px"
-        },
-        "padding": {
-         "unit": "px",
-         "top": "0",
-         "right": "0",
-         "bottom": "0",
-         "left": "0",
-         "isLinked": true
-        },
-        "grid_align_items": "center",
-        "_title": "טקסט וסרטון"
-       },
-       "elements": [
-        {
-         "id": "29b0afc",
-         "elType": "container",
-         "settings": {
-          "content_width": "full",
-          "container_type": "flex",
-          "flex_direction": "column",
-          "flex_gap": {
-           "column": "16",
-           "row": "16",
-           "isLinked": true,
-           "unit": "px"
-          },
-          "flex_wrap": "nowrap",
-          "flex_wrap_tablet": "nowrap",
-          "flex_wrap_mobile": "nowrap",
-          "padding": {
-           "unit": "px",
-           "top": "0",
-           "right": "0",
-           "bottom": "0",
-           "left": "0",
-           "isLinked": true
-          },
-          "_title": "טקסט"
-         },
-         "elements": [
-          {
-           "id": "6fd8892",
-           "elType": "widget",
-           "settings": {
-            "title": "חדר סנוזלן בנוה האירוס",
-            "header_size": "h2",
-            "title_color": "#4A2D84",
-            "__globals__": {
-             "title_color": "globals/colors?id=primary",
-             "typography_typography": "globals/typography?id=603f9ca"
-            }
-           },
-           "elements": [],
-           "widgetType": "heading"
-          },
-          {
-           "id": "fa6a3b1",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>חדר הוא סביבה רב-חושית מבוקרת, המשלבת גירויים אופטיים, קוליים, ריחיים ותחושתיים (מגע) להרפיה, ויסות רגשי וטיפול. החדר המרופד מציע חוויה מותאמת אישית, לרוב לילדים ואנשים עם מוגבלויות, אוטיזם, או קשיים בוויסות החושי, ומטרתו ליצור איזון בין רוגע לעוררות:</p>",
-            "_css_classes": "nh-full",
-            "text_color": "#1F2421",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=text",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=text"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "2f5ae35",
-           "elType": "widget",
-           "settings": {
-            "editor": "<ul><li><strong>סביבה רב-חושית</strong>: שילוב של אורות, צלילים, ריחות ומרקמים שונים.</li><li><strong>עיצוב מרגיע</strong>: חדר מרופד, לעיתים קרובות לבן, המשרה תחושת ביטחון ונעימות.</li><li><strong>גירויים מותאמים</strong>: סיבים אופטיים, עמודי בועות, מקרנים, מוזיקה רגועה ואביזרי מגע.</li><li><strong>התאמה אישית</strong>: המטפל מתאים את עוצמת הגירויים למטופל, במטרה להביא להרפיה.</li></ul>",
-            "_css_classes": "nh-checklist nh-full",
-            "text_color": "#1F2421",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=text",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=text"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "91501b1",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>חדר סנוזלן הוא חדר שיש בו דברים לראות, לשמוע, להריח ולגעת.</p><p>משתמשים בחדר כדי להירגע. משתמשים בו גם לטיפול.</p><p>חדר כזה מתאים בדרך כלל לאנשים עם מוגבלות או עם אוטיזם.</p><p>בחדר כזה יש:</p><ul><li>חוטים שמאירים.</li><li>עמודים עם בועות.</li><li>מקרנים.</li><li>מוזיקה רגועה.</li><li>דברים לגעת בהם.</li></ul><p>החדר מרופד, והרבה פעמים הוא לבן. בחדר מרגישים בטוחים, ונעים להיות בו.</p><p>המטפל או המטפלת מתאימים את החדר לכל אדם. למשל, הם קובעים כמה חזקים יהיו האורות והצלילים. המטרה היא לעזור לאדם להירגע.</p>",
-            "_css_classes": "nh-plain",
-            "text_color": "#1F2421",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=text",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=text"
-            },
-            "_title": "שפה פשוטה — טיוטה"
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "7fc77d7",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>חדר הוקם בסיוע ובאדיבות המוסד לביטוח לאומי</p>",
-            "_css_classes": "nh-credit nh-full",
-            "text_color": "#4F5550",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=161ef55",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=504434a"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "4edd22a",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>ביטוח לאומי עזר להקים את החדר.</p>",
-            "_css_classes": "nh-credit nh-plain",
-            "text_color": "#4F5550",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=161ef55",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=504434a"
-            },
-            "_title": "שפה פשוטה — טיוטה"
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          }
-         ],
-         "isInner": true
-        },
-        {
-         "id": "7c4c19a",
-         "elType": "container",
-         "settings": {
-          "content_width": "full",
-          "container_type": "flex",
-          "flex_direction": "column",
-          "flex_gap": {
-           "column": "0",
-           "row": "0",
-           "isLinked": true,
-           "unit": "px"
-          },
-          "flex_wrap": "nowrap",
-          "flex_wrap_tablet": "nowrap",
-          "flex_wrap_mobile": "nowrap",
-          "flex_align_items": "center",
-          "padding": {
-           "unit": "px",
-           "top": "0",
-           "right": "0",
-           "bottom": "0",
-           "left": "0",
-           "isLinked": true
-          },
-          "_title": "סרטון"
-         },
-         "elements": [
-          {
-           "id": "90a4dc0",
-           "elType": "widget",
-           "settings": {
-            "video_type": "youtube",
-            "youtube_url": "https://www.youtube.com/watch?v=Tkbqa08a5Ro",
-            "lazy_load": "yes",
-            "yt_privacy": "yes",
-            "rel": "",
-            "show_image_overlay": "yes",
-            "image_overlay": {
-             "url": "",
-             "id": "@media:video-Tkbqa08a5Ro",
-             "size": "",
-             "alt": "",
-             "source": "library"
-            },
-            "image_overlay_size": "full",
-            "show_play_icon": "yes",
-            "lightbox": "",
-            "aspect_ratio": "916",
-            "_element_width": "initial",
-            "_element_custom_width": {
-             "unit": "px",
-             "size": 270,
-             "sizes": []
-            },
-            "_flex_align_self": "center",
-            "_css_classes": "nh-phone-frame"
-           },
-           "elements": [],
-           "widgetType": "video"
-          }
-         ],
-         "isInner": true
         }
        ],
        "isInner": true
@@ -3601,7 +3602,7 @@
        "id": "1ebed93",
        "elType": "widget",
        "settings": {
-        "editor": "<p>נווה האירוס הוא מעון לבעלי צרכים מיוחדים, והתמונה שעולה יחד עם ההרגשה שבגוף היא, כי משהו חדש מתחיל, משהו טוב קורה כאן, בנווה האירוס.</p><p>מעון לבעלי צרכים מיוחדים הוא מקום. בית. (אפילו) לכל החיים, הן לחוסים בו והן למשפחותיהם. הצוותים העובדים במעון נווה האירוס הינם צוותים חדשים ומחודשים, כאלו שעברו הכשרות מקצועיות, ימי עיון וההדרכות, על מנת למקד את תכנית הטיפול האישית, המתאימה לכל אחד ואחת מדיירי המעון. כמעון לבעלי צרכים מיוחדים, מעון נווה האירוס, שואף להתקדם ומתקדם בכל יום לשיפור המיומנויות והכלים היומיומיים לשילוב בחברה, שכן, ישנם דיירים ברמות תפקוד שונות, המאפשרות להם/ן, יחד עם הכשרה וליווי צמוד של הצוות המטפל, להשתלב בעבודה, לגור באופן עצמאי, עם דיירים נוספים (תוך חונכות איש צוות אשר קיבל הכשרה מתאימה) ובכלל, בנווה האירוס, עושים ונעשה את המקסימום על מנת לוודא כי כל החוסים יקבלו טיפול צמוד ומתאים בהתאם לקשיים של כל אחד ואחת.</p>",
+        "editor": "<p>מעון לבעלי צרכים מיוחדים הוא מקום. בית. (אפילו) לכל החיים, הן לדיירים בו והן למשפחותיהם. הצוותים העובדים במעון נווה האירוס עברו הכשרות מקצועיות, ימי עיון והדרכות, על מנת למקד את תכנית הטיפול האישית, המתאימה לכל אחד ואחת מדיירי המעון. כמעון לבעלי צרכים מיוחדים, מעון נווה האירוס, שואף להתקדם ומתקדם בכל יום לשיפור המיומנויות והכלים היומיומיים לשילוב בחברה, שכן, ישנם דיירים ברמות תפקוד שונות, המאפשרות להם/ן, יחד עם הכשרה וליווי צמוד של הצוות המטפל, להשתלב בעבודה, לגור באופן עצמאי, עם דיירים נוספים (תוך חונכות איש צוות אשר קיבל הכשרה מתאימה) ובכלל, בנווה האירוס, עושים ונעשה את המקסימום על מנת לוודא כי כל הדיירים יקבלו טיפול צמוד ומתאים בהתאם לקשיים של כל אחד ואחת.</p>",
         "_css_classes": "nh-full",
         "text_color": "#1F2421",
         "link_color": "#4A2D84",
@@ -3692,7 +3693,7 @@
            "id": "b543d10",
            "elType": "widget",
            "settings": {
-            "editor": "<p>מעון לבעלי צרכים מיוחדים צריך להיות כזה המאפשר גם למשפחות החוסים, לקחת חלק בחייהם, גם אם אינם גרים בביתם השורשי. האפשרות להגיע למעון, לבקר, לטייל בין החללים השונים, צריכה להיות מובנת מאליה ולא ממודרת. השיתוף בין הנהלת המעון, (אשר גם מנצחת על תהליך השיפור והשינוי במעון), הצוותים המטפלים השונים, לבין משפחות החוסים, מאפשר תקשורת פתוחה, שקיפות ושיתוף פעולה בכל הקשור לחיי היומיום במעון ולחזון העתידי שלו. משפחותיהם של החוסים מהווות חלק בלתי נפרד מהצוות התומך, המקיף את החוסה ועל כך, מעצימים את הביטחון שלו/ה, מאפשרים להתפנות לטיפולים השונים ולהתקדמות בדרך. התקשורת בין המשפחות לצוותים היא חלק בלתי נפרד מהצלחתו של מעון לבעלי צרכים מיוחדים, שכן, ישנם מעגלי תקשורת אשר נפתחים ונסגרים בכל פעם, והיות וישנם חוסים אשר נמצאים גם במסגרות חוץ, חד יומיות, חשוב להנהלת מעון נווה האירוס, להיות בקשר רציף עם המשפחות וזאת על מנת לשמר את תהליך הטיפול ולהתקדם בכל פעם, קצת, צעד צעד.</p><p>מעון לבעלי צרכים מיוחדים, הוא מקום מיוחד, ייחודי ורגיש מאד. העבודה עם אוכלוסייה בעלת צרכים מיוחדים היא זכות גדולה ועדיין לא כולם בוחרים בה ולכן, הצוותים בנווה האירוס נבחרו בקפידה תוך התייחסות ספציפית לכישורים מתאימים וכמובן, לב רחב וסבלנות אין קץ, שכן, הטיפול באוכלוסייה שכזו, אינו מניב תוצאות מיידיות (וכאלו שגם לא מניב כלל) ולכן, נדרשת סבלנות גדולה ונתינה ענקית.</p><p>הצוותים השונים, העובדים עם החוסים, עושים את המקסימום על מנת לאפשר לכל אחד מהדיירים במעון את הרווחה המגיעה לכל אחד ואחת מהם. הליווי, האכפתיות, תשומת הלב, גם לפרטים הקטנים ביותר, כי זהו חלק מהחזון שלנו בנווה האירוס, אותו אנו מגשימים בכל יום ויום וזמינים גם עבור משפחותיהם של הדיירים ומאפשרים ערוצי תקשורת פתוחים עם הנהלת המעון והצוותים הרלוונטיים.</p><p>מעון לבעלי צרכים מיוחדים נווה האירוס, הוא מקום מיוחד, עם אנשים מיוחדים לאנשים מיוחדים. נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.</p>",
+            "editor": "<p>מעון לבעלי צרכים מיוחדים צריך להיות כזה המאפשר גם למשפחות הדיירים, לקחת חלק בחייהם, גם אם אינם גרים בביתם השורשי. האפשרות להגיע למעון, לבקר, לטייל בין החללים השונים, צריכה להיות מובנת מאליה ולא ממודרת. השיתוף בין הנהלת המעון, הצוותים המטפלים השונים, לבין משפחות הדיירים, מאפשר תקשורת פתוחה, שקיפות ושיתוף פעולה בכל הקשור לחיי היומיום במעון ולחזון העתידי שלו. משפחות הדיירים מהווות חלק בלתי נפרד מהצוות התומך, המקיף את הדייר ועל כך, מעצימים את הביטחון שלו/ה, מאפשרים להתפנות לטיפולים השונים ולהתקדמות בדרך. התקשורת בין המשפחות לצוותים היא חלק בלתי נפרד מהצלחתו של מעון לבעלי צרכים מיוחדים, שכן, ישנם מעגלי תקשורת אשר נפתחים ונסגרים בכל פעם, והיות וישנם דיירים אשר נמצאים גם במסגרות חוץ, חד יומיות, חשוב להנהלת מעון נווה האירוס, להיות בקשר רציף עם המשפחות וזאת על מנת לשמר את תהליך הטיפול ולהתקדם בכל פעם, קצת, צעד צעד.</p><p>מעון לבעלי צרכים מיוחדים, הוא מקום מיוחד, ייחודי ורגיש מאד. העבודה עם אוכלוסייה בעלת צרכים מיוחדים היא זכות גדולה ועדיין לא כולם בוחרים בה ולכן, הצוותים בנווה האירוס נבחרו בקפידה תוך התייחסות ספציפית לכישורים מתאימים וכמובן, לב רחב וסבלנות אין קץ, שכן, הטיפול באוכלוסייה שכזו, אינו מניב תוצאות מיידיות (וכאלו שגם לא מניב כלל) ולכן, נדרשת סבלנות גדולה ונתינה ענקית.</p><p>הצוותים השונים, העובדים עם הדיירים, עושים את המקסימום על מנת לאפשר לכל אחד מהדיירים במעון את הרווחה המגיעה לכל אחד ואחת מהם. הליווי, האכפתיות, תשומת הלב, גם לפרטים הקטנים ביותר, כי זהו חלק מהחזון שלנו בנווה האירוס, אותו אנו מגשימים בכל יום ויום וזמינים גם עבור משפחותיהם של הדיירים ומאפשרים ערוצי תקשורת פתוחים עם הנהלת המעון והצוותים הרלוונטיים.</p><p>מעון לבעלי צרכים מיוחדים נווה האירוס, הוא מקום מיוחד, עם אנשים מיוחדים לאנשים מיוחדים. נשמח לארח אתכם למפגשי היכרות והתרשמות ולספק כל מידע הדרוש לכם.</p>",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
             "link_hover_color": "#3A2269",
@@ -3716,7 +3717,7 @@
        "id": "f48fa3c",
        "elType": "widget",
        "settings": {
-        "editor": "<p>יש אנשים שחושבים שמעון לאנשים עם מוגבלות הוא מקום לא כל כך נעים.</p><p>נווה האירוס הוא מעון לאנשים עם מוגבלות. אבל בנווה האירוס מתחיל משהו חדש. משהו טוב קורה כאן.</p><p>המעון הוא בית. הוא יכול להיות בית לכל החיים. הוא בית לדיירים ולדיירות, וגם למשפחות שלהם.</p><p>הצוות במעון התחדש. אנשי הצוות עברו הכשרות מקצועיות, כדי להתאים לכל דייר ודיירת תכנית טיפול אישית.</p><p>אנחנו עוזרים לדיירים ולדיירות להשתפר בדברים של יום יום. המטרה היא שיהיו חלק מהחברה.</p><p>בעזרת הצוות, יש דיירים ודיירות שיכולים לעבוד. יש גם דיירים ודיירות שיכולים לגור באופן עצמאי, עם דיירים אחרים. איש צוות מלווה אותם.</p><p>אנחנו עושים כמה שאפשר כדי שכל דייר ודיירת יקבלו טיפול צמוד שמתאים להם. הצוות שם לב גם לדברים הכי קטנים.</p><p>חשוב לנו שהמשפחות יהיו חלק מהחיים של הדיירים והדיירות. חשוב לנו שהמשפחות יוכלו לבוא, לבקר ולהסתובב במעון.</p><p>ההנהלה, הצוות והמשפחות עובדים יחד. הם מדברים בפתיחות על החיים במעון ועל העתיד שלו.</p><p>המשפחות תומכות בדיירים ובדיירות. כך הדיירים והדיירות מרגישים בטוחים יותר, ויכולים להתקדם.</p><p>הצוות זמין גם למשפחות. חשוב לנו להיות בקשר קבוע עם המשפחות. הקשר עוזר להמשיך בטיפול ולהתקדם, צעד אחרי צעד.</p><p>לעבוד עם אנשים עם מוגבלות זו זכות גדולה. לא כל אחד בוחר בעבודה הזאת. לכן בחרנו את אנשי הצוות בתשומת לב. חיפשנו אנשים עם כישורים מתאימים, לב רחב והרבה סבלנות.</p><p>נווה האירוס הוא מקום מיוחד. נשמח שתבואו להכיר אותנו. נשמח לתת לכם מידע.</p>",
+        "editor": "<p>יש אנשים שחושבים שמעון לאנשים עם מוגבלות הוא מקום לא כל כך נעים.</p><p>נווה האירוס הוא מעון לאנשים עם מוגבלות.</p><p>המעון הוא בית. הוא יכול להיות בית לכל החיים. הוא בית לדיירים ולדיירות, וגם למשפחות שלהם.</p><p>אנשי הצוות במעון עברו הכשרות מקצועיות, כדי להתאים לכל דייר ודיירת תכנית טיפול אישית.</p><p>אנחנו עוזרים לדיירים ולדיירות להשתפר בדברים של יום יום. המטרה היא שיהיו חלק מהחברה.</p><p>בעזרת הצוות, יש דיירים ודיירות שיכולים לעבוד. יש גם דיירים ודיירות שיכולים לגור באופן עצמאי, עם דיירים אחרים. איש צוות מלווה אותם.</p><p>אנחנו עושים כמה שאפשר כדי שכל דייר ודיירת יקבלו טיפול צמוד שמתאים להם. הצוות שם לב גם לדברים הכי קטנים.</p><p>חשוב לנו שהמשפחות יהיו חלק מהחיים של הדיירים והדיירות. חשוב לנו שהמשפחות יוכלו לבוא, לבקר ולהסתובב במעון.</p><p>ההנהלה, הצוות והמשפחות עובדים יחד. הם מדברים בפתיחות על החיים במעון ועל העתיד שלו.</p><p>המשפחות תומכות בדיירים ובדיירות. כך הדיירים והדיירות מרגישים בטוחים יותר, ויכולים להתקדם.</p><p>הצוות זמין גם למשפחות. חשוב לנו להיות בקשר קבוע עם המשפחות. הקשר עוזר להמשיך בטיפול ולהתקדם, צעד אחרי צעד.</p><p>לעבוד עם אנשים עם מוגבלות זו זכות גדולה. לא כל אחד בוחר בעבודה הזאת. לכן בחרנו את אנשי הצוות בתשומת לב. חיפשנו אנשים עם כישורים מתאימים, לב רחב והרבה סבלנות.</p><p>נווה האירוס הוא מקום מיוחד. נשמח שתבואו להכיר אותנו. נשמח לתת לכם מידע.</p>",
         "_css_classes": "nh-plain",
         "text_color": "#1F2421",
         "link_color": "#4A2D84",

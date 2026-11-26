@@ -126,7 +126,7 @@ PAGE_KEYS = ("home", "main-home") + DOC_KEYS[1:]      # what @page-id:/@page: ma
 LINKABLE = ("home", "main-home")                       # @page: (permalinks) only for pages
 
 # the sections of the home page, top to bottom (spec 10 §1; the header floats over the hero)
-SECTIONS = ("hero", "specialties", "life", "pro", "snoezelen", "special-needs", "contact")   # v4.3 (Itzik 18.11)
+SECTIONS = ("hero", "specialties", "life", "snoezelen", "pro", "special-needs", "contact")   # v4.3 (Itzik 18.11); 26.11 (client): snoezelen moved up, right after «החיים בנווה האירוס» (the therapeutic rooms and activities)
 REVEAL_SKIP = ("hero",)                                # the first screen: nothing on it waits (spec 10 §3)
 
 PLAIN_TITLE = "שפה פשוטה — טיוטה"                      # the Navigator label of a plain twin (§4, §6)
@@ -1029,8 +1029,8 @@ class Builder:
     # ---- documents ------------------------------------------------------------------------------------------------------------
     def home(self):
         self.doc = "home"
-        return [self.hero(), self.specialties(), self.life(), self.pro(),
-                self.snoezelen(), self.special(), self.contact()]
+        return [self.hero(), self.specialties(), self.life(), self.snoezelen(), self.pro(),
+                self.special(), self.contact()]
 
 
 
@@ -1254,6 +1254,29 @@ class PageBuilder(Builder):
         self.use(m["caption"], "full", img, "caption")
         credit = self.text_editor_block(m["credit"], f"{path}/credit", "nh-map-credit", typo="small", color="ink-2")
         return self.card(path, [img] + credit, "מפה", {"css_classes": "nh-page__card nh-map-card"})
+
+    def sec_faq(self, name, sec):
+        """26.11 (client): questions and answers in one Nested Accordion, every item closed (the «להמשך קריאה» recipe: «multiple»,
+        0 ms, the summary a span); each answer is a Text Editor in its item's container, with its plain twin."""
+        p = f"{name}/inner/col"
+        items, kids = [], []
+        for n, it in enumerate(sec["items"]):
+            q = f"{p}/acc/item-{n}"
+            title = self.text(it["q"], "full")
+            items.append({"item_title": title, "element_css_id": "", "_id": hex7(f"{self.doc}/{p}/acc/items/{n}")})
+            kids.append(self.container(q, {**flex("column", 16, 16), "padding": dims(16, 0, 0, 0), "_title": title},
+                                       self.text_editor_block(it["a"], f"{q}/a", "nh-page__text")))
+        acc = self.widget(f"{p}/acc", "nested-accordion", styled({
+            "items": items, "default_state": "all_collapsed", "max_items_expended": "multiple",
+            "n_accordion_animation_duration": {"unit": "ms", "size": 0, "sizes": []},
+            "title_tag": "span", "accordion_item_title_icon": icon("plus"), "accordion_item_title_icon_active": icon("minus"),
+            "_css_classes": "nh-more nh-faq"},
+            {"title_typography_typography": "accent"},
+            normal_title_color="purple-700", hover_title_color="purple-800", active_title_color="purple-700",
+            normal_icon_color="purple-700", hover_icon_color="purple-800", active_icon_color="purple-700"), kids)
+        for n, it in enumerate(sec["items"]):
+            self.use(it["q"], "full", acc, f"items.{n}.item_title")
+        return [self.column(p, self.head(sec, f"{p}/h") + [acc], title="שאלות ותשובות")]
 
     def sec_text_video(self, name, sec):
         """Text beside a vertical YouTube video in the home's phone frame (the snoezelen Short's look): nothing from

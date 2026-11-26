@@ -1,0 +1,726 @@
+{
+ "key": "faq",
+ "title": "שאלות ותשובות נפוצות",
+ "slug": "שאלות-ותשובות-נפוצות",
+ "parent": null,
+ "front_page": false,
+ "post_type": "page",
+ "document_type": "wp-page",
+ "template": "elementor_header_footer",
+ "conditions": [],
+ "page_settings": {},
+ "built_from": {
+  "inputs": [
+   "content/v4/home.json",
+   "templates/v4/media.json",
+   "scripts/build_v4.py",
+   "content/v4/pages/about.json",
+   "content/v4/pages/accessibility.json",
+   "content/v4/pages/archive.json",
+   "content/v4/pages/careers.json",
+   "content/v4/pages/community-housing-autism.json",
+   "content/v4/pages/community-housing.json",
+   "content/v4/pages/contact.json",
+   "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/faq.json",
+   "content/v4/pages/gallery.json",
+   "content/v4/pages/main-home.json",
+   "content/v4/pages/news.json",
+   "content/v4/pages/privacy.json",
+   "content/v4/pages/products-gallery.json",
+   "content/v4/pages/sanatorium.json",
+   "content/v4/pages/sitemap.json",
+   "content/v4/pages/testimonials.json",
+   "content/v4/posts/post-1017.json",
+   "content/v4/posts/post-1039.json",
+   "content/v4/posts/post-1041.json",
+   "content/v4/posts/post-1045.json",
+   "content/v4/posts/post-1050.json",
+   "content/v4/posts/post-1055.json",
+   "content/v4/posts/post-1059.json",
+   "content/v4/posts/post-1061.json",
+   "content/v4/posts/post-1217.json",
+   "content/v4/posts/post-1227.json",
+   "content/v4/posts/post-1234.json",
+   "content/v4/posts/post-478.json",
+   "content/v4/posts/post-484.json",
+   "content/v4/posts/post-498.json",
+   "content/v4/posts/post-546.json",
+   "content/v4/posts/post-855.json",
+   "content/v4/posts/post-971.json",
+   "content/v4/posts/post-973.json",
+   "content/v4/posts/post-997.json"
+  ],
+  "inputs_sha256": "3796f30a310607cd34bc73b1534d4fa602ad66e1aa2afc5922ce0a1ad95cdd11",
+  "widgets": [
+   "heading",
+   "nested-accordion",
+   "text-editor"
+  ],
+  "blocks": {
+   "faq.a1": {
+    "full": {
+     "element": "9539a69",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "cdfa888",
+     "field": "editor"
+    }
+   },
+   "faq.a2": {
+    "full": {
+     "element": "fe30850",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "5f70661",
+     "field": "editor"
+    }
+   },
+   "faq.a3": {
+    "full": {
+     "element": "3501d7a",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "54fefce",
+     "field": "editor"
+    }
+   },
+   "faq.a4": {
+    "full": {
+     "element": "d0c465f",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "a95c486",
+     "field": "editor"
+    }
+   },
+   "faq.a5": {
+    "full": {
+     "element": "c95363f",
+     "field": "editor"
+    },
+    "plain": {
+     "element": "86099b7",
+     "field": "editor"
+    }
+   },
+   "faq.q1": {
+    "full": {
+     "element": "957fea1",
+     "field": "items.0.item_title"
+    }
+   },
+   "faq.q2": {
+    "full": {
+     "element": "957fea1",
+     "field": "items.1.item_title"
+    }
+   },
+   "faq.q3": {
+    "full": {
+     "element": "957fea1",
+     "field": "items.2.item_title"
+    }
+   },
+   "faq.q4": {
+    "full": {
+     "element": "957fea1",
+     "field": "items.3.item_title"
+    }
+   },
+   "faq.q5": {
+    "full": {
+     "element": "957fea1",
+     "field": "items.4.item_title"
+    }
+   },
+   "h1": {
+    "full": {
+     "element": "509748c",
+     "field": "title"
+    }
+   }
+  }
+ },
+ "elementor_data": [
+  {
+   "id": "f53a17a",
+   "elType": "container",
+   "settings": {
+    "content_width": "full",
+    "container_type": "flex",
+    "flex_direction": "column",
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px"
+    },
+    "flex_wrap": "nowrap",
+    "flex_wrap_tablet": "nowrap",
+    "flex_wrap_mobile": "nowrap",
+    "padding": {
+     "unit": "custom",
+     "top": "3.5rem",
+     "right": "0",
+     "bottom": "3.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_tablet": {
+     "unit": "custom",
+     "top": "3rem",
+     "right": "0",
+     "bottom": "3rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "padding_mobile": {
+     "unit": "custom",
+     "top": "2.5rem",
+     "right": "0",
+     "bottom": "2.5rem",
+     "left": "0",
+     "isLinked": false
+    },
+    "background_background": "classic",
+    "css_classes": "nh-sec nh-sec--faq",
+    "_element_id": "faq",
+    "background_color": "#F7F1E7",
+    "__globals__": {
+     "background_color": "globals/colors?id=349c69f"
+    },
+    "_title": "שאלות ותשובות"
+   },
+   "elements": [
+    {
+     "id": "299512a",
+     "elType": "container",
+     "settings": {
+      "content_width": "boxed",
+      "boxed_width": {
+       "unit": "px",
+       "size": 1320,
+       "sizes": []
+      },
+      "container_type": "flex",
+      "flex_direction": "column",
+      "flex_gap": {
+       "column": "24",
+       "row": "24",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "flex_wrap": "nowrap",
+      "flex_wrap_tablet": "nowrap",
+      "flex_wrap_mobile": "nowrap",
+      "flex_gap_mobile": {
+       "column": "16",
+       "row": "16",
+       "isLinked": true,
+       "unit": "px"
+      },
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "40",
+       "bottom": "0",
+       "left": "40",
+       "isLinked": false
+      },
+      "padding_tablet": {
+       "unit": "px",
+       "top": "0",
+       "right": "32",
+       "bottom": "0",
+       "left": "32",
+       "isLinked": false
+      },
+      "padding_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "20",
+       "bottom": "0",
+       "left": "20",
+       "isLinked": false
+      },
+      "css_classes": "nh-sec__inner nh-reveal",
+      "_title": "תוכן"
+     },
+     "elements": [
+      {
+       "id": "509748c",
+       "elType": "widget",
+       "settings": {
+        "title": "שאלות ותשובות נפוצות",
+        "header_size": "h1",
+        "title_color": "#4A2D84",
+        "__globals__": {
+         "title_color": "globals/colors?id=primary",
+         "typography_typography": "globals/typography?id=c704369"
+        }
+       },
+       "elements": [],
+       "widgetType": "heading"
+      },
+      {
+       "id": "48e6974",
+       "elType": "container",
+       "settings": {
+        "content_width": "full",
+        "container_type": "flex",
+        "flex_direction": "column",
+        "flex_gap": {
+         "column": "16",
+         "row": "16",
+         "isLinked": true,
+         "unit": "px"
+        },
+        "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "nowrap",
+        "flex_wrap_mobile": "nowrap",
+        "width": {
+         "unit": "custom",
+         "size": "min(860px, 100%)",
+         "sizes": []
+        },
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "css_classes": "nh-page__col",
+        "_title": "שאלות ותשובות"
+       },
+       "elements": [
+        {
+         "id": "957fea1",
+         "elType": "widget",
+         "settings": {
+          "items": [
+           {
+            "item_title": "איך מתחילים תהליך קליטה במעון?",
+            "element_css_id": "",
+            "_id": "12c00a5"
+           },
+           {
+            "item_title": "מי גר במעון, ואילו מסגרות דיור יש?",
+            "element_css_id": "",
+            "_id": "cc66fd1"
+           },
+           {
+            "item_title": "איזה טיפול וליווי מקבלים הדיירים?",
+            "element_css_id": "",
+            "_id": "42b558c"
+           },
+           {
+            "item_title": "איך נשמר הקשר עם המשפחות, ואפשר לבקר במעון?",
+            "element_css_id": "",
+            "_id": "8dea0ca"
+           },
+           {
+            "item_title": "איך יוצרים קשר עם המעון?",
+            "element_css_id": "",
+            "_id": "1a7edd0"
+           }
+          ],
+          "default_state": "all_collapsed",
+          "max_items_expended": "multiple",
+          "n_accordion_animation_duration": {
+           "unit": "ms",
+           "size": 0,
+           "sizes": []
+          },
+          "title_tag": "span",
+          "accordion_item_title_icon": {
+           "value": "fas fa-plus",
+           "library": "fa-solid"
+          },
+          "accordion_item_title_icon_active": {
+           "value": "fas fa-minus",
+           "library": "fa-solid"
+          },
+          "_css_classes": "nh-more nh-faq",
+          "normal_title_color": "#4A2D84",
+          "hover_title_color": "#3A2269",
+          "active_title_color": "#4A2D84",
+          "normal_icon_color": "#4A2D84",
+          "hover_icon_color": "#3A2269",
+          "active_icon_color": "#4A2D84",
+          "__globals__": {
+           "normal_title_color": "globals/colors?id=primary",
+           "hover_title_color": "globals/colors?id=78b4a18",
+           "active_title_color": "globals/colors?id=primary",
+           "normal_icon_color": "globals/colors?id=primary",
+           "hover_icon_color": "globals/colors?id=78b4a18",
+           "active_icon_color": "globals/colors?id=primary",
+           "title_typography_typography": "globals/typography?id=accent"
+          }
+         },
+         "elements": [
+          {
+           "id": "2abd755",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "16",
+             "row": "16",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "px",
+             "top": "16",
+             "right": "0",
+             "bottom": "0",
+             "left": "0",
+             "isLinked": false
+            },
+            "_title": "איך מתחילים תהליך קליטה במעון?"
+           },
+           "elements": [
+            {
+             "id": "9539a69",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>כדי להכיר את המעון אפשר להשאיר פרטים בטופס באתר, ואנו נחזור אליכם לתיאום מפגש היכרות. אפשר גם להתקשר: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p>שיבוץ דייר נעשה אחרי מבדקי התאמה ואבחון, שמקיימים הצוותים המקצועיים של המעון. לאחר קבלת תוצאות האבחון מזמנים את משפחת הדייר ומציגים בפניה את הממצאים.</p>",
+              "_css_classes": "nh-page__text nh-full",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              }
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "cdfa888",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>רוצים להכיר את המעון? אפשר להשאיר פרטים בטופס באתר. אנחנו נחזור אליכם ונקבע פגישה להיכרות. אפשר גם להתקשר: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p>לפני שדייר מגיע, הצוות עושה בדיקות כדי לדעת מה מתאים לו.</p><p>אחרי הבדיקות מזמינים את המשפחה ומספרים לה מה מצאו.</p>",
+              "_css_classes": "nh-page__text nh-plain",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              },
+              "_title": "שפה פשוטה — טיוטה"
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            }
+           ],
+           "isInner": true
+          },
+          {
+           "id": "318b6c4",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "16",
+             "row": "16",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "px",
+             "top": "16",
+             "right": "0",
+             "bottom": "0",
+             "left": "0",
+             "isLinked": false
+            },
+            "_title": "מי גר במעון, ואילו מסגרות דיור יש?"
+           },
+           "elements": [
+            {
+             "id": "fe30850",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>המעון מאכלס מעל 100 דיירים ודיירות, בתוך המעון ובאמצעות 2 שלוחות של המעון בקהילה. דירות המעון מחולקות לשתי יחידות ניהוליות (קפסולות), ולכל קפסולה צוות ניהולי נפרד.</p><p>בנוסף, נווה האירוס מפעיל מערך דיור בקהילה לאוכלוסיית מש״ה (מוגבלות שכלית התפתחותית) ולצעירים על הרצף האוטיסטי.</p>",
+              "_css_classes": "nh-page__text nh-full",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              }
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "5f70661",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>במעון גרים יותר ממאה דיירים ודיירות. חלקם גרים בתוך המעון, וחלקם בשתי שלוחות של המעון בקהילה.</p><p>הדירות במעון מחולקות לשתי יחידות. לכל יחידה יש צוות ניהול משלה.</p><p>יש גם דיור בקהילה, לאנשים עם מוגבלות שכלית התפתחותית ולצעירים על הרצף האוטיסטי.</p>",
+              "_css_classes": "nh-page__text nh-plain",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              },
+              "_title": "שפה פשוטה — טיוטה"
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            }
+           ],
+           "isInner": true
+          },
+          {
+           "id": "6532b27",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "16",
+             "row": "16",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "px",
+             "top": "16",
+             "right": "0",
+             "bottom": "0",
+             "left": "0",
+             "isLinked": false
+            },
+            "_title": "איזה טיפול וליווי מקבלים הדיירים?"
+           },
+           "elements": [
+            {
+             "id": "3501d7a",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>לכל דייר ודיירת נבנית תכנית טיפול אישית, בשיתוף המשפחה. במעון יש מרפאה פעילה 24/7 ומרפאת שיניים, צוות רפואי הכולל 3 רופאים, אח ואחיות ופסיכיאטר, וכן טיפולים פרא רפואיים.</p><p>לצד הטיפול יש פעילויות פנאי ותעסוקה, למשל יצירה ופסיפס, תנועה ודרמה, מוזיקה, חדר כושר וחדר סנוזלן.</p>",
+              "_css_classes": "nh-page__text nh-full",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              }
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "54fefce",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>לכל דייר ודיירת יש תכנית טיפול אישית. המשפחה לוקחת חלק בתכנית.</p><p>במעון יש מרפאה שפועלת כל היום והלילה, ומרפאת שיניים. יש שלושה רופאים, אח ואחיות ופסיכיאטר. יש גם טיפולים נוספים.</p><p>בין הטיפולים יש פעילויות ותעסוקה: יצירה, פסיפס, תנועה, דרמה, מוזיקה, חדר כושר וחדר סנוזלן.</p>",
+              "_css_classes": "nh-page__text nh-plain",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              },
+              "_title": "שפה פשוטה — טיוטה"
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            }
+           ],
+           "isInner": true
+          },
+          {
+           "id": "e99bd26",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "16",
+             "row": "16",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "px",
+             "top": "16",
+             "right": "0",
+             "bottom": "0",
+             "left": "0",
+             "isLinked": false
+            },
+            "_title": "איך נשמר הקשר עם המשפחות, ואפשר לבקר במעון?"
+           },
+           "elements": [
+            {
+             "id": "d0c465f",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>המעון רואה במשפחות חלק בלתי נפרד מהצוות התומך. הנהלת המעון והצוותים בקשר רציף עם המשפחות, ובמעון פועל ועד הורים.</p><p>האפשרות של המשפחות להגיע למעון, לבקר ולטייל בין החללים השונים צריכה להיות מובנת מאליה. לתיאום ביקור אפשר להשאיר פרטים בטופס באתר, או להתקשר: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p>",
+              "_css_classes": "nh-page__text nh-full",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              }
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "a95c486",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>המשפחות הן חלק חשוב מהצוות שתומך בדייר. ההנהלה והצוות בקשר קבוע עם המשפחות. במעון יש גם ועד הורים.</p><p>חשוב לנו שהמשפחות יוכלו לבוא, לבקר ולהסתובב במעון.</p><p>רוצים לבוא לבקר? אפשר להשאיר פרטים בטופס באתר, או להתקשר: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p>",
+              "_css_classes": "nh-page__text nh-plain",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              },
+              "_title": "שפה פשוטה — טיוטה"
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            }
+           ],
+           "isInner": true
+          },
+          {
+           "id": "6a60e50",
+           "elType": "container",
+           "settings": {
+            "content_width": "full",
+            "container_type": "flex",
+            "flex_direction": "column",
+            "flex_gap": {
+             "column": "16",
+             "row": "16",
+             "isLinked": true,
+             "unit": "px"
+            },
+            "flex_wrap": "nowrap",
+            "flex_wrap_tablet": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "padding": {
+             "unit": "px",
+             "top": "16",
+             "right": "0",
+             "bottom": "0",
+             "left": "0",
+             "isLinked": false
+            },
+            "_title": "איך יוצרים קשר עם המעון?"
+           },
+           "elements": [
+            {
+             "id": "c95363f",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>, פקס: <span class=\"nh-ltr\">08-9400805</span>.</p><p>דוא״ל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>.</p><p>כתובת למשלוח דואר: ת.ד. 28 נס ציונה 70450.</p><p>אפשר גם למלא את הטופס בעמוד <a href=\"@home:/צור-קשר/\">צור קשר</a>.</p>",
+              "_css_classes": "nh-page__text nh-full",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              }
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            },
+            {
+             "id": "86099b7",
+             "elType": "widget",
+             "settings": {
+              "editor": "<p>טלפון: <a href=\"tel:089403047\"><span class=\"nh-ltr\">08-9403047</span></a>.</p><p>פקס: <span class=\"nh-ltr\">08-9400805</span>.</p><p>דוא״ל: <a href=\"mailto:irus1@nevehairus.com\"><span class=\"nh-ltr\">irus1@nevehairus.com</span></a>.</p><p>כתובת לדואר: ת.ד. 28 נס ציונה 70450.</p><p>אפשר גם למלא טופס בעמוד <a href=\"@home:/צור-קשר/\">צור קשר</a>.</p>",
+              "_css_classes": "nh-page__text nh-plain",
+              "text_color": "#1F2421",
+              "link_color": "#4A2D84",
+              "link_hover_color": "#3A2269",
+              "__globals__": {
+               "text_color": "globals/colors?id=text",
+               "link_color": "globals/colors?id=primary",
+               "link_hover_color": "globals/colors?id=78b4a18",
+               "typography_typography": "globals/typography?id=text"
+              },
+              "_title": "שפה פשוטה — טיוטה"
+             },
+             "elements": [],
+             "widgetType": "text-editor"
+            }
+           ],
+           "isInner": true
+          }
+         ],
+         "widgetType": "nested-accordion"
+        }
+       ],
+       "isInner": true
+      }
+     ],
+     "isInner": true
+    }
+   ],
+   "isInner": false
+  }
+ ]
+}

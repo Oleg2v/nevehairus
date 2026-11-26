@@ -1941,3 +1941,10 @@ html:has(dialog.nh-apply-dialog[open]) { overflow: hidden; }
 .nh-map-card .nh-map-img .widget-image-caption { margin: .5rem 0 0; font-weight: 600; color: #4A2D84; text-align: start; }
 .nh-map-card .nh-map-credit, .nh-map-card .nh-map-credit p { margin: 0; }
 .nh-map-card .nh-map-credit a { color: #4A2D84; text-decoration-line: underline; text-underline-offset: .2em; }
+
+/* 1.7.0 (client 26.11): «שאלות ותשובות נפוצות»: the accordion of questions, each item a row of its own with air between them
+   (the «להמשך קריאה» look of .nh-more, five times); the answers are the page's text */
+.nh-sec .elementor-widget-n-accordion.nh-faq .e-n-accordion-item + .e-n-accordion-item { margin-block-start: .75rem; }
+.nh-sec .elementor-widget-n-accordion.nh-faq .e-n-accordion-item > .e-n-accordion-item-title { padding: 1rem 1.25rem; }
+.nh-sec .elementor-widget-n-accordion.nh-faq .e-n-accordion-item > .e-n-accordion-item-title .e-n-accordion-item-title-text { font-size: 1.125rem; }
+.nh-sec .elementor-widget-n-accordion.nh-faq .e-n-accordion-item > [role="region"] { padding-inline: 1.25rem; }

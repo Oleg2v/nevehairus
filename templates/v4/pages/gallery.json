@@ -22,6 +22,7 @@
    "content/v4/pages/community-housing.json",
    "content/v4/pages/contact.json",
    "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/faq.json",
    "content/v4/pages/gallery.json",
    "content/v4/pages/main-home.json",
    "content/v4/pages/news.json",
@@ -50,7 +51,7 @@
    "content/v4/posts/post-973.json",
    "content/v4/posts/post-997.json"
   ],
-  "inputs_sha256": "650efdf9251d24874d659a42449a3e1ad53a08c100b1c67b61f4fd8d19ce9629",
+  "inputs_sha256": "3796f30a310607cd34bc73b1534d4fa602ad66e1aa2afc5922ce0a1ad95cdd11",
   "widgets": [
    "heading",
    "image"

@@ -22,6 +22,7 @@
    "content/v4/pages/community-housing.json",
    "content/v4/pages/contact.json",
    "content/v4/pages/dual-diagnosis.json",
+   "content/v4/pages/faq.json",
    "content/v4/pages/gallery.json",
    "content/v4/pages/main-home.json",
    "content/v4/pages/news.json",
@@ -50,7 +51,7 @@
    "content/v4/posts/post-973.json",
    "content/v4/posts/post-997.json"
   ],
-  "inputs_sha256": "650efdf9251d24874d659a42449a3e1ad53a08c100b1c67b61f4fd8d19ce9629",
+  "inputs_sha256": "3796f30a310607cd34bc73b1534d4fa602ad66e1aa2afc5922ce0a1ad95cdd11",
   "widgets": [
    "heading",
    "image",
@@ -76,16 +77,6 @@
     "plain": {
      "element": "59d78ef",
      "field": "title"
-    }
-   },
-   "building": {
-    "full": {
-     "element": "b9a3808",
-     "field": "editor"
-    },
-    "plain": {
-     "element": "aec978f",
-     "field": "editor"
     }
    },
    "committee": {
@@ -348,32 +339,12 @@
    },
    "photos": {
     "full": {
-     "element": "f3b08d6",
+     "element": "b9a3808",
      "field": "editor"
     },
     "plain": {
-     "element": "b06d173",
+     "element": "aec978f",
      "field": "editor"
-    }
-   },
-   "pistachio": {
-    "full": {
-     "element": "c79f2c3",
-     "field": "editor"
-    },
-    "plain": {
-     "element": "2b36ed2",
-     "field": "editor"
-    }
-   },
-   "pistachio.h": {
-    "full": {
-     "element": "c515a85",
-     "field": "title"
-    },
-    "plain": {
-     "element": "64db3bf",
-     "field": "title"
     }
    },
    "planting": {
@@ -413,26 +384,6 @@
     },
     "plain": {
      "element": "0bf845a",
-     "field": "title"
-    }
-   },
-   "pride": {
-    "full": {
-     "element": "ffc5da0",
-     "field": "editor"
-    },
-    "plain": {
-     "element": "5dabfc6",
-     "field": "editor"
-    }
-   },
-   "pride.h": {
-    "full": {
-     "element": "e537b9d",
-     "field": "title"
-    },
-    "plain": {
-     "element": "0dc907b",
      "field": "title"
     }
    },
@@ -615,26 +566,6 @@
      "element": "6039e0d",
      "field": "title"
     }
-   },
-   "wing": {
-    "full": {
-     "element": "d514ca9",
-     "field": "editor"
-    },
-    "plain": {
-     "element": "a658dcb",
-     "field": "editor"
-    }
-   },
-   "wing.h": {
-    "full": {
-     "element": "5505a38",
-     "field": "title"
-    },
-    "plain": {
-     "element": "7ff2507",
-     "field": "title"
-    }
    }
   }
  },
@@ -686,7 +617,7 @@
     "__globals__": {
      "background_color": "globals/colors?id=349c69f"
     },
-    "_title": "ביקור דיירי וילות הלווין - דיור בקהילה - במופע אישי של ליאור סושארד !! בסגרת נופש בבית מלון"
+    "_title": "ביקור דיירי וילות הלווין - דיור בקהילה - במופע אישי של ליאור סושארד !! במסגרת נופש בבית מלון"
    },
    "elements": [
     {
@@ -835,7 +766,7 @@
            "id": "175a44e",
            "elType": "widget",
            "settings": {
-            "title": "ביקור דיירי וילות הלווין - דיור בקהילה - במופע אישי של ליאור סושארד !! בסגרת נופש בבית מלון",
+            "title": "ביקור דיירי וילות הלווין - דיור בקהילה - במופע אישי של ליאור סושארד !! במסגרת נופש בבית מלון",
             "header_size": "h2",
             "_css_classes": "nh-full",
             "title_color": "#4A2D84",
@@ -1063,236 +994,6 @@
          },
          {
           "id": "@media:live-1438",
-          "url": ""
-         }
-        ],
-        "thumbnail_size": "medium_large",
-        "gallery_columns": "4",
-        "gallery_link": "file",
-        "open_lightbox": "yes",
-        "gallery_rand": "",
-        "gallery_display_caption": "none",
-        "image_spacing": "custom",
-        "image_spacing_custom": {
-         "unit": "px",
-         "size": 16,
-         "sizes": []
-        },
-        "image_border_radius": {
-         "unit": "px",
-         "top": "12",
-         "right": "12",
-         "bottom": "12",
-         "left": "12",
-         "isLinked": true
-        },
-        "_css_classes": "nh-gallery"
-       },
-       "elements": [],
-       "widgetType": "image-gallery"
-      }
-     ],
-     "isInner": true
-    }
-   ],
-   "isInner": false
-  },
-  {
-   "id": "38125f5",
-   "elType": "container",
-   "settings": {
-    "content_width": "full",
-    "container_type": "flex",
-    "flex_direction": "column",
-    "flex_gap": {
-     "column": "0",
-     "row": "0",
-     "isLinked": true,
-     "unit": "px"
-    },
-    "flex_wrap": "nowrap",
-    "flex_wrap_tablet": "nowrap",
-    "flex_wrap_mobile": "nowrap",
-    "padding": {
-     "unit": "custom",
-     "top": "3.5rem",
-     "right": "0",
-     "bottom": "3.5rem",
-     "left": "0",
-     "isLinked": false
-    },
-    "padding_tablet": {
-     "unit": "custom",
-     "top": "3rem",
-     "right": "0",
-     "bottom": "3rem",
-     "left": "0",
-     "isLinked": false
-    },
-    "padding_mobile": {
-     "unit": "custom",
-     "top": "2.5rem",
-     "right": "0",
-     "bottom": "2.5rem",
-     "left": "0",
-     "isLinked": false
-    },
-    "background_background": "classic",
-    "css_classes": "nh-sec nh-sec--pistachio",
-    "_element_id": "pistachio",
-    "background_color": "#F7F1E7",
-    "__globals__": {
-     "background_color": "globals/colors?id=349c69f"
-    },
-    "_title": "שיפוץ ביתן פיסטוק"
-   },
-   "elements": [
-    {
-     "id": "d4cabe5",
-     "elType": "container",
-     "settings": {
-      "content_width": "boxed",
-      "boxed_width": {
-       "unit": "px",
-       "size": 1320,
-       "sizes": []
-      },
-      "container_type": "flex",
-      "flex_direction": "column",
-      "flex_gap": {
-       "column": "24",
-       "row": "24",
-       "isLinked": true,
-       "unit": "px"
-      },
-      "flex_wrap": "nowrap",
-      "flex_wrap_tablet": "nowrap",
-      "flex_wrap_mobile": "nowrap",
-      "flex_gap_mobile": {
-       "column": "16",
-       "row": "16",
-       "isLinked": true,
-       "unit": "px"
-      },
-      "padding": {
-       "unit": "px",
-       "top": "0",
-       "right": "40",
-       "bottom": "0",
-       "left": "40",
-       "isLinked": false
-      },
-      "padding_tablet": {
-       "unit": "px",
-       "top": "0",
-       "right": "32",
-       "bottom": "0",
-       "left": "32",
-       "isLinked": false
-      },
-      "padding_mobile": {
-       "unit": "px",
-       "top": "0",
-       "right": "20",
-       "bottom": "0",
-       "left": "20",
-       "isLinked": false
-      },
-      "css_classes": "nh-sec__inner nh-reveal",
-      "_title": "תוכן"
-     },
-     "elements": [
-      {
-       "id": "c515a85",
-       "elType": "widget",
-       "settings": {
-        "title": "שיפוץ ביתן פיסטוק",
-        "header_size": "h2",
-        "_css_classes": "nh-full",
-        "title_color": "#4A2D84",
-        "__globals__": {
-         "title_color": "globals/colors?id=primary",
-         "typography_typography": "globals/typography?id=603f9ca"
-        }
-       },
-       "elements": [],
-       "widgetType": "heading"
-      },
-      {
-       "id": "64db3bf",
-       "elType": "widget",
-       "settings": {
-        "title": "שיפצנו את ביתן פיסטוק",
-        "header_size": "h2",
-        "_css_classes": "nh-plain",
-        "title_color": "#4A2D84",
-        "__globals__": {
-         "title_color": "globals/colors?id=primary",
-         "typography_typography": "globals/typography?id=603f9ca"
-        },
-        "_title": "שפה פשוטה — טיוטה"
-       },
-       "elements": [],
-       "widgetType": "heading"
-      },
-      {
-       "id": "c79f2c3",
-       "elType": "widget",
-       "settings": {
-        "editor": "<p>המעון השקיע רבות בשיפוץ ביתן פיסטוק,</p><p>כל הביתן עבר שיפוץ יסודי.</p>",
-        "_css_classes": "nh-page__text nh-full",
-        "text_color": "#1F2421",
-        "link_color": "#4A2D84",
-        "link_hover_color": "#3A2269",
-        "__globals__": {
-         "text_color": "globals/colors?id=text",
-         "link_color": "globals/colors?id=primary",
-         "link_hover_color": "globals/colors?id=78b4a18",
-         "typography_typography": "globals/typography?id=text"
-        }
-       },
-       "elements": [],
-       "widgetType": "text-editor"
-      },
-      {
-       "id": "2b36ed2",
-       "elType": "widget",
-       "settings": {
-        "editor": "<p>השקענו הרבה בשיפוץ.</p><p>שיפצנו את כל הביתן, מהיסוד.</p>",
-        "_css_classes": "nh-page__text nh-plain",
-        "text_color": "#1F2421",
-        "link_color": "#4A2D84",
-        "link_hover_color": "#3A2269",
-        "__globals__": {
-         "text_color": "globals/colors?id=text",
-         "link_color": "globals/colors?id=primary",
-         "link_hover_color": "globals/colors?id=78b4a18",
-         "typography_typography": "globals/typography?id=text"
-        },
-        "_title": "שפה פשוטה — טיוטה"
-       },
-       "elements": [],
-       "widgetType": "text-editor"
-      },
-      {
-       "id": "b8ef47b",
-       "elType": "widget",
-       "settings": {
-        "wp_gallery": [
-         {
-          "id": "@media:live-1394",
-          "url": ""
-         },
-         {
-          "id": "@media:live-1393",
-          "url": ""
-         },
-         {
-          "id": "@media:live-1392",
-          "url": ""
-         },
-         {
-          "id": "@media:live-1390",
           "url": ""
          }
         ],
@@ -1560,7 +1261,7 @@
            "id": "8dfb88c",
            "elType": "widget",
            "settings": {
-            "editor": "<p><strong>חדש!</strong></p><p>נווה האירוס גדל. פתחנו דירה חדשה בקהילה, לאנשים עם מוגבלות שכלית התפתחותית.</p><p>הדירה נמצאת בווילה בנס ציונה.</p><p>הביטוח הלאומי עזר לנו לפתוח אותה.</p><p>רוצים לדעת עוד? פנו אלינו דרך האתר.</p>",
+            "editor": "<p><strong>חדש!</strong></p><p>נווה האירוס גדל. פתחנו דירה חדשה בקהילה, לאנשים עם מוגבלות שכלית התפתחותית.</p><p>הדירה נמצאת בוילה בנס ציונה.</p><p>הביטוח הלאומי עזר לנו לפתוח אותה.</p><p>רוצים לדעת עוד? פנו אלינו דרך האתר.</p>",
             "_css_classes": "nh-page__text nh-plain",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -1787,7 +1488,7 @@
            "id": "3c23763",
            "elType": "widget",
            "settings": {
-            "editor": "<p><strong>כ 10 אנשי צוות מבית חולים \"שמואל הרופא\" ביקרו במעון לצורך השתלמות בנושא מוגבלות שכלית ובעיות התנהגות , את ההשתלמות העבירו איילת , עוס המעון, וסגנית המנהל ביחד עם טקם רכזת תוכנית הקידום.</strong></p>",
+            "editor": "<p><strong>כ 10 אנשי צוות מבית חולים \"שמואל הרופא\" ביקרו במעון לצורך השתלמות בנושא מוגבלות שכלית ובעיות התנהגות , את ההשתלמות העבירו איילת, עו\"ס המעון, וסגנית המנהל ביחד עם טקם רכזת תוכנית הקידום.</strong></p>",
             "_css_classes": "nh-page__text nh-full",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -2546,7 +2247,7 @@
            "id": "5520e63",
            "elType": "widget",
            "settings": {
-            "editor": "<p>ועד המשפחות חילק לכולם כוס נוה האירוס - בית לחיים במפגש מרגש ולחיצת יד אישית . תודה רבה לועד !</p><p>הנהלהת המעון מברכת את ועד המשפחות על המעורבות , האכפתיות והשותפות לדרך הגורמת לשיפור מתמיד ! תודה !!</p>",
+            "editor": "<p>ועד המשפחות חילק לכולם כוס נוה האירוס - בית לחיים במפגש מרגש ולחיצת יד אישית . תודה רבה לועד !</p><p>הנהלת המעון מברכת את ועד המשפחות על המעורבות , האכפתיות והשותפות לדרך הגורמת לשיפור מתמיד ! תודה !!</p>",
             "_css_classes": "nh-page__text nh-full",
             "text_color": "#1F2421",
             "link_color": "#4A2D84",
@@ -2870,285 +2571,6 @@
           "image": {
            "url": "",
            "id": "@media:live-1193",
-           "size": "",
-           "alt": "",
-           "source": "library"
-          },
-          "image_size": "large",
-          "_css_classes": "nh-page__img",
-          "_title": "תמונה"
-         },
-         "elements": [],
-         "widgetType": "image"
-        }
-       ],
-       "isInner": true
-      }
-     ],
-     "isInner": true
-    }
-   ],
-   "isInner": false
-  },
-  {
-   "id": "99ebc05",
-   "elType": "container",
-   "settings": {
-    "content_width": "full",
-    "container_type": "flex",
-    "flex_direction": "column",
-    "flex_gap": {
-     "column": "0",
-     "row": "0",
-     "isLinked": true,
-     "unit": "px"
-    },
-    "flex_wrap": "nowrap",
-    "flex_wrap_tablet": "nowrap",
-    "flex_wrap_mobile": "nowrap",
-    "padding": {
-     "unit": "custom",
-     "top": "3.5rem",
-     "right": "0",
-     "bottom": "3.5rem",
-     "left": "0",
-     "isLinked": false
-    },
-    "padding_tablet": {
-     "unit": "custom",
-     "top": "3rem",
-     "right": "0",
-     "bottom": "3rem",
-     "left": "0",
-     "isLinked": false
-    },
-    "padding_mobile": {
-     "unit": "custom",
-     "top": "2.5rem",
-     "right": "0",
-     "bottom": "2.5rem",
-     "left": "0",
-     "isLinked": false
-    },
-    "background_background": "classic",
-    "css_classes": "nh-sec nh-sec--wing",
-    "_element_id": "wing",
-    "background_color": "#F7F1E7",
-    "__globals__": {
-     "background_color": "globals/colors?id=349c69f"
-    },
-    "_title": "פתיחת אגף חדש ומודרני"
-   },
-   "elements": [
-    {
-     "id": "9b5dd50",
-     "elType": "container",
-     "settings": {
-      "content_width": "boxed",
-      "boxed_width": {
-       "unit": "px",
-       "size": 1320,
-       "sizes": []
-      },
-      "container_type": "flex",
-      "flex_direction": "column",
-      "flex_gap": {
-       "column": "24",
-       "row": "24",
-       "isLinked": true,
-       "unit": "px"
-      },
-      "flex_wrap": "nowrap",
-      "flex_wrap_tablet": "nowrap",
-      "flex_wrap_mobile": "nowrap",
-      "flex_gap_mobile": {
-       "column": "16",
-       "row": "16",
-       "isLinked": true,
-       "unit": "px"
-      },
-      "padding": {
-       "unit": "px",
-       "top": "0",
-       "right": "40",
-       "bottom": "0",
-       "left": "40",
-       "isLinked": false
-      },
-      "padding_tablet": {
-       "unit": "px",
-       "top": "0",
-       "right": "32",
-       "bottom": "0",
-       "left": "32",
-       "isLinked": false
-      },
-      "padding_mobile": {
-       "unit": "px",
-       "top": "0",
-       "right": "20",
-       "bottom": "0",
-       "left": "20",
-       "isLinked": false
-      },
-      "css_classes": "nh-sec__inner nh-reveal",
-      "_title": "תוכן"
-     },
-     "elements": [
-      {
-       "id": "864a430",
-       "elType": "container",
-       "settings": {
-        "content_width": "full",
-        "container_type": "grid",
-        "grid_columns_grid": {
-         "unit": "custom",
-         "size": "7fr 5fr",
-         "sizes": []
-        },
-        "grid_columns_grid_tablet": {
-         "unit": "custom",
-         "size": "1fr 1fr",
-         "sizes": []
-        },
-        "grid_columns_grid_mobile": {
-         "unit": "fr",
-         "size": 1,
-         "sizes": []
-        },
-        "grid_rows_grid": {
-         "unit": "custom",
-         "size": "auto",
-         "sizes": []
-        },
-        "grid_gaps": {
-         "column": "48",
-         "row": "24",
-         "isLinked": false,
-         "unit": "px"
-        },
-        "padding": {
-         "unit": "px",
-         "top": "0",
-         "right": "0",
-         "bottom": "0",
-         "left": "0",
-         "isLinked": true
-        },
-        "grid_align_items": "start",
-        "_title": "טקסט ותמונה"
-       },
-       "elements": [
-        {
-         "id": "0875f4e",
-         "elType": "container",
-         "settings": {
-          "content_width": "full",
-          "container_type": "flex",
-          "flex_direction": "column",
-          "flex_gap": {
-           "column": "16",
-           "row": "16",
-           "isLinked": true,
-           "unit": "px"
-          },
-          "flex_wrap": "nowrap",
-          "flex_wrap_tablet": "nowrap",
-          "flex_wrap_mobile": "nowrap",
-          "padding": {
-           "unit": "px",
-           "top": "0",
-           "right": "0",
-           "bottom": "0",
-           "left": "0",
-           "isLinked": true
-          },
-          "css_classes": "nh-page__text-col",
-          "_title": "טקסט"
-         },
-         "elements": [
-          {
-           "id": "5505a38",
-           "elType": "widget",
-           "settings": {
-            "title": "פתיחת אגף חדש ומודרני",
-            "header_size": "h2",
-            "_css_classes": "nh-full",
-            "title_color": "#4A2D84",
-            "__globals__": {
-             "title_color": "globals/colors?id=primary",
-             "typography_typography": "globals/typography?id=603f9ca"
-            }
-           },
-           "elements": [],
-           "widgetType": "heading"
-          },
-          {
-           "id": "7ff2507",
-           "elType": "widget",
-           "settings": {
-            "title": "פתחנו אגף חדש",
-            "header_size": "h2",
-            "_css_classes": "nh-plain",
-            "title_color": "#4A2D84",
-            "__globals__": {
-             "title_color": "globals/colors?id=primary",
-             "typography_typography": "globals/typography?id=603f9ca"
-            },
-            "_title": "שפה פשוטה — טיוטה"
-           },
-           "elements": [],
-           "widgetType": "heading"
-          },
-          {
-           "id": "d514ca9",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>אנו גאים להציג את האגף החדש המאובזר והמפנק, עם אמצעים ועזרים מתקדמים, חמש דירות ובכל אחת שלושה חדרי שינה נעימים ,בייתיים, סלון ומטבח (בהתאמה אישית) אישי לכל דירה למען רווחת דיירינו המקסימים.</p>",
-            "_css_classes": "nh-page__text nh-full",
-            "text_color": "#1F2421",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=text",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=text"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "a658dcb",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p>אנחנו גאים באגף החדש. יש בו ציוד ועזרים מתקדמים.</p><p>באגף יש חמש דירות.</p><p>בכל דירה יש שלושה חדרי שינה נעימים, סלון ומטבח.</p><p>כל זה בשביל הדיירים שלנו.</p>",
-            "_css_classes": "nh-page__text nh-plain",
-            "text_color": "#1F2421",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=text",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=text"
-            },
-            "_title": "שפה פשוטה — טיוטה"
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          }
-         ],
-         "isInner": true
-        },
-        {
-         "id": "d3474dc",
-         "elType": "widget",
-         "settings": {
-          "image": {
-           "url": "",
-           "id": "@media:live-1189",
            "size": "",
            "alt": "",
            "source": "library"
@@ -6664,285 +6086,6 @@
    "isInner": false
   },
   {
-   "id": "cbf1278",
-   "elType": "container",
-   "settings": {
-    "content_width": "full",
-    "container_type": "flex",
-    "flex_direction": "column",
-    "flex_gap": {
-     "column": "0",
-     "row": "0",
-     "isLinked": true,
-     "unit": "px"
-    },
-    "flex_wrap": "nowrap",
-    "flex_wrap_tablet": "nowrap",
-    "flex_wrap_mobile": "nowrap",
-    "padding": {
-     "unit": "custom",
-     "top": "3.5rem",
-     "right": "0",
-     "bottom": "3.5rem",
-     "left": "0",
-     "isLinked": false
-    },
-    "padding_tablet": {
-     "unit": "custom",
-     "top": "3rem",
-     "right": "0",
-     "bottom": "3rem",
-     "left": "0",
-     "isLinked": false
-    },
-    "padding_mobile": {
-     "unit": "custom",
-     "top": "2.5rem",
-     "right": "0",
-     "bottom": "2.5rem",
-     "left": "0",
-     "isLinked": false
-    },
-    "background_background": "classic",
-    "css_classes": "nh-sec nh-sec--pride",
-    "_element_id": "pride",
-    "background_color": "#F7F1E7",
-    "__globals__": {
-     "background_color": "globals/colors?id=349c69f"
-    },
-    "_title": "גאוות יחידה"
-   },
-   "elements": [
-    {
-     "id": "3838d81",
-     "elType": "container",
-     "settings": {
-      "content_width": "boxed",
-      "boxed_width": {
-       "unit": "px",
-       "size": 1320,
-       "sizes": []
-      },
-      "container_type": "flex",
-      "flex_direction": "column",
-      "flex_gap": {
-       "column": "24",
-       "row": "24",
-       "isLinked": true,
-       "unit": "px"
-      },
-      "flex_wrap": "nowrap",
-      "flex_wrap_tablet": "nowrap",
-      "flex_wrap_mobile": "nowrap",
-      "flex_gap_mobile": {
-       "column": "16",
-       "row": "16",
-       "isLinked": true,
-       "unit": "px"
-      },
-      "padding": {
-       "unit": "px",
-       "top": "0",
-       "right": "40",
-       "bottom": "0",
-       "left": "40",
-       "isLinked": false
-      },
-      "padding_tablet": {
-       "unit": "px",
-       "top": "0",
-       "right": "32",
-       "bottom": "0",
-       "left": "32",
-       "isLinked": false
-      },
-      "padding_mobile": {
-       "unit": "px",
-       "top": "0",
-       "right": "20",
-       "bottom": "0",
-       "left": "20",
-       "isLinked": false
-      },
-      "css_classes": "nh-sec__inner nh-reveal",
-      "_title": "תוכן"
-     },
-     "elements": [
-      {
-       "id": "bbe981d",
-       "elType": "container",
-       "settings": {
-        "content_width": "full",
-        "container_type": "grid",
-        "grid_columns_grid": {
-         "unit": "custom",
-         "size": "7fr 5fr",
-         "sizes": []
-        },
-        "grid_columns_grid_tablet": {
-         "unit": "custom",
-         "size": "1fr 1fr",
-         "sizes": []
-        },
-        "grid_columns_grid_mobile": {
-         "unit": "fr",
-         "size": 1,
-         "sizes": []
-        },
-        "grid_rows_grid": {
-         "unit": "custom",
-         "size": "auto",
-         "sizes": []
-        },
-        "grid_gaps": {
-         "column": "48",
-         "row": "24",
-         "isLinked": false,
-         "unit": "px"
-        },
-        "padding": {
-         "unit": "px",
-         "top": "0",
-         "right": "0",
-         "bottom": "0",
-         "left": "0",
-         "isLinked": true
-        },
-        "grid_align_items": "start",
-        "_title": "טקסט ותמונה"
-       },
-       "elements": [
-        {
-         "id": "005c1d3",
-         "elType": "container",
-         "settings": {
-          "content_width": "full",
-          "container_type": "flex",
-          "flex_direction": "column",
-          "flex_gap": {
-           "column": "16",
-           "row": "16",
-           "isLinked": true,
-           "unit": "px"
-          },
-          "flex_wrap": "nowrap",
-          "flex_wrap_tablet": "nowrap",
-          "flex_wrap_mobile": "nowrap",
-          "padding": {
-           "unit": "px",
-           "top": "0",
-           "right": "0",
-           "bottom": "0",
-           "left": "0",
-           "isLinked": true
-          },
-          "css_classes": "nh-page__text-col",
-          "_title": "טקסט"
-         },
-         "elements": [
-          {
-           "id": "e537b9d",
-           "elType": "widget",
-           "settings": {
-            "title": "גאוות יחידה",
-            "header_size": "h2",
-            "_css_classes": "nh-full",
-            "title_color": "#4A2D84",
-            "__globals__": {
-             "title_color": "globals/colors?id=primary",
-             "typography_typography": "globals/typography?id=603f9ca"
-            }
-           },
-           "elements": [],
-           "widgetType": "heading"
-          },
-          {
-           "id": "0dc907b",
-           "elType": "widget",
-           "settings": {
-            "title": "אנחנו גאים במגורים החדשים",
-            "header_size": "h2",
-            "_css_classes": "nh-plain",
-            "title_color": "#4A2D84",
-            "__globals__": {
-             "title_color": "globals/colors?id=primary",
-             "typography_typography": "globals/typography?id=603f9ca"
-            },
-            "_title": "שפה פשוטה — טיוטה"
-           },
-           "elements": [],
-           "widgetType": "heading"
-          },
-          {
-           "id": "ffc5da0",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p><strong>סוף סוף היחידות החדשות והמודרניות למגורים מוכנות:</strong></p><p>לאחר שיפוץ מוקפד שלווה באנשי מקצוע מהשורה הראשונה כגון: אדריכלים, מעצבים ויועצי נגישות , קיבלנו יחידות דיור מושקעות ומותאמות לצרכים של הדיירים ולא פחות חשוב, תחושת הביתיות החמה.</p><p><strong>מוזמנים לבוא ולהתרגש איתנו.</strong></p>",
-            "_css_classes": "nh-page__text nh-full",
-            "text_color": "#1F2421",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=text",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=text"
-            }
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          },
-          {
-           "id": "5dabfc6",
-           "elType": "widget",
-           "settings": {
-            "editor": "<p><strong>סוף סוף המגורים החדשים מוכנים!</strong></p><p>שיפצנו אותם היטב, עם אנשי מקצוע טובים מאוד: אדריכלים, מעצבים ויועצי נגישות.</p><p>המגורים החדשים מתאימים לצרכים של הדיירים. הם גם חמים ונעימים, כמו בית.</p><p><strong>בואו לבקר ולהתרגש איתנו!</strong></p>",
-            "_css_classes": "nh-page__text nh-plain",
-            "text_color": "#1F2421",
-            "link_color": "#4A2D84",
-            "link_hover_color": "#3A2269",
-            "__globals__": {
-             "text_color": "globals/colors?id=text",
-             "link_color": "globals/colors?id=primary",
-             "link_hover_color": "globals/colors?id=78b4a18",
-             "typography_typography": "globals/typography?id=text"
-            },
-            "_title": "שפה פשוטה — טיוטה"
-           },
-           "elements": [],
-           "widgetType": "text-editor"
-          }
-         ],
-         "isInner": true
-        },
-        {
-         "id": "bec7dbd",
-         "elType": "widget",
-         "settings": {
-          "image": {
-           "url": "",
-           "id": "@media:live-1029",
-           "size": "",
-           "alt": "",
-           "source": "library"
-          },
-          "image_size": "large",
-          "_css_classes": "nh-page__img",
-          "_title": "תמונה"
-         },
-         "elements": [],
-         "widgetType": "image"
-        }
-       ],
-       "isInner": true
-      }
-     ],
-     "isInner": true
-    }
-   ],
-   "isInner": false
-  },
-  {
    "id": "61b1c8a",
    "elType": "container",
    "settings": {
@@ -8267,7 +7410,7 @@
     "__globals__": {
      "background_color": "globals/colors?id=349c69f"
     },
-    "_title": "וועד הורים"
+    "_title": "ועד הורים"
    },
    "elements": [
     {
@@ -8362,7 +7505,7 @@
          "id": "39fdeef",
          "elType": "widget",
          "settings": {
-          "title": "וועד הורים",
+          "title": "ועד הורים",
           "header_size": "h2",
           "_css_classes": "nh-full",
           "title_color": "#4A2D84",
@@ -8395,7 +7538,7 @@
          "id": "8760bf8",
          "elType": "widget",
          "settings": {
-          "editor": "<p>משפחות נווה האירוס שלום.<br>אנו שמחים להודיע שהוקם ועד הורים לנווה האירוס תפקידו של הועד להיות גשר בן המשפחות להנהלת המעון<br>בימים אלו המעון עובר שיפוצים בראשות המנהל דוד אליהו, נשמח לשיתוף פעולה עם המשפחות.<br>אנה צרו קשר לעדכונים. נשמח לשיתוף פעולה מצד המשפחות השאירו טל או אי מייל ונחזור אלכם.</p>",
+          "editor": "<p>משפחות נווה האירוס שלום.<br>אנו שמחים להודיע שהוקם ועד הורים לנווה האירוס תפקידו של הועד להיות גשר בין המשפחות להנהלת המעון<br>נשמח לשיתוף פעולה עם המשפחות.<br>אנא צרו קשר לעדכונים. נשמח לשיתוף פעולה מצד המשפחות השאירו טל או אי מייל ונחזור אליכם.</p>",
           "_css_classes": "nh-page__text nh-full",
           "text_color": "#1F2421",
           "link_color": "#4A2D84",
@@ -8414,7 +7557,7 @@
          "id": "89911af",
          "elType": "widget",
          "settings": {
-          "editor": "<p>שלום למשפחות של נווה האירוס.</p><p>יש עכשיו ועד הורים בנווה האירוס.</p><p>הוועד יחבר בין המשפחות לבין הנהלת המעון.</p><p>עכשיו משפצים את המעון. המנהל, דוד אליהו, מוביל את השיפוצים. נשמח לעבוד יחד עם המשפחות.</p><p>רוצים לקבל עדכונים? השאירו טלפון או מייל, ואנחנו נחזור אליכם.</p>",
+          "editor": "<p>שלום למשפחות של נווה האירוס.</p><p>יש עכשיו ועד הורים בנווה האירוס.</p><p>הוועד יחבר בין המשפחות לבין הנהלת המעון.</p><p>נשמח לעבוד יחד עם המשפחות.</p><p>רוצים לקבל עדכונים? השאירו טלפון או מייל, ואנחנו נחזור אליכם.</p>",
           "_css_classes": "nh-page__text nh-plain",
           "text_color": "#1F2421",
           "link_color": "#4A2D84",
@@ -8453,7 +7596,7 @@
          "id": "c97c0d3",
          "elType": "widget",
          "settings": {
-          "editor": "<p>שמחים לעדכן כי ביום חמישי 18.1 התקיימה פגישה ראשונה של ועד ההורים במעון נווה האירוס. מנהל המעון סקר אודות שלל השינויים שנעשו במעון. נעשה תיאום ציפיות ובוצע סיור במתחם.</p>",
+          "editor": "<p>שמחים לעדכן כי ביום חמישי 18.1 התקיימה פגישה ראשונה של ועד ההורים במעון נווה האירוס. נעשה תיאום ציפיות ובוצע סיור במתחם.</p>",
           "_css_classes": "nh-page__text nh-full",
           "text_color": "#1F2421",
           "link_color": "#4A2D84",
@@ -8472,7 +7615,7 @@
          "id": "7db4211",
          "elType": "widget",
          "settings": {
-          "editor": "<p>ביום חמישי, 18.1, ועד ההורים נפגש בפעם הראשונה בנווה האירוס.</p><p>מנהל המעון סיפר על השינויים במעון.</p><p>הם דיברו על מה שכל צד רוצה. הם גם סיירו במעון.</p>",
+          "editor": "<p>ביום חמישי, 18.1, ועד ההורים נפגש בפעם הראשונה בנווה האירוס.</p><p>הם דיברו על מה שכל צד רוצה. הם גם סיירו במעון.</p>",
           "_css_classes": "nh-page__text nh-plain",
           "text_color": "#1F2421",
           "link_color": "#4A2D84",
@@ -8658,45 +7801,6 @@
          "id": "b9a3808",
          "elType": "widget",
          "settings": {
-          "editor": "<p>החלה בנייה מואצת לחידוש המעון ולהוספת חדרי מגורים ופעילות.</p>",
-          "_css_classes": "nh-page__text nh-full",
-          "text_color": "#1F2421",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
-          "__globals__": {
-           "text_color": "globals/colors?id=text",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=text"
-          }
-         },
-         "elements": [],
-         "widgetType": "text-editor"
-        },
-        {
-         "id": "aec978f",
-         "elType": "widget",
-         "settings": {
-          "editor": "<p>התחילה במעון בנייה מהירה.</p><p>הבנייה תחדש את המעון ותוסיף חדרים למגורים ולפעילות.</p>",
-          "_css_classes": "nh-page__text nh-plain",
-          "text_color": "#1F2421",
-          "link_color": "#4A2D84",
-          "link_hover_color": "#3A2269",
-          "__globals__": {
-           "text_color": "globals/colors?id=text",
-           "link_color": "globals/colors?id=primary",
-           "link_hover_color": "globals/colors?id=78b4a18",
-           "typography_typography": "globals/typography?id=text"
-          },
-          "_title": "שפה פשוטה — טיוטה"
-         },
-         "elements": [],
-         "widgetType": "text-editor"
-        },
-        {
-         "id": "f3b08d6",
-         "elType": "widget",
-         "settings": {
           "editor": "<p>נפתחה באתר גלריית תמונות של הדיירים והמעון. לצפייה אנא מלאו \"טופס אישור פרסום תמונות באתר תחת סיסמה\" <strong><a href=\"https://docs.google.com/forms/d/e/1FAIpQLSeEtnavf2dM_IiNxaFQFHkcsDsI1KbFNjL0Yi9YmDiYXfV7PA/viewform\">בקישור הבא</a></strong></p>",
           "_css_classes": "nh-page__text nh-full",
           "text_color": "#1F2421",
@@ -8713,7 +7817,7 @@
          "widgetType": "text-editor"
         },
         {
-         "id": "b06d173",
+         "id": "aec978f",
          "elType": "widget",
          "settings": {
           "editor": "<p>באתר יש עכשיו גלריה של תמונות: תמונות של הדיירים ושל המעון.</p><p>כדי לראות את התמונות, צריך למלא טופס. בטופס נותנים אישור לפרסם תמונות באתר, עם סיסמה.</p><p><a href=\"https://docs.google.com/forms/d/e/1FAIpQLSeEtnavf2dM_IiNxaFQFHkcsDsI1KbFNjL0Yi9YmDiYXfV7PA/viewform\">למילוי הטופס</a></p>",

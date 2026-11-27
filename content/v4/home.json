@@ -452,11 +452,11 @@
       "source": "live header menu item «צור קשר» (→ /צור-קשר/)"
     },
     "footer.copyright": {
-      "kind": "text",
-      "full": "© מעון נווה האירוס",
+      "kind": "html",
+      "full": "© מעון נווה האירוס<span aria-hidden=\"true\"> · </span>פיתוח: <a href=\"https://koranga.co.il/\" target=\"_blank\" rel=\"noopener\"><span class=\"nh-ltr\">koranga.co.il</span><span class=\"nh-visually-hidden\"> (נפתח בלשונית חדשה)</span></a>",
       "plain": null,
       "plain_status": null,
-      "source": "UI of the v4 footer band (the live site has no footer band); the name as in the live contacts block"
+      "source": "UI of the v4 footer band (the live site has no footer band); the name as in the live contacts block 27.11 (Oleg): the developer's credit «פיתוח: koranga.co.il», a link to https://koranga.co.il/ in a new tab."
     },
     "footer.links": {
       "kind": "html",
